@@ -13,12 +13,17 @@
 
 <body>
     <header>
-        <h1>Vue Events</h1>
+        <h1>Vue Styling</h1>
     </header>
-    <section id="styling">
-        <div class="demo"></div>
-        <div class="demo"></div>
-        <div class="demo"></div>
+    <section id="style">
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA _ TOGGLAR__ STYLES DINAMICAMENTE, com essa sintaxe/escrita especial (exclusiva dos attributes STYLE e CLASS, no vue) do `javacript object`-->
+        <!-- <div class="demo" @click="toggleStyle('A')" :style="{borderColor: boxASelected ? 'red' : '#ccc"></div> -->
+
+
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA __ TOGGLAR CLASSES DINAMICAMENTE.. -->
+        <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('B')" :class="boxBSelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div>
     </section>
 </body>
 

@@ -214,3 +214,1035 @@ header {
   margin: 16px;
   border: 2px dashed #ccc;
 }
+
+
+
+
+
+
+
+
+
+
+
+ok....
+
+
+
+
+
+
+
+CONTINUNADO,
+
+
+
+
+
+
+
+
+
+O PROFESSOR NOS DIZ QUE, NO VUE,
+
+
+PODEMOS 
+
+MUDAR O STYLE 
+
+DE 
+
+
+COISAS NA PAGE 
+
+ __DE FORMA DINÂMICA,
+
+
+
+
+ EM REAÇÃO A COISAS DIFERENTES (a clicks, ou ao user inputtando algo, por exemplo)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ O PROFESSOR CRIA O CÓDIGO BÁSICO:
+
+
+
+
+
+
+
+ const app = Vue.createApp({
+  data() {
+    return {};
+  },
+
+  watch: {},
+
+  computed: {},
+
+  methods: {},
+});
+
+app.mount('#styling');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> certo...
+
+
+
+
+
+
+
+
+
+
+--->  AGORA DIGAMOS QUE QUEREMOS __ 
+
+CLICAR EM  UMA DESSAS DIVS E ENTÃO FAZER 'HIGHLIGHT'
+
+
+
+DA __ DIV QUE ESTÁ 'ACTIVE'... 
+
+
+
+
+
+
+
+
+
+
+
+
+-> UMA MANEIRA DE FAZER ISSO,
+
+
+
+UMA MANEIRA QUE NÃO SERIA TÃO 
+
+
+
+
+'SHORT',
+
+MAS QUE FUNCIONARIA,
+
+
+
+
+
+
+
+SERIA 
+
+
+
+COLOCAR UMA 
+
+
+
+
+__DATA PROPERTY NESSE APP,
+
+
+
+
+
+
+
+E NESSA PROPERTY COLOCARÍAMOS ALGO ASSIM:
+
+
+
+
+
+
+data() {
+    return {
+        boxASelected: false,
+        boxBSelected: false,
+        boxBSelected: false
+    }
+}
+
+
+
+
+
+
+
+
+
+
+--> AÍ, A PARTIR DE CADA UMA DESSAS PROPRIEDADES DE TRUE/FALSE,
+
+poderíamos 
+
+
+
+
+
+FAZER _ BIND_ 
+
+do attribute  
+
+
+'class',
+
+
+para aí 
+
+ENABLAR/DESATIVAR 
+
+
+
+A CLASS DE 'active'... (Que vai fazer essas divs ficarem vermelhas)...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Styling</h1>
+    </header>
+    <section id="style">
+        <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('B')" :class="boxBSelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O CÓDIGO VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      boxASelected: false,
+      boxBSelected: false,
+      boxCSelected: false,
+    };
+  },
+
+  watch: {},
+
+  computed: {},
+
+  methods: {
+    toggleStyle(letter) {
+      switch (letter) {
+        case 'A':
+          this.boxASelected = !this.boxASelected;
+          break;
+        case 'B':
+          this.boxBSelected = !this.boxBSelected;
+          break;
+        case 'C':
+          this.boxCSelected = !this.boxCSelected;
+          break;
+      }
+    },
+  },
+});
+
+app.mount('#style');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS É CLARO QUE ISSO AÍ FOI UM __MONTE__ DE CÓDIGO... para algo relativamente simples...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK, E COMO FICOU O 
+
+
+
+
+
+
+CÓDIGO DO PROFESSOR?
+
+
+
+
+
+
+
+
+
+----> ele foi fazendo a mesma coisa que eu...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@click="toggleStyle(A)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+ele também 
+
+
+
+
+
+COLOCOU UM METHOD DE 
+
+
+
+'toggleStyle()'...
+
+
+
+
+
+
+
+--> TAMBÉM COLOCOU UM FORMATO TIPO 
+
+
+
+
+
+
+    toggleStyle(letter) {
+      switch (letter) {
+        case 'A':
+          this.boxASelected = !this.boxASelected;
+          break;
+        case 'B':
+          this.boxBSelected = !this.boxBSelected;
+          break;
+        case 'C':
+          this.boxCSelected = !this.boxCSelected;
+          break;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -----> eu usei o switch-case statement,
+
+    e ficou mais elegante...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK, O PROFESSOR FEZ __ EXATAMENTE A MESMA COISA QUE EU, NESSE INÍCIO...
+
+
+
+
+
+
+
+----> MAS EU NÃO SEI SE ELE VAI EDITAR 
+
+
+
+O 'style' attribute 
+
+
+ou 
+
+o 
+
+
+
+__ 'class' 
+
+attribute...
+
+
+
+
+
+
+
+
+
+
+-----> 
+
+
+
+
+
+
+
+
+
+O PROFESSOR DIZ QUE PODEMOS EDITAR STYLES OU:
+
+
+
+1) ATRAVÉS DE CSS CLASSES 
+
+
+
+OU 
+
+
+
+2) POR MEIO DE INLINE STYLES,
+
+POR MEIO 
+
+DO ATRIBUTO DE 'STYLE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+é por isso que o professor 
+
+
+
+
+
+
+usou DATA-BINDING 
+
+com o attribute de 'style'...
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+:style="..."
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA TEMOS ALGO DIFERENTE:
+
+
+
+
+
+
+
+
+
+
+
+STYLE VS CLASSES. .. --> SÃO COISAS DIFERENTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> SE VOCÊ BINDAR __ CLASSES 
+
+
+
+__ DINAMICAMENTE,
+COM 'v-bind',
+
+VOCÊ 
+
+ACTUALLY PODE USAR 
+
+
+UMA SINTAXE ESPECIAL 
+
+
+
+SUPORTADA PELO VUE...
+
+
+
+
+
+
+
+
+
+
+
+-------> O VUE SUPORTA UMA SINTAXE ESPECÍFICA __ PARA __ ESSES ATTRIBUTES AÍ,
+
+
+
+APENAS PARA 
+
+'CLASS'
+
+
+E 
+
+'STYLE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> dentro de 
+
+
+
+':style',
+
+
+
+
+NO SEU VALUE,
+
+
+PODEMOS 
+
+
+
+ESCREVER UM __ OBJECT__ 
+
+
+
+
+
+
+__ 
+
+
+
+(
+
+
+    normalmente 'STYLE'
+
+    NÃO ACEITA UM OBJECT,
+
+    MAS AQUI PODEMOS FAZER ISSO...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE PODEMOS ESCREVER ALGO COMO:
+
+
+
+
+
+
+
+
+
+
+
+<div class="demo" :style="{'border-color': red}" @click="boxSelect()" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> PODEMOS ESCREVER OU 
+
+
+'border-color'
+
+
+ou 
+
+'borderColor'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+PODEMOS FAZER ASSIM, SIM...
+
+
+
+
+
+
+
+-_> O PROFESSOR FEZ ISSO PARA DEFINIR 
+
+
+
+
+
+
+
+
+o
+
+
+
+STYLE COMO 'RED',
+
+estaticamente...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<div class="demo" :style="{'border-color': 'red'}" @click="boxSelect()" />
+
+
+
+
+
+
+
+
+
+
+
+A ALTERNATIVA A ISSO, CLARO, É 
+
+
+DEFINIR O VALUE 
+
+DESSA PROPRIEDADE DE 'border-color'
+
+
+DE FORMA DINÂMICA;
+
+
+
+
+
+
+
+DEFINIR QUE 
+
+
+
+''' BORDERCOLOR SERÁ RED 
+
+
+SE _ boxAselected (truthy)'''....
+
+
+
+
+
+
+
+
+
+
+
+-----> OK, FOI BASICAMENTE O QUE EU FIZ COM 
+
+AS CLASSES,
+
+
+MAS 
+
+
+__ COM INLINE _STYLES.... 
+
+
+(
+    isso é pior, é claro...
+)]
+
+
+
+
+
+
+
+
+
+
+
+--> MAS A MORAL É QUE PODEMOS, SIM,
+
+ESCREVER TERNARY EXPRESSIONS DENTRO 
+
+
+
+
+DESSA SINTAXE DE 
+
+
+
+
+:style="" 
+
+
+
+
+
+
+
+
+
+
+,
+
+QUE FICA TIPO 
+
+
+
+
+
+:style="{borderColor: BoxASelected ? 'red' : '#ccc'}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  ESSA SINTAXE DE 'OBJECT'
+
+
+É UMA SINTAXE ESPECIAL SUPORTADA PELO VUE,
+PARA 
+
+
+
+
+O ATTRIBUTE DE 'STYLE',
+ESPECIFICAMENTE...
+
+
+
+
+
+
+
+----> OK...
+
+
+
+
+
+
+
+
+RECARREGAMOS TUDO,
+
+
+
+
+E AÍ 
+AGORA O NEGÓCIO ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+
+
+--> MEU CÓDIGO FAZ O TOGGLE ENTRE 
+
+
+
+
+RED/GREY, O DO PROFESSOR NÃO...
+
+
+
+
+
+
+
+--> MAS O PROFESSOR QUERIA MOSTRAR 
+
+
+COMO PODEMOS 
+DEFINIR 
+
+__STYLES__ DINAMICAMENTE,
+
+COM O 'VUE',
+
+'V-BIND'
+
+E ESSA SINTAXE ESPECIAL 
+
+DE 
+
+'style binding'...
