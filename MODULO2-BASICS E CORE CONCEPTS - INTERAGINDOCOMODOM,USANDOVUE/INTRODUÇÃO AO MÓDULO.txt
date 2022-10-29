@@ -1,0 +1,87 @@
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUE COMEÇAMOS COM O VUEJS,
+
+
+
+
+nesse módulo 
+
+EXPLORAREMOS OS CORE CONCEPTS DO VUE,
+
+
+
+
+OS ESSENTIALS
+ 
+ QUE 
+
+ VOCÊ PRECISA SABER QUANDO TRABALHA COM O VUE...
+
+
+
+
+
+
+
+
+
+
+
+ VEREMOS:
+
+
+
+
+
+
+
+
+ 1) COMO EXATAMENTE O VUEJS INTERAGE COM O HTML...
+
+ (
+    o vuejs ESTÁ RELACIONADO COM O CONCEITO DE 'TEMPLATES'... 
+ )
+
+
+
+
+VUE + HTML = TEMPLATES...
+
+
+
+
+
+ 2) VEREMOS __ COMO OUTPUTTAR MAIS CONTEÚDO DINÂMICO,
+
+  
+  EXPLORANDO MAIS OPÇÕES E ALTERNATIVAS...
+
+
+
+
+
+
+
+
+
+3) TAMBÉM VEREMOS __ COMO PODEMOS 'REACT A USER INPUT'...
+
+
+
+
+
+
+
+
+
+

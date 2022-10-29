@@ -1,0 +1,393 @@
+
+
+
+
+
+
+
+APRENDEMOS BASTANTE SOBRE EVENTS...
+
+
+
+
+
+
+MAS E SE AGORA QUISÉSSEMOS 
+
+FAZER MAIS DO QUE ADD/REDUCE 1... --> 
+
+
+
+
+E SE QUISÉSSEMOS 
+
+
+ADICIONAR '5' 
+
+
+OU 
+
+'REDUCE 5'...
+
+
+
+
+
+
+
+---> BEM, BASTA ADICIONAR MAIS BUTTONS,
+
+AGORA COM 'ADD 5' 
+
+E
+ 
+ 'SUBTRACT 5'....
+
+
+
+
+
+
+
+
+ ok, mas como FARÍAMOS ISSO?
+
+
+
+
+
+
+
+
+
+
+
+ BEM, UM APPROACH COMUM SERIA 
+
+
+ 'ESCREVER UM _ PARÂMETRO PARA NOSSOS METHODS'..
+
+
+
+
+
+
+
+
+
+
+
+ --> tipo algo assim:
+
+
+
+
+
+
+
+
+ add(num) {
+
+ }
+
+
+
+
+
+
+
+
+
+
+
+ --> CERTO... AÍ, DENTRO DISSO,
+
+
+
+ PODERÍAMOS 
+
+
+
+
+
+ FAZER UM CÓDIGO ASSIM:
+
+
+
+
+ 
+ add(num) {
+
+    this.counter = this.counter + num;
+ }
+
+
+
+
+
+
+
+-------> É MELHOR TER UM METHOD MAIS DINÂMICO,
+ 
+ TIPICAMENTE...
+
+
+
+
+
+
+
+ ---> é melhor FAZER UM METHOD QUE __ EXIGE O NUMBER 
+
+
+
+ QUE 
+
+
+ _ QUEREMOS 'ADD/REMOVE',
+
+
+
+ E AÍ 
+
+
+
+ PARTIR DESSE PONTO...
+
+
+
+
+
+
+ MAS COMO DIZEMOS 
+
+ AO VUE QUE 
+ ELE 
+
+
+ ''DEVE RODAR _ ADD E REDUCE 
+ E CONSIDERAR UM VALUE DE 5 PARA 
+
+ ESSES PARAMETERS''...
+
+
+
+
+
+
+
+
+
+
+
+ ----> BEM,
+
+ aqui o professor nos explica a diferença entre as 2 sintaxes principais:
+
+
+
+
+
+
+
+
+ <button v-on:click="add">Add 5</button>
+
+
+
+ <button v-on:click="add()">Add 5</button>
+
+
+
+
+
+
+
+
+
+AQUI, NA SEGUNDA VERSÃO,
+
+
+
+__ NÓS,
+
+COMO DESENVOLVEDORES,
+
+
+TEMOS 
+
+_ CONTROLE COMPLETO _ SOBRE O VALUE QUE QUEREMOS 
+
+PASSAR COMO PARAMETERS...
+
+
+
+
+
+
+
+
+--> podemos escrever algo tipo assim:
+
+
+
+
+
+
+ <button v-on:click="add(5)">Add 5</button>
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      // this.counter++
+      this.counter = this.counter + 1;
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+
+    addToCounterDynamic(num) {
+      this.counter = this.counter + num;
+    },
+
+    removeFromCounterDynamic(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+E O CÓDIGO HTML:
+
+
+
+
+
+
+
+        <button v-on:click="counter++">Add</button>
+        <button v-on:click="addToCounterDynamic(5)">Add 5 </button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <button v-on:click="counter--">Remove</button>
+        <!-- É ASSIM QUE PASSAMOS ARGUMENTOS A NOSSOS METHODS DEFINIDOS LA´NO APP VUE-->
+        <button v-on:click="removeFromCounterDynamic(5)">Remove 5</button>
+        <p>Result: {{ counter }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> O METHOD VAI 
+
+
+FUNCIONAR CORRETAMENTE,
+
+
+
+VAI LEVAR 
+
+EM CONSIDERAÇÃO ESSE PARÂMETRO DE '5'
+
+QUE PASSAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE PASSAR ARGUMENTOS A 
+
+
+METHODS 
+
+
+
+
+É _ MT FÁCIL, 
+
+E COMUM... ---> É 1 PATTERN IMPORTANTE DE ENTENDER,
+
+
+PQ 
+
+
+EM APPS DE VERDADE 
+
+
+
+
+VOCÊ 
+
+
+
+FREQUENTEMENTE 
+
+TERÁ 
+
+
+
+
+1 PARAMETER QUE VOCê VAI QUERER DEFINIR,
+
+
+
+
+
+
+E CHAMAR 
+
+
+O VUE COM ESSE METHOD É SUPER FÁCIL..

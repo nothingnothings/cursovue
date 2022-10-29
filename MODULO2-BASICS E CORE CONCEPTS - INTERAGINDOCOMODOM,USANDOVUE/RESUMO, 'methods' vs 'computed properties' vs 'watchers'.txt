@@ -1,0 +1,557 @@
+
+
+
+
+
+
+
+
+AGORA TEMOS UM ESQUEMA PARA DIFERENCIAR ENTRE OS 3 CONSTRUCTS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSES METHODS VS COMPUTED VS WATCH 
+
+
+
+
+
+
+
+
+
+
+
+
+
+PODE SER MEIO CONFUSO,
+
+
+
+
+POR ISSO VAMOS RECAPITULAR:
+
+
+
+
+
+
+
+
+
+
+
+
+
+1) 'METHODS' ----> ELES __PODEM_ SER USADOS NO SEU TEMPLATE 
+
+
+
+
+
+PARA __ BINDAR_ 
+
+A _ DATA_, 
+
+
+PARA PODER UTILIZAR ESSA DATA EM UMA 'INTERPOLATION',
+
+
+
+PARA PODER__ DERIVAR _ 
+
+
+
+DATA _ A SER USADA NO TEMPLATE.... OU, VOCÊ PODE USAR OS METHODS/DEVE USAR OS METHODS _ COM 'event binding'...
+
+
+
+
+
+
+
+
+
+
+-> O PROBLEMA DOS METHODS É QUE, SE FOREM CHAMADOS DIRETAMENTE NO HTML, com '()",
+
+
+
+__ ELES SEMPRE SERÃO _ REEXECUTADOS_ SEMPRE _ QUE 
+
+ALGUMA 'DATA PROPERTY' DE SEU APP 
+
+
+
+
+
+
+FOR ALTERADA... (ruim para performance, e para bugs)..
+
+
+
+
+
+
+
+
+
+
+
+(
+    E, SE VOCÊ USA OS 'methods' PARA O USE-CASE DE 'DATA-BINDING',
+
+
+    COM a sintaxe de '{{}}' 
+),
+
+
+
+
+
+
+AÍ VOCê DEVE TER EM MENTE QUE 'METHOD'( qualquer method) é REEXECUTADO PARA _ CADA 'RE-RENDER CYCLE'
+
+
+
+de seu component vue.... ---> ISSO QUER DIZER QUE SEMPRE QUE 
+
+ALGO (data property) 
+
+
+FOR ALTERADA,
+
+
+TODOS OS METHODS CHAMADOS NO TEMPLATE _ SERÃO REEXECUTADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE SÓ PODEMOS USAR METHODS PARA:
+
+
+
+a) 'event binding' --> você sempre os utilizará....
+
+
+b) 'data binding' --> NESSES CASOS, VOCÊ _ APENAS _ OS UTILIZARÁ _ SE VOCê REALMENTE _ QUER_ QUE _ 
+
+ELES SEJAM REEVALUATED E RE-EXECUTADOS O TEMPO TODO, A PARTIR DO CHANGE DE QUALQUER DATA PROPERTY....
+
+
+
+
+
+
+
+
+
+
+
+
+
+2) O TIPO MAIS FAMOSO É AS 'COMPUTED PROPERTIES',
+
+
+
+
+
+
+PQ __ ELES _ SÓ PODEM SER USADOS COM 'DATA BINDING',
+
+
+E NÃO PODEM SER USADOS 
+
+
+
+
+COM 'EVENT BINDING' ---> 
+
+
+
+
+
+
+
+
+
+E AS 'COMPUTED PROPERTIES' POSSUEM A VANTAGEM DE QUE 
+
+__ SÓ SERÃO 
+
+
+
+REEXECUTADAS PELO VUE _ SE __ 
+
+ALGUMA DAS 
+
+'DATA' 
+
+USADA 
+
+DENTRO DE SEUS BODIES for realmente alterado...
+
+
+
+(
+    o que quer dizer que NÃO SERÃO 
+
+
+    REAVALIATED SE ALGUMA OUTRA DATA PROPERTY FOR ALTERADA....
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE TEMOS A DIFERENÇA:
+
+1) existe EVENT BINDING e DATA BINDING
+1) METHODS --> 'USADOS PARA _ EVENTS_ OU DATA_ QUE _ _ REALMENTE_ PRECISAM SER REAVALIADOs O TEMPO TODO''..
+
+
+
+
+
+
+2 -> SÓ EXISTE 'data binding' 
+2) 'COMPUTED' --> é usado para RODAR LÓGICA EM CIMA DAS 'data properties',
+
+
+
+
+E PARTE DO PRINCÍPIO 
+
+
+
+
+
+
+
+
+DE _ DATAS Que _ DEPENDEM DE __ OUTRA DATA/OUTRAS DATAS...
+
+
+
+
+
+
+
+-> apenas se a data usada dentro do computed property 
+
+
+FOR ALTERADA 
+
+
+
+
+__ OCORRERÁ _O 'REEVALUATE/reexecute'   do 
+
+
+
+
+'computed'... 
+
+
+
+( OU SEJA, DEVEMOS USAr esse 'computed' APENAS __ 
+
+
+QUANDO TIVERMOS '''DATA QUE DEPENDE DE OUTRAS DATA (depedencies)'.....
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, TEMOS OS 'WATCHERS' -> OS WATCHERS NÃO _ SÃO USADOS DIRETAMENTE NO TEMPLATE..
+
+
+
+
+
+
+(
+
+
+     ISSO QUER DIZER QUE 
+
+
+     _ OS WATCHERS NUNCA SÃO ESCRITOS NO HTML...
+)
+
+
+
+
+
+
+
+
+
+
+
+AINDA ASSIM, O INTERESSANTE É QUE podemos fazer 'watch' 
+
+DE TANTO DATA PROPERTIES COMO _ COMPUTED _ PROPERTIES,
+
+
+
+com esses WATCHERS...
+
+
+
+
+
+
+
+
+
+------> E ISSO, NO CASO,
+
+
+
+
+TE _ DÁ _ UMA VANTAGEM, PQ _ 'TE PERMITE RODAR CÓDIGO 
+
+
+EM REAÇÃO 
+
+A DIVERSAS COISAS,
+
+
+
+A DIVERSOS _ CHANGED_ DATA_',
+
+
+
+
+
+como um 'SEND HTTP REQUEST', 
+
+por exemplo... TAMBÉM SETTAR UM TIMER, 
+
+OU SETTAR DATA NA LOCAL STORAGE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que você deve usar os WATCHERS _ PARA 'BEHIND THE SCENES WORK',
+
+para qualquer 'non-data updates' 
+
+
+
+
+que você quer fazer... ------> SEMPRE QUE VOCÊ TIVER UM TRABALHO 'behind the scenes' 
+
+
+
+
+
+_ QUE __ tem base em alguma 'changing data',
+
+
+
+
+
+TALVEZ SEJA _ BOM _ PENSAR EM USAR UM DESSES WATCHERS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ENTRE OS 3,
+
+
+OS 'WATCHERS' SÃO A FEATURE QUE PROVAVELMENTE MENOS USAREMOES... 
+
+(
+    PQ PRECISAMOS 
+
+    DE METHODS TODA A HORA CMO 
+
+    EVENT BINDING,
+
+
+
+
+    E PRECISAMOS DE 'COMPUTED'
+
+    PARA_ OUTPUTTAR __ DATA_ QUE DEPENDE DE OUTRAS DATA... (outros states)....
+)
+
+
+
+
+
+
+
+
+
+
+
+JA O 'WATCH' SÓ É USADO PARA_ 
+
+
+
+
+
+RODAR COISAS QUE NÃO 'ALTERAM A DATA DOS SEUS DATA PROPERTIES'----> OU SEJA,
+
+VAMOS USAR 
+
+
+
+COMUMMENTE COM 
+
+
+'setTimeout'
+
+e com 
+
+'http requests'.. 
+
+
+
+
+
+
+
+
+
+
+
+---> WATCHERS NÃO SÃO USADOS DIRETAMENTE NO TEMPLATE,
+
+MAS VOCÊ PODE FAZER WATCH DE QUALQUER PROPERTY (computed e data) com eles...
+
+
+
+
+
+
+
+ISSO TE DEIXA RODAR CÓDIGO EM 'REAÇÃO' A ALGUMA ALTERAÇÃO NA SUA DATA... (
+
+
+
+
+    ou seja, código de 'effects',
+
+    como 
+
+
+    'set a timer',
+
+    'enviar http request',
+
+    'armazenar algo na local storage'...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE VOCÊ TIPICAMENTE USARÁ 'watchers'
+
+
+PARA REALIZAR UPDATES DE NATUREZA 'non-data' ( ou seja, que não interferem diretamente com o state/data do seu vue app)...
+
+
+
+
+
+
+
+
+--> VOCÊ USA __ OS WATCHERS PARA QUALQUER 'BEHIND THE SCENES WORK',
+
+com base em alguma 'changing data'..
+
+
+
+
+
+
+
+
+--> WATCHERS SÃO A FEATURE QUE VOCÊ USARÁ MENOS...
+
+
+
+
+
+
+
+--> vocÊ usará mais os:
+
+
+1) METHODS --  PARA EVENT BINDING 
+
+
+
+2) COMPUTED PROPERTIES --> PARA O OUTPUT DE DATA, A PARTIR DO CHANGE DE OUTRA DATA...

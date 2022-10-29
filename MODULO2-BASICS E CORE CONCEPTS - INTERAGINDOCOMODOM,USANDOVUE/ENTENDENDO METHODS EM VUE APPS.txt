@@ -1,0 +1,767 @@
+
+
+
+
+
+
+
+
+
+--> COM INTERPOLATION E COM 'v-bind',
+
+
+APRENDEMOS SOBRE 2 KEY FEATURES PARA O OUTPUT E USE DE 
+
+
+
+'DATA VUE'
+
+
+LÁ NO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS DEIXAR NOSSO CÓDIGO 
+
+
+1 POUCO MAIS DINÂMICO..
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE AGORA QUEREMOS TER 
+
+
+2 'POSSIBLE COURSE GOALS'
+
+
+
+
+
+
+A SEREM OUTPUTTADOS NA NOSSA PÁGINA...
+
+
+
+
+
+
+
+
+
+
+
+--> E, POR ENQUANTO, VAMOS DECIDIR ALEATORIAMENTE QUAL 
+
+
+
+
+__ ELEMENTO _ DEVE __ SER OUTPUTTADO NA PÁGINA..
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+PRECISAMOS RODAR ALGUM CÓDIGO (Math.Random() ),
+
+
+
+PARA AÍ 
+
+
+
+
+DECIDIR QUAL COISA SERÁ OUTPUTTADA 
+
+
+NO NOSSO VUE APP...
+
+
+
+
+
+
+
+
+ok, vou TENTAR FAZER ISSO POR CONTA PRÓPRIA...
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO VAMOS RANDOMIZAR ISSO, A PARTIR DE UM BUTTON CLICK?
+
+
+
+
+
+
+
+
+
+
+
+
+EU CONSEGUI, MEU CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p>{{ courseGoal }}</p>
+        <!-- HARDCODED-->
+        <!-- <p>Learn more<a href="example.com">About Vue</a></p> -->
+        <!-- VERSÃO VUE, DINÂMICA-->
+        <p>Learn more<a v-bind:href="dynamicLink"> about Vue</a></p>
+        <!-- COMO USAR METHODS COM O VUE-->
+        <button v-on:click="randomizeCourseGoal">ROLL DICE</button>
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the Fight.',
+      dynamicLink: 'exemplo.com',
+    };
+  },
+
+  methods: {
+    randomizeCourseGoal() {
+      const rollDice = Math.random();
+
+      if (rollDice > 0.5) {
+        this.courseGoal = 'EXEMPLO';
+      } else {
+        this.courseGoal = 'End the Fight.';
+      }
+    },
+  },
+});
+
+app.mount('#user-goal');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O professor fala do recurso 'methods'.. --> 
+
+
+
+
+o recurso nos deixa RODAR METHODS QUANDO ALGUMA COISA ACONTECE...
+
+
+
+
+
+
+
+
+
+--> A 
+
+
+
+
+
+em methods,
+
+
+escrevemos 
+
+
+"methods: {}"
+
+
+
+
+
+
+
+
+
+
+DEVEMOS ENCHER ESSE OBJECT __ COM METHODS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> e 'methods' é um reserved name,
+
+
+mas dentro desse object,
+
+podemos usar 
+
+QUALQUER NOME QUE DESEJARMOS...
+
+
+
+
+
+
+
+
+--> MAS UMA COISA IMPORTANTE:
+
+
+
+TODAS AS COISAS QUE VOCê DEFINE DENTRO DESSE OBJECT 'methods'
+
+
+DEVERÃO SER FUNCTIONS,
+
+
+ 
+ PQ ELES _ PRECISAM _ SER CHAMÁVEIS COMO FUNCTIONS.. (use o shorthand de methods, tipo outputGoal() {})
+
+
+
+
+
+
+
+
+
+
+
+
+ -_> o professor roda 
+
+ 'Math.random()'..
+
+
+
+
+
+
+
+
+
+ --> DEPOIS DISSO,
+
+
+
+
+
+
+
+ ELE FAZ + OU - O QUE EU FIZ...
+
+
+
+
+
+
+MAS O METHOD DO PROFESSOR NÃO ALTEROU O 'STATE',
+
+
+
+E sim 
+
+
+
+
+
+ELE 
+
+
+
+FEZ O RETURN DE 2 STRINGS DIFERENTES, TIPO ASSIM:
+
+
+
+
+
+
+
+
+outputGoal() {
+    const randomNumber = Math.random();
+    
+    if (randomNumber < 0.5) {
+        return 'Learn Vue!';
+    } else {
+
+        return 'Master Vue!';
+    }
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK.... ISSO QUER DIZER QUE AGORA TEMOS ESSE METHOD, QUE VAI RETORNAR 
+
+
+
+  1 DESSAS 2 COISAS...
+
+
+
+
+
+
+
+
+  --> BEM... QUEREMOS QUE 
+
+
+
+
+  ESSE METHOD SEJA CHAMADO 
+
+
+
+  _ A PARTIR __ DE ALGUMA COISA...
+
+
+
+
+
+
+  --> A COISA LEGAL É QUE PODEMOS _ CHAMAR 1 METHOD, 
+
+  COMO ESSE AÍ,
+
+
+
+  __ DE DENTRO _ DE NOSSO CÓDIGO HTML... 
+
+
+
+
+
+
+  (
+
+    FOI ISSO QUE FIZ,
+
+    COM 'v-on:click'...
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -_> BASTA QUE SEU METHOD SEJA DEFINIDO EM 'methods'..
+
+
+
+
+
+
+
+
+  -----> CERTO... MAS AQUI O PROFESSOR FAZ ALGO DIFERENTE DAQUILO QUE EU FIZ...
+
+
+
+
+
+
+
+  --> ELE NÃO VAI ESCREVER SÓ 
+
+
+  a property name estática, 
+
+  como 
+
+
+
+  ''
+
+       <p>{{ courseGoal }}</p>
+
+
+       '',
+
+
+
+       E SIM 
+
+
+
+       __ VAI OUTPUTTAR ISSO AÍ __ DIRETAMENTE,
+
+
+       EM UM NOVO ELEMENTO,
+
+    
+    _ MAS  VAI USAR _ AQUELE METHOD (ou seja, o METHOD vai retornar a STRING, e a string será usada DIRETAMENTE no elemento html),
+
+
+    TIPO ASSIM:
+
+
+
+
+            <!-- EXEMPLO DO PROFESSOR (esta sintaxe também é válida)-->
+        <p>{{ outputGoal() }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSA É A PARTE INTERESSANTE:
+
+
+
+
+
+
+
+
+
+
+
+
+NO SEU CÓDIGO HTML CONTROLADO PELO VUE,
+
+
+VOCÊ PODE _ EXECUTAR __ CÓDIGO JAVASCRIPT SIMPLES...
+
+
+
+
+
+
+
+
+
+--> DENTRO DA STRING INTERPOLATION,
+
+PODEMOS 
+
+
+__RODAR __ CÁLCULOS,
+
+
+como 
+
+{{1 + 1 }}
+
+
+
+
+ou 
+
+
+{{ Math.random() }}
+
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE EXPRESSÕES MAIS COMPLEXAS, COMO IF STATEMENTS,
+
+SÃO IMPOSSÍVEIS:
+
+
+
+
+
+
+
+        <!-- OUTROS EXEMPLOS POSSÍVEIS -->
+        <p>{{ 1 + 1 }}</p>
+        <p>{{ Math.random() }}</p>
+
+
+
+
+        <!-- exemplos de coisas impossíveis (if statements)-->
+
+        <!-- <p>{{ if(true) else (false) }}</p> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> MAS __ VOCê _ PODE _ USAR TERNARY EXPRESSIONS (como o handlebars e ejs)...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+        <!-- OUTROS EXEMPLOS POSSÍVEIS -->
+        <p>{{ 1 + 1 }}</p>
+        <p>{{ Math.random() }}</p>
+        <!-- TERNARY EXPRESSIONS TAMBÉM SÃO POSSÍVEIS-->
+        <p>{{dynamicLink ? 'example' : ''}}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E COMO PODEMOS 
+
+
+USAR 
+
+ESSAS EXPRESSIONS JAVASCRIPT BÁSICSA,
+
+
+É CLARO QUE 
+
+PODEMOS CHAMAR COISAS COMO 'outputGoal()'
+
+
+
+aqui...
+
+
+
+
+
+
+
+
+
+
+---> OK.. AGORA VEREMOS 1 VALOR DIFERENTE DENTRO DAQUELE ELEMENT 
+
+
+TUDO GRAÇAS 
+
+
+
+AO NOSSO METHOD DE 'outputGoal()'...
+
+
+
+
+
+
+
+--> 
+
+O PROFESSOR ESTÁ NOS MOSTRANDO COMO O VUE FUNCIONA,
+
+
+QUE 
+
+VOCÊ PODE EXECUTAR JAVASCRIPT EXPRESSIONS ENTRE OS CURLY BRACES (e quando usando o 'v-bind'),
+
+
+PQ TUDO ISSO TE DÁ UM MONTE DE FLEXIBILIDADE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> JÁ COM ESSE PEQUENO EXEMPLO,
+
+
+
+FICAMOS COM UM APP MAIS DINÂMICO (
+
+    pq 
+
+    nosso elemento está 
+
+
+    tendo seu conteúdo alterado toda vez que recarregamos a página...
+)
+
+
+
+
+
+
+
+
+--> ESSE É UM APP MAIS DINÂMICO QUE PODE SER FACILMENTE CONSTRUÍDO COM VUE,
+
+
+
+e que 
+
+
+não poderia ser construído com apenas html...
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA JÁ ESTAMOS VENDO A RAZÃO DE O 
+
+
+VUE SER TÃO LEGAL...

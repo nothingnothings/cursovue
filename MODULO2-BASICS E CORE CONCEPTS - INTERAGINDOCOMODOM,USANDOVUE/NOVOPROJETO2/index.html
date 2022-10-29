@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="addToCounter">Add</button>
+        <!-- É MELHOR RODAR ESSE CÓDIGO de baixo LÁ EM UM METHOD, NO VUE APP, E NÃO AQUI, DE FORMA INLINE-->
+        <button v-on:click="counter++">Add</button>
+        <button v-on:click="addToCounterDynamic(5)">Add 5 </button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <button v-on:click="counter--">Remove</button>
+        <!-- É ASSIM QUE PASSAMOS ARGUMENTOS A NOSSOS METHODS DEFINIDOS LA´NO APP VUE-->
+        <button v-on:click="removeFromCounterDynamic(5)">Remove 5</button>
+
+
+        <!-- EXEMPLO DA DIRECTIVE DE 'v-once' -->
+        <p v-once>initial Counter: {{ counter}}</p>
+        <p>Result: {{ counter }}</p>
+
+
+
+        <!-- EXEMPLO DE 'NATIVE EVENT OBJECT' -->
+        <!-- <input type="text" v-on:keyup="inputChangedHandler($event)">  -->
+
+        <!-- É MELHOR USAR O EVENTO 'input' EM ELEMENTOS 'input' do que os eventos 'keyup' ou 'keydown'-->
+        <input type="text" v-on:input="inputChangedHandler($event)"> <!-- com este primeiro, passamos só o EVENT OBJECT-->
+        <!-- <input type="text" v-on:input="inputChangedHandlerSpecial('Panazolo', $event)"> com este segundo, passamos o EVENT OBJECT E TAMBÉM UM PARAMETRO A SER USADO NO METHOD -->
+        <p>Your Name: {{ name }}</p>
+
+
+        <form v-on:submit="formSubmitHandlerNaoElegantePreventDefault">
+            <button>Sign Up</button>
+        </form>
+
+        <!-- exemplo de EVENTMODIFIERS - modifier de 'prevent',   que PREVINE O DEFAULT de forma conveniente (mais elegante )-->
+        <form v-on:submit.prevent="formSubmitHandlerEleganteComEventModifier">
+            <button>Sign Up2</button>
+        </form>
+
+
+        <!-- EXEMPLO DE EVENT MODIFIERS DO EVENT 'click' -->
+        <button v-on:click.right="addToCounterDynamic(5)">Add 5 with right click </button>
+        <button v-on:click.middle="addToCounterDynamic(5)">Add 5 with middle click </button>
+        <button v-on:click.right="removeFromCounterDynamic(5)">Remove 5 with right click</button>
+        <button v-on:click.middle="removeFromCounterDynamic(5)">Remove 5 with middle click</button>
+
+        <!-- EXEMPLO DE EVENT MODIFIER DO EVENTO 'INPUT', INPUT EVENT MODIFIERS. AQUI, APENAS 'enter' será a key que disparará esse method -->
+        <input type="text"
+        
+        v-on:input="inputChangedHandlerSpecial('Panazolo', $event)" 
+        v-on:keyup.enter="inputChangedHandlerConfirmed"
+   
+        
+        >
+            <p>Confirmed Name: {{ confirmedName }}</p>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

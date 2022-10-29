@@ -1,0 +1,502 @@
+
+
+NOSSO CÓDIGO HTML:
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p></p>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+NOSSO CÓDIGO JS, NO MOMENTO:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({ ////podemos armazenar nossa VUE INSTANCE EM UMA CONSTANTE, SIM....
+
+    data() {
+        return {
+            courseGoal: 'Finish the Fight.'
+        }
+    }
+})
+
+
+
+// HABITUE-SE A USAR 'ids' para SELECIONAR AS PARTES DAS SUAS PÁGINAS QUE VOCÊ QUER CONTROLAR COM VUEJS...
+app.mount('#user-goal'); ////COM ISSO, TARGETTAMOS ESSA SECTION ESPECÍFCIA, COM ESSE ID ESPECÍFICO, NO NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA FAZER O OUTPUT DE DATA,
+
+
+
+
+
+
+
+
+__ DATA ARMAZENADA NO APP VUE,
+
+
+
+
+HÁ UMA SINTAXE ESPECIAL 
+
+QUE 
+
+
+
+
+SÓ __ FICA DISPONÍVEL EM PARTES DO HTML _ _CONTROLADAS PELO VUE --------> ISSO PQ 
+
+
+
+
+_ O QUE O VUE FAZ, POR TRAS DAS CENAS,
+
+
+É _ ESCANEAR _ ESSE 
+
+
+
+
+
+CÓDIGO HTML 
+
+
+E __ DETECTAR CERTAS SINTAXES/FEATURES,
+
+QUE 
+
+
+
+ELE SUPORTA...
+
+
+
+
+
+
+
+
+
+--> E _ A SINTAXE __ USADA PELO VUE,
+PARA __ OUTPUTTAR CONTENT/TEXT 
+
+
+
+
+NO SEU APP,
+
+
+É AQUELA DO HANDLEBARS,
+
+QUE É 
+
+'{{}}'...
+
+
+
+
+
+
+(
+    OK,
+
+    MAS EU FIZ ISSO ANTES E NÃO FUNCIONOU..
+)
+
+
+
+E SEGUE NÃO FUNCIONANDo...
+
+
+
+
+
+
+
+por default,
+ se fazemos isso no DEFAULT HTML,
+ isso não faz nada... (só ve o hardcode desse código)...
+
+
+
+
+
+
+
+
+
+
+
+ --> MAS SE VOCê ESCREVER ISSO NO CONTEXTO DE UM 
+
+
+ _ VUE APP,
+
+
+ AS COISAS MUDAM...
+
+
+
+
+
+
+
+
+
+ --> VOCÊ PODE REFERENCIAR SUAS PROPRIEDADES RETORNADAS EM 'data() {}'....
+
+
+
+
+
+
+
+
+
+
+ ok.... mas eu fiz isso,
+
+ e O CÓDIGO AINDA NÃO ESTÁ FUNCIONANDo..
+
+
+
+
+
+
+
+
+
+ BEM, PARECE QUE EU RECEBI UM ERRO:
+
+
+
+
+
+
+
+ Uncaught ReferenceError: Vue is not defined
+    at app.js:16:13
+
+
+
+    EX:
+
+
+
+
+
+
+
+
+    vue.global.js:1622 [Vue warn]: Failed to mount app: mount target selector "#user-goal" returned null.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    OBS::: PARECE QUE USAR O VUE 
+
+
+    NO HEAD _ É UMA PÉSSIMAI IDEIA... É MELHOR CARREGÁ-LO LÁ NO BODY,
+
+    tipo assim:
+
+
+
+
+
+
+
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p>{{ courseGoal }}</p>
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+ok, agora o código está FUNCIONANDO....
+
+
+
+
+
+
+
+
+
+
+ok.... a sintaxe é realmente '{{}}'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESSA SINTAXE ESPECIAL É CHAMADA DE 'INTERPOLATION'...
+
+
+
+
+
+
+
+
+
+
+
+--> 'interpolation' existe tanto no VUE como no EJS 
+
+
+
+
+
+
+
+
+
+----> O VUE FAZ TUDO ISSO DE DETECT E OUTPUT AUTOMATICAMENTE PARA VOCê,
+
+
+para outputtar esse text...
+
+
+
+
+
+
+
+
+
+--> se você tentar outputtar isso em algum lugar DIFERENTE DO LOCAL EM QUE 
+
+
+O 
+
+
+APP VUEJS ESTÁ CONTROLANDO O HTML,
+
+
+
+
+A DATA __ NÃO SERÁ OUTPUTTADA...
+
+
+
+
+
+
+
+--> E  ESSA SINTAXE DE INTERPOLATION É _ CHAVE_....
+
+
+
+
+
+
+--> É UMA DAS KEY-FEATURES DO VUE,
+
+
+E É POR ISSO QUE COMEÇAMOS COM ELA...
+
+
+
+
+
+
+
+
+--> VALE A PENA RESSALTAR QUE VOCÊ 
+
+
+PODE OUTPUTTAR OUTRAS COISAS,
+
+
+
+COMO NUMBERS E BOOLEANS..
+
+
+
+
+
+
+
+
+--> SE VOCê TIVER 1 ARRAY, VOCê TAMBÉM PODE OUTPUTTÁ-LO...
+
+
+
+
+
+
+
+
+
+--> TAMBÉM PODE OUTPUTTAR OBJECTS..
+
+
+
+
+
+
+
+
+
+
+--> OK, ESSA É A INTERPOLATION E A PROPRIEDADE 'DATA'
+
+
+SENDO USADA 
+
+
+
+
+NO __ SEU 'VUE APP',
+
+NO HTML DO SEU APP...
+
+
+
+
+
+
+
+
+--> ESSAS SÃO AS 2 PRIMEIRAS CORE FEATURES:
+
+
+
+1) 'data'
+
+
+
+
+
+2) 'INTERPOLATION'..
+
+
+
+
+
+
+
+--> você usará esses recursos em QUALQUER VUE APP QUE VOCê CONSTRUIR...

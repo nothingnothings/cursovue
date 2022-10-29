@@ -1,0 +1,1459 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... VOCÊ PODERIA, É CLARO, 
+
+
+FAZER HARDCODE 
+
+
+
+
+DO SEU NOME, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<p>Your Name: {{name + '' + 'Panazolo' }}</p>  ,
+
+
+
+
+
+
+
+
+
+
+E COM ISSO, SE FIZESSE ISSO,
+
+
+ESSE 
+
+
+PROBLEMA SERIA 
+
+
+
+EVITADO... --------> 
+
+
+
+
+
+
+
+
+
+
+se você fizer isso,
+
+
+
+SEU PARAGRAPH _ SÓ SERÁ ALTERADO QUANDO O 'name' 
+
+
+FOR ALTERADO ... -->  
+
+
+
+
+
+
+PQ  AÍ O 'outputFullName'
+
+
+
+NUNCA SERÁ 
+
+
+CHAMADO,
+
+
+
+
+
+
+__ E ENTÃO NUNCA SERÁ CHAMADO PELO VUE (sem aquele problema de chamar 'outputFullName' sempre que o counter for alterado )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO, MAS, COM ISSO,
+
+INTRODUZIMOS __ OUTRO PROBLEMA NO NOSSO CÓDIGO... --> 
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+NOSSO CÓDIGO HTML FICA COM MAIS LÓGICA,
+
+
+
+E _ISSO, CONFORME APRENDEMOS, NÃO É UMA BOA COISA...
+
+
+
+
+
+
+
+
+
+
+(ficamos com 'name' sendo outputtado dinamicamente, lá no código html)...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA RESOLVER ISSO, TEMOS UMA _ TERCEIRA FEATURE NICE QUE PODEMOS USAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É A FEATURE DE 'COMPUTED PROPERTIES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSAS PROPERTIES SÃO 
+
+
+
+
+'''ESSENCIALMENTE COMO METHODS''',
+
+
+
+
+MAS COM UMA __ IMPORTANTE DIFERENÇA:
+
+
+
+
+
+
+
+
+A) O VUE _ VAI FICAR 'AWARE' DE SUAS DEPENDÊNCIAS E SOMENTE VAI _ OS REEXECUTAR __ 
+
+
+SE ALGUMA DE SUAS DEPENDENCIES TIVER SIDO ALTERADA... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ O 'COMPUTED' 
+
+
+
+É A TERCEIRA 'BIG CONFIGURATION OPTION'  QUE 
+
+
+APRENDEMOS, PARA ESSE APP QUE CRIAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+1A CONFIGURATION OPTION --> 'DATA' 
+
+
+
+
+
+
+2A CONFIGURATION OPTION --> 'METHODS' 
+
+
+
+
+
+3A CONFIGURATION OPTION --> 'COMPUTED'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E 'COMPUTED' PODE SER ADICIONADO __ EM QUALQUER LUGAR 
+
+
+
+DO OBJECT VUE ORIGINAL..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const app = Vue.createApp(
+
+    {
+        data() {
+
+            return {
+
+            }
+        },
+
+        computed: {
+
+        }
+
+
+
+
+
+        methods: {
+
+        }
+
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E 'COMPUTED'  É UM DOS RESERVED KEY NAMES,
+
+UMA DAS KEY OPTIONS DO VUE...
+
+
+
+
+
+
+
+
+
+
+--> É UMA KEY OPTION SUPORTADA PELO VUE EM VUE APPS...
+
+
+
+
+
+
+
+
+
+
+computed, como 'methods',
+
+
+
+
+
+EXIGE __ UM OBJECT...
+
+
+
+
+
+
+
+
+É POR ISSO QUE O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+const app = Vue.createApp(
+
+    {
+        data() {
+
+            return {
+
+            }
+        },
+
+        computed: {
+
+        },
+
+
+        methods: {
+
+        }
+
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, E DENTRO DE 'COMPUTED',
+
+
+VAMOS 
+
+
+DEFINIR UM PUNHADO DE METHODS... ---->
+
+
+
+
+
+É EXATAMENTE COMO EM 'METHODS',
+
+
+
+
+MAS 
+
+
+OS METHODS EM 'computed'
+
+
+SERÃO _ CHAMADOS_ E EXECUTADOS __ DE FORMA DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE TEMOS ESSES 2 DIFERENTES BLOCKS...
+
+
+
+
+
+
+--> o professor coloca o nome de nossa function/method/computed method de 
+
+
+
+'fullName(){}',
+
+
+
+
+e ele dá 
+
+esse nome 
+
+
+PQ _ VAMOS _ 
+
+
+
+UTILIZAR ESSE 'COMPUTED METHOD' 
+
+COMO SE FOSSE UMA 
+
+__'''DATA PROPERTY''',
+ 
+
+
+ E NÃO COMO SE FOSSE UM METHOD... (embora ele não deixe de ser um method)...
+
+
+
+
+
+
+
+
+
+--> O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+
+  //esses methods, em 'computed', SOMENTE SÃO EXECUTADOS se SUAS DEPENDENCIES FOREM ALTERADAS/MANIPULADAS..
+
+  ///SEMPRE USAMOS OS 'computed methods' COMO SE FOSSEM PROPRIEDADES de 'data' (embora sejam, no fundo, methods)... --> isso quer dizer que é QUASE COMO SE NÃO FOSSEM METHODS, pq não vão ser chamados como METHODS comuns...
+  computed: {
+    fullName() {},
+  },
+
+  methods: {
+    setName(event, lastName) {
+      this.name = event.target.value;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+      // this.counter--;
+    },
+    resetInput(event) {
+      this.name = '';
+    },
+    outputFullName() {
+      ////usado para DEMONSTRAR COMO podemos usar EVENTS DE FORMA MELHOR...  --> essa aqui é uma versão HACKY, não é a melhor versão de fazer isso...
+
+      if (this.name === '') {
+        return '';
+      }
+
+      ///isso demonstra que esse method vai SEMPRE SER REEXECUTADO a partir de UPDATES NO STATE DO VUE APP, seja 'counter' ou 'name'...
+      ///É POR ISSO QUE DEVEMOS RECORRER A 'COMPUTED', methods em 'computed', que são methods que SOMENTE SÃO EXECUTADOS SE SUAS DEPENDENCIES SÃO AFETADAS/ALTERADAS...
+      return this.name + 'Panazolo' + Math.random();
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> computed: {
+
+    fullName() {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO VAMOS USAR ISSO COMO UM METHOD, E SIM VAMOS USAR COMO SE FOSSE UMA 'DATA PROPERTY'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE VOCÊ DEVE NOMEAR SUAS 'computed PROPERTIES'
+
+
+ como se fossem DATA PROPERTIES, e não como se fossem methods...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É POR ISSO QUE AQUI, EM 'fullName',
+
+
+
+QUEREMOS _ RETORNAR UM __ VALUE _ QUE 
+
+
+EVENTUALMENTE 
+
+
+
+DEVERÁ 
+
+SER 
+
+'YIELDED' 
+
+POR ESSA 
+
+
+'COMPUTED PROPERTY'....
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+    computed: {
+      ///é uma computed property que será usada para OUTPUTTAR O FULL NAME... vamos usar o EXATO mesmo código que temos em 'outputFullName' ( o 'method legit'), mas agora TEREMOS ESSA LÓGICA SENDO EXECUTADA A DEPENDER DA _ ALTERAÇÃO _ DE UMA DEPENDENCY...
+    
+      fullName() {
+
+        if (this.name === '') {
+          return '';
+        }
+
+      return this.name + 'Panazolo';
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+  E AGORA, CONFORME O PROFESSOR HAVIA MENCIONADO ANTERIORMENTE,
+
+
+  PODEMOS USAR 
+
+
+
+
+  __ ESSA COMPUTED PROPERTY de 'fullName' 
+
+
+
+
+
+
+
+  __ COMO SE FOSSE UMA PROPRIEDADE DE VERDADE,
+
+  LÁ NO NOSSO CÓDIGO HTML,
+
+
+
+  TIPO ASSIM:
+
+
+
+
+
+
+
+  <p>Your Name: {{fullName}}</p>
+
+
+
+
+
+
+
+
+
+
+
+  IMPORTANTE --> ESCREVA SEM INVOCAR COMO UM METHOD, PQ '''NÃO É UM METHOD''...
+
+
+
+
+
+
+
+
+  --> E ISSO É IMPORTANTE:
+
+
+
+
+
+
+
+
+  VOCÊ APENAS __ APONTA__ A ESSA 'COMPUTED PROPERTY',
+
+
+  O QUE QUER DIZER QUE 
+
+  AS UTILIZAMOS EXATAMENTE 
+   
+
+   COMO DATA PROPERTIES (como 'counter')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+   --> E É JUSTAMENTE POR ISSO QUE DEVEMOS NOMEAR NOSSAS 
+
+
+   COMPUTED PROPERTIES COMO VARIABLES/PROPERTIES,
+
+   e não como functions..
+
+
+
+
+
+
+
+
+   --> CERTO... AGORA O 
+
+
+   VUE VAI EXECUTAR _   ESSE METHOD/COMPUTED PROPERTY __ PARA NÓS__...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA VERDADE, O QUE ELE FAZ É ISTO:
+
+
+
+
+
+
+
+1) checa por DATA PROPERTIES COM O NOME 'fullName' 
+
+
+
+
+
+2) CASO NÃO EXISTAM QUAISQUER DATA PROPERTIES COM ESSE NOME, vai procurar por __COMPUTED_ PROPERTIES 
+
+COM ESSE NOME...
+
+
+
+
+
+
+
+
+
+--> AÍ __ O __ VUE __ SÓ VAI EXECUTAR _ ESSA 'COMPUTED PROPERTY'
+
+
+
+SE __ DETECTAR _ QUE _ A DEPENDENCY 
+
+
+DESSA PROPERTY FOI ALTERADA DURANTE O RUNTIME DE SUA PÁGINA...
+
+
+
+
+
+
+
+
+----> nosso código completo ficou assim:
+
+
+
+
+
+
+ 
+    computed: {
+      ///é uma computed property que será usada para OUTPUTTAR O FULL NAME... vamos usar o EXATO mesmo código que temos em 'outputFullName' ( o 'method legit'), mas agora TEREMOS ESSA LÓGICA SENDO EXECUTADA A DEPENDER DA _ ALTERAÇÃO _ DE UMA DEPENDENCY...
+    
+      fullName() {
+        console.log('Running again...');
+        if (this.name === '') {
+          return '';
+        }
+
+      return this.name + ' ' + 'Panazolo';
+    },
+  },
+
+
+
+
+
+
+
+  E ASSIM:
+
+
+
+
+
+        <p>Your Name: {{ fullName }} </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        --> AGORA, NA NOSSA PÁGINA,
+
+        NÃO VEREMOS NADA INICIALMENTE,
+
+        MAS ASSIM QUE COMEÇARMOS A DIGITAR,
+
+
+
+        VEREMOS QUE 
+
+
+
+
+
+        O NEGÓCIO VAI RODAR A NOSSA 'COMPUTED PROPERTY'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> ISSO QUER DIZER QUE AGORA TEMOS __ O MESMO COMPORTAMENTO DE ANTES,
+
+
+
+MAS COM UMA IMPORTANTE DIFERENÇA.. :
+
+
+
+
+
+CHECAMOS OS DEVELOPER TOOLS...
+
+
+
+
+
+
+
+
+
+
+---> SE RECARREGAMOS A PÁGINA,
+
+
+
+LEMOS 'running again...'
+
+
+
+INICIALMENTE... --> 
+
+
+
+
+ISSO ACONTECE, É CLARO,
+
+
+
+PQ O __ 
+
+
+VUE TEM QUE 
+
+AVALIAR O 
+
+VALUE RETORNADO 
+
+
+
+
+PELO 'fullName(){}'
+
+
+
+
+no momento em que o app é renderizado pela primeira vez na tela...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA, SE APERTARMOS NO BOTÃO QUE ALTERA O VALOR DO COUNTER, VEREMOS QUE 
+
+
+A NOSSA 
+
+'COMPUTED PROPERTY'
+
+
+NÃO VAI SER RODADA NOVAMENTE... 
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE 
+
+
+CALLS DE 'computed properties'
+
+
+
+SÃO _ INDEPENDENTES__ DE 
+
+
+
+ALTERAÇÕES NO STATE do vue app (
+
+
+    ou seja,
+
+    se você ALTERA DATA PROPERTIES DO VUE APP,
+
+as 'computed properties'
+
+
+NÃO VÃO SER EXECUTADAS POR SI SÓ...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> resumindo:
+
+
+
+
+
+
+1) ANTERIORMENTE, QUANDO ESTÁVAMOS CHAMANDO UM METHOD _DE FORMA _ PURA_ 
+
+dentro do código html,
+
+o method era reexecutado SEMPRE QUE O STATE NO BACKGROUND era alterado....
+
+
+
+
+
+
+
+2) AGORA, COMO ESTAMOS COM ESSE METHOD QUE É 'desvinculado' (na sua forma básica)
+
+
+do '''STATE''' do vue, 
+
+
+ele é executado 
+
+
+_aPENAS__ 
+
+se digitamos 
+
+no input field...
+
+
+
+
+
+
+
+
+--> MAS PQ ISSO ACONTECE, PQ DIABOS ELE É 
+
+__ EXECUTADO __ APENAS __ 
+
+QUANDO _ A PROPRIEDADE 'name' 
+
+
+é alterada?
+
+
+
+
+
+
+
+
+
+
+---> É PQ __ A PROPRIEDADE 'name' É A ÚNICA __ PROPRIEDADE_ 
+
+DE 'DATA' 
+
+
+do vue 
+
+QUE ACABOU SENDO USADA DENTRO 
+dessa 
+
+'computed property'..
+
+
+
+
+
+
+
+
+REVEJA O CÓDIGO:
+
+
+
+
+
+
+
+
+
+    computed: {
+
+      fullName() {
+//////////      VVVV --> ÚNICA PROPRIEDADE UTILIZADA NO INTERIOR DESSA COMPUTED PROPERTY... é por isso que essa computed SÓ SERÁ REEXECUTADA QUANDO _ ESSA PROPRIEDADE FOR ALTERADA...
+        if (this.name === '') {
+          return '';
+        }
+
+      return this.name + ' ' + 'Panazolo';
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+  ----->  OK... ISSO QUER DIZER QUE, COM COMPUTED PROPERTIES,
+
+
+
+  O 
+
+  VUE FICA 'AWARE' 
+
+  DAS DEPENDENCIES USADAS 
+
+
+
+  NA COMPUTED PROPERTY...
+
+
+
+
+
+
+
+
+  --> no caso,
+
+  a DEPENDENCY de 'fullName' 
+
+  é 
+
+
+
+
+
+  'name'...
+
+
+
+
+
+
+
+
+
+  ----> E AÍ O _ VUE__ VAI __  ______CACHEAR_  O VALUE __ 
+
+
+
+
+  DESSA 'COMPUTED PROPERTY'
+
+
+
+  E ENTÃO
+
+
+
+  ___ SOMENTE_ VAI RECALCULAR E REAVALIAR 
+
+
+
+  O VALOR DESSA PROPERTY __ SE 
+
+
+
+  __ O VALUE __ DA 
+
+
+SUA DEPENDENCY (no  caso, 'name') 
+
+
+
+__FOR ALTERADA....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA É A 'KEY CHANGE'
+
+
+
+ENTRE 'COMPUTED PROPERTIES' 
+
+e
+ 
+
+ 'properties'..
+
+
+
+
+
+
+
+
+ --> PARA __PERFORMANCE__,
+
+
+ É MELHOR USAR __ COMPUTED PROPERTIES,
+
+
+
+ são melhores do que 
+
+ METHODS ____ PARA __ A TAREFA 
+
+
+
+ DE 
+
+ 'OUTPUT DYNAMIC CONTENT/OUTPUT VALUES'... ------>   NA GRANDE MAIORIA DOS CASOS,
+
+
+
+
+ É MELHOR 
+
+
+
+ USAR 
+
+
+
+ ESSAS COMPUTED PROPERTIES PARA ESSA TAREFA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ___ APENAS__ UTILIZE METHODS __ SE VOCÊ TIVER __ CERTEZA____
+
+
+
+ DE QUE 
+
+
+ você vai querer 'RECALCULATE UM VALUE SEMPRE QUE __ QUALQUER ____ COISA NA PÁGINA 
+
+
+
+
+ FOR ALTERADA''...
+
+
+
+
+
+
+--> NA GRANDE MAIORIA DOS CASOS,
+
+
+
+VOCÊ NÃO VAI QUERER ISSO;
+
+VAI QUERER 
+
+
+QUE __ APENAS _   
+
+
+
+__ O VALUE _ SEJA RECALCULADO__ SE UMA DEPENDENCY (da computed property) __ FOR ALTERADA,
+
+
+
+
+E É NESSES CASOS QUE 
+
+
+
+AS COMPUTED REALMENTE BRILHAM...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AINDA ASSIM,
+
+VOCÊ VAI QUERER USAR METHODS DE VEZ EM QUANDO,
+
+
+ISSO PQ 
+
+__ VOCÊ TALVEZ TERÁ ALGO QUE VOCÊ REALMENTE VAI QUERER QUE 
+
+
+REAVALIE/RECALCULE ALGO __ SEMPRE QUE ALGO MUDAR NA TELA,
+
+
+
+OU ENTÃO
+
+
+PQ 
+
+
+VOCÊ 
+
+
+
+TEM _ EVENTS (algo  bem mais comum),
+
+e pq você quer 
+
+
+QUE 
+
+ALGO SEJA FEITO A PARTIR DA EMISSÃO DESSES EVENTS...
+
+
+
+
+(
+
+
+    QUER TRIGGAR CERTOS METHODS QUANDO ALGO ACONTECER... 
+)
+
+
+
+
+
+
+BEM, TUDO ISSO NÃO MUDA: VOCÊ AINDA VAI BINDAR SEUS EVENTS A 'METHODS',
+
+
+
+
+
+
+VOCÊ NUNCA VAI BINDAR EVENTS A 'COMPUTED PROPERTIES'....
+
+
+
+
+
+
+
+
+
+---> A UTILIDADE DE COMPUTED PROPERTIES REALMENTE É A DE 'OUTPUT ALGO NA PÁGINA',
+
+a partir de alguma dependency...
+
+
+
+
+
+
+
+
+
+
+
+----> certo...

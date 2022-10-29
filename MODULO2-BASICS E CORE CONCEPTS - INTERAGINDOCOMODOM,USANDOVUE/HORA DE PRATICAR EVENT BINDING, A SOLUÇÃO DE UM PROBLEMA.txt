@@ -1,0 +1,579 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA É HORA DE PRATICARMOS...
+
+
+
+
+
+
+
+VAMOS TESTAR NOSSA KNOWLEDGE SOBRE EVENTS...
+
+
+
+
+
+
+
+
+--> ENCONTRAMOS UM SIMPLES ASSIGNMENT PROJECT...
+
+
+
+
+
+
+
+
+--> PRECISAMOS __ SEGUIR AS INSTRUÇÕES  
+
+
+E RESOLVER O PROBLEMA....
+
+
+
+
+
+
+--> ok, consegui,
+
+O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Events</title>
+    </head>
+    <body>
+        <header>
+            <h1>Events</h1>
+        </header>
+        <section id="assignment">
+            <h2>Event Practice</h2>
+                  <!-- 1) Show an alert (any text of your choice) when the button is pressed -->
+            <button v-on:click="showAlert">Show Alert</button>
+            <hr />
+            <!-- 2) Register the user input on "keydown" and output it in the paragraph (hint: event.target.value helps)  -->
+            <input type="text" v-on:keydown="inputChangedHandler" />
+            <!-- <p>OUTPUT</p> -->
+            <p> {{ outputText }} </p>
+            <hr>
+                  <!-- 3) Repeat 2) but only output the entered value if the ENTER key was pressed -->
+            <input type="text"  v-on:input="inputChangedHandler" v-on:keydown.enter="inputChangedHandlerConfirm"/>
+            <!-- <p>OUTPUT</p> -->
+            <p> {{ confirmOutputText }} </p>
+        </section>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      message: 'NICE MESSAGE',
+      outputText: 'OUTPUT',
+      confirmOutputText: '',
+    };
+  },
+
+  methods: {
+    showAlert() {
+      alert(this.message);
+    },
+
+    inputChangedHandler(event) {
+      this.outputText = event.target.value;
+    },
+
+    inputChangedHandlerConfirm() {
+      this.confirmOutputText = this.outputText;
+    },
+  },
+});
+
+app.mount('#assignment');
+
+
+
+
+
+
+------------------------------
+
+
+
+
+acabei tudo.. vou ver a resolução do professor...
+
+
+
+
+
+
+
+
+
+
+
+
+---> PARA MOSTRAR UM ALERT, COMO O PROFESSOR FEZ?
+
+
+
+ele escreveu o básico...
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({});
+
+
+
+
+app.mount('#assignment');
+
+
+
+
+
+
+
+
+
+depois ele escreveu 
+
+
+
+<button v-on:click="showAlert">Show Alert</button>
+
+
+
+
+
+
+----> OK..
+
+
+
+
+
+
+AÍ DEFINIMOS UM OBJECT  CHEIO DE METHODS, LÁ NO OBJECT ' VUE':
+
+
+const app = Vue.createApp({ 
+
+  data() {
+    message: 'MENSAGEM'
+  }
+
+
+  methods: {
+    showAlert() {
+      alert(message);
+    }
+  }
+});
+
+
+
+
+app.mount('#assignment');
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO, FOI EXATAMENTE O QUE EU FIZ...
+
+
+
+
+
+
+
+AGORA A TASK N2...
+
+
+
+
+
+
+
+--> REGISTRAR O USER INPUT QUANDO OCORRE O  'keydown',
+
+
+
+e aí OUTPUTTAR 
+
+O NEGÓCIO QUANDO ISSO ACONTECE..
+
+
+
+
+
+-> MAS HÁ SÓ UMA COISA/DETALHJE ESPECIAL 
+
+
+SOBRE O EVENT 'KEYDOWN',
+
+que o professor logo explicará...
+
+
+
+
+
+
+
+
+
+
+--> ele começa assim:
+
+
+
+
+
+<input type="text" v-on:keydown="inputChangedHandler" />
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ NO METHOD FICA TIPO ASSIM:
+
+
+
+
+
+data() {
+  return {
+    userInput: ''
+  }
+}
+
+
+
+
+saveInput(event) {
+
+  this.userInput = event.target.value;
+}
+
+
+
+
+
+
+
+
+
+
+
+CERTO, FOI EXATAMENTE ISSO QUE EU FIZ...
+
+
+
+
+
+
+
+----> OK... 
+
+
+
+
+AGORA SÓ FALTA A TASK N3...
+
+
+
+
+
+
+
+
+
+--> PARA OUTPUTTAR O VALUE DE 'userInput'
+
+
+LÁ NO NOSSO HTML, USAMOS STRING INTERPOLATION, tipo assim:
+
+
+
+
+
+<p>{{userInput}}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO,... QUANDO DIGITAMOS UMA COISA,
+
+
+
+
+ACABAMOS VENDO O EFEITO LÁ NO OUTPUT... --> mas 
+
+
+HÁ UM '''delay'' de 1 único keystroke ---> e a razão para isso é que 
+
+
+o 
+
+'keydown'
+ 
+ é DISPARADO _ APENAS QUANDO A KEY É PRESSIONADA... (
+  ao passo que o input field 
+
+  APENAS É UPDATADO _ ASSIM QUE _ 
+
+  A KEY É 'RELEASED'... é por isso que existe esse delay, quando usamos 
+
+  o 'keydown'...
+ )
+
+
+
+
+
+
+
+
+
+
+ -_> MAS ESSE 'DELAY' 
+
+ É ALGO INTENCIONAL, NÃO É UM BUG... (se você quer que o efeito seja INSTANTÂNEO NO SEU OUTPUT, você deve usar 'keyup')...
+
+
+
+ 
+
+
+
+
+
+ ---> CERTO... MAS E A TASK N3?
+
+
+
+
+
+
+
+
+
+
+
+ --> QUEREMOS REPETIR A TASK 2,
+
+ MAS VAMOS QUERER  outputtar o 'entered value'
+
+
+ SE _ 
+
+ A KEY DE 
+
+
+ 'ENTER' tiver sido INPUTTADA 
+
+
+
+ DENTRO 
+
+
+
+ DESSE INPUT FIELD..
+
+
+
+
+
+
+
+
+
+ --> o professor vai escrever como eu fiz...:
+
+
+
+
+
+
+
+userInput: '',
+confirmedInput: '',
+
+
+
+saveInput(event) {
+  this.userInput = event.target.value;
+}
+
+confirmInput() {
+
+}
+
+
+
+
+
+ <input type="text" v-on:keydown="saveInput" v-on:keyup.enter="confirmInput" />
+
+
+
+
+
+
+
+
+
+
+
+ OK, FOI EXATAMENTE O QUE EU FIZ...
+
+
+
+ ex:
+
+
+
+
+                   <!-- 3) Repeat 2) but only output the entered value if the ENTER key was pressed -->
+            <input type="text"  v-on:input="inputChangedHandler" v-on:keyup.enter="inputChangedHandlerConfirm"/>
+            <!-- <p>OUTPUT</p> -->
+            <p> {{ confirmOutputText }} </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            OK.. .AGORA QUANDO O PROFESSOR SALVA TUDO ISSO E RECARREGA,
+
+
+
+
+            VEMOS QUE 
+
+
+            O SEGUNDO INPUT SÓ É ATUALIZADO SE APERTAMOS 'ENTER'..
+
+
+
+
+
+
+
+            --> aGORA DEVEMOS PROSSEGUIR, E VER MAIS COISAS SOBRE O VUEJS...
+
+
+
+
+

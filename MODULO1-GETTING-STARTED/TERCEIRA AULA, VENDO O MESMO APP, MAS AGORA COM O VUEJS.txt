@@ -1,0 +1,2463 @@
+
+
+
+
+
+
+
+
+
+
+
+VAMOS RECONSTRUIR AQUELE NOSSO PRIMEIRO APP, MAS AGORA COM VUEJS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIRMOS 'TROCAR' PARA O VUE,
+
+
+O PROFESSOR DIZ QUE PRIMEIRAMENTE DEVEMOS 
+
+
+
+__ COMENTAR TODO O CÓDIGO PARA FORA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ANTES DE USARMOS O VUE,
+
+
+DEVEMOS IMPORTAR O VUE...
+
+
+
+
+
+
+
+
+
+PARA IMPORTAR O VUE, DEVEMOS SEGUIR ATÉ 'v3.vuejs.org'...
+
+
+
+
+
+
+
+
+
+
+--> ISSO NOS REDIRECIONA ATÉ O VUEJS 
+
+
+MAIS RECENTE..
+
+
+
+
+
+
+
+
+
+
+
+--> O SITE NOS MOSTRA DIVERSAS MANEIRAS DE ADICIONAR VUE A UM PROJETO...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PARA ESSE DEMO INICIAL,
+
+
+
+PODEMOS 
+
+
+PEGAR __ O LINK DO _ CDN..
+
+
+
+
+
+
+
+
+--> O LINK DO CDN PODE MUDAR AO LONGO DO TEMPO,
+
+
+
+MAS __ SEMPRE TEREMOS UM SCRIPT TAG ALI,
+
+QUE 
+
+VAI IMPORTAR O VUE...
+
+
+
+
+
+
+
+
+
+--> DEVEMOS IR ATÉ O 'index.html'
+
+
+E ENTÃO 
+
+ADICIONAR 
+
+
+
+__+ O SCRIPT __ DO VUE _ ANTES _ DO 
+
+
+IMPORT DE NOSSO SCRIPT CUSTOMIZADO ( o 'app.js').
+
+
+
+
+
+
+
+
+O CÓDIGO VAI FICAR TIPOO ASSIM:
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A First App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <label for="goal">Goal</label>
+      <input type="text" id="goal" />
+      <button>Add Goal</button>
+    </div>
+    <ul>
+
+    </ul>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO FARÁ COM QUE NOSSO SCRIPT __ TENHA CAPACIDADES 'VUEJS'...
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, PODEMOS USAR O VUEJS...
+
+
+
+
+
+
+
+
+
+MAS O QUE É 'USAR O VUE'?
+
+
+
+
+
+
+
+
+
+--> BEM, COM O VUE,
+
+
+PODEMOS RESOLVER AQUELE MESMO 
+
+
+
+
+PROBLEMA,
+
+MAS DE UMA MANEIRA COMPLETAMENTE DIFERENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM O JAVASCRIPT COMUM ,
+
+
+
+SOMOS FORÇADOS A ESCREVER DE FORMA 'DECLARATIVE' --> ISSO QUER DIZER QUE 
+
+
+DEFINIMOS 
+
+
+'TODAS AS ETAPAS QUE DEVEM SER EXECUTADAS PELO BROWSER' 
+
+
+
+
+
+(
+
+ex:
+
+
+1) GANHAR ACESSO A 1 BUTTON 
+
+
+2) GANHAR ACESSO AO INPUT ELEMENT
+
+
+3) GANHAR ACESSO AO LIST ELEMENT 
+
+
+4) CRIE UMA FUNCAO 
+
+
+5) ADICIONE UM CLICK EVENT HANDLER AO BUTTON 
+
+
+6) EXECUTE UMA FUNCAO SE UM CLICK OCORRER NESSE NEGÓCIO...
+
+
+7) NESSA FUNÇÃO, GANHE ACESSO AO VALUE DO INPUT 
+
+
+8) ADICIONE O TEXT CONTENT AO ELEMENTO HTML 
+
+
+
+9) FAÇA APPEND DO ELEMENTO HTML à LIST, 
+
+
+
+10) LIMPE O INPUT FIELD ORIIGNAL...
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM O VUE,
+
+TEMOS ALGO COMPLETAMENTE DIFERENTE:
+
+
+
+
+
+
+A) SIMPLESMENTE DECLARAMOS 
+
+
+
+'A DATA QUE QUEREMOS QUE SEJA USADA',
+
+E 
+
+
+'''O RESULTADO FINAL DESEJADO POR NOS''..
+
+
+
+
+-> e aí 
+
+o 
+
+vue 
+
+
+faz tudo isso, as 10 etapaas, para nós...
+
+
+
+
+
+
+
+
+
+------> É O VUE QUE VAI SABER O QUE PRECISA SER CRIADO/MUDADO/ALTERADO NO DOM, 
+
+EM CADA PONTO NO TEMPO..
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+PRECISAMOS __ CRIAR _ UM 
+
+
+'VUE APP',
+
+
+
+
+QUE É UM __ APP __ QUE VAI TOMAR 
+
+
+CONTROLE DO NOSSO CÓDIGO 
+
+
+HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+DEVEMOS CHAMAR O CÓDIGO 
+
+
+
+'Vue.createApp()'...
+
+
+
+
+
+
+
+
+
+
+----> VAMOS ESCREVER ESSA LINHA LÁ NO INDEX.HTML, no topo...
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+E ESSE 'createApp()'
+
+
+
+
+
+VAI SEMPRE EXIGIR UM OBJECT JAVASCRIPT,
+
+NO QUAL
+
+VAMOS CONFIGURAR 
+
+NOSSO VUE APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> tipo assim:
+
+
+
+
+
+
+
+Vue.createApp({})
+
+
+
+
+
+
+
+--> POR 'CONFIGURAR NOSSO APP',
+
+
+
+
+
+o professor quer dizer 
+
+
+''definir o tipo de data que vamos querer usar no nosso app vue'....
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR EXEMPLO, NESSA DEMONSTRAÇÃO ,
+
+O PROFESSOR 
+
+
+PRETENDE TRABALHAR 
+
+COM 
+
+
+
+'''UMA LISTA DE GOALS''...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE 
+
+UM DOS PEDAÇOS DE DATA NECESSÁRIOS SERÁ 
+
+ESSA 
+
+'LIST OF GOALS'...
+
+
+
+
+
+
+
+
+
+
+
+1a data necessária ---> 'UMA LISTA DE GOALS'...
+
+
+
+
+
+
+
+
+
+
+2a data necessária --> será 'WHAT THE USER ENTERED IN THE INPUT FIELD'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA DEFINIR QUAIS 'DATA' serão utilizadas,
+
+
+devemos 
+
+
+
+adicionar uma key de 'data' 
+
+a esse 
+
+object 
+
+
+
+do 'createApp()'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA KEY REALMENTE DEVE SER CHAMADA DE 'data'....
+
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+Vue.createApp({
+    data:
+})
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, NA VERDADE,
+
+
+ESSA KEY __ VAI _ SEGURAR _UMA FUNCTION __ COMO VALUE...
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data: function() {}
+    }
+)
+
+
+
+
+
+
+
+
+
+--> E, NO JAVASCRIPT MODERNO, 
+
+
+PODEMOS ACTUALLY ESCREVER ESSA FUNCTION/VALUE ASSIM:
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {}
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+///VERSÃO OLD DA SINTAXE
+// Vue.createApp(
+//   {
+//       data: function() {}
+//   }
+// )
+ 
+
+
+/////VERSÃO MODERNA DA SINTAXE
+Vue.createApp(
+  {
+      data() {}
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK.. AS 2 SINTAXES POSSUEM O EXATO MESMO EFEITO,
+
+
+
+
+
+SÃO 
+
+
+
+
+''' A PROPERTY NAME WHICH HAS A FUNCTION AS A VALUE'''...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... ESSA FUNCTION __ PRECISA__ RETORNAR UM OBJECT,
+
+
+
+E _ NESSE OBJECT __ PRECISAMOS DEFINIR 
+
+
+
+''''THE DATA FOR WHICH THE VUE APP MUST BE AWARE OF'''' ....
+
+
+
+
+
+
+
+
+
+
+
+--> o vue app 
+
+vai trabalhar APENAS COM A DATA 
+
+
+CONTIDA DENTRO DESSE OBJECT 
+
+
+
+RETORNADO DENTRO DE 
+
+
+
+'data() {}'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO VAI FICANDO TIPO ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp({
+
+
+    data() {
+        return {
+
+        }
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE VAMOS REVER TUDO ISSO NO PRÓXIMO MÓDULO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> CERTO...
+
+
+
+
+
+
+
+---> E AQUI PRECISAMOS RETORNAR UM OBJECT... -->  E, NESSE OBJECT,
+
+
+PODEMOS 
+
+SIMPLESMENTE 
+
+
+ADICIONAR A DATA 
+
+
+
+
+__ QUE _ QUEREMOS MANAGEAR NESSE NOSSO APP... --> AQUI TEREMOS UM 
+
+ARRAY 
+
+DE 
+
+
+
+'GOALS',
+
+
+QUE SERÁ VAZIO INICIALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {
+
+            return {
+                goals: []
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO... TEREMOS ESSE ARRAY DE GOALS,
+
+
+E TAMBÉM O 'enteredValue',
+
+QUE INICIALMENTE 
+
+
+
+
+
+SERÁ UMA _ EMPTY_ STRING...
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {
+
+            return {
+                goals: [],
+                enteredValue: ''
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, E ESSES 2 PEDAÇOS DE DATA 
+
+
+SÃO PEDAÇOS DE DATA 
+
+
+
+QUE O VUEJS é 'aware of'...
+
+
+
+
+
+
+
+
+
+
+--> BEM, O QUE INTERESSA É QUE 
+
+
+
+
+
+PODEMOS AGORA __ CONECTAR ESSA PROPRIEDADE/DATA 
+
+
+
+
+'enteredValue'
+
+
+
+
+
+
+
+
+
+COM __ AQUELE __ INPUT FIELD 
+
+
+
+de 
+
+'<input type="text" id="goal" />'
+
+
+
+
+
+
+
+
+
+POR __ MEIO _ DA ESCRITA DE UMA __ DIRECTIVE__ 
+
+
+DENTRO DESSA INPUT TAG...
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR VAI ESCREVER AQUELA COISA BEM FAMILIAR DO ANGULAR,
+
+QUE 
+
+
+
+SÃO 'DIRECTIVES'...
+
+
+
+
+
+
+
+
+--> A DIRECTIVE É O 
+
+
+
+'v-model'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'v-model' --> ESSE 
+
+NÃO É UM DEFAULT ATTRIBUTE HTML,
+
+
+
+
+NÃO É UM ATRIBUTO SUPORTADO NORMALMENTE PELO HTML,
+
+
+E É 
+
+UM ATTRIBUTE QUE SERÁ __ COMPREENDIDO SOMENTE PELO VUE...
+
+
+
+
+
+
+
+
+
+--> E, COMO ____ VALOR__ DESSE ATTRIBUTE,
+
+LÁ NO HTML,
+
+
+
+VAMOS _ REPETIR __ O NOME DAQUELA PROPRIEDADE,
+
+
+'enteredValue',
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {
+            return {
+                goals: [],
+                /////eis o código em questão.
+                enteredValue: ''
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A First App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <label for="goal">Goal</label>
+
+      //////EIS O CÓDIGO EM QUESTÃO.
+      <input type="text" id="goal" v-model="enteredValue"/>
+      <button>Add Goal</button>
+    </div>
+    <ul>
+
+    </ul>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO VAI ESTABELECER UMA _ CONEXÃO ENTRE ESSE INPUT, E A DATA INPUTTADA DENTRO DELE,
+
+
+
+
+
+E __ __ A PROPRIEDADE __ ESCRITA LÁ NA PROPRIEDADE do NOSSO ARQUIVO JAVASCRIPT, Na propriedade 'data' do vue --> 
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... E O VUE VAI MANAGEAR ISSO AUTOMATICAMENTE PARA NÓS,
+
+
+
+VAI 
+
+FAZER 'LISTEN TO' 
+
+
+
+AUTOMÁTICO DE TUDO QUE O USER 
+
+ESCREVER,
+E VAI 
+
+
+
+
+__ UPDATAR __ AUTOMATICAMENTE 
+
+ESSE 
+
+'INPUT'
+
+
+
+SEMPRE QUE 
+
+MUDARMOS 
+
+O VALOR DESSA PROPRIEDADE 'enteredValue'
+
+
+NO NOSSO CÓDIGO,
+
+POR EXEMPLO...
+
+
+
+
+
+
+
+
+
+
+--> E ISSO É BEM MAIS CONVENIENTE, CLARO,
+
+DO QUE 
+
+
+FAZER REACH OUT AO INPUT MANUALMENTE....
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA, A PARTIR DO CLICK EM UM BUTTON, QUEREMOS:
+
+
+
+
+
+
+
+1) FAZER 'GET' DAQUILO QUE ESTÁ ARMAZENADO ATUALMENTE EM 'enteredValue'...
+
+
+
+
+
+2) E AÍ _ ADICIONAR_  ESSE VALUE __ a list de 'goals'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+PARA CONSEGUIR REALIZAR ESSA TAREFA,
+
+
+
+VAMOS ADICIONAR 
+
+
+
+
+OUTRA __ PROPRIEDADE __ 
+
+A 
+
+ESSE OBJECT DO 'createApp()',
+
+
+
+
+
+
+
+QUE __ SERÁ __ A KEY 
+
+
+
+'methods',
+
+
+QUE VAI SEGURAR UM OBJECT...
+
+
+
+
+
+
+
+
+
+DENTRO DE 'methods:',
+
+
+
+PODEMOS/DEVEMOS ESCREVER FUNCTIONS/METHODS 
+
+
+QUE 
+
+
+
+
+DEVERÃO __ 
+
+SER CHAMADAS _ DE DENTRO __ DO CÓDIGO HTML... (tipo o run de código de funções vanilla, no html vanilla)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAI FICANDO TIPO ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {
+            return {
+
+                goals: [],
+                enteredValue: ''
+            },
+
+        methods: { /////EIS O CÓDIGO EM QUESTÃO.
+
+        }
+        }
+    }
+)
+
+
+
+
+
+
+
+-------------------
+
+
+
+
+
+
+
+
+
+
+CERTO.. VAMOS COLOCAR O METHOD DE 'addGoal()"....
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp(
+    {
+        data() {
+            return {
+
+                goals: [],
+                enteredValue: ''
+            },
+
+        methods: { /////EIS O CÓDIGO EM QUESTÃO.
+
+                addGoal() { ///EIS O CÓDIGO EM QUESTÃO..
+
+                }
+        }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DESSE METHOD,
+
+VAMOS QUERER 
+
+FAZER 'REACH OUT AO ARRAY DE __GOALS__',
+
+
+e então 
+
+
+
+
+ADICIONAR/FAZER PUSH DO 
+
+'CURRENTLY ENTERED VALUE'...
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+
+
+
+
+
+vamos fazer assim:
+
+
+
+
+
+addGoal() {
+    this.goals.push(this.enteredValue);
+}
+
+
+
+
+
+
+
+
+
+
+
+--> O 'this',
+
+
+NESSE CASO,
+
+VAI SE REFERIR 
+
+
+
+
+AOS PEDAÇOS DE DATA VISTOS EM 'data(){}'...
+
+
+
+
+
+
+
+
+
+FFICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      enteredValue: '',
+    };
+  },
+  methods: {
+    addGoal() {
+      this.goals.push(this.enteredValue); ////EIS O CÓDIGO EM QUESTÃO.
+    }, 
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+OBS: o 'this' funciona dessa forma GRAÇAS AO VUE,
+
+
+PQ __ ELE _ ESTABELECE ESSA CONEXÃO 
+
+POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE O VUEJS FAZ UM POUCO DE MÁGICA PARA NÓS,
+
+MAS  
+VAMOS ENTENDER COMO FUNCIONA ESSA MÁGICA AO LONGO DO CURSo....
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.. MAS AGORA QUEREMOS QUE 'addGoal()'
+
+
+
+SEJA _ TRIGGADO_ SEMPRE QUE O BUTTON FOR CLICADO...
+
+
+
+
+
+
+
+---> PARA __ ATRIBUÍRMOS ESSE 
+METHOD A ESSE BUTTON,
+
+PARA CONECTARMOS OS 2,
+
+
+
+PROFESSOR DIZ QUE DEVEMOS USAR UM SIMPLES ATTRIBUTE NO BUTTON,
+
+
+
+
+
+
+UM ATTRIBUTE ESPECIAL,
+
+QUE SERÁ O 
+
+
+'v-on',
+
+
+
+
+
+
+
+
+
+
+o 
+
+'v-on'
+
+
+
+EXIGE um ':',
+
+
+E DEPOIS DESSE ':'
+
+
+ESCREVEMOS O _ NOME _ DO EVENT A QUAL QUEREMOS FAZER 'LISTEN TO' NESSE ELEMENTO'...
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+      <button v-on:click >Add Goal</button>
+
+
+
+
+
+
+
+
+      ------> CERTO...
+
+
+
+
+
+
+      por fim,
+
+      devemos colocar, depois de '=',
+
+
+
+      O __ NOME __ DA FUNCTION QUE QUEREMOS QUE SEJA EXECUTADA SEMPRE QUE OCORRER ESSE EVENT NESSE ELEMENT ESPECÍFICO..
+
+
+
+
+
+
+
+
+      tipo assim:
+
+
+
+
+
+
+
+
+
+
+      <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A First App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <label for="goal">Goal</label>
+      <!--  'V-MODEL' é uma directive especial do VUE, e é usada para estabelecer TWO-WAY-BINDING entre input fields do html e propriedades lá no código js do vue ... -->
+      <input type="text" id="goal" v-model="enteredValue"/>
+      <!-- v-on é usado para EXECUTAR METHODS ESPECIFICADOS na propriedade 'methods' lá do seu object Vue... -->
+      <button v-on:click="addGoal" >Add Goal</button>
+    </div>
+    <ul>
+
+    </ul>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO,
+
+O 
+
+VUE 
+
+VAI _ ASSEGURAR _ QUE 
+
+ESSE 'addGoal'
+
+
+
+SERÁ CLICADO _ SEMPRE __ 
+
+QUE ESSE BUTTON FOR CLICADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--->  OK... 
+
+ 
+ ISSO QUER DIZER QUE 
+
+
+
+ ESSE METHOD VAI AUTOMATICAMENTE PEGAR NOSSO VALUE E ENTÃO O ADICIONAR 
+
+
+
+
+
+ COMO NOVO VALUE EM 'goals' (array)...
+
+
+
+
+
+
+
+
+
+
+ --> OK, MAS AGORA HÁ APENAS 1 ÚNICA COISA QUE 
+ ESTÁ FALTANDO:
+
+
+
+
+
+
+
+
+ QUEREMOS _ OUTPUTTAR __ OS NOSSOS 'GOALS'
+
+
+
+ LÁ NA NOSSA PÁGINA,
+
+
+ QUEREMOS 
+
+ QUE 
+
+ DENTRO DE 'ul'
+
+
+ TENHAMOS LIST ITEMS SENDO OUTPUTTADOS A PARTIR 
+
+ DOS ELEMENTOS DENTRO DO ARRAY DE 'goals'...
+
+
+
+
+
+
+
+
+
+
+ -------->  certo...
+
+
+
+
+
+
+
+
+ --> PARA ISSO, QUEREMOS CRIAR LIST ITEMS, 1 PARA CADA 'GOAL'..
+
+
+
+
+
+
+
+
+
+ com o 'vue',
+
+
+
+ CONFORME MENCIONADO ANTERIORMENTE,
+
+ DEFINIMOS O 
+
+ 'END RESULT',
+
+
+ E 'NÃO COMO CHEGAMOS ATÉ LÁ'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK.. NOSSO 'DESIRED RESULT' É UM 
+
+ LIST ITEM,
+
+ É ISSO QUE QUEREMOS TER AO FINAL.. 
+
+
+
+
+
+
+
+
+ -->  MAS É CLARO QUE 
+  
+
+  QUEREMOS MAIS DE 1 ÚNICO LIST ITEM,
+  QUEREMOS _ VÁRIOS...
+
+
+
+
+
+
+
+
+
+
+  -_> PARA CONSEGUIR FAZER O OUTPUT DE _ VÁRIOS ELEMENTOS,
+
+
+  como vários 'li',
+
+
+
+  O VUE 
+
+  POSSUI A DIRECTIVE DE 
+
+  'v-for'...
+
+
+
+
+
+
+
+
+
+
+
+  -> ISSO QUER DIZER QUE VAMOS __ ESCREVER 1 ÚNICO 'li',
+
+
+
+  e aí vamos colocar ESSA DIRECTIVE,
+
+
+  TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+  <ul>
+        <li v-for=""></li>
+
+  </ul>
+
+
+
+
+
+
+
+
+
+  --> ISSO __ VAI ESSENCIALMENTE __ REPLICAR __ ESSE ELEMENT (O 'LI')__  MÚLTIPLAS VEZES...
+
+
+
+
+
+
+
+  --> para conseguir fazer isso funcionar, você precisa escrever _ TIPO UM LOOP,
+
+  TIPO ASSIm:
+
+
+
+
+
+
+  
+
+  <ul>
+        <li v-for="goal in goals"></li>
+
+  </ul>
+
+
+
+
+
+--> ISSO ESSENCIALMENTE VAI 'LOOP'
+
+POR DENTRO DE TODOS OS 
+
+ELEMENTS 
+
+
+DENTRO DAQUELE ARRAY DE 'goals'...
+
+
+
+
+
+
+
+
+
+
+-----> E AÍ VAI CRIAR 1 ÚNICO LIST ITEM POR GOAL...
+
+
+
+
+
+
+
+--> E NÓS GANHAMOS ACESSO A ESSE 'GOAL',
+
+
+
+ nesse loop aí,
+
+
+ por meio da variable de 'goal'...
+
+
+
+
+
+
+
+
+
+ --> E, AGORA, PODEMOS OUTPUTTAR ESSE GOAL _ COM OUTRA _ SINTAXE ESPECIAL,
+
+ COMPREENDIDA PELO VUE,
+
+
+
+
+
+
+
+ QUE É 
+
+
+
+ '{{}}' 
+
+
+
+
+
+
+
+ {{goal }}
+
+
+
+
+
+
+
+
+
+ --> OU SEJA,
+
+ É A MESMA SINTAXE DO HANDLEBARS...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> O CÓDIGO FICA TIPO ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp({
+  ///a data com a qual você trabalhará e referenciará por meio das DIRECTIVES no html
+  data() {
+    return {
+      goals: [],
+      enteredValue: '', //usado, nesse exemplo, com a directive 'v-model'...
+    };
+  },
+  ///os methods que vocÊ chamará no código html
+  methods: {
+    ///'this' vai se referir sempre à data elencada no object de 'data(){}'...
+    addGoal() { //usado, nesse exemplo, com a directive especial 'v-on', com event 'click'...
+      this.goals.push(this.enteredValue);
+    },
+  },
+});
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+    <ul>
+      <!-- OBS: AQUI MOSTRA-SE COMO __ FAZER O OUTPUT _ DE MÚLTIPLOS ELEMENTOS, A PARTIR DE UM ARRAY DE elementos lá no object Vue, em 'data'...-->
+      <!-- A SINTAXE DO HANDLEBARS NOS PERMITE GANHAR ACESSO À VARIÁVEL 'goal', que representa cada 1 dos elementos no array 'goals'...-->
+      <li v-for="goal in goals">{{goal}}</li>
+    </ul>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+
+
+E SE AGORA SALVARMOS TUDO ISSO E RECARREGARMOS,
+
+
+VEREMOS 
+
+
+__ NADA__ NO NOSSO CÓDIGO...
+
+
+
+
+
+
+
+
+--> OK, ISSO SIGNIFICA QUE TUDO DEU ERRADO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> A RAZÃO DE TUDO TER DADO ERRADO É QUE 
+
+
+
+
+''''O CÓDIGO VUE ESTÁ CORRETO, MAS 
+
+O VUE _ NÃO _ TEM _ CERTEZA __ SOBRE _  
+
+
+QUAL É _ O LOCAL_ DO SEU CÓDIGO EM QUE 
+
+ESSA DATA E METHODS TODOS __ DEVERÃO TER EFEITO''''...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR _ COMUNICAR AO 'VueJS'
+
+
+
+
+_ O LOCAL EM QUE _ DEVE SER APLICADA A DATA/METHODS,
+
+
+
+
+
+
+DEVEMOS __ 
+
+
+
+CHAMAR UM METHOD DE '.mount()'
+
+
+
+
+EM CIMA DO 
+
+CALL DE 
+
+'Vue.createApp({})',
+
+
+
+
+
+
+E ENTÃO DEVEMOS __ DIZER AO 
+
+VUE
+
+
+
+'''QUE PARTE DA PAGE DEVERÁ SER CONTROLADA PELO _ VUE APP'...
+
+
+
+
+
+
+
+
+
+
+
+--> CONVENIENTEMENTE,
+
+
+O  PROFESSOR 
+
+ADICIONOU UMA DIV DE 'app',
+
+QUE
+
+
+ESTÁ WRAPPANDO TODO O CONTEÚDO DO HTML...
+
+
+
+
+
+
+
+
+É POR ISSO QUE NOSSO CÓDIGO VAI FICAR TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.createApp({
+    ///a data com a qual você trabalhará e referenciará por meio das DIRECTIVES no html
+    data() {
+      return {
+        goals: [],
+        enteredValue: '', //usado, nesse exemplo, com a directive 'v-model'...
+      };
+    },
+    ///os methods que vocÊ chamará no código html
+    methods: {
+      ///'this' vai se referir sempre à data elencada no object de 'data(){}'...
+      addGoal() { //usado, nesse exemplo, com a directive especial 'v-on', com event 'click'...
+        this.goals.push(this.enteredValue);
+      },
+    },
+  })
+  .mount('#app');  ///É UMA LINHA MT IMPORTANTE, PQ COMUNICA AO VUE 'EM QUE LUGAR DO NOSSO APP/PÁGINA ESSA DATA E METHODS DEVERÃO SURTIR EFEITO''...
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -----> ESSA DIV, DE ID 'app',
+
+
+  DEVERÁ 
+
+
+  SER CONTROLADA 
+
+  PELO NEGÓCIO,
+
+  POR ISSO 
+
+
+  USAMOS O ID SELECTOR PARA O SELECIONAR...
+
+
+
+
+
+
+
+
+  CERTO.... E SE QUERO RESETTAR O VALUE DO INPUT FIELD ASSIM QUE 
+
+
+  EU 
+
+
+  ADICIONAR UM NOVO LIST ITEM,
+
+  POSSO ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+  
+Vue.createApp({
+    ///a data com a qual você trabalhará e referenciará por meio das DIRECTIVES no html
+    data() {
+      return {
+        goals: [],
+        enteredValue: '', //usado, nesse exemplo, com a directive 'v-model'...
+      };
+    },
+    ///os methods que vocÊ chamará no código html
+    methods: {
+      ///'this' vai se referir sempre à data elencada no object de 'data(){}'...
+      addGoal() { //usado, nesse exemplo, com a directive especial 'v-on', com event 'click'...
+        this.goals.push(this.enteredValue);
+        this.enteredValue = '';
+      },
+    },
+  })
+  .mount('#app');  ///É UMA LINHA MT IMPORTANTE, PQ COMUNICA AO VUE 'EM QUE LUGAR DO NOSSO APP/PÁGINA ESSA DATA E METHODS DEVERÃO SURTIR EFEITO''...
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ----> ESSE É O 'VUE' TAKING OVER O NOSSO CÓDIGo...

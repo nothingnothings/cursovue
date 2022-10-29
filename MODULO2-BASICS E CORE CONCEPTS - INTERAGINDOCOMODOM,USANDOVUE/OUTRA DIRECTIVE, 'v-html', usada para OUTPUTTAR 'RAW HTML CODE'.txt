@@ -1,0 +1,400 @@
+
+
+
+
+
+A ESSE PONTO,
+
+
+
+
+
+A BOA NOTÍCIA É QUE JÁ COBRIMOS QUASE TODAS AS FEATURES/FUNCTIONALITIES 
+
+
+RELACIONADAS COM O OUTPUT DE DATA (
+
+
+
+
+    1) INTERPOLATION 
+
+
+    2) V-BIND DIRECTIVE 
+
+
+
+    3) TUDO ISSO COM A COMBINAÇÃO DE QUE PODEMOS 
+
+    '''RETORNAR STATIC DATA OU __ RETORNAR O RESULTADO DE METHOD CALLS'''...
+)
+
+
+
+
+
+
+
+
+
+
+-> DIGAMOS QUE 
+
+
+1 DOS 
+
+
+
+GOALS 
+
+
+
+NÃO É 
+
+
+UMA STRING SIMPLES COMO TEMOS AGORA,
+
+
+
+
+não é algo tipo isto:
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the Fight.',
+      dynamicLink: 'exemplo.com',
+      courseA: 'EXEMPLO1',
+      course2: 'EXEMPLO2',
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -> DIGAMOS QUE 
+
+
+
+  ESSA STRING AÍ,
+
+
+  do 'course2',
+
+
+
+  
+
+
+  É _ UM CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ ESSE PODE SER UM CENÁRIO POSSÍVEL DE SEU APP,
+
+UM CENÁRIO EM QUE 
+
+VOCÊ FETCHEIA 
+
+
+A DATA 
+
+DE UMA DATABASE,
+
+E ESSA DATA É UM CÓDIGO HTML...
+
+
+
+
+
+
+----> NA DATABASE VOCê TEM UM 'STRUCTURED HTML CODE'...
+
+
+
+
+
+
+
+--> BEM, SE VOCê TENTAR FAZER OUTPUT DESSE CÓDIGO HTML COM A STRING INTERPOLATION,
+
+O NEGÓCIO SIMPLESMENTE NÃO VAI FUNCIONAR,
+
+VAI 
+
+OUTPUTTAR 
+
+SEU CONTEÚDO COMO SE FOSSE UMA STRING...
+
+
+
+
+
+
+
+
+----> ok.... isso quer dizer que o conteúdo não 
+
+
+é interpretado como html...
+
+
+
+
+
+--> E ISSO, NA VERDADE, É UM MECANISMO DE __ SEGURANÇA,
+
+
+PQ ISSO TE PROTEGE CONTRA 'XSRF' 
+
+
+(cross site scripting attacks).
+
+
+
+
+
+
+---> MAS ÀS VEZES VOCê __ QUER_ OUTPUTTAR _ ISSO COMO HTML,
+
+
+E NÃO 
+
+COMO TEXT..
+
+
+
+
+
+
+--> PARA ISSO, DEVEMOS USAR O ATTRIBUTE DE 'v-html'...
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+<p v-html>{{ outputGoal3HTMLVersion() }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE ATTRIBUTE BASICAMENTE ESPECIFICA QUE 
+
+VOCê QUER QUE 
+
+
+
+
+ESSE CONTENT dessa data 
+
+
+_ SEJA __ OUTPUTTADO COMO HTML..
+
+
+
+
+
+
+
+
+MAS O CÓDIGO DE CIMA ESTÁ _ ERRADO,
+
+É CLARO,
+
+
+PQ __  AGORA NÃO VAMOS MAIS USAR INTERPOLATION (é usada apenas para outputtar conteúdo estático)...
+
+
+
+
+
+
+
+--> A ESCRITA CORRETA É ESTA:
+
+
+
+
+<p v-html="outputGoal3HTMLVersion()"></p>
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+        <p v-html="outputGoal3HTMLVersion()"></p>
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO FUNCIONOU...
+
+
+
+
+
+
+ISSO QUER DIZER QUE ESSA STRING ESTÁ SENDO INTERPRETADA COMO HTML..
+
+
+
+
+
+
+
+
+
+
+--> ESSA É OUTRA FEATURE QUE VOCÊ PODE USAR... 
+
+
+
+
+
+
+
+
+
+--> SE VOCê TIVER ALGUM CONTEÚDO ARMAZENADO NO SEU VUE APP QUE 
+
+__PRECISA_ SER OUTPUTTADO __ COMO 
+
+HTML,
+
+
+
+ESSA DIRECTIVE PODE TE AJUDAR COM ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É IMPROVÁVEL QUE VOCÊ 
+
+
+
+VÁ USAR MT ISSO AÍ.... --> 
+
+
+
+PQ 
+
+
+ESSE RECURSO PODE INTRODUZIR 
+
+
+FUROS DE SEGURANÇA (
+
+
+
+    que são impedidos com a sintaxe 
+
+    de INTERPOLATION,
+
+    com "{{}}"
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+PQ _ ISSO FURA A PROTEÇÃO DE CROSS SITE SCRIPTING ATTACKS...
+
+
+
+
+
+
+
+
+--> MAS SE VOCê SABE O QUE VOCê ESTÁ FAZENDO,
+
+A DIRECTIVE DE 'v-html' pode ser sua amiga....
+
+
+
+
+
+
+
+
+-> OK... AGORA É HORA DE PRATICAR TUDO ISSO..

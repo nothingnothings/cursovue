@@ -1,0 +1,140 @@
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK.. É CLARO QUE 
+
+ HÁ MT MÁGICA 
+
+
+
+ NO VUE, NO MOMENTO...
+
+
+
+
+
+
+
+
+
+
+  -> MAS A PARTE BOA DO VUE,
+  REALMENTE,
+
+  É QUE 
+
+  APENAS DEFINIMOS O 'END RESULT',
+
+
+  E AÍ USAMOS ESSAS FEATURES ESPECIAIS NO CÓDIGO HTML 
+
+  PARA 
+
+
+  CONECTAR 
+
+
+
+
+HTML A 
+
+'DATA' (como 'v-model' e 'v-for')
+
+
+
+e 
+
+
+'LOGIC' (como 'v-on:nomeDoEvento="nomeDoMethod'),
+
+
+
+
+
+
+
+
+MANAGEADAS LÁ NO 'VUE APP'...
+
+
+
+
+
+
+
+E APRENDEREMOS UM MONTE SOBRE AS FEATURES DO APP,
+
+QUE NOS DEIXAM CONSTRUIR QUALQUER TIPO DE APP..
+
+
+
+
+
+
+
+
+
+
+--> e fazer isso,
+
+
+
+
+e seguir esse approach 'declarative',
+
+
+ISSO NOS PERMITE CONSTRUIR APPS SUPER GRANDES,
+
+SEM PROBLEMAS,..
+
+
+
+
+
+
+
+
+
+
+
+--> SE USÁSSEMOS SÓ O JAVASCRIPT,
+
+
+SE TENTÁSSEMOS 
+
+
+
+
+CONSTRUIR UM APP MAIOR,
+
+
+ENCONTRARÍAMOS PROBLEMAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ESCREVER CÓDIGOS SEM PERFORMANCE ISSUES E BUGS,
+
+ISSO É FÁCIL COM O VUE... 

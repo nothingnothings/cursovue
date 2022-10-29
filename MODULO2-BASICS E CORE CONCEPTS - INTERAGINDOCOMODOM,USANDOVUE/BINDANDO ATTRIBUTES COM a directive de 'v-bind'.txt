@@ -1,0 +1,701 @@
+
+
+
+
+
+
+
+
+
+--> bem, nós cobrimos 2 FEATURES SUPER IMPORTANTES...
+
+
+
+
+
+
+
+A PROPRIEDADE 'data' 
+
+
+E O OUTPUT DE DATA ATRAVÉS DE INTERPOLATION...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS NEM SEMPRE VOCÊ VAI QUERER USAR INTERPOLATION 
+
+PARA OUTPUTTAR SUA DATA...
+
+
+
+
+
+
+
+
+
+
+--_> DIGAMOS QUE TEMOS UM SEGUNDO PARAGRAPH, EM QUE DIZEMOS 'LEARN MORE ABOUT VUE'...
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE VAI QUERER QUE ISSO SEJA UM LINK...
+
+
+
+por isso escreve assim:
+
+
+
+
+
+
+<p>Learn more<a href="example.com">About Vue</a></p>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p>{{ courseGoal }}</p>
+        <p>Learn more<a href="example.com">About Vue</a></p>
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+-> E É _ CLARO_ QUE PODERÍAMOS OUTPUTTAR ISSO ASSIM MESMO, NO NOSSO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ENTRETANTO, O PROFESSOR QUER QUE NOVAMENTE 
+
+
+ARMAZENEMOS ESSA DATA  (o link ) para que 
+
+
+
+_ 
+ELE SEJA OUTPUTTADO NO 
+
+
+
+LINK... FAREMOS ISSO PARA QUE, MAIS TARDE, NOSSO LINK SE TORNE MAIS DINÂMICO...
+
+
+O CÓDIGO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+const app = Vue.createApp({ ////podemos armazenar nossa VUE INSTANCE EM UMA CONSTANTE, SIM....
+
+    data() {
+        return {
+            courseGoal: 'Finish the Fight.',
+            dynamicLink: 'example.com'
+        }
+    }
+})
+
+
+app.mount('#user-goal'); 
+
+
+
+
+        <p>Learn more<a href={{dynamicLink}}>About Vue</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+MAS _ É CLARO _ QUE ISSO NÃO FUNCIONOU,..
+
+
+
+A STRING NÃO FOI OUTPUTTADA COM SUCESSo
+
+
+
+
+
+
+
+
+
+
+-> NO CASO DO PROFESSOR,
+
+
+
+ele criou a mesma coisa,
+
+
+
+
+
+
+
+
+uma propriedade que deveria ser outputtada lá no slot da anchor tag,
+
+
+no attribute de 'href'...
+
+
+
+
+
+
+
+
+--> OK.. EU TENTEI FAZER ISSO,
+
+
+MAS NÃO FUNCIONOU..
+
+
+
+
+
+
+
+
+
+
+MAS PQ NÃO FUNCIONOU?
+
+
+
+
+
+
+
+--> NÃO FUNCIONOU PQ 
+
+
+
+O VALUE DO ATTRIBUTE REF ESTÁ COMO '{{dynamicLink}}'',
+
+
+a sintaxe ainda NÃO CONVERTIDA...
+
+
+
+
+
+
+
+
+
+---> OK... ISSO SIGNIFICA QUE A STRING INTERPOLATION __ NÃO FUNCIONA DENTRO DE ATTRIBUTES, PELO VISTO...
+
+
+
+
+
+
+
+
+
+--> ESSA SINTAXE DE {{}}, string interpolation, SÓ FICA DISPONÍVEL __ 
+
+
+
+
+NO MEIO DE OPENING E CLOSING HTML TAGS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM... VOCê SÓ PODE USAR ESSA STRING INTERPOLATION EM LOCAIS EM QUE VOCê 'WANT TO OUTPUT ACTUAL CONTENT'..
+
+
+
+
+
+
+
+
+
+
+--> já se VOCê QUER __ PASSAR __ UM VALOR _ DINÂMICO __ A UM ATTRIBUTE,
+
+
+
+
+COMO AQUI, EM QUE QUEREMOS ALTERAR O VALOR DO 'href' 
+
+da anchor tag,
+
+
+
+
+TEMOS QUE USAR _ OUTRA SINTAXE,
+
+QUE É A SINTAXE DE 
+
+
+'v-bind'...
+
+
+
+
+
+
+
+
+
+
+
+
+V-BIND É UM EXEMPLO DE 'VUE DIRECTIVE',
+
+QUE É ESSENCIALMENTE 
+
+
+
+
+__ UMA __ INSTRUCTION EXTRA QUE ADICIONAMOS AO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+--> E PODEMOS USAR ESSAS DIRECTIVES EM ELEMENTOS HTML,
+
+
+
+COMO NESSE ELEMENTO 'ANCHOR'..
+
+
+
+
+
+
+
+para isso, o professor escreve assim:
+
+
+
+
+
+
+
+
+<p>Learn more<a href=""  v-bind  ></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+V-BIND É UM RESERVED NAME, DETECTADO PELO VUE,
+
+
+
+E É DO VUE PQ COMEÇA COM 'v-' (todas as directives do vue COMEÇAM COM 'v-')...
+
+
+
+
+
+
+
+
+
+
+OK, MAS O QUE ESSA DIRECTIVE FAZ?
+
+
+
+
+
+
+
+
+
+UMA DIRECTIVE É BASICAMENTE UMA INSTRUCTION,
+
+
+
+
+UMA INSTRUCTION PARA FAZER ALGO...
+
+
+
+
+'v-bind'
+
+comunica ao 
+
+vue que 
+
+
+__ ELE __ DEVE 'BINDAR' 
+
+
+
+O VALUE DESSE NEGÓCIO __ A ALGO_...
+
+
+
+
+e o 
+
+
+'ALGO' BASICAMENTE _ SEMPRE _ SIGNIFICARÁ 
+
+
+
+'''O ATRIBUTE DE ALGUM ELEMENTO HTML NA SUA PÁGINA''''...
+
+
+
+
+
+
+
+
+
+--> PARA __ DEIXAR __ o VUE _ ENTENDER 
+
+
+''QUAL VALUE DE __data__ (object data) 
+
+
+deve SER BINDADO A ESSE HTML ELEMENT''',
+
+
+
+
+
+devemos escrever 
+
+
+
+
+O ':' e 
+
+depois 
+
+
+
+
+
+
+
+
+O __ ACTUAL__ ATTRIBUTE_ NAME (ou seja, como 'href', nesse caso) QUE VOCê QUER 
+
+
+QUE 
+
+
+
+RECEBA 
+
+
+
+
+O VALUE LÁ DE SUA 'data',
+
+da propriedade que vocÊ definiu em 'data'...
+
+
+
+
+
+
+
+
+
+
+-> OU SEJA, O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+<p>Learn more<a href=""  v-bind:href  ></a></p>
+
+
+
+
+
+
+
+
+
+
+
+EU __ ACHEI_ _ QUE O CÓDIGO FICARIA ASSIM:
+
+        <p>Learn more<a v-bind:href="dynamicLink">About Vue</a></p>
+
+
+
+
+
+
+
+
+E ESTAVA CERTO, 
+
+
+
+
+PQ __ É EXATAMENTE ASSIM QUE DEVEMOS ESCREVER NOSSO CÓDIGO,
+
+
+PARA OUTPUTTAR 
+
+
+
+
+NOSSA DATA 
+
+
+
+
+EM __ ATTRIBUTES DE NOSSO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+
+E ESSA É A SINTAXE FULL QUE O VUE VAI ENTENDER,
+
+
+PARA SETTAR 
+
+
+INTEGRALMENTE 
+O 
+
+VALUE DE 1 ATTRIBUTE DE UM ELEMENTO HTML... 
+
+
+
+
+
+(
+
+
+
+    VAI DIZER AO VUE 
+
+    ''POR FAVOR,
+    DEFINA O VALUE DO __ATTRIBUTE _ HREF DESSE ELEMENT HTML __ COMO EQUIVALENTE 
+
+
+    A 
+
+    ESSA PROPRIEDADE DENTRO DO MEU OBJECT 'data'...
+)
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE 
+
+
+'v-bind:attributeName="dataPieceName"' 
+
+
+
+
+
+É ESSENCIALMENTE 
+
+
+A ALTERNATIVA 'ATTRIBUTE' 
+
+
+ÀQUELA SINTAXE DE INTERPOLATION...
+
+
+
+
+
+
+
+
+
+
+SALVAMOS TUDO ISSO E RECARREGAMOS,
+
+
+E AÍ RECEBEMOS O COMPORTAMENTO DESEJADO POR NÓS..
+
+
+
+
+
+
+
+
+
+
+
+
+'v-bind' 
+
+
+É 
+
+
+__ UMA KEY-FEATURE _ QUE 
+
+
+__ DEVEMOS CONHECER..
+
+
+
+
+
+
+
+
+-> PQ TIPICAMENTE VOCÊ NÃO VAI QUERER APENAS OUTPUTTAR 
+
+
+
+CONTENT SIMPLES ENTRE '{{}}' --> 
+
+
+
+
+MTAS VEZES VOCê VAI SETTAR 
+
+O CONTEÚDO DE ALGUM ATTRIBUTE 
+
+
+
+
+COMO SENDO EQUIVALENTE A UMA 'VIEW MANAGED DATA'...
+
+
+
+
+
+
+
+
+--> E, COM 'v-bind',
+
+ISSO É MT FÁCIL DE SE FAZER...

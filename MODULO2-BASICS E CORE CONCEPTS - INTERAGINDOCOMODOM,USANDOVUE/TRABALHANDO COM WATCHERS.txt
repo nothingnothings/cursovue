@@ -1,0 +1,2347 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA APRENDEMOS SOBRE 'COMPUTED PROPERTIES',
+
+
+QUE É UMA FEATURE KEY PARA __ O OUTPUT DE VALUES DINAMICOS 
+
+QUE 
+
+
+
+DEPENDEM 
+
+
+
+
+__ DE 
+
+
+'MULTIPLE INPUT VALUES',
+
+
+
+
+
+OU ENTÃO DE 
+
+
+
+
+1 ÚNICO INPUT VALUE (como com 'name', nessa computed property de 'fullName')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... MAS HÁ OUTRA FEATURE DE 'REACTIVITY' 
+
+
+
+
+BUILT-IN NO VUE,
+
+QUE SÃO 
+
+
+
+
+
+OS 
+
+'WATCHERS'..
+
+
+
+
+
+
+
+
+
+
+--> CERTO, MAS O QUE SÃO 'WATCHERS'?
+
+
+
+
+
+
+
+
+
+
+---> BEM, 1 'WATCHER'
+
+
+
+É BASICAMENTE UMA FUNCTION QUE 
+
+
+VOCÊ PODE PEDIR QUE 
+
+O 
+
+VUE EXECUTE 
+
+
+
+__ SEMPRE _ QUE ALGUMA DE SUAS DEPENDENCIES __ FOR ALTERADA... 
+
+
+
+
+
+
+(
+
+
+
+    com essa descrição, os watchers 
+
+    se parecem EXATAMENTE COMO COMPUTED PROPERTIES...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, E DE FATO, VOCÊ __ PODE__ USAR__ WATCHERS_ EM VEZ 
+
+DE 
+
+COMPUTED PROPERTIES...
+
+
+
+
+
+
+
+
+--> VOCÊ PODE USAR,
+
+
+
+mas talvez essa não seja uma boa ideia...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DEMONSTRA COMO ISSO PODE FUNCIONAR, E A RAZÃO DE NÃO QUERER FAZER ISSO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+o professor adiciona uma nova propriedade data,
+
+
+
+de nome 
+
+
+'fullName2'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR NOS EXPLICA QUE, no VUEjs,
+
+
+é possível ter 
+
+NAME CLASHES 
+
+entre 
+
+'data properties' 
+
+
+
+e 
+
+'computed properties'..
+
+
+
+
+
+
+
+
+
+
+--> é por isso que ele comentou para fora o nome de 'fullName'
+
+
+lá 
+
+
+nas data  properties...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ NUNCA QUER USAR UMA COMPUTED E DATA PROPERTY COM MESMOS NOMES....
+
+
+
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR 
+
+ADICIONA UMA NOVA CONFIGURATION/option Àquele 
+
+object que 
+cria o vue app....
+
+
+
+
+
+
+
+
+
+--> É A __ QUARTA__ OPTION __ DE NOSSO OBJECT,
+
+que é 
+
+
+a 
+
+'watch'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+            return {
+                counter: 0,
+                name: '',
+                fullName2: ''
+            }
+        },
+
+        watch: 
+        ,
+
+
+        computed: {
+            nomeDaPropriedade() {
+
+            }
+        },
+
+        methods: {
+            nomeDoMethod() {
+
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, AGORA TEMOS ESSA KEY DE 'watch'.... 
+
+
+
+
+
+
+
+
+
+
+
+--> o que 'watch' quer é um OBJECT... --> 
+
+
+
+DENTRO DESSE OBJECT,
+
+
+
+DEVE-SE ESCREVER UM MONTE 
+
+
+
+DE METHODS...
+
+
+
+
+
+
+
+
+
+
+--> ex: 
+
+
+
+
+watch: {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+PARA SERMOS MAIS PRECISOS,
+
+
+
+AQUI __ VOCÊ DEVE _ ESCREVER/USAR UM NOME QUE 
+
+
+VOCÊ USOU EM ALGUMA DATA OU COMPUTED PROPERTY,
+
+
+
+
+
+COMO _ UM 'WATCHER METHOD'...
+
+
+
+
+
+
+
+(
+    ou seja, seu watcher method deverá ter o MESMO NOME __ 
+
+
+    DE UMA DATA PROPERTY/COMPUTED PROPERTY QUE VOCÊ JÁ TEM...
+
+)
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+            return {
+                counter: 0,
+                name: '',
+                fullName2: ''
+            }
+        },
+
+        watch:  {
+
+            ////EIS O CÓDIGO EM QUESTÃO.
+            nomeDaPropriedade() {
+
+            },
+
+
+            name() {
+
+            }
+        }
+        ,
+
+
+        computed: {
+            nomeDaPropriedade() {
+
+            }
+        },
+
+        methods: {
+            nomeDoMethod() {
+
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+
+      fullName2: '',
+    };
+  },
+
+  computed: {
+    fullName() {
+      if (this.name === '') {
+        return '';
+      }
+
+      return this.name + ' ' + 'Panazolo';
+    },
+  },
+
+  watchers: {
+    ///EXEMPLO DO FUNCIONAMENTO DE 'WATCHERS'...
+
+    ///seus watchers sempre terão o mesmo nome de alguma data property/computed property que você definiu anteriormente (como 'fullName' e 'fullName2')...
+
+    //ex: a partir da COMPUTED PROPERTY 'fullName'
+    fullName() {},
+
+    //ex: a partir da DATA PROPERTY 'name'
+    fullName2() {},
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  certo... ISSO É OK TECNICAMENTE,
+
+
+  PQ NÃO TEREMOS NENHUM CLASH AQUI.... -----> 
+
+
+
+
+
+
+
+
+  ISSO QUER DIZER UMA COISA IMPORTANTE:
+
+
+
+
+  __ SEMPRE _ QUE 
+
+
+
+  O 'fullName2',
+
+  NESSE CASO AQUI,
+
+
+  FOR ALTERADO,
+
+
+
+
+
+  AQUELE METHOD 'watcher'
+
+  lá 
+
+
+  de 
+
+  'fullName2(){}'
+
+
+
+
+  __SERÁ_ REEXECUTADO...
+
+
+
+
+
+
+
+
+
+
+
+  --> E ISSO É ___ MUITO __ IMPORTANTE... ----> 
+
+
+
+
+  ESSE 'fullName2' 
+
+
+
+
+
+
+  SENDO _ USADO _ ALI NO SLOT DE 'watchers'
+
+  É QUE 
+
+  ESTABELECE A CONEXÃO ENTRE ESSE 'watcher' 
+
+
+  e a data property... é assim que funcionam os watchers...
+
+
+
+
+
+
+
+
+
+  ---->  OK... O WATCHER DE NOME 'x' 
+
+
+  SERÁ EXECUTADO AUTOMATICAMENTE 
+
+  SEMPRE QUE 
+
+
+  A PROPRIEDADE DATA/PROPRIEDADE COMPUTED DE MESMO NOME FOR ALTERADA...
+
+
+
+
+
+
+--------> aí, dentro de 'fullName2' (watcher),
+
+
+
+
+
+PODEMOS 
+
+
+
+
+_ ESCREVER LÓGICA...
+
+
+
+
+
+
+
+--> NÓS NÃO FAREMOS O RETURN DE COISA ALGUMA,
+
+
+
+
+PQ NÃO VAMOS USAR 
+
+
+O WATCHER PARA OUTPUTTAR DATA NO NOSSO HTML,
+
+
+NÃO VAMOS FAZER ISSO...
+
+
+
+
+
+
+
+
+
+-------> EM VEZ DISSO,
+
+
+
+PODEMOS/PODERÍAMOS _ EXECUTAR ALGUMA LÓGICA 
+
+
+
+
+QUE DEVE SER EXECUTADA QUANDO O 'fullName2' for alterado...
+
+
+
+
+
+
+
+----> como exemplo disso, o professor decide fazer um 'update conjunto' de states,
+pq 
+
+
+
+ele 
+
+
+
+escreve:
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+
+      fullName2: '',
+    };
+  },
+
+  computed: {
+    fullName() {
+      if (this.name === '') {
+        return '';
+      }
+
+      return this.name + ' ' + 'Panazolo';
+    },
+  },
+
+  watchers: {
+    fullName() {},
+
+    fullName2() {
+      this.name = this.fullName2 + '' + 'Panazolo';
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ------> CERTO... 
+
+
+
+
+
+
+
+
+
+  MAS O PROFESSOR AQUI FAZ UM COMENTÁRIO:
+
+
+
+
+  este código aqui é desnecessário:
+
+
+
+
+
+      fullName2() {
+      this.name = this.fullName2 + '' + 'Panazolo';
+    },
+
+
+
+
+
+
+
+
+    --> nós não precisamos escrever 'this.fullName2',
+
+
+
+
+
+
+    PQ  _ AS __ WATCHER _ FUNCTIONS __ JÁ 
+
+
+    CONSEGUEM 
+
+
+
+    'THE LATEST VALUE' DA __ PROPRIEDADE QUE ESTÁ SENDO 'watched'
+
+
+
+
+    COMO __ UM ARGUMENTO PARA SI...
+
+
+
+
+
+
+    TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+      fullName2(lastPropertyValue) {
+      this.name = lastPropertyValue + '' + 'Panazolo';
+    },
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+    fullName2(lastPropertyValue) {//argumento default, sempre recebido.
+      // this.name = this.fullName2 + '' + 'Panazolo' ///'this.fullName2' pode ser substituído por 'lastPropertyValue', que é um argumento PASSADO AUTOMATICAMENTE PELO VUE, e que representa o ÚLTIMO VALUE DA WATCHED PROPERTY a que o watcher está conectado (no caso, o último value de 'fullName2')...
+
+      this.name = lastPropertyValue + '' + 'Panazolo';
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+-----> O ÚLTIMO VALUE DA 'WATCHED PROPERTY'
+
+
+é passado automaticamente pelo vue...
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE PODEMOS USAR ESSE ARGUMENTO NA NOSSA LÓGICA...
+
+
+
+
+
+
+
+--> MAS AQUI O PROFESSOR NOS 
+RELATA QUE 
+
+
+
+AS WATCHER FUNCTIONS 
+
+
+
+
+RECEBEM 2 ARGUMENTOS DEFAULT:
+
+
+
+
+'oldWatchedValue' e 'newWatchedValue'....
+
+
+
+
+
+
+
+
+--> aqui o professor só usou 'value' ('lastPropertyValue'),
+
+
+
+
+
+MAS ELE ADMITE QUE PODERÍAMOS TER USADO A FORMA COMPLETA, que é esta:
+
+
+
+
+
+
+
+
+    fullName2(newPropertyValue, oldPropertyValue) {//argumentos default, sempre recebidos.
+      // this.name = this.fullName2 + '' + 'Panazolo' ///'this.fullName2' pode ser substituído por 'oldPropertyValue', que é um argumento PASSADO AUTOMATICAMENTE PELO VUE, e que representa o ÚLTIMO VALUE DA WATCHED PROPERTY a que o watcher está conectado (no caso, o último value de 'fullName2')...
+
+      this.name = oldPropertyValue + '' + 'Panazolo';
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+OK.... --> ISSO SIGNIFICA QUE AGORA VAMOS 'update the name'
+
+
+
+SEMPRE QUE 
+
+
+
+A PROPRIEDADE 'fullName2'
+
+FOR ALTERADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EU HAVIA ERRADO O NOME DA KEY,
+
+O CORRETO É 'watch',
+
+e não 'watchers'...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      fullName: '',
+
+      fullName2: '',
+    };
+  },
+
+  computed: {},
+
+  watch: {
+    fullName2(newPropertyValue, oldPropertyValue) {
+      console.log('EXAMPLE');
+      this.fullName = newPropertyValue + '' + 'Panazolo';
+    },
+  },
+
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput(event) {
+      this.fullName2 = '';
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo... 
+
+CONTINUANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ESSE É UM WATCHER...
+
+
+
+
+
+
+
+--> VOCÊ PODE O UTILIZAR COMO ALTERNATIVA A UMA 'COMPUTED PROPERTY',
+
+
+dependendo do use-case...
+
+
+
+
+
+
+
+
+
+
+---->  MAS HÁ UM PUNHADO DE PROBLEMAS 
+
+
+SE TENTAMOS USAR WATCHERS COMO 'COMPUTED PROPERTIES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+1a) __ O PROFESSOR ARGUMENTA QUE O CONCEITO DE 
+
+
+'COMPUTED PROPERTY' 
+
+
+É TALVEZ UM  POUCO MAIS FÁCIL DE ENTENDER...
+
+
+(melhor do que watchers)
+
+
+
+
+
+
+MAS O PROBLEMA MAIOR SURGE 
+
+
+SE 
+
+NÓS __ USAMOS _ MAIS DO QUE 1 ÚNICA DEPENDENCY 
+
+
+
+
+
+DENTRO DE UMA DE NOSSAS 'COMPUTED PROPERTIES'...
+
+
+
+
+
+
+
+
+
+
+
+--> SE TENTAMOS CRIAR /USAR UM WATCHER COMO SE FOSSE UMA 'COMPUTED PROPERTY'
+
+
+
+que tem mais de 1 única dependency no seu interior, ficamos com problemas...
+
+
+
+
+
+
+
+
+--> PARA DEMONSTRAR ISSO,
+
+
+
+O PROFESSOR CRIA UM NOVO INPUT FIELD E UM 'DATA PROPERTY' vinculada a ele...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+data() {
+    return {
+        lastName: '',
+        name: ''
+    }
+}
+
+
+
+
+
+
+
+
+        <input type="text" v-model="name">
+        <input type="text" v-model="lastName">
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA TEMOS ESSES 2 NAMES...
+
+
+
+
+
+
+AGORA QUEREMOS __ UPDATAR_ O 'FULL NAME' (data property)
+
+
+
+
+SEMPRE QUE 
+
+
+
+O 'NAME'
+
+
+
+
+E O 
+
+'LAST NAME'  
+
+
+FOREM ALTERADOS...
+
+
+
+
+
+
+
+
+
+
+QUEREMOS 
+
+
+
+
+
+OBTER ESSE EFEITO __ ATRAVÉS _DE UM WATCHER... --> 
+
+
+
+
+
+
+
+
+
+
+PARA ISSO,
+
+
+TEREMOS DE ADICIONAR UM _ SEGUNDO WATCHER,
+
+
+
+
+
+
+
+enquanto o primeiro está assim:
+
+
+
+
+
+name(value) {
+    if (value === '') {
+        this.fullName = '';
+    } else {
+        this.fullName = value + ' ' + 'Panazolo';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+  data() {
+    return {
+      counter: 0,
+      fullName: '',
+      fullName2: '',
+      name: '',
+      lastName: ''
+    };
+
+
+
+
+
+
+
+
+
+
+
+    name(value) { //primeiro watcher, que faz watch do 'name' 
+      if (value === '') {
+          this.fullName = '';
+      } else {
+          this.fullName = value + ' ' + 'Panazolo';
+      }
+  },
+
+  lastName(value) { //segundo watcher, que faz watch do 'lastName' 
+    if (value === '') {
+        this.fullName = '';
+    } else {
+        this.fullName = value + ' ' + 'Panazolo';
+    }
+
+
+
+
+
+
+
+
+
+
+    --> TEREMOS QUASE O MESMO CÓDIGO EM AMBOS WATCHERS,
+
+    mas no watcher de 'lastName'
+
+
+    VAMOS QUERER 
+
+    definir 
+
+    'this.fullName'
+
+
+    como equivalente 
+
+    a 
+
+
+    'this.name + '' + value',
+
+
+
+
+
+
+
+
+
+
+
+
+E A MESMA COISA NO WATCHER OPOSTO, de 'name':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    name(value) { //primeiro watcher, que faz watch do 'name' 
+      if (value === '') {
+          this.fullName = '';
+      } else {
+          this.fullName = value + ' ' + this.lastName;
+      }
+  },
+
+  lastName(value) { //segundo watcher, que faz watch do 'lastName' 
+    if (value === '') {
+        this.fullName = '';
+    } else {
+        this.fullName = this.name + ' ' + value;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ESSE CÓDIGO TODO FUNCIONA,
+
+SIM,
+ 
+
+
+ __ MAS É MT CÓDIGO _ PARA ALGO QUE DEVERIA SER RELATIVAMENTE SIMPLES,
+
+ QUE É 
+  
+
+  O SIMPLES OUTPUT DE 'fullName',
+
+
+
+
+
+  2 WATCHERS, 1 para cada 'input field',
+
+  PARA FAZER MANAGE DESSA 
+
+
+  DATA PROPERTY...
+
+
+
+
+
+
+
+
+
+
+
+  -> SIM, ISSO FUNCIONA,
+
+  MAS É MT CÓDIGO,
+
+
+
+  PRINCIPALMENTE SE COMPARARMOS COM A ALTERNATIVA 
+
+
+
+  DE 'COMPUTED PROPERTY',
+
+
+  que 
+
+
+
+
+  agora veremos que SERÁ BEM MAIS SIMPLES/SUCINTA...
+
+
+
+
+
+
+
+
+
+  --> COMO FICA A VERSÃO 'computed' 
+
+
+
+  desse código?
+
+
+
+
+
+
+
+
+  fica assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  data() {
+    return {
+      counter: 0,
+      // fullName: '',
+      fullName2: '',
+      name: '',
+      lastName: '',
+    };
+  },
+
+  computed: {
+
+    fullName() {
+      if (this.name !== '' && this.lastName !== '') {
+        return this.name + ' ' +  this.lastName;
+      } else {
+        return '';
+      }
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+  HTML:
+
+
+
+
+
+          <input type="text" v-model="name">
+        <input type="text" v-model="lastName">
+        <p>Your Name: {{ fullName }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO JÁ VAI FAZER O OUTPUT DE 'fullName'
+
+
+SOMENTE QUANDO 
+
+'name' e 'lastName' 
+
+
+tiverem sido alterados e NÃO FOREM 'empty string'... (se removermos esse if check, o output será alterado SEMPRE QUE DIGITARMOS EM QUALQUER UM DOS INPUT FIELD)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, REALMENTE, BEM MAIS SIMPLES (com a computed property...)...:
+
+
+
+
+
+
+
+
+    fullName() {
+      // return this.name + this.lastName; //versão sem if check
+
+      if (this.name !== '' && this.lastName !== '') {
+        return this.name + ' ' + this.lastName;
+      } else {
+        return '';
+      }
+    },
+
+
+
+
+
+
+
+    é um código bem melhor,
+
+    pq é menos linhas do que os watchers...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS PQ DIABOS TEMOS 'WATCHERS',
+
+
+
+se 
+eles  __ FUNCIONAM__ MAS __ SÃO PIORES?
+
+
+
+
+
+
+
+
+
+--> bem, é pq _ APESAR _dE 
+
+
+ESSA ESCRITA FUNCIONAR,
+
+
+
+
+ELA NÃO É O 'MAIN SCENARIO'
+
+
+
+em que você deve usar watchers...
+
+
+
+
+
+
+
+
+
+
+--> WATCHERS DEVEM SER USADOS QUANDO VOCÊ TEM CENARIOS DIFERENTES, 
+
+PROPÓSITOS DIFERENTES DO OUTPUT DINÂMICO SIMPLES DE DATA NO SEU HTMl...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PARA DEMONSTRAR O FUNCIONAMENTO DE UM WATCHER,
+
+VOLTAMOS AO TÓPICO DE NOSSO 'COUNTER'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OS WATCHERS POSSUEM PROPÓSITO DISTINTO DAQUELE DAS COMPUTED PROPERTIES...
+
+
+
+
+
+
+
+
+
+
+--> VOLTAMOS AO 'counter'.. --> DIGAMOS QUE 
+
+
+QUEREMOS __ RESETTAr_ _ 
+
+
+
+
+
+
+O COUNTER SEMPRE QUE ELE CHEGAR __ A 50__...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É EM __ TAREFAS COMO ESSA,
+
+
+ COMO ESSA DE 
+
+
+ 'RESETTAR O COUNTER QUANDO SEU VALOR CHEGAR A 50',
+
+
+
+ que 
+
+
+
+ os 
+
+ WATCHERS BRILHAM..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> É ESSE O TIPO DE TASK EM QUE 
+
+
+ WATCHERS BRILHAM ---> QUEREMOS __ 
+
+
+
+ ALTERAR/RESETTAR O 'COUNTER' 
+
+
+
+
+ SEMPRE QUE 
+
+
+
+
+
+
+ '''ALGO''' ACONTECER... ---> NESSE CASO,
+
+
+ VAMOS CHECAR SE O 'LATEST VALUE'
+
+
+ do counter 
+
+
+
+
+ É __ MAIOR __ DO QUE '50'...
+
+
+
+
+
+
+ --> SE ESSE FOR O CASE, VAMOS QUERER DEFINIR O SEU VALUE COMO SENDO '0'...
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+ 
+    counter(value) {
+      if (value > 50) {
+        this.counter = 0;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ------->  OU SEJA,
+
+
+
+
+
+
+
+    O MELHOR USO PARA OS WATCHERS É 
+
+
+
+    '''EXECUTAR__ CÓDIGO/ALTERAR O VALUE DE ALGUMA DE SUAS DATA PROPERTIES ___ _APENAS _ 
+
+
+
+
+ÀS VEZES/QUANDO ALGUMA CONDIÇÃO FOR SATISFEITA' ''' 
+
+
+
+ 
+
+
+
+(
+
+  e NÃO __ SEMPRE_, como com as COMPUTED PROPERTIES
+),
+
+
+
+
+
+
+
+
+
+
+É PROVAVELMENTE MELHOR USAR UM WATCHER...
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê PODERIA USAR UMA COMPUTED PROPERTY, SIM,
+
+
+
+__ MAS PROVAVELMENTE NÃO SERÁ 
+
+
+
+A MELHOR OPÇÃO..
+
+
+
+
+
+
+
+-> MAS COM WATCHERS, ESSA TAREFA (
+
+
+  updatar uma DATA PROPERTY _ CONDICIONALMENTE
+)
+
+
+
+SE TORNA FÁCIL..
+
+
+
+
+
+
+
+
+
+-> TESTAMOS ISSO:
+
+
+se tentamos exceder 60 com nosso counter,
+
+
+
+ELE RESETTA PARA 0...
+
+
+
+
+
+
+
+--> ou seja,
+
+
+WATCHERS NÃO SÃO COMPLETAMENTE INÚTEIS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTRO EXEMPLO SERIA 
+
+
+'HTTP REQUESTS'.... --> 
+
+
+
+
+
+
+
+
+
+http requests que VOCÊ QUER ENVIAR QUANDO/SE  CERTA _ DATA _ 
+
+
+FOR ALTERADA... ---> 
+
+
+
+
+
+
+
+
+
+
+
+WATCHERS SÃO ÚTEIS PARA -----> HTTP REQUESTS 
+
+
+
+
+
+
+---> TAMBÉM SÃO ÚTEIS PARA TIMERS (como setTimeout),
+
+
+
+TIMERS QUE VOCÊ TALVEZ QUEIRA SETTAR, SE CERTOS VALORES FOREM ALTERADOS...
+
+
+
+
+
+
+
+
+
+
+
+--> como exemplo disso, dos timers,
+o professor 
+
+
+
+
+define que 
+
+
+
+SE A CONDIÇÃO DE 'counter é maior do que 50'
+
+
+FOR SATISFEITA,
+
+VAMOS QUERER DEFINIR UM TIMER...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+watch: {
+  counter(value) {
+    if (value > 50) {
+
+      setTimeout(() => {
+        this.counter = 0;
+
+      }, 2000);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+
+APENAS DEPOIS DESSES 2 SEGUNDOS VAMOS QUERER RESETTAR O COUNTER --> 
+
+
+
+
+
+
+MAS ESSE CÓDIGO, NATIVAMENTE ASSIM,
+
+NÃO VAI FUNCIONAR -----> NÃO VAI FUNCIONAR PQ O 'this'
+
+VAI SE REFERIR A OUTRA COISA,
+
+VAI SE REFERIR A FUNCTION QUE VAI EXECUTAR ESSE CALLBACK (que é 'setTimeout'),
+
+
+e não ao 'this' que 
+
+é 
+
+O NOSSO 'OBJETO GLOBAL VUE'...
+
+
+
+
+
+
+
+
+
+------> PODEMOS 'WORK AROUND' esse problema 
+
+
+
+por meio do store de 'this'
+
+EM UMA OUTRA CONSTANTE,
+E ENTÃO 
+
+POR MEIO DA REFERÊNCIA A ESSE STORE...
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+watch: {
+  counter(value) {
+    if (value > 50) {
+
+      const that = this; ///eis o código em questão.
+      setTimeout(() => {
+        that.counter = 0;    ///EIS O CÓDIGO EM QUESTÃO.
+
+      }, 2000);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+--> OK, ISSO QUER DIZER QUE AGORA DEFINIMOS UM TIMER COM SUCESSO... É UM TIMER QUE 
+
+
+
+
+É DISPARADO (e que vai resettar o valor de 'counter')
+
+SEMPRE QUE 
+
+
+
+_ O VALUE FOR MAIOR DO QUE 50...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+    counter(value) {
+      if (value > 50) {
+          ///fazemos o store da 'this' keyword para CONSERTAR O COMPORTAMENTO DELE, para que não bugue (para que o 'THIS' se refira ao object global vue..)
+        const that = this; ///eis o código em questão.
+        setTimeout(() => {
+          that.counter = 0;    ///EIS O CÓDIGO EM QUESTÃO.
+  
+        }, 2000);
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... ESSE É O TIPO DE TAREFA EM QUE UM WATCHER PODE SER ÚTIL... (
+
+
+
+
+É NOS CASOS EM QUE 
+
+VOCÊ _ QUER _ RODAR UM CÓDIGO _ 
+
+QUE 
+
+_________tALVEZ__ (mas não necessariamente, não é 100% certo)
+
+
+_ UPDATE UMA DATA PROPERTY  ____ A PARTIR _DE O CHANGE _DE OUTRA __ DATA PROPERTY... (ou da MESMA data property)
+
+  )
+
+
+
+
+
+
+
+  isso pq aqui tivemos:
+
+
+
+  1) o watcher vinculado À DATA PROPERTY de 'counter'  (isso quer dizer que a lógica desse watcher é executada a partir de cada UPDATE do value de 'counter')
+
+
+
+
+
+
+
+  2) O define de um __ TIMER DENTRO DESSE watcher ....
+
+
+
+
+
+
+3) O RESET CONDICIONAL (atribuído ao valor do counter, maior ou menor do que 50) 
+
+DO VALUE DE UMA DATA PROPERTY, que, no caso, é 'counter' (A própria data property...) (e isso não causa um loop, por alguma razão)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... MAS SE VOCÊ SÓ '''QUER OUTPUTTAR UM VALUE _ DE SEU STATE __ DINAMICAMENTE, LÁ NO SEU HTML''',
+
+
+
+
+__ AÍ __ AS COMPUTED PROPERTIES SÃO 
+
+SUAS MELHORES AMIGAS, e não os 'watchers'...

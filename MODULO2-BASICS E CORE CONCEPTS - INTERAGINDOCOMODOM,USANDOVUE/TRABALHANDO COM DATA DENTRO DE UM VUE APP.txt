@@ -1,0 +1,469 @@
+
+
+
+
+
+
+
+
+
+
+AGORA SABEMOS COMO CONSTRUIR NOSSO VUE APP... 
+
+SABEMOS COMO PODEMOS 
+
+
+OUTPUTTAR CONTENT (string interpolation) OU 
+
+BINDAR ATTRIBUTES ('v-bind'),
+
+
+
+
+E QUE 
+
+
+PODEMOS OU:
+
+
+
+
+1) SETTAR 'data', propriedades com data lá no nosso VUE APP _ E ENTÃO _ OUTPUTTAR ESSA DATA LÁ NO NOSSO HTML, com string interpolationo 
+
+
+
+
+2) RODAR METHODS LÁ NO VUE APP, CUJOS RESULTADOS 
+
+
+ACABAM SENDO OUTPUTTADOS, POR STRING INTERPOLATION/'v-bind' (em attributes)
+
+LÁ NO NOSSO HTML...
+
+
+
+
+
+
+
+
+----> TUDO DEPENDE DAQUILO QUE VOCê ESTÁ CONSTRUINDO, 
+
+E QUAL É O OBJETIVO 
+
+
+DE SEU APP...
+
+
+
+
+
+
+
+
+--> MAS ANTES DE PRATICARMOS ESSES PRIMEIROS CONCEITOS,
+
+
+HÁ ALGUMAS COISAS QUE 
+
+DEVEMOS SABER SOBRE 
+
+
+
+O 
+
+VUE E SOBRE __ COMO _ PODEMOS TRABALHAR COM SUA DATA...
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE TEMOS ALGUNS COURSE GOALS ARMAZENADOS EM PROPRIEDADES NA DATA 
+
+
+
+DO VUE...
+
+
+
+
+
+
+
+
+
+tipo 'courseA'
+
+e 
+'courseB'...:
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the Fight.',
+      dynamicLink: 'exemplo.com',
+      courseA: 'EXEMPLO1',
+      course2: 'EXEMPLO2'
+    };
+  },
+
+  methods: {
+    randomizeCourseGoal() {
+      const rollDice = Math.random();
+
+      if (rollDice > 0.5) {
+        this.courseGoal = 'EXEMPLO';
+      } else {
+        this.courseGoal = 'End the Fight.';
+      }
+    },
+
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        return 'Learn Vue!';
+      } else {
+        return 'Master Vue!';
+      }
+    },
+  },
+});
+
+app.mount('#user-goal');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+TEMOS 2 DIFERENTES GOALS ALI DENTRO...
+
+
+
+
+
+
+
+
+
+
+----> AGORA VAMOS QUERER TER OUTRO METHOD,
+
+'outputGoal2()',
+
+
+QUE 
+
+
+
+
+VAI _ OUTPUTTAR 
+
+
+
+,
+
+
+A PARTIR DO 'Math.random()',
+
+
+ALEATORIAMENTE,
+
+ALGUMA 
+
+DAQUELAS 2 PROPRIEDADES...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        return this.courseA;
+      } else {
+        return this.courseB;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK...
+
+
+
+
+
+
+
+
+PRECISAMOS DESSA SINTAXE/FEATURE DO 'this',
+
+PARA CONSEGUIR 
+
+ACESSAR ESSAS PROPRIEDADES...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        //exemplo  de como retornar data elencada DENTRO DO VUE, dentro dos methods do próprio vue...
+        return this.courseA;
+      } else {
+        return this.courseB;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'THIS' --> É UMA KEYWORD DO JAVASCRIPT..
+
+
+
+
+
+
+
+
+
+--> a keyword 'this' pode ser tricky...
+
+
+
+
+
+
+
+-> mas nesse contexto, this __ NÃO _ DEVERIA_ 
+
+se referir ao object 'data',
+ 
+
+ MAS _ ACABA SE REFERINDO..
+
+
+
+
+
+
+
+
+
+
+
+ MAS O VUE FAZ MÁGICA --> 
+
+ ELE BASICAMENTE 
+ PEGA TODA A 'data'
+
+ QUE 
+
+ VOCÊ 
+
+
+ RETORNA NAQUELE object de 'data'
+
+
+ E ENTÃO 
+
+
+
+ FAZ MERGE 
+
+
+ DE TODA _ELA __ EM UM 'GLOBAL VUE INSTANCE OBJECT',
+
+
+
+
+ em 
+ 1 
+
+
+ 'vue app object',
+
+
+
+
+
+
+ QUE ACABA _ FICANDO DISPONÍVEL 'BEHIND THE SCENES',
+
+
+
+ EM UM 'BEHIND THE SCENES-MANAGED VUE APP OBJECT'...
+
+
+
+
+
+
+
+
+
+ --> SEUS METHODS TAMBÉM FICAM DISPONÍVEIS NESSE OBJECT,
+
+ E ELES 
+
+ SEMPRE __ 
+
+
+
+ FICAM COM ACESSO 
+
+
+ A QUALQUER COISA ARMAZENADA NESSE OBJECT,
+
+
+ POR MEIO DA KEYWORD 'this' 
+
+
+
+ DO JAVASCRIPT..
+
+
+
+
+
+
+
+
+ --> É POR ISSO QUE PODEMOS USAR 'this'
+
+
+ PARA NOS REFERIR A DATA 
+
+ ARMAZENADA NO VUE...
+
+
+
+
+
+
+
+
+
+ --> é por isso que posso escrever 
+
+
+''''
+
+ return this.courseA;
+
+
+''''
+
+
+
+
+
+
+E TER CONHECIMENTO 
+
+
+
+DA KEYWORD 'this'
+
+E
+ 
+
+ SOBRE 
+
+
+
+
+ O QUE ELA SE REFERE 
+
+
+
+ NO VUE APP,
+
+
+
+ isso é mt importante...

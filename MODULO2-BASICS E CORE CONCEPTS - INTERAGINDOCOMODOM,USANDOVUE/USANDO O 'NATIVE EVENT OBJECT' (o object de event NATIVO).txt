@@ -1,0 +1,1213 @@
+
+
+
+
+
+JÁ VIMOS BASTANTE COISA NO DUMMY APP DE EVENTS, QUE É ESTE AQUI:
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="addToCounter">Add</button>
+        <!-- É MELHOR RODAR ESSE CÓDIGO de baixo LÁ EM UM METHOD, NO VUE APP, E NÃO AQUI, DE FORMA INLINE-->
+        <button v-on:click="counter++">Add</button>
+        <button v-on:click="addToCounterDynamic(5)">Add 5 </button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <button v-on:click="counter--">Remove</button>
+        <!-- É ASSIM QUE PASSAMOS ARGUMENTOS A NOSSOS METHODS DEFINIDOS LA´NO APP VUE-->
+        <button v-on:click="removeFromCounterDynamic(5)">Remove 5</button>
+        <p>Result: {{ counter }}</p>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+E ESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      // this.counter++
+      this.counter = this.counter + 1;
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+
+    addToCounterDynamic(num) {
+      this.counter = this.counter + num;
+    },
+
+    removeFromCounterDynamic(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA DEVEMOS MELHORAR UM POUCO ESSE APP...
+
+
+
+
+
+
+
+
+
+--> VAMOS ADICIONAR UM INPUT DE TYPE 'text'...
+
+
+
+
+
+
+
+
+<input type="text">
+    <p>Your Name: {{}} </p>
+
+
+
+
+
+
+
+
+
+
+--> AGORA O PROFESSOR QUER QUE O USER SEJA CAPAZ DE INPUTTAR _ O SEU 
+
+
+Name 
+
+__ NAQUELE 
+
+INPUT FIELD 
+
+ALI...
+
+
+
+
+
+
+
+
+
+-----> ACHO QUE O PROFESSOR QUER SETTAR 'TWO-WAY DATA-BINDING'..
+
+
+
+
+
+
+
+
+--> PARA INÍCIO DE CONVERSA, O PROFESSOR CRIA UMA PROPRIEDADE DE NOME 
+
+'name' 
+
+LÁ 
+
+
+
+
+NO  APP vue...
+
+
+ex:
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: ''
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      // this.counter++
+      this.counter = this.counter + 1;
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+
+    addToCounterDynamic(num) {
+      this.counter = this.counter + num;
+    },
+
+    removeFromCounterDynamic(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+--> ELE PODE SER INICIALMENTE VAZIO...
+
+
+
+
+
+--> e AÍ VAMOS OUTPUTTAR ESSE NAME LÁ NO INTERPOLATION...
+
+
+ex:
+
+
+
+
+<input type="text">
+    <p>Your Name: {{name}} </p>
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+MAS AGORA TAMBÉM  TEMOS ESSE INPUT FIELD AÍ...
+
+QUEREMOS 
+
+
+QUE TUDO QUE É INPUTTADO 
+
+
+NESSE INPUT FIELD 
+
+
+ACABE 
+
+
+__ REFLETIDO 
+
+
+NAQUELE 'state' 
+
+
+
+do 'name',
+
+lá no vue app....
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+
+
+__ PODEMOS __ USAR__ 
+
+
+UM EVENT, É CLARO...
+
+
+
+
+
+(
+
+    podemos escrever 
+
+
+
+    um 'v-on' 
+
+    COM EVENT DE 'keyup',
+
+    para aí 
+
+
+    ATUALIZAR O 
+
+
+    VALUE DO 'name'
+
+    SEMPRE QUE 
+
+    O USER DIGITAR ALGUMA COISA...
+)
+
+
+tipo assim:
+
+
+
+
+
+        <input type="text" v-on:keyup="inputChangedHandler($event)"> 
+        <p>Your Name: {{ name }}</p>
+
+
+
+
+
+
+
+
+
+
+
+--> CONSEGUI, É UMA SINTAXE 
+
+PARECIDA COM A DO ANGULAR...
+
+
+
+
+
+
+
+sim.... é verdade...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COMEÇA COM UM CÓDIGO BEM PARECIDO COM O MEU:
+
+
+
+
+
+
+
+
+<input type="text" v-on:keyup> 
+
+
+
+
+
+
+
+
+---> MAS ELE DIZ QUE NÃO QUER USAR 'keyup'
+
+OU 'keydown'...
+
+(
+
+    PQ ELES POSSUEM BEHAVIORS PRÓPRIOS...
+)
+
+
+
+
+
+
+--> MAS O __ MELHOR _ EVENT _ 
+
+A FAZER LISTEN TO, 
+
+
+
+NO 
+
+
+'VUEJS',
+
+
+É 
+
+O 
+
+
+EVENT DE 'input'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+<input type="text" v-on:input="inputChangedHandler($event)">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O 'INPUT'
+
+
+É UM EVENT __ 
+
+
+DISPONÍVEL EM HTML ELEMENTS,
+
+
+
+NÃO É ESPECÍFICO AO VUEJS..
+
+
+
+
+
+
+
+
+
+--> VOCÊ PODE FAZER LISTEN TO AO EVENT DE 'input'
+
+
+
+NO VANILLA JAVASCRIPT TAMBÉM....
+
+
+
+
+
+
+
+
+
+
+--> bem, 
+
+ESTAMOS DIZENDO AO VUE QUE QUEREMOS FAZER ' LISTEN TO' 
+
+
+
+A ESSE INPUT EVENT,
+
+NESSE INPUT ELEMENT...
+
+
+
+
+
+
+
+
+
+--> AGORA, NOVAMNETE,
+
+QUEREMOS ESPECIFICAR UM METHOD/CODE A SER EXECUTADO 
+
+
+
+SEMPRE QUE 
+ESSE EVENT FOR EMITIDO (que será sempre a partir de cada keystroke)...
+
+
+
+
+
+
+
+
+--> OK,
+
+
+AÍ QUEREMOS 
+
+
+DEFINIR A PROPRIEDADE DE NAME COMO SENDO EQUIVALENTE A 
+
+
+
+'event.target.value'... 
+
+
+
+
+
+
+--> E O EVENT  TARGET  VALUE É OBTIDO  ATRAVÉS de 
+
+
+'$event'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+''' $event '' --> É UM BEHAVIOR 
+
+ 
+
+
+
+
+'BUILT-IN' NO PRÓPRIO JAVASCRIPT...
+
+
+
+
+
+
+
+E É UM BEHAVIOR DO QUAL PODEMOS NOS APROVEITAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRIMEIRAMENTE,
+
+
+APONTAMOS AO NOME DO NOSSO METHOD... -->  aí 
+
+
+
+
+usamos o '()'..
+
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR EXPLICA QUE 
+
+
+
+
+O __ JAVASCRIPT_ _ POSSUI UM BEHAVIOR LEGAL,
+
+
+COOL,
+
+
+QUE É DO JAVASCRIPT MESMO (mas que é usado pelo VUE),
+
+
+e que 
+
+
+
+eu __ ACHO _ que também é usado pelo angular..
+
+
+
+
+
+
+
+
+
+
+
+
+basicamente,
+
+quando você adiciona 
+
+UM EVENT LISTENER
+
+
+E ENTÃO APONTA A UMA FUNCTION 
+
+
+
+
+QUE _ DEVERÁ SER EXECUTADA QUANDO ESSE EVENT ACONTECER,
+
+
+ESSA __ FUNCTION _ SEMPRE VAI 
+
+
+
+RECEBER __ AUTOMATICAMENTE UM ARGUMENT PADRÃO... (
+
+    o browser vai assegurar 
+    que esse argumento é providenciado...
+)
+
+
+
+
+
+
+
+
+E ISSO SERÁ UM _ _OBJECT__ DESCREVENDO O EVENT QUE ACONTECEU...
+
+
+
+
+
+
+----> É POR ISSO QUE PODEMOS DEFINIR O 
+
+'event' 
+
+
+lá em 
+
+
+'inputChangedHandler',
+
+
+TIPO ASSIM:
+
+
+
+
+
+    inputChangedHandler(event) {
+      this.name = event.target.value;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+E LÁ NO HTML, ESCREVI ASSIm:
+
+
+
+
+
+
+
+
+
+        <input type="text" v-on:input="inputChangedHandler($event)">
+        <p>Your Name: {{ name }}</p>
+
+
+
+
+
+
+
+
+
+--> OK... E QUANDO PASSAMOS UM ARGUMENTO A UM METHOD MANUALMENTE,
+
+
+ESSE ARGUMENTO DE '$event'
+
+SEMPRE FICARÁ POR ÚLTIMO... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PQ ESSE OBJECT É ÚTIL?
+
+
+
+
+--> É PQ ELE CONTÉM
+
+
+MUITA INFORMAÇÃO SOBRE O EVENT,
+E NOS 
+
+DARÁ 
+
+INFO SOBRE O 
+
+
+'HTML ELEMENT EM QUE ESSE EVENT ACONTECEU '--> E AÍ _ _PODEMOS __ LER O currentValue,
+
+
+armazenado nesse input,
+
+
+
+
+
+A PARTIR DESSE EVENT...
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE ESCREVEMOS 
+
+'event.target.value'... 
+
+
+
+
+
+
+
+
+
+
+
+
+''EVENT.TARGET'' --> nos dá acesso ao ELEMENT EM QUE 
+
+__ ESSE EVENT ACONTECEU...
+ 
+
+
+
+ JÁ 
+
+
+ '.value'
+
+
+ VAI NOS DAR ACESSO AO VALUE ARMAZENADO NESSE 
+ ELEMENT...
+
+
+
+
+
+
+
+
+
+
+
+ ---------------------
+
+
+
+
+ em 
+
+ 'mdn input' --> GANHAMOS MAIS INFO SOBRE ESSE 
+
+ ELEMENT --> ELE 
+ TEM ESSA PROPRIEDADE DE 
+
+ 'value',
+
+
+ QUE PODEMOS USAR PARA VER O QUE O USER INPUTTOU...
+
+
+
+
+
+
+
+
+
+
+
+ -----> OK, ISSO VAI UPDATAR NOSSA PROPRIEDADE DE 'name'
+
+
+
+
+ COM O VALUE QUE O USER INPUTTA NO INPUT FIELD...
+
+
+
+ SALVAMOS E RECARREGAMOS TUDO...
+
+
+
+
+
+
+
+
+ PERCEBEMOS QUE ISSO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É A REATIVIDADE DO VUE EM AÇÃO ---> NOS DEIXA REAGIR A ESSE EVENT 
+
+ E 
+ EXECUTAR AQUELE METHOD =--> 
+
+
+
+
+ AÍ O 
+
+
+
+ VUE 
+
+ DETECTA QUE 
+
+ O 
+
+ NAME MUDOU,
+
+ E AÍ 
+
+
+
+ ALTERA LOGICA E VISUALMENTE  AS PARTES DO SITE EM QUE ISSO MUDOU...
+
+
+
+
+
+
+
+
+
+ --> como sidenote,
+
+
+
+
+ SE INSPECIONARMOS 
+
+ ESSE ELEMENTO 
+
+ LÁ 
+
+
+
+ NO CHROME DEVTOOLS,
+
+ vocÊ 
+
+ perceberá 
+
+
+ que 
+
+ a parte com o paragraph vai 
+
+ FLASHAR (
+
+
+    significa que foi RE-RENDERIZADO...
+ )
+
+
+
+ -- -- APENAS AS PARTES QUE FORAM ALTERADAS, NO NOSSO CÓDIGO,
+
+
+ FORÇARAM 
+
+ UPDATES 
+
+ NA TELA,
+
+
+ re-renders 
+
+ de 
+
+
+partes da tela..
+
+
+
+
+
+
+
+
+
+-> O VUE É INTELIGENTE E 
+
+
+PERCEBE QUE 
+
+
+
+__ COM CADA KEYSTROKE APENAS O NAME MUDA,
+
+POR ISSO 
+
+
+ELE ENCONTRA TODAS AS PARTES 
+
+
+
+EM QUE USAMOS ESSE 'NAME'
+
+
+E AÍ _ 
+
+
+AS ALTERA.. ( 
+
+    o resto é deixado intocado,
+
+    o que quer dizer que 
+    salvamos 
+
+    performance/ficamos com uma performance melhor..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+E É ASSIM QUE TRABALHAMOS COM EVENTS NO VUE....
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ MAIS 1 DETALHE SOBRE 
+
+
+ESSE EVENT OBJECT... --> 
+
+
+
+
+CENÁRIOS EM QUE 
+
+
+
+TEMOS DE CHAMAR NOSSO 
+
+METHOD POR CONTA PRÓPRIA,
+
+
+PASSANDO 
+
+ALGUM OUTRO ARGUMENTO (como um 'second name', por exemplo)...
+
+
+
+
+
+
+
+
+--> NESSES  CASOS, 
+
+
+O 'event'
+
+
+
+DEVERÁ SER PASSADO,
+
+
+LÁ NOS PARÂMETROS, 
+
+
+
+COMO A ESCRITA '$event'...
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+        <input type="text" v-on:input="inputChangedHandlerSpecial($event, 'Panazolo')">
+        <p>Your Name: {{ name }}</p>
+
+
+
+
+
+
+
+
+
+E NO NOSSO METHOD:
+
+
+
+
+    inputChangedHandlerSpecial(event, lastName) {
+      this.name = event.target.value + '' + lastName; 
+    }
+
+
+
+
+
+
+
+
+
+    ISSO É UM RECURSO DO VUE,
+
+
+    PARA QUE 
+
+    VOCÊ CONSIGA USAR 
+
+
+    ESSE EVENT AO MESMO TEMPO QUE __ PASSA OUTRO ARGUMENTO (de sua autoria) 
+
+
+    A ALGUM METHOD 
+
+
+
+    no seu vue app...
+
+
+
+
+
+
+
+
+
+
+
+
+    ENTRETANTO, NOVAMENTE,
+
+
+    ISSO SÓ É NECESSÁRIO SE 
+
+    _VOCÊ 
+
+
+
+    NÃO ESTÁ USANDO AQUELA ESCRITA TRADICIONAL DE 'nomeDoMethod' (sem a escrita 'nomeDoMethod(valorDoParametro)' )...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> OK... ESSE É APENAS OUTRO SIDENOTE,
+
+
+
+    PQ 
+
+
+
+    __ MTAS VEZES 
+
+
+
+    A  ESCRITA DE 
+
+
+
+
+    'nomeDoMethod' 
+
+
+    ou 
+
+    'nomeDoMethod($event)'
+
+
+
+    BASTARÁ,
+
+    E VOCÊ 
+
+    PODERÁ 
+    ACESSAR 
+
+    ESSE 'EVENT OBJECT' 
+
+
+    por meio da escrita de 
+
+
+    'nomeDoMethod(event) {
+
+
+        event.xxxxxx
+    }'
+    

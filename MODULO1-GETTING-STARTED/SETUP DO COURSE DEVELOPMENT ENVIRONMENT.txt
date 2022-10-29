@@ -1,0 +1,91 @@
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUE OLHAMOS UM POUCO 
+
+O VUE,
+
+
+
+DEVEMOS 
+
+
+
+
+VER RAPIDAMENTE O QUE ESTUDAREMOS NESSE CURSO...
+
+
+
+
+
+
+
+
+
+DEPOIS ESTUDAREMOS O VUE A FUNDO..
+
+
+
+
+
+
+
+
+
+
+
+
+-------------> O PROFESSOR USA VISUAL STUDIO CODE..
+
+
+
+
+
+
+
+
+
+
+
+---> O PROFESSOR NÃO USA NENHUMA OUTRA SETTING ESPECIAL..
+
+
+
+
+
+
+
+--> MAS O PROFESSOR USA UM SHORTCUT MT ÚTIL,
+
+
+
+
+
+que é 'format document'...
+
+
+
+
+
+
+
+--> ESSE SHORTCUT EU JÁ TENHO...
+
+
+
+
+
+
+
+
+
+--> ELE ESTÁ USANDO O PRETTIER...

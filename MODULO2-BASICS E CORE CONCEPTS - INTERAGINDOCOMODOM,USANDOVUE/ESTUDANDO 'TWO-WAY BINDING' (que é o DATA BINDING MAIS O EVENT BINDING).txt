@@ -1,0 +1,1043 @@
+
+
+
+
+
+
+
+
+BEM, DE VOLTA AO PROJETO QUE ESTUDAMOS ANTES,
+
+
+
+AQUELE 'NOVOPROJETO2'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> É O MESMO PROJETO, MAS AGORA UM POUCO MAIS SIMPLIFICADO, PARA QUE 
+
+
+
+SEJA POSSÍVEL APRENDER UM NOVO CONCEITO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> O CÓDIGO HTML COMEÇA ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="add(10)">Add 10</button>
+        <button v-on:click="reduce(5)">Subtract 5</button>
+        <p>Result: {{ counter }}</p>
+        <input type="text" v-on:input="setName($event, 'Schwarzmüller')">
+        <p>Your Name: {{ name }}</p>
+    </section>
+</body>
+
+</html>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ -----------> OK... TEMOS O INPUT, O BUTTON, O OUTPUT DAQUELA DATA, ETC ETC...
+
+
+
+
+
+
+
+
+
+
+
+ -> OK, MAS AGORA DIGAMOS QUE TEMOS 
+
+ UM BUTTON 
+
+ QUE DEVERÁ SER 'RESET',
+
+
+ QUE DEVERÁ FAZER EXATAEMNTE O QUE ELE DIZ,
+
+
+ DEVERÁ 
+
+
+
+ _ RESETTAR O VALUE do INPUT ELEMENT _ E TAMBÉM __ O VALUE 
+
+
+
+ contido lá em 'name' (no app vue)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ---> PARA ISSO, PODEMOS ADICIONAR UM NOVO  METHOD, DE NOME 'resetInput()'..
+
+
+
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+  methods: {
+    setName(event, lastName) {
+      this.name = event.target.value + ' ' + lastName;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+      // this.counter--;
+    },
+
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EU ESCREVI ASSIM, SIM, 
+
+E ISSO __ PARECE TER FUNCIONADO...(pq 
+
+
+a data de `name` TERÁ SIDO APAGADA, E COMO ELA ESTÁ VINCULADA AO OUTPUT FIELD, ele também é limpo...)
+
+
+
+
+
+
+
+
+
+
+
+--> ok, mas aqui queremos _ MAIS DO QUE _ISSO.... --> QUEREMOS _ QUE _ o INPUT FIELD TAMBÉM SEJA LIMPO 
+
+
+
+AO MESMO TEMPO QUE O OUTPUT E  A DATA SÃO LIMPOS...
+
+
+
+
+
+
+ok, como fazer isso?
+
+
+
+
+
+
+
+bem, uma alternativa válida seria usar 'event.target.value' para então O DEFINIR COMO ''..... ------> 
+
+
+
+
+
+NAO, ESPERE , ISSO __ NÃO FUNCIONARÁ.... --> NÃO FUNCIONARÁ __ PQ 
+
+MESMO QUE VOCÊ CLIQUE NO BUTTON,
+
+O BUTTON NÃO É O ELEEMNTO 'INPUT',
+
+
+por isso resettar seu 'event.target.value' É INÚTIL...
+
+
+
+
+
+
+
+--> PRECISAMOS DE ALGUMA SINTAXE __ QUE _ CONECTE _ O INPUT FIELD 
+
+A
+ 
+
+ ESSE DATA de 'name' (a data/state do vue),
+
+
+
+ PARA QUE __ O INPUT FIELD TAMBÉM SEJA LIMPO _ QUANDO O BUTTON FOR PRESSIONADO E ESSA DATA FOR APAGADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> ok, mas como fazer isso?
+
+
+
+
+
+
+
+ --> PROVAVELMENTE COM 'v-model'...
+
+
+
+
+
+
+
+
+ ---> EXATO.... 'v-model' 
+
+ É USADO _ PARA __ ESTABELECER__ TWO-WAY BINDING 
+
+
+
+
+ ENTRE 1 ELEMENTO  (como input fields) 
+
+
+ E UMA PROPRIEDADE NO 
+
+
+
+ VUE APP...
+
+
+
+
+
+
+ -> no caso do input, talvez ficará assim:
+
+
+
+
+
+
+
+
+         <button v-on:click="resetInput" v-model="name">Reset Input</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+         CERTO, MAS O PROBLEMA É QUE ESSE CÓDIGO REALMENTE NÃO FUNCIONOU:
+
+
+
+
+
+                 <button v-on:click="resetInput" v-model="name">Reset Input</button>
+        <p>Your Name: {{ name }}</p>
+
+
+
+
+    
+
+
+
+
+
+
+
+
+    ACHO QUE A RAZÃO DE ISSO TER FALHADO É SIMPLES:
+
+
+
+
+
+
+
+ESSA DIRECTIVE DE 'v-model'
+
+DEVE/DEVERIA TER SIDO COLOCADA LÁ NO INPUT FIELD,
+PQ É 
+
+ELE QUE VAI DEPENDER DO 'CLEAR'
+
+
+
+DO VALUE/DATA LÁ 
+
+
+
+NA PROPRIEDADE 'name' no app vue..
+
+
+
+
+
+
+
+
+
+
+
+--> acho que fica tipo assim:
+
+
+
+
+
+
+
+        <input type="text" v-on:input="setName($event, 'Schwarzmüller')" v-model="name">
+        <!-- EXEMPLO DE TWO-WAY DATABINDING (event binding e DATA binding ao mesmo tempo... O FIRE DESSE EVENT DE CLICK sobre o button faz com que a DATA de 'name' no app vue seja limpa, e isso, por consequência, faz com que o INPUT FIELD SEJA LIMPO...)-->
+        <button v-on:click="resetInput" >Reset Input</button>
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO, MAS AQUI FICO COM UM COMPORTAMENTO BIZARRO... --> CADA VEZ QUE 
+
+
+
+digito algo 
+
+
+
+
+NO INPUT FIELD,
+
+
+É OUTPUTTADO UM NOVO '<p>'
+
+
+
+
+
+PARA ESSE INPUT...
+
+
+
+
+
+
+
+--> TALVEZ A SOLUÇÃO PARA ESSE PROBLEMA SEJA _ REMOVER AQUELa directive 
+de 
+
+
+
+
+'v-on:input',
+
+
+PARA QUE 
+
+SÓ EXISTA O TWO-WAY DATA-BINDING PROPORCIONADO por 
+
+
+
+'v-model'...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+        <input type="text" v-model="name">
+        <!-- EXEMPLO DE TWO-WAY DATABINDING (event binding e DATA binding ao mesmo tempo... O FIRE DESSE EVENT DE CLICK sobre o button faz com que a DATA de 'name' no app vue seja limpa, e isso, por consequência, faz com que o INPUT FIELD SEJA LIMPO...)-->
+        <button v-on:click="resetInput" >Reset Input</button>
+        <p>Your Name: {{ name }}</p>
+
+
+
+
+
+
+
+
+
+
+
+        TOUCHÉ... EU ESTAVA CERTO...
+
+
+
+
+
+
+
+        com isso removido, todas as coisas realmente acabam conectadas:
+
+
+
+
+
+
+1) O INPUT FIELD ACABA CONECTADO COM O DATA FIELD lá no vuejs... (quando o input field é limpo, o data field TAMBÉM É CLEARED, e VICE-VERSA)
+
+
+
+
+2) SE CLICAMOS NO BUTTON DE 'reset input',
+
+ELE __ LIMPA _ o VALUE DO 'DATA FIELD',
+
+que é algo que acaba repercutindo no INPUT FIELD,
+
+
+
+que também acaba sendo cleared...
+
+
+
+
+
+
+
+
+
+---> ISSO É BEM MAIS CONVENIENTE DO QUE TENTAR ACESSAR 
+
+COM 
+
+JAVASCRIPT VANILLA (
+
+
+    pq 
+
+    é bem hacky,
+
+
+
+
+    não vamos usar vue para então 
+
+    fallback 
+
+    a 
+
+    alternativas hacky como essas...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR EXPLICA:
+
+
+
+
+
+PODEMOS USAR A PROPRIEDADE 'name',
+
+
+
+QUE É UPDATADA 
+
+A PARTIR 
+
+DE 
+
+CADA 
+
+
+
+KEYSTROKE...
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR _ NÃO USOU 'v-model'...
+
+
+
+
+
+
+
+
+em vez disso,
+
+ele usou 
+
+'v-bind'...
+
+
+
+
+
+
+
+
+
+usou tipo assim:
+
+
+
+
+
+
+
+<input type="text" v-bind:value="name" v-on:input="setName" />
+
+
+
+
+
+
+
+
+-> OU SEJA,
+
+ELE FEZ BIND DO 'VALUE' 
+
+
+de esse input field 
+
+
+
+como sendo EQUIVALENTE 
+
+
+À PROPRIEDADE 
+
+'name'
+
+QUE TEMOS 
+LÁ 
+
+
+NO vue app... 
+
+
+
+
+
+
+
+
+--> mas isso aí, esse data binding PURO,
+
+
+
+
+quando combinado com aquele method de 'setName'  (que adiciona 'LAST NAME' ao final da string inputtada pelo user),
+
+
+
+
+RESULTA EM UM COMPORTAMENTO ESTRANHO...
+
+
+
+
+
+
+
+
+---> É POR ISSO QUE NOS LIVRAMOS 
+
+DESSa parte do 'last name'
+ do setName....
+
+
+
+
+
+
+ --> OK, AÍ SEGUIMOS COM AQUELE CÓDIGO sem o 'v-model',
+
+
+
+
+E O PROFESSOR APENAS ESTÁ FALANDO DESSE PATTERN DO 'v-bind'
+
+PQ ELE 
+
+É UM PATTERN QUE VOCê PODE PRECISAR USAR, EM ALGUMAS
+
+OCASIÕES...
+
+
+
+
+
+
+
+
+
+--> VOCê àS VEZES TERÁ INPUTS EM QUE 
+
+VOCÊ 
+
+
+''VAI QUERER FAZER MAIS DO QUE APENAS CAPTAR O VALUE QUE O USER INPUTTOU, 
+
+MAS TAMBÉM _ VAI QUERER _ __
+
+SETTAR O VALUE _  DO INPUT __ PARA QUE _ ENTÃO 
+
+
+ESSE INPUT POSSA SER RESETTADO COM UM BUTTON,
+
+OU COM QUALQUER OUTRA LÓGICA QUE VOCê TEM NA SUA PAGE' '' -->  
+
+
+
+
+
+
+
+
+E VOCÊ PODE OBTER ESSE EFEITO por meio de não só 
+
+o 
+'LISTEN AO INPUT',
+
+
+
+MAS TAMBÉM POR MEIO DO 'SEND DO STORED VALUE DE VOLTA AO INPUT, por meio do BIND DA PROPRIEDADE DE "value" ' ----> 
+
+
+
+
+
+E ESSE PATTERN É __ TÃO COMUM __ QUE 
+
+
+O VUE 
+
+
+TEM UM _ SHORTCUT 
+
+PARA 
+
+
+ESSE COMPORTAMENTO.. ---->
+
+
+
+
+
+
+
+
+É O SHORTCUT DE 
+
+
+'v-model',
+
+
+
+QUE É USADO JUSTAMENTE PARA OBTER ESSE COMPORTAMENTO DE TWO-WAY BINDING...
+
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO ''COMPLETO'', SEM SHORTHAND, É ASSIM:
+
+
+
+
+<input type="text" v-bind:value="name" v-on:input="setName" />
+<button v-on:click="resetInput">Reset Input</button>
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO __ COM SHORTHAND, com o 'v-model', É ASSIM:
+
+
+
+
+
+<input type="text" v-model="name" />
+<button v-on:click="resetInput">Reset Input</button>
+
+
+
+
+
+
+
+
+OU SEJA, O 'v-model' ABREVIA TUDO ISSO, DEIXA O NEGÓCIO BEM MAIS FÁCIL de ler/entender.....
+
+
+
+
+
+você já tem uma noção, imediatamente, que 
+
+esse input field está TOTALMENTE CONECTADO A DATA PROPERTY DE 'name'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+(
+
+ESSA DIRECTIVE É USADA QUANDO VOCÊ QUER COISAS COMO 
+
+''1 BUTTON QUE FAZ A DATA PROPERTY VINCULADA AO INPUT FIELD E A DATA DO INPUT FIELD SEREM 
+
+LIMPAS _ AUTOMATICAMENTE, AO MESMO TEMPO'',
+
+
+e quando você quer que cada UPDATE DO VALUE NO INPUT FIELD 
+
+
+UPDATE TAMBÉM O DATA FIELD no app vue, e vice-versa..
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+essa directive de 'v-model'
+
+
+VAI QUERER _ APENAS _A 'DATA PROPERTY' 
+
+
+
+
+
+QUE ELE DEVERÁ FAZER 'MANAGE' PARA VOCÊ .... (no caso, a propriedade de 'name')...
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA PROPRIEDADE DE 'name' 
+
+
+
+É _ AGORA _ UPDATADA A PARTIR DE CADA 
+
+
+
+'input event' no 
+
+
+
+ELEMENT DE 'input',
+
+
+
+
+
+E __ AGORA __ O VALUE DESSA PROPRIEDADE 'name' 
+
+
+É ENTÃO 
+
+
+ENVIADA _ AUTOMATICAMENTE DE VOLTA AO 
+
+
+INPUT ELEMENT... (tudo conectado)...
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que o 'v-model' 
+
+
+É UM SHORTCUT PARA 
+
+
+'v-bind:value  v-on:input="setName"' 
+
+
+
+
+
+
+
+SE RECARREGAMOS, FICAMOS COM O MESMO BEHAVIOR DE ANTES,
+
+
+MAS AGORA COM MENOS CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE É O TWO-WAY BINDING,
+
+
+PQ 
+
+
+ESTAMOS 
+NOS COMUNICANDO 
+
+'DE 2 CAMINHOS DIFERENTES'..
+
+
+
+
+
+
+
+
+
+
+
+1o caminho --> ESTAMOS 'LISTENING' a 1 _ EVENT__ (input event) SAINDO _ DE FORA DO _ _ELEMENTO 'input'...
+
+
+
+
+
+2o caminho --> ESTAMOS ENVIANDO DE VOLTA O VALUE AO 'INPUT ELEMENT', por meio da sua propriedade de 'value'. ..
+
+
+
+
+
+
+
+--> É POR ISSO QUE SE CHAMA DE 'TWO-WAY BINDING',
+
+PQ 
+
+ACABAMOS NOS COMUNICANDO 'IN BOTH DIRECTIONS' --> e isso é _ÚTIL_,
+
+
+PQ 
+
+
+DEIXA O GET DO USER INPUT E O UPDATE DESSE USER INPUT BEM MAIS FÁCIL...
+
+
+
+
+
+
+
+--> VOCÊ 
+
+
+
+PRECISA DE MENOS CÓDIGO,
+
+
+
+e é por isso que é uma pattern/directive que você deve ter em mente...
+
+
+
+
+
+
+

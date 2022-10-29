@@ -1,0 +1,1551 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA QUE VIMOS O BÁSICO SOBRE EVENTS, E NOSSO CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="addToCounter">Add</button>
+        <!-- É MELHOR RODAR ESSE CÓDIGO de baixo LÁ EM UM METHOD, NO VUE APP, E NÃO AQUI, DE FORMA INLINE-->
+        <button v-on:click="counter++">Add</button>
+        <button v-on:click="addToCounterDynamic(5)">Add 5 </button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <button v-on:click="counter--">Remove</button>
+        <!-- É ASSIM QUE PASSAMOS ARGUMENTOS A NOSSOS METHODS DEFINIDOS LA´NO APP VUE-->
+        <button v-on:click="removeFromCounterDynamic(5)">Remove 5</button>
+        <p>Result: {{ counter }}</p>
+
+
+
+        <!-- EXEMPLO DE 'NATIVE EVENT OBJECT' -->
+        <!-- <input type="text" v-on:keyup="inputChangedHandler($event)">  -->
+
+        <!-- É MELHOR USAR O EVENTO 'input' EM ELEMENTOS 'input' do que os eventos 'keyup' ou 'keydown'-->
+        <input type="text" v-on:input="inputChangedHandler($event)"> <!-- com este primeiro, passamos só o EVENT OBJECT-->
+        <input type="text" v-on:input="inputChangedHandlerSpecial($event, 'Panazolo')"> <!-- com este segundo, passamos o EVENT OBJECT E TAMBÉM UM PARAMETRO A SER USADO NO METHOD-->
+        <p>Your Name: {{ name }}</p>
+
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      // this.counter++
+      this.counter = this.counter + 1;
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+
+    addToCounterDynamic(num) {
+      this.counter = this.counter + num;
+    },
+
+    removeFromCounterDynamic(num) {
+      this.counter = this.counter - num;
+    },
+
+    inputChangedHandler(event) {
+      ///SINTAXE SIMILAR À DO ANGULAR ($event, que contém event.target.value e outras propriedades)..
+      this.name = event.target.value; ///exatamente como vanilla javascript e angular
+    },
+
+    inputChangedHandlerSpecial(lastName, event) {
+      this.name = event.target.value + '' + lastName;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA QUE JÁ TEMOS OS BASICS SOBRE EVENTS JÁ 
+
+
+COMPREENDIDOS,
+
+DEVEMOS ESTUDAR 
+
+
+
+'EVENT MODIFIERS',
+
+
+QUE É 
+
+
+ __ OUTRA FEATURE _ BUILT-IN 
+
+
+ NO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+ --O PROFESSOR MOSTRA UM USE-CASE COMUM DE 
+
+
+ 'event modifiers'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ele cria uma form, com um input element...
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+ <form>
+    <input type="text">
+        <button>Sign Up</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+--> UM PROBLEMA TRADICIONAL DE HTML,
+
+É QUE QUANDO VOCê CLICAR NESSE BUTTON,
+
+A PÁGINA VAI RECARREGAR -->  ISSO ACONTECE PQ 
+
+
+
+O __ BROWSER DEFAULT,
+
+
+PARA UMA 
+
+
+PAGE 
+
+QUE NEM ESSA,
+
+É RECARREGAR A PAGE QUANDO ACONTECE UM CLICK EM UM BUTTON DE TYPE 'submit'
+
+DENTRO DE UMA FORM...
+
+
+
+(
+    SUBMITTAR A FORM 
+
+    E ENVIAR UM HTTP REQUEST 
+
+    A UM SERVER QUE ESTÁ SERVINDO ESSE APP... E ISSO RECARREGA A PÁGINA... 
+)
+
+
+
+
+
+
+
+
+E É CLARO QUE, NO MOMENTO,
+
+NÃO TEMOOS CÓDIGO ALGUM PARA HANDLAR ESSE REQUEST ---> 
+
+
+CHEGAREMOS 
+A ISSO 
+
+
+MAIS TARDE...
+
+
+
+
+
+
+
+
+
+
+-_---> TIPICAMENTE,
+
+
+COM FRAMEWORKS COMO 'VUEJS',
+
+
+VOCê 
+QUER 
+
+PREVENIR 
+
+
+ESSE BROWSER DEFAULT,
+
+PARA 
+
+ __ AÍ __ HANDLAR__ 
+
+
+ ESSA SUBMISSION MANUALMENTE,
+  
+  no javascript,
+
+
+
+  COM A AJUDA 
+
+
+  DO VUE,
+
+
+  NO SEU VUE APP (
+
+    você quer 
+
+    ler seu 
+
+
+    USER INPUT,
+
+VALIDÁ-LO,
+
+E ENTÃO 
+O 
+
+ENVIAR 
+
+
+
+MANUALMENTE 
+
+A 
+1 BACKEND PARA O  ARMAZENAR EM UMA DATABASE, POR EXEMPLO...
+
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ----> TUDO PARA PREVENIR O BROWSER DEFAULT QUE FAZ O AUTO-SEND...
+
+
+
+
+
+
+
+
+
+
+  --> 2 MANEIRAS DE FAZER ISSO --> 
+
+
+
+  A PRIMEIRA FORMA:
+
+
+
+
+
+
+
+
+  1) 
+  ESCREVER 
+
+
+  uma directive de 'v-on:submit',
+
+  PARA FAZER LISTEN 
+
+  AO 
+
+  SUBMIT EVENT 
+
+  DESSA FORM... --> 
+
+
+
+  QUANDO OCORRER ISSO AÍ,
+
+  VAMOS QUERER EXECUTAR UM METHOD 
+
+
+  QUE VAI RECEBER AQUELE 
+
+  'event',
+
+  E
+   AÍ 
+
+
+   NESSE METHOD VAMOS RODAR 'event.preventDefault()'...
+
+
+
+
+
+
+   EX:>
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+ <form v-on:submit="formSubmitHandler">
+    <input type="text">
+        <button>Sign Up</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+-----> TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+ <form v-on:submit="formSubmitHandler">
+    <input type="text">
+        <button>Sign Up</button>
+
+</form>
+
+
+
+
+
+
+
+
+    formSubmitHandler(event) {
+      event.preventDefault();
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> CERTO... ISSO VAI BLOQUEAR O DEFAULT DO BROWSER...
+
+
+
+
+
+
+
+--> NÃO SEI SE ESSE É O APPROACH 'cool' 
+
+
+que o professor estava mencionando...
+
+
+
+
+
+
+
+----> BEM, PARECE QUE ELE FEZ EXATAMENTE A MESMA COISA QUE EU FIZ...
+
+
+
+
+
+
+
+
+
+--> rodou assim:
+
+
+
+
+
+
+
+    formSubmitHandler(event) {
+      event.preventDefault();
+      alert('Submitted!');
+    },
+
+
+
+
+
+
+
+
+
+
+---> OK... SE RECARREGAMOS ISSO,
+
+
+
+SE CLICAMOS NO BUTTON,
+O 
+
+BROWSER DEFAULT TERÁ SIDO PREVENIDO...
+
+
+
+
+
+
+
+
+
+--> ESSA É UMA MANEIRA VÁLIDA, SIM,
+
+MAS __ O VUE_ 
+
+
+POSSUI UMA MANEIRA MAIS ELEGANTE DE FAZER ESSE 'BLOCK'...
+
+
+
+
+
+
+
+
+
+
+--> O VUE TEM UM RECURSO CHAMADO DE 'EVENT MODIFIER'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ _ HÁ CERTOS MODIFIERS 'BUILT-IN',
+
+
+
+OS QUAIS VOCÊ PODE CONECTAR A 
+
+
+
+
+
+__ EVENTS OS QUAIS VOCÊ ESTÁ 'LISTENING TO',
+
+PARA __ AÍ 
+
+
+
+__ MODIFICAR O SEU COMPORTAMENTO..
+
+
+
+
+
+--> PARA CONSEGUIR MODIFICAR O COMPORTAMENTO DE UM EVENT POR MEIO DO VUE,
+
+
+
+
+BASTA ADICIONAR UM '.' (ponto)
+
+
+depois 
+
+do nome do EVENT, no html,
+
+
+E AÍ 
+
+ESCREVER 
+
+
+ALGUMA OUTRA COISA... 
+
+
+
+
+
+
+
+
+---> DEPOIS DO '.',
+
+VEM O MODIFIER QUE VOCÊ DESEJA...
+
+
+
+
+
+
+
+
+exemplo:
+
+
+
+
+
+
+
+
+
+(VERSÃO VELHA/TRADICIONAL)
+
+
+   
+
+
+ <form v-on:submit="formSubmitHandlerNaoElegantePreventDefault">
+    <input type="text">
+        <button>Sign Up</button>
+
+</form>
+
+
+
+
+
+
+
+
+    formSubmitHandler(event) {
+      event.preventDefault();
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VERSÃO 'ELEGANTE', COM EVENT MODIFIERS:
+
+
+
+
+
+
+
+
+
+
+
+
+    formSubmitHandlerEleganteComEventModifier(event) {
+    }
+
+
+
+
+
+
+        <form v-on:submit.XXXX="formSubmitHandlerEleganteComEventModifier">
+            <button>Sign Up2</button>
+        </form>
+
+
+
+
+
+
+
+
+
+
+        --> NO CASO,
+
+        UTILIZAREMOS O EVENTMODIFIER 
+
+        DE 
+
+
+
+        '.prevent',
+
+        QUE 
+        É UM 
+
+
+        MODIFIER 
+
+
+        BUILT-IN NO VUE,
+
+        QUE 
+
+        VAI PREVENIR O BROWSER DEFAULT:
+
+
+
+                <form v-on:submit.prevent="formSubmitHandlerEleganteComEventModifier">
+            <button>Sign Up2</button>
+        </form>
+
+
+
+
+
+
+
+
+submit.prevent
+
+
+
+
+
+
+
+        -> ISSO FAZ A MESMA COISA QUE FIZEMOS ANTES,
+
+        MAS __ COM MENOS CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+--> HÁ TAMBÉM 
+
+
+UM MODIFIER DE 
+
+
+
+'stop',
+
+
+
+para __ PARAR __ A 'PROPAGATION',
+
+
+
+mas aqui 
+
+
+PRECISAMOS 
+
+
+
+DO MODIFIER DE 'prevent'..
+
+
+
+
+
+
+
+-_> OK, AGORA VOU CLICAR PARA RECARREGAR A PA´GINA, E ELA AINDA NÃO VAI RECARREGAR,
+
+
+GRAÇAS 
+
+
+A ESSE MODIFIER...
+
+
+
+
+
+
+
+
+
+
+
+--> É BOM SABER ISSO,
+
+
+
+
+PQ __ ESSAS COISAS SERÃO ÚTEIS MAIS TARDE...
+
+
+
+
+
+
+
+
+--> MAS TEMOS MAIS DO QUE EVENT MODIFIERS PARA MUDAR O COMPORTAMENTO DOS EVENTS/BROWSER,
+
+
+
+PQ __ 
+
+
+
+
+_ TEMOS _ TAMBÉM MODIFIERS, QUE CONECTAMOS EM EVENTS,
+
+QUE 
+
+
+__ MUDAM__ 
+
+
+
+
+'''O MOMENTO EM QUE NOSSO EVENT OCORRE''' .. --- > UM EXEMPLO DISSO 
+
+
+
+
+SERIA NOSSOS BUTTONS --> 
+
+
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE, POR QUALQUER RAZÃO,
+
+QUEREMOS QUE 
+
+ 
+
+
+
+ _ SUBTRAÍDO 5 
+
+
+
+ DE __ NOSSO _'COUNTER'_   _ APENAS__ SE O 
+
+
+
+ USER CLICAR COM O BOTÃO ___ DIREITO __ EM CIMA __ 
+
+ DO BUTTON... (pq o default é reagir a um left click)...
+
+
+
+
+
+
+
+
+
+
+ --> ISSO QUER DIZER QUE PODEMOS _ ADICIONAR _ UM MODIFIER ATÉ MESMO SOBRE O EVENT DE 'click', tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+ <button v-on:click.XXXX="reduce(5)">Subtract 5</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> NO CASO, ESSE MODIFIER SERÁ 'right'...
+
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+  <button v-on:click.right="reduce(5)">Subtract 5</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTROS VALORES DE MODIFIER PARA 'click' são:
+
+
+
+1) left 
+
+2) right 
+
+
+3) middle 
+
+
+
+
+
+-> OK... ISSO QUER DIZER QUE VOCÊ COMUNICA AO VUE QUE VOCÊ SÓ VAI QUERER REAGIR A EVENTS CLICK 
+
+DE TIPO 'RIGHT'..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+        <button v-on:click.right="addToCounterDynamic(5)">Add 5 with right click </button>
+        <button v-on:click.middle="addToCounterDynamic(5)">Add 5 with middle click </button>
+        <button v-on:click.right="removeFromCounterDynamic(5)">Remove 5 with right click</button>
+        <button v-on:click.middle="removeFromCounterDynamic(5)">Remove 5 with middle click</button>
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+É CLARO QUE 
+
+
+
+A UTILIDADE DISSO É QUESTIONÁVEL..
+
+
+
+
+
+
+
+
+
+
+
+
+mas é bom saber desses modifiers especiais...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS É CLARO QUE EXISTE 1 ÚLTIMO TIPO DE MODIFIERS,
+
+QUE SÃO 
+
+
+OS 
+
+'KEY MODIFIERS',
+
+
+
+
+
+
+
+
+QUE SÃO 
+
+
+
+MODIFIERS USADOS PARA KEYBOARD EVENTS... 
+
+
+
+
+
+
+
+--> EXEMPLO DISSO É O 
+
+
+EVENT DE 'input',
+
+
+QUE USAMOS ANTES... --> PODEMOS 
+
+COLOCAR UM MODIFIER NELE, SIM...
+
+
+
+
+
+
+
+---> DIGAMOS QUE QUEREMOS UPDATAR 
+
+
+ESSA PROPRIEDADE DE 'name' com cada 'keystroke',
+
+sim;
+
+
+
+
+MAS __ ESSE __ 
+
+
+NAME _ 
+
+
+SÓ _ DEVERÁ _ SER UPDATADO __ NO MOMENTO QUE 
+O USER 
+
+
+DIGITA 
+
+'enter' nesse input field (
+
+
+  esse será o comportamento reforçado por esse modifier...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> o nome dessa propriedade será 'confirmedName',
+
+tipo assim:
+
+
+
+
+
+
+return {
+  counter: 0,
+  name: '',
+  confirmedName: ''
+}
+
+
+
+
+
+
+
+
+
+
+NO HTML:
+
+
+
+
+
+
+        <input type="text" v-on:input.confirm="inputChangedHandlerConfirmed">
+            <p>Confirmed Name: {{ confirmedName }}</p>
+
+
+
+
+
+
+
+
+
+
+
+        --> EU PENSEI QUE ERA ASSIM QUE DEVERÍAMOS ESCREVER, MAS ESTAVA ERRADO...
+
+
+
+
+
+
+--> EM VEZ DE USAR ESSE MODIFIER QUE NÃO EXISTE ,
+
+
+
+O PROFESSOR __ ADICIONOU _ 
+
+
+
+OUTRA DIRECTIVE 
+
+
+NESSE ELEMENTO 'INPUT'... (
+
+
+  SIM, PODEMOS TER MÚLTIPLAS DIRECTIVES EM 1 MESMO ELEMENTO HTML...
+)
+
+
+
+
+
+
+
+
+
+--> ELE ADICIONA UMA DIRECTIVE DE '
+
+
+
+'v-on:keyup' ,
+
+
+
+
+
+QUE É UM EVENT 
+
+QUE É DISPARADO QUANDO UMA KEY É PRESSIONADA E LIBERADA MAIS UMA VEZ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR ESCREVE UM OUTRO METHOD,
+
+
+
+
+
+DE nome 
+
+
+'confirmInput/inputChangedHandlerConfirmed'
+
+
+
+
+
+
+
+
+
+
+
+
+--> O objetivo desse method é definir 'this.confirmedName' 
+
+
+
+COMO EQUIVALENTE 
+
+
+__ A 'this.name;' (
+
+  que é o 
+
+  NAME INTERNO, UPDATADO COM CADA KEYSTROKE...
+)
+
+
+
+
+
+
+EX:
+
+
+
+
+
+    inputChangedHandlerSpecial(lastName, event) {
+      ///como usar o EVENT OBJECT e múltiplos argumentos 'custom' (feitos/passados por nós)...
+      this.name = event.target.value + '' + lastName;
+    },
+
+
+
+    inputChangedHandlerConfirm(event) { ///exemplo de KEYBOARD MODIFIER
+      this.confirmedName = name;
+    }
+
+
+        <input type="text" v-on:input="inputChangedHandlerSpecial" v-on:keyup="inputChangedHandlerConfirmed">
+            <p>Confirmed Name: {{ confirmedName }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            --> ATUALMENTE, COM ESSA CONFIGURAÇÃO,
+
+
+
+
+        ESSE EVENT LISTENER DE 'KEYUP'
+
+
+        DISPARARIA/DISPARARÁ 
+
+        COM QUALQUER KEYSTROKE 
+
+
+        QUE TIVERMOS... --> 
+
+
+
+
+
+
+        MAS ESSE NÃO É O BEHAVIOR FINAL QUE DESEJAMOS --> EM VEZ DISSO,
+
+        PODEMOS 
+
+        USAR OUTRO MODIFIER, COM '.',
+
+
+        PARA DIZER 
+
+        AO 
+
+        VUE QUE 
+
+        APENAS 
+        QUEREMOS 
+
+
+        REAGIR,
+
+        TRIGGAR ESSE EVENT,
+
+        A PARTIR 
+        DE 
+
+        _CERTAS__ KEYS ESPECIAIS QUE SÃO PRESSIONADAS
+
+
+        E SOLTAS...
+
+
+
+
+
+
+
+
+        NO CASO, VAMOS DEFINIR 
+
+        'enter'...
+
+
+
+
+
+
+
+
+        EX:
+
+
+
+
+
+
+
+
+
+              <!-- EXEMPLO DE EVENT MODIFIER DO EVENTO 'INPUT', INPUT EVENT MODIFIERS. AQUI, APENAS 'enter' será a key que disparará esse method -->
+        <input type="text" v-on:input="inputChangedHandlerSpecial" v-on:keyup.enter="inputChangedHandlerConfirmed">
+            <p>Confirmed Name: {{ confirmedName }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            NO CASO, APENAS A KEY DE 'enter'
+
+
+
+            DISPARARÁ ESSE METHOD AÍ...
+
+
+
+
+
+
+
+
+
+            TIPO ASSIM:
+
+
+
+
+
+
+                    <input type="text"
+        
+        v-on:input="inputChangedHandlerSpecial('Panazolo', $event)" 
+        v-on:keyup.enter="inputChangedHandlerConfirmed"
+   
+        
+        >
+
+
+
+
+
+
+
+
+
+
+        CÓDIGO JS:
+
+
+
+
+
+
+
+
+        const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      confirmedName: ''
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      // this.counter++
+      this.counter = this.counter + 1;
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+
+    addToCounterDynamic(num) {
+      this.counter = this.counter + num;
+    },
+
+    removeFromCounterDynamic(num) {
+      this.counter = this.counter - num;
+    },
+
+    inputChangedHandler(event) {
+      ///SINTAXE SIMILAR À DO ANGULAR ($event, que contém event.target.value e outras propriedades)..
+      this.name = event.target.value; ///exatamente como vanilla javascript e angular
+    },
+
+    inputChangedHandlerSpecial(lastName, event) {
+      ///como usar o EVENT OBJECT e múltiplos argumentos 'custom' (feitos/passados por nós)...
+      this.name = event.target.value + '' + lastName;
+    },
+
+    formSubmitHandlerNaoElegantePreventDefault(event) {
+      event.preventDefault();
+    },
+
+    formSubmitHandlerEleganteComEventModifier(event) {
+      //sem event.preventDefault()
+    },
+
+    inputChangedHandlerConfirmed(event) { ///exemplo de KEYBOARD MODIFIER
+      this.confirmedName = this.name;
+    }
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+--> AGORA, APENAS QUANDO DIGITARMOS NO INPUT FIELD __ E APERTARMOS 'ENTER'
+
+VEREMOS 
+
+
+O OUTPUT NAQUELA GREEN BOX....
+
+
+
+
+
+
+
+---> certo...
+
+
+
+
+
+esses são os event modifiers...
+
+
+
+
+
+
+
+
+
+
+--> ok, vimos esse input usado com esse 'input event modifier' ,
+
+
+
+
+e esses modifiers em geral...

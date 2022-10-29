@@ -1,0 +1,349 @@
+
+
+
+
+
+
+
+
+
+
+CONTEUDO DO CURSO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE CURSO TEM MT COISA...
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR UPDATOU ESSE CURSO,
+
+
+
+
+
+
+E ELE TEM MT CONTEÚDO...
+
+
+COMEÇAMOS PELO BÁSICO DO BÁSICO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BÁSICO
+1) NENHUMA VUE KNOWLEDGE É NECESSÁRIA:
+
+
+
+
+
+VEREMOS:
+
+
+
+
+
+A) CORE SYNTAX 
+
+
+B) TEMPLATES 
+
+
+C) DIRECTIVES 
+
+
+
+D) DATA 
+
+
+
+E) METHODS 
+
+
+F) COMPUTED PROPERTIES 
+
+G) WATCHERS
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE TEREMOS MODULES,
+
+COURSE SECTIONS 
+
+
+
+EM QUE 
+
+VAMOS EXPLORAR CADA 1 DESSES CONCEITOS --> VAMOS APRENDER COMO CADA 1 DESSAS COISAS FUNCIONAM,
+
+
+E COMO FUNCIONAM 
+
+EM CONJUNTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS DISSO,
+
+PASSAREMOS A 
+
+
+
+2) `CONCEITOS INTERMEDIATE`:
+
+
+
+
+
+
+
+A) COMPONENTS 
+
+
+
+B) COMPONENT COMMUNICATION 
+
+
+C) BEHIND THE SCENES 
+
+
+
+D) FORMS 
+
+
+
+E) HTTP  
+
+
+
+F) ROUTING 
+
+
+G) ANIMATIONS  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------> VEREMOS COMO O VUE FUNCIONA POR TRÁS DAS CENAS,
+ENTENDER SUA MÁGICA...
+
+
+
+
+
+
+
+
+
+-> TAMBÉM VEREMOS ANIMATIONS COM O VUE...
+
+
+
+
+
+
+
+
+
+
+
+3)ADVANCED:
+
+
+
+
+
+
+
+
+1) VEREMOS 'VUEX' ---> PARA O STATE MANAGEMENT...
+
+
+
+
+
+
+
+2) VEREMOS AUTHENTICATION EM VUE APPS...
+
+
+
+
+
+
+
+3) VEREMOS COMO __ DEPLOYAR__ E OPTIMIZAR NOSSO VUE APP...
+
+
+
+
+
+4) VEREMOS 
+
+
+A COMPOSITION API (introduzida com o VUE VERSAO 3).. --> é um módulo gigante, em que aprenderemos um monte sobre ela...
+
+
+
+
+
+
+
+
+
+5) VAMOS VER COMO _ PODEMOS _ REUTILIZAR CÓDIGO,
+
+
+
+COM E SEM A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> MAS VAMOS VER TUDO ISSO 
+
+
+
+_ DE FORMA PRÁTICA,
+
+
+COM VÁRIOS MINI-PROJECTS,
+
+
+
+
+
+
+
+
+
+
+
+
+'DOZENS OF SMALL DEMOS/MINI PROJECTS'..
+
+
+
+
+
+
+
+
+
+
+
+
+-> DEPOIS VEREMOS VÁRIOS BIGGER COURSE PROJECTS...
+
+
+
+
+
+
+
+
+'--> ASSIGNMENTS, CHALLENGES,
+
+ETC...
+
+
+
+
+
+
+
+-> PODEMOS ADICIONAR 
+
+
+
+ESSES COURSE PROJECTS MAIORES __ AO NOSSO PORTFOLIO, ETC ETC...
+
+
+
+
+
+
+
+
+
+->  COM ISSO, GANHAREMOS TODA A TEORIA E PRÁTICA DE QUE PRECISAMOS..

@@ -1,0 +1,632 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA QUE TEMOS UM POUCO DO BÁSICO DO VUEJS ,
+
+
+
+
+É HORA DE PRATICAR...
+
+
+
+
+TEMOS UM STARTING PROJECT,
+
+UM ASSIGNMENT...
+
+
+
+
+
+
+---> TEMOS UM INDEX HTML FILE COM ALGUMAS INSTRUCTIONS,
+
+E UM 
+
+
+
+app.js 
+
+
+EM QUE 
+
+
+ESCREVEREMOS NOSSO VUE APP...
+
+
+
+OK, 
+
+
+
+AS INSTRUCTIONS E TAL...
+
+
+
+
+
+
+--> USAR A SINTAXE DO VUE PARA OUTPUTTAR AS COISAS...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... TERMINEI O EXERCÍCIO...
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Vue Basics</title>
+</head>
+
+<body>
+    <section id="assignment">
+        <!-- 1) Output your name -->
+        <!-- <h2>YOUR NAME</h2> -->
+        <h2>{{name}}</h2>
+        <!-- 2) Output your age -->
+        <!-- <p>YOUR AGE</p> -->
+        <p>{{age}}</p>
+        <!-- 3) Output your age + 5 -->
+        <!-- <p>YOUR AGE in 5 years</p> -->
+        <p>{{age + 5 }}</p>
+        <!-- 4) Output a random number (0 to 1) -->
+        <!-- <p>Favorite Number: RANDOM NUMBER BETWEEN 0 AND 1</p> -->
+        <p>{{ randomNumber() }}</p>
+        <div>
+            <!-- 5) Display some image you found via Google -->
+            <!-- <img src="SOME IMAGE URL" /> -->
+            <img v-bind:src="imageURL">
+        </div>
+        <!-- 6) Prepopulate the input field with your name via the "value" attribute -->
+        <input type="text" v-bind:value="name" />
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+OK... USEI V-BIND NAS 2 COISAS DE BAIXO,
+
+
+E STRING INTERPOLATION COMUM 
+
+NAS PARTES DE CIMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SOLUÇÃO DO PROFESSOR:
+
+
+
+
+
+
+
+
+
+
+
+--> O GOAL É CONTROLAR AQUELA SECTION COM O VUE APP...
+
+
+
+
+
+
+
+
+--> MEU CÓDIGO DO VUE FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Arthur',
+      age: 24,
+      imageURL:
+        'https://forum.sublimetext.com/uploads/default/original/3X/5/7/5799693291b7565096a86e34d51a9d9efe406b3a.png',
+    };
+  },
+
+  methods: {
+    randomNumber() {
+      return Math.random();
+    },
+  },
+});
+
+app.mount('#assignment');
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EU BASICAMENTE CRIEI O VUE APP 
+
+E AÍ 
+
+
+MONTEI NAQUELA SECTION DE 
+
+'assignment'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FEZ EXATAMENTE A MESMA COISA...
+
+
+
+
+
+
+
+
+
+--> AÍ ELE ESCREVEU A KEY DE 'methods',
+
+e aí 
+
+foi escrevendo...
+
+
+
+
+
+
+--> AÍ ELE MOSTROU QUE 
+
+PODERÍAMOS TER ESCRITO TIPO ASSIM:
+
+
+
+
+
+
+
+calculateAge() {
+    return this.age + 5;
+}
+
+
+
+
+
+
+
+
+
+ISSO PQ __ ELE _ SÓ PEGOU A IDADE 
+
+
+
+ESCRITA LÁ NA NOSSA PROPRIEDADE 'compartilhada' 
+
+de 
+
+'age',
+
+e aí 
+
+
+
+
+USOU PARA RODAR AQUELE 
+
+
+
+CÓDIGo..
+
+
+
+
+
+
+
+
+
+
+
+
+OS 2 APPROACHES FICARAM ASSIM:
+
+
+
+
+
+
+        <p>{{age + 5 }}</p>
+        <p>{{ calculateAge() }}</p>
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS QUAL APPROACH É MELHOR?
+
+
+
+
+
+
+
+
+--> BEM, 
+
+
+
+VEREMOS ISSO MAIS TARDE,
+
+
+
+
+QUANDO APRENDERMOS 
+
+SOBRE 
+
+
+__ MAIS ALTERNATIVAS...
+
+
+
+
+
+--> OK...
+
+
+
+
+
+--> NA PARTE DO OUTPUT RANDOM NUMBER,
+
+TEMOS AS 2 
+
+
+
+MESMAS OPÇÕES (podemos rodar inline, nesse template, ou rodar um method lá no Vue object)...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+        <p>{{ Math.random() }}</p>
+        <p>{{ randomNumber() }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA PARTE DA IMAGE TAG,
+
+
+
+O PROFESSOR 
+
+
+QUER 
+
+QUE 
+
+
+
+
+
+OUTPUTTEMOS O LINK DINAMICAMENTE LÁ NA NOSSA IMAGE...
+
+
+
+
+
+
+--> FAZEMOS ISSO POR MEIO DO 'DATA-BINDING'
+
+
+
+COM 
+
+
+
+
+__ A ALTERAÇÃO DO ATTRIBUTE 'src'
+
+
+
+DESSA IMAGE...
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Arthur',
+      age: 24,
+      imageURL:
+        'https://forum.sublimetext.com/uploads/default/original/3X/5/7/5799693291b7565096a86e34d51a9d9efe406b3a.png',
+    };
+  },
+
+
+
+
+
+
+
+
+
+            <img v-bind:src="imageURL">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    CERTO, ISSO FUNCIONOU...
+
+
+
+
+
+    A  SINTAXE REALMENTE FICOU 
+
+
+
+    img v-bind:src="imageURL"
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CONSTRUÍREMOS MAIS APPS AO LONGO DO CURSO..
+
+
+
+
+
+
+
+--> POR FIM,
+ 
+ TÍNHAMOS UM INPUT FIELD,
+
+ E EU 
+
+ FIZ 
+
+ DATA-BIND 
+
+
+ DO ATTRIBUTE DE 'value'...
+
+
+
+
+
+
+ --> coloquei meu 'name'
+
+ dentro desse input field..
+
+
+
+
+
+
+
+
+
+ OK, O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'Arthur',
+      age: 24,
+      imageURL:
+        'https://forum.sublimetext.com/uploads/default/original/3X/5/7/5799693291b7565096a86e34d51a9d9efe406b3a.png',
+    };
+  },
+
+
+
+
+
+
+   <input type="text" v-bind:value="name" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... É ISSO QUE O PROFESSOR QUERIA NOS MOSTRAR...
+
+
+
+
+
+
+
+
+--> MAS AINDA TEMOS MISSING FEATURES,
+
+COMO '''NÃO PODEMOS REAGIR A USER INPUT'''
+
+ou qualquer coisa do gênero... mas isso é algo que veremos nas próximas aulas...

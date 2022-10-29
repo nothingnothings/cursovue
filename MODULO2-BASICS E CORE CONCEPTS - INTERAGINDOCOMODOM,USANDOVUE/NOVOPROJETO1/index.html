@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+
+        <!-- MEU EXEMPLO -->
+        <p>{{ courseGoal }}</p>
+
+        <!-- EXEMPLO DO PROFESSOR (esta sintaxe também é válida)-->
+        <p>{{ outputGoal() }}</p>
+
+        <!-- EXEMPLO COM OUTPUT DE HTML, COM A DIRECTIVE DE 'v-html'-->
+        <!-- <p v-html>{{ outputGoal3HTMLVersion()}}</p>  VERSÃO ERRADA-->
+        <p v-html="outputGoal3HTMLVersion()"></p>
+
+
+
+
+        <!-- OUTROS EXEMPLOS POSSÍVEIS -->
+        <p>{{ 1 + 1 }}</p>
+        <p>{{ Math.random() }}</p>
+        <!-- TERNARY EXPRESSIONS TAMBÉM SÃO POSSÍVEIS-->
+        <p>{{dynamicLink ? 'example' : ''}}</p>
+
+
+
+
+        <!-- exemplos de coisas impossíveis (if statements)-->
+
+        <!-- <p>{{ if(true) else (false) }}</p> -->
+
+        <!-- HARDCODED-->
+        <!-- <p>Learn more<a href="example.com">About Vue</a></p> -->
+        <!-- VERSÃO VUE, DINÂMICA-->
+        <p>Learn more<a v-bind:href="dynamicLink"> about Vue</a></p>
+        <!-- COMO USAR METHODS COM O VUE-->
+        <button v-on:click="randomizeCourseGoal">ROLL DICE</button>
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

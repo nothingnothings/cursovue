@@ -1,0 +1,1007 @@
+ 
+
+
+
+
+
+
+
+
+ --> O PROFESSOR NOS MOSTRA UM NOVO PROJETO...
+
+
+
+
+
+
+
+
+--> NÓS JÁ SABEMOS COMO 'OUTPUT DATA'..
+
+
+
+
+
+
+
+
+--> MAS EM APPS MODERNOS VOCê PRECISA 
+
+REAGIR A EVENTS,
+
+PARA 
+
+
+FAZER 
+
+PAGES DINÂMICAS (é uma das razões principais para usar uma framework como o VUE)..
+
+
+
+
+
+
+
+
+
+--> É NISSO QUE FOCAREMOS AGORA...
+
+
+
+
+
+
+
+
+
+
+----> ENCONTRAMOS UM STARTING PROJECT COMUM,
+
+
+etc etc..
+
+
+
+
+
+
+
+-----> TEMOS UMA SECTION,
+
+
+
+E DENTRO DELA TEMOS 2 BUTTONS...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button>Add</button>
+        <button>Remove</button>
+        <p>Result: {{ counter }}</p>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO....
+
+
+
+
+
+TEMOS TUDO ISSO AÍ...
+
+
+
+
+
+
+
+TEMOS UM PARAGRAPH QUE OUTPUTTA 
+
+
+ESSA PROPRIEDADE DE 'counter',
+
+
+QUE SERÁ INICIALMENTE '0'...
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+
+      counter: 0,
+    };
+  },
+
+  methods: {},
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+ATÉ AGORA, OS BUTTONS NÃO FAZEM COISA ALGUMA...
+
+
+
+
+
+
+
+--> E QUEREMOS QUE ALGO ACONTEÇA 
+
+QUANDO CLICARMOS NOS BUTTON,
+
+QUANDO 
+
+EXISTIR UM USER EVENT NA NOSSA PÁGINA...
+
+
+
+
+
+
+
+
+QUEREMOS QUE NOSSO WEB APP SEJA MAIS REATIVO...
+
+
+
+
+
+
+
+
+
+
+--> QUANDO O BUTTON FOR PRESSIONADO,
+
+QUEREMOS 
+
+ADICIONAR 1 
+
+AO NOSSO COUNTER..
+
+
+
+
+
+E 
+QUEREMOS REMOVER 1 DO COUNTER QUANDO O BUTTON REMOVE FOR CLICADO...
+
+
+
+
+
+
+
+
+VAMOS COMEÇAR PELO BUTTON DE 'ADD'...
+
+
+
+
+
+
+
+-_> PODEMOS USAR AQUELA DIRECTIVE DE 'v-on:eventName'..
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      this.counter++
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+E O CÓDIGO HTML:
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="addToCounter">Add</button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <p>Result: {{ counter }}</p>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> O ESTRANHO É QUE 
+
+
+A SINTAXE DE 
+
+
+
+
+'this.counter++' 
+
+FUNCIONA,
+
+
+
+MAS A SINTAXE DE 
+
+
+
+'this.counter + 1 '
+
+
+
+NÃO FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE ISSO É BEM MAIS PRÁTICO 
+
+
+
+DO 
+
+
+QUE 
+
+
+'document.querySelector('button).addEventListener('click', number + 1);'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> O PROFESSOR DIZ QUE O VUE NOS DÁ UMA MANEIRA BEM MELHOR DE ADICIONAR EVENT LISTENERS 
+
+
+
+
+A 
+
+
+
+HTML ELEMENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+--> APRENDEMOS SOBRE 'v-bind'- --> V-BIND É ÚTIL PARA DEFINIR O VALUE DE UM 
+
+ATTRIBUTE...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PARA ADICIONAR EVENT LISTENERS,
+
+
+TEMOS OUTRA DIRECTIVE,
+
+QUE É 
+
+
+
+O 
+
+
+'v-on'...
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ PODE FAZER LISTEN TO _ A TODOS __ OS ELEMENTS
+EXISTENTES 
+
+EM 
+
+
+HTML ELEMENTS (
+
+
+
+
+
+    mouseenter,
+    mouseleave,
+
+    mousedrag,
+
+    etc etc...
+)
+
+
+
+
+
+
+
+
+
+----> OK.. 
+
+
+
+
+E no value do 'v-on:click'
+
+VOCÊ 
+
+ESPECIFICA O CÓDIGO QUE DEVERÁ SER EXECUTADO 
+
+
+QUANDO O EVENT 
+
+ACONTECER...
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+--> VOCÊ PODE EXECUTAR CÓDIGO 
+
+
+JAVASCRIPT SIMPLES 
+
+DENTRO 
+
+DO VALUE 
+
+
+DESSE 'v-on:click',
+
+TIPO ASSIM:
+
+
+
+
+<button v-on:click="counter++">BOTAO</button>
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+
+--> AGORA PODEMOS FAZER A MESMA COISA COM O REDUCE DO COUNTER..
+
+
+
+
+
+
+
+
+--> O CÓDIGO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Vue Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="addToCounter">Add</button>
+        <button v-on:click="counter++">Add</button>
+        <button v-on:click="removeFromCounter">Remove</button>
+        <button v-on:click="counter--">Remove</button>
+        <p>Result: {{ counter }}</p>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> E É ASSIM, PORTANTO,
+
+QUE 
+
+FAZEMOS 
+
+'LISTEN TO'
+
+
+a events NO vue...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E AQUI HÁ ALGO SUPER  IMPORTANTE,
+
+
+MAS QUE É FÁCIL DE ESQUECER,
+
+
+E QUE 
+
+NOS MOSTRA O QUÃO PODEROSO É O VUE... 
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ PODE PENSAR 
+
+''NÃO TEMOS MT CÓDIGO AQUI''' --> 
+
+
+
+
+TEMOS POUCO CÓDIGO JAVASCRIPT...
+
+
+
+
+
+
+
+
+--> o ÚNICO CÓDIGO JAVASCRIPT QUE ESCREVEMOS FOI ESTE:
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      this.counter++
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> MAS MESMO POSSUINDO TÃO POUCO CÓDIGO JAVASCRIPT,
+
+
+
+JÁ TEMOS 
+
+
+2 
+
+
+EVENT LISTENERS 
+
+E 1
+ 
+
+ COUNTER QUE 
+
+ MUDA,
+
+
+
+ E __ TAMBÉM _ TEMOS 
+
+
+
+ UM 
+
+ COUNTER 
+
+ JÁ SENDO OUTPUTTADO 
+
+
+ E 
+
+
+
+ UPDATADO AO VIVO NA TELA... -->  
+
+
+
+ E a 
+
+ 'TELA DO USUÁRIO'
+
+ É 
+
+
+ UPDATADA
+  
+
+
+  SEMPRE QUE 
+
+  O 
+
+   VALUE DO COUNTER MUDA (para mais ou para menos),
+
+   O QUE 
+
+   QUER DIZER QUE 
+
+
+   JÁ 
+
+
+
+   ECONOMIZAMOS UMA QUANTIDADE _ ABSURDA__ DE CÓDIGO....
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É ALGO QUE GERALMENTE NÃO ACONTECE EM UMA WEB PAGE (
+
+    vocÊ precisaria digitar código javascript 
+
+    que:
+
+
+    1) ADICIONA EVENT LISTENERS 
+
+
+
+    2) MUDA O COUNTER 
+
+
+    3) QUE QUANDO O COUNTER MUDA,
+
+    FAZ REACH OUT AO PARAGRAPH 
+
+    PARA 
+    ALTERAR O VALOR DISPLAYADO LÁ...
+
+)
+
+
+
+
+
+
+E É POR ISSO QUE 
+
+
+O 
+
+VUE É TÃO ÚTIL,
+
+
+E É TUDO ISSO QUE ELE FAZ PARA NÓS,
+
+POR TRÁS DAS CENAS... --> 
+
+
+
+
+
+
+
+
+VOCÊ APENAS DECLARA OS LOCAIS EM QUE 
+VOCÊ 
+
+QUER 
+TER 
+
+
+
+EVENT LISTENERS,
+
+E OS LOCAIS EM QUE 
+
+OS 
+VALUES DEVERÃO 
+
+SER OUTPUTTADOS 
+( 
+
+    e quais values devem ser conhecidos pelo vue...
+)
+
+
+
+
+
+
+
+
+
+
+
+E O VUE FAZ TODO O RESTO:
+
+
+ELE MANAGEIA ESSES LISTENERS,
+
+
+
+UPDATA O COUNTER POR  TRÁS DAS CENAS,
+
+
+E, MAIS IMPORTANTEMENTE,
+
+
+DETECTA QUANDO 
+
+O 
+
+
+
+COUNTER MUDA,
+
+
+E AÍ UPDATA 
+
+AS PARTES 
+
+DA 
+REAL RENDERED PAGE 
+
+SEMPRE QUE 
+
+O 
+
+UPDATE 
+
+
+FOR NECESSÁRIO (quando o counter muda)..
+
+
+
+
+
+
+
+
+--> E ESSA É UMA CORE FEATURE DO VUE (
+    detectar que 
+
+    o 
+
+    counter mudou e então 
+
+
+    ACHAR __ AS PARTES NA PÁGINA 
+
+    _ 
+
+    QUE FORAM ALTERADAS POR CONTA DESSE COUNTER,
+
+
+
+    TUDO COM JAVASCRIPT,
+
+    POR TRÁS DAS CENAS....
+)
+
+
+
+
+
+
+
+
+É ISSO QUE O VUE FAZ,
+
+
+
+
+E É POR ISSO QUE 
+
+DEIXA NOSSA VIDA,
+COMO DESENVOLVEDORES,
+
+
+BEM MAIS FÁCIL...
+
+
+
+
+
+
+
+
+
+-_> É ISSO QUE PODEMOS FAZER COM EVENTS, NO VUE....
+
+
+
+
+
+AGORA VEREMOS MAIS COISAS QUE PODEMOS FAZER COM ELES...

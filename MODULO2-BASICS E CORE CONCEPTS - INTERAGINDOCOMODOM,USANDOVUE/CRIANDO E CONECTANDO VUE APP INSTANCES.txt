@@ -1,0 +1,1229 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA QUE TEMOS UMA BÁSICA IDEIA DA RAZÃO 
+
+
+
+DE USAR O VUE,
+
+DEVEMOS 
+
+
+VER O BÁSICO DO VUE,
+
+SUA 
+
+CORE SYNTAX...
+
+
+
+
+
+
+
+
+
+
+
+
+----> PARA ISSO, O PROFESSOR TEM UMA SIMPLES WEBPAGE,
+
+
+
+
+UM STARTING PROJECT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ABRE ESSE HTML,
+
+TUDO NORMAL...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER 
+
+QUE 
+
+OBSERVEMOS AS MUDANÇAS NA PÁGINA SEMPRE QUE 
+
+
+ALTERARMOS ALGO NO CÓDIGO..
+
+
+
+
+
+
+
+
+
+
+--> O código html é 
+
+BEM SIMPLES,
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p></p>
+    </section>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ou seja,
+
+TEMOS APENAS 
+
+
+1 HEADER 
+
+
+
+
+1 SECTION 
+
+
+1 PARAGRAPH TAG VAZIA...
+
+
+
+
+
+
+
+
+
+--> TEMOS O IMPORT DO VUE,
+
+E AÍ UM IMPORT AO NOSSO ARQUIVO de 'app.js'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p></p>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+--> O ARQUIVO CSS 
+
+NÃO É MT IMPORTANTE...
+
+
+
+
+
+
+
+
+
+CERTO.. DEVEMOS FOCAR NO JAVASCRIPT E NO VUE...
+
+
+
+
+
+
+
+
+
+
+
+--> O ARQUIVO JAVASCRIPT ESTÁ VAZIO...
+
+
+
+
+
+
+
+--> O PROFESSOR 
+
+
+TROCA O LAYOUT DO VISUAL STUDIO CODE,
+
+
+
+
+
+
+ELE DEIXA O CÓDIGO HTML 
+
+
+
+NA PARTE DE CIMA,
+
+E O JAVASCRIPT NA PARTE DE BAIXO....
+
+
+
+
+
+
+
+
+-> nossa, isso é bem interessante...
+
+
+para ativar esse modo,
+
+
+
+coloque:
+
+
+
+'View -> editor layout' -> '2 rows'...
+
+
+
+
+
+
+
+
+
+
+
+-> BEM interessante...
+
+
+
+
+
+
+COM ISSO,
+
+O PROFESSOR 
+
+
+
+
+
+ABRE AS 2 COISAS AO MESMO TEMPO..
+
+
+
+
+
+
+
+
+
+-> ELE FECHA A SIDEBAR..
+
+
+
+
+
+
+
+ok.. a primeira coisa que queremos fazer,
+
+quando queremos usar algumas FEATURES VUE,
+
+
+
+É __ CONECTAR__ 
+
+
+O VUE __ AO NOSSO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+COMEÇO ESCREVENDO ASSIM:
+
+
+
+
+
+
+
+Vue.createApp({
+  data() {
+    return {};
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> QUEREMOS CONECTAR O VUE AO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+--> QUEREMOS 
+COMUNICAR AO VUE
+
+
+
+''QUAL PARTE DO CÓDIGO HTML DEVE SER CONTROLADO PELO VUE'.'.. --> 
+
+
+
+
+
+SÓ QUEREMOS 
+
+
+USAR O VUE 
+
+
+
+NAS PARTES QUE 
+DEVEM SER CONTROLADAS POR ELE... 
+
+
+
+
+
+
+
+
+
+
+
+
+-> QUEREMOS OUTPUTTAR NOSSO 'COURSE GOAL',
+
+
+ALGO ASSIM...
+
+
+
+
+
+
+---> PODERIAMOS FAZER HARD CODE DISSO,
+
+
+MAS ISSO É PÉSSIMO...
+
+
+
+
+
+
+---> VAMOS COMEÇAR COM UM EXEMPLO BÁSICO..
+
+
+
+
+
+
+
+--> VAMOS COMEÇAR COM O OUTPUT DE UM TEXTO POR MEIO DO VUE,
+
+TEXTO QUE PODEMOS, POTENCIALMENTE,
+ALTERAR 
+
+DINAMICAMENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+A PRIMEIRA COISA QUE PRECISAMOS FAZER, AQUI,
+
+
+É CRIAR UM VUE APP...
+
+
+
+
+
+
+
+
+
+--> já vimos como fazer isso,
+
+basta escrever assim:
+
+
+
+
+
+
+
+
+Vue.createApp({
+  data() {
+    return {};
+  },
+}).mount('#user-goal');
+
+
+
+
+
+
+
+
+
+-------> 
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS USANDO O OBJECT 'Vue',
+
+QUE É UM OBJECT GLOBAL...
+
+
+
+
+
+
+o 'createApp()'
+
+
+
+VAI CRIAR UM VUE APP...
+
+
+
+
+
+
+
+
+--> 
+
+
+
+
+
+
+MAS O PROFESSOR FAZ ALGO INTERESSANTE,
+ AQUI... -->
+
+
+
+ ELE ARMAZENA 
+
+
+
+ O 
+
+
+
+ RECÉM-CRIADO 
+
+
+
+ 'vue app'
+
+
+ DENTRO DE UMA CONST,
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+ const app = Vue.createApp();
+
+
+
+
+
+
+
+
+
+
+ --> certo....
+  
+
+  armazenamos essa instância dentro dessa const...
+
+
+
+
+
+
+
+
+  --> AGORA QUEREMOS DIZER AO 
+
+
+
+  VUE 
+
+  'QUAL PARTE DE NOSSO 
+
+
+CÓDIGO HTML DEVERÁ SER CONTROLADA POR ESSE APP VUE'....
+
+
+
+
+
+
+
+
+--> COMO QUEREMOS QUE 
+
+
+
+A PARTE da section 'user-goal'
+
+seja controlada por isso aí,
+
+
+
+
+
+pq é ela que contém o paragraph que queremos manipular...
+
+
+
+
+
+
+-> QUEREMOS CONTROLAR ESSA _ SECTION INTEIRA...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AQUI TEMOS 1 DETALHE IMPORTANTE:
+
+
+
+
+
+
+'''SE CONTROLAMOS __ 1 DETERMINADO HTML ELEMENT COM O _ VUE,
+
+__TODOS OS CHILD __ ELEMENTS_ DAQUELE _ ELEMENT TAMBÉM SERÃO CONTROLADOS POR AQUELA INSTANCE DO VUE''''..
+
+
+
+
+
+
+
+
+----> PARA CONSEGUIRMOS CONTROLAR O 'user-goal',
+
+
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp();
+
+
+app.mount('#user-goal');
+
+
+
+
+
+
+
+
+
+
+
+--> A STRING DE 'mount'
+
+SEMPRE SERÁ 
+
+UM 
+
+
+
+CSS SELECTOR (class, id, tag) 
+
+
+
+
+que __ 
+
+
+VAI _dETERMINAR O ELEMENTO QUE VAMOS QUERER CONTROLAR...
+
+
+
+
+
+
+
+
+
+
+--> TIPICAMENTE 
+
+
+USAMOS IDS,
+
+
+PQ 
+
+
+
+IDS SÃO UNIQUE SELECTORS,
+
+
+
+PQ 
+
+
+IDS 
+
+
+DEVERÃO SER UNIQUE NA SUA PAGE...
+
+
+
+
+
+
+
+
+--> certo.. é por isso que escrevemos assim:
+
+
+
+
+
+
+const app = Vue.createApp(); ////podemos armazenar nossa VUE INSTANCE EM UMA CONSTANTE, SIM....
+
+
+
+
+app.mount('#user-goal'); ////COM ISSO, TARGETTAMOS ESSA SECTION ESPECÍFCIA, COM ESSE ID ESPECÍFICO, NO NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... SE AGORA SALVARMOS O ARQUIVO JAVASCRIPT,
+
+ 
+
+ ESSA CONEXÃO FICARÁ ESTABELECIDA...
+
+
+
+
+
+
+ MAS A CONEXÃO EM SI NÃO FARÁ MT COISA, POR SI SÓ..
+
+
+
+
+
+
+
+
+ ----> EM VEZ DISSO,
+
+ AGORA PODEMOS USAR 'VUE FEATURES'
+
+
+
+
+
+
+
+ PARA _ _INTERAGIR__ COM ESSA 
+
+
+
+ SECTION CONTROLADA...
+
+
+
+
+
+
+
+
+
+ --> E PARA _ USAR _aS FEATURES __ DE MANIPULAÇÃO DE 'VUEJS',
+
+
+
+ DEVEMOS PASSAR AQUELE OBJECT CLÁSSICO,
+ TIPO ASSIM:
+
+
+
+
+
+
+ 
+const app = Vue.createApp({}); ////podemos armazenar nossa VUE INSTANCE EM UMA CONSTANTE, SIM....
+
+
+
+// HABITUE-SE A USAR 'ids' para SELECIONAR AS PARTES DAS SUAS PÁGINAS QUE VOCÊ QUER CONTROLAR COM VUEJS...
+app.mount('#user-goal'); ////COM ISSO, TARGETTAMOS ESSA SECTION ESPECÍFCIA, COM ESSE ID ESPECÍFICO, NO NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE OBJECT,
+
+
+
+PASSAMOS AS DIVERSAS CONFIGURAÇÕES QUE DESEJAMOS TER,
+
+PARA CONFIGURAR ESSE APP..
+
+
+
+
+
+
+
+
+
+--> NÓS CONFIGURAMOS AS DIVERSAS OPÇÕES DO NOSSO APP...
+
+
+
+
+
+
+
+
+
+--> a primeira option que podemos settar, mt imporatnte,
+
+
+
+é a key de 'data'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ DEVE USAR ALGUNS NOMES DE PROPRIEDADE ESPECÍFICOS 
+
+
+
+DENTRO DO OBJECT 
+
+
+
+
+DE 'createApp',
+
+
+PQ O VUE SEMPRE VAI PROCURAR POR ESSES PROPERTY NAMES...
+
+
+
+
+
+
+
+
+
+--> OK... ESSA DATA KEY VAI QUERER __ UMA FUNCTION __ COMO __ 
+
+
+
+VALUE...
+
+
+
+
+
+
+
+O MELHOR É USAR O METHOD SHORTHAND,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+--> ESSA FUNCTION DE 'data(){}' 
+
+
+
+DEVERAFAZER 1 COISA MT SIMPLES,
+
+ SEMPRE...
+
+
+
+
+
+
+ --> DEVERÁ SEMPRE RETORNAR UM OBJECT... (
+
+    sempre 1 object,
+
+
+    nunca um number,
+    nunca uma string,
+
+    nunca um array...
+ )
+
+
+
+
+
+
+
+
+
+
+ --DENTRO DESSE OBJECT RETORNADO,
+
+
+
+
+ PODEMOS SETTAR QUAISQUER KEY-VALUE PAIRS,
+
+
+
+
+ COM 
+
+
+
+ QUALQUER PROPERTY NAME DE NOSSA ESCOLHA..
+
+
+
+
+
+
+ eX:
+
+
+
+
+
+
+ 
+const app = Vue.createApp(
+    {
+        data() {
+
+            courseGoal: ''
+        }
+    }
+)
+
+
+
+
+
+
+
+--> PODEMOS ARMAZENAR NUMBERS,
+
+
+BOOLEANS,
+
+ARRAYS,
+
+ETC,
+
+QUALQUER COISA..
+
+
+
+
+
+
+
+-> O PROFESSOR COLOCOU 'Finish the course'...
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS QUAL É A IDEIA POR TRÁS DESSA DATA,
+
+
+DESSA PROPRIEDADE DE 'DATA'
+
+QUE AGORA CONFIGURAMOS NESSE 'VUE APP'..
+
+
+
+
+
+
+
+----> BEM,
+
+ESSENCIALMENTE QUALQUER __ COISA _ QUE 
+
+VOCê 
+
+RETORNAR 
+
+DENTRO DESSE OBJECT DE 
+
+DATA 
+
+
+PODE _ SER RETORNADO DIRETAMENTE NO ARQUIVO HTML...
+
+
+
+
+
+
+
+
+
+
+
+--> embora isso não seja super interessante agora,
+
+com apenas data estática,
+
+
+isso 
+
+logo se tornará 
+
+mt legal,
+
+
+
+assim que 
+
+TIVERMOS UM POUCO DE 'REACTIVITY'...
+
+
+
+
+(
+    POR EXEMPLO,
+
+    PODEMOS REAGIR 
+
+    AO  CLICK DO USER EM UM BUTTON,
+
+    PARA AÍ ALTERAR DATA..
+)
+
+
+
+
+
+
+
+
+
+
+--> PARA COMEÇARMOS DE FORMA _ SIMPLES,
+
+
+PODEMOS 
+
+
+COMEÇAR 
+
+COM 
+
+_  O OUTPUT 
+
+ __ DA STRING ARMAZENADA EM 'courseGoal',
+
+ que vamos querer 
+
+ OUTPUTTAR LÁ NAQUELE 
+
+
+ '<p></p>'
+
+ VAZIO..
+
+
+
+
+
+
+
+
+
+
+ ---> FAREMOS ISSO POR MEIO DE UMA SINTAXE ESPECIAL,
+
+
+ CONTROLADA PELO VUE (que provavelmente é a sintaxe do handlebars)....
+
+
+
+
+
+
+ --> MAS ISSO NÃO FUNCIONOU...
+  
+
+SINAL QUE EU ESTAVA ERRADO...
+
+
+
+
+
+--> PARECE QUE ISSO NÃO FUNCIONA...
+
+
+
+TENHO QUE VER A PRÓXIMA AULA....

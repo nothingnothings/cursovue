@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="add(10)">Add 10</button>
+        <button v-on:click="reduce(5)">Subtract 5</button>
+        <p>Result: {{ counter }}</p>
+        <input type="text" v-model="name">
+        <button v-on:click="resetInput">Reset Input</button>
+
+        <!-- esta ({{outputFullName()}}) é uma maneira '''''RUIM''''' de chamar methods (pq esses methods escritos/chamados dentro do handlebars SEMPRE SERÃO EXECUTADOS SEMPRE QUE PEDAÇOS DA PAGE/A PAGE FOR RE-RENDERIZADA POR CONTA DE UPDATES NO 'STATE'...)-->
+        <!-- e isto __ TAMBÉM__ OCORRE COM METHODS VINCULADOS A  'v-bind' e 'v-html', ou seja, QUAISQUER METHODS NÃO 'EVENT-BOUND'  -->
+        <!-- ISSO QUER DIZER QUE O USO DE METHODS É UM PÉSSIMO APPROACH PARA 'OUTPUT DYNAMIC CONTENT' no html de seu vue app...   -->
+        <!-- <p>Your Name: {{ outputFullName() }}</p> -->
+
+        <!-- EXEMPLO DE 'COMPUTED PROPERTY' sendo utilizada... sempre invoque COMO SE FOSSE UMA PROPRIEDADE COMUM (data property), e NÃO como um method (sem '()')... -->
+        <!-- essa propriedade/computed property, nesse exemplo, SÓ SERÁ REEXECUTADA sempre que a propriedade 'name' (da qual DEPENDE, É UMA DEPENDENCY, É REFERIDA NO INTERIOR DE SUA LÓGICA) for alterada ... -->
+        <p>Your Name: {{ fullName }} </p>
+
+
+
+    </section>
+</body>
+
+</html>

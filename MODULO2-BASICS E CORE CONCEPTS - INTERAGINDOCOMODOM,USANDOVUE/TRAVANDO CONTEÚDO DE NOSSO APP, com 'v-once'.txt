@@ -1,0 +1,277 @@
+
+
+
+
+
+
+
+
+PARA CONCLUIR ESSA INTRODUÇÃO A EVENTS,
+
+QUE É OUTRA CORE FEATURE, COMO 
+
+
+PODEMOS PERCEBER,
+
+
+
+
+
+ 
+
+
+ O __ PROFESSOR QUER NOS MOSTRAR OUTRA DIRECTIVE QUE _ 
+
+
+ RARAMENTE 
+
+
+ VAMOS UTILIZAR,
+
+
+
+
+ MAS QUE 
+
+
+ PODE SER ÚTIL EM CENÁRIOS NICHO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> DIGAMOS QUE, POR QUALQUER RAZÃO,
+
+ QUEREMOS 
+
+
+ __ ASSEGURAR_ QUE 
+
+ QUANDO 
+
+
+
+
+
+ __ O 'counter'
+
+
+ FOR ALTERADO,
+
+
+ lá no 
+
+
+ '''back'' (ou seja, o value de VERDADE),
+
+
+
+ O OUTPUT 
+
+
+ no html 
+
+
+ NÃO ACABE ALTERADO...
+
+
+ (
+
+    ou seja,
+
+
+    queremos que O INITIAL VALUE DO COUNTER FIQUE 
+
+    PRESERVADO NO NOSSO HTML, sem ser alterado por nosso código javascript nos 'bastidores'...
+ )
+
+
+
+
+
+
+
+
+MAS AÍ VOCê PODE SE PERGUNTAR:
+
+
+
+'pq diabos faríamos isso?'
+
+
+
+
+
+
+
+
+
+
+BEM, PODE SER QUE TENHAMOS ALGO COMO ISTO:
+
+
+
+
+
+
+
+<p>Starting Counter Value: {{ counter }}</p>
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE 
+
+
+
+__ ESSA PROPRIEDADE FIQUE COM O VALUE DE 'counter' inicial, e que nunca mude...
+
+
+
+
+
+
+
+---> QUEREMOS GARANTIR QUE O VALUE DE 'STARTING COUNTER' nunca mude... 
+
+
+
+
+
+
+--> PARA ISSO, 
+
+SE VOCÊ TIVER UM CENÁRIO EM QUE: 
+
+
+
+1) VOCÊ TEM UMA DATA QUE MUDA AO LONGO DO TEMPO 
+
+
+
+
+2) EM QUE VOCÊ QUER PRESERVAR O VALUE INICIAL DESSA DATA EM ALGUM LOCAL DE SUA PÁGINA...
+
+
+
+
+
+
+
+
+
+EM CASOS COMO ESSES, VOCÊ PODE USAR A DIRECTIVE DE 'v-once' ------> 
+
+
+
+
+
+
+
+basta escrever assim: 
+
+
+
+<p v-once>Starting Counter Value: {{ counter }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O 'v-once'
+ 
+ BASICAMENTE DECRETA AO  VUE QUE 
+
+  
+
+  ''QUALQUER DYNAMIC DATA-BINDING QUE OCORRER NESSE ELEMENT __ DEVERÁ _ SER 
+
+  EVALUATED __ APENAS _ 
+
+
+  1 ÚNICA VEZ'''...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ok, recarregamos,
+
+
+  e aí QUANDO UPDATAMOS O COUNTER,
+
+  NADA ACONTECE NESSE paragraph tag,
+
+  por conta dessa directive...
+
+
+
+
+
+
+
+
+
+
+
+
+é por isso que o  uso dessa directive é BEM NICHO..
+
+
+
+
+
+
+
+
+
+--> OK, MAS NO MEU EXEMPLO, ISSO NÃO FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É PQ EU AINDA NÃO HAVIA ADICIONADO ESSA DIRECTIVE...
+
+
+
+agora funcionou.

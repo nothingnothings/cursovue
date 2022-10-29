@@ -1,0 +1,381 @@
+
+
+
+
+
+
+
+
+
+ANTES DE __ FIZERMOS NOSSO PRIMEIRO EXERCÍCIO,
+
+
+
+DEVEMOS RESUMIR O QUE APRENDEMOS:
+
+ 
+
+
+
+
+
+
+
+
+ 1) APRENDEMOS QUE PODEMOS CRIAR UM VUE APP COM 
+
+
+ Vue.createApp(
+    {}
+ )
+
+
+
+
+
+ 2) APRENDEMOS COMO PODEMOS CONECTAR VUE APPS A CÓDIGO HTML,
+
+ com 
+
+ '.mount(selector)'...
+
+
+
+
+
+
+
+
+
+ 3) APRENDEMOS QUE DEVEMOS USAR ALGUM UNIQUE CSS SELECTOR 
+
+
+ NAQUELE '.mount()'...
+
+
+(
+
+
+    ISSO PQ CADA VUE APP _ SÓ PODE SER CONECTADO A 1 ÚNICO HTML ELEMENT...
+)
+
+
+
+
+
+
+
+
+
+4) TAMBÉM VIMOS QUE QUANDO CONTROLAMOS 
+
+1 ELEMENTO COM O VUE,
+
+CONTROLAMOS 
+
+TODOS 
+
+
+OS ELEMENTOS CHILD DESSE ELEMENT... 
+(
+    mas não controlamos nada que está do lado de fora...
+)
+
+
+
+
+
+
+
+
+
+
+5) BEM, E DENTRO DESSE 'VUE-CONTROLLED HTML CODE',
+
+
+
+VOCÊ PODE USAR FEATURES ESPECIAIS 
+
+COMO:
+
+
+
+
+A) INTERPOLATION  (outputtar text) 
+
+
+B) BINDING SYNTAX (directive de BIND, para bindar attributes, com 'v-bind')...
+
+
+C) V-FOR --> para outputtar um array de objects/coisas como ALGUM ELEMENT, lá no seu htmkl..
+
+
+
+D) V-HTML ---> PARA OUTPUTTAR HTML CODE.... 
+
+
+
+
+
+
+
+
+
+
+
+ESSAS TODAS SÃO FEATURES QUE 
+
+FICAM DISPONÍVEIS NAQUELE 'VUE-CONTROLLED HTML CODE '--------> E ESSA 
+
+
+
+
+SYNTAX DE 
+
+INTERPOLATION E BINDING 
+
+É 
+
+RESUMIDA NA EXPRESSÃO 
+
+'DATA-BINDING' -->  ISSO PQ 
+
+
+
+__ESTAMOS BINDANDO A DATA __ MANAGEADA LÁ 
+
+
+
+NO __ VUE APP _ 
+
+
+LÁ 
+
+
+NO NOSSO 
+
+HTML CODE (
+
+
+    ou por meio de interpolation,
+
+    ou por meio da sintaxe 'v-bind'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> 5) VOCÊ PASSA 1 OBJECT AO 
+
+'createApp(
+    
+)',
+
+
+
+
+E ESSE OBJECT CONFIGURA SEU APP...
+
+
+
+
+
+
+
+
+AÍ VOCÊ DEFINE VÁRIAS OPTIONS,
+
+
+E AÍ ESSAS OPTIONS CONFIGURAM SEU APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALGUMAS OPTIONS:
+
+
+
+
+1) data 
+
+
+2) methods 
+
+
+
+
+
+
+
+
+---> ESSAS SÃO AS MAIS IMPORTANTES...
+
+
+
+
+
+
+
+
+
+--> A OPTION DE 'data'
+
+
+REQUER UMA FUNCTION 
+
+
+
+QUE 
+RETORNA UM OBJECT CHEIO DE DATA,
+
+
+DATA QUE 
+
+SERÁ 
+DISPONIBILIZADA 
+
+
+NO SEU CÓDIGO HTML,
+
+
+E QUE 
+
+
+__ 
+
+SERÁ 
+
+DISPONIBILIZADA TAMBÉM NOS SEUS 'methods'..
+
+
+
+
+
+
+
+
+
+
+
+--> os methods podem ser CHAMADOS DE DENTRO 
+
+
+DE OUTROS METHODS,
+
+E LÁ 
+
+
+
+NO HTML TAMBÉM...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO TRABALHAMOS COM O VUE,
+
+
+TIPICAMENTE 
+
+AFIRMAMOS QUE USAMOS UMA 
+
+'DECLARATIVE APPROACH' ---> COM ISSO,
+
+
+
+
+ESTAMOS 
+
+
+ESSENCIALMENTE AFIRMANDO QUE 
+
+
+
+
+NÓS _ 'DEFINIMOS UM GOAL',
+
+UM 
+
+
+'TEMPLATE'
+
+DO CONTEÚDO QUE QUEREMOS TER....  --> AÍ MARCAMOS AS PARTES QUE QUEREMOS QUE SEJAM DINÂMICAS,
+
+
+E AÍ 
+
+
+
+O 
+
+
+VUE FAZ O RESTO PARA NÓS;
+
+
+ELE OUTPUTTA 
+
+O CONTEÚDO CONCRETO 
+
+
+
+E 
+
+
+AS COISAS QUE O USER VÊ,
+
+TUDO POR TRÁS DAS CENAS,
+
+PARA NÓS...
+
+
+
+
+
+
+
+
+
+
+-----> NÓS APENAS DEFINIMOS A 'FINAL PICTURE' 
+
+COM AQUELES DYNAMIC PLACEHOLDERS,
+
+
+
+E NÃO ESCREVEMOS TODO AQUELE CÓDIGO IMPERATIVE...
+
+
+
+
+
+
+
+
+
+--> APENAS ESCREVEMOS NOSSO 'GOAL',
+
+NÃO NOS IMPORTAMOOS COM AS ETAPAS QUE LEVAM ATÉ ELE...

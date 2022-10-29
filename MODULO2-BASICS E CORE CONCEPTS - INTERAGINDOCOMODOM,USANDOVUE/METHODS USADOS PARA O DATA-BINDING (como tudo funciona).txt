@@ -1,0 +1,1293 @@
+
+
+
+
+
+O QUE SABEMOS (até agora):
+
+
+
+
+
+
+
+
+
+
+SABEMOS UM PUNHADO DE COISAS:
+
+
+
+
+1) DOM INTERACTION -->  
+
+ESSE É UM TERMO COMPLEXO, 
+
+
+
+COM ISSO O PROFESSOR QUER DIZER QUE 
+
+
+SABEMOS FAZER UMA PARTE DO DOM, 
+
+O 'TEMPLATE DO VUE APP',
+
+
+
+interativa.....
+
+
+
+
+
+
+
+
+2)  APRENDEMOS SOBRE DATA BINDING (com 'v-bind' e string interpolation, e 'v-html')....
+
+
+
+
+
+
+
+
+3) APRENDEMOS TAMBÉM SOBRE _ EVENT __ HANDLING,
+
+com 
+
+'v:on'
+
+
+
+e 
+
+'v:model' ---> USADO PARA __ TWO-WAY BINDING (a combinação entre data-binding e event handling, por assim dizer)..
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA DEVEMOS ESTUDAR _ UM TERCEIRO GRANDE BLOCO QUE 
+
+FAZ PARTE DO VUE..
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE BLOCO DO VUE NÃO TEM NOME,
+
+MAS 
+
+O PROFESSOR GOSTA DE CHAMAR DE 
+
+
+'ADVANCED REACTIVITY'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> O VUE É _ MT REATIVO (é como o react),
+
+
+
+
+
+AS COISAS SÃO UPDATADAS 
+
+
+NA NOSSA DATA QUANDO MEXEMOS EM INPUTS, ETC...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE FAZ TUDO ISSO PARA NÓS... --> MAS TEMOS AINDA MAIS FEATURES,
+
+ALÉM DAS QUE CONHECEMOS ATÉ AGORA..
+
+
+
+
+
+
+
+
+
+-> E O PROFESSOR QUER COMEÇAR COM UM _ RETORNO AOS METHODS,
+
+
+
+
+
+__ METHODS ALÉM DO USO COM EVENTS... -------> E AÍ 
+
+
+
+
+
+O PROFESSOR QUER NOS MOSTRAR UMA 
+
+
+
+ALTERNATIVA __ _MELHOR_ A  METHODS
+
+(
+
+    em algumas circunstâncias, 
+
+
+    é melhor...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE APP CLÁSSICO (Novoprojeto3),
+ 
+
+
+
+nós ADICIONAMOS O TWO-WAY BINDING,
+
+
+
+por meio de 'v-model',
+
+
+
+
+
+
+MAS TIVEMOS QUE NOS LIVRAR 
+
+
+
+
+DAQUELE CÓDIGO de 
+
+
+
+setName(event, lastName) {
+
+    this.name = event.target.value + lastName;
+}
+
+
+
+
+
+
+
+(NOS LIVRAMOS DA PARTE 'lastName')...
+
+
+
+
+
+
+
+
+
+
+
+
+----> mas isso não é tão ruim,
+pq 
+
+
+a maneira 
+
+
+
+pela qual adicionávamos 
+
+
+aquele 'lastName' 
+
+
+não 
+
+era 
+
+
+
+ideal... ---> ISSO FUNCIONAVA,
+
+
+MAS 
+
+
+QUANDO 
+
+
+
+USAMOS/TENTAMOS USAR A FUNCIONALIDADE DE RESET,
+
+
+ELE 
+
+
+DAVA PROBLEMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS ISSO NÃO É PROBLEMA --> 
+
+
+
+
+ISSO PQ PODEMOS ADICIONAR O 'LAST NAME'
+
+aos nossos inputs 
+
+
+
+__ DE OUTRA FORMA...
+
+
+
+
+
+
+
+
+
+--> COMEÇAMOS COM O WRITE DE UM NOVO METHOD...
+
+
+
+
+
+
+
+
+--> começamos assim:
+
+
+
+
+
+
+
+
+
+const vueApp = Vue.createApp(
+    {
+
+        data() {
+
+        },
+
+        methods: {
+
+            outputFullName() {
+
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+  methods: {
+    setName(event, lastName) {
+      this.name = event.target.value;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+      // this.counter--;
+    },
+    resetInput(event) {
+      this.name = '';
+    },
+    outputFullName() {  ////usado para DEMONSTRAR COMO podemos usar EVENTS DE FORMA MELHOR...
+
+    }
+    
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...  
+
+
+
+
+É ISSO QUE FARÁ ESSE METHOD ---> ELE DEVERÁ _ RETORNAR ALGO (
+
+
+
+    pq não vamos usar isso para o bindar a um event,
+
+
+    E SIM __ VAMOS O UTILIZAR PARA RETORNAR ALGO DENTRO DA ESCRITA CURLY BRACES, TIPO ASSIm:
+
+
+)
+
+
+
+
+
+
+
+
+outputFullName() {
+    return ALGUMACOISA;
+}
+
+
+
+
+<p>Your name: {{ outputFullName() }}</p>
+
+
+
+
+
+
+
+
+
+
+
+-------> CERTO... É ISSO QUE QUEREMOS FAZER ... --> É POR ISSO QUE 
+
+
+
+QUEREMOS CONSEGUIR O 'FULL NAME'
+
+
+NESSE LOCAL,
+
+QUE SERÁ ENTÃO RETORNADO NESSA PARTE DO 
+
+
+CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que em 'outputFullName'
+
+
+
+o professor escreve assim:
+
+
+
+
+
+
+
+
+outputFullName() {
+    return this.name + '' + 'Panazolo';
+}
+
+
+
+
+
+
+
+
+
+
+
+---> É CLARO QUE ESSE LASTNAME PODE SER 
+
+
+
+RETIRADO DE OUTRO INPUT,
+
+MAS AQUI SERÁ HARDCODED...
+
+
+
+
+
+
+
+
+
+
+
+ok... se salvamos tudo e recarregamos, já veremos 'Panazolo' 
+
+
+
+diretamente no site...  (pq a função já terá sido chamada DE INÍCIO)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+->  E COMO ESTAMOS EM UM _ METHOD,
+
+
+
+podemos usar IF CHECKS --> 
+
+PODEMOS 
+
+CHECAR 
+
+
+
+
+
+'se esse name estiver EMPTY,
+
+NÃO QUEREMOS RETORNAR COISA ALGUMA'... 
+
+(
+    ou retornar uma EMPTY STRING...
+)
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+outputFullName() {
+
+
+    if (this.name === '') {
+        return '';
+    }
+
+    return this.name + '' + 'Panazolo';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... --> COM ISSO PODEMOS TIRAR VANTAGEM DO FATO DE QUE ESTAMOS USANDO 
+
+UM METHOD PARA 
+
+__rETORNAR _ DIFERENTES _ VALUES_ 
+
+
+nesse 
+'{{}}'...,
+
+
+DIFERENTES VALUES 
+
+
+
+
+
+a partir desse 'name'...
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA SÓ VAMOS VER 'FULL NAME' SE 
+
+
+
+
+realmente digitarmos um nome ali no input field...
+
+
+
+
+
+
+
+
+O CÓDIGO FICA TIPO ASSIm:
+
+
+
+
+
+
+
+outputFullName() {
+
+
+    if (this.name === '') {
+        return '';
+    }
+
+    return this.name + '' + 'Panazolo';
+}
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+        <h2>Events in Action</h2>
+        <button v-on:click="add(10)">Add 10</button>
+        <button v-on:click="reduce(5)">Subtract 5</button>
+        <p>Result: {{ counter }}</p>
+        <input type="text" v-model="name">
+        <button v-on:click="resetInput">Reset Input</button>
+
+        <!-- aqui é demonstrada uma maneira melhor de chamar methods -->
+        <p>Your Name: {{ outputFullName() }}</p>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS ESSA __ NÃO É A MELHOR MANEIRA DE FAZER ISSO..
+
+
+
+
+
+
+
+
+
+
+MAS PQ? 
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, 
+
+
+
+É __ PQ:
+
+
+
+
+
+
+
+
+
+SE NÓS _ DIGITAMOS NOSSO NOME ALI,
+
+
+REALMENTE NOSSO NOME É OUTPUTTADO LÁ EM BAIXO... 
+
+
+
+
+
+
+
+--> certo... mas se 
+
+NÓS _ CLICAMOS __ 
+
+
+
+
+NAQUELE BOTÃO DE 'add 10' 
+
+PARA _ 
+
+
+ADICIONAR VALORES NO NOSSO 'COUNTEr' (outra data property),
+
+
+
+
+
+O 
+
+VUE, POR TRÁS DAS CENAS,
+
+
+
+VAI FAZER ALGO QUE __ NÃO É IDEAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO NÓS MUDAMOS O 'COUNTER',
+
+
+O VUE __ BASICAMENTE __ 
+
+
+
+
+
+
+
+TENTA '''FIND OUT''''
+
+
+
+
+O LOCAL, 
+
+
+NA NOSSA PÁGINA HTML,
+
+
+
+EM QUE 
+
+
+__ ELE PRECISA __ 
+
+
+
+
+___UPDATE__ MINHA 'RENDERED PAGE'... --> 
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+ISSO SIGNIFICA QUE O 
+
+
+VUE VAI PROCURAR POR COISAS COMO:
+
+
+
+
+
+
+
+
+{{ counter }} 
+
+
+
+
+{{ outputFullName() }}
+
+
+
+
+
+
+
+
+
+PARA _ENTÃO IDENTIFICAR SE NESSE ELEMENTO ESTAMOS REALMENTE USANDO ESSE 'COUNTER',
+
+
+
+
+E _ SE REALMENTE_ PRECISAMOS _ UPDATAR __  
+
+
+A 
+PAGE 
+
+
+DE VERDADE,
+
+NESSE TRECHO AÍ...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROBLEMA DE CHAMAR UM METHOD ASSIM 
+
+
+
+'{{ outputFullName() }}'
+
+
+
+
+
+
+É QUE _ 
+
+
+ESSE METHOD _ TAMBÉM VAI SER 'REEXECUTADO PELO VUE'
+
+
+
+
+
+
+
+____________ SEMPRE QUE __ QUALQUER COISA NA PÁGINA 
+
+
+
+
+FOR ALTERADA.... 
+
+
+
+
+
+
+
+
+E ISSO ACONTECE 
+
+
+
+PQ _ O VUE __ NÃO TEM COMO 
+
+
+SABER 
+
+
+
+
+
+'''' O QUE ESSE METHOD FAZ'''' -->    POR EXEMPLO,
+
+
+
+
+ELE NÃO TEM COMO SABER QUE 
+
+
+
+
+
+
+
+TALVEZ '''O COUNTER ACABA SENDO USADO NESSE PRÓPRIO METHOD'' 
+
+
+
+
+
+( o counter _ PODE __ ou NÃO  ser algo que é utilizado nesse method, mas o VUE NÃO TEM COMO 
+
+DESCOBRIR ESSA INFORMAÇÃO,
+
+
+E POR ISSO TEMOS UM PROBLEMA...
+
+)
+
+
+
+
+
+
+
+
+
+
+----> POR EXEMPLO: SE O COUNTER __ MUDOU__,
+
+
+
+
+E ESSE METHOD DE 'outputFullName' DEPENDE 
+
+
+
+
+
+DO COUNTER,
+
+
+
+ELE __ DEVERIA _ _SER REEXECUTADO... --> 
+
+
+
+
+MAS _ SE __ ELE __ NÃO DEPENDE __ 
+
+
+
+DO COUNTER,
+
+
+
+ELE __ 
+
+
+
+VAI _ REEXECUTAR __ ESSE METHOD MESMO ASSIM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que esse é um GRANDE problema,
+
+
+pq __ o 
+
+
+VUE __ VAI __ SEMPRE _ REEXECUTAR_ ESSE METHOD (e quaisquer outros methods chamados tipo {{ exemploDeMethod() }})
+
+
+
+
+
+
+
+NA SUA PÁGINA...
+
+
+
+
+
+
+
+
+
+--> e isso pode levar a BUGS e COMPORTAMENTOS ESTRANHOS...
+
+
+
+
+
+
+
+
+-->     <!-- e isto __ TAMBÉM__ OCORRE COM METHODS VINCULADOS A  'v-bind' e 'v-html', ou seja, QUAISQUER METHODS NÃO 'EVENT-BOUND'  -->
+
+
+
+
+
+
+
+
+
+
+
+
+--->  ou seja,
+
+ISSO OCORRE TAMBÉM COM BINDS DE ATTRIBUTE QUE DEPENDAM DE CALLS de method (feitos com 'v-bind'),
+
+
+
+
+E TAMBÉM 
+
+
+
+COM METHODS CHAMADOS DENTRO DA DIRECTIVE de 'v-html'...
+
+
+
+
+
+
+
+
+--> A ÚNICA EXCEÇÃO A ISSO SÃO _ _METHODS_ CHAMADOS A PARTIR DA DIRECTIVE 'v-on:',
+
+
+
+OU SEJA,
+
+
+'EVENT-BOUND METHODS'...
+
+
+
+
+
+
+
+
+
+--> TODOS ESSES METHODS SERÃO _ REEXECUTADOS PELO VUE,
+
+
+
+
+ISSO _ SE QUALQUER_ COISA DA TELA/NA DATA __ FOR ALTERADA.... ------>  E ISSO ACONTECE 
+
+
+
+
+
+
+ATÉ MESMO EM/COM METHODS como 
+
+
+
+
+
+```
+
+outputFullName() {
+
+
+    if (this.name === '') {
+        return ''; 
+    }
+
+    return this.name + '' + 'Panazolo';
+}
+
+
+```
+
+
+
+,
+
+
+
+
+
+methods que __ NÓS, COMO HUMANOS,
+
+
+SABEMOS QUE 
+
+
+'''NÃO DEPENDE NEM UM POUCO DO STATE DE ''counter'''  ''',
+
+
+
+
+
+
+
+MAS QUE __ O VUE _ NÃO TEM COMO DEPREENDER ESSA INFORMAÇÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, DE UMA PERSPECTIVA DE PERFORMANCE,
+
+
+ISSO 
+
+
+
+TAMBÉM É PÉSSIMO. ... --------> PQ _ CADA _ VEZ QUE 
+
+
+
+
+
+CLICARMOS EM 'ADD 10',
+
+
+
+
+
+ESSA FUNCTION DE 'outputFullName'
+
+
+
+SERÁ EXECUTADA,
+
+
+AINDA QUE O COUNTER TENHA SIDO A ÚNICA COISA ALTERADA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO _ NÃO É UM BUG,
+
+
+E SIM __ É _ A MANEIRA PELA QUAL O VUE FUNCIONA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É EXATAMENTE POR ISSO QUE 
+
+
+METHODS __ NÃO SÃO A MELHOR _ MANEIRA PARA 
+
+
+
+
+'''OUTPUT A DYNAMICALLY CALCULATED VALUE'''
+
+
+
+como esse aí...
+
+
+
+
+
+
+
+
+
+MAS, ENTÃO, QUAL SERIA UMA BOA SOLUÇÃO PARA O OUTPUT DESSE CONTEÚDO DINÂMICO?
+
+
+
+
+
+
+
+
+VEREMOS NA PRÓXIMA AULA..
+
+
+
+
+
+
+
+--> O NOME DO RECURSO QUE SOLUCIONA ESSE PROBLEMA É 
+
+
+'COMPUTED PROPERTIES'...

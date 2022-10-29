@@ -1,0 +1,659 @@
+
+
+
+
+
+
+
+
+
+APRENDEMOS SOBRE COMO PODEMOS FAZER 'LISTEN TO ' a
+
+
+
+
+EVENTS,
+
+
+
+
+NO 
+
+
+
+
+VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS AGORA TEMOS ALGO IMPORTANTE:
+
+
+
+
+
+
+
+
+
+--> atualmente,
+
+o professor está 
+
+
+
+
+UPDATANDO O COUNTER LÁ 
+
+
+NO CÓDIGO HTML,
+
+POR MEIO DESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+
+<button v-on:click="counter = counter - 1">Remove</button>
+
+
+
+
+
+
+
+
+
+
+
+
+--> GERALMENTE
+
+
+
+CONSIDERA-SE UMA BAD PRACTICE 
+
+
+
+FICAR 
+
+
+RODANDO CÓDIGO 
+
+
+
+JAVASCRIPT LÁ 
+
+NO CÓDIGO HTML...
+
+
+
+
+
+
+
+
+--> NÃO É OPTIMAL... 
+
+
+
+
+
+
+
+--> VOCÊ NÃO QUER COLOCAR MT LÓGICA NO SEU CÓDIGO 
+
+HTML...
+
+
+
+
+
+
+--> EM VEZ DISSO, 
+
+
+O  CÓDIGO 
+
+
+
+HTML DEVE SER ALL ABOUT 'OUTPUTTING STUFF'...
+
+
+
+
+
+
+
+
+--> MESMO LÓGICA SIMPLES COMO ESSA _ FICA MELHOR DENTRO DO CÓDIGO 
+
+
+JAVASCRIPT..
+
+
+
+
+
+
+
+
+--> BEM, MAS QUEREMOS FAZER ALGO 
+
+
+__ SEMPRE A PARTIR 
+
+
+DE 
+
+1 CLICK -----> 
+
+
+
+
+
+
+
+
+QUANDO VOCÊ FAZ ALGO REPETIDAMENTE,
+
+MÚLTIPLAS VEZES,
+
+
+
+
+
+VOCÊ PRECISA 
+
+
+
+
+DE UMA FUNCTION... --> 
+
+
+É POR ISSO 
+
+
+
+QUE 
+
+EU CRIEI FUNCTIONS PARA ESSAS 2 ACTIONS..
+
+
+
+
+
+
+
+
+--> FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+
+  methods: {
+    addToCounter() {
+      this.counter++
+    },
+
+    removeFromCounter() {
+      this.counter--;
+    },
+  },
+});
+
+app.mount('#events');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESCREVER 
+FUNCTIONS,
+
+e não 'methods',
+
+
+É UMA __ PÉSSIMA 
+
+IDEIA QUANDO VOCÊ QUER 
+
+
+ALTERAR 
+
+AS COISAS 
+
+DO SEU 
+
+
+
+'VUE CONTROLLED HTML CODE'...
+
+
+
+
+
+
+
+-----> VOCÊ SÓ PODE USAR 
+
+
+
+ NAQUELA PARTE 'VUE'
+
+
+ AS COISAS QUE 
+
+ VOCê 
+
+ DEFINIU LÁ NO SEU VUE APP...
+
+
+
+
+
+
+
+
+
+
+
+ --> E É EXATAMENTE POR ISSO QUE 
+
+ TEMOS OS 
+
+ 'METHODS' --> 
+
+
+
+
+
+
+
+
+
+ NÓS 
+
+
+ USAMOS METHODS TAMBÉM PARA OS CONECTAR 
+
+ A 
+
+
+ EVENT LISTENERS,
+
+ PARA QUE 
+
+ SEMPRE SEJAM CHAMADOS QUANDO ALGUM EVENT OCORRER...
+
+
+
+
+
+
+
+ ----> CERTO... É POR ISSO QUE O PROFESSOR FEZ EXATAMENTE A MESMA COISA QUE EU...
+
+
+
+
+
+
+
+ ---> ele escreveu assim:
+
+
+
+
+
+
+ add() {
+    this.counter++ 
+ }
+
+
+
+
+
+
+
+
+
+ (
+
+    MAS ELE ESCREVEU 'this.counter + 1' 
+
+    E ISSO FUNCIONOU...
+ )
+
+
+ AH, EU SOU IDIOTA...
+
+
+ é pq eu esqueci de escrever a forma inteira,
+ que é 
+
+
+
+
+ this.counter = this.counter + 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ok... 
+
+
+ agora funcionou....
+
+
+
+
+
+
+ NÃO PRECISAMOS RETORNAR COISA ALGUMA,
+
+ PQ 
+
+ O 
+
+ CLICK LISTENER NÃO PRECISA RETORNAR COISA ALGUMA MESMO...
+
+
+
+
+
+
+
+
+
+
+ ---> ESTAMOS EXECUTANDO O MESMO CÓDIGO, MAS DE UMA MANEIRA MAIS ÓPTIMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK....
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR, BTW,
+
+ ESCREVEU ASSIM:
+
+
+
+
+
+
+ <button v-on:click="add()">Add</button> ...
+
+
+
+
+
+
+
+
+
+ MAS ELE _ 
+
+ EXPLICA QUE 
+
+ É POSSÍVEL VOCÊ SE REFERIR 
+
+ AO METHOD TIPO ASSIM:
+
+
+  <button v-on:click="add">Add</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  PQ ISSO
+
+  JÁ VAI 
+
+  'APONTAR '
+
+
+
+
+  AO _ METHOD QUE DEVE SER EXECUTADO 
+
+
+
+  
+
+  A PARTIR DESSE EVENT... 
+
+
+  ( 
+    É MELHOR SÓ APONTAR A 
+
+    ESSE 
+
+    METHOD,
+
+
+    pq essa sintaxe é mais próxima do vanilla javascript...
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+  OK, MAS AGORA VAMOS FAZER A MESMA COISA COM O REDUCE DO COUNTER... ( já fiz)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  certo...
+
+
+
+
+
+
+
+
+
+
+
+
+  professor escreveu assim:
+
+
+
+
+reduce() {
+  this.counter--;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+OK, AGORA 
+
+
+TEMOS NOSSOS BUTTONS FUNCIONANDO,
+
+
+MAS AGORA 
+
+
+COM 
+
+
+A LÓGICA SENDO OUTSOURCEADA AO JAVASCRIPT (
+
+
+    COMO DEVE SER...
+)
+
+
+
+
+
+
+
+
+
+---> É MELHOR DEIXAR NOSSO CÓDIGO HTML MAIS LEAN...
+
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS USAR METHODS... --> 
+
+
+
+
+
+
+PODEMOS USAR METHODS COM EVENT LISTENERS,
+
+
+PARA 
+
+RODAR CÓDIGO...
+
+
+
+
+
+
+
+----> NA REALIDADE,
+
+VOCÊ 
+
+
+MAIS FREQUENTEMENTE USARÁ 
+
+
+
+METHODS COM EVENTS,
+
+DO QUE 
+
+
+PARA 
+
+
+_ CONSEGUIR 
+
+ALGUM VALUE 
+
+'DYNAMICALLY DERIVED'...
+
+(
+
+    é verdade...
+)

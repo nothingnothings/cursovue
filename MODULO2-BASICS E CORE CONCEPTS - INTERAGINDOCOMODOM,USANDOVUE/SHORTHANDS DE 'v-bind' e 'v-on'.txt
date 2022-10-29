@@ -1,0 +1,311 @@
+
+
+
+
+
+
+
+
+AGORA É QUASE HORA DE PRATICAR NOVAMENTE..
+
+
+
+
+
+
+
+
+
+--> MAS AQUI HÁ 1 IMPORTANTE SHORTHAND, UMA MANEIRA DE ESCREVER 
+
+CÓDIGO UM POUCO MAIS ABREVIADO,
+
+
+QUE VOCË DEVE TER EM MENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ALGO RELATIVO AO VUE EM GERAL, E NÃO SÓ 
+
+
+
+AOS WATCHERS/COMPUTED PROPERTIES...
+
+
+
+
+
+
+
+
+ATÉ AGORA, USAMOS 'v-on'
+
+UM MONTE..
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+<button v-on:click="add(10)">Add 10</button>
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÓS TAMBÉM USAMOS 
+
+'v-bind' um monte...
+
+
+
+
+
+
+
+
+
+
+
+V-BIND 
+
+
+E 
+
+
+V-ON 
+
+
+
+
+
+
+
+
+
+__ SÃO USADOS COM TANTA FREQUÊNCIA, QUE TEMOS 
+
+
+SHORTHANDS PARA ELES...
+
+
+
+
+
+
+
+
+
+--> EM VEZ DE ter 'v-on:click',
+
+
+'v-on:input',
+
+
+
+
+
+e tudo mais...
+
+
+
+
+
+
+
+
+
+
+---> PARA ISSO,
+
+
+PODEMOS SUBSTITUIR 
+
+
+'v-on' e 'v-bind'
+
+
+
+
+
+POR 
+
+
+
+
+
+
+
+'@click'
+
+
+
+
+
+
+
+
+
+'@input'
+
+
+
+
+e etc...
+
+
+
+
+
+
+
+
+
+--> 
+
+
+
+
+E VOCê 
+
+
+
+
+TAMBÉM PODE MISTURAR 
+
+
+
+as directives 
+
+
+
+com 
+
+
+os modifiers 
+
+
+
+
+
+
+
+
+
+
+
+
+
+@click 
+
+
+
+
+@input 
+
+
+
+
+
+@mousedrag 
+
+
+@mouseexit
+
+
+
+
+
+
+
+---> ISSO É BOM PQ REDUZ A QUANTIDADE DE CÓDIGO NECESSÁRIA...
+
+
+
+
+
+
+
+
+--> VOCê DEVE ESCOLHER UM ESTILO E SER CONSISTENTE... 
+
+
+
+
+
+
+
+
+
+
+
+--> também temos um shortcut para 'v-bind'...
+
+
+
+
+
+
+
+
+
+
+--> em vez de escrever 
+
+
+
+
+'<input type="text" v-bind:value="...">',
+
+
+
+
+
+
+
+
+
+
+
+podemos escrever assim:
+
+
+
+
+
+
+<input type="text" :value="...">
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO TEM O MESMO EFEITO, MAS SEM A ESCRITA DE 'v-bind'...

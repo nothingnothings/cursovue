@@ -1,0 +1,615 @@
+
+estrutura básica
+
+Vue.createApp(
+  {
+    ///a data com a qual você trabalhará e referenciará por meio das DIRECTIVES no html
+    data() {
+      return {
+        goals: [],
+        enteredValue: ''
+      }
+    },
+
+    methods: {
+
+    }
+  }
+)
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+    ///a data com a qual você trabalhará e referenciará por meio das DIRECTIVES no html
+        data() {
+            return {
+                counter: 0,
+		goals: [],
+		enteredValue: '',
+                name: '',
+                fullName2: ''
+            }
+        },
+	////SEUS WATCHERS
+        watch: 
+        ,
+
+	///as computed properties, que são tipo methods que AGEM COMO PROPRIEDADES, e que DEPENDEM DE MUDANÇAS EM SUAS DEPENDENCIES PARA SEREM EXECUTADAS E OUTPUTTAR CONTEÚDO
+        computed: {
+            nomeDaPropriedade() {
+                return this.name;  //'this.name' é a dependency, nesse caso...
+            }
+        },
+
+    ///os methods que vocÊ chamará no código html A PARTIR DE EVENTS/ a partir de quaisquer mudanças nas suas DATA PROPERTIES
+        methods: {
+            nomeDoMethod() {
+
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////
+
+
+SINTAXE HANDLEBARS, PARA OUTPUTTAR DATA (similar ao handlebars):
+
+
+
+JS:
+
+
+
+const app = Vue.createApp({ ////podemos armazenar nossa VUE INSTANCE EM UMA CONSTANTE, SIM....
+
+    data() {
+        return {
+            courseGoal: 'Finish the Fight.'
+        }
+    }
+})
+
+
+
+
+HTML:
+
+    <section id="user-goal">
+        <h2>My Course Goal</h2>
+        <p>{{ courseGoal }}</p>
+    </section>
+
+
+
+
+
+
+
+
+OBS::: ESSA SINTAXE DE STRING INTERPOLATION __ SÓ __ FICA DISPONÍVEL __ NO MEIO _ 
+
+DE OPENING E CLOSING HTML TAGS (ou seja, não pode ser usada em attributes como "href" em anchor tags, por exemplo")
+
+
+SE VOCê DESEJA_ PASSAR 1 VALUE DINAMICO A 1 ATTRIBUTE COM O VUE,
+
+_ USE__ 'v-bind', que é específico para isso...
+
+
+
+///////////////////////////////
+
+
+
+
+
+DIRECTIVES PRINCIPAIS:
+
+
+
+///////////////////////////////////////////
+
+v-model --> usado para INPUT FIELDS e two-way binding, pelo que entendi.
+
+
+
+
+
+
+
+
+
+EX:
+
+
+O CÓDIGO ''COMPLETO'', SEM SHORTHAND, É ASSIM:
+
+
+
+
+<input type="text" v-bind:value="name" v-on:input="setName" />   <-----------------------------
+<button v-on:click="resetInput">Reset Input</button>
+
+
+
+
+
+O CÓDIGO __ COM SHORTHAND, com o 'v-model', É ASSIM:
+(tiramos o 'v-bind' e o 'v-on:input'...)
+
+
+
+
+<input type="text" v-model="name" />
+<button v-on:click="resetInput">Reset Input</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(
+
+ESSA DIRECTIVE É USADA QUANDO VOCÊ QUER COISAS COMO 
+
+''1 BUTTON QUE FAZ A DATA PROPERTY VINCULADA AO INPUT FIELD E A DATA DO INPUT FIELD SEREM 
+
+LIMPAS _ AUTOMATICAMENTE, AO MESMO TEMPO'',
+
+
+e quando você quer que cada UPDATE DO VALUE NO INPUT FIELD 
+
+
+UPDATE TAMBÉM O DATA FIELD no app vue, e vice-versa..
+
+)
+
+
+
+
+
+
+
+/////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////
+
+v-on:nomeDoEvent="nomeDoMethod" --> usado para QUALQUER COISA QUE VOCê IMAGINAR... (desde buttons, até outros elementos...) --> esse 'v-on' vai DISPARAR O METHOD especificado em 'nomeDoMethod' sempre que AQUELE EVENT ESPECIFICADO POR VOCÊ OCORRER...
+
+ex:
+
+v-on:click="nomeDoMethod"
+
+////////////////////////////////////////////////
+
+
+
+
+
+/////////////////////////////////////
+
+v-for  ----------> É USADO _ PARA _ 
+
+
+FAZER O OUTPUT DE COISAS COMO 'LISTS';
+
+
+
+
+OU SEJA,
+
+__ ELE __ VAI _CRIAR ELEMENTOS A PARTIR _ DE ARRAYS QUE VOCê TIVER NA PROPRIEDADE 'data'...
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+temos um array no vue,
+
+'goals',
+
+
+
+
+
+
+e fica assim no html, com a directive:
+
+
+
+
+    <ul>
+      <!-- OBS: AQUI MOSTRA-SE COMO __ FAZER O OUTPUT _ DE MÚLTIPLOS ELEMENTOS, A PARTIR DE UM ARRAY DE elementos lá no object Vue, em 'data'...-->
+      <!-- A SINTAXE DO HANDLEBARS NOS PERMITE GANHAR ACESSO À VARIÁVEL 'goal', que representa cada 1 dos elementos no array 'goals'...-->
+      <li v-for="goal in goals">{{goal}}</li>
+    </ul>
+  </div>
+
+
+
+
+
+
+
+-> COM ISSO, SERÁ CRIADO 1 ELEMENTO '<li>' para (FOR) cada um dos elementos no array 'goals'...
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+
+
+
+
+
+
+DIRECTIVE USADA PARA 'OUTPUTTAR HTML RAW',
+
+
+
+o 
+
+
+'v-html'... -->  É USADO PARA OUTPUTTAR HTML ARMAZENADO NO SEU VUE APP...
+
+
+
+
+
+
+
+--> a escrita é tipo assim (call de um method que retorna HTML, por exemplo) :
+
+
+
+        <p v-html="outputGoal3HTMLVersion()"></p>
+
+
+
+ou assim (referencia a uma propriedade que segura um HTML, no app VUE):
+ 
+
+        <p v-html="courseGoal3"></p>
+
+
+
+
+
+
+/////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+OUTRA DIRECTIVE MUITO IMPORTANTE, 'v-on' ---> 
+
+
+
+
+v-on ---->  HÁ UMA SHORTHAND, QUE É ASSIM:
+ 
+
+
+@click="xxxx" 
+
+@input="yyyy"
+
+
+(EM VEZ DE ESCREVER "v-on:click="xxxxx" "
+
+
+ESSA DIRECTIVE 
+
+
+
+
+É USADA PARA _ DEFINIR EVENT LISTENERS LÁ NO SEU CÓDIGO HTML,
+
+
+vinculados a methods definidos no seu VUE APP..
+
+
+
+
+
+
+--> a sintaxe é tipo assim (exemplo de click listener) --->
+
+
+
+
+
+
+
+
+<button v-on:click="nomeDoMethod">BOTAO</button>
+
+
+OU (inline javascript) :
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+
+
+
+
+<button v-on:click="counter++">BOTAO</button>
+
+
+
+DO LADO DIREITO DO ':', 
+
+VOCÊ COLOCA O EVENT A QUE VOCÊ QUER 'LISTEN TO'...
+
+
+
+//////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+TIPOS DE MODIFIERS:
+
+
+
+
+
+
+
+
+
+
+1) GENERAL EVENT MODIFIERS ----> 
+
+
+ex:
+
+
+ <form v-on:submit.prevent="formSubmitHandlerEleganteComEventModifier">
+
+
+2) CLICK EVENT MODIFIERS ---->
+
+
+
+ex (RIGHT-CLICK MODIFIER): 
+
+        <button v-on:click.right="addToCounterDynamic(5)">Add 5 with right click </button>
+
+
+
+
+
+3) KEYBOARD EVENT MODIFIERS --> 
+
+
+ex ('keyup' modifier; faz com que AQUELE METHOD SÓ SEJA DISPARADO SE A KEY DE ENTER TIVER SIDO PRESSIONADA):
+
+
+
+              <!-- EXEMPLO DE EVENT MODIFIER DO EVENTO 'INPUT', INPUT EVENT MODIFIERS. AQUI, APENAS 'enter' será a key que disparará esse method -->
+        <input type="text" v-on:input="inputChangedHandlerSpecial" v-on:keyup.enter="inputChangedHandlerConfirmed">
+            <p>Confirmed Name: {{ confirmedName }}</p>
+
+
+
+
+
+
+
+
+
+outros modifiers de key possíveis:
+
+
+keyup.shift 
+
+keyup.ctrl
+ 
+
+keyup.a 
+
+
+etc etc...
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////
+
+
+
+
+
+
+OUTRA DIRECTIVE,
+
+
+
+'v-once': 
+
+
+
+
+
+BEM, PODE SER QUE TENHAMOS ALGO COMO ISTO:
+
+
+
+
+
+
+
+<p>Starting Counter Value: {{ counter }}</p>
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE 
+
+
+
+__ ESSA PROPRIEDADE FIQUE COM O VALUE DE 'counter' inicial, e que nunca mude...
+
+
+
+
+
+
+
+---> QUEREMOS GARANTIR QUE O VALUE DE 'STARTING COUNTER' nunca mude... 
+
+
+
+
+
+
+--> PARA ISSO, 
+
+SE VOCÊ TIVER UM CENÁRIO EM QUE: 
+
+
+
+1) VOCÊ TEM UMA DATA QUE MUDA AO LONGO DO TEMPO 
+
+
+
+
+2) EM QUE VOCÊ QUER PRESERVAR O VALUE INICIAL DESSA DATA EM ALGUM LOCAL DE SUA PÁGINA...
+
+
+
+
+EM CASOS COMO ESSES, VOCÊ PODE USAR A DIRECTIVE DE 'v-once' ------> 
+
+
+
+
+
+
+
+
+A ESCRITA É ESTA:
+
+
+
+<p v-once>Starting Counter Value: {{ counter }}</p>
+
+
+
+
+--> O 'v-once'
+ 
+ BASICAMENTE DECRETA AO  VUE QUE 
+
+  
+
+  ''QUALQUER DYNAMIC DATA-BINDING QUE OCORRER NESSE ELEMENT __ DEVERÁ _ SER 
+
+  EVALUATED __ APENAS _ 
+
+
+  1 ÚNICA VEZ'''... changes posteriores NÃO SERÃO REFLETIDAS...
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A First App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- ESSE ID DE 'app' é uasdo lá pelo nosso app vue, no exemplo, por conta de '.mount(#app)' -->
+  <div id="app">
+    <div>
+      <label for="goal">Goal</label>
+      <!--  'V-MODEL' é uma directive especial do VUE, e é usada para estabelecer TWO-WAY-BINDING entre input fields do html e propriedades lá no código js do vue ... -->
+      <input type="text" id="goal" v-model="enteredValue"/>
+      <!-- v-on é usado para EXECUTAR METHODS ESPECIFICADOS na propriedade 'methods' lá do seu object Vue... -->
+      <button v-on:click="addGoal" >Add Goal</button>
+    </div>
+    <!-- <ul>
+
+    </ul> -->
+
+    <ul>
+      <!-- OBS: AQUI MOSTRA-SE COMO __ FAZER O OUTPUT _ DE MÚLTIPLOS ELEMENTOS, A PARTIR DE UM ARRAY DE elementos lá no object Vue, em 'data'...-->
+      <!-- A SINTAXE DO HANDLEBARS NOS PERMITE GANHAR ACESSO À VARIÁVEL 'goal', que representa cada 1 dos elementos no array 'goals'...-->
+      <li v-for="goal in goals">{{goal}}</li>
+    </ul>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
