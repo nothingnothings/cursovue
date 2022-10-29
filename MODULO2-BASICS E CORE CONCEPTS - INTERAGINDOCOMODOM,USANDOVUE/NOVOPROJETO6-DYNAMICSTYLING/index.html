@@ -21,9 +21,39 @@
 
 
         <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA __ TOGGLAR CLASSES DINAMICAMENTE.. -->
-        <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
+
+        <!-- VERSÃO 'RUIM' DO CÓDIGO, SEM O 'OBJECT ESPECIAL VUE' usado para togglar as classes... esta é a sintaxe 'ruim', difícil de ler-->
+        <!-- <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
         <div class="demo" @click="toggleStyle('B')" :class="boxBSelected ? 'active': ''"></div>
-        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div> -->
+
+
+
+            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles... colocamos os NOMES DAS CLASSES NA ESQUERDA, E ENTÃO expressoes/true ou false/truthy ou falsy NA PARTE DA DIREITA, PARA ATIVAR/DESATIVAR CADA CLASS... -->
+            <!-- exemplo com a class custom de 'active' e a class ''SEMPRE ATIVADA'' de 'demo' (que queremos que sempre fique ativada)-->
+            <div
+        @click="toggleStyle('A')" 
+        class="demo"
+        :class="{
+            active: boxASelected
+        }"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+         class="demo"
+          :class="{
+            active: boxBSelected
+          }"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        class="demo"
+        :class="{
+            active: boxCSelected
+        }"
+        ></div>
     </section>
 </body>
 

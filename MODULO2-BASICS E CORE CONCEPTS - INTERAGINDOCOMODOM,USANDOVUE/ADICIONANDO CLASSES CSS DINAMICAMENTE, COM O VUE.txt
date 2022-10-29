@@ -1,0 +1,975 @@
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... 
+
+
+
+
+
+
+O BIND DE STYLES DE FORMA DINÂMICA FUNCIONA,
+ SIM,
+
+
+
+
+
+
+ __ MAS NÃO É RECOMENDADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ RAZÕES PARA ISSO:
+
+
+
+
+
+
+
+
+
+ 1) OS STYLES INLINE __ FAZEM OVERWRITE __, PASSAM POR CIMA DOS OUTROS STYLES... (
+
+    ISSO ÀS VEZES É O QUE VOCÊ QUER, MAS FREQUENTEMENTE LEVA A PROBLEMAS... por isso evitamos seu uso em webdev moderno...
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É POR ISSO QUE VAMOS NOS LIVRAR DESSE CÓDIGO E ENTÃO 
+
+
+
+
+
+ TENTAR __ BINDAR_ CSS CLASSES 
+
+
+
+ DINAMICAMENTE -----> PQ ESSE É UM APPROACH VÁLIDO, ALTERNATIVO, QUE PODEMOS USAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É POR ISSO QUE O PROFESSOR ADICIONA UMA NOVA CLASS,
+
+ COMO EU FIZ,
+
+ DE NOME 
+
+
+ '.active'...
+
+
+
+
+
+
+
+
+
+
+ .active {
+    border: 2px solid red;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> OK, AGORA TEMOS ESSA CLASS DE 'active',
+
+
+
+
+
+
+ E ELA __ JÁ É TOGGLADA POR MEIO DA MINHA LÓGICA:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Styling</h1>
+    </header>
+    <section id="style">
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA _ TOGGLAR__ STYLES DINAMICAMENTE, com essa sintaxe/escrita especial (exclusiva dos attributes STYLE e CLASS, no vue) do `javacript object`-->
+        <!-- <div class="demo" @click="toggleStyle('A')" :style="{borderColor: boxASelected ? 'red' : '#ccc"></div> -->
+
+
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA __ TOGGLAR CLASSES DINAMICAMENTE.. -->
+        <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('B')" :class="boxBSelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE QUEREMOS ADICIONAR ESSA CLASS DINAMICAMENTE A ESSA DIV (mas já fiz isso)...
+
+
+
+
+
+
+
+EU FIZ POR MEIO DESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+:class="boxCSelected ? 'active': ''"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> SE BOXSELECTEDA FOR TRUE,
+
+QUEREMOS 
+
+QUE 
+
+A CLASS DE 
+
+'active'
+
+seja 
+
+
+adicionada 
+
+
+
+a essa div, por exemplo...
+
+
+
+
+
+
+
+
+
+
+--> O :class 
+
+
+
+EXIGE UMA STRING... --> 
+
+
+
+
+
+
+
+
+
+
+ELE SEMPRE VAI EXIGIR UMA STRING,
+
+MAS PODEMOS 
+
+ESCREVER 
+
+CÓDIGO JAVASCRIPT 
+
+
+DENTRO 
+
+DESSA STRING,
+
+
+COISAS COMO 
+
+
+
+_TERNARY EXPRESSIONS...
+
+
+
+
+
+
+
+
+
+
+
+
+EXPRESSÕES SIMPLES JAVASCRIPT...
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS EU FIZ UMA CAGADA, ESQUECI DE RETORNAR A CLASS DE 'demo active' (retornei só 'active').. (mas pelo visto isso não importa, pq as 2 classes acabaram adicionadas/triggadas)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SIM.... ISSO FUNCIONOU, SIM,
+
+MAS ESSE NÃO É O CÓDIGO MAIS NICE DE TODOS... --> É UM POUCO DIFÍCIL DE LER,
+
+
+ESSA SINTAXE DE TERNARY EXPRESSION...
+
+
+
+
+
+
+
+
+
+
+
+
+----> IMAGINE O QUÃO DIFÍCIL ISSO SERIA DE LER,
+
+SE TIVÉSSEMOS MAIS CLASSES A SEREM TOGGLADAS DINAMICAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE __ O 
+
+
+VUEJS 
+
+
+TEM UMA 
+
+SINTAXE ESPECIAL TAMBÉM PARA _ 
+
+O ATTRIBUTE DE 'CLASS'..
+
+
+
+
+
+
+
+
+-----> SE VOCÊ TENTA BINDAR A 'CLASS'
+
+com v-bind,
+
+VOCê TEM 
+
+
+ESSA SINTAXE ESPECIAL DISPONÍVEL A VOCÊ...
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê PODE PASSAR UM OBJECT 
+
+
+A ESSE ATTRIBUTE TBM, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<div 
+class="{}"
+@click="boxSelected('A')"
+
+/>
+
+
+
+
+
+
+
+DENTRO DESSE 'OBJECT',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles...-->
+        <div class="demo" 
+        @click="toggleStyle('A')" 
+        :class="{}"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+          :class="{}"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        :class="{}"
+        ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+DENTRO DESSE OBJECT,
+
+PODEMOS _ ADICIONAR VÁRIAS PROPRIEDADES,
+
+EM QUE 
+OS PROPERTY NAMES VÃO REFLETIR SUAS 
+
+__CSS CLASSES.... --> 
+
+
+
+
+
+
+E OS __ VALUES__ DESSAS PROPRIEDADES SERÃO 
+
+'TRUE' OU 'FALSE',
+
+
+
+
+
+OU __ TRUTHY OU FALSY,
+
+
+
+
+
+__ E QUE _ DETERMINARÃO 
+
+
+SE A CLASS QUE VOCê DESEJA _ SERÁ ADICIONADA OU NÃO...
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE O PROFESSOR ESCREVE:
+
+
+
+
+
+
+
+
+            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles...-->
+        <div class="demo" 
+        @click="toggleStyle('A')" 
+        :class="{
+
+
+        }"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+          :class="{}"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        :class="{}"
+        ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PODEMOS COMEÇAR ESCREVENDO 'demo' como true,
+
+
+
+PQ QUEREMOS, REALMENTE,
+ 
+ QUE ESSA CLASS FIQUE SEMPRE COMO 'added'..
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+ 
+
+
+
+            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles...-->
+        <div class="demo" 
+        @click="toggleStyle('A')" 
+        :class="{
+            demo: true,
+            active: boxASelected
+
+        }"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+          :class="{
+            demo: true,
+            active: boxBSelected
+          }"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        :class="{
+            demo: true,
+            active: boxCSelected
+        }"
+        ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... ISSO VAI DEFINIR 
+
+
+
+_ SE __ O NEGÓCIO VAI FICAR ACTIVE OU NÃO DIRETAMENTE...
+
+
+
+
+(
+    não precisamos de toda aquela ternary expression enorme.... bem melhor, mesmo...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, FUNCIONOU EXATAMENTE COMO ANTES,
+
+MAS AGORA COM BEM MENOS CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SALVAMOS TUDO E RECARREGAMOS, GANHAMOS O MESMO BEHAVIOR DE ANTES,
+
+MAS AGORA 
+
+
+COM CÓDIGO BEM MAIS READABLE..
+
+
+
+
+
+
+
+
+
+--> E TUDO FICA MAINTAINEABLE,
+
+
+o que 
+
+
+
+é bem melhor..
+
+
+
+
+
+
+
+
+
+
+
+---> MAS O PROFESSOR DIZ QUE PODEMOS 
+
+
+
+__ DEIXAR O CÓDIGO AINDA MELHOR --> É POR ISSO QUE PODEMOS 
+
+REMOVER O 'demo' 
+
+
+lá 
+
+do bind,
+
+E AÍ 
+DEIXÁ-LO NA SUA CLASS 'STATIC',
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+            <div
+        @click="toggleStyle('A')" 
+        class="demo"
+        :class="{
+            active: boxASelected
+        }"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+         class="demo"
+          :class="{
+            active: boxBSelected
+          }"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        class="demo"
+        :class="{
+            active: boxCSelected
+        }"
+        ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OK... AGORA O VUE RECONHECE QUE 'demo' é a class ESTÁTICA,
+        e que 
+
+
+        o 
+
+        BIND DINAMICO deve acontecer com 
+
+        a class de 'active'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE VAI 'EVALUATE' 
+
+O 
+
+
+
+RESULTADO DESSE 'DYNAMIC CLASS BINDING'
+
+E ENTÃO 
+
+VAI 
+
+MERGEÁ-LO 
+
+
+COM O CLASS/CLASSES 'HARDCODADOS'
+
+
+
+lá 
+
+
+
+no attribute de 'class'...
+
+
+
+
+
+
+
+
+
+OK... ISSO NOS DÁ CÓDIGO BEM MAIS FÁCIL DE FAZER MANAGE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, AGORA PODEMOS 
+
+FAZER A MESMA COISA COM TODAS AS OUTRAS BOXES...
+
+
+
+
+
+
+
+OK, É ASSIM QUE PODEMOS ADICIONAR CLASSES DINAMICAS E STYLES DINAMICAS AO VUE...
+
+
+
+
+
+
+
+
+
+
+--> SE QUEREMOS 
+
+QUE 
+
+OS USERS 
+
+POSSAM 
+
+TOGGLAR 
+ESSAS 
+
+CLASSES,
+
+PODEMOS 
+
+COLOCAR O BANG OPERATOR EM CADA 
+
+
+DEFINIÇÃO 
+PARA 
+
+DEFINIR 
+
+COMO O INVERSO 
+
+DO VALOR ANTERIOR...
+
+
+
+
+
+
+TIPO COMO EU FIZ:
+
+
+
+
+
+
+
+
+
+
+
+    toggleStyle(letter) {
+      switch (letter) {
+        case 'A':
+          this.boxASelected = !this.boxASelected;
+          break;
+        case 'B':
+          this.boxBSelected = !this.boxBSelected;
+          break;
+        case 'C':
+          this.boxCSelected = !this.boxCSelected;
+          break;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+PRÓXIMA AULA...
