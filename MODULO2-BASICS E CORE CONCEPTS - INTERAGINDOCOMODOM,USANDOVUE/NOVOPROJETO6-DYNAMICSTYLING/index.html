@@ -29,9 +29,12 @@
 
 
 
-            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles... colocamos os NOMES DAS CLASSES NA ESQUERDA, E ENTÃO expressoes/true ou false/truthy ou falsy NA PARTE DA DIREITA, PARA ATIVAR/DESATIVAR CADA CLASS... -->
-            <!-- exemplo com a class custom de 'active' e a class ''SEMPRE ATIVADA'' de 'demo' (que queremos que sempre fique ativada)-->
-            <div
+        <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles... colocamos os NOMES DAS CLASSES NA ESQUERDA, E ENTÃO expressoes/true ou false/truthy ou falsy NA PARTE DA DIREITA, PARA ATIVAR/DESATIVAR CADA CLASS... -->
+        <!-- exemplo com a class custom de 'active' e a class ''SEMPRE ATIVADA'' de 'demo' (que queremos que sempre fique ativada)-->
+
+
+
+        <!-- <div
         @click="toggleStyle('A')" 
         class="demo"
         :class="{
@@ -54,6 +57,21 @@
             active: boxCSelected
         }"
         ></div>
+ -->
+
+
+        <!-- SINTAXE _ ÓTIMA__, COM O OUTSOURCING da lógica de derive das classes usadas na boxes LÁ PARA  AS NOSSAS COMPUTED PROPERTIES... isso libera o código html, que fica com menos lógica no seu interior... -->
+
+        <!-- 'boxAClasses' e afins são nossas COMPUTED PROPERTIES -->
+
+
+        <div @click="toggleStyle('A')" class="demo" :class="boxAClasses">
+        </div>
+        <div class="demo" @click="toggleStyle('B')" class="demo" :class="boxBClasses">
+        </div>
+        <div class="demo" @click="toggleStyle('C')" class="demo" :class="boxCClasses"></div>
+
+
     </section>
 </body>
 

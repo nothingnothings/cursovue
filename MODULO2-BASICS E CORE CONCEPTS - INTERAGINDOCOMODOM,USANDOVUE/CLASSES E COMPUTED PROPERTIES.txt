@@ -1,0 +1,507 @@
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS VOCÊ TAMBÉM PODE USAR COMPUTED PROPERTIES 
+
+
+
+NO BIND DINÂMICO DE SUA CLASS,
+
+SE VOCê DESEJAR...
+
+
+
+
+
+
+EX (código atual):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Styling</h1>
+    </header>
+    <section id="style">
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA _ TOGGLAR__ STYLES DINAMICAMENTE, com essa sintaxe/escrita especial (exclusiva dos attributes STYLE e CLASS, no vue) do `javacript object`-->
+        <!-- <div class="demo" @click="toggleStyle('A')" :style="{borderColor: boxASelected ? 'red' : '#ccc"></div> -->
+
+
+        <!-- EXEMPLO DE COMO USAR TERNARY EXPRESSIONS COM O VUE PARA __ TOGGLAR CLASSES DINAMICAMENTE.. -->
+
+        <!-- VERSÃO 'RUIM' DO CÓDIGO, SEM O 'OBJECT ESPECIAL VUE' usado para togglar as classes... esta é a sintaxe 'ruim', difícil de ler-->
+        <!-- <div class="demo" @click="toggleStyle('A')" :class="boxASelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('B')" :class="boxBSelected ? 'active': ''"></div>
+        <div class="demo" @click="toggleStyle('C')" :class="boxCSelected ? 'active': ''"></div> -->
+
+
+
+            <!-- sintaxe BOA, mais fácil de ler e intuitiva, com o OBJECT de styles... colocamos os NOMES DAS CLASSES NA ESQUERDA, E ENTÃO expressoes/true ou false/truthy ou falsy NA PARTE DA DIREITA, PARA ATIVAR/DESATIVAR CADA CLASS... -->
+            <!-- exemplo com a class custom de 'active' e a class ''SEMPRE ATIVADA'' de 'demo' (que queremos que sempre fique ativada)-->
+            <div
+        @click="toggleStyle('A')" 
+        class="demo"
+        :class="{
+            active: boxASelected
+        }"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+         class="demo"
+          :class="{
+            active: boxBSelected
+          }"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        class="demo"
+        :class="{
+            active: boxCSelected
+        }"
+        ></div>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO PQ, CONFORME O PROFESSOR HAVIA MENCIONADO,
+
+
+TER LÓGICA NO CÓDIGO HTML É ALGO __ SUBÓPTIMO --> 
+
+
+
+
+
+
+
+
+MAS PARA ESSE EXEMPLO DO 
+
+class binding,
+
+em 
+
+':class',
+
+
+
+É OK,
+
+
+
+MAS 
+
+
+
+
+
+
+
+SE VOCÊ QUISER MOVER ESSA LÓGICA AÍ _ PARA _ FORA _ __
+
+
+
+DO CÓDIGO 
+
+
+
+
+
+HTML,
+
+
+
+
+
+
+
+
+
+VOCê 
+
+PODE SIMPLESMENTE 
+
+
+
+
+
+USAR COMPUTED PROPERTIES PARA DEFINIR 
+
+O 
+
+VALUE 
+
+
+DESSAS CLASSES (true ou false)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+computed: {
+
+
+    boxAClasses() {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR DIZ QUE PODEMOS USAR ESSE CÓDIGO PQ 'NELE VAMOS QUERER DERIVAR AS CLASSES QUE SERÃO USADAS 
+
+NESSA CAIXA A'...
+
+
+
+
+
+
+
+
+
+--> NESSE LOCAL,
+
+PODEMOS SIMPLESMENTE COLOCAR A LÓGICA DE 
+
+'return { activeBoxASelected }' ,
+
+
+
+
+
+
+
+
+
+
+
+
+QUE ENTÃO 
+
+
+
+SERÁ INVOCADA/EXECUTADA 
+
+
+lá 
+
+NO SEU CLASS BINDING,
+
+se você escrever tipo assim:
+
+
+
+
+
+
+
+
+
+':class="boxAClasses" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+ISSO QUER DIZER QUE O CÓDIGO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+        <div
+        @click="toggleStyle('A')" 
+        class="demo"
+        :class="boxAClasses"
+        >
+    </div>
+        <div class="demo"
+         @click="toggleStyle('B')"
+         class="demo"
+          :class="boxBClasses"
+          >
+        </div>
+        <div class="demo" 
+        @click="toggleStyle('C')" 
+        class="demo"
+        :class="boxCClasses"
+        ></div>
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      boxASelected: false,
+      boxBSelected: false,
+      boxCSelected: false,
+    };
+  },
+
+  watch: {},
+
+  computed: {
+    //  USADO COM O MELHOR APPROACH PARA 'DEFINIR DINAMICAMENTE AS CLASSES DE ALGUM ELEMENTO no vue'
+    boxAClasses() {
+      return { active: this.boxASelected };
+    },
+    boxBClasses() {
+      return { active: this.boxBSelected };
+    },
+    boxCClasses() {
+      return { active: this.boxCSelected };
+    },
+  },
+
+  methods: {
+    toggleStyle(letter) {
+      switch (letter) {
+        case 'A':
+          this.boxASelected = !this.boxASelected;
+          break;
+        case 'B':
+          this.boxBSelected = !this.boxBSelected;
+          break;
+        case 'C':
+          this.boxCSelected = !this.boxCSelected;
+          break;
+      }
+    },
+  },
+});
+
+app.mount('#style');
+
+
+
+
+
+
+
+
+
+
+
+
+certo.... agora tudo está funcionando...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+ISSO AGORA ESTÁ FUNCIONANDO 
+
+
+COMO ANTES,
+
+MAS COM 
+
+UMA COMPUTED PROPERTY -->  ISSO PODE SER ESPECIALMENTE ÚTIL SE VOCÊ 
+
+TIVER 
+
+
+
+
+'
+DYNAMIC CLASS CODE'
+
+
+mais dinâmico,
+
+
+
+
+COM CHECKS COMPLEXOS,
+
+
+
+OU 
+
+
+
+COM DIFERENTES IF STATEMENTS,
+
+
+EM QUE VOCÊ QUER 
+
+
+RETORNAR 
+
+
+DIFERENTES 
+
+
+OBJECTS... 
+(
+
+
+    EM CASOS COMO ESSES,
+
+    AS COMPUTED PROPERTIES 
+
+
+    SÃO BEM MELHORES...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> PARA O STYLING, AS 
+
+COMPUTED PROPERTIES NÃO SÃO OBRIGATÓRIAS,
+
+
+MAS SÃO UMA BOA PRÁTICA...

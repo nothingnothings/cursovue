@@ -9,7 +9,18 @@ const app = Vue.createApp({
 
   watch: {},
 
-  computed: {},
+  computed: {
+    //  USADO COM O MELHOR APPROACH PARA 'DEFINIR DINAMICAMENTE AS CLASSES DE ALGUM ELEMENTO no vue'
+    boxAClasses() {
+      return { active: this.boxASelected };
+    },
+    boxBClasses() {
+      return { active: this.boxBSelected };
+    },
+    boxCClasses() {
+      return { active: this.boxCSelected };
+    },
+  },
 
   methods: {
     toggleStyle(letter) {
