@@ -1,0 +1,1008 @@
+
+
+
+
+
+
+
+
+
+
+
+DE NOVO TEMOS UM ASSIGNMENT,
+
+
+EM QUE TEMOS QUE PRATICAR COM 
+
+
+COMPUTED PROPERTIES E WATCHERS...
+
+
+
+
+
+
+
+
+
+
+É SÓ SEGUIR AS INSTRUÇÕES E TENTAR REALIZAR AS TAREFAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O CÓDIGO FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Events</title>
+</head>
+
+<body>
+    <header>
+        <h1>Reactivity in Action</h1>
+    </header>
+    <section id="assignment">
+        <button @click="add(5)">Add 5</button>
+        <button @click="add(1)">Add 1</button>
+        <!-- 1) Connect the buttons and calculate a value (a number) -->
+        <!-- Show "Not there yet" until you reach a result of exactly 37 -->
+        <!-- Show "Too much!" if the result is greater than 37 -->
+        <p>{{ message }}</p>
+        <p>Result: {{ result }}</p>
+        <!-- 2) Watch for changes in "result" and reset the value to 0 after 5 seconds -->
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      result: 0,
+    };
+  },
+
+  computed: {
+    message() {
+      if (this.result < 37) {
+        return 'Not there yet!';
+      } else if (this.result === 37) {
+        return '';
+      } else {
+        return 'Too much!';
+      }
+    },
+  },
+
+  watch: {
+    result() {
+      const that = this;
+      setTimeout(() => {
+        console.log('example');
+        that.result = 0;
+      }, 5000);
+    },
+  },
+
+  methods: {
+    add(number) {
+      this.result = this.result + number;
+    },
+  },
+});
+
+app.mount('#assignment');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> só não fiquei incontente com a criação de MÚLTIPLOS EVENT LISTENERS DE 'setTimeout' (queria criar apenas um)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMO FICOU A SOLUÇÃO DO PROBLEMA?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PRIMEIRAMENTE O PROFESSOR 
+
+
+
+FAZ O CONNECT DOS BUTTONS COM O SHORTHAND DE 'v-on'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA UMA VUE INSTANCE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+            return {
+
+            }
+        },
+
+        watchers: {
+
+        },
+
+        computed: {
+
+        },
+        methods: {
+
+        },
+
+    
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR DIZ QUE É MELHOR TER UMA COMPUTED PROPERTY PARA MOSTRAR OU 
+
+
+'Not there yet' (se o valor é MT BAIXO )
+
+
+
+
+-> MOSTRA SÓ O VALOR, se for 37 exatamente
+
+
+
+
+
+
+
+--> E 'TOO MUCH', se o value fica maior do que 37...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ok....
+
+
+
+
+
+eu coloquei o nome do counter como 'result'...
+
+
+
+
+
+
+
+
+
+
+
+
+escreveu com o shorthand:
+
+
+
+
+
+
+<button @click="number(5)">Add 5</button>
+
+
+
+
+
+
+
+
+
+
+E O METHOD FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+  methods: {
+    add(number) {
+      this.result = this.result + number;
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ok...
+
+
+
+
+
+
+  E EU REPETI ESSA SINTAXE COM O SEGUNDO BUTTON, TIPO ASSIM:
+
+
+
+
+
+  <button @click="add(5)">Add 5</button>
+    <button @click="add(1)">Add 1</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> AÍ O PROFESSOR DEMONSTRA O USO DAS COMPUTED PROPERTIES, COMO EU FIZ:
+
+
+
+
+
+
+
+
+            <p>{{ message }}</p>
+        <p>Result: {{ result }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+-----> EU USEI 'message' como sendo o COMPUTED PROPERTY...
+
+
+
+
+
+
+
+
+
+
+
+
+----> É MELHOR USAR COMPUTED PROPERTIES PARA OUTPUTTAR 
+
+
+'DYNAMIC DATA' diretamente 
+
+
+
+no nosso template...
+
+
+
+
+
+
+
+
+
+
+AÍ O PROFESSOR COMEÇA COM '< 37'..
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+message() {
+      if (this.result < 37) {
+        return 'Not there yet!';
+      } else if (this.result === 37) {
+        return '';
+      } else {
+        return 'Too much!';
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    OK... FOI EXATAMENTE O QUE EU FIZ, no caso...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESCREVEU DE MANEIRA BEM EXPLÍCITA (como eu fiz)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, AGORA 
+
+
+
+
+
+
+TEMOS ALGO QUE SÓ VAI REEVALUATE 'message'  
+
+
+
+
+
+
+SE A PROPRIEDADE 'number/result'  FOR ALTERADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK...
+
+
+
+
+
+
+
+SE ADICIONAMOS EXATAMENTE 37,
+
+
+
+ficamos só com o counter...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ISSO NOS MOSTRA:
+
+1) EVENTS 
+
+2) METHODS 
+
+
+3) COMPUTED PROPERTIES,
+
+
+
+
+
+
+tudo em ação..
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA PARA A TASK N2,
+
+
+
+O PROFESSOR QUERIA A DEFINIÇÃO DE UM WATCHER PARA 'CHANGES'
+
+
+naquela computed property de 'result'... (
+
+
+
+ops... fiz errado... --> eu fiz o watch 
+
+
+NO _ PRÓPRIO _ 
+
+
+'result', 
+
+e não 
+
+
+
+NA COMPUTED PROPERTY DE 'message'..
+
+)
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE SEMPRE QUE 'message' for alterada,
+
+seja disparado aquele 
+
+
+TIMER que então vai RESETTAR A 'message'
+
+em até 5 segundos...
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS AÍ RECEBI UM ERRO:
+
+
+
+
+
+
+
+
+[Vue warn]: Write operation failed: computed property "message" is readonly.
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ué... estou com problemas para acessar essa propriedade 'computed', pelo visto...
+
+
+
+
+
+
+
+
+
+
+
+----> AH, MAS O PROFESSOR QUER QUE RESETTEMOS A PROPRIEDADE 'counter/result', e não a mensagem (ah, agora faz sentido)...
+
+
+
+
+
+
+
+
+
+
+
+OK, FICA ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      result: 0,
+    };
+  },
+
+  computed: {
+    message() {
+      if (this.result < 37) {
+        return 'Not there yet!';
+      } else if (this.result === 37) {
+        return '';
+      } else {
+        return 'Too much!';
+      }
+    },
+  },
+
+  watch: {
+    // result() {  ////fiz watch do 'counter', quando deveria ter feito da 'message' computed property...
+    //   const that = this;
+    //   setTimeout(() => {
+    //     console.log('example');
+    //     that.result = 0;
+    //   }, 5000);
+    // },
+
+    message() {
+      ////fiz watch do 'counter', quando deveria ter feito da 'message' computed property...
+      console.log('EXAMPLE');
+      const that = this;
+      setTimeout(() => {
+        console.log('example');
+        that.result = 0;
+      }, 5000);
+    },
+  },
+
+  methods: {
+    add(number) {
+      this.result = this.result + number;
+    },
+  },
+});
+
+app.mount('#assignment');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR ESCREVE ASSim:
+
+
+
+
+
+
+
+
+
+    message() {
+      ////fiz watch do 'counter', quando deveria ter feito da 'message' computed property...
+      console.log('EXAMPLE');
+      const that = this;
+      setTimeout(() => {
+        console.log('example');
+        that.result = 0;
+      }, 5000);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SIM, PODEMOS FAZER WATCH DE TANTO 'REGULAR' COMO 'COMPUTED' properties...
+
+
+
+
+
+
+
+
+
+
+
+
+--> SEMPRE QUE A PROPRIEDADE de 'computed' __MUDAR, O SEU VALUE MUDAR,
+
+
+
+
+__ SEMPRE QUE __ ELE MUDAR (e não quando ele é evaluated),
+
+
+
+
+VAMOS QUERER _ 
+
+
+
+EXECUTAR ESSE watcher de 'result'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FALA DA SINTAXE DA 'THIS' KEYWORD dentro do setTimeout,
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+    message() {
+      console.log('EXAMPLE');
+      const that = this;
+      setTimeout(() => {
+        console.log('example');
+        that.result = 0;
+      }, 5000);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok....
+
+
+
+
+
+
+
+
+ISSO FUNCIONOU....
+
+
+
+
+
+
+
+
+
+-> MAS UM PROBLEMA É QUE 
+
+
+
+__ ESSE CHANGE DA PROPRIEDADE 'result' VAI ACABAR __ DISPARANDO O 
+A COMPUTED 
+
+
+PROPERTY MAIS UMA VEZ,
+
+o que vai então 
+
+
+
+DISPARAR O 'watcher' MAIS UMA VEZ... ( 
+
+    o que é meio 
+
+
+
+    indesejado....
+
+)
+
+
+
+
+
+
+
+
+
+--> NÃO É UM LOOP INFINITo, pq o reset para '0' 
+
+não vai nos dar um value novo para a 'COMPUTED PROPERTY',
+
+
+o que 
+
+então 
+
+vai parar o loop (pq a computed property não vai ter um novo value, o que não vai triggar o watcher mais uma vez)...
+
+
+
+
+
+
+
+
+
+
+
+-> OK, É ASSIM QUE COMPUTED PROPERTIES,
+
+
+DATA PROPERTIES 
+
+
+
+E 
+WATCHERS FUNCIONAM ENTRE SI,
+
+
+
+E É ASSIM QUE 
+
+TRABALHAM PARA CRIAR APPS ALTAMENTE REATIVOS VUE...

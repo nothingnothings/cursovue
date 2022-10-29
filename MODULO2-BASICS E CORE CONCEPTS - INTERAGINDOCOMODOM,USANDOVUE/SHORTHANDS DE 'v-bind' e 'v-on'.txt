@@ -302,6 +302,25 @@ podemos escrever assim:
 
 
 
+@click 
+
+
+
+@input 
+
+
+@hover
+
+
+@mouseexit 
+
+@mouseenter
+
+
+
+:nomeDoAttribute="..."
+
+
 
 
 
@@ -309,3 +328,83 @@ podemos escrever assim:
 
 
 --> ISSO TEM O MESMO EFEITO, MAS SEM A ESCRITA DE 'v-bind'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+:value="..."
+
+
+
+
+
+
+
+
+:src="..."
+
+
+
+
+
+
+
+
+
+
+
+
+SEJA CONSISTENTE...
+
+
+
+
+
+
+
+
+
+----> É UMA ALTERNATIVA DE ESCRITA, MAS É BOA PQ REDUZ A QUANTIDADE DE CÓDIGO...
+
+
+
+
+
+
+
+
+--> USAMOS ISSO PARA BINDAR UM ATTRIBUTE DINAMICAMENTE...
+
+
+
+
+
+
+@click 
+
+
+
+@xxxx
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR USARÁ 
+
+
+
+ESSAS SHORTHANDS AO LONGO DO CURSo...

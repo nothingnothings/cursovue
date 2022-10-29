@@ -1,0 +1,216 @@
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... A ESSE PONTO, JÁ APRENDEMOS SOBRE DATA BINDING (com 'interpolation' e 'v-bind')...
+
+
+
+
+
+
+
+
+
+
+
+
+----> TAMBÉM APRENDEMOS SOBRE EVENT BINDING,
+
+
+E SOBRE A __ REACTIVITY DO VUE..
+
+
+
+
+
+
+ESPECIALMENTE, TAMBÉM, COM FEATURES COMO 
+
+
+
+
+COMPUTED PROPERTIES 
+
+
+E WATCHERS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSAS SÃO CORE FEATURES 
+
+
+QUE VOCÊ DEVE ENTENDER,
+
+POR ISSO 
+
+ELAS ESTÃO 
+
+
+NESSA SEÇÃO 'BASICS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ MAIS UMA 'BASIC THING'
+
+
+que devemos entender,
+
+que é o 
+
+ STYLING,
+
+
+ DYNAMIC STYLING..
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO,
+
+ O PROFESSOR ADICIONOU UM EXEMPLO BÁSICO,
+
+  
+  O QUAL ENCONTRAMOS 
+
+
+
+  ANEXADO A ESTA LIÇÃO...
+
+
+
+
+
+
+
+
+
+  --> EX: 
+
+
+
+
+
+
+
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Events</h1>
+    </header>
+    <section id="styling">
+        <div class="demo"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E O CÓDIGO CSS:
+
+
+
+
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', 'sans-serif';
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #4fc08d;
+  color: white;
+  text-align: center;
+}
+
+#styling {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.demo {
+  width: calc(100% - 32px);
+  height: 100px;
+  margin: 16px;
+  border: 2px dashed #ccc;
+}
