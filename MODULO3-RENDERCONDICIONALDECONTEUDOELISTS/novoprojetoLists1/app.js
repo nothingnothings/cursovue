@@ -3,6 +3,10 @@ const app = Vue.createApp({
     return {
       goals: [],
       userInput: '',
+      exampleObject: {
+        name: 'Max',
+        age: 31
+      }
     };
   },
   watch: {},

@@ -1,0 +1,652 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESTAMOS USANDO 'v-for'
+
+
+
+
+
+
+
+COM UM ARRAY COMO 'goals'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      userInput: '',
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+
+
+
+
+    addGoal() {
+      this.goals.push(this.userInput);
+    },
+  },
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+        <ul v-else>
+            <li v-for="goal in goals">{{ goal }}</li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSE É PROVAVELMENTE O USE-CASE MAIS COMUM DO 'v-for'...
+
+
+
+
+
+
+
+
+
+
+--> ENTRETANTO, 
+
+É IMPORTANTE RESSALTAR QUE O 'v-for'
+
+
+POSSUI ALGUMAS VARIAÇÕES INTERESSANTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> POR EXEMPLO,
+
+VOCÊ 
+
+PODE 
+
+FAZER 'PULL OFF'
+
+
+
+mais 
+
+DO QUE 
+
+
+O _  
+
+'ARRAY ITEM' em si...
+
+
+
+
+
+
+--> VOCê PODE PEGAR TAMBÉM O INDEX DO ITEM DO ARRAY...
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR O INDEX,
+
+
+
+É BEM SIMPLES, BASTA WRAPPAR O ITEM QUE VOCÊ ESTÁ PEGANDO DO ARRAY com um '()'...
+
+
+
+
+
+
+E ENTÃO ESCREVE 
+
+'(goal, index)'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ FICA TIPO ASSIM:
+
+
+
+    <ul v-else>
+            <li v-for="(goal, index) in goals">{{ goal }}</li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+ AÍ O PROFESSOR OUTPUTTA O INDEX, também...
+
+
+
+
+
+
+
+
+
+
+ --> ok... 
+
+
+
+
+ podemos usar o index para fazer operações diversas...
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  --> OUTRO DETALHE,
+
+
+
+
+
+
+
+
+
+  __ VOCê PODE LOOPAR POR COISAS QUE NÃO SÃO ARRAYS,
+
+
+
+
+
+
+
+
+  COMO __ OBJECTS...
+
+
+
+
+
+
+
+
+
+
+
+
+-----> AQUI, NO CASO, 'GOALS' é um array... --> 
+
+
+
+
+E VOCÊ VAI FREQUENTEMENTE LOOPAR POR ARRAYS,
+
+É O USE-CASE MAIS COMUM....
+
+
+
+
+
+
+
+
+
+
+--> MAS VOCê TAMBÉM PODE LOOPAR POR DENTRO DE OBJECTS...
+
+
+
+
+
+
+
+
+------> para isso, crio uma data property de 'exampleObject'...
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+  data() {
+    return {
+      goals: [],
+      userInput: '',
+      exampleObject: {
+        name: 'Max',
+        age: 31
+      }
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+  --> AÍ, LÁ NO 'V-FOR',
+
+  escrevo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+          <ul>
+            <li v-for="propertyValue in exampleObject">{{property}}</li>
+
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+---> CERTO....
+
+
+
+
+
+
+--> COM ISSO, OUTPUTTAMOS 'max' e '31'
+
+
+
+LÁ NO 
+
+
+HTML..
+
+
+
+
+
+no caso, outputtamos os 'property.value' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> E, ASSIM COMO VOCÊ CONSEGUE OS 'INDEX' QUANDO VOCê MEXE COM OS ITEMS NOS ARRAYS,
+
+
+
+
+_ VOCê PODE CONSEGUIR OS 'KEY NAME' 
+
+
+_ QUANDO VOCÊ ESTÁ LOOPANDO POR DENTRO DOS OBJECTS.. --> BASTA __ 
+
+
+
+USAR A MESMA SINTAXE 'WRAPPER' de "()",
+
+
+
+E AÍ 
+
+
+
+colocar o segundo value desse '()"
+
+
+como 
+
+'keyName' ou algo assimn...
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+      <!-- EXEMPLO DE LOOPS NO VUE, mas POR DENTRO DE OBJECTS-->
+        <ul>
+            <li v-for="(propertyValue, keyName) in exampleObject">Value: {{propertyValue}} Name of the key: {{ keyName}}</li>
+
+        </ul>
+
+
+
+
+
+EX:
+
+
+
+
+        <!-- EXEMPLO DE LOOPS NO VUE, mas POR DENTRO DE OBJECTS-->
+        <ul>
+            <li v-for="(propertyValue, keyName) in exampleObject">Value: {{propertyValue}} Name of the key: {{ keyName}}</li>
+
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+
+
+
+
+
+
+
+RESUMINDO, PODEMOS USAR 
+
+O 
+
+'v-for'
+
+TANTO PARA ARRAYS COMO PARA OBJECTS..
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ TAMBÉM PODE _ CONSEGUIR O _INDEX__ da sua propriedade, se quiser, apesar de isso ser raro, 
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+        <!-- EXEMPLO DE LOOPS NO VUE, mas POR DENTRO DE OBJECTS-->
+        <ul>
+            <li v-for="(propertyValue, keyName, indexNumber) in exampleObject">Value: {{propertyValue}} Name of the key: {{ keyName}} Index: {{indexNumber}}</li>
+
+        </ul>
+
+
+
+
+
+
+
+
+-->  OK... 
+
+
+
+
+
+
+
+VOCÊ DEVE TER EM MENTE O FATO DE QUE 
+
+O 
+V-FOR PODE SER USADO COM OBJECTS TAMBÉM...
+
+
+
+
+
+
+
+
+
+
+
+---> E TBM DO FATO DE QUE VOCÊ PODE UTILIZAR O 'V-FOR' PARA RETRIEVAR O VALUE, O KEYNAME E O INDEX, SE VOCÊ DESEJAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTRA COISA QUE VOCê PODE FAZER COM 'V-FOR'
+
+É LOOPAR POR DENTRO DE UMA RANGE DE NUMBERS,
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<li v-for"num in 10">{{num}}</li>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+       <!-- exemplo de utilização-NICHO do v-for, para loopar por dentro de um conjunto de NUMBERS-->
+        <ul>
+        <li v-for="num in 10">{{num}}</li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O PROFESSOR COMENTA ISSO PARA FORA...
+
+
+
+
+
+
+
+
+
+
+AGORA SOMOS CAPAZES DE 'ADD GOALS'  
+
+
+E ENTÃO 
+
+
+OS OUTPUTTAR NA NOSSA LIST (conditionally)...
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS INVESTIGAR UMA MANEIRA __ DE REMOVER_ ESSES GOALS DE NOSSA LIST (com um click em cada goal),
+
+
+
+TUDO PARA QUE NOSSA LIST FIQUE REALMENTE DINÂMICA...

@@ -42,7 +42,7 @@
 
 
         <!-- V-SHOW NÃO FUNCIONA COM O 'v-if' (e afins), E NÃO FAZ O RENDER/UNRENDER DOS ELEMENTOS DO DOM.... A ÚNICA COISA QUE ELE FAZ É ADICIONAR O STYLE DE 'display: none' aos elementos que estão com 'falsy' no valor de 'v-show'... -->
-<!-- 
+        <!-- 
         <p v-show="goals.length === 0">No Goals</p>
 
         <ul v-show="goals.length > 0">
@@ -56,9 +56,22 @@
         <ul v-else>
             <!-- EXEMPLO DA UTILIZAÇÃO DE 'v-for' para OUTPUTTAR UMA LISTA de items a partir da data nas suas data properties -->
             <!-- TEMOS ACESSO A ESSA CONST DE 'goal' APENAS DENTRO DESSE ELEMENTO 'li', pq só ele foi afetado por esse 'v-for'-->
-            <li v-for="goal in goals">{{ goal }}</li>
+            <li v-for="(goal, index) in goals">Goal: {{ goal }} Index: {{ index }}</li>
+        </ul>
+        <!-- EXEMPLO DE LOOPS NO VUE, mas POR DENTRO DE OBJECTS (btw, o 'index' nos objects é RARAMENTE UTILIZADO)-->
+        <ul>
+            <li v-for="(propertyValue, keyName, indexNumber) in exampleObject">Value: {{propertyValue}} Name of the key: {{ keyName}} Index: {{indexNumber}}</li>
+
         </ul>
 
+
+
+
+
+        <!-- exemplo de utilização-NICHO do v-for, para loopar por dentro de um conjunto de NUMBERS-->
+        <ul>
+        <li v-for="num in 10">{{num}}</li>
+    </ul>
 
 
 
