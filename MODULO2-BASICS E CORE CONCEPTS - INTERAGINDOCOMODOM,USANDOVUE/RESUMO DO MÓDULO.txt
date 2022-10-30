@@ -1,0 +1,424 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ACABAMOS COM ESTE MÓDULO... ESSA FOI UMA COURSE SECTION GRANDE, PQ COBRIMOS TODOS OS FUNDAMENTALS...
+
+
+
+
+
+
+
+
+
+--> APRENDEMOS SOBRE COMO TRABALHAR COM TEMPLATES,
+
+
+
+
+PARA USAR FEATURES VUE,
+
+
+
+QUE ENTÃO SÃO REFLETIDAS NA ACTUAL PAGE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE TE DEIXA DEFINIR O 'GOAL',
+
+EM VEZ DAS ETAPAS INDIVIDUAIS (
+
+    vocÊ define como sua page deve se parecer,
+
+    quais partes da page devem ser dinâmiacs,
+
+
+
+    e aí é o VUE QUE DETERMINA 
+
+    como se deve chegar até lá....
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê DEVE CONECTAR SEU VUE APP ao html 
+
+através 
+
+
+DO COMANDO 'mount',
+
+
+
+E AÍ __ SELECIONAMOS 
+
+
+ESSA PARTE DA PAGE 
+
+,
+
+QUE 
+
+ENTÃO É CONVERTIDA 
+
+
+
+
+
+
+
+NO TEMPLATE DO VUE APP,
+
+EM QUE VOCÊ PODE USAR TODAS AS FEATURES VUE,
+
+
+COMO 
+
+
+
+'DATA E EVENT BINDING'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATA E EVENT BINDINNG...
+
+
+
+
+
+
+
+
+
+
+--> APRENDEMOS QUE 'DATA' PODE SER OUTPUTTADA NAQUELE TEMPLATE (
+
+    no código html controlado
+),
+
+TUDO POR MEIO 
+
+DA SINTAXE DE 
+
+'INTERPOLATION',
+
+
+que 
+você 
+pode 
+
+usar 
+
+para 
+
+OUTPUTTAR 
+
+TEXt... (de suas data properties OU DOS COMPUTED PROPERTIES)
+
+
+
+
+
+
+
+
+----> VOCÊ TAMBÉM APRENDEU QUE PODE USAR A DIRECTIVE DE 
+
+'v-bind'
+
+
+PARA _ BINDAr_ HTML ATTRIBUTES A ALGUM VALUE DINÂMICO..
+
+
+
+
+
+
+
+
+
+
+
+--> APRENDEMOS TAMBÉM A SHORTHAND 
+DE 
+
+
+
+
+':attribute'
+ 
+
+ e 
+
+
+
+ '@click' ( ou '@input'),
+
+
+
+
+
+
+
+MT ÚTEIS....
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS FAZER LISTEN TO A EVENTS,
+
+COM 
+
+
+
+
+O 'v-on'  ( ou'@click')..
+
+
+
+
+
+
+
+
+
+
+
+--> ESSAS SÃO AS CORE FEATURES DO VUE... 
+
+
+
+
+
+
+
+
+
+
+
+--> ELAS SÃO MT FORTES, MAS PARA TORNÁ-LAS MAIS FORTES,
+
+
+
+NÓS DEPENDEMOS DO 'REACTIVITY SYSTEM'
+
+
+DO VUE... --> isso significa que 
+
+
+
+O VUE VAI _ UPDATAR__ O DOM DE VERDADE 
+
+
+
+__SEMPRE QUE 
+
+
+_ALGUMA _ DATA __ (bound data)
+
+
+
+
+QUE VOCÊ OUTPUTTA COM 'v-bind' ou '{{}}' FOR ALTERADA...
+
+
+
+
+
+
+
+
+
+-----> E VOCê APRENDEU QUE PODE REGISTRAR 
+
+DATA 'WHICH MIGHT CHANGE'
+
+
+
+LÁ 
+
+
+
+NA OPTION DE 'data'
+
+
+DE SEU APP...
+
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM APRENDEMOS QUE PODEMOS TRABALHAR COM COMPUTED PROPERTIES 
+
+E 
+WATCHERS (watch), PARA CALCULAR __ RESULTS __ DINAMICAMENTE,
+
+OU PARA 
+
+RODAR 
+
+
+UM CÓDIGO QUANDO 
+
+CERTA DATA É ALTERADA (dependencies)....
+
+
+
+
+
+
+
+
+
+--> E O VUE _ WATCHA ESSA DATA PARA VOCê;
+
+
+ELE AUTOMATICAMENTE DETECTA CHANGES PARA NÓS,
+
+
+E UPDATA AUTOMATICAMENTE O DOM E AS COISAS QUE 
+
+O USER VÊ NA PAGE,
+
+
+SEMPRE QUE 
+
+CHANGES COMO ESSAS SÃO DETECTADAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É O BÁSICO QUE VOCÊ DEVE SABER SOBRE O VUE...
+
+
+
+
+
+
+
+
+
+
+--> MAS TAMBÉM PRECISAMOS DO OUTPUT DE DYNAMIC STYLING.... (
+
+    pq podemos 
+
+    definir css CLASSES e INLINE STYLES DINAMICAMENTE,
+
+    COM V-BIND...
+)
+
+
+
+
+
+
+
+
+
+
+--> E TAMBÉM APRENDEMOS QUE O VUE POSSUI SINTAXES ESPECIAIS PARA CLASS E STYLE BINDING, PARA 
+
+
+TE AJUDAR A SETTAR DYNAMIC STYLES...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE ESSA É SÓ A FOUNDATION,
+
+
+E É 
+
+
+
+MT ESSENCIAL...
+
+
+
+
+
+
+
+
+--> VEREMOS OS CONCEITOS 
+DESSA COURSE SECTION EM TODAS AS OUTRAS SECTIONS...
+
+
+
+
