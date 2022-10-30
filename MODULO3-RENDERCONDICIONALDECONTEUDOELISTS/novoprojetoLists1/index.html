@@ -51,6 +51,15 @@
 
 
 
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+        <ul v-else>
+            <!-- EXEMPLO DA UTILIZAÇÃO DE 'v-for' para OUTPUTTAR UMA LISTA de items a partir da data nas suas data properties -->
+            <!-- TEMOS ACESSO A ESSA CONST DE 'goal' APENAS DENTRO DESSE ELEMENTO 'li', pq só ele foi afetado por esse 'v-for'-->
+            <li v-for="goal in goals">{{ goal }}</li>
+        </ul>
+
+
 
 
 

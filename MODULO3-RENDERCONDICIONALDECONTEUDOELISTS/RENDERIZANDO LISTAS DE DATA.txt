@@ -1,0 +1,629 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... APRENDEMOS SOBRE O 'v-if',
+
+
+QUE É ÓTIMO PARA _ RENDERIZAR CONTEÚDO CONDICIONALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS NÓS __ AINDA TEMOS UM ARRAY DE CONTENT... com múltiplos goals...
+
+
+
+
+
+
+
+
+--> e seria nice se pudéssemos outputtar 
+
+esses 'actual goals',
+
+
+armazenados no nosso 
+
+VUE APP,
+
+
+em vez de esse 
+
+
+DUMMY GOAL...
+
+
+
+
+
+
+
+
+
+
+--> AINDA BEM QUE O VUE NOS AJUDA COM ISSO TAMBÉM...
+
+
+
+
+
+
+
+
+--> AGORA PRECISAMOS OUTPUTTAR UMA LISTA 
+
+DE CONTENT...
+
+
+
+
+
+
+
+
+--> E ISSO É ALGO QUE VOCê TAMBÉM 
+
+
+TEM QUE FAZER EM FREQUÊNCIA COM APPS (
+
+
+    lists estão por toda parte em webapps,
+
+    e é por isso que 
+    o 
+    vue 
+
+    nos dá 
+
+
+    uma ferramenta para outputtar esse conteúdo repetido...
+)
+
+
+
+
+
+
+
+
+
+
+
+AQUI, QUEREMOS REPETIR ESSE LIST ITEM, COM CONTEÚDO DIFERENTE, PARA TODOS 
+
+
+OS ITEMS QUE TEMOS...
+
+
+
+
+
+
+
+
+
+--> É A DIRECTIVE DE 'v-for'...
+
+
+
+
+
+
+
+
+
+
+
+A DIRECTIVE DE 'v-for' 
+
+
+
+
+
+É USADA __ PARA __ 'RODAR CÓDIGO EM LOOP'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMO VOCÊ JÁ DEVE TER PERCEBIDO, 
+
+O VUE 
+
+SE UTILIZA DE VÁRIOS CONCEITOS JAVASCRIPT, como 'for loops' 
+
+
+
+e 
+
+'if statements'...
+
+
+
+
+
+
+
+
+
+
+
+
+-----> É UM PATTERN...
+
+
+
+
+
+
+
+----> NÓS TEMOS V-IF E V-FOR como temos for loops 
+
+
+em javascript...
+
+
+
+
+
+
+
+
+
+--> TUDO ISSO PARA LIDAR COM CÓDIGO REPETIDO.. --> 
+
+
+
+
+
+V-FOR 
+
+
+
+É USADO PARA OUTPUTTAR 
+
+
+__ 
+
+CONTEÚDO QUE É REPETIDO...
+
+
+
+
+--> AQUI, NO CASO,
+
+QUEREMOS 
+OUTPUTTAR 
+
+1 
+
+LIST ITEM 
+
+VÁRIAS E VÁRIAS VEZES,
+
+
+PARA CADA 'GOAL' que temos...
+
+
+
+
+
+
+
+
+
+
+
+
+PARA __ CONSEGUIR USAR O 'v-for',
+
+
+PRECISAMOS DEFINIR SEU VALUE QUASE COMO SE FOSSE UM FOR LOOP,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<li v-for="goal in goals"></li>
+
+
+
+
+
+
+
+
+
+
+( OU SEJA, IMITAMOS A ESCRITA DE 'const goal of goals' ... ) 
+
+
+
+
+
+
+
+
+--> AQUI USAMOS __ 'goal in goals'...
+
+
+
+
+
+--> A ESCRITA DE 'goal of goals'
+
+TAMBÉM É SUPORTADA PELO VUE,
+
+mas AQUI DEVEMOS USAR 'goal in goals'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 'GOAL IN GOALS' É UM POUCO DIFERENTE DA ESCRITA DE 'goal of goals',
+
+
+
+
+
+mas basta memorizar isso aí...
+
+
+
+
+
+
+
+
+
+
+--> EX:
+
+
+
+
+
+
+
+        <ul v-else>
+            <!-- EXEMPLO DA UTILIZAÇÃO DE 'v-for' para OUTPUTTAR UMA LISTA de items a partir da data nas suas data properties -->
+            <li v-for="goal in goals"></li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+---> ESSA CONSTANTE 'goal'
+
+VAI SEGURAR TODA A DATA DOS item 'goal'
+
+
+NO NOSSO ARRAY...
+
+
+
+
+
+
+
+
+
+-----> E 'V-FOR' vai ir por dentro de todo goal...
+
+
+
+
+
+
+
+----> NOSSOS GOALS SÃO APENAS STRINGS, AQUI...
+
+
+
+
+
+
+--> É POR ISSO QUE PODEMOS USAR STRING INTERPOLATION, EU ACHO.....
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+        <ul v-else>
+            <!-- EXEMPLO DA UTILIZAÇÃO DE 'v-for' para OUTPUTTAR UMA LISTA de items a partir da data nas suas data properties -->
+            <li v-for="goal in goals">{{ goal }}</li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... ISSO VAI COMUNICAR AO VUE QUE ELE DEVE REPETIR ESSE LIST ITEM PARA __ TODOS OS 'GOAL' EM GOALS...
+
+
+
+
+
+
+
+
+--> E ENTÃO VAI NOS DAR ACESSO A CADA GOAL,
+
+
+
+E DENTRO DO ELEMENTO AFETADO POR 'v-for' (E APENAS DENTRO DESSE ELEMENTO, DENTRO DE SUAS OPENING E CLOSING TAGS),
+
+
+
+
+TEREMOS ACESSO A ESSE GOAL...
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE 
+
+SE TENTAMOS 
+
+OUTPUTTAR 'goal' LÁ NA UL 
+
+ou em um paragraph externo,
+
+
+ISSO NÃO FUNCIONARÁ...
+
+
+
+
+
+
+
+
+
+
+--> E ISSO FAZ SENTIDO,
+
+PQ NO JAVASCRIPT COMUM,
+
+VOCÊ TAMBÉM 
+
+NÃO PODE USAR 
+
+
+A CONST em 
+
+
+
+'const goal of goals'
+NO LADO 
+
+DE FORA 
+
+DO FOR LOOP em si...
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+FIZ O OUTPUT DAQUELE TEXT DENTRO 
+
+
+
+DO <li>,
+
+e deu certo....
+
+
+
+
+
+
+
+
+
+
+OK... FUNCIONOU...
+
+
+
+
+
+A NOSSA LIST CRESCE COM CADA NOVO ITEM QUE ADICIONAMOS....
+
+
+
+
+
+
+
+
+
+ESSE É O 'V-FOR' E PQ ELE IMPORTA:
+
+
+PQ AGORA 
+
+PODEMOS 
+
+
+CRIAR UM APP DINÂMICO EM QUE:
+
+
+
+
+
+
+
+
+1) RENDERIZAMOS LISTS DE CONTENT 
+
+
+
+
+2) E TAMBÉM UPDATAMOS ESSA LIST QUANDO 
+
+O CONTEÚDO MUDA...
+
+
+
+
+
+
+--> E O VUE FAZ ESSE UPDATE 
+
+PARA NÓS... ---> 
+
+
+
+
+E ELE TAMBÉM FAZ ESSE UPDATE DE UMA MANEIRA ESPERTA -----> SE VOCÊ INSPECIONA O LIST ITEM,
+
+
+
+VOCÊ 
+
+OBSERVA QUE 
+
+
+__APENAS__ O ELEMENTO INÉDITO (recém-renderizado)
+
+
+É ADICIONADO À PÁGINA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> E ISSO É ÓTIMO PARA PERFORMANCE,
+
+PQ 
+
+
+SERIA RUIM 
+
+
+SE O VUE RE-RENDERIZASSE A LISTA INTEIRA PARA CADA NOVO RENDER DE LIST ITEM...
+
+
+
+
+
+
+--> É bom entender essas coisas, pq 
+
+
+te ajuda a entender como o vue funciona por trás das cenas...
