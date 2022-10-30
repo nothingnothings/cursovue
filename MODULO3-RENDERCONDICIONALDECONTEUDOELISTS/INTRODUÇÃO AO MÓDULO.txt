@@ -1,0 +1,117 @@
+
+
+
+
+
+
+
+
+
+
+
+APRENDEMOS OS BASICS AGORA...
+
+
+
+
+
+
+
+
+--> SABEMOS COMO O VUE FUNCIONA EM GERAL,
+
+
+E COMO PODEMOS OUTPUTTAR CONTEÚDO NA TELA E REAGIR A USER INPUT...
+
+
+
+
+
+
+
+
+--> JÁ PODEMOS CONSTRUIR UM MONTE DE COISAS,
+
+MAS HÁ 
+
+PEDAÇOS IMPORTANTES FALTANDO...
+
+
+
+
+
+
+
+
+
+--> VAMOS APRENDER A FAZER ESSES PEDAÇOS QUE ESTÃO FALTANDO, AGORA..
+
+
+
+
+
+
+
+veremos:
+
+
+
+1) COMO RENDERIZAR CONTEÚDO CONDICIONALMENTE (
+    renderizar algumas partes da page APENAS SE 
+
+    CERTAS CONDIÇÕES SÃO SATISFEITAS....
+)
+
+
+
+2) COMO _ OUTPUTTAR_ LISTAS DE CONTEÚDO (como uma LISTA DE COURSE GOALS, UMA LISTA DE PRODUCTS),
+
+LISTAS QUE DEVEM SER OUTPUTTADAS __ DINAMICAMENTE...
+
+
+(
+
+    E NOVOS ITEMS DEVEM SER __ADICIONADOS SE A LISTA CRESCER,
+
+    DEVEM SER REMOVIDOS SE A LISTA DIMINUIR...
+)
+
+
+
+
+
+
+
+
+
+
+COMO:
+
+1) RENDERIZAR CONTEÚDO CONDICIONALMENTE (quais ferramentas o vue nos dá para assegurar que certo texto só é mostrado se 'temos nenhum produto a ser shown')...
+
+
+
+
+
+
+
+
+
+2) APRENDEREMOS COMO OUTPUTTAR LISTAS DE DATA (lista de goals/projects) 
+
+
+
+
+
+3) VEREMOS O 'BEHIND THE SCENES' DO VUE,
+
+
+E UMA FEATURE/OPTIMIZATION IMPORTANTE, QUANDO O ASSUNTO É OUTPUT DE DATA...
+
+
+
+
+
+
+
+--> VAMOS COMEÇAR COM ISSO....
