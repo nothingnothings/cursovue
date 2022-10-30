@@ -1,0 +1,257 @@
+
+
+
+
+
+
+
+
+
+
+
+RESUMO:
+
+
+
+
+
+
+
+
+
+ACABAMOS COM ESTE MÓDULO....
+
+
+
+
+
+
+
+OUTRO MÓDULO, QUE COM O MÓDULO DE ANTES,
+
+FORMA A FUNDAÇÃO DO VUE...
+
+
+
+
+
+TEMOS TODOS OS BASICS PARA COMPOR UM APP VUE BÁSICO..
+
+
+
+
+
+
+
+
+
+
+
+--> ESTUDAMOS:
+
+
+
+
+
+
+
+1) RENDER DE CONTEÚDO CONDICIONALMENTE --> COM 'v-if' 
+
+e 
+
+'v-show' directives...
+
+
+
+O V-IF É MAIS IMPORTANTE... ----> O 'V-IF' RENDERIZA CONTEÚDO APENAS SE CERTO CONTEÚDO É SATISFEITO...
+
+
+
+--> o v-show mostra/esconde com css..
+
+
+
+
+
+O 'V-IF' PODE SER COMBINADO COM 'V-ELSE' E 'V-ELSE-IF',
+
+
+MAS 
+
+APENAS 
+SE 
+
+FOREM VIZINHOS DIRETOS DE 
+
+
+
+'V-IF'...
+
+
+
+
+
+2) TAMBÉM APRENDEMOS SOBRE LISTS E O OUTPUT DE 
+
+LISTS 
+DE DATA...
+
+
+
+
+
+
+PARA ISSO, TEMOS O 'V-FOR',
+
+QUE PODE SER USADO PARA OUTPUTTAR CONTEÚDO REPETIDO _ DINAMICAMENTE...
+
+
+
+
+
+
+
+
+V-FOR --> PODE SER USADO COM ARRAYS, OBJECTS E RANGES (numbers)...
+
+
+
+
+
+
+
+
+
+3) TAMBÉM APRENDEMOS VARIATIONS DE 'v-for'... --> APRENDEMOS QUE PODEMOS EXTRAIR;
+
+
+
+A) VALUES 
+
+
+
+B) VALUES E INDEXES (com (value, index) ) 
+
+
+
+
+C) VALUES, KEYS E INDEXES (sintaxe de OBJECTS, LOOP POR DENTRO DOS OBJECTS, o que também é possível com 'v-for'...)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> E SE VOCÊ PRECISA DE 'V-FOR' E 'V-IF'
+
+
+
+AO MESMO TEMPO,
+
+ _ NÃO _ USE _OS 
+ 2 EM 1 MESMO ELEMENTO... --> USE 1 WRAPPER COM 'V-IF',
+ EM VEZ DISSO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> USE O 'V-IF' COM QUALQUER COISA 
+
+ QUE 
+ FAZ SENTIDO NO SEU APP,
+
+
+
+ MAS NÃO NO ELEMENT QUE REPETE EM SI( não no 'li', por exemplo)... 
+
+
+
+
+
+
+
+
+
+
+
+
+ 4) aprendemos sobre 'keys',
+
+ QUE É USADO COM 'V-FOR'... --> O CONCEITO DE KEYS É UTILIZADO 
+
+
+
+ SEMPRE 
+
+
+
+
+ QUE __ TEMOS 'STATE'
+
+
+
+ NOS SEUS LIST ITEMS,
+
+ PQ 
+
+ O 
+ VUE 
+
+ REUTILIZA 
+
+
+
+ __ DOM ELEMENTS PARA UPDATAR PERFORAMNCE,
+
+
+
+ MAS ISSO PODE LEVAR A BUGS 
+
+ SE 
+
+
+
+ __ SEUS LIST ITEM ELEMENTS 
+ CONTÊM 
+
+ STATE 
+ QUE 
+ PRECISA SER 'MOVED TOGETHER'
+
+
+
+COM O CONTENT ---------> PARA ISSO,
+
+VOCÊ 
+
+DEVE USAR KEYS,
+
+
+
+
+
+BINDAR ESSAS KEYS A UNIQUE VALUES,
+PARA QUE 
+
+O 
+
+
+VUE CONSIGA IDENTIFICAR CADA ELEMENT DE UMA MANEIRA ÚNICA...

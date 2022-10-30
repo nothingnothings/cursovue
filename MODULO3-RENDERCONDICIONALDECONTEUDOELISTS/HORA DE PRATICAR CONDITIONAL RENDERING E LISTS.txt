@@ -162,3 +162,387 @@ app.mount('#assignment');
 
 
 
+
+
+--> SOLUÇÃO DO PROBLEMA:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PROFESSOR ESCREVEU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+PROFESSOR CRIOU O VUE APP, 
+
+coisa básica....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp(
+    {
+        data() {
+            return {
+                enteredValue: '',
+                tasks: []
+            }
+        },
+
+        methods: {
+            addTask() {
+                this.tasks.push(this.enteredValue);
+            }
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, 
+
+
+AÍ 
+
+
+LÁ 
+
+
+NO 
+
+HTML FICOU BEM SIMPLES, AQUILO LÁ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="text" v-model="enteredValue">
+<button @click="addTask">Add Task</button>
+
+
+
+
+
+<ul>
+    <li v-for="task in tasks">{{ task }}</li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO VAI OUTPUTTAR TUDo...
+
+
+
+
+
+
+COLOCAMOS UMA KEY...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<input type="text" v-model="enteredValue">
+<button @click="addTask">Add Task</button>
+
+
+
+
+
+<ul>
+    <li v-for="task in tasks" :key="task">{{ task }}</li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+NÃO É UMA KEY BOA,
+
+MAS É UM BOM EXEMPLO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+
+AGORA 
+
+
+TEMOS A PARTE 3, 
+
+
+DO 'SHOW' E  'HIDE'...
+
+
+
+
+
+
+
+
+
+
+
+
+listIsVisible...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESCREVI ASSIm:
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      userInput: '',
+      listIsVisible: true,
+      tasks: [],
+    };
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS COLOQUEI O METHOD DE 
+
+
+
+
+
+    toggleListShow() {
+      this.listIsVisible = !this.listIsVisible;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... FOI EXATAMENTE O QUE O PROFESSOR ESCREVEU..
+
+
+
+
+
+
+
+
+DEPOIS,
+
+
+
+ELE 
+
+
+EDITOU O BUTTON COMO EU FIZ,
+
+COM UMA PROPRIEDADE COMPUTED...
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+    buttonMessage() {
+      return this.listIsVisible ? 'Hide' : 'Show';
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+----->  O PROFESSOR NÃO USOU O 'V-SHOW',
+
+usou o 'v-if',
+
+
+MAS DISSE QUE O OUTRO É VÁLIDo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> USEI A VERSÃO COMPUTED DO CÓDIGO, PQ É MELHOR... 
+
+
+
+
+
+
+PRONTO...
+
+
+
+
+
+
+
+
+
+acabamos com o assignment...
