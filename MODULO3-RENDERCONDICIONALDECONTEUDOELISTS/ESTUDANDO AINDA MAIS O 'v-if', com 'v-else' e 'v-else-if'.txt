@@ -1,0 +1,573 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> HÁ UM PUNHADO DE COISAS QUE VALE A PENA SABER SOBRE O 'v-if'...
+
+
+
+
+
+
+
+
+
+
+
+
+1) VOCê PODE TER QUALQUER EXPRESSION, dentro do v-if,
+
+que retorna um TRUTHY OU FALSY VALUE... (podemos checar o que quisermos, e isso vai ser interpretado como truthy ou falsy por javascipt)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM PODEMOS:
+
+
+A) USAR O && E OS PIPES 
+
+
+B) APONTAR A UMA COMPUTED PROPERTY 
+
+
+
+C) APONTAR A UMA DATA PROPERTY 
+
+
+
+
+
+D) PODE EXECUTAR UM METHOD AQUI, DESDE QUE ESSE METHOD RETORNE UM TRUTHY OU FALSY VALUE...
+
+
+
+
+
+
+
+
+
+
+--> FUNCIONA EXATAMENTE COMO O IF NO JAVASCRIPT ,
+
+MAS NO HTML..
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ OUTRA DIRECTIVE 
+
+QUE PODEMOS USAR COM O 'v-if'... 
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO  PQ __ QUEREMOS FAZER MAIS DO QUE APENAS MOSTRAR ESSE PARAGRAPH CONDICIONALMENTE.... --> QUEREMOS 
+
+MOSTRAR TAMBÉM A __ LIST__ CONDICIONALMENTE...
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+TEMOS A DIRECTVE DE 'v-else'...
+
+
+
+
+
+
+
+
+
+----> E __ NÓS __ SÓ QUEREMOS __ MOSTRAR ESSA LIST SE TIVERMOS GOLS...
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR ADICIONA UM v-if 
+
+LÁ NAQUELA UL,
+
+tipo assim:
+
+
+
+
+
+
+
+
+<p v-if="goals.length === 0">No Goals</p>
+
+
+
+<ul v-if="goals.length > 0">
+    <li>Goal</li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+
+        <!-- usando v-if novamente -->
+        <ul v-if="goals.length > 0">
+            <li>Goal</li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO PQ __ SOMENTE __ SE 
+
+
+O LENGTH DO ARRAY FOR MAIOR DO QUE 0,
+
+VAMOS QUERER 
+
+MOSTRAR 
+
+
+
+
+ESSE CONTEÚDO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA SINTAXE FUNCIONA,
+
+
+
+__ E NÃO HÁ NADA DE ERRADO COM ELA...
+
+
+
+
+
+
+
+
+-> ENTRETANTO, 
+ESSENCIALMENTE
+
+ESSA 
+SINTAXE É __ QUASE A MESMA COISA QUE 
+
+O 
+
+'else statement'
+
+do javascript...
+
+
+
+
+
+
+
+
+
+
+------> PQ O QUE NÃO FOR SATISFEITO PELA PRIMEIRA CONDITION, será satisfeito por essa..
+
+
+
+
+
+
+
+
+----> É POR ISSO QUE 
+
+
+PODEMOS USAR 
+
+A DIRECTIVE DE 'v-else' com 
+
+
+o v-if,
+
+PARA EVITAR ESSAS REDUNDÂNCIAS, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+
+        <!-- usando v-if novamente -->
+        <ul v-else>
+            <li>Goal</li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS AQUI TEMOS UMA RESTRIÇÃO IMPORTANTE:
+
+
+
+
+
+
+-->>>>> O 'V-ELSE'
+
+SÓ PODE SER 
+
+USADO/INCLUÍDO EM UM ELEMENTO __ __ 
+
+
+QUE 
+VEM _ DIRETAMENTE_ APÓS __ 
+
+
+
+O ELEMENTO EM QUE VOCÊ ESCREVEU O 'v-if'...
+
+
+
+
+
+(
+
+     O ELEMENTO COM 'v-else'
+
+     PRECISA SER COLOCADO COMO VIZINHO DIRETO DO PRIMEIRO ELEMENTO com 'v-if'...
+)
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+        <!-- 'V-ELSE' funciona EXATAMENTE COMO NO JAVASCRIPT, com um detalhe importante: O ELEMENTO QUE RECEBE a directive 'v-else' DEVE SEMPRE SER VIZINHO IMEDIATO DO ELEMENTO COM 'v-if'...-->
+        <ul v-else>
+            <li>Goal</li>
+        </ul> 
+
+
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS O QUE INTERESSA É QUE AGORA PODEMOS RECARREGAR A PÁGINA, E ENTÃO CONSEGUIR O MESMO BEHAVIOR DE ANTES...
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+POR FIM, VOCÊ PODE TER CENÁRIOS EM QUE 
+
+
+
+HÁ 
+
+
+MÚLTIPLAS CONDITIONS  POSSÍVEIS...
+
+
+
+
+
+
+
+
+
+--> EM CASOS COMO ESSES,
+
+
+VOCÊ PODE USAR O 'v-else-if',
+
+
+
+EM QUE A SINTAXE FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<p v-if="goals.length === 0">No goals</p>
+
+<ul v-else-if="goals.length > 0">
+
+<p v-else>Something weird with our goals....</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> NO NOSSO CASO, ISSO ACONTECERIA PARA UMA LENGTH NEGATIVA, APESAR DE ISSO SER IMPOSSÍVEL NESSE EXEMPLO...
+
+
+
+
+
+
+
+
+
+
+
+----> OK.... V-IF, V-ELSE E V-ELSE-if podem ser USADOS PARA CONTROLAR O CONTEÚDO QUE É EFETIVAMENTE RENDERIZADO NA SUA PAGE...
+
+
+
+
+
+
+
+
+
+--> E ISSO NÃO É APENAS SOBRE 'SHOW OU HIDE'
+
+DOS ELEMENTS, E SIM SOBRE 'ATTACH' E 'DETACH'
+
+
+DE ELEMENTS NO DOM....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTRA COISA:
+
+
+QUANDO 'v-if'
+
+
+
+
+e 
+
+'v-else' 
+
+
+SÃO COMBINADOS,
+
+
+O VUE NÃO PRECISA MAIS COLOCAR AQUELE MARKER DE '<!-- v-if --> '...
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... 
+
+
+
+ESSE É O V-IF,
+
+
+E ELE É MT ÚTIL PARA 
+
+
+
+
+__ RENDERIZAR CONTEÚDO CONDICIONALMENTE...
+
+
+
+
+
+
+E ASSIM É O QUÃO FÁCIL DE IMPLEMENTAR ISSO COM O VUE...

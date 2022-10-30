@@ -21,14 +21,29 @@
         <input type="text" v-model="userInput">
         <button @click="addGoal">Add Goal</button>
 
+        <!-- ESTUDANDO O V-IF: -->
         <!-- SEM V-IF -->
         <!-- <p>No goals have been added yet - please add some!</p> -->
 
         <!--- COM V-IF -->
         <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
-        <ul>
+
+
+        <!-- usando v-if novamente - mas este código é redundante, por isso usamos a sintaxe com 'v-else' -->
+        <!-- <ul v-if="goals.length > 0">
             <li>Goal</li>
-        </ul>
+        </ul> -->
+
+
+        <!-- 'V-ELSE' funciona EXATAMENTE COMO NO JAVASCRIPT, com um detalhe importante: O ELEMENTO QUE RECEBE a directive 'v-else' DEVE SEMPRE SER VIZINHO IMEDIATO DO ELEMENTO COM 'v-if'...-->
+        <ul v-else>
+            <li>Goal</li>
+        </ul> 
+
+
+
+
+
     </section>
 
 </body>
