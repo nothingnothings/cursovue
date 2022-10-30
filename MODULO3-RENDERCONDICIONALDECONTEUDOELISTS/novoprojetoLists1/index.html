@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js" defer></script>
     <title>Document</title>
 </head>
 
@@ -16,9 +18,14 @@
     </header>
     <section id="user-goals">
         <h2>My course goals</h2>
-        <input type="text">
-        <button>Add Goal</button>
-        <p>No goals have been added yet - please add some!</p>
+        <input type="text" v-model="userInput">
+        <button @click="addGoal">Add Goal</button>
+
+        <!-- SEM V-IF -->
+        <!-- <p>No goals have been added yet - please add some!</p> -->
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
         <ul>
             <li>Goal</li>
         </ul>

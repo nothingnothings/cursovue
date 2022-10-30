@@ -1,0 +1,719 @@
+
+
+
+
+OK, TEMOS ESTE CÓDIGO:
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+        <h2>My course goals</h2>
+        <input type="text">
+        <button>Add Goal</button>
+        <p>No goals have been added yet - please add some!</p>
+        <ul>
+            <li>Goal</li>
+        </ul>
+    </section>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+E ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS MOSTRAR ESSE PARAGRAPH 
+
+
+
+
+
+
+_ SE TIVERMOS NENHUM GOAL (
+
+    ou seja,
+
+    se o array de goals estiver vazio
+),
+
+
+
+E MOSTRAR A UL 
+
+
+SE 
+
+
+TIVERMOS GOALS NESSE ARRAY...
+
+
+
+
+
+
+
+
+
+
+
+--> COMO PODEMOS IMPLEMENTAR ISSO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM... ANTES DE MAIS NADA,
+
+
+
+
+
+
+
+
+
+O PROFESSOR DIZ QUE AGORA JÁ SABEMOS UM POUCO 
+
+
+O MODUS OPERANDI DO VUE COM O HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS COMO PODEMOS ASSEGURAR QUE ESSE PARAGRAPH 
+
+SÓ 
+
+E MOSTRADO QUANDO 
+
+
+
+
+NOSSO ARRAY NÃO ESTIVER VAZIO?
+
+
+
+
+
+
+
+
+--> bEM, O VUE TEM OUTRA DIRECTIVE MT ÚTIL PARA NÓS,
+
+UMA DIRECTIVE 
+
+QUE 
+
+
+PODEMOS ADICIONAR NO ELEMENT_ QUE DEVE SER __ 
+
+
+RENDERIZADO CONDICIONALMENTE...
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE O 'v-if'
+
+
+
+É QUASE COMO UM IF STATEMENT LÁ NO CÓDIGO JAVASCRIPT... 
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ _ CHECA__ UMA CERTA CONDIÇÃO,
+
+E AÍ 
+
+EXECUTA ALGO SE A CONDITION FOR TRUTHY...
+
+
+
+
+
+
+
+
+
+--> E PODEMOS FAZER O MESMO NO HTML, COM 'v-if'..
+
+
+
+
+
+
+
+
+
+
+COM O 'v-if',
+
+
+
+VOCÊ PASSA _UMA _CERTA__ CONDITION _ ENTRE 
+
+
+
+o value do 'v-if',
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<p v-if="">No goals</p>
+
+
+
+
+
+
+
+
+--> CERTO... E, COMO SEMPRE, COM 
+
+
+
+VUE DIRECTIVES,
+
+
+
+PODEMOS __ ADICIONAR __ EXPRESSÕES JAVASCRIPT DENTRO 
+
+DO VALUE DO 'v-if'...
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+E PODEMOS NOS REFERIR A NOSSA DATA, AOS NOSSOS METHODS,
+
+àS NOSSAS COMPUTED PROPERTIES,
+
+ETC ETC...
+
+
+
+
+
+--> O PROFESSOR VAI SE REFERIR AO ARRAY DE 'goals'... -=----> se sua 'length' 
+
+estiver como __ 0,
+
+
+
+VAMOS QUERER _ _OUTPUTTAR ESSA MENSAGEM DE 'NO GOALS'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<p v-if="goals.length === 0">No goals</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CÓDIGO ATUALIZADO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+        <h2>My course goals</h2>
+        <input type="text">
+        <button>Add Goal</button>
+
+        <!-- SEM V-IF -->
+        <!-- <p>No goals have been added yet - please add some!</p> -->
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+        <ul>
+            <li>Goal</li>
+        </ul>
+    </section>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+----------------------
+
+
+
+
+
+
+
+
+
+QUANDO ESSA CONDITION FOR SATISFEITA,
+
+
+ESSE ELEMENT E TODOS CHILD ELEMENTS DELE SERÃO RENDERIZAODS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> COMO EXEMPLO DISSO,
+
+
+SE 
+
+ADICIONARMOS UMA STRING AO ARRAY,
+
+
+VEREMOS QUE 
+
+
+__ O ELEMENTO 'ul'
+
+SERÁ 
+
+
+REMOVIDO INTEIRAMENTE...
+
+
+
+
+O QUE FICARÁ 
+
+NO LUGAR DESSE ELEMENTO (que terá sido removido do DOM)
+
+
+
+é um comment de 
+
+'<!-- v-if -->',
+
+
+
+
+
+QUE É TIPO UM MARKER DO _ VUe__,
+
+
+
+indicando o local em que será renderizado esse conteúdo, no DOM,
+
+
+se o nosso array voltar a ficar com 0 items...
+
+
+
+
+
+
+
+
+
+
+
+
+E É ISSO QUE CONSEGUIMOS, GRAÇAS AO 'v-if'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM 1 APP NORMAL,
+
+
+
+
+
+
+ESTÁTICO (que não é verdadeiramente dinâmico),
+
+
+
+
+
+
+ISSO NÃO É TÃO EXCITING, MAS É UM BOM COMEÇO..
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS DIGAMOS QUE QUANDO PRESSIONAMOS AQUELE BUTTON,
+
+
+
+
+QUEREMOS PEGAR O VALUE INPUTTADO NO INPUT E ENTÃO 
+
+
+
+ADICIONAR 
+
+
+
+
+ESSE GOAL AO NOSSO ARRAY DE GOALS..
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR JA COMEÇA PELA CRIAÇÃO DE UM METHOD 'addGoal'...
+
+
+
+
+
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      userInput: '',
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+
+
+
+
+    addGoal() {
+      this.goals.push(this.userInput);
+    },
+  },
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK, AGORA QUANDO DIGITAMOS ALGO E ENTÃO CLICAMOS 'add Goal',
+
+
+
+
+
+ESSE GOAL ACABA ADICIONADO AO ARRAY....
+
+
+
+
+
+
+
+E AÍ NOSSO PARAGRAPH DE 'NO GOALS' ACABA REMOVIDO...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+        <h2>My course goals</h2>
+        <input type="text" v-model="userInput">
+        <button @click="addGoal">Add Goal</button>
+
+        <!-- SEM V-IF -->
+        <!-- <p>No goals have been added yet - please add some!</p> -->
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+        <ul>
+            <li>Goal</li>
+        </ul>
+    </section>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... AGORA REALMENTE TEMOS UMA MANEIRA DE MUDAR NOSSOS GOALS...
+
+
+
+
+
+
+
+
+ESSE É O RENDER CONDICIONAL DE CONTEÚDO, com o 'v-if'...
