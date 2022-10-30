@@ -75,6 +75,35 @@
 
 
 
+        <!-- EXEMPLO DOS POSSÍVEIS BUGS COM 'v-for' -- exemplo, INPUT FIELD DENTRO DEum list item renderizado com v-for... -->
+        
+        
+        <!-- <ul>
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)">
+
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p> -->
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <!-- <input type="text" @click.stop >
+            </li>
+        </ul> -->
+
+
+
+        <!-- A SOLUÇÃO PARA ESSE BUG É USAR O ATTRIBUTE/DIRECTIVE DE 'key', que VAI DISTINGUIR OS ELEMENTOS RENDERIZADOS com 'v-for', um em relação ao outro...-->
+        <ul>
+            <!-- usamos a sintaxe de ':key' para que o key REALMENTE SEJA DINÂMICO, para que realmente seja um BIND DE ATTRIBUTE de forma DINÂMICA... -->
+            
+            <!-- em um app de verdade, 'key' será um ID extraído de um banco de dados , por exemplo, para cada list item, exatamente como no react... -->
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)" :key="goal">
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <input type="text" @click.stop >
+            </li>
+        </ul>
 
     </section>
 

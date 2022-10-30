@@ -1,0 +1,1160 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUASE ACABAMOS COM 'v-if'
+
+
+e 
+
+
+
+'v-for'...
+
+
+
+
+
+
+
+
+
+
+--> MAS 
+
+
+
+AINDA DEVEMOS ESTUDAR UM DETALHE DO 'v-for',
+
+
+
+
+
+
+PQ _ 
+
+O V-FOR PODE LEVAR 
+
+
+A 
+
+
+
+BUGS ESTRANHOS, SE VOCÊ NÃO ESTÁ ACOSTUMADO COM ELE...
+
+
+
+
+
+
+
+
+
+
+
+
+---> DIGAMOS QUE NOSSO 'goal' e nosso 'index',
+
+essas VARIABLES do v-for,
+
+
+ACABAM FICANDO DENTRO DE UM __ PARAGRAPH,
+
+DENTRO DO LIST ITEM...
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+   <ul>
+        <li v-for="(goal, index) in goals" @click="removeGoal(index)">
+            
+            <p>
+            Goal: {{ goal }} Index: {{ index }}
+        </p>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ----> OK... 
+
+
+
+
+
+
+
+    MAS DIGAMOS QUE, ALÉM DISSO,
+
+
+
+
+    TEMOS UM __ INPUT FIELD 
+
+    ALI,
+
+
+
+    DENTRO DO LIST ITEM,
+
+    EM QUE PODEMOS __ INPUTTAR ALGUM TEXT... -> 
+
+
+
+
+
+
+
+
+
+    tipo assim:
+
+
+
+
+
+
+
+            <ul>
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)">
+
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <input type="text">
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS É CLARO QUE ISSO VAI DAR PROBLEMA COM NOSSO CÓDIGO ATUAL, PQ SE CLICAMOS NESSE LIST ITEM,
+
+ELE VAI SER __ REMOVIDO __ DO DOM, graças ao method de 'removeGoal()'
+
+vinculado ao event listener de 'click'....
+
+
+
+
+
+
+
+--> PARA IMPEDIR ISSO, O PROFESSOR COLOCA 
+
+
+
+
+
+UM _ CLICK LISTENER __ NO INTERIOR DO __ INPUT field,
+
+
+e aí usa o modifier de '.stop',
+
+QUE VAI _ PARAR__ A PROPAGAÇÃÕ DO CLICK PARA O ELEMENTO PARENT..
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+        <ul>
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)">
+
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <input type="text" @click.stop >
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO SIGNIFICA QUE NOSSO 'CLICK' AGORA ACABA SENDO PROCESSADO 
+
+
+
+APENAS __ NAQUELE INPUT FIELD, e não no 'list item' em si...
+
+
+
+
+
+
+
+
+
+--> NÃO PRECISAMOS DE NENHUM CÓDIGO EXTRA, PQ SÓ QUEREMOS PARAR ESSE EVENT..
+
+
+
+
+
+
+
+
+--> CERTO, AGORA TEMOS UM INPUT FIELD, SIM....
+
+
+
+
+
+
+
+
+
+--> MAS O PROFESSOR QUER MOSTRAR MAIS DO QUE ISSO, QUER NOS MOSTRAR UM BUG ESTRANHO QUE PODEMOS 
+
+EXPERIENCIAR 
+
+COM NESTED ELEMENTS 
+
+
+
+EM LIST ITEMS...
+
+
+
+
+
+
+
+-> CRIAMOS 2 LIST ITEMS, COM INPUT FIELDS PRÓPRIOS, EM CADA 1 DELES..
+
+
+
+
+
+--> DEPOIS DISSO,
+
+O PROFESSOR DIGITA ALGO NO PRIMEIRO GOAL...
+
+
+
+
+
+
+
+
+
+--> DEPOIS __ ELE __ CLICA__ NO PRIMEIRO GOAL, PARA QUE ELE SEJA __ DELETADO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO FIZ ISSO, ACONTECEU ALGO MT ESTRANHO:
+
+
+
+
+
+1) A COISA QUE EU HAVIA ESCRITO __ _CONTINUOU __ EXISTINDO, MAS EM 'OUTRO ELEMENTO' ( ou no mesmo elemento)
+
+
+
+
+2) UM DOS 'LIST ITEM' com os input field DEIXOU DE EXISTIR,
+
+mas 
+
+
+AINDA TEMOS O MESMO SETUP DE ANTES, O LIST ITEM DE INDEX '0' COM AQUELA MENSAGEM QUE EU HAVIA DIGITADO.... 
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR EXPLICA QUE 
+
+''''THE SECOND GOAL IS STILL HERE, BUT THE 
+
+SECOND GOAL IS NOW THE FIRST ONE, BECAUSE THE OLD FIRST GOLD WAS DELETED.... AND THIS 
+
+SECOND GOAL __ KEPT__ THE STRING INPUT VALUE THAT THE FIRST ONE HAD'''
+
+
+
+vvvvvvvvvv 
+
+
+isso pode parecer uma FEATURE, MAS NA VERDADE É __ UM BUG__... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE BUG SE TORNA MAIS ÓBVIO 
+
+
+
+SE RECARREGAMOS E TENTAMOS DE NOVO....
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESCREVE algo no _ SEGUNDO GOAL,
+
+
+E
+ AÍ _ APAGA O PRIMEIRO_ GOAL .... 
+
+
+
+
+
+
+
+
+
+ --> QUANDO ISSO ACONTECE, O __ SEGUNDO GOAL (que agora é o PRIMEIRO) 
+
+
+ ACABA FICANDO COM O SEU INPUT FIELD COMPLETAMENTE VAZIO (é apagado o input)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ RESUMINDO: O SEGUNDO GOAL __ SE TORNOU O PRIMEIRO GOAL,
+
+
+ MAS _ PERDEU _ __ O value do INPUT _ QUE TÍNHAMOS NO SEU INTERIOR...
+
+
+
+
+
+
+
+
+
+ ---> E ESSE __ DEFINITIVAMENTE NÃO É UM COMPORTAMENTO DESEJADO POR VOCÊ...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR ARGUMENTA:
+
+
+
+
+
+
+ ''''ESSE É UM CENÁRIO NICHO,
+
+ MAS O __ PROBLEMA _ QUE CAUSA ESSE BUG É 
+
+ NA VERDADE UM PROBLEMA BEM MAIOR''...
+
+
+
+
+
+
+
+
+ --> É UM PROBLEMA MAIOR QUE PODE LEVAR A ISSUES DE PERFORAMNCE,
+
+ SE VOCÊ 
+
+ NÃO O CONSERTAR ADEQUADAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> O PROBLEMA VISTO AQUI É O SEGUINTE:
+
+
+
+
+
+
+
+ A) O VUE _ UPDATA __ A LIST _ QUANDO VOCÊ ADICIONA/REMOVE ITEMS...
+
+
+
+
+
+
+
+ B) O VUE __ RENDERIZA A LIST _ NO 'REAL DOM' E AÍ _ UPDATA ESSA LIST DE ACORDO COM O QUE 
+
+ É NECESSÁRIO...
+
+
+
+
+C) E O VUE TENTA FAZER ISSO _ _DE MODO __ A OPTIMIZAR A PERFORMANCE...
+
+
+
+
+
+
+D) ISSO QUER DIZER, NO CASO, QUE __ O __ VUE ___ REUTILIZA ELEMENTOS DO DOM...
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE, SE TEMOS 2 GOALS 
+
+
+COM INPUTS NO NOSSO CÓDIGO,
+
+
+2 'dom elements'
+
+
+
+e então 
+DELETAMOS 
+
+O PRIMEIRO ELEMENTO,
+
+
+
+O VUE 
+
+
+
+
+
+>>>>>>>>>>> NÃO VAI ACTUALLY RE-RENDERIZAR A LIST INTEIRA, 
+
+
+
+E TAMBÉM _ NÃO VAI ACTUALLY _ 'DELETE THE FIRST DOM ELEMENT E ENTÃO 
+
+
+MOVER O SEGUNDO ELEMENTO PARA O SEU LUGAR ANTIGO'''...
+
+
+
+
+
+
+
+
+
+--> NÃO, O QUE __ O VUE FAZ É ACTUALLY 
+
+
+
+
+'''GET THE CONTENT OF _ THE _ SECOND ELEMENT AND THEN MOVE IT TO THE _ FIRST __ 
+
+DOM ELEMENT (deleted)'''...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO EXPLICA A RAZÃO 
+
+DE 
+
+
+
+'''QUANDO DIGITAMOS UM TEXT NO SEGUNDO GOAL E ENTÃO DELETAMOS O PRIMEIRO,
+
+O TEXT DIGITADO NO TEXT DO SEGUNDO GOAL _ É PERDIDO_ QUANDO ELE """ SE TORNA""" O PRIMEIRO 
+GOAL'''
+
+
+
+
+
+
+
+--> PQ O QUE ACONTECE É QUE O 'CONTENT DO SEGUNDO GOAL'  (conteúdo _ DINAMICO, a parte dentro dos curly braces, como '{{goal}}' e '{{index}}' )
+
+
+
+
+ACABA 
+
+
+TRANSPLANTADA PARA O 'PRIMEIRO DOM ELEMENT'...
+
+
+
+
+
+
+
+
+-----> E O 'LOSS' 
+
+
+
+DA STRING DIGITADA NO SEGUNDO GOAL, QUANDO ELE É 'TRANSFORMADO' 
+
+NO PRIMEIRO GOAL,
+
+
+
+
+
+ACONTECE __ JUSTAMNETE _ _ 
+
+PQ __ 
+
+
+
+
+
+
+
+
+
+''''O INPUT ELEMENT, NO PRIMEIRO LIST ELEMENT,
+
+
+__ AINDA É __ O __ INPUT ELEMENT ANTIGO'''.... -->  ISSO PQ __ O LIST ITEM INTEIRO __ AINDA É 
+
+
+
+
+O 
+
+
+'OLD FIRST LIST ITEM',
+
+
+E AS ÚNICAS COISAS QUE ACABARAM 'ALTERADAS' 
+
+
+
+FORAM AS PARTES DINÂMICAS, OS CONTEÚDOS DINÂMICOS DESSE/DESSES LIST ITEM/ITEMS.... 
+
+
+
+
+
+
+
+
+----> APENAS O DYNAMIC CONTENT FOI 'MOVED AROUND',
+
+
+
+O CONTEÚDO ESTÁTICO CONTINUOU O MESMO (mesmo input field, por exemplo)...
+
+
+
+
+
+
+
+
+
+
+
+-->_ o problema, então, é que 
+
+o vue tenta ser econômico com os dados,
+
+mas isso leva a bugs...
+
+
+
+
+
+
+
+
+
+
+
+---> E TUDO ISSO OCORRE PQ O VUE REUTILIZA ELEMENTS, O QUE _ GERALMENTE_ _É Bom_...
+
+
+
+
+
+
+
+
+
+--> O QUE O VUE PRECISA FAZER, AQUI, PARA __ CONSEGUIR_ RESOLVER ESSE BUG/PROBLEMA 
+
+
+__ É __ 
+
+'DISTINGUISH BETWEEN ELEMENTS'... (no react, isso é feito através de KEYS  em cada LIST ITEM)...
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE PRECISA SER CAPAZ DE 'TELL ITEMS APART'..
+
+
+
+
+
+
+
+
+--> O PROBLEMA É:
+
+
+
+COMO TODOS ESSES LIST ITEMS 
+
+SÃO DOM ELEMENTS SEM 'UNIQUE IDENTIFICATION CRITERIA',
+
+
+
+
+
+
+
+O CONTEÚDO É DIFERENTE,
+
+MAS 
+
+
+
+O 
+
+VUE 
+
+NÃO ESTÁ COMPARANDO TODO O CONTEÚDO DOS LIST ITEMS 1 COM OS OUTROS (
+
+    pq isso seria super performance-intensive... 
+)
+
+
+
+
+
+
+
+
+
+
+
+EM VEZ DISSO,
+
+EXISTE UM SIMPLES ATTRIBUTE EXTRA,
+
+
+
+QUE É UM 'NON-DEFAULT HTML ATTRIBUTE',
+
+
+
+
+
+
+QUE VOCÊ PODE ADICIONAR 
+
+
+
+EM ELEMENTOS EM QUE VOCÊ USA/USOU 'V-FOR'... ,
+
+
+
+
+
+
+
+
+
+QUE É O ATTRIBUTE DE 'KEY'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O ATTRIBUTE DE 'key'
+
+
+NÃO  É UM DEFAULT HTML ATTRIBUTE, E É OPCIONAL NO VUE,
+
+
+MAS GERALMENTE É UMA ÓTIMA IDEIA UTILIZÁ-LO QUANDO ESTIVER USANDO 'V-FOR'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EU CREIO QUE SEU USO É TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+        <ul>
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)" key="index">
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <input type="text" @click.stop >
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    não... mas não é assim, ainda não deu certo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, MAIS TARDE NO CURSO, VEREMOS QUE HÁ DEZENAS DE CENÁRIOS EM QUE ELE DEVE SER UTILIZADO,
+
+POR ISSO É BOM JÁ COMEÇAR COM ISSO...
+
+
+
+
+
+
+
+
+
+
+
+----> 'key' --> É UMA UNIQUE IDENTIFICATION CRITERIA PARA CADA 
+
+NEGÓCIO OUTPUTTADO AQUI....
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE 'key' É GERALMENTE UTILIZADO COM 'attribute binding',
+
+PARA QUE ELE REALMENTE SEJA DINÂMICO,
+
+
+
+
+
+por isso sempre o encontramos assim: 
+
+':key'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS USAR 'INDEX' como key não é uma boa ideia, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO É BOM USAR INDEX COMO 
+
+
+KEY... -->  ISSO PQ O ''''INDEX DOESNT REALLY BELONG TO THE GOAL CONTEXT'',
+
+
+
+pq o 
+
+
+PRIMEIRO ITEM SEMPRE TERÁ INDEX DE 0,
+
+por exemplo...
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O INDEX NÃO ESTÁ SEMPRE ANEXADO ESTRITAMENTE A 1 VALUE, NO ARRAY...
+
+
+
+
+
+
+
+
+
+----> NO CASE DO 'GOAL',
+
+podemos usar ou:
+
+
+1) O TEXTO DO 'GOAL' em si 
+
+2) um 'Math.random()'
+
+
+SÃO 2 APPROACHES IMPERFEITOS,
+
+MAS VÁLIDOS...
+
+
+
+
+
+
+
+
+(pq as coisas podem se repetir)..
+
+
+
+
+
+
+----> EXEMPLO MAIS REALISTAS:
+
+
+IDS QUE VOCÊ JÁ TEM NA SUA DATABASE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- VAMOS USAR O próprio 'goal', aqui, como exemplo,
+
+
+
+
+
+mas em um app de verdade você terá IDS, que serão usados como 'key':
+
+
+
+
+
+      <ul>
+            <!-- usamos a sintaxe de ':key' para que o key REALMENTE SEJA DINÂMICO, para que realmente seja um BIND DE ATTRIBUTE de forma DINÂMICA... -->
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)" :key="goal">
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <input type="text" @click.stop >
+            </li>
+        </ul>
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É POR ISSO QUE CONSEGUIR UM UNIQUE ID 
+
+PARA CADA LIST ITEM NÃO É ALGO TÃO DIFÍCIL, NA VIDA REAL...
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+--> aGORA SE DELETAMOS O PRIMEIRO ELEMENTO ( COM ALGO ESCRITO NO SEGUNDO INPUT FIELD),
+
+
+
+
+O __ INPUT __ DO SEGUNDO ELEMENTO, DO ELEMENTO QUE CONTINUOU 'VIVO',
+
+
+CONSEGUIU 
+
+SER 
+
+
+'''TRANSPLANTADO PARA O PRIMEIRO SLOT/ELEMENTO'''...
+
+
+
+
+
+
+
+
+
+
+--> FOI UMA EXPLICAÇÃO BEM LONGA,
+
+
+
+MAS O RESUMO É:
+
+
+
+
+ADICIONE UMA KEY COM 'UNIQUE IDENTIFICATION CRITERIA' 
+
+
+QUANDO VOCê ESTIVER USANDO 'v-for'... --> VOCÊ DEVE FAZER ISSO PARA AJUDAR O VUE A 
+
+
+DISTINGUIR 1 ELEMENTO DO OUTRO,
+
+E PARA QUE 
+
+
+
+STATES COMO 
+
+'ENTERED VALUES' (em input fields) 
+
+NÃO ACABEM SENDO PERDIDOS,
+
+
+
+E,
+
+POR FIM,
+
+
+__ PARA AJUDAR _ 
+
+
+
+
+COM MAIS PERFORMANCE OPTIMIZATIONS, POR TRÁS DAS CENAS...
