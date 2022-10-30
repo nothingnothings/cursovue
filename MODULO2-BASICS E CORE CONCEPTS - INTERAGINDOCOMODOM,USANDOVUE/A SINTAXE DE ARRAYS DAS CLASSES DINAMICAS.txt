@@ -1,0 +1,205 @@
+
+
+
+
+
+
+
+
+
+--> OK... HÁ MAIS UMA SINTAXE SUPORTADA PELO VUE,
+
+QUE O PROFESSOR NÃO QUER ESCONDER DE NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê PODE, SIM, 
+
+TER MÚLTIPLOS CLASS ATTRIBUTES ESTÁTICOS COMO ESTE:
+
+
+
+
+
+
+
+
+
+<div class="demo demo1 demo2 demo3" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE VOCÊ TIVER _ MÚLTIPLOS CLASS ASSIGNMENTS,
+
+
+
+MÚLTIPLOS CLASS ASSIGNMENTS __ MISTURADOS (dinâmicos e estáticos),
+
+
+
+
+
+VOCÊ PODE 
+
+
+__ TRABALHAR _ COM APENAS 1 
+
+LINHA DE CÓDIGO,
+
+
+
+
+com apenas 
+
+
+':class'  (data bind de ATTRIBUTE CLASS, shorthand),
+
+
+
+
+
+
+MAS 
+
+
+
+
+
+COM ESSE ':class'
+
+
+COM UM _ VALUE_ QUE 
+
+SERÁ UM ARRAY,
+
+
+E NESSE ARRAY VOCÊ 
+MISTURA 
+OS 
+
+VALORES 
+
+'DINÂMICOS'
+
+E OS VALORES ESTÁTICOS,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div :class="['demo', 'demo1', 'demo2', 'demo3', {active: boxASelected}]" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+        <!-- use esta sintaxe se QUER 'RESUMIR TODAS AS CLASSES EM APENAS 1 LINHA DE CÓDIGO' -->
+
+        <!-- código NÃO ABREVIADO:  -->
+        <div :class="demo demo1 demo2 demo3" :class="{active: BoxASelected}"></div>
+        <!-- código ABREVIADO: -->
+        <div :class="['demo', 'demo1', 'demo2', 'demo3', {active: boxASelected}]"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+É APENAS OUTRA SINTAXE 
+
+BOA DE SE CONHECER...
+
+
+
+
+
+
+
+
+VOCê TEM MÚLTIPLAS OPÇÕES,
+
+E TUDO DEPENDE DA COISA QUE VOCÊ ESTÁ CONSTRUINDO,
+
+PARA ESCOLHER QUAL 
+
+
+
+ESTILO...
+
+
+
+
+
+
+--> ESSAS COISAS SÃO SUPER IMPORTANTES,
+
+COMO VEREMOS AO LONGO DO CURSO (com dynamic styling, podemos construir incríveis user interfaces)...

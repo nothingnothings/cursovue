@@ -72,6 +72,15 @@
         <div class="demo" @click="toggleStyle('C')" class="demo" :class="boxCClasses"></div>
 
 
+
+        <!-- use esta sintaxe se QUER 'RESUMIR TODAS AS CLASSES EM APENAS 1 LINHA DE CÓDIGO' -->
+
+        <!-- código NÃO ABREVIADO:  -->
+        <div :class="demo demo1 demo2 demo3" :class="{active: BoxASelected}"></div>
+        <!-- código ABREVIADO: -->
+        <div :class="['demo', 'demo1', 'demo2', 'demo3', {active: boxASelected}]"></div>
+
+
     </section>
 </body>
 
