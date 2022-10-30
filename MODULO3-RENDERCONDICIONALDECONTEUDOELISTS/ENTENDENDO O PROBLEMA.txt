@@ -1,0 +1,338 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... COMEÇAMOS COM UM STARTING PROBLEM...
+
+
+
+
+
+
+
+
+
+ELE É TIPO ASSIM:
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goals">
+        <h2>My course goals</h2>
+        <input type="text">
+        <button>Add Goal</button>
+        <p>No goals have been added yet - please add some!</p>
+        <ul>
+            <li>Goal</li>
+        </ul>
+    </section>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CRIEI UM SNIPPET VUE...
+
+
+
+
+
+
+
+
+
+
+vueApp....
+
+
+
+
+
+
+
+
+
+
+
+
+-> O OBJETIVO É ADICIONAR GOALS...
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO 
+
+CLICAMOS EM 'ADD GOAL'
+
+VAMOS QUERER ADICIONAR OS GOALS DIGITADOS NO INPUT FIELD 
+
+
+À LIST...
+
+
+
+
+
+
+
+
+----> TEMOS SÓ 1 DUMMY LIST ITEM 
+
+
+ali...
+
+
+
+
+
+
+
+
+--> QEUREMOS QUE OS ITEMS QUE INPUTTAMOS 
+
+
+
+ACABAM ADICIONADOS A ESSA LIST...
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS, QUEREMOS QUE 
+
+
+OS LIST ITEMS QUE SÃO CLICADOS 
+
+__ ACABAM 
+
+
+
+_ REMOVIDOS __ DA LIST...
+
+
+
+
+
+
+--> mas antes de mais nada,
+
+
+
+
+
+
+
+o professor quer focar em algo diferente -------> TEMOS AQUELA 
+
+
+
+MENSAGEM DE 
+
+
+'No goals have been added yet`.. .
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, 
+
+NÓS TEMOS 1 GOAL LÁ, que é o DUMMY GOAL DE '<li>Goal</li>'...
+
+
+
+
+
+
+
+
+
+---> O CÓDIGO JAVASCRIPT NO ARQUIVO:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> JÁ TEMOS ESSE VUE APP SIMPLES...
+
+
+
+
+
+
+ELE ESTÁ CONECTADO AO DOM,
+
+E TEM ESSA DATA, QUE É UM ARRAY VAZIO..
+
+
+
+
+
+
+
+
+--> AQUI ESTÁ O PROBLEMA DO PROFESSOR, QUE ELE QUER SOLUCIOANR COM O VUE:
+
+
+
+
+
+
+
+1) SE ESSE ARRAY ESTIVER VAZIO, 
+
+
+ESSA UL NÃO DEVE SER MOSTRADA, 
+
+
+E SIM O PARAGRAPH DEVE SER MOSTRADO..
+
+
+
+
+
+
+
+
+
+2) mas se tivermos GOALS,
+
+queremos QUE ELES SEJAM MOSTRADOS NO LUGAR DO PARAGRAPH....
+
+
+
+
+
+
+
+-> CERTO... É ALGO SIMPLES, MAS PRECISAMOS DE __ CONDITIONAL RENDERING...
+
+
+
+
+
+
+
+
+
+--> EM MODERN APPS,
+ISSO É ALGO MT NECESSÁRIO  (se você tem um app que FETCHEIA DATA DE UM SERVER, TVZ SEJA MELHOR MOSTRAR UM LOADING SPINNER ENQUANTO A DATA NÃO CHEGA)....
+
+
+(
+    VEREMOS ISSO MAIS TARDE NO CURSO....
+)
+
+
+
+
+
+
+
+FAZER O RENDER CONDICIONAL DE COISAS É 
+
+
+ALGO TÍPICO EM FRONTEND WEB DEV..
+
+
+
+
+
+
+
+
+--> DEVEMOS VER COMO PODEMOS RENDERIZAR CONTEÚDO 
+
+CONDICIONALMENTE COM O VUE...
