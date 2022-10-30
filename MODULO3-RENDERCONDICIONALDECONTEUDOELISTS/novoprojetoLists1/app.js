@@ -5,19 +5,20 @@ const app = Vue.createApp({
       userInput: '',
       exampleObject: {
         name: 'Max',
-        age: 31
-      }
+        age: 31,
+      },
     };
   },
   watch: {},
   computed: {},
   methods: {
-
-
-
-
     addGoal() {
       this.goals.push(this.userInput);
+    },
+
+    removeGoal(indexParameter) {
+        console.log('example');
+      this.goals.splice(indexParameter, 1);
     },
   },
 });

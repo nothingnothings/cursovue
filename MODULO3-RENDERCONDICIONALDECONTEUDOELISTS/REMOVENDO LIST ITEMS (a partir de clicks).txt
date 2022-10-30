@@ -1,0 +1,410 @@
+
+
+
+
+
+
+
+
+VOU TENTAR FAZER ISSO POR CONTA PRÓPRIA..
+
+
+
+
+
+
+
+
+--> COLOCAR CLICK LISTENERS EM CADA list item,
+
+e aí 
+
+chamar um method 
+
+com o pass do 'index' como parameter,
+
+para aí remover esse elemento do array...
+
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      userInput: '',
+      exampleObject: {
+        name: 'Max',
+        age: 31,
+      },
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+    addGoal() {
+      this.goals.push(this.userInput);
+    },
+
+    removeGoal(indexParameter) {
+      const goalsCopy = [...this.goals];
+
+      goalsCopy.map((goal, index) => {
+        console.log('example');
+        return index !== indexParameter;
+      });
+
+      this.goals = goalsCopy;
+    },
+  },
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS ISSO __ NÃO FUNCIONOU... O APPROACH REACT NÃO FUNCIONOU..
+
+
+
+
+
+
+
+
+--> e parece que os _ TRêS LIST ITEMS DISPARARAM ESSE METHOD DE 'removeGoal()'
+
+AO MESMO TEMPO... 
+
+
+(
+    outro fracasso...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PRECISO QUE CADA LISTENER SEJA __ INDEPENDENTE __ DO OUTRO...
+
+
+
+
+
+
+
+
+
+-> OS LIST ITEMS RENDERIZADOS COM 'v-for'
+
+CONTINUAM SENDO 
+
+
+_ HTML ELEMENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS QUANDO 1 LIST ITEM FOR CLICADO, QUEREMOS REMOVER ESSE LIST ITEM DO NOSSO ARRAY,
+
+
+
+E DO HTML, POR CONSEQUÊNCIA..
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COMEÇA ESCREVENDO EXATAMENTE COMO EU FIZ:
+
+
+
+
+
+
+
+
+removeGoal(index) {
+
+    this.goals.splice(
+        index, 1
+    )
+}
+
+
+
+
+
+
+
+
+
+--> CÓDIGO DO PROFESSOR FICOU BEM MAIS LIMPO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE METHOD FUNCIONOU PERFEITAMENTE, E SEM AQUELA SACANAGEM DO 'MAP'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      userInput: '',
+      exampleObject: {
+        name: 'Max',
+        age: 31,
+      },
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+    addGoal() {
+      this.goals.push(this.userInput);
+    },
+
+    removeGoal(indexParameter) {
+        console.log('example');
+      this.goals.splice(indexParameter, 1);
+    },
+  },
+});
+
+app.mount('#user-goals');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... FOI O QUE EU IMAGINEI, E FUNCIONA BEM...
+
+
+
+
+
+
+
+
+--> BASTA PASSAR AQUELE INDEX, PARA ENTÃO O REMOVER..
+
+
+
+
+
+
+
+
+--> PASSAMOS ESSE INDEX LÁ NO '@click'..
+
+
+
+
+
+
+
+FOI TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ <li v-for="(goal, index) in goals" @click="removeGoal(index)">Goal: {{ goal }} Index: {{ index }}</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO... ISSO FUNCIONOU...
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS REMOVER ITEMS,
+ 
+
+ COM 
+
+ O USO DESSE 'INDEX',
+
+ E COM O CONNECT DESSES LIST ITEMS A METHODS QUE 
+
+
+
+ PODEM REMOVER ITEMS...
+
+
+
+
+
+
+
+
+
+
+
+ --> OK, ESTAMOS TIRANDO VANTAGEM DESSA 'BUILT-IN REACTIVITY',
+
+
+ QUE 
+
+
+
+
+ __ UPDATA A PÁGINA SEMPRE QUE A NOSSA LIST É ALTERADA...
+
+
+
+
+
+ --> tudo isso é 
+
+
+ o funcionamento do vue por trás das cenas...
+
+
+
+
+
+
+
+ --> O VUE 
+
+
+ FACILITA MT DO NOSSO TRABALHO,
+
+
+
+
+ PQ __ 
+
+ FICAMOS COM MTAS FEATURES,
+
+ ESCREVENDO POUCO CÓDIGO...
+
+
+
+
+
+
+
+ --> 
