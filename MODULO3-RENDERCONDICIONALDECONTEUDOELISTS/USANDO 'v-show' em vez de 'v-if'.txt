@@ -1,0 +1,398 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  ok... mas é claro que existe uma ALTERNATIVA AO 'v-if',
+
+
+
+QUE É O 'v-show'...
+
+
+
+
+
+
+
+
+
+
+--> O 'v-show'
+
+
+
+
+NÃO _ FUNCIONA   
+
+
+
+
+
+__ JUNTO __ 
+
+
+DO 
+
+'v-if', 
+
+'v-else'
+
+ou 
+
+'v-else-if'...
+
+
+
+
+
+
+
+
+
+
+
+--> O 'v-show'
+
+
+SÓ FUNCIONA DE FORMA _ STANDALONE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> ISSO SIGNIFICA QUE __ SE VOCÊ TIVER 
+
+
+MÚLTIPLAS CONDITIONS/ALTERNATIVAS NO SEU CÓDIGO,
+
+
+
+VOCÊ TERÁ 
+
+
+DE 
+
+ESCREVER MÚLTIPLOS 
+
+
+
+V-SHOW,
+
+tipo assim:
+
+
+
+
+
+
+
+
+<p v-show="goals.length === 0">No Goals</p>
+
+<ul v-show="goals.length > 0">
+    <li>Goal</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> AINDA ASSIM, 
+
+O 
+
+'v-show'
+
+PARECE SER MAIS COMPLICADO....
+
+
+
+
+
+
+
+
+
+
+
+
+-------> ISSO QUER DIZER QUE 
+
+
+
+O 'v-show'
+
+NÃO TEM AS 'SIMPLIFICATIONS' com v-else e v-else-if...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, ENTÃO PQ USARÍAMOS O 'v-show'? 
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, É PQ HÁ UMA DIFERENÇA IMPORTANTE 
+
+
+RELATIVA AO SEU COMPORTAMENTO...
+
+
+
+
+
+
+
+
+----> SE USAMOS O 'v-show'
+
+
+e recarregamos a página,
+
+não vemos nenhuma diferença...
+
+
+
+
+
+
+
+
+--> MAS SE INSPECIONARMOS O DOM,
+
+VEREMOS QUE 
+O 
+
+
+PARAGRAPH 
+
+ESTARÁ 
+
+LÁ 
+
+
+
+
+E A UNORDERED LIST TAMBÉM... --> A ÚNICA DIFERENÇA QUE ACONTECE, QUANDO O 'show' não é triggado/é triggado,
+
+
+é que 
+
+O 
+ELEMENTO VAI FICAR 
+
+
+
+COM UM STYLE DE 'display: none',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSA É A DIFERENÇA:
+
+
+
+
+
+
+O 
+
+
+'v-if'
+
+REALMENTE 
+
+
+
+
+IMPACTA QUAIS ELEMENTOS FAZEM PARTE DO DOM...
+
+
+
+
+
+
+
+
+
+JÁ O 'V-SHOW'
+
+faz hide e SHOW 
+
+
+
+dos elementos 
+
+
+
+com o css....
+
+
+
+
+
+
+
+
+
+
+
+--> SHOW E HIDE DE ELEMENTS COM O CSS --> ISSO QUER DIZER QUE 
+
+VOCÊ NÃO PRECISA ADICIONAR E REMOVER ELEMENTOS, O QUE 
+
+ECONOMIZA PERFORMANCE...
+
+
+
+
+
+
+
+
+------> ENTRETANTO,
+
+O USO DE APENAS 'v-show'
+
+para esconder MAS _ MANTER_ ESSES ELEMENTOS_ __
+
+NO DOM __ 
+
+
+TAMBÉM TE DEIXA COM VÁRIOS ELEMENTOS RENDERIZADOS NA TELA, O QUE TAMBÉM NÃO É IDEAL...
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE, COMO 'RULE OF THUMB', 
+
+
+
+
+vocÊ TIPICAMENTE DEVE USAR 'v-if'
+
+
+E 
+APENAS 'FALLBACK' ao 'v-show'
+
+
+SE _ VOCÊ TIVER _ UM 
+
+
+ELEMENTO CUJA 
+
+
+
+'VISIBILITY STATUS' MUDA  __ UM MONTE___.... --> 
+
+
+
+
+
+
+
+
+COMO UM 'BUTTON' QUE 
+TOGGLA UM 
+
+ELEMENT... AÍ VOCÊ PODE USAR 
+
+
+
+
+ESSE V-SHOW,
+
+PARA TROCAR ENTRE VISIBILITY E 'display: none' 
+
+o tempo todo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> FORA ISSO,
+
+
+USE O 'v-if'...
+
+
+
+
+
+
+
+
+
+--> USE O 'v-show'
+
+EM SITUAÇÕES EM QUE VOCÊ TEM CONTEÚDO QUE MUDA UM MONTE ENTRE 'HIDDEN' E 'VISIBLE'....
