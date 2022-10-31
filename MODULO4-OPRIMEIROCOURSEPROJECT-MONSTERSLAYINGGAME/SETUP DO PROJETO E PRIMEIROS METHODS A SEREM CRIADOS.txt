@@ -1,0 +1,1179 @@
+
+
+
+
+
+
+
+
+
+TEMOS UM FOLDER COM OS ARQUIVOS INICIAIS,
+
+QUE 
+
+
+POSSUEM ESTE CONTEÚDO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>Monster Slayer</header>
+    <div class="game">
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <div class="healthbar__value">
+
+                </div>
+            </div>
+        </section>
+        <section id="player">
+            <h2>Your Health</h2>
+            <div class="healthbar">
+                <div class="healthbar__value">
+                </div>
+            </div>
+
+        </section>
+        <section id="controls">
+            <button>ATTACK</button>
+            <button>SPECIAL ATTACK</button>
+            <button>HEAL</button>
+            <button>SURRENDER</button>
+        </section>
+        <section id="log">
+            <h2>Battle Log</h2>
+            <ul></ul>
+        </section>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {};
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 0.5rem;
+  background-color: #880017;
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+section {
+  width: 90%;
+  max-width: 40rem;
+  margin: auto;
+}
+
+.healthbar {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #575757;
+  margin: 1rem 0;
+  background: #fde5e5;
+}
+
+.healthbar__value {
+  background-color: #00a876;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  text-align: center;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+}
+
+#monster h2,
+#player h2 {
+  margin: 0.25rem;
+}
+
+#controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #88005b;
+  background-color: #88005b;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  margin: 1rem;
+  width: 12rem;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover,
+button:active {
+  background-color: #af0a78;
+  border-color: #af0a78;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.26);
+}
+
+button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  box-shadow: none;
+  color: #3f3f3f;
+  cursor: not-allowed;
+}
+
+#log ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#log li {
+  margin: 0.5rem 0;
+}
+
+.log--player {
+  color: #7700ff;
+}
+
+.log--monster {
+  color: #da8d00;
+}
+
+.log--damage {
+  color: red;
+}
+
+.log--heal {
+  color: green;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO CÓDIGO VUE.JS,
+
+
+COMEÇO COM ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> esses são os pedaços de data pertinentes ao nosso app...
+
+
+
+
+
+
+
+
+
+
+
+
+tenho que adicionar methods para cada uma das ACTIONS do app..
+
+
+
+
+
+
+---> TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+    attack() {
+      
+    },
+
+    specialAttack() {
+
+    },
+    heal() {
+
+    },
+    surrender() {
+
+    },
+  },
+});
+app.mount('#game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... ISSO FEITO,
+
+provavelmente 
+
+
+PRECISO VINCULAR ESSES METHODS AOS BUTTONS, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>Monster Slayer</header>
+    <div class="game">
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <div class="healthbar__value">
+                    <!-- <progress id="monster-health" :value="monsterHealthNumber" max="100">{{ }} </progress> -->
+                </div>
+            </div>
+        </section>
+        <section id="player">
+            <h2>Your Health</h2>
+            <div class="healthbar">
+                <div class="healthbar__value">
+                    <!-- <progress id="player-health" :value="playerHealthNumber" max="100">{{ }} </progress> -->
+                </div>
+            </div>
+
+        </section>
+        <section id="controls">
+            <button @click="attack">ATTACK</button>
+            <button @click="specialAttack">SPECIAL ATTACK</button>
+            <button @click="heal">HEAL</button>
+            <button @click="surrender">SURRENDER</button>
+        </section>
+        <section id="log" class="container">
+            <h2>Battle Log</h2>
+            <ul></ul>
+        </section>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> tentei escrever um código para fazer as health bars (usando a tag 'progress'),
+
+mas não 
+
+ficou muito bom....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> FIZ BASTANTE PROGRESSO, AGORA...
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>Monster Slayer</header>
+    <div class="game">
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                </progress>
+            </div>
+        </section>
+        <section id="player">
+            <h2>Your Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="playerHealth" :style="{width: playerHealthString}">
+                </progress>
+            </div>
+
+        </section>
+        <section id="controls">
+            <button @click="attack">ATTACK</button>
+            <button @click="specialAttack">SPECIAL ATTACK</button>
+            <button @click="heal">HEAL</button>
+            <button @click="surrender">SURRENDER</button>
+        </section>
+        <section id="log" class="container">
+            <h2>Battle Log</h2>
+            <ul></ul>
+        </section>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+E O CÓDIGO VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+    };
+  },
+  watch: {},
+  computed: {
+    monsterHealthString() {
+      console.log('example', this.monsterHealth);
+      return this.monsterHealth.toString() + '%';
+    },
+
+    playerHealthString() {
+      return this.playerHealth.toString() + '%';
+    },
+  },
+  methods: {
+    attack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 10;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 10;
+    },
+
+    specialAttack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 20;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 10;
+    },
+    heal() {
+      this.playerHealth = this.playerHealth + Math.random() * 10;
+    },
+
+    surrender() {
+      const answer = confirm('Are you sure you want to give up?');
+      if (answer) {
+        this.playerHealth = 100;
+        this.monsterHealth = 100;
+      }
+    },
+  },
+});
+app.mount('.game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> AS 2 BARRAS ESTÃO SE MEXENDO CONFORME VAMOS MEXENDO NO VALOR DO 'playerHealth' 
+
+e 
+
+'monsterHealth'...
+
+
+
+
+
+
+
+--> O QUE SERIA BOM, AGORA, SERIA UM __ WATCHER... --> 
+
+
+
+2 WATCHERS...
+
+
+
+
+
+
+-> UM WATCHER PARA A BARRA DO PLAYER, QUE MOSTRARÁ 'game over'
+
+SE A VIDA DO PLAYER CHEGAR A 0
+
+
+
+
+--> UM WATCHER PARA A BARRA DO MONSTER, QUE MOSTRARÁ 'YOU WIN' 
+
+se A VIDA DELE CHEGAR A 0
+
+
+
+
+
+
+(
+  AMBAS AS BARRAS RESETTARÃO OS VALUES DAS BARRAS DE VIDA PARA '100'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UPDATEI O CÓDIGO, FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+    };
+  },
+  watch: {
+    playerHealth() {
+      if (this.playerHealth < 0 && this.monsterHealth > 0) {
+        alert('You have run out of HP, game over.');
+        this.playerHealth = 100;
+        this.monsterHealth = 100;
+      }
+    },
+
+    monsterHealth() {
+      if (this.monsterHealth < 0 && this.playerHealth > 0) {
+        alert('You have defeated the monster, congratulations!');
+        this.playerHealth = 100;
+        this.monsterHealth = 100;
+      }
+    },
+  },
+  computed: {
+    monsterHealthString() {
+      return this.monsterHealth.toString() + '%';
+    },
+
+    playerHealthString() {
+      return this.playerHealth.toString() + '%';
+    },
+  },
+  methods: {
+    attack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 10;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 10;
+    },
+
+    specialAttack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 10;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 20;
+    },
+
+    heal() {
+      const healAmount = Math.random() * 10;
+      if (this.playerHealth < 100 && this.playerHealth + healAmount < 100) {
+        this.playerHealth = this.playerHealth + healAmount;
+      } else {
+        alert('You cannot heal more than your max health.');
+      }
+    },
+
+    surrender() {
+      const answer = confirm('Are you sure you want to give up?');
+      if (answer) {
+        this.playerHealth = 100;
+        this.monsterHealth = 100;
+      }
+    },
+  },
+});
+app.mount('.game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------
+
+
+
+--> ESPERE... FIZ ALGO ERRADO...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER QUE AS VÁRIAS MENSAGENS 
+
+
+FIQUEM OUTPUTTADAS 
+
+LÁ 
+
+
+
+EM UMA SECTION NO NOSSO HTML,
+ E NÃO 
+ QUE SEJAM ANUNCIADAS POR MEIO DE UM 'ALERT'...
+
+
+
+
+
+AGORA A ÚNICA COISA QUE ME RESTA É O 'BATTLE LOG'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O SPECIAL ATTACK TBM NÃO FICA SEMPRE DISPONÍVEL...
+
+
+
+
+
+
+
+
+--> A TELA DE 'GAME OVER'
+
+aparece:
+
+
+
+
+
+1) SE VOCÊ PERDE   (game over!, you lost! , start a new game)...
+
+
+
+2) SE VOCÊ GANHA  (game over!, you won!, start a new game)...
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA O CÓDIGO FICOU BEM PARECIDO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Monster Slayer</title>
+</head>
+
+<body>
+    <header>Monster Slayer</header>
+    <div class="game">
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                </progress>
+            </div>
+        </section>
+        <section id="player">
+            <h2>Your Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="playerHealth" :style="{width: playerHealthString}">
+                </progress>
+            </div>
+
+        </section>
+
+        <section id="controls" v-if="!battleStatus">
+            <button @click="attack">ATTACK</button>
+            <button @click="specialAttack">SPECIAL ATTACK</button>
+            <button @click="heal">HEAL</button>
+            <button @click="surrender">SURRENDER</button>
+        </section>
+        <section class="container" v-else>
+            <h1>Game Over!</h1>
+            <h3>You {{ battleStatus }}</h3>
+            <button @click="resetGame">Start New Game</button>
+
+
+        </section>
+        <section id="log" class="container">
+            <h2>Battle Log</h2>
+            <ul>
+                <li v-for="battle in log">
+
+                </li>
+
+
+            </ul>
+        </section>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+E O CÓDIGO VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+      battleStatus: null,
+    };
+  },
+  watch: {
+    playerHealth() {
+      if (this.playerHealth < 0 && this.monsterHealth > 0) {
+        this.battleStatus = 'lost!';
+      }
+    },
+
+    monsterHealth() {
+      if (this.monsterHealth < 0 && this.playerHealth > 0) {
+        this.battleStatus = 'won!';
+      }
+    },
+  },
+  computed: {
+    monsterHealthString() {
+      return this.monsterHealth.toString() + '%';
+    },
+
+    playerHealthString() {
+      return this.playerHealth.toString() + '%';
+    },
+  },
+  methods: {
+    attack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 10;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 10;
+    },
+
+    specialAttack() {
+      this.playerHealth = this.playerHealth - Math.random().toFixed(2) * 10;
+      this.monsterHealth = this.monsterHealth - Math.random().toFixed(2) * 20;
+    },
+
+    heal() {
+      const healAmount = Math.random() * 10;
+      if (this.playerHealth < 100 && this.playerHealth + healAmount < 100) {
+        this.playerHealth = this.playerHealth + healAmount;
+      } else {
+        alert('You cannot heal more than your max health.');
+      }
+    },
+    surrender() {
+      const answer = confirm('Are you sure you want to give up?');
+      if (answer) {
+        this.battleStatus = 'Lost!';
+      } else {
+        return;
+      }
+    },
+
+    resetGame() {
+      this.battleStatus = null;
+      this.playerHealth = 100;
+      this.monsterHealth = 100;
+    },
+  },
+});
+app.mount('.game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FALTOU O 'BATTLE LOG'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO BATTLE LOG,
+VAMOS PRECISAR __ CRIAR_ 1 'BATTLE OBJECT' para cada batalha entre o monstro e o player...
+
+
+
+
+
+
+
+
+
+--> como faremos isso?
+
+
+
+
+
+
+
+
+
+PRECISAMOS CRIAR UM LIST ITEM COM ESTE FORMATO:
+
+
+
+
+
+<li> 
+
+<p>Monster attacks and deals {{ computedProperty }}</p>
+<p>Player attacks and deals {{ computedProperty }}</p>
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+é, isso mesmo...
+
+
+
+
+
+
+
+----------------------
+
+
+
+
+
+
+
+
+
+
