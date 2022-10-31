@@ -1,0 +1,205 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... AGORA DEVEMOS UPDATAR AS HEALTH BARS...
+
+
+
+
+
+
+
+
+O JEITO QUE ENCONTREI FOI ESTE:
+
+
+
+
+(BIND DINÂMICO DE STYLES, NO CASO A PROPRIEDADE CSS de 'width')...
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                </progress>
+            </div>
+        </section>
+
+
+
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO O BUTTON DE 'attack' for clicado... fazemos um event binding nesse button,
+tipo assim:
+
+
+
+
+
+
+        <section id="controls" v-if="!battleStatus">
+            <button @click="attack">ATTACK</button>
+            <button @click="specialAttack">SPECIAL ATTACK</button>
+            <button @click="heal">HEAL</button>
+            <button @click="surrender">SURRENDER</button>
+        </section>
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> APONTAMOS À FUNCTION...
+
+
+
+
+
+sim...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR QUER QUE 
+
+
+ESSAS HEALTHBARS ACABEM UPDATADAS 
+
+SEMPRE QUE 
+
+
+
+
+
+O VALOR DA VIDA DOS CARAS REALMENTE MUDAR...
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR FAZ O QUE FIZ,
+
+DEFINIR O WIDTH 
+
+DAS NOSSAS PROGRESS BARS DINAMICAMENTE... (pre-defined classes css é quase impossível com esse approach),
+
+
+
+POR ISSO USAMOS 
+
+
+INLINE-STYES...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESCREVE TIPO ASSIM:
+
+
+
+
+
+
+
+<div class="healthbar__value" :style="{}"
+
+
+
+
+
+
+
+--> DENTRO DESSE OBJECT,
+
+PODEMOS DEFINIR 'QUAL PROPRIEDADE CSS QUEREMOS MUDAR',
+
+E PODEMOS 
+
+DAR 
+
+UM 
+
