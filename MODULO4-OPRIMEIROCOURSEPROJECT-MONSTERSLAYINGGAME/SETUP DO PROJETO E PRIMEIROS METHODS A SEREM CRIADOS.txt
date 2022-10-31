@@ -1177,3 +1177,773 @@ PRECISAMOS CRIAR UM LIST ITEM COM ESTE FORMATO:
 
 
 
+
+-> só falta deixar o 'special attack' 
+
+
+condicional (a partir de alguma condição aleatória)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO O GRINGO FEZ O PROJETO?
+
+
+
+
+
+
+
+
+
+--> PROFESSOR FALA DO CÓDIGO INICIAL 
+
+
+
+
+
+
+
+que 
+
+
+controla nosso app vue...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+      battleStatus: null,
+    };
+  },
+  watch: {
+    playerHealth() {
+      if (this.playerHealth < 0 && this.monsterHealth > 0) {
+        this.battleStatus = 'lost!';
+      }
+    },
+
+    monsterHealth() {
+      if (this.monsterHealth < 0 && this.playerHealth > 0) {
+        this.battleStatus = 'won!';
+        
+      }
+    },
+  },
+  computed: {
+    monsterHealthString() {
+      return this.monsterHealth.toString() + '%';
+    },
+
+    playerHealthString() {
+      return this.playerHealth.toString() + '%';
+    },
+  },
+  methods: {
+    attack() {
+
+      const playerDamage = Math.random().toFixed(2) * 10;
+      const monsterDamage = Math.random().toFixed(2) * 10;
+      this.playerHealth = this.playerHealth - playerDamage;
+      this.monsterHealth = this.monsterHealth - monsterDamage;
+
+      this.logFight(playerDamage, monsterDamage);
+
+
+    },
+
+    specialAttack() {
+
+      const playerDamage = Math.random().toFixed(2) * 10;
+      const monsterDamage = Math.random().toFixed(2) * 20;
+
+      this.playerHealth = this.playerHealth - playerDamage;
+      this.monsterHealth = this.monsterHealth - monsterDamage;
+
+      this.logFight(monsterDamage, playerDamage);
+    },
+
+    heal() {
+      const healAmount = Math.random() * 10;
+      if (this.playerHealth < 100 && this.playerHealth + healAmount < 100) {
+        this.playerHealth = this.playerHealth + healAmount;
+        this.logFight(0, 0, healAmount);
+      } else {
+        alert('You cannot heal more than your max health.');
+      }
+    },
+    surrender() {
+      const answer = confirm('Are you sure you want to give up?');
+      if (answer) {
+        this.battleStatus = 'lost!';
+        this.log = [];
+      } else {
+        return;
+      }
+    },
+    resetGame() {
+      this.battleStatus = null;
+      this.playerHealth = 100;
+      this.monsterHealth = 100;
+      this.log = [];
+    },
+
+    logFight(playerDamage, monsterDamage, amountHealed=0) {
+      this.log.push(
+        {
+          count: Math.random(),
+          playerDamage: playerDamage,
+          monsterDamage: monsterDamage,
+          amountHealed: amountHealed
+        }
+      )
+    }
+  },
+});
+app.mount('.game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+----->  PRECISAMOS DE METHODS PARA 
+ 
+
+
+ TODOS OS BUTTONS --> 
+
+
+
+
+ 
+
+
+ A MONSTER HEALTH E A PLAYER HEALTH DEVEM 
+
+ 
+
+
+ SER 
+
+ REDUZIDAS POR MEIO 
+
+
+
+
+ DE UM METHOD...
+
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR ESCREVE TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ const app = Vue.createApp(
+  {
+    data() {
+
+    }
+  }
+ )
+
+
+ app.mount('#game');
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO...
+
+
+
+
+
+
+
+ VAMOS MANAGEAR A HEALTH DO MONSTER E DO PLAYER LÁ EM 'data'.
+..
+
+
+
+
+
+
+
+
+
+
+
+
+eX:
+
+
+
+
+
+
+
+
+
+ const app = Vue.createApp(
+  {
+    data() {
+
+      return {
+        playerHealth: 100,
+        monsterHealth: 100
+      }
+    }
+  }
+ )
+
+
+ app.mount('#game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... FOI EXATAMENTE ISSO QUE EU FIZ...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OS METHODS SERÃO USADOS PARA 'ATTACK'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIOU UM METHOD DE NOME 'attackMonster'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  QUEREMOS CALCULAR O DAMAGE QUE ESTAMOS 
+
+dealing,
+
+e aí 
+
+
+reduzir lá 
+
+
+da health do monster...
+
+
+
+
+
+
+
+
+--> COMEÇAMOS COM 'Math.random()'..
+
+
+
+
+
+
+-> AÍ O PROFESSOR MULTIPLICA O 'Math.random' POR 10...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR USA UMA FUNÇÃOZINHA para 
+
+
+
+GERAR UM 
+NÚMERO ENTRE 5 E 12...
+
+
+
+
+
+
+
+
+
+
+
+fica tipo assim:
+
+
+
+
+
+
+
+Math.random() * (12 - 5);
+
+
+
+
+
+
+
+DEPOIS ELE USA 'Math.floor()'
+
+PARA FAZER _ ROUND DOWN
+ 
+ desse number (para não ficarmos com decimal places)...
+
+
+
+
+
+
+
+
+ O CÓDIGO COMPLETO FICA 
+
+
+
+ Math.floor(Math.random() * (12 - 5)) + 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ----> OK.... O PROFESSOR COLOCA O NOME DESSE VALUE COMO 'attackValue'...
+
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+
+ attackMonster() {
+  const attackValue =  Math.floor(Math.random() * (12 - 5)) + 5;
+ }
+
+
+
+
+
+
+
+
+
+ ---> OK, AÍ O PROFESSOR REDUZ O VALUE DE 'this.monsterHealth' (object global vue, em que as data properties podem ser acessadas/manipuladas)..
+
+
+
+
+
+
+
+
+
+
+
+ CERTO...
+
+
+
+
+
+ ex:
+
+
+
+  attackMonster() {
+  const attackValue =  Math.floor(Math.random() * (12 - 5)) + 5;
+  this.monsterHealth -= attackValue;
+ }
+
+
+
+
+
+
+
+
+
+
+
+ ----> ok... com isso estamos reduzindo a monsterHealth por meio desse attackValue...
+
+
+
+
+
+ --> MAS É CLARO QUE O MONSTER TAMBÉM DEVE SER CAPAZ DE NOS ATACAR,
+  COMO JOGADORES...
+
+
+
+
+
+
+
+
+
+  --> O MONSTER DEVE SER CAPAZ DE 'ATTACK BACK'...
+
+
+
+
+
+
+  --> É POR ISSO QUE O PROFESSOR CRIOU UM METHOD SEPARADO,
+
+
+  de nome 
+  'attackPlayer'...
+
+
+
+
+
+  (
+    ok, quer dizer que ele fez o outsourcing 
+
+    do 
+
+    código em 2 
+
+    methods distintos... 
+
+
+  )
+
+
+
+
+
+
+  FICOU TIPO ASSIM:
+
+
+
+
+    attackMonster() {
+  const attackValue =  Math.floor(Math.random() * (12 - 5)) + 5;
+  this.monsterHealth -= attackValue;
+ }
+
+
+
+attackPlayer() {
+  const attackValue = Math.floor(Math.random() * (15 - 2)) + 7;
+  this.playerHealth -= attackValue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FAZ OUTSOURCE DESSA FUNCTION QUE FAZ O 'attackValue'
+
+
+_ EM UMA FUNCTION NO LADO DE FORA 
+
+DO VUE APP,
+
+PARA QUE 
+
+SEJA 
+
+USADA 
+
+
+
+
+
+POR NOSSO VUE APP.... (
+
+  pq você pode fazer isso, sem problemas... outsource de functions no lado de fora do vue app....
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+-. ficou tipo assim:
+
+
+
+
+
+
+
+
+
+
+function getRandomValue(min, max) {
+  return Math.floor(Math.random() * (max - min) + min); 
+})
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+AÍ LÁ EM BAIXO OS CALLS FICAM 
+
+
+
+const attackValue = getRandomValue(5, 12);
+
+
+const attackValue = getRandomValue(8, 15);
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS UMA COISA QUE ESTÁ FALTANDO 
+
+NESSES 2 METHODS 
+É QUE 
+
+'attackMonster'
+
+
+
+DEVE TAMBÉM TRIGGAR 'attackPlayer'...
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+ISSO QUER DIZER QUE PODEMOS CHAMAR METHODS COM A 'this' keyword,
+
+
+
+no nosso próprio app vue...
+
+
+
+
+
+
+
+--> OK... ISSO FAZ SENTIDO... EU FIZ A MESMA COISA com 'this.logFight() lá em 'attack()'.. .'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, ESTAMOS ACABADOS COM O CÓDIGO JAVASCRIPT, POR ENQUANTO....
+
+
+
+
+
+
+
+
+
+--> AGORA PRECISAMOS 
+
+CONECTAR TUDO ISSO,
+
+ESSES METHODS,
+
+QUANDO 
+
+
+OS BUTTONS 
+
+SÃO CLICADOS...
+
+
+
+
+
+
+
+
+TAMBÉM PRECISAMOS UPDATAR AS HEALTH BARS..
+
+
+
+
+
+--> JÁ CONSEGUI FAZER TUDO ISSO...
