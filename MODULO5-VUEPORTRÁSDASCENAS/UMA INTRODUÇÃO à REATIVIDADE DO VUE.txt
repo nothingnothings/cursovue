@@ -1,0 +1,805 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE MÓDULO, USAREMOS UM OUTRO PROJETO SIMPLES, PREPARADO PELO PROFESSOR...
+
+
+
+
+
+
+
+
+TEMOS ESTES CÓDIGOS:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      currentUserInput: '',
+      message: 'Vue is great!',
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+    saveInput(event) {
+      this.currentUserInput = event.target.value;
+    },
+
+    setText() {
+      this.message = this.currentUserInput;
+    },
+  },
+});
+app.mount('#behind');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS 2 PIECES OF DATA:
+
+
+
+
+
+
+
+
+1) currentUserInput
+
+
+
+
+2) 'message'...
+
+
+
+
+
+
+
+
+
+--> temos 2 methosd:
+
+
+
+
+
+
+
+
+1) MUDA O 'CURRENT O USERINPUT' ao currently inputted target value...
+
+
+
+
+
+
+2) o segundo __ MUDA __ A PROPRIEDADE de 'message'
+
+
+
+para ficar igual ao 'currentUserInput'..
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Behind the Scenes</title>
+</head>
+
+<body>
+    <header>Behind the Scenes</header>
+
+    <section id="behind">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> OK...
+
+
+
+
+
+
+
+ASSIM CONSEGUIMOS ISTO:
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Behind the Scenes</title>
+</head>
+
+<body>
+    <header>Behind the Scenes</header>
+
+    <section id="behind">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+É ASSIM QUE CONSEGUIMOS OUTPUTTAR A 'MESSAGE'...
+
+
+
+
+
+
+
+
+
+---------->  DIGITAMOS ALGO NO INPUT FIELD, CLICAMOS EM 'set text',
+
+e isso 
+altera o texto displayado naquele string interpolation..
+
+
+
+
+
+
+
+
+
+
+
+--> isso é obtido através de uma combinação de :
+
+
+
+1) event binding (click e 'input' events)..
+
+
+
+
+
+1.5) methods 
+
+1.8) data (propriedades do state)....
+
+2) string interpolation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> O PROFESSOR QUER EXPLICAR '''COMO O VUE  REALIZA ESSE AUTOMATIC UPDATING'.....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE ALTERAMOS O TEXTO DO INPUT E CLICAMOS NO BUTTON,
+
+AQUELA 
+
+PARTE DA 'STRING INTEROPLATION'
+
+
+
+É 
+
+
+__ALTERADA PELO VUE...
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA É A 'BUILT-IN REACTIVITY'
+
+
+QUE O VUE TEM... --> É UMA DE SUAS CORE FEATURES... --> É ESSENCIALMENTE 
+
+
+
+UMA DAS CORE FEATURES 
+DO VUE..
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSENCIALMENTE,
+
+
+O 
+VUE FAZ 1 IMPORTANTE COISA:
+
+
+
+
+
+
+
+A DATA QUE VOCê TEM EM 
+
+
+
+
+'data() {
+    return {
+        currentUserInput: '',
+        message: 'Vue is Great' 
+    }
+}
+'
+
+
+
+
+É ALGO QUE O 
+
+VUE 
+
+
+'KEEPS TRACK OF'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> COMO O PROFESSOR MENCIONOU ANTERIORMENTE,
+
+O 
+
+VUE PEGA TODAS AS PROPRIEDADES DE 'data' 
+
+
+E ENTÃO AS MERGEIA EM UM 'GLOBAL, BEHIND-THE-SCENES MANAGED OBJECT',
+
+
+
+
+
+
+_UM OBJETO GIGANTE,
+O MESMO 
+
+
+EM QUE 
+
+TODO O RESTO 
+
+DE 
+
+
+
+SEUS METHODS SÃO 
+
+_ MERGEADOS (
+
+
+
+    e é isso que acontece, de fato,
+
+    por trás das cenas..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTRA COISA QUE O VUE FAZ:
+
+
+
+1) GARANTIR QUE O 'this' SE REFIRA A ESSE 
+
+
+GLOBAL OBJECT..
+
+
+
+
+
+
+
+
+
+
+
+--> MAS, QUANDO O ASSUNTO É 'DATA',
+
+A OUTRA C OISA IMPORTANTE QUE O VUE FAZ É 
+
+
+TRANSFORMAR 
+
+ESSE 
+
+'DATA OBJECT'
+
+EM UM 
+
+'REACTIVE DATA OBJECT',
+
+
+
+
+
+
+
+
+TUDO POR MEIO _ DE, ESSENCIALMENTE,
+
+
+O 
+
+
+___WRAP__ 
+
+
+DE SUAS PROPRIEDADES COM UMA _ PROPRIEDADE JAVASCRIPT 
+
+CHAMDA 
+
+
+
+DE 
+
+
+'PROXIES'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O QUE É 'PROXY'?
+
+
+
+
+
+
+
+
+--> BEM, EM JAVASCRIPT VANILLA,
+
+TEMOS
+
+UMA FEATURE QUE 
+
+SÃO 
+
+'PROXIES',
+
+
+OS QUAIS 
+
+
+SÃO _ 'LEVERAGED'
+
+PELO VUE,
+
+POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+--> O VUE USA ESSES PROXIES PARA 
+
+
+
+_ WRAPPAR __ SUAS PROPRIEDADES 
+E ENTAÕ 
+SER NOTIFICADO (o vue ser notificado)
+
+
+
+
+SEMPRE QUE VOCê MODIFICAR ALGUM VALUE...
+
+
+
+
+
+
+
+
+
+
+
+--> AQUI, ISSO É VISTO COM 'message'... 
+
+
+
+
+
+
+
+--> QUANDO SETTAMOS UM NOVO VALUE PARA 'message',
+
+NÃO INTERESSA SE ISSO 
+
+ 
+
+ É __ 
+
+
+
+
+OUTRA DATA PROPERTY  (como 'this.message = this.currentUserInput', como temos atualmente)
+
+
+
+
+
+OU 
+
+
+
+
+
+
+ENTÃO UM VALOR HARDCODADO TIPO ASSIM ('this.message = 'exemplo' ' )
+,
+
+
+
+
+
+
+
+
+
+
+
+
+
+NÃO INTERESSA O TIPO DE NOVO VALUE,
+
+
+
+
+__ QUANDO VOCê 
+
+
+ASSIGNA UM NOVO VALUE A ESSA PROPRIEDADE DE 'MESSAGE',
+
+
+
+O VUE JÁ FICA 
+
+
+INSTANTANEAMENTE 'aware'
+ 
+ disso...
+
+
+
+
+
+
+
+
+
+
+
+ --> E ISSO É __ IMPORTANTE...
+
+
+
+
+
+
+
+
+ --> SE O VUE NÃO FOSSE 'NOTIFIED' 
+
+
+ SOBRE 
+
+ ESSE NOVO ASSIGNMENT,
+
+
+
+ ELE _ NÃO PODERIA/NÃO CONSEGUIRIA 
+
+
+
+ ATUALIZAR 
+
+ AS COISAS QUE 
+ VOCÊ VÊ NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ''' VUE NEEDS TO BE NOTIFIED, BY CHANGES LIKE THIS,
+
+
+ __ SO IT _ CAN RECOGNIZE _ THAT _ IT SHOULD SCAN THE HTML 
+ CODE_  FOR 
+ USAGES __ OF 
+
+
+ THAT CONTROLLED PROPERTIES'',
+
+
+ PARA __ 
+
+ SÓ __ ENTÃO,
+
+ QUANDO VISUALIZAR 
+
+ ESSES USAGES, 
+
+
+ ATUALIZAR 
+
+ O DOM NESSES LOCAIS... (
+
+    o vue vai 
+
+
+    Até o rendered page 
+    e então 
+
+    ENCONTRA OS LUGARES APROPRIADOS EM QUE ESSE 
+
+    'DYNAMIC CONTENT'
+
+    É 
+
+    _EXIBIDO,
+    PARA AÍ 
+
+    O 
+    ALTERAR NA 
+
+    TELA DO USUÁRIO, TAMBÉM....
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É ISSO QUE O VUE FAZ, SIM.... --> MAS COMO TUDO ISSO FUNCIONA?
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR HAVIA MENCIONADO QUE UMA FEATURE CHAMADA DE 'PROXIES' 
+
+
+ era utilizada...
+
+
+
+
+
+
+
+
+
+ --> exploraremos essa 'data' em maiores detalhes...
+
+
+
+
+
+
+
+
+
+ -> OK.. PROFESSOR ESCREVE TARGET KEY E VALUE, CONSOLE.LOGS... DEPOIS ELE PASSA ESSE OBJECT 'handler' como segundo parâmetro 
+
+
+ de 
+
+
+
+ 'proxy'..
+
+
+
+
+ ex:
+
+
+
+
+ 

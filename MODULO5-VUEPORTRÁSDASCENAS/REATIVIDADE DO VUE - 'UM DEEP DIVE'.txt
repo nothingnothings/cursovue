@@ -1,0 +1,906 @@
+
+
+
+
+
+
+
+
+
+---> POR UM MOMENTO,
+
+
+
+
+VAMOS DEIXAR O VUE PARA ESTUDARMOS AQUELA COISA 'PROXY',
+
+QUE É USADO 
+
+PELO JAVASCRIPT,
+
+QUE O 
+
+
+
+
+VUE UTILIZA...
+
+
+
+
+
+
+-----> 
+
+
+
+
+
+
+
+
+
+VAMOS ESCREVER JAVASCRIPT COMUM..
+
+
+
+
+
+
+
+
+
+
+
+let message = 'Hello';
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA, A COISA INTERESSANTE SOBRE O JAVASCRIPT, É QUE SE TIVERMOS ISTO:
+
+
+
+
+
+
+
+let message = 'Hello';
+
+
+let longMessage = message + 'World!';
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE CONSOLE.LOGGARMOS ISSO AÍ,
+
+
+VEREMOS 
+
+
+
+'Hello World!'..
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+let message = 'Hello';
+
+
+let longMessage = message + 'World!';
+
+
+console.log(longMessage);
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA, SE TROCARMOS 
+
+a mensagem 
+
+
+
+'Hello'
+
+para 
+
+
+
+'Hello!!!' mais tarde,
+
+
+
+
+
+
+
+AQUELE MESMO 'Hello',
+
+
+SEM AS EXCLAMAÇÕES, AINDA SERÁ USADO.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+let message = 'Hello';
+
+
+let longMessage = message + 'World!';
+
+
+console.log(longMessage);
+
+
+message = 'Hello!!!!';
+
+console.log(longMessage);
+
+
+
+
+
+
+
+
+--> OS 2 CONSOLE.LOGS
+
+
+
+TERÃO O MESMO OUTPUT, que será 
+
+'Hello World' (sem as exclamações)...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO SIGNIFICA QUE AQUELA VARIABLE _ QUE FOI CRIADA _ A PARTIR _dE OUTRA VARIABLE (longMessage, criada a partir de 'message")
+
+
+
+
+
+
+VAI TER 'EXTRAÍDO' o value da message antiga para CRIAR SEU PRÓPRIO VALUE,
+
+
+
+
+e vai seguir com esse value... quando a variable 'message' de que dependia/depende é ALTERADA,
+
+
+
+
+não será alterado....
+
+
+
+
+
+
+
+
+
+
+
+------> ISSO PQ, POR DEFAULT,
+
+O JAVASCRIPT 
+
+
+
+
+''''NÃO É REACTIVE'''...
+
+
+
+
+
+
+
+
+
+--> ESSA 'REACTIVENESS'
+
+
+
+É ALGO QUE O _ VUE__ ADICIONA PARA NÓS,
+
+
+
+PQ _ O JAVASCRIPT, 
+
+POR DEFAULT,
+
+NÃO É REACTIVE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE TEMOS UMA CALCULATION EM QUE USAMOS UMA VARIABLE 
+
+
+E TROCAMOS 
+
+
+ESSA VARIABLE MAIS TARDE,
+
+
+
+
+
+A CALCULATION ANTERIOR, ORIGINÁRIA, NÃO SERÁ 'RECALCULADA',
+
+
+
+
+
+
+
+PQ O JAVASCRIPT _ NÃO 'ANOTA' QUE 'A MESSAGE MUDOU' 
+
+
+
+
+__ E QUE A MESSAGE HAVIA SIDO USADA LÁ ATRÁS... (com a definição da variable 'longMessage')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É ASSIM QUE O JAVASCRIPT FUNCIONA.... NO ENTANTO, O VUE FUNCIONA DE FORMA DISTINTA....
+
+
+
+
+
+
+
+
+
+
+
+
+-> O __ VUE __ TEM UM MECANISMO _ QUE, DE FATO,
+FICA 
+
+AWARE DE QUANDO QUALQUER VARIABLE É ALTERADA (
+
+
+    ou seja,
+
+    quando escrevemos 
+
+
+    'this.message = this.currentUserInput',
+
+
+    ELE FICA _ AWARE__ DO FATO DE QUE 
+
+
+    'message'
+
+    MUDOU,
+
+
+
+    e aí 
+
+    ALTERA__
+
+
+
+    TODAS AS VARIABLES QUE DEPENDEM DESSa variable 'message'..
+)
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE O __ VUE _ UTILIZA 
+
+ESSA 
+CARACTERÍSTICA 'REACTIVE'  
+
+
+
+_ PARa__ UPDATAR__ TODAS AS PARTES/VARIABLES DO CÓDIGO 
+
+
+
+
+
+QUE DEPENDEM _ DESSA VARIABLE, intuitivamente...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA DEVEMOS VER COMO 'PROXIES' PODEM FUNCIONAR..
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR REMOVE TODO O CÓDIGO E CRIA UM NOVO OBJECT data (sem relação com o vue),
+
+
+
+
+
+
+e fica tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+const data = {
+    message: 'Hello!';
+}
+
+
+
+
+
+
+
+
+
+
+--> AGORA PODEMOS __ WRAPPAR __ 
+
+ESSE OBJECT COM UM 'PROXY',
+
+NO JAVASCRIPT,
+
+
+
+TUDO POR MEIO DO 
+
+USO 
+
+
+
+
+DE UMA CONSTRUCTOR FUNCTION DE NOME 'Proxy()'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const data = {
+    message: 'Hello!';
+}
+
+
+
+const proxy = new Proxy();
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO CASO,
+
+
+
+VAMOS PASSAR A ESSE PROXY __ ''o OBJECT QUE ELE DEVE WRAPPAR''..
+
+
+
+
+
+
+
+
+
+
+
+--> e VAMOS PASSAR 'data':
+
+
+
+
+
+
+
+
+
+
+const data = {
+    message: 'Hello!';
+}
+
+
+
+const proxy = new Proxy(data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> CERTO... MAS O PROXY VAI PEDIR MAIS DO QUE ISSO:
+
+
+
+PEDE _ TAMBÉM __ UM 
+
+
+
+SEGUNDO ARGUMENTO,
+
+
+UM SEGUNDO OBJECT,
+
+
+E DENTRO DESSE OBJECT TEREMOS _ 'UM MONTE DE HANDLERS PARA __ 
+ESSE WRAPPED OBJECT'..
+
+
+
+
+
+
+
+
+
+
+-----> O PROFESSOR VOLTARÁ A ISSO DEPOIS,
+
+MAS AGORA 
+
+
+ELE VAI CRIAR UM OBJECT DE 'handler',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+const data = {
+    message: 'Hello!';
+}
+
+
+const handler = {
+
+}
+
+
+const proxy = new Proxy(data, );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> ESSE 'HANDLER OBJECT' agora pode usar 
+CERTAS FEATURES,
+
+
+como 
+
+'traps',
+
+QUE SÃO __ CONSTRUCTS  SUPORTADOS POR ELE...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const handler = {
+    set() {
+
+    }
+}
+
+
+
+
+const proxy = new Proxy(data, ) 
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO EXEMPLO DISSO,
+
+TEMOS TRAPS DE 'set()" -----> PARA DEFINIR TRAPS DE 'set()",
+
+
+BASTA 
+
+ESCREVER 
+
+
+
+
+
+UMA FUNCTION DE NOME 'set()',
+
+
+
+DENTRO DO HANDLER,
+
+
+
+
+__ E,
+
+COMO ARGUMENTO DESSE METHOD,
+
+
+AUTOMATICAMENTE 
+
+
+
+
+RECEBEMOS:
+
+
+
+
+
+
+
+
+
+
+1) 'target'
+
+
+
+2) 'key' 
+
+
+3) 'value'
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+const handler = {
+    set(target, key, value) {
+    
+    }
+}
+
+
+
+
+const proxy = new Proxy(data, ) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ENTENDER O QUE FAZ ESSE 'PROXY',
+
+O PROFESSOR DIZ QUE 
+
+
+podemos _ 
+
+
+console.loggar os 3 valores...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const data = {
+    message: 'Hello!';
+}
+
+
+const handler = {
+    set(target, key, value) {
+        console.log(target);
+        console.log(key);
+        console.log(value);
+        
+
+    }
+}
+
+
+
+
+const proxy = new Proxy(data, handler) 
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR EXPLICA UQE 
+
+MAIS TARDE EXPLICARÁ OS 'HANDLERS'....
+
+
+
+
+
+
+
+
+
+
+
+-----> O PROXY UTILIZA DE FEATURES COMO 'SET TRAPS'..
+
+
+
+
+
+
+
+--> CERTo...
+
+
+
+
+
+o 'handler'
+
+
+
+SETTA UM MONTE DE 'TRAPS'...
+
+
+
+
+
+
+
+
+ 
+ O SEGUNDO PARÂMETRO SERÁ UM _ OBJECT_ CHEIO DE 'HANDLERS' PARA 
+
+
+ O WRAPPED OBJECT...
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+ 
+const handler = {
+    set(target, key, value) {
+        console.log(target);
+        console.log(key);
+        console.log(value);
+        
+
+    }
+}
+
+
+
+
+
+
+
+
+
+--> ESSE HANDLER PODE USAR ALGUMAS FEATURES,
+
+PODE USAR 
+
+
+
+ALGO CHAMADO DE 'TRAPS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS USAR UMA TRAP DE 'set()'..
+
+
+
