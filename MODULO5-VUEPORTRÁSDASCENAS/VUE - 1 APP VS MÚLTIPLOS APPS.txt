@@ -180,3 +180,308 @@ ex:
 
 
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Behind the Scenes</title>
+</head>
+
+<body>
+    <header>Behind the Scenes</header>
+
+    <section id="app1">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+    
+    <section id="app2">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> PODEMOS TER PROPRIEDADES DIFERENTES EM CADA  DOS APPS..
+
+
+
+
+
+
+
+
+
+
+---> TIPO ASSIM:
+
+
+
+
+
+
+
+
+const app1 = Vue.createApp({
+  data() {
+    return {
+        message: 'exemplo'
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#app1');
+
+const app2 = Vue.createApp({
+  data() {
+    return {
+        meal: 'Meat'
+
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#app2');
+
+
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo... podemos ver a diferença entre a propriedade 'message' 
+
+e A 
+propriedade 
+'meat'...
+
+
+
+
+
+
+
+
+
+--> E SÓ PODEMOS USAR ESSAS DATA PROPERTIES DENTRO 
+
+
+DAS PARTES CONTROLADAS 
+POR 
+
+
+ELAS MESMAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+->'''VOCÊ NÃO PODE USAR DATA DE UM OUTRO APP EM OUTRO APP'''...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO SIGNIFICA QUE CADA VUE APP FUNCIONA DE FORMA STANDALONE,
+
+NÃO HÁ CONEXÃO ENTRE ELES...
+
+
+
+
+
+
+
+
+
+
+--> NENHUMA CONEXÃO ENTRE OS APPS...
+
+
+
+
+
+
+
+
+CERTO... ISSO FAZ SENTIDO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Behind the Scenes</title>
+</head>
+
+<body>
+    <header>Behind the Scenes</header>
+
+    <section id="app1">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+    
+    <section id="app2">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ meal }}</p>
+        <!-- NÃO PODEMOS USAR 'message', essa data property do APP1, nesse app2, pq os 2 NÃO TERÃO CONEXÃO entre si-->
+        <!-- <p>{{ message }}</p> -->
+    </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E MÚLTIPLOS 
+
+VUE APPS 
+
+é algo que 
+
+vocÊ 
+
+
+
+
+DEVE USAR _ SE 
+VOCÊ TIVER 
+
+MÚLTIPLAS PARTES DE SEU 
+
+APP,
+
+QUE 
+
+TRABALHAM DE FORMA INDEPENDENTE UMA DA OUTRA...
+
+
+
+
+
+
+
+
+
+
+
+
+mas se vocË tem 
+
+
+
+1 parte que depende de outra,
+toda ela 
+
+deverá fazer parte DO MESMO APP,
+
+é claro...

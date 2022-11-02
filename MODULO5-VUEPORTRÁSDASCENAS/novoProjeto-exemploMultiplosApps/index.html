@@ -15,12 +15,23 @@
 <body>
     <header>Behind the Scenes</header>
 
-    <section id="behind">
+    <section id="app1">
         <input type="text" @input="saveInput">
         <button @click="setText">
             Set Text
         </button>
         <p>{{ message }}</p>
+    </section>
+
+    
+    <section id="app2">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ meal }}</p>
+        <!-- NÃO PODEMOS USAR 'message', essa data property do APP1, nesse app2, pq os 2 NÃO TERÃO CONEXÃO entre si-->
+        <!-- <p>{{ message }}</p> -->
     </section>
 </body>
 
