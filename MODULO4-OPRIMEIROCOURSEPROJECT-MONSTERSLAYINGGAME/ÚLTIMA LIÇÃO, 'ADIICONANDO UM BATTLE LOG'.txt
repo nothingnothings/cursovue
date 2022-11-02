@@ -1,0 +1,369 @@
+
+
+MTAS MANEIRAS DE IMPLEMENTAR ISSO...
+
+
+
+
+
+
+
+
+
+
+HÁ MTAS MANEIRAS DE IMPLEMENTAR ISSO...
+
+
+
+
+
+
+
+
+
+
+--> POR ENQUANTO, VOLTAMOS AO 'app.js',
+
+
+
+
+
+
+E AÍ EU CRIO AQUELE METHOD DE 
+
+
+'
+
+
+    logFight(playerDamage, monsterDamage, amountHealed = 0) {
+      this.log.push({
+        count: Math.random(),
+        playerDamage: playerDamage,
+        monsterDamage: monsterDamage,
+        amountHealed: amountHealed,
+      });
+    },
+
+
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> EU USEI 3 PARÂMETROS, MAS O PROFESSOR DIZ QUE OS PARÂMETROS SERÃO DIFERENTES..
+
+
+
+
+
+
+
+
+
+
+logFight(who, what, value) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+---->  COM ESSA INFORMATION 
+
+podemos 
+
+
+
+ir criando vários objetos' log',
+
+no array de 'log'...
+
+
+
+
+
+
+
+
+
+
+----> OK... MEU CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+  data() {
+    return {
+      log: [],
+      playerHealth: 100,
+      monsterHealth: 100,
+      battleStatus: null,
+      round: 0,
+      canSpecialAttack: false,
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+E O CÓDIGO HTML:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section id="log" class="container">
+            <h2>Battle Log</h2>
+            <ul v-if="log.length !== 0">
+                <li v-for="battle in log" key="battle.count">
+                    <p v-if="battle.monsterDamage !== 0"><span style="color: rgb(219, 172, 31)">Monster</span> attacks
+                        and deals <span style="color: red">{{ battle.monsterDamage.toFixed(1) }}</span></p>
+                    <p v-if="battle.playerDamage !==  0"><span style="color: rgb(209, 26, 209)">Player</span> attacks
+                        and deals <span style="color: red">{{ battle.playerDamage.toFixed(1) }}</span></p>
+                    <p v-if="battle.amountHealed !==  0"><span style="color: rgb(209, 26, 209)">Player</span> heals
+                        for <span style="color: rgb(7, 224, 7)">{{ battle.amountHealed.toFixed(1) }}</span></p>
+                </li>
+            </ul>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTo.. 
+
+
+
+
+
+
+
+
+ESSE LOG NÃO VAI APARECER SE NÃO TIVERMOS NADA ADICIONADO NO LOG...
+
+
+
+
+
+--> podemos usar 'unshift' para 
+
+COLOCAR 
+
+O ÚLTIMO ELEMENTO/logmessage NO TOPO...(mas eu não fiz isso)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NOS OUTROS MÓDULOS EM QUE TRABALHAMSO 
+
+
+COM 
+
+
+'v-for'
+
+
+E TAL,
+
+
+
+
+
+
+SEMPRE USAMOS STRINGS...
+
+
+
+
+
+
+
+
+
+
+
+--> AQUI, COMO VAMOS 
+
+CRIAR OBJECTS 'log',
+
+
+
+VAMOS UTILIZAR ESSES OBJECTS,
+E NÃO STRINGS EM SI...
+
+
+
+
+
+
+
+
+
+
+MAS A SINTAXE DO PROFESSOR FICOU ASSIm:
+
+
+
+
+
+
+
+
+
+
+logFight(who, what, value) {
+
+    this.logMessages.unshift(
+        {
+            actionBy: who,
+            actionType: what,
+            actionValue: value
+        }
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+-------- ok......... ISSO FARÁ COM QUE UM NOVO 
+
+
+
+
+ELEMENTO 'LOG' SEJA ADICIONADO QUANDO 
+
+
+
+ACONTECER 
+
+
+'attackMonster' e 'attackPlayer'....
+
+
+
+
+
+
+
+
+
+
+(
+
+
+    claro que eu implementei de forma um pouco diferente, mas o resultado foi parecido/o mesmo...
+)
+
+
+
+
+
+
+
+
+
+
+
+ok... aí o professor usou 'v-for'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li v-for="logMessage in logMessages">
+
+
+
+
+
+
+
+
+
+
+ELEMENT IN ARRAY...
+
+
+
+
+
+
+
+
+
+ok.... acabamos com este módulo
