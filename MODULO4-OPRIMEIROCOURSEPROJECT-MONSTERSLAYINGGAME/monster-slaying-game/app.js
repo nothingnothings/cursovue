@@ -1,10 +1,3 @@
-const isEven = (value) => {
-  if (value % 2 == 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
 
 const app = Vue.createApp({
   data() {
@@ -31,8 +24,6 @@ const app = Vue.createApp({
     },
 
     round(newWatchedValue, oldWatchedValue) {
-
-      console.log(isEven(newWatchedValue), isEven(oldWatchedValue), 'VALUES');
       if (
         this.round === 3
       ) {
