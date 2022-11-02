@@ -1,23 +1,23 @@
-const app = Vue.createApp({
-  data() {
-    return {
-      currentUserInput: '',
-      message: 'Vue is great!',
-    };
-  },
-  watch: {},
-  computed: {},
-  methods: {
-    saveInput(event) {
-      this.currentUserInput = event.target.value;
-    },
+// const app = Vue.createApp({
+//   data() {
+//     return {
+//       currentUserInput: '',
+//       message: 'Vue is great!',
+//     };
+//   },
+//   watch: {},
+//   computed: {},
+//   methods: {
+//     saveInput(event) {
+//       this.currentUserInput = event.target.value;
+//     },
 
-    setText() {
-      this.message = this.currentUserInput;
-    },
-  },
-});
-app.mount('#behind');
+//     setText() {
+//       this.message = this.currentUserInput;
+//     },
+//   },
+// });
+// app.mount('#behind');
 
 
 
@@ -34,19 +34,23 @@ app.mount('#behind');
 
 ///// O 'Proxy' precisa da 'data que quer wrappar' E TAMBÉM UM SEGUNDO OBJECT, CHEIO DE HJANDLERS PARA ESSE 'WRAPPED OBJECT'...
 
-// const data = {
-//   message: 'Hello!',
-// };
+const data = {
+  message: 'Hello!',
+};
 
-// const handler = {
+const handler = {
 
 
-// /TRAP DE 'set()': 
-//   set(target, key, value) {
-//     console.log(target);
-//     console.log(key);
-//     console.log(value);
-//   },
-// };
+//TRAP DE 'set()': 
+  set(target, key, value) {
+    console.log(target);
+    console.log(key);
+    console.log(value);
+  },
+};
 
-const proxy = new Proxy(data, );
+const proxy = new Proxy(data, handler);
+
+proxy.message = 'Hello!!!!2';
+
+

@@ -1,0 +1,182 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA QUE EXPLORAMOS REATIVIDADE,
+
+
+
+O PROFESSOR JÁ QUER DEIXAR ESSE EXEMPLO,
+
+
+PQ 
+
+
+É TUDO ISSO QUE DEVEMOS SABER SOBRE COMO A REATIVIDADE DO VUE 
+
+
+
+
+
+
+
+FUNCIONA... 
+
+
+
+
+
+
+-->  MAS NÃO É TUDO QUE DEVEMOS SABER SOBRE VUE EM GERAL, NO ENTANTO...
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ PDOE SE PERGUNTAR:
+
+
+
+'''POR ACASO SÓ POSSO TER 1 ÚNICO VUE APP POR PÁGINA?''
+
+
+
+
+
+
+
+
+--> SIM, VOCÊ PODE TER MÚLITPLOS VUE APPS...
+
+
+
+
+
+
+
+
+
+
+--> ATÉ AGORA,
+SEMPRE TIVEMOS 1 ÚNICO VUE APP,
+
+E SEMPRE 
+
+MONTAMOS 
+ESSE APP 
+EM 
+
+1 ÚNICA PARTE DE 
+
+NOSSO 
+
+
+
+
+CÓDIGO HTML,
+QUE ENTÃO PASSAVA A SER CONTROLADO POR ESSE APP.
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE VOCê PODE TER MAIS DE 1 ÚNICO APP,
+
+SE ASSIM DESEJA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODE FAZER ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+const app1 = Vue.createApp({
+  data() {
+    return {};
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#app1');
+
+const app2 = Vue.createApp({
+  data() {
+    return {};
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount('#app2');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E AÍ MONTAR EM MÚLTIPLAS PARTES DE SEU HTML...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+

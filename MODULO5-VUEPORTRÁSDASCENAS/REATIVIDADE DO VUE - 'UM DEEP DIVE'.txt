@@ -904,3 +904,762 @@ ALGO CHAMADO DE 'TRAPS'...
 
 
 
+
+
+
+
+-->  const data = {
+  message: 'Hello!',
+};
+
+const handler = {
+
+
+//TRAP DE 'set()': 
+  set(target, key, value) {
+    console.log(target);
+    console.log(key);
+    console.log(value);
+  },
+};
+
+const proxy = new Proxy(data, handler);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... E DENTRO DE 'proxy',
+ 
+ essa nova const,
+
+ PODEMOS 
+
+ ACESSAR 
+
+
+
+
+ PROPRIEDADES COMO 'message',
+
+
+ EXATAMENTE COMO 
+
+
+
+ SE OBJECT 'data' AINDA EXISTISSE...
+
+
+(pq ele ainda existe)...
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+-->  const data = {
+  message: 'Hello!',
+};
+
+const handler = {
+
+
+//TRAP DE 'set()': 
+  set(target, key, value) {
+    console.log(target);
+    console.log(key);
+    console.log(value);
+  },
+};
+
+const proxy = new Proxy(data, handler);
+
+
+
+
+proxy.message = 'Hello!!!';
+
+
+
+
+
+
+
+
+--> salvamos tudo e recarregamos...
+
+
+
+
+
+
+
+
+
+--> o código completo:
+
+
+
+
+
+
+
+
+
+const data = {
+  message: 'Hello!',
+};
+
+const handler = {
+
+
+//TRAP DE 'set()': 
+  set(target, key, value) {
+    console.log(target);
+    console.log(key);
+    console.log(value);
+  },
+};
+
+const proxy = new Proxy(data, handler);
+
+proxy.message = 'Hello!!!!2';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> o que percebemos:
+
+
+
+
+
+
+1) RECEBEMOS 3 CONSOLE.LOGs lá 
+
+
+no console..
+
+
+
+(para os 3 console.logs)...
+
+
+
+
+
+
+
+O OUTPUT:
+
+{message: 'Hello!'}
+ message
+ Hello!!!!2
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> 'target' --> é a COISA QUE FOI ___ WRAPPED___ ( no caso, '{ message: Hello}' )
+
+
+
+
+
+
+
+
+ ----> 'key' --> É A __ PROPRIEDADE__ EM QUE  VOCÊ DEFINIU UM NOVO VALUE... (no caso, 'message')...
+
+
+
+
+
+
+
+
+
+ --> 'value' é o VALUE que foi settado...
+
+
+
+
+
+
+
+
+
+ --> ISSO TE MOSTRA O QUE UM 'HANDLER' FAZ:
+
+
+
+
+
+
+ COM O HANDLER, PODEMOS 
+
+ DEFINIR UMA 
+
+
+
+ 'SETTER FUNCTION',
+
+
+ QUE SERÁ _ TRIGGADA_ SEMPRE QUE _ 
+
+
+
+ uma NOVA PROPRIEDADE for settada /PROPRIEDADE ANTERIOR TIVER SEU VALOR ALTERADO..
+
+
+
+
+
+
+
+
+ ----> a partir de um 'PROXY', podemos descobrir:
+
+
+
+
+
+
+ 1) QUAL PROXY É ESSE (é o proxy do object '{message: Hello}' )
+
+
+
+
+ 2) a 'key' que alteramos/definimos 
+
+
+ 3) o VALUE novo que adicionamos/alteramos 
+
+ nesse object....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> E PODEMOS USAR ISSO __ SE TIVERMOS OUTRA PROPRIEDADE AÍ,
+
+
+ como 
+
+
+ 'longMessage'...
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+ const data = {
+    message: 'Hello',
+    longMessage: 'Hello world!'
+ }
+
+
+
+ const handler = {
+    set (target, key, value) {
+        console.log(target);
+        console.log(key);
+        console.log(value);
+    }
+ }
+
+
+ const proxy = new Proxy(data, handler);
+
+
+
+ proxy.message = 'Hello!!!!';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --->  DIGAMOS QUE NOSSO OBJETIVO, COM ESSE HANDLER, 
+
+ 
+ É FAZER 'LONG MESSAGE'
+ MUDAR,
+
+
+ SE __ O ___ 'message'
+
+
+ FOR ALTERADO...
+
+
+
+
+
+
+
+
+
+ --> POR MEIO DO USO DE UM 'PROXY',
+
+
+
+ E _ COM O USO DE 'set',
+
+ que 
+
+ é aquilo que chamamos de 'UMA TRAP _ dE SET_',
+
+
+
+
+
+
+ PODEMOS   
+
+
+IMPLEMENTAR ISSO AÍ...
+
+
+
+
+
+
+
+
+
+
+
+vamos fazer que,
+
+se _ a KEY que está sendo settada é ''xxx'',
+
+
+QUEREMOS QUE 
+
+A KEY DE 'longMessage'
+
+
+TAMBÉM TENHA SEU VALOR ALTERADO/SETTADO...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ const data = {
+    message: 'Hello',
+    longMessage: 'Hello world!'
+ }
+
+
+
+ const handler = {
+    set (target, key, value) {
+
+
+        if (key === 'message') {
+            target.longMessage = value + 'World';
+        }
+        console.log(target);
+        console.log(key);
+        console.log(value);
+    }
+ }
+
+
+ const proxy = new Proxy(data, handler);
+
+
+
+ proxy.message = 'Hello!!!!';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, FAZEMOS COM QUE 
+
+__ A PROPRIEDADE 'longMessage'
+
+
+ACABE ALTERADA 
+
+
+
+
+
+
+--> POR FIM, ESCREVEMOS QUE a 'target.message = value' (pq queremos que o comportamento NORMAL de set continue intacto)....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ const data = {
+    message: 'Hello',
+    longMessage: 'Hello world!'
+ }
+
+
+
+ const handler = {
+    set (target, key, value) {
+
+
+        if (key === 'message') {
+            target.longMessage = value + 'World';
+        }
+
+            target.message = value;
+    }
+ }
+
+
+ const proxy = new Proxy(data, handler);
+
+
+
+ proxy.message = 'Hello!!!!';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> CERTO....
+
+
+finalmente,
+
+
+VEREMOS ALGO INTERESSANTE AO FINAL DO CÓDIGO,
+
+
+
+
+se
+
+escrevermos um console.log da propriedade 'longMessage',
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+ const data = {
+    message: 'Hello',
+    longMessage: 'Hello world!'
+ }
+
+
+
+ const handler = {
+    set (target, key, value) {
+
+
+        if (key === 'message') {
+            target.longMessage = value + 'World';
+        }
+
+            target.message = value;
+    }
+ }
+
+
+ const proxy = new Proxy(data, handler);
+
+
+
+ proxy.message = 'Hello!!!!';
+
+
+
+console.log(proxy.longMessage); ////////EIS O CÓDIGO EM QUESTÃO
+
+
+
+
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+--> o que será outputtado, no console, será 
+
+'Hello!!!! World'
+
+
+
+
+
+
+
+
+ 
+
+
+
+OU SEJA,
+
+
+
+
+A 'long message' foi updatada quando UPDATAMOS o 'message'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- OK.. ISSO QUER DIZER QUE CRIAMOS NOSSO PRÓPRIO SISTEMA REATIVO... (
+
+
+
+
+
+
+    e é isso que o vue faz, por trás das cenas, de forma simplificada..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE 
+
+
+
+__ KEEPS TRACK 
+
+de 
+
+
+todas suas data propertieas --> sempre que uma dessas properties é alterada,
+
+
+
+
+
+ELE ALTERA 
+AS 
+
+PARTES DO CÓDIGO 
+
+QUE 
+
+A UTILIZAM... ----->  E __ O VUE FAZ ISSO __ POR MEIO DO WRAP 
+
+
+
+DE SUAS 
+
+
+PROPRIEDADES COM 'proxies',
+
+TUDO PARA QUE __ ELE _ TENHA UMA 'CHANCE'
+
+
+DE SABER QUANDO 
+
+SUAS PROPERTIES são alteradas...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE O VUE SEGUE UM APPROACH MAIS COMPLEXO DO QUE O PROFESSOR MOSTROU LOGO ABAIXO... E ELE TAMBÉM 
+
+TEM COMPUTED PROPERTIES E WATCHERS,
+
+
+QUE SÃO TRIGGADOS _ QUANDO UMA PROPERTY É ALTERADA..
+
+
+
+
+
+
+
+
+
+--> MAS ESSE É O 'IN A NUTSHELL APPROACH' de como o vue 
+
+funciona por trás das cenas...
+
+
+
+
+
+
+
+
+
+--> essa mágica não é mágica, é lógica...
