@@ -11,17 +11,17 @@ const app = Vue.createApp({
   },
   watch: {
     playerHealth() {
-      if (this.playerHealth < 0 && this.monsterHealth > 0) {
+      if (this.playerHealth <= 0 && this.monsterHealth >= 0) {
         this.battleStatus = 'lost!';
       }
     },
 
     monsterHealth() {
-      if (this.monsterHealth < 0 && this.playerHealth > 0) {
+      if (this.monsterHealth <= 0 && this.playerHealth >= 0) {
         this.battleStatus = 'won!';
       }
 
-      if (this.playerHealth < 0 && this.monsterHealth < 0) {
+      if (this.playerHealth <= 0 && this.monsterHealth <= 0) {
         this.battleStatus = 'have a draw!';
       }
     },
