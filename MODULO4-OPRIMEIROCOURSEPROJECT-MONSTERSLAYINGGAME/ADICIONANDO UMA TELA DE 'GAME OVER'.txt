@@ -232,3 +232,108 @@ const app = Vue.createApp({
   },
 });
 app.mount('.game');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FEZ A MESMA COISA QUE EU FIZ,
+
+LÁ NA TELA DE 'Game Over':
+
+
+
+        <section class="container" v-else>
+            <h1>Game Over!</h1>
+            <h3>You {{ battleStatus }}</h3>
+            <button @click="resetGame">Start New Game</button>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ------> ok, professor usa v-if para renderizar 'v-if' condicionalmente...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        --> QUANDO O GAME CARREGA,
+
+        BREVEMENTE 
+
+        VEMOS O RESTO DO CONTEÚDO CARREGANDO, 
+
+        ANTES DO VUE SER CARREGADO (
+
+
+            é um problema... --> mais tarde 
+
+            TEREMOS UM SETUP __ MELHOR__,  EM QUE ESSE 
+
+
+            'INITIAL FLICKERING' não será visível...
+        )
+
+
+
+
+
+
+
+
+
+        OK, TERMINAMOS ESSA PARTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ---> REMOVEMOS OS CONTROLES TOTALMENTE, SE O GAME ESTÁ 'OVER'... -> PROFESSOR USA 'V-IF' E 'V-ELSE'...
