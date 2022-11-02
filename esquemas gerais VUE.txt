@@ -61,15 +61,7 @@ const app = Vue.createApp(
 
 
 
-
-
-
-
-
-
-
-
-
+ 
 
 
 
@@ -608,8 +600,417 @@ A ESCRITA É ESTA:
 
 
 
+OUTRAS DIRECTIVES SUPER _ IMPORTANTES__... .:
 
 
 
 
 
+
+
+
+
+
+
+
+
+v-if ----> USADA PARA RENDERIZAR CONTEÚDO CONDICIONALMENTE (similar a ngIf)
+
+
+
+EXEMPLO V-IF:
+
+
+
+
+
+        <!-- SEM V-IF -->
+        <!-- <p>No goals have been added yet - please add some!</p> -->
+
+        <!--- COM V-IF -->
+        <p v-if="goals.length === 0">No goals have been added yet - please add some!</p>
+
+
+
+
+
+
+
+
+
+
+v-else ---> TAMBÉM USADO PARA ESSE PROPÓSITO 
+
+
+
+<p v-if="goals.length === 0">No goals</p>
+
+<ul v-else-if="goals.length > 0">
+
+
+
+
+v-else-if --> TAMBÉM USADO PARA ESSE PROPÓSITO
+
+
+
+
+
+<p v-if="goals.length === 0">No goals</p>
+
+<ul v-else-if="goals.length > 0">
+
+<p v-else>Something weird with our goals....</p>
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+v-show ---> É UMA DIRECTIVE QUE SÓ FUNCIONA DE FORMA 'standalone', ou seja, __ NÃO FUNCIONA EM COMBINAÇÃO COM O 'v-if', 'v-else' e 'v-else-if'...
+
+
+ISSO QUER DIZER QUE SE VOCÊ TIVER MÚLTIPLAS 'ALTERNATIVAS/CONDITIONS' no seu código, você precisará escrever múltiplos 'v-show', em todos os elementos...
+
+
+
+
+
+<p v-show="goals.length === 0">No Goals</p>
+
+<ul v-show="goals.length > 0">
+    <li>Goal</li>
+</ul>
+
+
+
+
+
+
+--> O V-SHOW não vai remover o elemento do DOM, mas vai definir seu display style como 'none'...
+
+
+
+
+
+
+
+
+
+--> SHOW E HIDE DE ELEMENTS COM O CSS --> ISSO QUER DIZER QUE 
+
+VOCÊ NÃO PRECISA ADICIONAR E REMOVER ELEMENTOS, O QUE 
+
+ECONOMIZA PERFORMANCE...
+
+
+
+
+
+
+
+
+------> ENTRETANTO,
+
+O USO DE APENAS 'v-show'
+
+para esconder MAS _ MANTER_ ESSES ELEMENTOS_ __
+
+NO DOM __ 
+
+
+TAMBÉM TE DEIXA COM VÁRIOS ELEMENTOS RENDERIZADOS NA TELA, O QUE TAMBÉM NÃO É IDEAL...
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE, COMO 'RULE OF THUMB', 
+
+
+
+
+vocÊ TIPICAMENTE DEVE USAR 'v-if'
+
+
+E 
+APENAS 'FALLBACK' ao 'v-show'
+
+
+SE _ VOCÊ TIVER _ UM 
+
+
+ELEMENTO CUJA 
+
+
+
+'VISIBILITY STATUS' MUDA  __ UM MONTE___.... --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA, EXEMPLOS COMO 'um bottão que toggla um elemento on/off' (aí você coloca o v-show, pra n impactar isso aí, esse render desnecessário)...
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+V-FOR ---- É UMA DIRECTIVE USADA PARA COISAS COMO 'OUTPUT LISTS' (vários list items, coisas repetidas, for of loop, etc)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARA __ CONSEGUIR USAR O 'v-for',
+
+
+PRECISAMOS DEFINIR SEU VALUE QUASE COMO SE FOSSE UM FOR LOOP,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<li v-for="goal in goals"></li>
+
+
+
+
+
+
+
+
+
+
+( OU SEJA, IMITAMOS A ESCRITA DE 'const goal of goals' ... ) 
+
+
+
+
+
+
+
+
+--> AQUI USAMOS __ 'goal in goals'...
+
+
+
+
+
+--> A ESCRITA DE 'goal of goals'
+
+TAMBÉM É SUPORTADA PELO VUE,
+
+mas AQUI DEVEMOS USAR 'goal in goals'... (e não 'goal of goals').
+
+
+
+
+
+
+
+
+
+
+
+--> SINTAXE ALTERNATIVA (que consegue o 'index' do item no array):
+
+
+
+
+
+
+<li v-for="(goal, index) in goals"></li>
+
+
+
+
+
+
+
+
+
+
+
+
+--> SINTAXE USADA COM OBJECTS, E NÃO COM ARRAYS (sintaxe mais rara):
+
+
+
+
+
+
+        <!-- EXEMPLO DE LOOPS NO VUE, mas POR DENTRO DE OBJECTS (BTW, o 'index' é raramente utilizado) -->
+        <ul>
+            <li v-for="(propertyValue, keyName, indexNumber) in exampleObject">Value: {{propertyValue}} Name of the key: {{ keyName}} Index: {{indexNumber}}</li>
+
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+OUTRA DIRECTIVE IMPORTANTE, A SER USADA COM 'v-for', QUE AGE COMO O PROP DE 'key' (que distinguia os elementos) em ELEMENTOS RENDERIZADOS COM 'map', lá no 'React',
+
+que 
+
+é 
+
+
+
+
+
+
+
+
+A DIRECTIVE/ATTRIBUTE DE 
+
+
+
+'key' (exatamente como no react)...
+
+
+
+
+
+
+
+
+
+
+--> MAS KEY É FREQUENTEMENTE UTILIZADO COM __ DATA BINDING, BINDING DE ATTRIBUTES, NA VERDADE, TIPO ASSIM: 
+
+
+
+
+':key'...
+
+
+
+(pq queremos que ele seja realmente unique, dinâmico)...
+
+
+
+
+OBS: USAR 'INDEX' como key NÃO É UMA BOA IDEIA, NO VUE, POR CAUSA DA REUTILIZAÇÃO DE elementos (list items)...
+
+
+
+NESTE EXEMPLO USAMOS 'goal' (a string de cada goal) como index, mas também não é bom, 
+
+pq 
+O VALUE DAS STRINGS PODE SE REPETIR (usuário inputta 2 inputs iguais)... em um app de verdade, como no react, você terá IDS de verdade, extraídos de uma database,
+para compor 
+
+essa 'key' em cada list  item...
+
+
+
+ex:
+
+
+
+
+        <ul>
+            <li v-for="(goal, index) in goals" @click="removeGoal(index)" :key="goal">
+                <p>
+                    Goal: {{ goal }} Index: {{ index }}
+                </p>
+                <!-- o modifier de 'stop' IMPEDE A PROPAGATION DESSE EVENT DE 'CLICK' para o parent element, que REMOVERIA ESSA LI (com o input field) de nosso DOM-->
+                <input type="text" @click.stop >
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
+
+OUTRO DETALHE:
+
+
+
+
+
+
+-------> E SE VOCÊ PRECISA DE 'V-FOR' E 'V-IF'
+
+
+
+AO MESMO TEMPO,
+
+ _ NÃO _ USE _OS 
+ 2 EM 1 MESMO ELEMENTO... --> USE 1 WRAPPER COM 'V-IF',
+ EM VEZ DISSO....

@@ -18,21 +18,25 @@
         <section id="monster">
             <h2>Monster Health</h2>
             <div class="healthbar">
-                <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                <!-- <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                </progress> -->
+                <progress class="healthbar__value" :value="monsterHealth" :style="monsterBarStyles">
                 </progress>
             </div>
         </section>
         <section id="player">
             <h2>Your Health</h2>
             <div class="healthbar">
-                <progress class="healthbar__value" :value="playerHealth" :style="{width: playerHealthString}">
+                <progress class="healthbar__value" :value="playerHealth" :style="playerBarStyles">
                 </progress>
+                <!-- <progress class="healthbar__value" :value="playerHealth" :style="{width: playerHealthString}">
+                </progress> -->
             </div>
         </section>
 
         <section id="controls" v-if="!battleStatus">
             <button @click="attack">ATTACK</button>
-            <button @click="specialAttack">SPECIAL ATTACK</button>
+            <button @click="specialAttack" :disabled="!canSpecialAttack">SPECIAL ATTACK</button>
             <button @click="heal">HEAL</button>
             <button @click="surrender">SURRENDER</button>
         </section>
