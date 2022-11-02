@@ -1,3 +1,120 @@
+
+
+
+
+
+
+
+
+
+
+
+MINHA TELA DE GAME OVER FICOU ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="app.css">
+    <title>Monster Slayer</title>
+</head>
+
+<body>
+    <header>Monster Slayer</header>
+    <div class="game">
+        <section id="monster">
+            <h2>Monster Health</h2>
+            <div class="healthbar">
+                <!-- <progress class="healthbar__value" :value="monsterHealth" :style="{width: monsterHealthString}">
+                </progress> -->
+                <progress class="healthbar__value" :value="monsterHealth" :style="monsterBarStyles">
+                </progress>
+            </div>
+        </section>
+        <section id="player">
+            <h2>Your Health</h2>
+            <div class="healthbar">
+                <progress class="healthbar__value" :value="playerHealth" :style="playerBarStyles">
+                </progress>
+                <!-- <progress class="healthbar__value" :value="playerHealth" :style="{width: playerHealthString}">
+                </progress> -->
+            </div>
+        </section>
+
+        <section id="controls" v-if="!battleStatus">
+            <button @click="attack">ATTACK</button>
+            <button @click="specialAttack" :disabled="!canSpecialAttack">SPECIAL ATTACK</button>
+            <button @click="heal">HEAL</button>
+            <button @click="surrender">SURRENDER</button>
+        </section>
+        <section class="container" v-else>
+            <h1>Game Over!</h1>
+            <h3>You {{ battleStatus }}</h3>
+            <button @click="resetGame">Start New Game</button>
+        </section>
+        <section id="log" class="container">
+            <h2>Battle Log</h2>
+            <ul v-if="log.length !== 0">
+                <li v-for="battle in log" key="battle.count">
+                    <p v-if="battle.monsterDamage !== 0"><span style="color: rgb(219, 172, 31)">Monster</span> attacks
+                        and deals <span style="color: red">{{ battle.monsterDamage.toFixed(1) }}</span></p>
+                    <p v-if="battle.playerDamage !==  0"><span style="color: rgb(209, 26, 209)">Player</span> attacks
+                        and deals <span style="color: red">{{ battle.playerDamage.toFixed(1) }}</span></p>
+                    <p v-if="battle.amountHealed !==  0"><span style="color: rgb(209, 26, 209)">Player</span> heals
+                        for <span style="color: rgb(7, 224, 7)">{{ battle.amountHealed.toFixed(1) }}</span></p>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O CÓDIGO DO VUE APp:
+
+
+
+
+
+
+
+
 const app = Vue.createApp({
   data() {
     return {
