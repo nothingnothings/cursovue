@@ -65,3 +65,857 @@ de um INPUT ELEMENT....
 
 
 
+
+
+
+
+
+
+
+
+--> ATÉ AGORA, FIZEMOS LISTEN AO EVENT DE 'INPUT',
+
+E COM 
+
+CADA 
+
+
+
+INPUT EVENT (keystroke),
+
+
+O 'saveInput'
+
+
+É DISPARADO,
+
+
+
+
+E 
+
+LÁ NO NOSSO METHOD,
+
+A ÚNICA COISA QUE ESTAMOS FAZENDO 
+
+É 
+
+
+
+__ REGISTRAR O VALUE DO INPUT LÁ NA DATA PROPERTY DE 
+
+'currentUserInput'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> fAZEMOS ISSO PARA QUE, MAIS TARDE,
+
+
+
+__ ASSIGNEMOS O 'ENTERED VALUE' 
+a nossa 
+
+propriedade de 'message'...
+
+
+
+
+
+
+
+
+
+
+
+--> ALTERNATIVAMENTE, CONFORME APRENDEMOS, PODERÍAMOS 
+
+
+__TROCAR_ _ O BIND DE 'input'
+POR UM 
+
+
+'v-model',
+
+PARA 
+
+ESTABELECER TWO-WAY BINDING 
+
+
+
+
+
+E ENTÃO 
+
+
+
+OMITIR AQUELE 'INPUT-BINDNIG'..
+
+
+
+
+
+
+
+
+
+-> MAS O QUE INTERESSA É 
+
+
+
+
+
+QUE __ ESTAMOS __ BASIACMENTE LOGGANDO QUALQUER COISA QUE O USER INPUTTA, COM CADA KEYSTROKE..
+
+
+
+
+
+
+
+
+
+---> E ISSO, ÀS VEZES, É EXATAMENTE O QUE VOCÊ QUER (
+
+    pq você talvez queira 
+
+    VALIDATE O USER INPUT  a partir de cada input...
+)
+
+
+
+
+
+
+
+
+
+
+--> MAS às VEZES ISSO PODE SER OVERKILL -->  É POR ISSO QUE 
+
+
+
+
+
+__ O __ VUE TEM UMA FEATURE PARA _ _QUE VOCÊ CONSIGA _ RETRIEVE VALUES DE DOM ELEMENTS __ APENAS QUANDO VOCÊ 
+
+PRECISA,
+
+
+EM VEZ DE 'ALL THE TIME'...
+
+
+
+
+
+
+
+
+
+---> ESSA FEATURE É CHAMADA DE 'Refs' (e TAMBÉM É USADA NO REACT)....
+
+
+
+
+
+
+
+
+
+
+---> É ASSIM QUE A ADICIONAMOS/IMPLEMENTAMOS:
+
+
+
+
+
+
+
+
+
+
+1) EM VEZ DE ADICIONAR ESSE EVENT LISTENER DE '@input',
+
+tipo assim:
+
+
+
+
+
+        <input type="text" @input="saveInput">
+
+
+
+
+
+
+
+
+
+
+
+
+        --> EM VEZ DISSO,
+
+        VOCÊ TIRA 
+
+        ESSE NEGÓCIO:
+
+
+
+                <input type="text">
+
+
+
+
+
+
+
+
+
+
+NO LUGAR DO EVENT LSITENER DE INPUT,
+
+
+VOCê 
+
+
+
+
+
+
+
+COLOCA __ UM ATTRIBUTE ESPECIAL A ESSE ELEMENT,
+
+
+O ATTRIBUTE 
+
+
+
+DE 
+
+'ref'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+   <!-- 'ref' é usado nos cases em que vocÊ APENAS QUER PEGAR O 'USER INPUT' uma única vez, e não 'once for every keystroke'...-->
+        <input type="text" ref>
+
+
+
+
+
+
+
+
+
+
+
+
+--> EXATAMENTE COMO O ATTRIBUTE DE 
+
+'key',
+
+QUE USAMOS 
+
+
+COM 'v-for'
+
+
+ANTERIORMENTE,
+
+
+
+
+
+
+
+
+O ___  'ref'
+
+É UM __ 'NON-DEFAULT HTML ATTRIBUTE'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... ISSO QUER DIZER QUE O BROWSER NÃO RECONHECE ESSE ATTRIBUTE (mas o vue reconhece)...
+
+
+
+
+
+
+
+
+
+
+
+-> DENTRO DO VALUE DO 'ref',
+
+
+
+VOCÊ ASSIGNA UM VALUE QUE SERÁ 'QUALQUER STRING IDENTIFIER DE SUA ESCOLHA'...
+
+
+
+
+
+
+
+
+
+
+
+--> tipo 'userText'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+      <input type="text" ref="userText">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê PODE ADICIONAR OS 'refs'
+
+A QUAISQUER ELEMENTOS,
+
+PARAGRAPHS,
+
+HEADERS,
+
+SECTIONS, ETC...
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+--> MAS PQ FIZEMOS ISSO?
+
+
+
+
+
+
+
+
+
+
+-> É PQ O _ VUE _DETECTA_ rEFS COMO ESSAS,
+
+
+E AÍ 
+
+
+
+_ AS ARMAZENA _ INTERNAMENTE...
+
+
+
+
+
+
+
+
+
+--> O VUE BASICAMENTE 'MEMORIZA'
+
+
+QUE VOCÊ QUER ACESSO 
+
+AO INPUT ELEMENT...
+
+
+
+
+
+
+
+
+
+
+
+----> aÍ, DENTRO DO CÓDIGO JAVASCRIPT, você pode GANHAR ACESSO A ESSA 'REFERENCIA'...
+
+
+
+
+
+
+
+
+
+-> AQUI, NO NOSSO CASO,
+
+VAMOS QUERER GANHAR ACESSO A ESSA 'REF'
+
+lá dentro do código setText,
+
+
+
+
+
+PQ É LÁ 
+
+QUE PRECISO DO 'enteredValue'...
+
+
+
+
+
+
+
+
+
+-> EM VEZ DE USAR O ANTIGO APPROACH, de 'currentUserInput',
+
+
+O PROFESSOR, POR MEIO DESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+const app4 = Vue.createApp({
+  data() {
+    return {
+
+      currentUserInput: '',
+      message: 'Vue is great!';
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+
+    saveInput(event) {
+      this.currentUserInput = event.target.value
+    },
+
+    setText() {
+      // this.message = this.currentUserInput;
+      this.message = 
+    }
+
+
+  },
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EXPLICA QUE PODEMOS, LÁ EM 'setText',
+
+
+
+
+
+DEFINIR A MESSAGE COMO EQUIVALENTE A 
+
+'this.ALGUMACOISA'...
+
+
+
+
+
+
+
+
+
+
+
+--> A 'ALGUMACOISA'
+
+SERÁ AQUELA COISA QUE 
+
+
+PODEMOS ENCONTRAR 500 VEZES LÁ NA EMPRESA,
+QUE 
+
+
+É 
+
+
+
+
+UMA PROPRIEDAE ESPECIAL, PROVIDENCIADA PELO VUE,
+
+
+QUE É 
+
+
+a 
+
+
+PROPRIEDADE 
+
+
+'$refs'...
+
+
+
+
+
+
+
+
+
+-> E '$refs'
+
+
+É UMA __ PROPRIEDADE _ eSPECIAL, PROVIDENCIADA __ PELO VUE...
+
+
+
+
+
+
+
+
+--> ELA TEM ESSE 'DOLLAR SIGN'
+
+PQ _ TODAS AS PROPRIEDADES ESPECIAIS PROVIDENCIADAS PELO VUE O POSSUEM NO INÍCIO...
+
+
+
+
+
+
+
+
+
+
+--> ISSO DEIXA __BEM CLARO__ que essa é uma 'built-in' property..
+
+
+
+
+
+
+
+
+--> O '$REFS'
+
+É UM 
+
+_OBJECT_ CHEIO DE KEY-VALUE PAIRS,
+
+
+
+EM QUE 
+
+AS 
+
+__KEYS__ SÃO OS 'REF IDENTIIFERS' 
+
+
+
+
+
+__ QUE VOCÊ DEFINIU LÁ NO SEU TEMPLATE/HTMl (como 'userText', nesse nosso exemplo)..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE PODEMOS ESCREVEr 
+
+'this.$refs.userText'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+const app4 = Vue.createApp({
+  data() {
+    return {
+
+      currentUserInput: '',
+      message: 'Vue is great!';
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {
+
+    saveInput(event) {
+      this.currentUserInput = event.target.value
+    },
+
+    setText() {
+      // this.message = this.currentUserInput;
+   
+      // this.message = this.$refs ////PROPRIEDADE 'refs' é especial, é PROVIDENCIADA PELO VUE... todas as PROPRIEDADES PROVIDENCIADAS PELO VUE COMEÇAM COM 'dollar sign'...
+    
+      this.message = this.$refs.userText ///acessamos a propriedade/referencial 'userText' QUE DEFINIMOS LÁ NO TEMPLATE/HTML 'app3', no input field..
+    
+    }
+
+
+  },
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ISSO QUER DIZER QUE _ ISSO 
+
+
+
+
+VAI APONTAR AO 'DOM OBJECT'
+
+'FOR THIS INPUT ELEMENT'... -----> 
+
+
+
+
+
+
+OK.... ISSO SIGNIFICA QUE 
+
+
+
+ESSE É O REFERENCIAL 'VANILLA JAVASCRIPT'
+
+a esse 
+
+
+
+ELEMENT...
+
+
+
+
+
+
+--> OU SEJA,
+GANHAMOS ACESSO AO 'FULL INPUT ELEMENT' (similar ao ANGULAR)....
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+    setText() {
+      // this.message = this.currentUserInput;
+   
+      // this.message = this.$refs ////PROPRIEDADE 'refs' é especial, é PROVIDENCIADA PELO VUE... todas as PROPRIEDADES PROVIDENCIADAS PELO VUE COMEÇAM COM 'dollar sign'...
+    
+      this.message = this.$refs.userText ///acessamos a propriedade/referencial 'userText' QUE DEFINIMOS LÁ NO TEMPLATE/HTML 'app3', no input field..
+      
+      console.log(this.$refs.userText); ////// --> ISSO VAI NOS MOSTRAR O ELEMENTO HTML INTEIRO, o 'input element' inteiro..
+      console.dir(this.$refs.userText); //ISSO NOS MOSTRA O JAVASCRIPT OBJECT REPRESENTATION DAQUELE ELEMENT( com todas as propriedades)...
+    }
+
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DESSE 'ref',
+TEMOS A PROPRIEDADE 'value',
+
+QUE 
+
+VAI REALMENTE 
+
+TER 
+
+O 
+
+VALOR 
+
+
+do negócio....
+
+
+
+
+
+
+
+
+
+--> OU SEJA, AGORA TEMOS UM COMPORTAMENTO BEM SIMILAR A 'event.target.value' usado lá no negócio que capta o event de 'trigger' (event binding) no elemento input field,
+
+MAS 
+
+
+_, NESSA FORMA AQUI,
+
+_ TEMOS _ UM APPROACH _QUE _ SÓ _ VAI NOS DAR ESSA 'REF' 
+
+E O ACESSO AOS PROPRIEDADES DESSE ELEMENTO (como o 'value')
+
+
+NO MOMENTO EM QUE 
+
+O button de 'setText'
+
+
+
+_ É TRIGGADO/CLICADO (
+
+    pq a escrita de 'this.message = this.$refs.userText'
+    só existe dentro desse emthod..
+)
+
+
+
+
+
+
+
+
+OK... SE AGORA RECARREGAMOS 
+
+
+E TENTAMOS FAZER A MESMA COISA DE ANTES,
+
+
+EXTRAÍREMOS O VALUE DO INPUT FIELD,
+
+MAS SEM 
+
+
+
+EXECUTAR AQUELE CÓDIGO QUE 'CAPTA' O INPUT FIELD __ A CADA KEYSTROKE (como antes, com event-binding e two-way  binding)...
+
+
+
+
+
+
+
+
+
+
+CERTO... é por isso que essa lecture era importante..

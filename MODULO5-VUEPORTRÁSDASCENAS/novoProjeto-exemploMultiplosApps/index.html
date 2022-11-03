@@ -54,7 +54,12 @@
 
 
     <section id="app4">
-        <input type="text" @input="saveInput">
+        <!-- <input type="text" @input="saveInput"> -->
+        <!-- 'ref' é usado nos cases em que vocÊ APENAS QUER PEGAR O 'USER INPUT' uma única vez, e não 'once for every keystroke'...-->
+        <!-- vincule o seu 'ref' a alguma PROPERTY de sua escolha, como 'userText', como no exemplo... -->
+        <!-- você pode usar 'refs' em qualquer tipo de elemento, não sendo restrito seu uso a input elements... -->
+        <!-- uma vez settada essa 'ref,' você pode acessá-la DENTRO DO SEU CÓDIGO JAVASCRIPT -->
+        <input type="text" ref="userText">
         <button @click="setText">
             Set Text
         </button>
