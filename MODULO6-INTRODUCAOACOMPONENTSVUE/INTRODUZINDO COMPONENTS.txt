@@ -1,0 +1,1465 @@
+
+
+
+
+
+
+
+
+COMPONENTS SÃO ÓTIMOS.... SE VOCÊ TEM CERTOS PEDAÇOS DE HTML,
+
+HTML BLOCKS QUE VOCÊ REUTILIZA EM DIVERSOS 
+
+LUGARES DE SUA PAGE,
+
+
+EM QUE 
+
+
+
+VOCê 
+
+
+TEM ALGUMA FUNCIONALIDADE QUE 
+
+
+
+deve ser 'enclosed' 
+
+naquele html BLOCk,
+
+
+e que 
+
+
+
+deve ser ESPECÍFICA a esse html block...
+
+
+
+
+
+
+
+
+
+--> COMPONENTS TAMBÉM PODEM SER ÓTIMOS PARA SPLITTAR SEU APP GRANDE 
+
+EM CHUNKS MENORES, MAS ISSO É ALGO QUE VEREMOS MAIS TARDE,
+
+
+QUANDO TRABALJHARMOS MAIS E MAIS 
+
+COM COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, COMO COMPONENTS PODEM SER BEM ÚTEIS,
+
+COMO PODEMOS TRABALHAR COM ELES?
+
+
+
+
+
+
+
+
+
+--> bem, components são uma 
+
+feature oficial VUE,
+
+e podemos 
+criar 1 deles 
+
+
+
+__ EM 1 APP__ (
+
+
+    app criado com 
+
+
+'Vue.createApp({})'
+
+)
+
+
+
+
+
+
+
+
+POR MEIO DO USO DAQUELE APP 
+
+
+
+E ENTÃO DO CALL DO METHOD DEW 'component()'
+
+
+EM CIMA DELE...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+  data() {
+    return {
+      friends: [
+        {
+          id: 'manuel',
+          name: 'Manu',
+          phone: '0123456789',
+          email: 'exemplo@exemplo.com',
+        },
+
+        {
+
+            id: 'julie',
+            name: 'Julie Jones',
+            phone: '0123456789',
+            email: 'manuel@exemplo.com'
+          }
+      ],
+    };
+  },
+  watch: {
+
+  },
+  computed: {
+    detailsText() {
+            return 'Show'
+    }
+  },
+  methods: {
+
+  },
+});
+
+
+
+
+
+app.component(); ////É ASSIM QUE USAMOS/INCORPORAMOS COMPONENTS EM UM 'VUE APP'...
+
+
+
+
+
+
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  ISSO DIZ AO VUE QUE 
+
+
+''QUEREMOS CRIAR UM NOVO COMPONENT''... --> E ESSE COMPONENT METHOD REQUER 2 COISAS:
+
+
+
+
+
+
+
+
+1) PRECISA DE UM 'IDENTIFIER'  (
+    ISSO PQ UM COMPONENT ___ 
+
+    É BASICAMENTE COMO UM _'CUSTOM HTML ELEMENT'...
+)
+
+
+
+
+--> OU SEJA,
+
+DENTRO DESSE SLOT VOCÊ VAI DEFINIR SUA PRÓPRIA 'HTML TAG'...
+
+
+
+
+
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+app.component('nomeDoComponent') 
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+--> PODE SER ALGO ASSIM:
+
+
+
+
+
+
+
+app.component('friend-contact');
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E VOCê SEMPRE DEVE ESCREVER SEUS COMPONENT NAMES,
+
+NO 'VUEJS',
+
+
+__ COM 'DASHES'
+
+entre 
+
+os espaços...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+app.component('friend-contact');
+
+
+
+
+
+
+
+
+
+A RAZÃO PARA ISSO É SIMPLES:
+
+
+ISSO EVITA O CLASH COM 
+
+NOMES DE HTML ELEMENTS OFICIAIS...
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+--> VOCÊ DEVE USAR MULTI-WORD COMPONENT NAMES ,
+
+pq 
+
+todos os built-in html elements são 
+
+
+SINGLE-WORD 
+
+HTML ELEMENTS...
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+MAIS TARDE SEREMOS CAPAZES DE USAR ESSE COMPONENT..
+
+
+
+
+
+
+
+
+
+--> O SEGUNDO ARGUMENTO QUE PASSAMOS A ESSE method de 'component'
+
+É UM 
+
+_CONFIG OBJECT,
+
+
+EXATAMENTE COMO VOCÊ 
+
+PASSOU AO 
+
+'createApp'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ,
+
+ 
+ E ISSO É IMPORTANTE,
+
+
+ OS 'VUE COMPONENTS' 
+
+
+ SÃO ESSENCIALMENTE VUE APPS MENORES,
+
+ QUE VOCÊ 
+
+
+
+
+ EMBUTE NOS APPS CRIADOS COM 'createApp
+ '...
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+ app.component('user-data-component'); // EXEMPLO DE NAMING CONVENTION DE VUE COMPONENTS...
+                                    /// NAMING CONVENTION DE VUE COMPONENTS É 'exemplo-exemplo' (2 palavras, com dash no meio)...
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+É UM APP QUE PERTENCE EM OUTRO APP..
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ESSE  VUE COMPONENT É UM 'NOVO VUE APP',
+
+
+mas um mini-app,
+
+conectado 
+
+ao nosso 'MAIN VUE APP'...
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE 
+
+
+COLOCAMOS, NESSE OBJECT 'CONFIG'
+
+DO 
+
+
+MINI-APP,
+
+
+
+
+suas próprias 
+
+
+'data',
+
+'methods',
+
+
+'computed',
+
+
+etc...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+app.component('user-data-component', 
+
+
+    {
+
+
+
+        data() {
+            return { detailsAreVisible: false }
+        }
+    }
+);
+
+
+
+
+
+
+
+
+
+
+-->  OU SEJA,
+
+CADA COMPONENT PODE TER SUAS PRÓPRIAS DATA PROPERTIES,
+
+E SEUS 
+
+PRÓPRIOS METHODS...
+
+
+
+
+
+---> E AÍ PODEMOS USAR ISSO PARA NÃO TER AQUELE 'COMPARTILHAMENTO DE DATA PROPERTIES'
+
+
+
+
+
+ENTRE MÚLTIPLOS MINI-COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE REMOVEMOS 
+
+AQUELE METHOD DE 'toggle'
+
+LÁ DO MAIN APP...
+
+
+
+
+
+
+
+
+
+
+
+PODERÍAMOS 
+
+
+REMOVER 
+
+AQUELA PROPRIEDADE 'detailsAreVisible'
+
+
+DO 'MAIN APP',
+
+
+
+
+
+
+
+MAS UMA VANTAGEM É QUE AS PROPRIEDADES 
+
+DO 'MAIN APP' 
+e dos components,
+
+
+ainda que tenham nomes exatamente idênticos, nunca vão clashear...
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS COMO USAMOS ESSE COMPONENT, E COMO ELE FUNCIONA?
+
+
+
+
+
+
+
+
+
+--> BEM, ESSE COMPONENT QUE ESTAMOS CRIANDO, QUE POSSUI ESTE CÓDIGO AQUI:
+
+
+
+
+
+app.component('friend-contact', 
+{
+
+data() {
+    return {
+        detailsAreVisible: false ///cada item terá sua própria propriedade dessas, independente...
+    }
+},
+
+
+methods: {
+    toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+    }
+}
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESTÁ COM UMA COISA IMPORTANTE FALTANDO....
+
+
+
+
+
+
+
+ESSA COISA É O _ TEMPLATE___  --> ELE _ PRECISA_ DE UM TEMPLATE PRÓPRIO...
+
+
+
+
+
+
+
+
+
+
+
+--> PQ O APP PRINCIPAL TEM UM TEMPLATE (definido no arquivo '.js' 
+
+OU 
+
+
+no html normal, que é o certo...)
+
+
+
+
+
+
+--> E OS COMPONENTS TAMBÉM PRECISAM DESSES TEMPLATES...
+
+
+
+
+
+
+
+
+
+
+
+--> COMO ESSE É UM NOVO APP/COMPONENT,
+
+ELE PRECISA DE SEU PRÓPRIO TEMPLATE...
+
+
+
+
+
+
+
+
+----_> BEM... MAS, COM COMPONENTS,
+
+NÃO CHAMAMOS 
+
+'.mount()'
+
+ou algo assim...
+
+
+
+
+
+
+
+--> não, não é assim que o conectamos ao html...
+
+
+
+
+
+
+
+
+------> O PROFESSOR EXPLICA QUE AQUI, POR ENQUANTO,
+
+USAREMOS A SINTAXE DE 
+
+
+_TEMPLATE LITERALS,
+
+COM A KEY DE 'template',
+
+tipo assim:
+
+
+
+
+
+
+ 
+ app.component('friend-contact', 
+{
+
+template: `
+<conteudo><conteudo>
+`,
+
+
+
+
+
+data() {
+    return {
+        detailsAreVisible: false ///cada item terá sua própria propriedade dessas, independente...
+    }
+},
+
+
+methods: {
+    toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+    }
+}
+
+})
+
+
+
+
+------------------------
+
+
+
+ESSA OPTION FOI MOSTRADA LÁ NO TRECHO DE 'DEEP-DIVE'...
+
+
+
+
+
+
+
+
+
+
+----> É AÍ QUE DEFINIMOS O TEMPLATE 
+
+DO NOSSO APP,
+
+SE DESEJARMOS..
+
+
+
+
+
+
+
+
+
+
+-> PARA ESSE COMPONENT,
+
+
+
+PODEMOS FAZER ISSO...
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR APONTA QUE MAIS TARDEW,
+
+NOS PRÓXIMOS MÓDULOS,
+
+ENCONTRAREMOS UMA VERSÃO 
+
+BEM MELHOR DE DEFINIR ESSES TEMPLATES...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR, POR ENQUANTO,
+
+
+deixa um template literal ali...
+
+
+
+
+
+
+
+
+
+
+
+----> AÍ ELE PEGA TODO O CÓDIGO DO LIST ITEM
+
+
+E 
+
+_ O COLOCA _ 
+
+
+DENTRO __ 
+
+
+
+
+DO TEMPLATE..
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+app.component(
+  'friend-contact', ///CADA 'COMPONENT' PODE TER SUAS PRÓPRIAS PROPRIEDADES... (data, methods, computed, watch, etc)... e CADA COMPONENT TAMBÉM  EXIGE UM 'IDENTIFIER', um nome.... e também EXIGE A DEFINIÇÃO DE SEU PRÓPRIO TEMPLATE/CÓDIGO HTML...
+  {
+    template: `<li v-for="friend in friends" :key="friend.id">
+    <h2> {{ friend.name }}</h2>
+    <button @click="showDetails">{{ detailsText }} Details</button>
+    <ul>
+      <li><strong>Phone:</strong>{{ friend.phone }}</li>
+      <li><strong>Email:</strong>{{ friend.email }}</li>
+    </ul>
+  </li>`,
+
+    data() {
+      return {
+        detailsAreVisible: false, ///cada item terá sua própria propriedade dessas, independente...
+      };
+    },
+
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+    },
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... AGORA TEMOS 
+
+O 'LIST ITEM' inserido completamente dentro 
+
+
+
+
+
+DAQUELA KEY DE 'template' ... ----> NO FINAL DAS CONTAS,
+
+
+ISSO 
+AÍ É UMA JAVASCRIPT STRING,
+
+MAS 
+
+
+COM 
+
+TODAS
+
+AQUELAS VUE FEATURES INSERIDAS NO MEIO, NO ENTANTO...
+
+
+
+
+
+
+
+
+
+
+-> OK.. AGORA O PROFESSOR REMOVE AQUELE CÓDIGO DE 'v-for'... --> 
+
+
+
+
+PQ ISSO __ NÃO FUNCIONARÁ_ _COM ESSE LIST ITEM enfiado na key de 'template' dessa forma...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+template: `<li>
+<h2> {{ friend.name }}</h2>
+<button @click="showDetails">{{ detailsText }} Details</button>
+<ul>
+  <li><strong>Phone:</strong>{{ friend.phone }}</li>
+  <li><strong>Email:</strong>{{ friend.email }}</li>
+</ul>
+</li>`
+  
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+-------
+
+
+
+
+
+REMOVEMOS O CÓDIGO DE 'v-for'
+
+
+NO LIST-ITEM... (pq isso não funcionará)..
+
+
+
+
+
+PARA FAZER COM QUE AS STRING INTERPOLATIONS DE CADA 1 DESSES LIST ITEM 
+
+
+funcionem,
+
+
+O PROFESSOR DEIXA UMA PROPRIEDAED DE 'data' 
+
+
+
+com nome de 'friend',
+
+
+contendo 
+
+
+TODAS AS PROPRIEDAEDS ACESSADAS NO LIST-ITEM...
+
+
+
+
+--> é claro que todos os list-item que 
+
+forem criados com esse 'component' template 
+
+TERÃO 
+
+essa data aí, do friend que você definir aí.... (sem nada dinâmico nessas propriedades)
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.component(
+  'friend-contact', ///CADA 'COMPONENT' PODE TER SUAS PRÓPRIAS PROPRIEDADES... (data, methods, computed, watch, etc)... e CADA COMPONENT TAMBÉM  EXIGE UM 'IDENTIFIER', um nome.... e também EXIGE A DEFINIÇÃO DE SEU PRÓPRIO TEMPLATE/CÓDIGO HTML...
+  {
+    //     template: `<li v-for="friend in friends" :key="friend.id">
+    //     <h2> {{ friend.name }}</h2>
+    //     <button @click="showDetails">{{ detailsText }} Details</button>
+    //     <ul>
+    //       <li><strong>Phone:</strong>{{ friend.phone }}</li>
+    //       <li><strong>Email:</strong>{{ friend.email }}</li>
+    //     </ul>
+    //   </li>`
+
+    //OBS::: A SINTAXE 'v-for' NÃO FUNCIONA COM ESSA sintaxe de TEMPLATE LITERAL, A PRINCÍPIO...
+
+    template: `<li>
+<h2> {{ friend.name }}</h2>
+<button @click="showDetails">{{ detailsText }} Details</button>
+<ul>
+  <li><strong>Phone:</strong>{{ friend.phone }}</li>
+  <li><strong>Email:</strong>{{ friend.email }}</li>
+</ul>
+</li>`,
+
+    data() {
+      return {
+        detailsAreVisible: false, ///cada item terá sua própria propriedade dessas, independente...
+        friend: {
+          /// data property TEMPORÁRIA, que vai segurar TODOS OS details de cada list item, de forma independenet...
+          id: 'manuel',
+          name2: 'Manu',
+          phone: '0123456789',
+          email: 'exemplo@exemplo.com',
+        },
+      };
+    },
+
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+    },
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... SE AGORA SALVAMOS ISSO AÍ,
+
+
+
+PODEMOS FINALMENTE COMEÇAR A USAR NOSSO PRÓPRIO COMPONENT/HTML ELEMENT...
+
+
+
+
+
+
+
+
+
+
+
+--> BASTA IR ATÉ O 'index.html'
+
+
+E AÍ ESCREVER O NOSSO COMPONENT VUE,
+
+COMO SE 
+
+
+FOSSE UM 
+
+HTML-ELEMENT COMUM...
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>FriendList</h1>
+  </header>
+  <section id="app">
+    <ul>
+      <li v-for="friend in friends" :key="friend.id">
+        <h2> {{ friend.name }}</h2>
+        <button @click="showDetails">{{ detailsText }} Details</button>
+        <ul>
+          <li><strong>Phone:</strong>{{ friend.phone }}</li>
+          <li><strong>Email:</strong>{{ friend.email }}</li>
+        </ul>
+      </li>
+      <friend-contact></friend-contact>
+    </ul>
+  </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK... SE ESCREVEMOS ISSO DENTRO DO NOSSO VUE-APP,
+
+
+O VUE VAI COMPREENDER 
+
+SUA SINTAXE,
+
+JUSTAMENTE PQ O COMPONENT FOI REGISTRADO SEGUINDO ESTA LÓGICA:
+
+
+
+
+
+
+
+
+
+
+
+app.createApp({});
+
+
+
+
+
+
+app.component('identifier', {data:{}, methods: {}, computed: {}, watch: {}});
+
+
+
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+---------> CERTO...
+
+
+
+
+
+
+É POR ISSO QUE DEVEMOS USAR UM NON-DEFAULT HTML TAG 
+
+NO HTML.. (para o vue reconhecer isso como vue component  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ACHO QUE ENTENDI....
+
+
+
+
+
+
+--> AGORA O VUE ENTENDE QUE QUEREMOS RENDERIZAR ESSE COMPONENT 
+
+E TODAS SUAS COISAS...
+
+
+
+
+
+
+
+
+
+-> COMPONENTS SÃO PEDAÇOS REUTILIZÁVEIS DE HTML COM DATA E LOGIC CONECTADAS A ELES...
+
+
+
+
+
+
+
+
+--> LOGO VEREMMOS COMO REUTILIZAR 1 MESMO COMPONENT (one and the same),
+
+
+
+MAS COM __DIFERENTE 'DATA' __ SENDO PASSADA 
+
+A 
+
+ESSES COMPONENTS...
+
+
+(
+
+  É ISSO QUE DEIXA COMPONENTS BEM POWERFUL...
+)
+
+
+
+
+
+
+
+
+--> MAS JÁ PODEMOS VER COMO COMPONENTS NOS AJUDAM A ENCAPSULAR 
+
+LÓGICA 
+
+
+EM PEDAÇOS MENORES...
+
+
+
+
+
+
+
+
+-----_> TODOS OS COMPONENTS SERÃO RENDERIZDOS, E ELES FUNCIONARÃO DE FORMA STANDALONE...
+
+
+
+
+
+
+
+--> CADA COMPONENT EXISTIRÁ DENTRO DE 1 
+
+
+'APP',
+
+
+
+E CADA COMPONENT PODE SE COMUNICAR COM OUTROS COMPONENTS...
+
+
+
+
+
+
+
+
+---_> PODEMOS COMBINAR TODAS ESSAS 'ISOLATED PIECES'
+
+PARA MONTAR APPS MAIORES...
+
+
+
+
+
+
+----> components são super importantes, e serão usados no resto do curso....
+
+
+
+
+
+--> MAS AGORA CHEGAMOS A UM PONTO EM QUE 
+
+
+
+
+FICAMOS COM ALGUMAS LIMITAÇÕES .... --> 
+
+
+
+
+
+ter todo o conteúdo 
+
+
+em 1 única file,
+
+
+
+
+FAZ COM QUE 
+
+TENHAMOS MT CÓDIGO EM 1 ÚNICO LUGAR.... E ESCREVER TODO O CÓDIGO NO FORMATO 'TEMPLATE LITERAL'
+
+é algo que não é mt nice de se fazer...(verdade)...
+
+
+
+
+
+
+
+
+
+
+--> ALÉM DISSO,
+
+PRECISAMOS CONHECER MAIS SOBRE COMPONENTS, 
+
+PARA __ SABER COMO __ FAZER O 
+
+COMPONENT SER 
+
+REUTILIZÁVEL,
+
+
+E COMO 
+
+
+FAZER PASS DE DATA A ESSES COMPONENTS (para que o component atue como 'shell')...
+
+
+
+
+
+
+VEREMOS COMO FAZER ISSO, NOS PRÓXIMOS MÓDULOS...
