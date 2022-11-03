@@ -230,3 +230,165 @@ COMO 'node_modules'...
 
 
 
+----_> NO PACKAGE.JSON 
+
+
+
+são especificados os pacotes que serão baixados e armazenados no folder 'node_modules'...
+
+
+
+
+--> NPM INSTALL PARA INSTALAR TODAS AS DEPENDENCIES 
+
+
+NO 
+
+FOLDER 'node_modules'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK....
+é importante entender tudo isso...
+
+
+
+
+
+
+
+
+
+
+-> NÃO MUDE O CÓDIGO EM 'node_modules'... --> tudo 
+
+isso importa..
+
+
+
+
+
+
+
+
+
+-_> O FOLDER DE 'public'
+
+É MT SIMPLES.. --> NELE, TEMOS 
+
+
+
+
+UM ARQUIVO HTML --> ESSE É O ARQUIVO QUE CONTERÁ 
+
+
+NOSSO VUE APP.
+
+
+
+
+
+
+-------> É DENTRO DESSA DIV que teremos todo nosso vue app....
+
+
+
+
+
+
+
+--> E É NESSA DIV 
+
+QUE 
+
+NOSSO 
+
+VUE APP SERÁ MONTADO --> 
+
+
+
+
+TEMOS APENAS 
+
+
+
+1 ÚNICO HTML FILE 
+
+
+
+
+__ PQ 
+
+ ESTAMOS CONTRUINDO UMA VUE SINGLE-PAGE APPLICATION --> 
+
+
+ TUDO 
+
+que vemos na tela será controlado pelo 
+
+
+VUE 
+
+E PELO JAVASCRIPT --> TEREMOS 1 ÚNICO HTML FILE,
+
+E USAREMOS VUE PARA 
+
+
+
+trazer tudo na tela...
+
+
+
+
+
+
+---> é por isso que não precisamos editar aquele 
+
+
+arquivo 'index.html'...
+
+
+
+
+
+
+
+
+
+--> É DENTRO DO folder 'src'
+
+
+QUE TEMOS TODO O CÓDIGO 
+
+JAVASCRIPT QUE VAMOS ESCREVER...
+
+
+
+
+
+
+
+
+
+--> TEMOS ALGUMAS COISAS ESTRANHAS,
+
+
+
+COMO 
+
+um arquivo 
+
+'App.vue'...
+
+
+
