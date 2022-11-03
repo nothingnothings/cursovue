@@ -1,0 +1,813 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK... PODEMOS TER MÚLTIPLOS 'APPS'...
+
+
+
+
+
+
+
+
+
+--> E PODEMOS CONTROLAR DIFERENTES PARTES DO CÓDIGO HTML....
+
+
+
+
+
+
+
+
+
+
+---> É _ ÓBVIO_ QUE VOCê NÃO DEVE CONTROLAR ' A MESMA PARTE HTML' 
+
+
+
+
+
+COM __ DIFERENTES APPS AO MESMO TEMPO....
+
+
+
+
+
+
+
+
+
+
+
+--> E VOCê __ TAMBÉM NÃO __ PODE _ USAR _ 1 MESMO 'APP' 
+
+PARA _ CONTROLAR MÚLTIPLAS PARTES 
+
+HTML... (
+
+
+POR ISSO 
+
+USAMOS 
+
+
+
+__ IDS,
+
+
+PQ __ 
+
+É REALMENTE 
+
+
+
+'''1 PARTE - 1 APP'''',
+
+
+essa é a regra absoluta...
+
+)
+
+
+
+
+
+
+
+
+
+
+E O TERMO 'CONTROLLED HTML'
+
+TAMBÉM
+
+
+
+NÃO ESTÁ TOTALMENTE CORRETO... -->  MAS O PROFESSOR USA ESSE TERMO PQ 
+
+
+É MAIS FÁCIL DE COMPREENDER..
+
+
+
+
+
+
+
+
+
+
+
+
+--> O TERMO OFICIAL É 'TEMPLATE'... -> são TEMPLATES 
+
+
+
+
+VUE...
+
+
+
+
+
+
+
+
+
+--> QUANDO VOCÊ FAZ 'MOUNT' DO SEU APP 
+
+EM ALGUM LUGAR 
+
+
+DO 
+
+
+SEU DOM/HTML,
+
+
+VOCÊ TORNA ESSA PARTE DO CÓDIGO HTML _ EM 
+
+UM __ TEMPLATE,
+
+
+
+TEMPLATE DO SEU VUE APP....
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... isso significa que 
+
+'app1'
+
+É O TEMPLATE DO NOSSO PRIMEIRO VUE APP..
+
+
+
+
+ISTO AQUI:
+
+
+
+
+
+
+
+
+
+
+
+    <section id="app1">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O PROFESSOR ENFATIZA ISSO PQ 
+
+
+VAMOS OUVIR SOBRE O TERMO 'TEMPLATE' MAIS TARDE, TAMBÉM..
+
+
+
+
+
+
+
+
+
+
+--> HÁ TAMBÉM DIFERENTES MANEIRAS  DE DEFINIR 
+
+O TEMPLATE 
+
+DE ALGUM APP,
+
+NO VUE...
+
+
+
+
+
+
+
+
+
+
+--> A FORMA MAIS CONVENIENTE, NO ENTANTO,
+
+É REALMENTE ESTA:
+
+
+
+
+
+    <section id="app1">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+O WRITE DE 
+
+CÓDIGO HTML,
+
+
+E AÍ 
+
+
+
+
+O __ 
+
+
+PROCESSO DE 'MOUNT'
+
+DE SEU APP 
+
+
+EM CIMA 
+
+DESSE TRECHO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ESSA, NA VERDADE, NÃO É A ÚNICA 
+
+
+FORMA DE _ MONTAR 
+
+
+O APP NO dom (de adicionar um template, para ser mais preciso)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER MOSTRAR A SINTAXE 'BRUTA' DO VUE...
+
+
+
+
+
+
+
+----> NA SINTAXE BRUTA DO VUE,
+
+
+
+VOCÊ ADICIONA UMA 
+
+
+OPTION DE 
+
+'template'
+
+
+
+NO INTERIOR 
+
+DO seu 
+
+'Vue.createApp(
+
+    {
+
+    }
+)
+'
+
+
+
+
+
+
+
+(
+    OU SEJA,
+     DENTRO DO SEU APP CONFIGURATION OBJECT...
+)
+
+
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+const app = Vue.createApp({
+
+  template: ``,
+  data() {
+    return {
+
+
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA OPTION DE 'template'
+
+EXIGE UMA _ STRING/TEMPLATE LITERAL (é a coisa vista lá na empresa, que fizeram 500 vezes e ficou horrível)...
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO CASO, USAMOS 
+
+
+BACKTICKS PARA ESCREVER OS TEMPLATE LITERALS...
+
+
+
+
+
+
+
+
+
+
+--> OK... VAMOS USAR MULTI-LINE CODE...
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA PODEMOS 
+
+
+ 
+
+ ADICIONAR A PARTE 'HTML' QUE QUEREMOS __MONTAR__ LÁ NO INDEX.HTML E ENTÃO 
+
+
+
+
+ usá-la como template literal a ser 
+
+
+ integrado lá, tipo assim:
+
+
+
+
+ 
+
+
+
+
+
+ const app3 = Vue.createApp({
+
+  template: `
+  <section id="app3">
+  <input type="text" @input="saveInput">
+  <button @click="setText">
+      Set Text
+  </button>
+  <p>{{ }}</p>
+</section>`,
+  data() {
+    return {
+
+
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> E, AINDA, PODEMOS CORTAR AQUELES STRING INTERPOLATION E COLOCAR__ DIRETAMENTE NO TEMPLATE LITERAL,
+
+TIPO ASSIm:
+
+
+
+
+
+
+
+
+
+ const app3 = Vue.createApp({
+
+  template: `
+  <section id="app3">
+  <input type="text" @input="saveInput">
+  <button @click="setText">
+      Set Text
+  </button>
+  <p>{{ message }}</p> ///////EIS O CÓDIGO EM QUESTÃO.
+</section>`,
+  data() {
+    return {
+
+
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... ESSE É O TEMPLATE DO 
+
+
+
+APP,
+
+
+exatamente como antes,
+
+
+mas agora 
+
+
+
+ISSO É DEFINIDO
+
+
+
+
+
+DIRETAMENTE 
+
+NO NOSSO ARQUIVO '.js'...
+
+
+
+
+
+
+
+
+
+
+
+--> cERTO... MAS AINDA PRECISAMOS FAZER 'MOUNT' 
+
+DESSE APP.... ---> PQ O __ 
+
+
+VUE 
+
+AINDA PRECISA 
+
+
+SABER A 'LOCATION' ONDE MONTAR 
+
+
+
+ESSE 
+
+
+
+APP/template...
+
+
+
+
+
+
+ 
+
+
+
+
+
+ -----> OK, MAS COMO FAZEMOS ISSO? 
+
+
+
+
+
+
+
+
+
+
+ BEM, É SÓ USAR EXATAMENTE A MESMA SINTAXE QUE USAMOS ATÉ AGORA:
+
+
+
+
+
+
+
+
+
+
+ 
+ const app3 = Vue.createApp({
+
+  template: `
+  <input type="text" @input="saveInput">
+  <button @click="setText">
+      Set Text
+  </button>
+  <p>{{ message }}</p> ///////EIS O CÓDIGO EM QUESTÃO.`,
+  data() {
+    return {
+
+
+    };
+  },
+  watch: {},
+  computed: {},
+  methods: {},
+});
+app.mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E NO HTML, 'index.html':
+
+
+
+
+
+
+   <!-- APPROACH VISTO NO 'FIDELIZOU.ME', template é adicionado DENTRO DAQUELa 'section' com id 'app3'..-->
+    <section id="app3">
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+
+É O MESMO FORMATO DE ANTES,
+
+
+MAS MAIS FEIO,
+
+
+
+
+
+PQ __ O SYNTAX HIGHLIGHTING É PIOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> usar esse 'string-based template' É TOTALMENTE PIOR,
+
+
+
+
+e o professor não recomenda (ava)....
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR, NO ENTANTO,
+
+QUER 
+
+
+MOSTRAR UMA MANEIRA DIFERENTE DE DEFINIR 
+
+TEMPLATES E
+
+
+ESCREVER 
+
+VUE CODE NO GERAL,
+
+
+
+NOS MODULES FUTUROS (
+
+
+    não é uma mudança drástica,
+
+    mas é uma boa mudança...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> POR ENQUANTO, 
+
+
+DEVEMOS SÓ TER EM MENTE UM POUCO DESSE 'TEMPLATE CONCEPT',
+
+
+
+
+e entender que 
+
+
+
+o 
+
+
+
+approach 
+
+DE ANTES 
+É TOTALMENTE FINE...
+
+
+
+

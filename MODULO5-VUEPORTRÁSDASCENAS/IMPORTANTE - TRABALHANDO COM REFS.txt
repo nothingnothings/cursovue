@@ -1,0 +1,67 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AQUI É UMA LIÇÃO QUE O PROFESSOR QUER QUE NÃO SKIPPEMOS --> O PROFESSOR 
+
+
+
+VAI MOSTRAR UMA MANEIRA ALTERNATIVA DE CONSEGUIR 
+
+UM 'VALUE'
+
+
+
+de um INPUT ELEMENT....
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, TEMOS O SEGUINTE CÓDIGO INICIAL:
+
+
+
+
+
+
+
+    <section id="app4">
+        <input type="text" @input="saveInput">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+
+
+
+
+
+
