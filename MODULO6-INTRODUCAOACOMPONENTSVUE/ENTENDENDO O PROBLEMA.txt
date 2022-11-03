@@ -1,0 +1,789 @@
+
+
+
+
+
+
+
+Anexado a essa aula,
+
+vocÊ encontra um 
+
+starting project...
+
+
+
+
+
+
+
+
+--> NELE, VOCÊ PODE:
+
+
+
+
+1) MANTER UMA LISTA DE SEUS FRIENDS 
+
+
+
+2) ARMAZENAR O PHONE NUMBER E EMAIL ADDRESS DOS SEUS FRIENDS...
+
+
+
+
+
+
+
+
+
+--> É UM DUMMY APP,
+
+mas te ajuda a entender o conceito básico de components..
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS UM INDEX.HTML COM UM POUCO DE MARKUP,
+
+
+
+
+
+
+
+
+COM ESTE CÓDIGO:
+
+
+
+
+
+ 
+
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>FriendList</h1>
+    </header>
+    <section id="app">
+      <ul>
+        <li>
+          <h2>Manuel Lorenz</h2>
+          <button>Show Details</button>
+          <ul>
+            <li><strong>Phone:</strong> 01234 5678 991</li>
+            <li><strong>Email:</strong> manuel@localhost.com</li>
+          </ul>
+        </li>
+        <li>
+          <h2>Julie Jones</h2>
+          <button>Show Details</button>
+          <ul>
+            <li><strong>Phone:</strong> 09876 543 221</li>
+            <li><strong>Email:</strong> julie@localhost.com</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ATÉ AGORA,
+
+
+
+
+
+
+
+
+NÃO TEMOS NENHUM APP VUE MONTADO...
+
+
+
+
+
+
+--> monto com o código clássico...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE O APP INTEIRO SEJA MANAGEADO POR 1 ÚNICO 
+
+
+
+VUE APP...
+
+(por enquanto)...
+
+
+
+
+
+
+
+
+
+--> NÃO QUEREMOS HARDCODAR AQUELES LIST ITEMS,
+
+MAS QUEREMOS OS RENDERIZAR DINAMICAMENTE,
+COM VUEJS (v-for)....
+
+
+
+
+
+
+--> E, COM O CONHECIMENTO ADQUIRIDO ATÉ AGORA,
+
+ISSO É POSSÍVEL, MAS 
+
+
+HÁ ALGUMAS 'TRICKY PARTS'...
+
+
+
+
+
+
+
+
+
+
+
+---_> certo...
+
+
+
+
+
+PRECISAMOS DE ALGUMA 'DATA' properties....
+
+
+
+
+
+
+
+
+--> lista de CONTACTS.. (ou 'friends')...
+
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS TER UM ARRAY DE 'FRIENDS'.
+
+
+
+
+E CADA FRIEND SERÁ REPRESENTADO POR UM OBJECT ASSIM:
+
+
+
+
+{
+
+  id: 'manuel',
+  name: 'Manu',
+  phone: '0123456789',
+  email: 'exemplo@exemplo.com'
+}
+
+
+
+
+
+
+
+
+
+
+ISSO FEITO, TEMOS ESSA DATA MANAGEADA NO JAVASCRIPT...
+
+
+
+
+
+
+
+
+--> ESSE É UM CENÁRIO TÍPICO.....
+
+
+
+
+
+
+
+--> VOCÊ RARAMENTE TERÁ WEBSITES EM QUE VOCê HARDCODA 
+
+DATA ASSIM..
+
+
+
+
+
+
+--> É POR ISSO QUE ESSE APPROACH NÃO É MT REALISTA,
+
+
+
+e 
+
+
+é por isso que é bom usar o vue.... 
+
+
+
+
+
+(
+  TAMBÉM PARA FAZER O BUTTON FUNCIONAR,
+
+
+ FAZER COM QUE OS DETAILS SEJAM MOSTRADOS _ APENAS QUANDO ELE É PRESSIONADO...
+)
+
+
+
+
+
+
+
+
+
+
+
+---> CERTO... awgora temos aquela data...
+
+
+
+
+
+
+
+
+
+
+com essa data, podemos remover 1 dos list items 
+
+e usar 'v-for', como aprendemoos, para ir POR DENTRO DE TODOS OS 'FRIENDS' dentro daquela propriedade de 'data'...
+
+
+
+
+
+
+
+
+
+
+
+
+certo... tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>FriendList</h1>
+  </header>
+  <section id="app">
+    <ul>
+      <li v-for="friend in friends">
+        <h2>Manuel Lorenz</h2>
+        <button @click="showDetails">Show Details</button>
+        <ul>
+          <li><strong>Phone:</strong> 01234 5678 991</li>
+          <li><strong>Email:</strong> manuel@localhost.com</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo.... 
+
+
+
+E, DENTRO DO NOME DOS FRIENDS,
+DENTRO DO 'v-for',
+
+
+PODEMOS FAZER INTERPOLATE DE 'friend.name',
+
+
+e coisas assim....
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>FriendList</h1>
+  </header>
+  <section id="app">
+    <ul>
+      <li v-for="friend in friends">
+        <h2> {{ friend.name }}</h2>
+        <button @click="showDetails">Show Details</button>
+        <ul>
+          <li><strong>Phone:</strong>{{ friend.phone }}</li>
+          <li><strong>Email:</strong>{{ friend.email }}</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+ISSO FOI O QUE APRENDEMOS NOS MÓDULOS PASSADOS...
+
+
+
+
+
+
+
+--> TAMBÉM JÁ PODEMOS BINDAR UMA KEY a cada list item,
+
+tipo assim:
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>FriendList</h1>
+  </header>
+  <section id="app">
+    <ul>
+      <li v-for="friend in friends" :key="friend.id">
+        <h2> {{ friend.name }}</h2>
+        <button @click="showDetails">Show Details</button>
+        <ul>
+          <li><strong>Phone:</strong>{{ friend.phone }}</li>
+          <li><strong>Email:</strong>{{ friend.email }}</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA TEMOS O MESMO RESULTADO DE ANTES,
+
+
+
+
+MAS COM MENOS CÓDIGO HTML FAZENDO LEVERAGE DO VUE...
+
+
+
+
+
+
+
+
+
+--> MAS O BUTTON DE 'SHOW DETAILS' NÃO ESTÁ FUNCIONANDO... E ESSA É A PARTE QUE FICA 'TRICKY'...
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE PODERÍAMOS ADICIONAR 
+
+METHODS NO NOSSO CÓDIGO... METHODS TIPO 
+
+
+
+
+
+
+
+
+
+
+
+showDetails() {
+  
+}
+
+
+
+
+
+QUEREMOS FAZER 'SHOW' DE UM ELEMENT SE ELE NÃO ESTIVER VISIBLE,
+ 
+ E O CONTRÁRIO TAMBÉM...
+
+
+
+
+
+
+
+
+ ---> PARA ISSO, PODE-SE PENSAR QUE SERIA NECESSÁRIO UMA SEGUNDA DATA PROPERTY....
+
+
+
+
+
+
+
+ tipo 
+
+ hidden: true 
+
+
+
+
+
+
+ --> MAS O PROBLEMA É QUE QUEREMOS TER ISSO PARA CADA ELEMENT, DE FORMA INDEPENDENTE...
+
+
+
+
+
+
+ OK, MAS E SE FIZÉSSEMOS ISSO DENTRO DE CADA DATA OBJECT,
+
+
+ COM UMA PROPRIEDADE 'hidden: false'?
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> mas, para isso, precisaríamos ALTERAR o array de 'data'
+
+
+
+
+ com esse method...
+
+
+
+
+
+
+
+
+
+ --> professor faz uma firula, também (no button):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> mas o problema, aqui, é que NÃO IMPORTA O FRIEND EM QUE CLICAMOS,
+
+ PQ 
+
+ OS DETAILS DE TODOS OS FRIENDS SERÃO TOGGLADOS...
+
+ (
+
+   pq o button sempre aponta ao mesmo method,
+
+
+   e esse method está vinculado a MESMA DATA...
+ )
+
+
+
+
+
+
+ --> ok... esse é um problema...
+
+
+
+
+
+
+
+
+
+
+ --> HÁ WORKAROUNDS, SIM... --> UM WORKAROUND SERIA 
+
+
+ PASSAR O 'ID' 
+
+ ao 'showDetails',
+
+
+ FORWARDAR O FRIEND ID,
+
+
+ E AÍ,
+
+
+ DENTRO DE 'showDetails',
+
+
+ PODERÍAMOS FAZER MANAGE DESSE PARÂMETRO...
+
+
+
+
+
+
+
+
+
+ ---_> MAS AÍ TERÍAMOS DE FAZER GAMBIARRAS COMO 
+
+ 'detailsAreVisibleA',
+
+
+
+ 'detailsAreVisibleB'..
+
+
+
+
+
+
+
+
+
+
+
+ ----------> MAS ISSO SERIA BEM CLUNKY....
+
+
+
+ E SE TIVÉSSEMOS MAIS DE 2 
+
+ 'FRIENDS',
+
+
+ ficaria bem ruim 
+
+ de 
+
+ managear múltiplos friends (antecipar a quantidade de propriedades que você teria)....
+
+
+
+
+
+
+ --> MAS É EXATAMENTE ESSE PROBLEMA QUE O PROFESSOR QUER SOLUCIONAR, COM COMPONENTS...
+
+
+
+
+
+
+
+
+
+ --> VAMOS VER O QUE SÃO COMPONENTS, COMO OS CRÍAMOS, E COMO TRABALHAMOS COM ELES..
