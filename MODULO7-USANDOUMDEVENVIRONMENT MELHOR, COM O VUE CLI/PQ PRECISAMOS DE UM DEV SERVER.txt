@@ -1,0 +1,163 @@
+
+
+
+
+
+
+
+
+
+--> ANTES DE COMEÇARMOS A USAR A 'VUE CLI'
+
+
+e os 
+
+project setups melhores, devemos entender 'PQ TALVEZ VENHAMOS A PRECISAR DESSE SETUP'...
+
+
+
+
+
+---> 
+
+ATUALMENTE,
+
+ESTAMOS TESTANDO NOSSO VUEAPP 
+
+
+por meio 
+
+do double click no index.html...
+
+
+
+
+
+
+
+--> isso funciona, mas não é realista (não vamos querer testar isso assim)..
+
+
+
+
+
+
+---> PQ QUANDO FAZEMOS ISSO,
+
+ESTAMOS USANDO O PROTOCOLO 'FILE SYSTEM',
+
+
+
+EM VEZ DO PROTOCOLO 
+
+
+'https://'....
+
+
+
+
+
+-> BEM, É SÓ USAR 'serve xxxxx'...
+
+
+
+
+
+
+
+
+
+
+
+
+-----> COM O FILE PROTOCOL, TUDO FUNCIONAVA/FUNCIONA,
+
+MAS 
+
+
+ISSO NÃO VAI FICAR ASSIM...  --> ISSO PQ CERTAS FEATURES JAVASCRIPT MODERNAS 
+
+
+NÃO FUNCIONARÃO COM AQUELE FILE SETUP ---> ALÉM DISSO,
+
+
+
+
+OS USERS DE SEU VUE WEBAPP (
+
+
+    que quer targettar com seu app
+)
+VAO 
+
+visitar um website, que será hosteado em algum server...
+
+
+
+
+
+
+
+--> O FINAL APP, QUE SEUS USERS ENXERGARÃO,
+
+
+SERÁ HOSTEADO POR UM SERVER,
+
+
+SERÁ SERVDO POR 'https://'..
+
+
+
+
+
+
+
+
+OK, PRECISAMOS DESSE WEB SERVER...
+
+
+
+
+
+
+
+
+
+
+-__> VOCÊ ESTÁ TESTANDO SEU WEBAPP EM CIRCUNSTÂNCIAS DISTINTAS DAQUELAS DE PRODUCTION....
+
+
+
+
+
+
+--->  TUDO QUE VOCÊ APRENDEU NOS ÚLTIMOS MODULES É APLICADO 
+
+DA MESMA FORMA,
+
+
+
+nõa interessa a maneira pela qual o 
+
+ 
+html file é servido...
+
+
+
+
+
+
+
+--> É POR ISSO QUE QUEREMOS TER UM DEVELOPER WEB SERVER (
+    é um 
+    web server que roda na sua máquina...
+)
+
+
+
+
+
+
+--> TESTA TUDO LOCALMENTE --> ESSE DEV WEBSERVER VAI SERVIR SEU 
+
+HTTP FILE POR MEIO DO HTTP PROTOCOL NA SUA MÁQUINA.;..

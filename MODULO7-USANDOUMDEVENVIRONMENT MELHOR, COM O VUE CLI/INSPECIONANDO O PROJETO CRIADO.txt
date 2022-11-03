@@ -1,0 +1,232 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA ABRIMOS AQUELE FOLDER QUE FOI GERADO COM O COMANDO DE 'npm vue create NOMEDOFOLDER'..
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+--> AÍ TEMOS AQUELE FOLDER INTEIRO...
+
+
+
+
+
+
+--> DENTRO DO FOLDER,
+
+TEMOS UM MONTE DE FILES,
+
+E TAMBÉM
+
+
+
+
+um node_modules 
+
+
+
+
+e um monte de files...
+
+
+
+
+
+
+
+
+
+--> ESSE É O PROJETO QUE O VUE CLI 
+CRIA PARA NÓS...
+
+
+
+
+
+
+
+
+--> bem, devemos ver rapidamente a estrutura que temos aqui...
+
+
+
+
+
+
+
+--> no root level,
+
+temos um monte de config files..
+
+
+
+
+
+--> não temos que nos preocupar com nada que está lá,
+
+
+mas o arquivo 'package.json' 
+
+é interessante ---_> 
+
+
+TEM OS SCRIPTS QUE EXECUTAMOS..
+
+
+
+
+
+--> tem os scripts 'serve'
+
+'build' 
+
+e 
+
+'lint'..
+
+
+
+
+
+
+
+--> ELES TEM COISAS QUE SÃO 
+
+PRE-CONFIGURADAS PARA NÓS...
+
+
+
+
+
+
+--> TEMOS 'VUE' como uma das dependencies..
+
+
+
+
+
+
+são packages que foram adicionadas ao nosso código....
+
+
+
+
+
+
+
+--> ESSAS PACKAGES SUBSTITUTEM O 
+
+CDN IMPORT QUE USAMOS ANTERIORMENTE...
+
+
+
+
+
+
+--> ADICIONAREMOS MAIS PACKAGES,
+
+
+
+MAS POR ENQUANTO USAREMOS 
+
+AS PACAKGES QUE TEMOS AQUI..
+
+
+
+
+
+
+
+
+--> TEMOS DEV DEPENDENCIES,
+
+
+
+
+MAS 
+
+APENAS 
+
+
+_PACAKGE QUE 
+
+NOSSO 
+
+
+
+
+DEV SERVER USA,
+
+por trás das cenas,
+
+
+
+como 
+
+o 
+DEV SERVER 
+
+
+em si..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SÃO TODAS PACKAGES QUE 
+
+NÃO INTERESSAM, E QUE SERÃO USADOS QUANDO ESCREVERMOS NOSSO CÓDIGO....
+
+
+
+
+
+
+
+--> PODEMOS IGNORAR ISSO TUDO 
+
+E 
+
+
+
+OBSERVAR OUTRAS COISAS,
+
+COMO 'node_modules'...
+
+
+
+
+

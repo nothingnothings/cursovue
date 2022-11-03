@@ -1,0 +1,321 @@
+
+
+
+
+
+
+---__> ALÉM DA NECESSIDADE DE UM DEV WEBSERVER,
+
+HÁ OUTRAS RAZÕES PARA TROCAR 
+
+
+
+
+PARA UM DEV SETUP MELHOR...
+
+
+
+
+
+
+
+
+
+
+--> VOCê VAI QUERER UM DEV EXPERIENCE MELHOR...
+
+
+
+
+
+
+--> ATE'AGORA, A MANEIRA QUE USAMOS PARA ESCREVER CÓDGO --- ELA TEM DEFEITOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA:
+
+
+
+
+
+
+
+
+CURRENT STATE:
+
+
+
+
+1) TEMOS  QUE RECARREGAR A PAGE,
+
+SEMPRE QUE FAZEMOS QUALQUER ALTERAÇÃO SIGNIFICATIVA NO NOSSO CÓDIGO...
+
+
+
+
+
+SE VOCÊ TRABALHAR EM UM WEBAPP POR HORAS, DIAS, E QUER TESTAR UM MONTE DE COISA,
+
+TER QUE RECARREGAR SEMPRE PODE SER BEM IRRITANTE...
+
+
+
+-> QUANDO VOCÊ RECARREGA, VOCẼ PERDE TODO O STATE DO SEU APP...
+
+
+
+
+
+--> ESSAS COISAS PODEM TE CUSTAR UM MONTE DE 
+
+TEMPO VALIOSO...
+
+
+
+
+
+--> ISSO NÃO É ALGO QUE VOCê QUER...
+
+
+
+
+
+
+
+2) ALÉM DISSO,
+
+O SUPPORT COM O VISUAL STUDIO CODE É ALTAMENTE LIMITADO (
+
+
+
+    o 
+
+    vue nem mesmo entende que temos 
+
+    um 
+
+
+    vue app quando chamamos 
+
+
+    'Vue.createApp({})'
+)
+
+
+
+
+
+
+
+--> SERIA MELHOR 
+
+TER UM 
+
+
+AUTO COMPLETION MELHOR... TER 
+
+
+WARNINGS E ERRORS SE TIVERMOS 
+
+
+TYPOS...
+
+
+
+
+
+
+
+------> NÃO GANHAMOS NENHUM ERROR NO EDITOR... --> SERIA MELHOR TER UM SUPPORT NO PRÓPRIO EDITOR...
+
+
+
+
+
+
+
+
+3) seria ideal TRABALHAR COM MAIS DE 1 ÚNICO ARQUIVO JAVASCRIPT --> 
+
+
+
+
+
+PODERÍAMOS TER MAIS DE 1 ARQUIVO, MAS TERÍAMOS QUE MANAGEAR TODOS OS IMPORTS COM 'SCRIPT SRC TAGS'
+
+
+
+DE FORMA MANUAL,
+
+
+e isso 
+
+não seria 
+
+fácil... --> 
+
+
+
+
+
+SE TIVÉSSEMOS MÚLTIPLAS FILES HTML,
+
+ISSO NÃO SERIA EASY,
+
+PQ 
+
+
+__ MESMO QUE TENHAMOS MÚLTIPLAS PAGES HTML,
+
+
+
+
+
+SE TROCAMOS DE PAGE,
+
+PERDEMOS TODOS OS 'STATE' 
+
+DE CADA PAGE (
+
+
+    resultados intermediate de calculations e etc...
+)
+
+
+
+
+
+
+
+
+
+OK, ESTAMOS BEM LIMITADOS QUANTO AO NOSSO CODE SPLIT,
+
+E À readability do nosso código...
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE, NO MOMENTO, TER APENNAS 1 ÚNICA 
+
+
+JAVASCRIPT FILE FUNCIONA,
+
+MAS ISSO NÕA FUNCIONARÁ NO FUTURO...
+
+
+
+
+
+
+
+----> SPLITTAR  O CÓDIGO EM MÚLTIPLAS FILES,
+
+PARA TER UM CÓDIGO MAIS READABLE..
+
+
+
+
+
+
+
+----> TER UM TEMPLATE EM UM ARQUIVO SEPARADO 
+
+
+É ALGO 
+
+MELHOR... (para os components)..
+
+
+
+
+
+
+--> OK... ESSA É OUTRA COISA QUE SERIA  BOA, SIM....
+
+
+
+
+
+
+
+
+ 
+
+ --> seria bom se 
+ o ambiente salvasse as changes..
+
+
+
+
+
+
+
+
+
+ --> também se 
+
+
+
+ as changes fossem auto-detectadas,
+
+
+
+
+
+
+ ou se apenas a parte da page que 
+
+ fosse atualizada,
+
+ e o resto ficasse estático...
+
+
+
+
+
+
+ ----> TAMBEḾ SERIA BOM SE O IDE NOS PROVIDENCIASSE UM AUTO-COMPLETE MELHOR...
+
+
+
+
+
+
+ --> TAMBÉM SER CAPAZ DE SPLITTAR 
+
+
+ O CÓDIGO EM MÚLTIPLOS COMPONENTS E ETC...
+
+
+
+
+
+--> USAR SINTAXE JAVASCRIPT PARA IMPORTAR E EXPORTTAR COMPONENTS UM NO OUTRO...
+
+
+
+
+
+
+
+
+
+
+--> AGORA VEREMOS COMO FUNCIONA O 'VUE CLI'...

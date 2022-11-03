@@ -1,0 +1,504 @@
+
+
+
+
+
+
+
+
+O VUE CLI NÃO É UMA TOOL OBRIGATÓRIA...
+
+
+
+
+
+
+
+--> NÃO É A MESMA COISA QUE O VUE FRAMEWORK QUE USAMOS ATÉ AGORA...
+
+
+
+
+
+
+
+--> É UMA TOOL MANAGEADA PELA TEAM DO VUE...
+
+
+
+
+
+
+
+
+
+--> É UM NEGÓCIO QUE NOS DÁ TODAS AS FEATURES LEGAIS QUE 
+
+VIMOS ATÉ AGORA...
+
+
+
+
+
+
+-------> NOS DEIXA CONSTRUIR APPS MAIORES, MAIS REALISTAS...
+
+
+
+
+
+
+--> MAS COMO USAMOS O VUE CLI?
+
+
+
+--> BEM, ELE USA ALGUMAS TOOLS DE QUE PRECISAREMOS..
+
+
+
+
+
+
+--> PRECISAMOS DE NODEJS (npm)....
+
+
+
+--> NOS DEIXA RODAR CÓDIGO JAVASCRIPT FORA DO BROWSER...
+
+
+
+
+
+O COMANDO NECESSÁRIO É 
+
+
+
+sudo npm install -g @vue/cli 
+
+
+
+
+
+
+
+
+
+
+--> É UM COMANDO GLOBAL, VAI INSTALAR 
+
+
+
+
+
+ESSA TOOL 
+
+NO SEU CÓDIGO INTEIRO...
+
+
+
+
+
+
+
+
+--> ISSO VAI INSTALAR SUA TOOL CLI 
+
+GLOBALMENTE NO SEU SISTEMA,
+
+PARA QUE MAIS TARDE CONSIGAMOS GERAR VUE PROJECTS COM ELE...
+
+
+
+
+
+
+
+
+
+---> QUANDO ISSO ACABAR,
+
+
+
+
+
+
+
+basta 
+
+
+
+
+
+
+
+rodar os comandos para criar projetos..
+
+
+
+
+
+
+
+
+
+--> encontre um lugar no seu pc em que você quer criar 1 project....
+
+
+
+
+
+
+
+
+
+
+
+--> escreva assim:
+
+
+
+
+
+vue create NOMEDOPROJETO...
+
+
+
+
+
+
+
+--> é só 'vue create'
+
+MESMO...
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA RECEBEREMOS PERGUNTAS:
+
+
+
+
+
+
+
+? Please pick a preset: (Use arrow keys)
+❯ Default ([Vue 3] babel, eslint) 
+  Default ([Vue 2] babel, eslint) 
+  Manually select features 
+
+
+
+
+
+
+
+
+
+
+
+
+  --> o vue 3 será a primeira escolha no futuro,
+
+  mas 
+
+  até agora o vue não é totalmente 'final'...
+
+
+
+
+
+
+
+  --> POR ISSO ESCOLHEMOS A OPÇÃO 2...
+
+
+
+
+
+
+
+  --> COLOCAMOS A OPTION 2...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ISSO FEITO,
+
+  OBSERVAMOS VÁRIAS 
+
+
+  OPÇÕES 
+
+
+
+  QUE PODEMOS COLOCAR NO NOSOS PROJECT...
+
+
+
+
+
+
+
+
+  --------> 
+
+
+
+
+  BABEL 
+
+  TYPESCRIPT 
+
+
+  PROGRESSIVE WEB APP SUPPORT 
+
+
+  ROUTER 
+
+
+
+  VUEX 
+
+
+  CSS PRE-PROCESSORS 
+
+
+  LINTER/FORMATTER 
+
+
+  UNIT TESTING 
+
+
+
+
+  e2e TESTING..
+
+
+
+
+
+
+
+
+
+  --> CERTO, MAS 
+
+  EU NÃO RECEBI NENHUMA OPTION..
+
+
+
+
+
+
+
+
+  --> ISSO FEITO,
+
+  ESCOLHA A VUE VERSION QUE VOCÊ DESEJA *(também não recebi essa option)..
+
+
+
+
+
+
+
+
+
+
+
+
+  ----> CERTO... DEPOIS,
+
+  COM AS SETTINGS 'ESLINT',
+
+
+  o professor coloca com 'error prevention only'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ------> O PROCESSO PODE VARIAR, MAS É SEMPRE PARECIDO...
+
+
+
+
+
+
+
+
+
+
+  ----> OK... AGORA TEMOS UM 'VUE PROJECT',
+
+
+  COM 
+
+  CERTAS FEATURES QUE VAO FACILITAR NOSSA VIDA..
+
+
+
+
+
+
+
+
+  --> AINDA ESCREVEREMOS VUE CODE COMO APRENDEMOS NOS ÚLTIMOS MÓDULOS,
+
+  MAS COM UMA EXPERIÊNCIA MELHOR...
+
+
+
+
+
+
+
+
+
+  ASSIM QUE ISSO TERMINAR,
+
+
+
+  VEMOS 
+
+
+
+  2 COMMANDS 
+
+
+  QUE 
+
+
+
+  VÃO 
+
+  NOS DEIXAR 
+
+  VER 
+
+
+
+  O 'DUMMY APP'
+
+  EM AÇÃO.. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> CERTO...
+
+
+
+
+
+
+
+
+
+  ---> cd até o folder,
+
+
+
+  dps 
+
+  'npm serve'
+
+  PARA 
+
+
+  RODAR O DEV SERVER 
+
+  DE QUE O PROFESSOR ESTAVA FALANDO,... --> ISSO VAI HOSTEAR 
+
+
+
+  O DEV SERVER DE QUE O PROFESSOR ESTAVA FALANDO...
+
+
+
+
+
+
+
+
+
+
+
+  --> PODEMOS VER ESSE APP, LÁ NO ENDEREÇO 8080...
+
+
+
+
+
+
+
+
+
+--> ok... agora enxergamos isso no browser...
+
+
+
+
+
+
+
+
+
+-->  VAMOS ESCREVER NOSSO PRÓPRIO APP..
+
+
+
+
+
+
+
+
+--> UM VUE PROJECT FOI GERADO...
+
+
+
+
+
+--> AGORA VAMOS EXPLORAR O QUE FOI GERADO,
+
+QUAIS FEATURES TEMOS DISPONÍVEIS,
+E QUAIS 
+
+EXTRA SETTINGS/TWEAKS PRECISAMOS FAZER..
