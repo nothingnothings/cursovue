@@ -1,0 +1,243 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----_> VAMOS VOLTAR AO EXEMPLO DE ANTES,
+
+
+
+
+COM AQUELA 'LISTA DE CONTACTS'...
+
+
+
+
+
+
+
+
+
+
+-> PQ 
+
+
+É ASSIM QUE COMEÇAMOS COM COMPONENTS, E É DESSE PONTO QUE QUEREMOS CONTINUAR...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA UM NOVO ARQUIVO,
+
+DE NOME 
+
+'App.vue.'..
+
+
+
+
+
+
+
+
+--> É CONVENÇÃO TER UM 'MAIN FILE'
+
+
+
+QUE VAI SEGURAR SEU VUE APP EM GERAL....
+
+
+
+
+
+
+--> E TAMBÉM VAI SEGURAR A CONFIGURATION DO SEU PROJECT... --
+
+
+
+
+
+
+
+
+
+USAMOS A EXTENSÃO '.vue'
+
+
+para que 
+
+
+CONSIGAMOS USAR 
+
+OS 
+
+
+
+RECURSOS 
+
+'SINGLE-FILE COMPONENT FEATURES'
+
+
+
+nesse arquivo ------> O PROFESSOR GOSTA DE 
+
+
+TER O FORMATO 
+
+'TEMPLATE-SCRIPT-STYLE'...
+
+
+
+
+
+
+
+
+
+--> VOCÊ VAI USAR MT ESSE FORMATO, EM QUASE QUALQUER 
+
+
+VUE PROJECT QUE VOCÊ 
+
+
+CRIAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> crie 3 tags:
+
+
+
+
+
+
+
+<template></template>
+
+
+
+<script></script>
+
+
+
+<style></style>
+
+
+
+
+
+
+
+
+
+--> É UMA SINTAXE VUE,
+
+
+
+RECONHECIDA E INTERPRETADA APENAS PELO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA, DENTRO DESSAS SCRIPT TAGS,
+
+PROVIDENCIAMOS A CONFIGURATION PARA NOSSO 'VUE APP'....
+
+
+
+
+
+
+
+
+
+
+
+
+---> É POR ISSO QUE CRIAMOS UM __ OBJECT__ STANDARD __ JAVASCRIPT,
+ TIPO ASSIM:
+
+
+
+
+
+
+
+ <script>
+
+ const app = {
+
+ }
+
+
+ </script>
+
+
+
+
+
+
+
+
+
+--> DENTRO DE 'app',
+
+PODEMOS ADICIONAR TUDO O QUE APRENDEMOS ATÉ AGORA:
+
+
+
+
+
+
+
+
+data() {},
+
+
+methods: {
+
+},
+
+
+
+computed: {
+    
+}
+
+
+

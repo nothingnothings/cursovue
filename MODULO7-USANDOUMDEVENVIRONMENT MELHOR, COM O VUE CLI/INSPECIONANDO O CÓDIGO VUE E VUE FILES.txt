@@ -1,0 +1,769 @@
+
+
+
+
+
+
+O SRC FOLDER TEM TODOS OS ARQUIVOS JAVASCRIPT EM QUE ESCREVEREMOS CÓDIGO JAVASCRIPT...
+
+
+
+
+
+
+
+--> ESCREVEREMOS NOSSO VUE APP CODE 
+
+
+
+DENTRO DESSES FILES..
+
+
+
+
+
+
+
+
+
+
+--> É NO ARQUIVO 'main.js'
+
+
+QUE TEMOS 
+
+
+
+
+
+
+
+NOSSO 'MAIN ENTRY POINT'--> 
+
+
+
+
+TEMOS A SINTAXE DE IMPORT,
+
+
+USADA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, MAS NO CÓDIGO DO PROFESSOR, ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import App from './App.vue';
+
+
+
+createApp(App).mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ESTRANHO....
+
+
+MAS O QUE INTERESSA:
+
+
+
+
+
+
+
+1) CRIAMOS UM 'App'
+
+
+POR MEIO 
+
+
+
+da 'configuration file'
+
+vista 
+
+lá 
+
+
+
+
+no arquivo 'App.vue'...
+
+
+
+
+
+
+-> DEPOIS DISSO,
+
+MONTAMOS NOSSO APP 
+NAQUELA 
+
+DIV COM ID DE 'app'...
+
+
+
+
+
+
+
+
+
+--> É ASSIM QUE NOSSO VUE APP ACABA LÁ...
+
+
+
+
+
+
+
+--> É UMA MANEIRA DIFERENTE DE CRIAR NOSSO VUE APP,
+
+
+
+MAS ESSA É A MANEIRA MODERNA DE IMPORTAR E EXPORTAR  
+
+FILES DE 
+
+UM ARQUIVO PARA OUTRO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+---_> OK, MAS PQ DIABOS AGORA TEMOS AQUELA SINTAXE DE 
+
+
+
+'createApp(App)',
+
+
+
+
+PQ AGORA ESTAMOS PASSANDO ESSA CONSTANTE DE 'App'?
+
+
+
+
+
+
+
+
+
+
+
+
+-------> BEM, LÁ EM 'App.vue'
+
+
+ENCONTRAMOS _ ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---_> OU SEJA,
+
+TEMOS 
+
+
+3 
+
+
+PARTES NESSE 'App.vue'
+
+
+
+
+
+
+
+
+
+
+--> OS ARQUIVOS '.vue'
+
+
+SÃO ARQUIVOS ESPECIAIS,
+
+
+COM UMA SINTAXE PRÓPRIA NO SEU INTERIOR...
+
+
+
+
+
+
+
+
+
+
+
+
+temos:
+
+
+1) template  (É O HTML EM SI, com os components menores inseridos no seu interior, se existirem)
+
+
+
+2) script  (é onde temos AS DATA PROPERTIES, METHODS, COMPUTED, ETC, desse próprio component)...
+
+ 
+
+3) style (que pode OU NÃO ser dinâmico)...
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+.vue files são uma feature especial 
+
+dos projetos vue...
+
+
+
+
+
+
+
+
+
+
+
+--> .VUE FILE 
+
+te deixa 
+
+ESCREVER 'VUE APPS',
+
+
+
+VUE COMPONENTS, PARA SER MAIS PRECISO,
+
+
+DE FORMA 
+
+
+MT MAIS NICE...
+
+
+
+
+
+
+
+
+--> NOS DEIXA SPLITTAR:
+
+
+
+
+
+1) TEMPLATE 
+
+
+2) SCRIPT PART (as data properties)
+
+
+
+
+3) OS STYLES 
+
+
+
+
+
+
+
+--> TUDO EM 3 DIFERENTES SECTIONS...
+
+
+
+
+
+-----__> 
+
+
+
+
+
+
+
+LÁ 
+
+
+no <script> 
+
+
+encontramos AQUELA SINTAXE DE 'app'
+
+
+DO VUE,
+
+
+só com uma roupagem um pouco diferente:
+
+
+
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+-> PRECISAMOS DESSA SINTAXE DE 'default',
+
+
+
+e podemos importar OUTROS COMPONENTS dentro desse vue app... (basta escrever no import ali...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ ADICIONA SUA DATA 
+
+
+DENTRO 
+
+
+
+
+do 'export default',
+
+EM UMA KEY DE DATA, SUPOSTAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA KEY DE 'components',
+você REALMENTE ADICIONA/ESCREVE O NOME DOS COMPONENTS QUE VOCê IMPORTA COM 'import from'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR FIM, TEMOS UMA TAG DE 'STYLE',
+
+QUE NOS AJUDA A DEFINIR OS CSS STYLES QUE DEVEM FICAR DISPONÍVEIS 
+
+NESSE VUE APP...
+
+
+
+
+
+
+
+
+
+--> bem, e essa é uma file que 
+
+NÃO FUNCIONARIA/FUNCIONA ASSIM NO BROWSER,
+
+
+MAS QUE 
+
+É COMPREENDIDA PELO VUE CLI,
+
+
+QUE TRANSFORMA 
+
+ESSE código, por trás das cenas,
+
+
+EM CÓDIGO QUE VAI FUNCIONAR,
+
+PARA QUE NÓS,
+
+COMO DESENVOLVEDORES,
+
+TENHAMOS 
+
+UMA 
+
+
+MANEIRA NICE 
+
+
+DE DESENVOLVER NOSSO CÓDIGO EM DIFERENTES SECTIONS( as 3 sections estruturais) 
+
+
+
+E ENTÃO 
+
+ACABAMOS 
+
+COM CÓDIGO QUE 'JUST WORKS'
+
+
+NO BROWSER...
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO ISSO FUNCIONA, 
+
+
+
+
+
+E PQ GOSTARÍAMOS DISSO?
+
+
+
+
+
+
+
+
+--> NO FINAL DAS CONTAS,
+
+O PROJETO QUE CRIAMOS COM A 'VUE CLI'
+
+USA 
+
+
+_ UMA BUILD WORKFLOW ------> 
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE NOSSO CÓDIGO TEM CERTAS FEATURES,
+
+
+NEXT-GEN JAVASCRIPT FILES,
+
+
+
+MAS __ TAMBÉM __ FEATURES ESPECÍFICAS AO VUE 
+
+
+E SINTAXE ESPECÍFICA que 
+
+
+NÃO FUNCIONARIA ASSIM, DIRETAMENTE, NO BROWSER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> O BROWSER NÃO RECONHECE ESSE CÓDIGO..
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROJETO DESENVOLVIDO PELA CLI VUE 
+
+
+
+
+
+TEM  UM MONTE DE TOOLS 
+
+
+
+__UNDER THE HOOD,
+
+QUE 
+
+TRABALHAM 
+
+
+PARA _ 
+
+
+
+
+TRANSFORMAR, DURANTE A 'BUILD STEP',
+
+EM CÓDIGO QUE RODA NO BROWSER... --> 
+
+
+
+
+ISSO QUER DIZER QUE NA BUILD STEP 
+TEMOS UM MONTE DE TRANSFORMATIONS APLICADAS AO NOSSO C´DOIGO,
+
+
+PARA 
+
+
+
+
+CONVERTER 
+
+
+NOSSO CÓDIGO 
+
+A FEATURES TRADICIONAIS JAVASCRIPT QUE FUNCIONAM NO BROWSER (em todos os browsers)..
+
+
+
+
+
+
+
+
+
+--> OK... ---_> E, NO NOSSO PROJETO,
+
+
+TEMOS COMNADOS QUE JÁ FAZEM ISSO PARA NÓS,
+
+E ESSA É A RAZÃO DE CÓDIGO 
+
+
+
+COMO O NOSSO, DE TEMPLATES,,
+
+
+
+
+
+
+
+
+
+
+
+
+---__>  o script de 'npm serve'
+
+
+TAMBÉM COMEÇA ESSE PROCESSO QUE FAZ 'WATCH' do nosso projeto --> 
+
+
+
+
+
+
+
+
+ESSES ARQUIVOS '.vue' TAMBÉM SÃO CHAMADOS DE 'SINGLE-FILE COMPONENTS',
+
+
+
+
+e são uma maneira bem conveniente de escrever vue components e vue code....
+
+
+
+
+
+
+
+
+
+
+
+----__> O IDE NÃO CONHECE ESSA SINTAXE DO 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+-----_> DEVEMOS TWEAKAR O VISUAL STUDIO CODE, FAZER ELE LER O VUE MELHOR..

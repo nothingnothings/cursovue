@@ -1,0 +1,291 @@
+
+
+
+
+
+
+
+
+
+------_> PARA ISSO,
+
+TEMOS UM 
+
+
+PROJETO NOVINHO EM FOLHA...
+
+
+
+
+
+
+
+
+--> BAIXE O PROJETO,
+
+EXTRAÍA 
+
+
+E  O 
+
+ARMAZENE EM QUALQUER LUGAR DE SEU  PC...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE ESSE PROJETO FOI CRIADO 
+
+
+
+__ COM A VUE CLI...
+
+
+
+
+
+
+
+
+
+--> SELECIONEI O 'VUE 2'...
+
+
+
+
+
+
+
+
+
+
+--_> O PROFESSOR CRIOU ESSE PROJETO COM VUE CREATE...
+
+
+
+
+
+
+
+
+
+-- >DENTRO DO FOLDER DE 'Src',
+
+PERCEBEMOS ALGO:
+
+
+
+
+
+
+
+-> TEMOS SÓ 'main.js',
+
+
+COM 
+
+BEM POUCO CONTEÚDO...
+
+
+
+
+
+
+
+--> NÃO TEMOS NENHUM 
+
+VUE 
+
+APP, 
+
+NENHUM 
+
+
+VUE 
+
+COMPONENT... --> PROFESSOR FEZ ISSO DE PROPÓSITO,
+
+PARA QUE 
+
+
+
+ENTENDAMOS 
+
+COMO 
+
+ESCREVEMOS 
+
+VUE CODE,
+
+
+E COMO 
+
+ESCREVEMOS UM BRAND NEW VUE PROJECT...
+
+
+
+
+
+
+
+
+
+--> TEMOS TAMBÉM 
+
+
+O FOLDER 'PUBLIC',
+
+
+COM A INDEX.HTML FILE 
+
+em que é montado o projeto...
+
+
+
+
+
+
+
+
+
+--> PARA COMEÇAR A ESCREVER CÓDIGO,
+
+
+PRECISAMOS FAZER 2 COISAS:
+
+
+
+
+
+
+
+1) INSTALAR TODAS AS DEPENDENCIES DESSE PROJECT (
+
+
+    o vue....
+
+
+)
+
+
+
+
+(ISSO PQ A 'ATTACHED ZIP FILE' não tem nenhum node_modules folder)....
+
+
+
+
+
+
+
+
+
+
+
+
+certo... rodamos npm install..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> RODAMOS 'Npm run serve'... --> ISSO VAI RODAR O DEV SCRIPT,
+
+QUE VAI RODAR O DEV SCRIPT...
+
+
+
+
+
+
+
+
+
+
+--> NOSSA RUNNING VUE APP...
+
+
+
+
+
+
+
+
+
+--> NÃO VEREMOS NADA, INICIALMENTE...
+
+
+
+A RAZÃO DISSO É QUE NOSSO CÓDIGO QUE BUILDA O APP ESTÁ VAZIO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+
+
+createApp({}).mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU ESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+
+import Vue from 'vue'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+
+
+
+
+
+
+OK, AGORA QUE ESTAMOS TODOS SETTADOS,
+
+DEVEMOS ESCREVER UM POUCO DE COMPONENT CODE,
+ E APRENDER MAIS SOBRE COMPONENTS..

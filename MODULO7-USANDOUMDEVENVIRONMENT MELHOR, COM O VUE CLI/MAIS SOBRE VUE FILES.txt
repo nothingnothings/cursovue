@@ -1,0 +1,170 @@
+
+
+
+
+
+
+AQUI TEMOS UMA VUE FILE:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA É UMA FILE VUE --> NO FINAL DAS CONTAS, ESSA É APENAS UMA 
+
+FILE QUE CONTÉM A CONFIGURATION PARA UM VUE APP/COMPONENT,
+
+E A CONFIGURATION PARA ESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+--------> A COISA QUE ERA DEFINIDA COMO TEMPLATE STRING, ANTERIORMENTE,
+
+AGORA E'
+
+DEFINIDA 
+
+COMO UMA TEMPLATE 
+
+TAG, 
+
+
+EM UM DESSES ARQUIVOS 'VUE',
+
+DENTRO DE UM 
+'SINGLE FILE COMPONENT'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS O FOLDER DE 'ASSETS',
+
+QUE É O LOCAL EM QUE VOCÊ GERALMENTE 
+
+
+ARMAZENA SEUS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM 'COMPONENTS'
+
+TEMOS 
+
+NOSSOS COMPONENTS VUE,
+
+QUE VÃO COMPOR 
+
+NOSSA 
+
+USER INTERFACE...
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER COMEÇAR COM A PARTE PRÁTICA...
+
+
+
+
+
+
+
+
+
+--> DEVEMOS VOLTAR AOS COMPONENTS E 
+
+'BUILD UP' 
+
+
+
+EM CIMA 
+
+DE UM PROJETO DESSES,
+
+PARA 
+
+APRENEDR MAIS SOBRE COMPONENTS E SOBRE O VUE...

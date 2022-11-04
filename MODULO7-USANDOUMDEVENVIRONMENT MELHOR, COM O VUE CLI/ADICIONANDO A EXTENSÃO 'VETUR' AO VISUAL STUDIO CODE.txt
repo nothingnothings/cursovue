@@ -1,0 +1,63 @@
+
+
+
+
+
+
+
+
+------_> 'vetur' é uma extensão que nos ajuda com o vue development....
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... VETUR..
+
+
+
+
+
+
+
+
+--> COM ELE, CONSEGUIMOS HIGHLIGHTING E UM IDE QUE COMPREENDE ESSES ARQUIVOS...
+
+
+
+
+
+
+
+
+
+
+--> VETUR É UMA 
+
+EXTENSÃO QUE 
+FAZ MAIS DO QUE 
+
+COMPREENDER AS VUE FILES, MAS QUE VAI TE AJUDAR COM VUE DEVELOPMENT EM GERAL... 
+
+
+É UMA EXTENSION 'MUST-HAVE',
+PQ VAI 
+
+TE AJUDAR COM O AUTOCOMPLETION....
+
+
+
+
+
+
+-_> O 'VOLAR' é o sucessor do 'vetur'....
+
+
+
+
