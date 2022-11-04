@@ -168,3 +168,572 @@ DE UM PROJETO DESSES,
 PARA 
 
 APRENEDR MAIS SOBRE COMPONENTS E SOBRE O VUE...
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI COLOCAR 'friends'
+
+dentro desse APP COMPONENT...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+// import HelloWorld from './components/HelloWorld.vue'
+
+// export default {
+//   name: 'App',
+//   components: {
+//     HelloWorld
+//   }
+// }
+
+
+const app = {
+  data() {
+
+    return {
+      friends: [
+        {
+          id: 'manuel',
+          name: 'Manuel Lorenz',
+          phone: '11111111'
+        },
+        {
+          id: 'max',
+          name: 'Max schwarz',
+          phone: '23412141'
+        },
+        {
+          id: 'Tom',
+          name: 'Tom Hanks',
+          phone: '1113242421'
+        }
+      ]
+    }
+  },
+
+  methods: {
+
+  },
+
+  computed: {
+
+  }
+}
+
+
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE SERÁ O NOSSO 'MAIN APP CONFIG'...
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO PASSAMOS ESSE 'MAIN APP CONFIG' AO 
+
+NOSSO 
+
+
+
+ARQUIVO
+
+
+
+'main.js'?
+
+
+
+
+
+
+----> bem, podemos escrever assim:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+
+import App from 'App';
+
+
+createApp(App).mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS NA VERSÃO 'VUE 2',
+
+NÃO SEI COMO É  ISSO...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import Vue from 'vue';
+import App from './App.vue';
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, MAS O PROFESSOR REALMENTE USOU ESTA SINTAXE AQUI:
+
+
+
+import { createApp } from 'vue';
+
+
+import App from 'App.vue';
+
+
+createApp(App).mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+--> USAMOS ESSE DEFAULT EXPORT...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PRECISAMOS EXPORTAR O 
+
+
+
+MAIN APP,
+
+
+lá do 'App.vue'...
+
+
+
+
+
+
+
+
+--> PARA ISSO, PODEMOS USAR 
+
+'export default __CONTEÚDO___'...
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+
+
+
+export default {
+  data() {
+
+    return {
+      friends: [
+        {
+          id: 'manuel',
+          name: 'Manuel Lorenz',
+          phone: '11111111'
+        },
+        {
+          id: 'max',
+          name: 'Max schwarz',
+          phone: '23412141'
+        },
+        {
+          id: 'Tom',
+          name: 'Tom Hanks',
+          phone: '1113242421'
+        }
+      ]
+    }
+  },
+
+  methods: {
+
+  },
+
+  computed: {
+
+  }
+}
+
+
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO DIZ AO JAVASCRIPT QUE ESSE OBJECT É O 
+
+'DEFAULT EXPORT'
+
+DESSE ARQUIVO JAVASCRIPT... .--------> 
+
+
+
+E QUANDO ESCREVEMOS 
+
+'import App from './App.vue',
+
+
+ESTAREMOS 
+
+
+
+
+IMPORTANDO ESSE 
+
+OBJECT/COMPONENT 
+
+
+DEFAULT 
+
+AÍ....
+
+
+
+
+
+
+
+------> ESTAMOS SPLITTANDO ISSO POR 
+
+MÚLTIPLOS FILES PARA ORGANIZAR MELHOR NOSSO CÓDIGO, E PARA 
+
+
+DEIXAR CADA 
+
+
+FILE FOCADA EM CERTA TAREFA,
+
+O QUE DEIXA O CÓDIGO MAIS READABLE --> ISSO TE AJUDA EM PROJETOS MAIORES...
+
+
+
+
+
+
+
+
+
+
+--> OK...
+ 
+ TEMOS ESSE OBJECT CONFIG ALI....
+
+
+
+
+
+
+
+
+
+ --> MAS PERCEBA UM NEGÓCIO :
+
+  
+
+
+
+
+
+
+  esse vue app,
+
+  que criamos 
+
+
+
+
+
+com 
+
+
+'App' 
+
+E EXPORTAMOS COM AQUELE OBJECT,
+
+
+
+__ ELE __, NO MOMENTO,
+
+NÃO TEM TEMPLATE ALGUM....
+
+
+
+
+
+
+
+
+
+--> EM PROJETOS VUE CLI,
+
+
+VOCÊ TIPICAMENTE DEIXA O ARQUIVO 'main.js'
+
+VAZIO,
+
+aquela div 'attacher'
+
+
+vazia...
+
+
+
+(
+
+    COLOCAMOS O CONTEÚDO VUE APENAS 
+
+    NOS COMPONENTS....
+)
+
+
+
+
+
+
+--> O professor escreve assim, lá em 'App.vue':
+
+
+
+
+
+
+
+
+
+<template>  
+    <section>
+        <h2>My Friends</h2>
+            <ul>
+                <li>
+                </li>
+            </ul>
+    </section>
+    </template>
+
+
+
+
+
+
+
+
+
+    --> se salvamos tudo isso e voltamos à página 
+
+
+    'localhost:3000',
+
+
+    VEREMOS QUE 
+
+
+    ESSE CONTEÚDO TERÁ SIDO OUTPUTTADO....
+
+
+
+
+
+
+    -_> É ASSIM QUE CRIAMOS VUE COMPONENTS, 
+
+    VUE APPS ,
+
+     
+     E ETC...
+
+
+
+
+
+
+
+     --> É IMPORTANTE ENTENDER ISSO, PQ VAMOS CRIAR COMPONENTS 
+
+     BASICAMENTE DA MESMA FORMA...
+
+
+
+
+
+
+
+     --> VAMOS CRIAR 
+
+     COMPONENTS DESSA MESMA FORMA,
+
+     PARA ENTÃO ESTUDARMOS 'COMPONENT COMMUNICATION'...
+
+     
