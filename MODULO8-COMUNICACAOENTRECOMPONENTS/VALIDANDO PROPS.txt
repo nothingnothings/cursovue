@@ -1,0 +1,1250 @@
+
+
+
+
+
+
+CRIEI 1 NOVO PROJETO, PARA NÃO ME PERDER...
+
+
+
+
+
+
+
+
+
+
+
+ATÉ AGORA, PERCEBEMOS A IMPORTÂNCIA DOS COMPONENTS E DOS PROPS,
+
+
+
+E 
+
+
+
+
+
+ESTUDAMOS QUE 
+
+
+
+
+OS PROPS DEVEM SER PASSADOS/ESPECIFICADOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h2>{{ name }} {{ friendIsFavorite === '1' ? '(FAVORITE)' : '' }}</h2>
+    <button @click="toggleFavoriteCorrectVersion">Toggle Favorite</button>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+    'name',
+    'phoneNumber',
+    'emailAddress',
+    'isFavorite'
+  ],
+
+  data() {
+    return {
+      friendIsFavorite: this.isFavorite,
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+
+    toggleFavoriteCorrectVersion() {
+      if (this.friendIsFavorite === '1') {
+        this.friendIsFavorite = '0';
+      } else {
+        this.friendIsFavorite = '1';
+      }
+    }
+
+
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+export default {
+
+  props: [
+    'name',
+    'phoneNumber',
+    'emailAddress',
+    'isFavorite'
+  ],
+
+
+
+
+
+
+
+
+
+
+
+
+  -> OU SEJA,
+
+LÁ NA TAG DE 'script',
+
+
+
+
+são especificados os props que serão usados em CADA 1 DOS COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+--> UM ARRAY DOS PROPS QUE ESPERAMOS RECEBER...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR HAVIA DITO 
+
+'''ESSE É O _ BARE MINIMUM__ DE INFO QUE VOCÊ PASSA AO VUE''''
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE, COM ISSO,
+
+VOCÊ DIZ AO VUE 'você vai receber um prop de nome xxxxx',
+
+
+
+
+
+
+MAS NÃO DIZ MAIS NADA A ELE...
+
+
+
+
+
+
+
+
+
+
+--> E ISSO É OK, SIM, PARA 
+
+
+
+APPS SIMPLES E COMPONENTS SIMPLES ('dumb components')...
+
+
+
+
+
+
+
+
+
+--> MAS PARA COMPONENTS MAIS COMPLEXOS,
+
+E ESPECIALMENTE QUANDO TRABALHAMSO EM UMA EQUIPE,
+
+É MELHOR 
+
+
+
+PASSAR MAIS 
+
+INFO SOBRE SEUS PROPS --> SIMPLESMETNE PARA QUE 
+
+O VUE 
+
+
+
+
+
+CONSIGA TE DIZER SE VOCÊ PASSOU DATA INCORRETA A ALGUM COMPONENT, OU SE 
+
+
+VOCÊ 
+
+ESQUECEU 
+
+
+ALGUM 'REQUIRED PROP'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE VOCE PODE SUBSTITUIR ESSE ARRAY DE 'PROPS SIMPLES'
+
+
+
+POR UM OBJECT...
+
+
+
+
+
+
+
+
+
+-> E, DENTRO DESSE OBJECT,
+
+AGORA VOCÊ TERÁ 
+
+
+
+OS SEUS DIVERSOS PROPS (você vai especificar os props que serão recebidos, JUNTO COM O __ TYPE_ DE CADA PROP)...
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+  props : { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
+
+    name: String 
+  },
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> COLOQUE O 'TYPE DA DATA QUE VOCE VAI RECEBER'...
+
+
+
+
+
+
+
+
+
+
+-_> NO CASO, AQUI COLOQUEI 'String',
+
+pq esse value REALMENTE SERÁ UMA STRING...]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+  props : { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
+
+    name: String,
+    phoneNumber: Number,
+    emailAddress: String,
+    isFavorite: String
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK...
+
+
+
+
+
+
+  FAZEMOS ISSO COM TODAS NOSSAS PROPERTIES..
+
+
+
+
+
+
+
+
+
+  --> ISSO VAI DEIXAR CLARO QUE 
+
+  TODA NOSSA DATA,
+
+  NO MOMENTO, TEM UM TYPE....
+
+
+
+
+
+
+
+
+
+
+
+
+  É CLARO QUE ISSO FUNCIONA COMO ANTES,
+
+  MAS AGORA PROVIDENCIAMOS MAIS INFO,
+
+  O QUE É ÓTIMO...
+
+
+
+
+
+
+
+
+
+
+
+
+  -> MAS É CLARO QUE PODEMOS SER AINDA MAIS DETALHADOS DO QUE ISSO..
+
+
+
+
+
+
+
+
+  -> EM VEZ DE ESCREVER APENAS 
+
+  'String' ou 'Number',
+
+
+  VOCÊ PODE ESCREVER 
+
+  1 OBJECT
+
+
+  dentro de cada prop,
+
+
+  e aí 
+
+  DENTRO DESSE OBJECT VOCÊ PODE ESPECIFICAR UM MONTE DE COISAS...
+
+
+
+
+  eX:
+
+
+
+
+
+
+
+
+
+  props: {
+
+
+    name: {
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  ex:
+
+
+
+
+
+
+
+
+
+
+    props : { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
+
+    // name: String,  ///essa já é uma maneira mais elaborada de dizer o que vamos receber com esse prop.... mas há uma maneira mais detalhada ainda, vista logo abaixo desta linha:
+    name: { ///assim conseguimos definir a maior quantidade de detalhes possível sobre esse prop que será recebido...
+      
+      type: String, ///será o TYPE desse negócio, desse prop...
+
+
+    },
+    phoneNumber: String,
+    emailAddress: String,
+    isFavorite: String
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ou seja,
+
+  tipo 
+
+
+
+
+
+
+
+  props: {
+    
+
+
+    name: {
+        type: String
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  -> TEMOS MAIS PROPRIEDADES ----> PROPRIEDADES __ BUSCADAS PELO VUE EM SI,
+
+
+
+  COMO 
+
+
+  'required' --------> 'REQUIRED' 
+
+
+  É USADO 
+  PARA INDICAR 
+  SE 
+  AQUELE 
+
+  PROP DEVE SER OBRIGATORIAMENTE PASSADO A ESSE COMPONENT OU NÃO...
+
+
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+      name: { ///assim conseguimos definir a maior quantidade de detalhes possível sobre esse prop que será recebido...
+      
+      type: String, ///será o TYPE desse negócio, desse prop...
+      required: false ////DEFINE SE _ ESSE PROP __ DEVE SER OBRIGATORIAMENTE PASSADO A ESSE NOSSO COMPONENT, OU NÃO...
+      
+
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ---> OK... COM ISSO DIZEMOS QUE ESSE 
+
+    PROP É TOTALMENTE NECESSÁRIO, ETC ETC...
+
+
+
+
+
+
+
+    --> VAMOS FAZER A MESMA COISA COM OS OUTROS FIELDS,
+
+
+    menos com o 'isFavorite',
+
+    que será deixado como 'non-required'...
+
+
+
+
+
+
+
+
+
+    EX:
+
+
+
+
+
+
+
+
+      props : { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
+
+    // name: String,  ///essa já é uma maneira mais elaborada de dizer o que vamos receber com esse prop.... mas há uma maneira mais detalhada ainda, vista logo abaixo desta linha:
+    name: { ///assim conseguimos definir a maior quantidade de detalhes possível sobre esse prop que será recebido...
+      
+      type: String, ///será o TYPE desse negócio, desse prop...
+      required: false ////DEFINE SE _ ESSE PROP __ DEVE SER OBRIGATORIAMENTE PASSADO A ESSE NOSSO COMPONENT, OU NÃO...
+
+
+    },
+
+
+    // phoneNumber: String,
+    phoneNumber: {
+      type: String,
+      required: true
+    },
+    emailAddress: String,
+
+    ///exemplo de prop que é definido como 'OPCIONAL'
+
+    isFavorite: {
+      type: String,
+      required: false ///será opcional
+    }
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ------> CERTO... 
+
+
+
+
+  POR FIM, TEMOS A PROPRIEDADE 
+
+  de 
+
+
+  'default',
+
+
+  QUE É UM VALUE 
+
+  DEFAULT QUE 
+
+  SERÁ PASSADO PELO 'PARENT COMPONENT'
+
+
+
+
+  A ESSE NOSSO CHILD/COMPONENT,
+
+
+  NOS CASOS EM QUE 
+
+
+
+  O NOSSO COMPONENT É CHAMADO/INVOCADO _ SEM TER PASSADO NENHUM VALUE COMO VALUE 
+
+  DESSE PROP (no caso, o prop de 'isFavorite')...
+
+
+
+
+  ex:
+
+
+
+
+
+
+
+      isFavorite: {
+      type: String,
+      required: false, ///será opcional o pass desse prop
+      default: 'VALORDEFAULT' //será o VALUE USADO POR ESSE PROP nesse nosso component, se ESSE PROP ESPECÍFICO não for passado pelo PARENT COMPONENT...
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -> OU SEJA,
+
+
+    SERÁ PASSADO 'VALORDEFAULT',
+
+
+
+
+    essa string dummy,
+
+
+    SE ESSE PROP NÃO FOR PASSADO/ESCRITO 
+
+
+    na invocação 
+
+    '<friend-contact></friend-contact>'
+
+
+
+
+
+
+
+----> E, AINDA,
+
+EM 'default',
+
+
+VOCÊ PODE TER UMA FUNCTION, UMA FUNCTION QUE VOCÊ PODE EXECUTAR PARA DERIVAR O VALUE de 'default'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+isFavorite: {
+    type: String,
+    required: false,
+    default: function() {}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DEFINIU O SEU VALUE DE 'default'
+
+
+COMO SENDO UM '0'...
+
+
+
+
+
+
+
+
+
+
+-> DEPOIS DISSO,
+
+
+TEMOS 
+
+
+
+A POSSIBILIDADE DE COLOCAR UMA PROPRIEDADE DE 'validator'
+
+
+
+
+na definição do seu PROP,
+
+QUE 
+
+
+VAI __ SEMPRE_ SEGURAR UMA FUNCTION...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+      validator: function() { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
+
+      }
+   
+
+
+
+
+
+
+
+
+
+   --> ESSA FUNCTION DE 'VALIDATOR'
+
+
+
+   VAI SEMPRE RETORNAR OU TRUE OU FALSE...
+
+
+
+
+    
+--> ELA VAI RECEBER, COMO DEFAULT,
+
+O 
+
+
+'VALUE PROVIDENCIADO PELO PROP'..
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+      validator: function() { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
+
+      }
+   
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+      validator: function(valueProvidedByTheProp) { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
+
+
+      //O VALIDATOR SEMPRE VAI RETORNAR OU 'TRUE' OU 'FALSE' 
+      ///e sempre vai receber, como parâmetro, o value PROVIDENCIADO/PASSADO no nosso prop...
+      ///dentro do validator podemos ter QUALQUER VALIDATION LOGIC DE NOSSA ESCOLHA, para determinar se o value recebido como esse prop é válido ou não....
+
+      
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -----> OK..
+
+
+
+
+
+
+
+    NO CASO,
+
+
+
+    O PROFESSOR DIZ QUE 
+
+
+    PODEMOS CHECAR 
+
+    SE 
+
+    O 
+
+    'value' 
+
+    É IGUAL A 0 OU 1 (
+
+
+        se isso for VERDADE,
+
+
+        É RETORNADO TRUE PELO VALIDATOR, O QUE QUER DIZER QUE ESSES
+
+
+        2 VALUES SÃO 'ALLOWED' como values a serem passados por esse prop.. outros values, que façam 'false' ser retornado, SERÃO NEGADOS/RECUSADOS...
+    )
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+      validator: function(valueProvidedByTheProp) { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
+
+
+      //O VALIDATOR SEMPRE VAI RETORNAR OU 'TRUE' OU 'FALSE' 
+      ///e sempre vai receber, como parâmetro, o value PROVIDENCIADO/PASSADO no nosso prop...
+      ///dentro do validator podemos ter QUALQUER VALIDATION LOGIC DE NOSSA ESCOLHA, para determinar se o value recebido como esse prop é válido ou não....
+
+      ////APENAS ESSES 2 VALUES DEVERÃO SER PERMITIDOS POR NOSSO PROP.... é isso que esses checks fazem..
+      if( valueProvidedByTheProp === '1' || valueProvidedByTheProp === '0') {
+
+        return true;
+      } else {
+        ////todos outros values, para esse prop, serão NEGADOS...
+        return false;
+      }
+   
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    BEM, MAS QUAL É A IDEIA POR TRÁS DE TUDO ISSO?
+
+
+
+
+
+
+
+
+
+
+
+    COM ESSA CONFIG MAIS DETALHADA AÍ,
+
+
+
+PODEMOS IR ATÉ O LOCAL EM QUE 
+
+USAMOS 
+
+NOSSO COMPONENT E ENTÃO 
+
+
+__OMITIR_ O 
+
+PASS DO 
+
+
+PROP DE 
+
+'isFavorite',
+
+
+
+
+
+
+JUSTAMENTE PQ DEFINIMOS ESSE PROP COMO 'non required'( required: false),
+
+
+E PQ 
+
+
+DEFINIMOS AQUELE FALLBACK VALUE DE 
+
+'0' ('default: '0' ' )
+
+
+
+
+
+
+
+
+
+---> E, SE TENTAMOS DEIXAR O PROP 'name' de 
+
+FORA DO CALL DE ALGUM DOS NOSSOS COMPONENTS, IMEDIATAMENTE RECEBEMOS UM 
+
+ERRO,
+
+DURANTE DEVELOPMENT,
+ O QUE É MT ÚTIL...
+
+
+
+
+ ----> E SE TENTAMOS PASSAR '100'
+
+
+ COMO VALUE 
+
+
+
+ DAQUELE 
+
+
+ prop de 'isFavorite',
+
+
+ RECEBEMOS IMEDIATAMENTE UM ERRO,
+
+ O QUE É MT ÚTIL...
+
+
+
+
+
+ (
+    É TIPO UM TYPESCRIPT,
+     NO CASO...
+ )
+
+
+
+
+
+
+
+
+
+
+ É CLARO QUE 
+
+
+
+ ISSO AQUI TUDO TRATA DE SEU COMPONENT --> VOCÊ PODE 
+
+
+ SER DETALHISTA NA MEDIDA DO NECESSÁRIO --> SE VOCê TRABALHA SOZINHO,
+
+
+ NÃO PRECISA ESPECIFICAR TANTO SOBRE SEUS COMPONENTS..
+
+
+
+
+
+
+
+
+ MAS SE VOCê ESTÁ FAZENDO SHARE DE SEU COMPONENT COM OUTRAS PESSOAS,
+
+
+ TRABLAHANDO EM EQUIPE OU PQ 
+
+ ESTÁ FAZENDO SHARE COMO UMA THIRD PARTY PACKAGE,
+
+
+
+
+
+
+ VOCê TALVEZ QUEIRA PROVIDENCIAR PROP DEFINITIONS MAIS 
+
+
+ DETALHADAS,
+
+
+ PARA QUE QUALQUER PESSOA QUE 
+
+
+
+
+
+ USE SEU COMPONENT SAIBA 
+
+
+ QUAIS VALUES DE PROPS 
+
+
+ SÃO 
+
+
+ VÁLIDOS.. --> ISSO FACILITA SUA VIDA COMO DEVELOPER..
+
+
+
+
+
+
+
+
+
+ --> ESSA É A IDEIA POR TRÁS DE PROP DEFINITIONS E VALIDATIONS....
+
+
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR 
+
+
+
+ VAI USAR 
+
+
+ AS DEFINITIONS MAIS 
+ SIMPLES DURANTE O CURSO,
+
+ MAS É BOM JÁ SE ACOSTUMAR COM AS DEFINIÇÕES MAIS EXPLÍCITAS DE PROPS...
