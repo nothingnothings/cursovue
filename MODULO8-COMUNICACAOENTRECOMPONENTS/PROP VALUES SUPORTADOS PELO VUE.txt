@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+---> ALGUNS PROP VALUES SÃO SUPORTADOS PELO VUE:
+
+
+
+
+
+
+1) STRING 
+
+
+2) NUMBER 
+
+
+3) BOOLEAN 
+
+
+
+4) ARRAY 
+
+
+
+5) OBJECT 
+
+
+
+
+6) DATE 
+
+
+7) FUNCTION 
+
+
+8) SYMBOL....
+
+
+
+
+
+
+
+
+
+
+
+---> MAS 'TYPE', no vue,
+
+PODE SER __ QUALQUER __ CONSTRUCTOR FUNCTION (
+
+    ou seja,
+
+    não somos forçados a usar built-ins como 'Date',
+
+    pq
+     
+
+     podemos CRIAR NOSSOS PRÓPRIOS TYPES...
+)

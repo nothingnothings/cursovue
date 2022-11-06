@@ -1,0 +1,599 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE 'props' 
+
+
+
+
+
+
+
+
+___ PODEM TER TYPES MAIS COMPLEXOS DO QUE 
+
+
+'STRING' e 'NUMBER' e 'BOOLEAN'...
+
+
+
+
+
+
+
+
+
+
+
+--> E, É CLARO, ASSIM COMO QUALQUER OUTRO HTML ELEMENT,
+
+
+
+
+__ VOCÊ PODE BINDAr_ OS PROPS 
+
+
+a
+ 
+
+ 'DYNAMIC VALUES'..
+
+
+
+
+
+
+
+
+
+
+ --> POR EXEMPLO, 
+
+
+
+
+
+
+
+
+
+ 'is-favorite'
+
+
+
+ ATUALMENTE 
+ FUNCIONA 
+
+ APENAS COM '1'
+  
+
+  e 
+
+  '0' (strings)...
+
+
+
+
+
+
+
+
+
+  -> COMO AQUI TEMOS APENAS 
+
+
+
+  EXATAMENTE 2 VALUES,
+
+
+
+
+  PODEMOS DEIXAR COMO 1 BOOLEAN...
+
+
+
+
+
+
+  tipo 
+
+
+
+
+
+
+  isFavorite: {
+    type: Boolean,
+    required: false,
+    default: '0' 
+  }
+
+
+
+
+
+
+
+
+
+
+
+  --> COM ESSE CÓDIGO, PODEMOS NOS LIVRAR 
+
+
+  DAQUELE CÓDIGO DO VALIDATOR..
+
+
+
+
+
+
+
+
+  ----> E PODEMOS DEIXAR O VALUE DE 'default'
+
+
+  COMO __ 'false',
+
+  para que normalmente seja false o value passado nesse prop (quando nada é passado)...
+
+
+
+
+
+
+
+
+  ex:
+
+
+
+
+
+
+
+  isFavorite: {
+    type: Boolean,
+    required: false,
+    default: '0' 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> CERTO..
+
+
+
+
+
+
+
+PROVAVELMENTE OS 'PROPS' AQUI FUNCIONAM EXATMAENE COMO NO REACT (
+
+    ou seja,
+
+    se ESCREVEMOS NOSSO PROP SOLTO NO HTML ELEMENT, ELE É CONSIDERADO COMO 'true'...
+
+)
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR NOS EXPLICA QUE PASSAR UM VALUE __ BOOLEAN__ lá no nosso prop 
+
+NÃO É ALGO QUE PODE SER FEITO ASSIM:
+
+
+
+
+
+
+<friend-contact
+
+is-favorite="true"
+
+
+
+>
+</friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO PODEMOS PASSAR 'is-favorite'
+
+DE FORMA 'SOLTA',
+
+assim,
+
+
+
+PQ __ iSSO _ SERÁ INTERPRETADO __ COMO UM TEXT,
+
+
+LÁ 
+
+NO NOSSO 'FRIENDCOMPONNET'...
+
+
+
+
+
+
+
+
+-_> EM VEZ DISSO,
+
+PARA USARMOS 
+
+O 
+
+
+
+'TRUE/FALSE'
+
+
+
+value type,
+
+
+
+
+
+
+DEVEMOS USAR UMA SINTAXE ALTERNATIVA..
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE DEVEMOS USAR 
+
+'DATA-BINDING',
+
+
+
+ATTRIBUTE BINDING,
+
+
+
+MAS __ COM NOSSOS PRÓPRIOS PROPS...
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+EM VEZ DE ESCREVER ALGO COMO
+
+
+
+
+
+
+
+
+
+<friend-contact
+
+
+is-favorite="true"   /////////ISSO CONTINUARÁ SENDO UMA STRING
+>
+
+
+</friend-contact>
+
+
+
+
+
+
+
+
+
+, 
+
+
+
+
+PODEMOS ESCREVER ALGO COMO:
+
+
+
+
+
+
+
+<friend-contact
+
+
+:is-favorite="true"  
+>
+
+
+</friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OU SEJA,
+
+PODEMOS USAR A SINTAXE DE 
+
+
+'v-bind:is-favorite="true"
+
+
+
+
+
+,
+
+
+
+OU ENTÃO O SHORTHAND DE 
+
+
+
+':is-favorite'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> E, REALMENTE,
+
+
+SE PRECISAMOS _ 
+
+
+
+PASSAR A ALGUM PROP UM __ VALOR QUALQUER _ _QUE NÃO SEJA 
+
+UMA STRING,
+
+
+
+
+
+
+
+
+
+SOMOS FORÇADOS A USAR V-BIND ( ou a shorthand ':' ) 
+
+
+PARA PASSAR ESSE VALUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> DEVEMOS USAR O V-BIND 
+PARA PODER PASSAR 'NON-STRING VALUES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> E A SINTAXE DE 'V-BIND'
+
+É ÚTIL PARA OUTROS PROPÓSITOS ALÉM DO PASS DE VALUES QUE NÃO SÃO STRINGS (apesar de isso já ser super útil)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> A SINTAXE DE 'V-BIND' 
+
+
+É ÚTIL _ _TAMBÉM PARA _ DEIXAR NOSSOS COMPONENTS UM POUCO MAIS DINâMICOS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> DEVEOMS NOS LEMBRAR:
+
+
+
+NÓS TEMOS 
+
+
+
+OS 'FRIENDS' 
+
+DENTRO DAQUELE ARRAY DE 'FRIENDS',
+
+LÁ EM 
+
+
+'App.vue'... (data property)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SERIA NICE SE PUDÉSSEMOS USAR 'v-for' 
+
+
+
+
+
+
+
+
+COM ESSA DATA PROPERTY,
+
+
+
+MAS AÍ PASSANDO 
+
+
+DATA DIFERENTE PARA CADA 'LOOP ITERATION'....
+
+
+
+
+
+
+
+
+
+
+
+
+---> BEM, PODEMOS FAZER ISSO... --> 
+
+
+
+
+
+
+
+
+
+podemos usar 'v-for'
+
+
+(e também v-if )
+
+
+
+
+
+NOS SEUS PRÓPRIOS COMPONENTS VUE (como se fossem html components normais)...
+
+
+
+
+
+ 
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+

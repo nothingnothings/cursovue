@@ -28,11 +28,11 @@ export default {
   //   'isFavorite'
   // ],
 
-  props : { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
+  props: { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
 
     // name: String,  ///essa já é uma maneira mais elaborada de dizer o que vamos receber com esse prop.... mas há uma maneira mais detalhada ainda, vista logo abaixo desta linha:
     name: { ///assim conseguimos definir a maior quantidade de detalhes possível sobre esse prop que será recebido...
-      
+
       type: String, ///será o TYPE desse negócio, desse prop...
       required: false ////DEFINE SE _ ESSE PROP __ DEVE SER OBRIGATORIAMENTE PASSADO A ESSE NOSSO COMPONENT, OU NÃO...
 
@@ -62,26 +62,30 @@ export default {
       // default: function() { ///TAMBÉM PODEMOS RODAR FUNCTIONS PARA DERIVAR O 'default', se assim desejarmos...
       //   return 'VALORDEFAULT';
       // }
-   
-
-      validator: function(valueProvidedByTheProp) { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
 
 
-      //O VALIDATOR SEMPRE VAI RETORNAR OU 'TRUE' OU 'FALSE' 
-      ///e sempre vai receber, como parâmetro, o value PROVIDENCIADO/PASSADO no nosso prop...
-      ///dentro do validator podemos ter QUALQUER VALIDATION LOGIC DE NOSSA ESCOLHA, para determinar se o value recebido como esse prop é válido ou não....
+      validator: function (valueProvidedByTheProp) { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
 
-      ////APENAS ESSES 2 VALUES DEVERÃO SER PERMITIDOS POR NOSSO PROP.... é isso que esses checks fazem..
-      if( valueProvidedByTheProp === '1' || valueProvidedByTheProp === '0') {
 
-        return true;
-      } else {
-        ////todos outros values, para esse prop, serão NEGADOS...
-        return false;
+        //O VALIDATOR SEMPRE VAI RETORNAR OU 'TRUE' OU 'FALSE' 
+        ///e sempre vai receber, como parâmetro, o value PROVIDENCIADO/PASSADO no nosso prop...
+        ///dentro do validator podemos ter QUALQUER VALIDATION LOGIC DE NOSSA ESCOLHA, para determinar se o value recebido como esse prop é válido ou não....
+
+
+
+        ////este é um validator exemplo, que é a mesma coisa que escrever 'type: Boolean' nesse prop.... (pq, como com os booleans, aqui só permitiremos 2 values, '0' e '1', que são quase exatamente como true/false, mas com STRINGS)
+        ////APENAS ESSES 2 VALUES DEVERÃO SER PERMITIDOS POR NOSSO PROP.... é isso que esses checks fazem..
+        if (valueProvidedByTheProp === '1' || valueProvidedByTheProp === '0') {
+
+          return true;
+        } else {
+          ////todos outros values, para esse prop, serão NEGADOS...
+          return false;
+        }
+
       }
-   
-    }}
-      },
+    }
+  },
 
 
   data() {

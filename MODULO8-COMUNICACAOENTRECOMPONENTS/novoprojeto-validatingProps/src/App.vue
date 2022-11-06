@@ -6,6 +6,10 @@
     <ul>
       <friend-contact name="Manuel" phone="123456789" emailAddress="exemplo@exemplo.com" is-favorite="1"></friend-contact>
       <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" is-favorite="0"></friend-contact>
+
+
+      <!-- USAMOS A SINTAXE DE 'V-BIND' (com ou SEM a shorthand) SE QUEREMOS PASSAR, AO NOSSO PROP, UM VALUE QUE NÃO SEJA UMA STRING (como booleans, numbers, objects e arrays)-->
+      <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" :is-favorite="0"></friend-contact>
     </ul>
   </section>
 </template>
