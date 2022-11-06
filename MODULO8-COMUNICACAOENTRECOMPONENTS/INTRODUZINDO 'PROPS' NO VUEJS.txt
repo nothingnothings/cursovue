@@ -1,0 +1,1375 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESTAMOS DE VOLTA AO PROJETO QUE SETTAMOS NO MÓDULO ANTERIOR (
+    com FriendContact e etc..
+)
+
+
+
+
+
+
+
+
+
+--> npm install.....
+
+
+
+
+
+
+
+
+
+
+--> OBSERVAMOS O APP 
+
+DO PROFESSOR, DUMMY APP,
+
+BEM BÁSICO..
+
+
+
+
+
+
+
+
+
+--> ESTAMOS USANDO O COMPONENT 'FRIENDCOMPONENT',
+QUE É UM LIST ITEM...
+
+
+
+
+
+
+
+--> MAS ESSE COMPONENT TEM 1 'FALHA':
+
+
+
+A 'DATA' QUE ESTAMOS USANDO COM ELE,
+AQUELA 
+PROPRIEDADE DE 
+
+'friend',
+
+
+
+ELA É ESTÁTICA,
+
+E ESTÁ SENDO REPETIDA__ EM _ TODAS AS CÓPIAS DE 
+
+'FriendComponent'...
+
+
+
+
+
+
+
+
+
+--> TODAS AS COISAS ESTÃO ARMAZENADAS DENTRO DA PROPRIEDADE 'friend'..
+
+
+
+
+
+
+
+
+-> E ESSE É UM PADRÃO QUE VIMOS MUITAS VEZES AO LONGO DO CURSO --> ARMAZENAMOS 
+
+
+A DATA DE QUE NOSSO APP PRECISA _ _
+
+
+
+DENTRO 
+
+DA PROPRIEDADE 'DATA'...
+
+
+
+
+
+
+
+
+
+-> ENTRETANTO, COM 'COMPONENTS',
+
+
+
+__ AS COISAS GERALMENTE SÃO DIFERENTES: LÁ,
+
+
+
+àS VEZES,
+
+VOCÊ VAI QUERER 
+
+TER UM 
+
+'REUSABLE COMPONENT '-->  VOCÊ VAI QUERER TER UM CONTEÚDO HTML, SIM,
+
+MAS CERTA 
+
+
+DATA 
+
+DESSE COMPONENT DEVE SER RECEBIDA 'FROM OUTSIDE' (
+
+
+
+
+
+
+    ou seja,
+
+
+    __ LÁ DO APP/COMPONENT QUE ESTÁ USANDO ESSE COMPONENT... SERÁ ESSE 
+
+    APP QUE 
+
+
+DEVERÁ PASSAR DATA 'INTO OUR COMPONENT',
+
+ISSO PARA QUE 
+
+
+__ SEMPRE QUE _ REUTILIZAMOS NOSSO COMPONENT,
+
+POSSAMOS OUTPUTTAR 
+
+
+DIFERENTE DATA...
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUTTAR DATA SOBRE JULIE, MAX, MARIO, ETC...
+
+
+
+
+
+
+
+
+
+
+--> SERIA ÓTIMO PODER USAR ESSE COMPONENT COMO UM 'REUSABLE, CONFIGURABLE,
+
+HTML ELEMENT' 
+
+
+
+
+
+
+
+
+--> ATÉ O MOMENTO, ELE É REUTILIZÁVEL, SIM,
+
+
+MAS _ CADA __ COMPONENT_ ESTÁ USANDO A MESMA DATA(
+
+
+    e é por isso que estamos vendo 'laura' 3 vezes...
+)
+
+
+
+
+
+
+
+
+
+--> MAS ESSE É UM CONCEITO CRUCIAL DO VUE --> SER CAPAZ DE USAR 
+
+
+
+1 mesmo component, com difernete data, quando o utilizamos múltiplas vezes --> 
+
+
+
+E ESSE É UM CORE CONCEPT,
+QUE 
+
+
+
+É IMPLEMENTADO COM O VUE,
+
+
+POR MEIO DE 
+
+'PROPS' (exatamente como no REACT)..
+
+
+
+
+
+
+
+
+
+
+
+PROPS --> SEU NOME É DERIVADO DE 'PROPRIEDADES' --> VOCÊ PODE PENSAR NELES COMO 
+
+'CUSTOM HTML ATTRIBUTES' -----> 
+
+
+
+
+
+
+
+
+
+
+PENSE ASSIM:
+
+
+
+TEMOS ISTO:
+
+
+
+
+
+
+<ul> 
+    <friend-contact></friend-contact>
+        <friend-contact></friend-contact>
+</ul>
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE PASSAMOS, PARA DENTRO DISSO,
+
+PROPS COMO 
+
+'name',
+
+'phone-number',
+
+
+
+
+e 
+
+
+'email-address',
+
+tipo assim:
+
+
+
+
+<ul> 
+    <friend-contact name="Manu" phone-number="123467" email-address="exemplo"></friend-contact>
+        <friend-contact name="June" phone-number="23124125" email-address="exemplo2"></friend-contact>
+</ul>
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+É BEM PARECIDO COM O REACT...
+
+
+
+
+
+
+
+
+
+
+--> SERIA NICE SE PUDÉSSEMOS ESCREVER ASSIM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE SALVARMOS TUDO ISSO, NÃO VEREMOS ESSA DATA TODA LÁ NA TELA...
+
+
+
+
+
+
+
+
+
+--> ISSO PQ __ VOCÊ PODE _ SETTAR ESSES SO-CALLED 'PROPS'
+
+
+EM COMPONENTS,
+
+MAS 
+
+
+PARA 
+
+FICAR 
+
+CAPAZ 
+
+
+DE _ USAR ESSES PROPS DENTRO DE CADA COMPONENT,
+
+VOCÊ TAMBÉM PRECISA __ ESCREVER UM POUCO DE CÓDIGO DENTRO DE CADA COMPONENT FILE (
+
+    nesse caso,
+
+
+
+
+no component de 'FriendContact.vue' 
+)
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê BASICAMENTE PRECISA DEIXAR O VUE 'AWARE'
+
+DOS PROPS QUE 
+
+VOCÊ VAI QUERER RECEBER NESSE COMPONENT...
+
+
+
+
+
+
+
+
+--> NO NOSSO CASO,
+
+
+QUEREMOS 
+
+
+QUE O VUE 
+
+FIQUE 'AWARE'
+
+lá do 
+
+'name',
+
+
+do 
+'phone-number'
+
+e do 
+
+PHONE-ADDRESS..
+
+
+
+
+
+
+
+
+
+
+
+----> PARA FAZER ISSO,
+
+
+
+DEVEMOS IR ATÉ O 
+
+
+ARQUIVO 'FriendContact.vue',
+
+
+
+lá nas 3 'bases',
+
+que estão assim:
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h2>{{ friend.name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ friend.phone }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ friend.email }}
+      </li>
+    </ul>
+  </li>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ, DENTRO DE 'export default',
+
+VAMOS
+
+COLOCAR UMA NOVA KEY,
+
+
+
+ANTES DE 'data()' ---->  É UMA NOVA PROPRIEDADE,
+
+QUE NÃO APRENDMEOS AINDA- --> 
+
+
+
+
+
+
+
+É A PROPRIEDADE DE 'PROPS'...
+
+
+
+
+
+
+-> EM SUA VERSÃO MAIS SIMPLES,
+
+
+A PROPRIEDADE 'props'
+
+
+É UM __ ARRAY__..
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h2>{{ friend.name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ friend.phone }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ friend.email }}
+      </li>
+    </ul>
+  </li>
+</template>
+
+<script>
+export default {
+
+
+    props: [
+
+    ],
+
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR DIZ 'EM SUA VERSÃO MAIS SIMPLES'
+
+PQ, NO FUTURO,
+
+
+VAMOS APRENDER DIFERENTES MANEIRAS 
+
+
+DE USAR ESSES 'PROPS'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS NA SUA FORMA MAIS BÁSICA, ESCREVEMOS UM ARRAY,
+
+E ALI DENTRO 
+
+ESCREVEMOS TODOS OS PROPS QUE QUEREMOS ACEITAR DENTRO DESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+--> VAMOS COLOCAR CADA PROP COMO UMA _ STRING,
+TIPO ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h2>{{ friend.name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ friend.phone }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ friend.email }}
+      </li>
+    </ul>
+  </li>
+</template>
+
+<script>
+export default {
+
+
+    props: [
+        'name',
+        'phoneNumber',
+        'emailAddress'
+    ],
+
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OBS: TODOS OS 'PROPS' que você escreve com a notation 'exemplo-exemplo2'
+
+
+DEVEM SER ESCRITAS COMO 
+
+
+
+'exemploExemplo2'
+
+
+
+LÁ NO ARRAY DE PROPS ESPECIFICADOS NO COMPONENT QUE OS RECEBE...
+
+
+
+
+
+
+
+
+
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... MAS PQ 
+
+
+FORAM ESCRITOS ASSIM?
+
+
+
+
+
+
+
+É PQ _ O QUE DEFINIMOS AQUI, COMO 'PROPS',
+
+
+
+
+
+SERÁ _ DISPONÍVEL COMO _ SE FOSSE 'DATA PROPERTIES',
+
+
+
+DENTRO DE TODO ESSE 'VUE COMPONENT',
+
+INCLUSIVE
+
+
+NO VUE COMPONENT...
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+
+
+JÁ PODEMOS NOS REFERIR 
+
+A 'phoneNumber'
+
+
+EM LUGARES COMO OS METHODS,
+
+com 
+
+'this.phoneNumber',
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h2>{{ friend.name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ friend.phone }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ friend.email }}
+      </li>
+    </ul>
+  </li>
+</template>
+
+<script>
+export default {
+
+  props: [
+
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> E É POR ISSO QUE ESCREVEMOS COM camel-case, e sem dashes,
+
+
+
+
+PQ COM DASHES ISSO SERIA UMA PROPERTY NAME __ INVÁLIDA_>..
+
+
+
+
+
+
+
+--> É POR ISSO QUE 
+
+OS PROPS DE SEUS COMPONENTS DEVEM SER DEFINIDOS, NO ARRAY,
+
+COM ESSA SINTAXE...
+
+
+
+
+
+
+
+
+certo... faz sentido... 
+
+
+
+
+(
+
+    O VUEJS FAZ A TRADUÇÃO DE 'kebab-case',
+
+    USADO LÁ NA NOTAÇÃO DE PROPS NO HTML,
+
+    PARA 
+
+
+    __ CAMELCASE,
+
+    lá 
+
+
+    nas propriedades/data/methods lá do seu component...
+)
+
+
+
+
+
+
+
+
+
+
+
+MAS O TAKAWAY MAIS IMPORTANTE É 
+
+'COMO ISSO FUNCIONA' --> PQ AGORA 
+
+
+
+
+FAZEMOS 
+O VUE 
+
+_RECONEHCER _ QUE 
+
+
+'ELE TEM 3 props',
+
+QUE 
+
+VAI 
+
+RECEBER LÁ DO 'main app'..
+
+
+
+
+
+
+
+
+--> AGORA BASTA:
+
+
+
+
+
+1) TER UM ARRAY de 'friends', na propriedade 'data', lá no MAIN VUE APP..
+
+
+
+
+2) PASSAR ESSAS PROPRIEDADES/VALORES DAS PROPRIEDADES AOS COMPONENTS QUE AS RECEBEM...
+
+
+
+
+3) OUTPUTTAR ESSES VALUES, COM METHODS E COMPUTED (em cada component)...
+
+
+TAMBÉM PODEMOS OUTPUTTAR ESSES VALUES USANDO __ 'INTERPOLATED'...
+
+(usando 'this.xxxx')...
+
+
+
+
+
+
+
+
+
+
+o exemplo clássico é o 'FriendContact.vue'...
+
+
+
+
+
+
+ex (App.vue):
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <ul>
+      <friend-contact name="Manuel" phone="123456789" emailAddress="exemplo@exemplo.com" ></friend-contact>
+      <friend-contact></friend-contact>
+    </ul>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: "Jost", sans-serif;
+}
+body {
+  margin: 0;
+}
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #58004d;
+  color: white;
+  text-align: center;
+  width: 90%;
+  max-width: 40rem;
+}
+#app ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#app li {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 1rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  width: 90%;
+  max-width: 40rem;
+}
+#app h2 {
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+  color: #58004d;
+  margin: 0 0 1rem 0;
+}
+#app button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #ff0077;
+  background-color: #ff0077;
+  color: white;
+  padding: 0.05rem 1rem;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+}
+#app button:hover,
+#app button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e o FriendComponent:
+
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+// USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+PODEMOS USAR ESSES 3 PROPS... --> podemos os utilizar com 'interpolated', diretamente no template,
+
+ou então usar com 'methods' ou 'computed'...
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+SIDENOTE --> VOCÊ DEVE GARANTIR QUE VOCÊ NÃO 
+
+
+TEM 
+
+NAME CLASHES --> 
+
+
+
+
+
+
+NÃO USE O MESMO NOME DE COISAS LÁ EM 'data' e nos seus 'props',
+
+PARA NÃO TER NAME CLASHES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------- ok...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+já usamos os props no interpolated, e tudo funcionou..
+
+
+
+
+
+
+
+
+
+-> OK, AGORA CADA COMPONENT FUNCIONA 'STANDALONE',
+
+E TRABALHA COM SUA PRÓPRIA DATA...
+
+
+
+
+
+
+
+
+
+
+---> É POR ISSO QUE COMPONENTS SÃO UM GRANDE CONCEITO NO VUE, E EM PROGRAMAÇÃO EM GERAL...
+
+
+
+
+
+
+
+-> PODEMOS TER O MESMO 'BLUEPRINT',
+
+
+
+A MESMA LÓGICA DE 1 COMPONENT,
+MAS AÍ 
+
+USAR 
+
+
+
+A MESMA 'BASE' 
+
+
+DUZENTAS VEZES EM SEGUIDA,
+
+
+COM DIFERENTE DATA TODA VEZ....
+
+
+
+
+
+
+
+
+--> CRIAMOS UM COMPONENT COM HTML, LÓGICA E STYLE ESPECÍFICOS,
+
+QUE PODEMOS REUTILIZAR AO LONGO DO NOSSO APP..
+
+
+
+
+
+
+
+----> PROPS SÃO UM CONCEITO QUE USARMEOS AO LONGO DO CURSO,
+
+E É O QUE DEIXA COMPONENTS BEM ÚTEIS E FORTES...

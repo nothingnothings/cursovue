@@ -1,0 +1,148 @@
+
+
+
+
+
+
+
+
+
+NESSE MÓDULO, VEREMOS O CONCEITO DE COMPONENTS,
+
+E 
+
+
+
+O LEVAREMOS AO PRÓXIMO NÍVEL --> 
+
+
+
+
+VERMEOS:
+
+
+
+
+
+
+
+
+1) COMO _ USAR COMPONENTS REALMENTE DE FORMA REUTILIZÁVEL..
+
+
+
+
+
+
+
+2) COMO SE COMUNICAR ENTRE COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É SUPER IMPORTANTE,
+
+PQ É APENAS COM ESSE CONHECIMNETO DA 'COMMUNICATION'
+
+QUE
+
+VOCÊ FICARÁ CAPAZ DE CRIAR USER INTERFACES RICAS EM APLICATIVOS,
+
+COM COMPONENTS...
+
+
+
+
+
+
+
+--> VEREMOS A RAZÕA DE COMPONENTS SEREM TÃO FORTES,
+
+
+E 
+
+A  RAZÃO DE APPS VUE 
+
+
+_ SEREM 'ALL ABOUT COMPONENTS'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS CRIAR UMA USER INTERFACE COM COMPONENTS (
+
+    para entender como podemos 
+
+    construir uma interface com esses 'building blocks'..
+)
+
+
+
+
+
+
+
+
+VEREMOS:
+
+
+'COMO COMPONENT COMMUNICATION FUNCIONA'..
+
+
+
+
+
+
+
+
+VEREMOS QUE:
+
+
+
+'PASSAR DATA __ DE COMPONENTS E __ POR DENTRO DE COMPONENTS,
+
+É UM CONCEITO ÚTIL'....
+
+
+
+
+
+
+
+-> VEREMOS:
+
+
+
+
+
+
+
+3) DIFERENTES TIPOS DE COMPONENT COMMUNICATION (
+
+    e quando usar cada um deles..
+)
+
+
+
+
+
+--> VEREMOS COMO TRABALHAR COM COMPONENTS, E COMO FAZER ELES SE COMUNICAREM ENTRE SI...

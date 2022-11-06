@@ -1,0 +1,454 @@
+
+
+
+
+
+
+
+
+
+--> COMO REFORÇADO NA ÚLTIMA LIÇÃO,
+
+
+
+PROPS SÃO SUPER IMPORTANTES...
+
+
+
+
+
+
+
+
+
+
+--> USAMOS PROPS PARA 
+
+'PARENT-CHILD COMMUNICATION'... 
+
+
+
+
+
+
+
+
+
+-> NO CASO,
+
+
+O 'APP' (parent)
+
+
+
+SE COMUNICA COM SEUS CHILD COMPONENTS (component de 'FriendContact', nesse caso)...
+
+
+
+
+
+
+
+
+
+--> O 'friend-contact' é um 
+
+CHILD DO COMPONENT/APP DE 'App',
+
+
+JUSTAMNETE PQ É UM CHILD DELE...
+
+
+
+
+
+
+
+
+
+
+POR OUTRO LADO,
+
+
+
+
+O 'PARENT'
+
+de 'friend-contact' é 'App'...
+
+
+
+
+
+
+
+
+--->OK... ESSES SÃO TERMOS QUE DEVEMOS TER EM MENTE --> E USAMOS PROPS PARA PASSAR DATA DO 
+
+
+PARENT__ PARA O CHILD..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ ALGO IMPORTANTE QUE VOCÊ DEVE SABER SOBRE 'PROPS':
+
+
+
+
+
+''''PROPS, TIPICAMENTE,
+
+NÃO DEVEM SER __ MUTATED'''' --> OU SEJA,
+
+_ NÃO DEVEM SER ALTERADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE PASSMAOS UM NOVO PROP/VALUE DE PROP 
+
+
+
+EM 
+
+'friend-contact',
+
+
+LÁ NO 'App.vue'... 
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<friend-contact
+is-favorite="1"
+
+
+
+
+>
+</friend-contact>
+
+
+
+<friend-contact
+is-favorite="2"
+
+
+
+
+>
+</friend-contact>
+
+
+
+
+
+
+
+
+
+--> SERÁ ESSE PROP DE 'is-favorite' -----> É UM 
+
+
+
+NOVO PROP,
+
+QUE SERÁ ESCRITO 
+
+
+LÁ 
+
+
+
+NO PRÓPRIO 'FriendComponent',
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+// USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress'
+        'is-favorite'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> CERTO... 
+
+
+
+
+
+
+
+MAS É MELHOR DEIXAR 'is-favorite'
+
+COMO 0 OU 1,
+
+
+E AÍ 
+
+
+__ O PROFESSOR VAI QUERER OUTPUTTAR UM TEXTO ESPECIAL, A DEPENDER SE O VALUE RECEBIDO 
+
+
+NO SLOT DESSE PROP 
+
+
+FOR '0' OU '1'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+<friend-contact
+is-favorite="0"
+
+
+
+
+>
+</friend-contact>
+
+
+
+<friend-contact
+is-favorite="1"
+
+
+
+
+>
+</friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }}</h2>
+    <button @click="toggleDetails">{{ isFavorite === '1' ? '()' : '' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+// USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress'
+        'is-favorite'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EIS O CÓDIGO EM QUESTÃO:
+
+
+
+
+
+    <button @click="toggleDetails">{{ isFavorite === '1' ? '()' : '' }} Details</button>
