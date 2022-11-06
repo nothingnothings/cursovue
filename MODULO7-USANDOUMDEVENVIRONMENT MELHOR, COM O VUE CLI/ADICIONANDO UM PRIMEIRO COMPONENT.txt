@@ -1,0 +1,228 @@
+
+
+
+
+
+
+
+
+--> 
+VOCÊ TEM VUE APPS E VUE COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA USAR UM VUE COMPONENT DENTRO DE UM VUE APP MAIOR,
+
+
+VOCÊ TEM UMA SINTAXE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+
+import App from './App.vue';
+
+
+
+
+app.component(); ////EIS O CÓDIGO EM QUESTÃO...
+
+
+const app = createApp(App);
+
+
+
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO METHOD DE COMPONENT,
+
+
+PODEMOS COLOCAR ARGUMENTOS.. --> 
+
+
+
+
+
+COLOCAMOS O 'component name' (como 'friend-contact'),
+
+
+
+E DEPOIS O 'CONFIG OBJECT',
+
+QUE VAI VIVER EM __ OUTRO ARQUIVO ('arquivo vue')....
+
+
+
+
+
+
+
+
+
+
+----> ESSE ARQUIVO PRECISA SER IMPORTADO...
+
+
+
+
+
+
+
+--> tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+
+import App from './App.vue';
+
+import FriendContact from './components/FriendContact.vue'; 
+
+
+app.component('friend-contact', FriendContact); ////EIS O CÓDIGO EM QUESTÃO...
+
+
+const app = createApp(App);
+
+
+
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO VAI APONTAR AO OBJECT JAVASCRIPT QUE EXPORTAMOS LÁ NO ARQUIVO 'FriendContact.vue'...
+
+
+
+(exportado com 'export default {
+        data() {
+            return {
+                detailsAreVisible: 'exemplo'
+            }
+        }
+}
+'
+)
+
+
+
+
+
+
+----> COM
+ ISSO,
+
+
+ DESBLOQUEAMOS O 
+
+
+ COMPONENT DE 'FRIENDCONTACT NO NOSSO MAIN APP',
+
+
+ o que é ótimo...
+
+
+
+
+
+
+
+
+ ---> OK... DESBLOQUEAMOS ESSE 'CUSTOM HTML ELEMENT'..
+
+
+
+
+
+
+ --> AÍ LÁ EM 'App.vue',
+
+
+
+ DENTRO DO CÓDIGO DO TEMPLATE,
+
+ PODEMOS ADICIONAR ESSE COMPONENT QUANTAS VEZES DSEJARMOS..
+
+
+
+
+
+
+
+
+
+ --> OK.... ISSO É BEM MAIS ORGANIZADO...
+
+
+
+
+
+ ---> VAMOS VER NOSSOS COMPONENTS SEM NENHUM CSS,
+ ]
+
+
+ PQ 
+
+ AINDA NÃO ADICIONAMOS O STYLING...
+
+
+ -->veremos 
+ COMO ADICIONAR STYLING,
+
+ PARA MAIS TARDE APRENDERMOS MAIS SOBRE COMPONENTS...

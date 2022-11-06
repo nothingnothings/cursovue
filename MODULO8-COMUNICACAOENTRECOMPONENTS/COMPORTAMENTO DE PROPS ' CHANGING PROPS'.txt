@@ -452,3 +452,1110 @@ export default {
 
 
     <button @click="toggleDetails">{{ isFavorite === '1' ? '()' : '' }} Details</button>
+
+
+
+
+
+
+
+
+
+
+
+CERTO, ISSO FAZ TOTAL SENTIDO:
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }} {{ isFavorite === '1' ? '(FAVORITE)' : '' }}</h2>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+// USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress',
+        'isFavorite'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... -- >MAS PQ O PROFESSOR ESTÁ FAZENDO ISSO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, É PQ AGORA O PROFESSOR VAI INVENTAR ALGO:
+
+
+
+
+
+
+
+
+ELE __ CRIA__ 
+
+UM NOVO BUTTON EM CADA 
+
+
+
+COMPONENT 'FriendCOntact' --> ESSE METHOD VAI __ ALTERAR _ O VALUE DE 'isFavorite',
+
+
+
+aparentemenete..
+
+
+
+
+
+
+
+
+----> ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }} {{ isFavorite === '1' ? '(FAVORITE)' : '' }}</h2>
+    <button @click="toggleFavorite">Toggle Favorite</button>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+// USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',  
+        'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+        'emailAddress',
+        'isFavorite'
+  ],
+
+  data() {
+    return {
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+    toggleFavorite() {
+      this.toggleFavorite = !this.isFavorite
+    }
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OU SEJA,
+
+ESSE METHOD, DISPARADO POR ESSE BUTTON, VAI ALTERAR O VALUE DE 'isFavorite' (o prop )
+
+
+EM CADA 1 
+
+DOS COMPONENTS...
+
+
+
+
+
+
+
+
+e isso é ruim... eu acho...
+
+
+
+
+
+
+
+
+
+
+-----> EU ESCREVI TIPO ASSIM:
+
+
+
+
+
+    toggleFavorite() {
+      this.toggleFavorite = !this.isFavorite
+    }
+
+
+
+
+
+
+
+
+    --> É CLARO QUE ISSO NÃO FUNCIONARÁ,
+
+
+
+    PQ O VALUE NÃO É UM BOOLEAN:
+
+
+
+
+
+
+
+
+    DEVE SER 1 PAR DE STRINGS ( 0 e 1)..
+
+
+
+
+
+
+    ex:
+
+
+
+
+
+    
+    toggleFavorite() {
+
+
+        if (this.isFavorite === '1') {
+            this.isFavorite = '0';
+        } else  {
+            this.isFavorite = '1';
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+    toggleFavorite() {
+      if (this.isFavorite === '1') {
+        this.isFavorite = '0';
+      } else {
+        this.isFavorite = '1';
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> AO REALIZARMOS ESSA MUDANÇA/ESCRITA DESSE METHOD,
+
+IMEDIATAMENTE RECEBEMOS UM ERROR:
+
+
+
+
+
+
+
+
+
+
+'UNEXPECTED MUTATION OF ISFAVORITE PROP...''
+
+
+
+
+
+
+
+
+
+
+
+----> OK... MAS PQ RECEBEMOS ESSE ERROR?
+
+
+
+
+
+
+
+
+
+
+
+--> COMO O PROFESSOR MENCIONOU, ISSO NÃO É ALGO QUE VOCÊ DEVE FAZER...
+
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ NÃO DEVE FAZER ISSO PQ O VUE USA UM 
+
+CONCEITO/MECANISMO CHAMADO 
+
+
+'UNIDIRECTIONAL DATA-FLOW'...
+
+
+
+
+
+
+
+
+
+
+--> É UM TERMO FANCY,
+
+MAS SIGNIFICA ALGO SIMPLES:
+
+
+
+
+'''DATA PASSADA LÁ DE __ APP __ PARA "FRIEND-CONTACT"  
+
+
+
+DEVE __ SER __ APENAS_ SER ALTERADA LÁ EM APP,
+
+
+E NÃO EM __ FRIEND-CONTACT''' --> OU SEJA,
+
+
+
+
+A DATA 
+
+DEVE 
+
+SER APENAS 
+
+'''''PASSED DOWN''''' 
+
+
+LÁ 
+
+DO 
+
+'APP' 
+PARA O FRIEND-CONTACT,
+
+
+
+MAS __ ELA  (o prop)
+
+
+NÃO PODE SER __ ALTERADO_ LÁ EM 
+ 
+'FriendContact'...  -----> UMA VEZ QUE 
+
+A DATA 
+
+
+
+FOI 'PASSED DOWN',
+
+
+O 
+
+COMPONENT 'CHILD' 
+
+
+
+NÃO PODE SIMPLESMENTE _ _MUDAR __ A DATA_ PASSADA LÁ PELO PARENT COMPONENT/APP..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, ELA __ _A PRINCÍPIO__ NÃO PODE MUDAR...
+ 
+
+
+ (na verdade, os components CHILD __PODEM __ mudar a data recebida nos PROPS, mas 
+ 
+ 
+ NÃO PODEM FAZER POR MEIO DESSA FORMA DIRETA, POR MEIO DA ALTERAÇÃO 
+ 
+ DIRETA DO PROP RECEBIDO EM SI)..
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ISSO QUER DIZER QUE 
+
+
+
+
+ SE TENTARMOS TROCAR A DATA RECEBIDA LÁ EM 'isFavorite'
+
+
+ dentro de algo 
+
+
+ como o method 'toggleFavorite',
+
+
+
+ ISSO 
+
+ SERÁ 
+
+ ALERTADO PELO VUE,
+
+ PQ 
+
+ ESTAREMOS 
+
+ VIOLANDO O PADRÃO 
+
+ DO 
+
+
+ 'UNIDIRECTIONAL DATA FLOW'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> SE QUISERMOS __ ALTERAR__  ESSA DATA__ PASSADA PELO COMPONENT PARENT E RECEBIDO 
+
+ PELO COMPONENT CHILD,
+
+ HÁ DUAS POSSÍVEIS MANEIRAS:
+
+
+
+
+
+
+ 1) A PRIMEIRA MANEIRA É 
+
+ ''''COMUNICAR AO PARENT__ QUE __ QUEREMOS __ ALTERAR__ 
+
+
+ ESSE PROP''' (pedir permissão ao pai, por assim dizer)...
+
+
+
+
+ ---> ao comunicarmos que 'QUEREMOS MUDAR O VALUE DESSE PROP',
+
+
+ o parent pode IR _ _EM FRENTE__ E ENTÃO MUDAR__ O VALOR DAQUELA DATA PROPERTY (passada como prop ao child component)
+
+
+ POR SUAS PRÓPRIAS MÃOS...
+
+
+ (
+
+    COM ISSO, A 'UPDATED DATA'
+
+    É PASSADA, NOVAMENTE, AO 'friend-contact'...
+ )
+
+
+
+
+
+
+
+
+ E ESSE APPROACH 1 É UM PATTERN QUE 
+
+ ESTUDAREMOS MAIS TARDE....
+
+
+
+
+
+
+
+
+ --> É UM PATTERN IMPORTANTE, E POR ISSO LOGO O ESTUDAREMOS...
+
+
+
+
+
+
+
+
+
+ 2) O SEGUNDO APPROACH, CREIO EU,
+
+
+ É QUE VAMOS RECEBER
+
+
+ A DATA LÁ DO PROP COMO 
+
+ 'initial Data' 
+
+ DO COMPONENT CHILD,
+
+
+ DENTRO DO COMPONENT 'FriendContact',
+
+
+
+ E AÍ 
+
+
+ _ VAMOS _ REALMENTE MUDAR ESSA DATA, DENTRO DESSE COMPONENT 'FriendContact',
+
+
+ MAS TEREMOS __ PLENA CIÊNCIA DE QUE 
+
+ ESTAREMOS MUDANDO O VALUE DESSE PROP __ 
+
+
+
+ __ DENTRO __ DO PRÓPRIO 'FriendComponent',
+
+
+
+ E QUE 
+
+
+ NÃO 
+
+
+ ESTAREMOS AFETANDO A 'DATA ORIGINÁRIA' DESSE PROP, LÁ EM 
+
+
+ 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+ -_> PARA IMPLEMENTARMOS ESSE PATTERN, O PATTERN 2,
+
+
+
+ TUDO O QUE PRECISAMOS FAZER É 
+
+ __ ADICIONAR UMA NOVA 'DATA PROPERTY' 
+
+
+ NO COMPONENT DE 'FRIENDCOMPONENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> SERÁ UMA PROPRIEDADE COM __ NOME __ DIFERENTE __ DAQUELE USADO POR NOSSO PROP,
+
+
+ como 'friendIsFavorite' (em vez de 'isFavorite')...
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <h2>{{ name }} {{ isFavorite === '1' ? '(FAVORITE)' : '' }}</h2>
+    <button @click="toggleFavorite">Toggle Favorite</button>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+</template>
+
+<script>
+export default {
+
+  props: [
+    // USE ___ 'camelCase' AQUI... JÁ NO HTML, QUANDO FOR DEFINIR OS PROPS/PROP-NAMES, use 'kebab-case' (com DASHES no meio)
+    'name',
+    'phoneNumber', ////encontrado como 'phone-number', lá no MAIN APP, em que PASSAMOS A DATA A ESSE PROP...
+    'emailAddress',
+    'isFavorite'
+  ],
+
+  data() {
+    return {
+      friendIsFavorite: this.isFavorite, /////EXEMPLO DE 'MANIPULAÇÃO SAFE DO VALUE RECEBIDO POR 1 PROP, EM NOSSO CHILD COMPONENT'
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+  methods: {
+    toggleDetails() {
+      // this.phoneNumber  ////EXEMPLO DE COMO SE REFERIR A UMA PROPRIEDADE/prop definida no array de 'props'..
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+    toggleFavorite() {
+      if (this.isFavorite === '1') {
+        this.isFavorite = '0';
+      } else {
+        this.isFavorite = '1';
+      }
+    }
+
+
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> veja o códigoo:
+
+
+
+
+
+
+
+
+
+
+
+  data() {
+    return {
+      friendIsFavorite: this.isFavorite, /////EXEMPLO DE 'MANIPULAÇÃO SAFE DO VALUE RECEBIDO POR 1 PROP, EM NOSSO CHILD COMPONENT'
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ----> certo.. --> ISSO VAI SETTAR O VALUE DESSA 'DATA PROPERTY'
+
+    COMO EQUIVALENTE 
+
+    AO VALUE 
+
+
+
+    DO 'RECEIVED PROP VALUE' -----> MAS É CLARO QUE O VALUE DESSE PROP,
+    AGORA ARMAZENADO NESSA 
+
+
+    LOCAL DATA PROPERTY,
+
+    SERÁ 
+
+    AGORA TIDO 
+
+
+
+    COMO UM 'INITIAL VALUE'
+
+    desse negócio (
+
+        pq aí PODEREMOS ALTERAR O VALUE DESSE PROP/DATA DE FORMA SAFE,
+
+        SEM ALTERAR O VALUE 
+
+
+        ESCRITO LÁ NO COMPONENT PAI 'App.vue'...
+    )
+
+
+
+
+
+
+
+
+
+    EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  data() {
+    return {
+      friendIsFavorite: this.isFavorite, /////EXEMPLO DE 'MANIPULAÇÃO SAFE DO VALUE RECEBIDO POR 1 PROP, EM NOSSO CHILD COMPONENT'
+      detailsAreVisible: false,
+      friend: {
+        id: "manuel",
+        name: "Manuel Lorenz",
+        phone: "0123 45678 90",
+        email: "manuel@localhost.com",
+      },
+    };
+  },
+    toggleFavoriteCorrectVersion() {
+      if (this.friendIsFavorite === '1') {
+        this.friendIsFavorite = '0';
+      } else {
+        this.friendIsFavorite = '1';
+      }
+    }
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+
+
+OK.... E AGORA, LÁ NO TEMPLATE DE 'FRIENDCOMPONENT',
+
+PODEMOS FAZER A MESMA COISA(
+
+    fazer output da propriedade local de data 
+
+    'friendIsFavorite'...
+)
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+  <li>
+    <!-- <h2>{{ name }} {{ isFavorite === '1' ? '(FAVORITE)' : '' }}</h2> -->
+    <h2>{{ name }} {{ friendIsFavorite === '1' ? '(FAVORITE)' : '' }}</h2> <!-- SE QUEREMOS ALTERAR O VALUE DESSE 'RECEIVED PROP', é melhor fzer isso por meio de uma LOCAL DATA PROPERTY, que vai copiar esse value SEM O ALTERAR NA ORIGEM ( o que não é permitido pelo VUE)-->
+    <!-- <button @click="toggleFavorite">Toggle Favorite</button> --> <!-- ISTO É PROIBIDO. NÃO PODEMOS ALTERAR O VALUE DE UM PROP DIRETAMENTE, NO VUE... se queremos alterar esse value passado por esse prop, DEVEMOS PRIMEIRAMENTE O ARMAZENAR EM UMA LOCAL DATA PROPERTY, e então a manipular com methods/computed... -->
+    <button @click="toggleFavoriteCorrectVersion">Toggle Favorite</button>
+    <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+    <ul v-if="detailsAreVisible">
+      <li>
+        <strong>Phone:</strong>
+        {{ phoneNumber }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ emailAddress }}
+      </li>
+    </ul>
+  </li>
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS PQ O PROFESSOR NOS MOSTROU ISSO?
+
+
+
+--> É PQ ESSE 'UNIDIRECTIONAL DATA FLOW'
+
+É UM CONCEITO IMPORTANTE... --> 
+
+
+
+
+
+
+
+MAS É CLARO QUE VOCÊ TERÁ CENÁRIOS EM QUE 
+
+
+
+VOCÊ 
+
+
+'''VAI QUERER SER CAPAZ DE ALTERAR __ A DATA __ ORIGINAL,
+OBTIDA 
+
+LÁ 
+
+NO ARQUIVO 'App.vue''' --> NESSES CASOS,
+
+
+
+
+SÓ PEGAR A DATA COMO 'ORIGINAL DATA' NOS CHILD COMPONENTS 
+
+E 
+
+
+ENTÃO FAZER O CHANGE _ INTERNAMENTE, NOS CHILDS,
+
+
+
+_ NÃO É SUFICIENTE -------> É POR ISSO QUE 
+
+
+
+LOGO VEREMOS 
+
+ALTERNATIVAS/APPROACHES _ PARA 
+
+SERMOS 
+CAPAZES 
+
+DE 
+
+
+ALTERAR 
+
+O VALUE 
+
+
+DOS PROPS NA ORIGEM...
+
+
+
+(o value das data properties, passadas como props, LÁ NA ORIGEM...)
+
+
+
+
+
+
+
+
+
+-> POR ENQUNATO, VOCê DEVE TER EM MENTE:
+
+
+
+1) NÃO SE DEVE FAZER MUTAÇÃO DE PROPS 
+
+
+
+
+2) SE FOR FAZER A MUTAÇÃO DO VALUE DE ALGUM PROP,
+
+FAÇA ISSO _ DIRETAMENTE NO CHILD COMPONENT EM QUE QUER QUE 
+ESSE PROP VALUE SEJA ALTERADO,
+
+POR MEIO DE UMA 'LOCAL DATA PROPERTY',
+
+
+
+e __ NÃO FAÇA ISSO _ POR MEIO DA ALTERAÇÃO DIRETA 
+
+DO PROP (ou seja, nõa escreva coisas como 'this.prop = 'VALOR'  lá no seu child component...) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> PEGUE 1 VALUE COMO INITIAL VALUE,
+E AÍ 
+
+'CHANGE THE 
+
+COMPONENT-EXCLUSIVE PROP, INSTEAD' (lá na key 'data' do seu child component)...

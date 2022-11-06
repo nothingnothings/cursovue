@@ -1014,3 +1014,105 @@ AO MESMO TEMPO,
  _ NÃO _ USE _OS 
  2 EM 1 MESMO ELEMENTO... --> USE 1 WRAPPER COM 'V-IF',
  EM VEZ DISSO....
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////
+
+
+
+
+
+
+
+REF ATTRIBUTE --> É UM ATTRIBUTE NON-DEFAULT, COMO 'key'...
+
+
+
+
+
+
+
+
+SUA UTILIZAÇÃO É A SEGUINTE:
+
+
+
+
+
+
+
+
+    <section id="app4">
+        <!-- <input type="text" @input="saveInput"> -->
+        <!-- 'ref' é usado nos cases em que vocÊ APENAS QUER PEGAR O 'USER INPUT' uma única vez, e não 'once for every keystroke'...-->
+        <input type="text" ref="userText">
+        <button @click="setText">
+            Set Text
+        </button>
+        <p>{{ message }}</p>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> utilize se você não quer ter 'VALIDATION ON EVERY KEYSTROKE' ou algo assim..
+
+
+
+
+
+
+
+
+
+OBS: Os 'refs' PODEM SER USADOS NÃO SÓ EM 'input elements', mas em QUAISQUER ELEMENTOS HTML...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+--> O VUE BASICAMENTE 'MEMORIZA'
+
+
+QUE VOCÊ QUER ACESSO 
+
+AO INPUT ELEMENT...
+
+
+
+
+
+
+--> AÍ VOCÊ ACESSA, LÁ NO JAVASCRIPT VUE APP,
+
+
+esse elemento, por meio da escrita 'this.$refs.xxxxx'.. (como 'this.$refs.userText', nesse exemplo desse html/template)...
+

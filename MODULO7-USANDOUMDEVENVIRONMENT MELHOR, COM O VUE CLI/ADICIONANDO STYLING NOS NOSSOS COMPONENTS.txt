@@ -1,0 +1,178 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA TRABALHAREMOS COM O STYLING...
+
+
+
+
+
+
+
+--> HÁ DIFERENTES MANEIRAS DE ADICIONAR STYLING,
+
+MAS O PROFESSOR VAI MOSTRAR A MANEIRA MAIS COMUM E MAIS RECOMENDADA...
+
+
+
+
+
+
+
+
+
+-> PODEMOS ADICIONAR UM STYLE TAG ADICIONAL,
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+</template>
+
+
+
+
+
+
+
+
+
+<script>
+    </script>
+
+
+
+
+
+
+
+
+
+<style>
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+    ------> PODEMOS _ SIMPLESMENTE _ COPIAR __ TODOS OS ESTILOS CSS __ DENTRO DAS TAGS 
+
+
+
+
+DE 'STYLE'..
+
+
+
+
+
+
+
+
+
+
+--> ADICIONAMOS TODAS AS CLASSES LÁ DENTOR..
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+-->  HÁ, NA VERDADE,
+
+MAIS COISAS QUE VOCÊ PODE FAZER COM O 'STYLE TAG' --> PODEMOS 'LOCKAR' STYLES A UM 
+
+COMPONENT ESPECÍFICO, PARA QUE _ APENAS_ ELE _ RECEBA ESSES STYLES..
+
+
+
+
+
+
+
+
+
+
+--> BEM, MAS O QUE INTERESSA É QUE AGORA TEMOS ESSE 'VUE CLI',
+
+
+
+
+QUE VAI NOS AJUDAR COM TODO TIPO DE APPS...
+
+
+
+
+
+
+
+
+OBS: NÃO SE ESQUECA DE ADICIONAR 
+
+
+
+A FONTE 
+
+
+
+
+AO __ SEUS COMPONENTS/APP,
+
+
+POR MEIO DE COISAS COMO ISTO:
+
+
+
+
+
+
+Also add the following font import to the <style> section in the App.vue file (right at the beginning of the style section).
+
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
