@@ -92,12 +92,12 @@ export default {
     return {
       friendIsFavorite: this.isFavorite,
       detailsAreVisible: false,
-      friend: {
-        id: "manuel",
-        name: "Manuel Lorenz",
-        phone: "0123 45678 90",
-        email: "manuel@localhost.com",
-      },
+      // friend: {  /////NÃO É MAIS NECESSÁRIO (outsourceado para 'App.vue', que contém a data property que criará 1 elemento 'FriendContact' para cada object 'friend' in 'friends' array)
+      //   id: "manuel",
+      //   name: "Manuel Lorenz",
+      //   phone: "0123 45678 90",
+      //   email: "manuel@localhost.com",
+      // },
     };
   },
   methods: {

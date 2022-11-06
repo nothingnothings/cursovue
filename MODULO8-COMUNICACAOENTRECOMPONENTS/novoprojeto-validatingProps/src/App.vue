@@ -4,12 +4,26 @@
       <h1>My Friends</h1>
     </header>
     <ul>
-      <friend-contact name="Manuel" phone="123456789" emailAddress="exemplo@exemplo.com" is-favorite="1"></friend-contact>
-      <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" is-favorite="0"></friend-contact>
+      <!-- <friend-contact name="Manuel" phone="123456789" emailAddress="exemplo@exemplo.com" is-favorite="1"></friend-contact>
+      <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" is-favorite="0"></friend-contact> -->
 
 
       <!-- USAMOS A SINTAXE DE 'V-BIND' (com ou SEM a shorthand) SE QUEREMOS PASSAR, AO NOSSO PROP, UM VALUE QUE NÃO SEJA UMA STRING (como booleans, numbers, objects e arrays)-->
-      <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" :is-favorite="0"></friend-contact>
+      <!-- <friend-contact name="Julie" phone="122131321" emailAddress="exemplo2@exemplo2.com" :is-favorite="0"></friend-contact> -->
+
+
+      <!-- E, SIM, TAMBÉM PODEMOS USAR A SINTAXE DE 'v-for', essa directive, com CUSTOM VUE COMPONENTS... funciona exatamente como html components comuns... -->
+        <!-- e queremos que a key TAMBÉM SEJA DINÂMICA... -->
+      <friend-contact
+        v-for="friend in friends"
+        :key="friend.name"
+        :name="friend.name"
+        :phone-number="friend.phone"
+        :email-address="friend.email"
+        :is-favorite="true"
+
+      > 
+      </friend-contact>
     </ul>
   </section>
 </template>

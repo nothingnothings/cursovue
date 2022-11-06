@@ -597,3 +597,456 @@ TIPO ASSIM:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <ul>
+      <friend-contact 
+      v-for=""
+      name="Manuel" 
+      phone="123456789" 
+      emailAddress="exemplo@exemplo.com" 
+      is-favorite="1"></friend-contact>
+
+    </ul>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+        },
+      ],
+    };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+      <friend-contact
+        v-for="friend in friends"
+        key="friend.name"
+        :name="friend.name"
+        :phone-number="friend.phone"
+        :email-address="friend.email"
+        :is-favorite="true"
+
+      > 
+      </friend-contact>
+
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+-->  PRECISAMOS DA 'KEY', SIM....
+
+--> A KEY NÃO PRECISA SER ESPECIFICADA (como prop) NO SEU COMPONENT QUE RECEBE O PROP,
+
+PQ 
+
+
+
+ELA JÁ 
+
+
+
+É 
+
+COMPREENDIDA PELO VUE..
+
+
+
+
+
+
+
+
+
+--> MAS TEMOS QUE BINDAR ESSA KEY DINAMICAMENTE, COM ':key',
+
+
+PARA QUE 
+
+
+ELA REALMENTE SEJA DINÂMICA (mude a partir de cada elemento 'friend') ...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+      <friend-contact
+        v-for="friend in friends"
+        :key="friend.name"
+        :name="friend.name"
+        :phone-number="friend.phone"
+        :email-address="friend.email"
+        :is-favorite="true"
+
+      > 
+      </friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É CLARO QUE TODOS OS OUTROS FIELDS SÃO BINDADOS DINAMICAMENTE,
+
+
+com ':'...
+
+
+
+
+
+
+
+
+
+-> PQ VAMOS EXTRAIR TODOS ESSES VALUES LÁ 
+
+
+DA PROPRIEDADE DE 'data'...
+
+
+
+
+
+
+
+
+
+--> AGORA o 'v-for'
+
+VAI 
+
+CRIAR 1 'FRIEND ELEMENT'
+ 
+
+ PARA 
+
+
+ CADA 
+
+ ELEMENT NA PROPRIEDADE 'friends'..
+
+
+
+
+
+
+
+
+
+
+ --> E ESTAMOS BINDANDO VALUES DINAMICAMENTE (com ':')
+
+
+ PARA _ 'PASS IN' 
+
+
+ A DIFRENTE DATA QUE POSSUIMOS, PARA CADA FRIEND....
+
+
+
+
+
+
+
+
+
+
+ --> ISSO QUER DIZER QUE PODEMOS NOS LIVRAR DA FRIEND DATA DUMMY 
+
+ DEFINIDA LÁ 
+
+ EM 
+
+ 'FriendContact.vue' (child component),
+
+ pq ela não é mais necessária...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> NÃO PRECISAMOS 
+
+
+
+ MAIS DEIXAR 'toggleFavorite()"
+
+
+
+como antes, 
+
+
+
+
+pq agora essa propriedade é um boolean...
+
+
+
+
+
+
+
+
+
+
+--> é por isso que o professor escreve um simples toggle, tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+toggleFavorite() {
+  this.friendIsFavorite = !this.friendIsFavorite; 
+}
+
+
+
+
+
+
+
+
+
+
+(É CLARO, ESSA CONTINUA SENDO UMA 'PROPERTY DATA LOCAL', sem alterar o value originário desse prop, extraído lá de 'App.vue' )...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... MAS AGORA TEMOS UM PROBLEMA:
+
+
+
+O CÓDIGO 
+
+
+
+
+
+DO COMPONENT 'friend-contact'
+
+QUE ESTÁ RECEBENDO PROPS POR CONTA DE 'App.vue'
+ESTÁ ASSIM:
+
+
+
+
+
+      <friend-contact
+        v-for="friend in friends"
+        :key="friend.name"
+        :name="friend.name"
+        :phone-number="friend.phone"
+        :email-address="friend.email"
+        :is-favorite="true"
+
+      > 
+      </friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+      --> COMO VOCÊ PODE OBSERVAR, O VALUE DE 'is-favorite'
+
+      NÃO É ___ VERDADEIRAMENTE DINÂMICO,
+
+
+      ISSO 
+
+
+      PQ ELE SEMPRE VAI SER 'true' (e true não é uma string, sim, MAS NÃO É DINÂMICO DE VERDADE)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      -_> É POR ISSO QUE TODOS OS 'FRIENDS' ESTÃO FICANDO COM ''(favorite)''
+
+
+      ao lado --> 
+
+
+
+      MAIS TARDE VEREMOS UMA MANEIRA DE 
+
+
+
+      __ ALTERAR ISSO,
+
+
+      DEIXAR MAIS DINÂMICO, DEIXAR O 'IS-FAVORITE'
+
+
+
+      como true ou não...
+
+
+
+
+
+
+
+
+
+      --> MAS O KEY TAKEAWAY, AQUI, É QUE :
+
+
+
+      1) PODEMOS USAR 'v-for' com components 
+
+
+
+      2) podemos BINDAR NOSSOS 'PROPS' A 'DYNAMIC VALUES' (como values de propriedades em 1 array em 'data' do parent app/component)
+
+
+
+
+      3) PODEMOS REUTILIZAR COMPONENTS, E ALTERAR A DATA PASSADA A ELES...
