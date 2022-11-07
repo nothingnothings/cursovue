@@ -1116,3 +1116,37 @@ AO INPUT ELEMENT...
 
 esse elemento, por meio da escrita 'this.$refs.xxxxx'.. (como 'this.$refs.userText', nesse exemplo desse html/template)...
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////
+
+
+
+
+OUTRO RECURSO DO VUE,
+
+
+(VER AULA 'EMITINDO CUSTOM EVENTS' (CHILD -> PARENT), lá no módulo 8....
+
+
+'$this.emit()'  --> É USADO, NO SEU '<script></script>', PARA FAZER A COMUNICAÇÃO NO SENTIDO INVERSO ('child' -> 'parent')... VOCÊ FAZ EMIT DE 1 EVENT LÁ NO SEU CHILD COMPONENT, QUE ENTÃO É CAPTADO PELO PARENT QUE SEGURA ESSE CHILD COMPONENT... (E com isso podemos TRANSMITIR DATA)...
+
+
+
+
+
+
+
