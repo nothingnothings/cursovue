@@ -21,13 +21,6 @@
 <script>
 export default {
 
-  // props: [ ////É ASSIM QUE PASSAMOS O 'BARE MINIMUM' DE INFO SOBRE OS NOSSOS PROPS; NO CASO, PASSAMOS APENAS __ _o NAME _ DOS PROPS a serem recebidos por esse child component (É CLARO QUE, EM APPS MAIORES, VAMOS PASSAR MAIS INFORMAÇÕES, VAMOS 'TYPAR' OS NOSSOS PROPS, PARA QUE COISAS INCORRETAS NÃO SEJAM RECEBIDAS POR NOSSOS CHILD COMPONENTS)...
-  //   'name',
-  //   'phoneNumber',
-  //   'emailAddress',
-  //   'isFavorite'
-  // ],
-
   props: { ///MANEIRA MAIS ELABORADA DE ESPECIFICAR OS PROPS A SEREM RECEBIDOS.. --> CADA PROPS SERÁ UMA key nesse seu object...
 
     // name: String,  ///essa já é uma maneira mais elaborada de dizer o que vamos receber com esse prop.... mas há uma maneira mais detalhada ainda, vista logo abaixo desta linha:
@@ -38,31 +31,17 @@ export default {
 
 
     },
-
-
-    // phoneNumber: String,
     phoneNumber: {
       type: String,
       required: true
     },
     emailAddress: String,
 
-    ///exemplo de prop que é definido como 'OPCIONAL'
-
-    // isFavorite: {
-    //   type: String,
-    //   required: false ///será opcional
-    // }
-
 
     isFavorite: {
       type: String,
-      required: false, ///será opcional o pass desse prop
-      default: '0', //será o VALUE USADO POR ESSE PROP nesse nosso component, se ESSE PROP ESPECÍFICO não for passado pelo PARENT COMPONENT...
-      // default: function() { ///TAMBÉM PODEMOS RODAR FUNCTIONS PARA DERIVAR O 'default', se assim desejarmos...
-      //   return 'VALORDEFAULT';
-      // }
-
+      required: false, 
+      default: '0', 
 
       validator: function (valueProvidedByTheProp) { //////PODEMOS TAMBÉM TER A KEY DE 'validator', que SEMPRE SERÁ UMA FUNCTION QUE __ VAI RETORNAR __ TRUE OU FALSE...
 

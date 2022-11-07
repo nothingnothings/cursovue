@@ -18,4 +18,2641 @@ OK... ACABAMOS COM PROPS, POR ENQUANTO...
 
 
 
---> ESTMAOS 
+--> ESTMAOS uSANDO 'PROPS' PARA 
+
+PASSAR 
+
+DATA LÁ DE 
+
+
+
+'APP' para o child component ('unidirectional data communication'...)
+
+
+
+
+
+
+
+
+
+
+-_> OK, MAS E QUANTO à 'COMMUNCATION LÁ DO COMPONENT, EM DIREÇÃO AO APP/parent?'
+
+
+
+
+
+
+
+
+
+
+
+---->
+
+
+BEM, ATUALMENTE TEMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <ul>
+      <friend-contact 
+       v-for="friend in friends"
+       :key="friend.name" 
+       :name="friend.name" 
+       :phone-number="friend.phone"
+      :email-address="friend.email" 
+      :is-favorite="true">
+      </friend-contact>
+    </ul>
+  </section>
+
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E LÁ NO COMPONENT:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+      <h2>{{ name }} {{ friendIsFavorite ? '(FAVORITE)' : '' }}</h2> 
+      <button @click="toggleFavoriteCorrectVersion">Toggle Favorite</button>
+      <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+      <ul v-if="detailsAreVisible">
+        <li>
+          <strong>Phone:</strong>
+          {{ phoneNumber }}
+        </li>
+        <li>
+          <strong>Email:</strong>
+          {{ emailAddress }}
+        </li>
+      </ul>
+    </li>
+  </template>
+  
+  <script>
+  export default {
+  
+    props: [
+      'name',
+      'phoneNumber',
+      'emailAddress',
+      'isFavorite'
+    ],
+  
+    data() {
+      return {
+        friendIsFavorite: this.isFavorite,
+        detailsAreVisible: false,
+        friend: {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+      };
+    },
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+
+    toggleFavoriteCorrectVersion() {
+        this.friendIsFavorite = !this.friendIsFavorite;
+      }
+    }
+  };
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> certo, é communication 'de cima para baixo'...
+
+
+
+
+
+
+
+
+
+
+
+  -> AGORA QUEREMOS 'BAIXO PARA CIMA'....
+
+
+
+
+
+
+
+
+
+  --> UM BOM EXEMPLO DE COMMUNICATION 'BAIXO PARA CIMA' SERIA O METHOD DE 'toggleFavorite',
+
+
+  SE FIZERMOS ALGUNS AJUSTES...
+
+
+
+
+
+
+
+
+  NO MOMENTO, ELE FAZ ISTO:
+
+
+
+
+
+
+
+      toggleFavoriteCorrectVersion() {
+        this.friendIsFavorite = !this.friendIsFavorite;
+      }
+
+
+
+
+
+
+
+
+
+
+
+--> ELE É MEIO 'DUMMY',
+
+PQ SÓ VAI ALTERAR 
+
+O PRÓPRIO COMPONENT EM QUE 
+
+ELE EXISTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ESSE 'friendIsFavorite'
+
+
+
+FUNCIONA EM 1 CONTEXTO 'INDIVIDUAL' ( ou seja,
+
+podemos togglar esse state em cada individual friend),
+
+
+
+
+
+
+
+MAS ISSO (Esse state) SÓ __ MUDA _ DENTRO DO PRÓPRIO COMPONENT 'FRIEND' 
+
+
+
+
+
+
+
+
+
+
+----> isso quer dizer, em outras palavras,
+
+que 
+
+
+TODOS OS PROPS,
+
+
+como 'name',
+
+'phone',
+
+
+'email',
+
+
+
+
+
+
+
+
+
+TODOS __ ELES__ SÃO 
+
+
+
+DINÂMICOS, POSSUEM VALORES QUE SÃO ALTERADOS DE ACORDO COM O STATE DE 'APP'...
+
+
+
+
+
+
+
+
+
+
+
+MAS ISSO NÃO ACONTECE COM  o prop de 
+
+
+'is-favorite',
+
+pq 
+
+
+ELE SEMPRE ESTÁ SETTADO COMO 'true' (estaticamente),
+
+ 
+
+
+
+
+
+
+ O QUE É RUIM .... -->  O PROFESSOR 
+
+
+
+
+ APONTA QUE
+
+ ALGO QUE PODERÍAMOS FAZER 
+
+
+
+
+ É _ DEFINIR 
+
+
+
+
+
+ 'is-favorite'
+
+
+ COMO SENDO EQUIVALENTE A ALGUMA PROPRIEDADE 'isFavorite'
+
+
+
+
+
+
+ LÁ NO 'APP.vue' (parent app/component),
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+      <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     
+     
+     >
+     </friend-contact>
+    </ul>
+  </section>
+
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+          isFavorite: true
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+          isFavorite: false
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ESSA DATA 
+
+
+
+REALMENTE ESTARIA ARMAZENADA NA 'INPUT DATA'
+
+
+
+de cada friend,
+
+
+
+
+como visto assim:
+
+
+
+
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+          isFavorite: false
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+--> ISSO É O QUE TIPICAMENTE GOSTARÍAMOS DE FAZER.... -_> PQ A INFO SOBRE 
+
+
+
+'''ESSE FRIEND É UM FAVORITE NOSSO OU NÃO''' --> É TÃO 
+
+
+IMPORTANTE 
+
+E ESPECÍFICA 
+
+COMO 'phoneNumber
+
+
+e 
+
+'emailAddress'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> E ESSA DATA DE 'isFavorite
+'
+
+NÃO DEVE 
+
+
+SER UMA DATA 
+
+
+EXISTENTE 
+
+
+
+EM CADA 
+
+
+COMPONENT, manageado por cada component, e sim deve viver 
+
+
+
+NO CONTEXTO DE NOSSO MAIN APP,
+
+
+
+
+
+E ESSA DATA VAI VIR DE UMA DATABASE, OU QUALQUER COISA DO GÊNERO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... AGORA TEMOS ESSE 'isFavorite'...
+
+
+
+
+
+
+
+MANAGEADO LÁ NO 'App.vue'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> ENTRETANTO, SE TENTAMOS PASSAR ISSO COMO ANTES,
+
+
+
+tipo assim:
+
+
+
+
+
+      <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     
+     
+     >
+     </friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     --> ESSE VALUE INICIAL DE 'true'/'false'
+
+
+     SERÁ TIDO __ NOVAMENTE APENAS COMO UM 'INTIIAL PROP VALUE'... -> 
+
+
+     ISSO QUER DIZER QUE 
+
+     SE CLICAMOS 
+
+
+
+
+     EM 
+
+     'TOGGLE FAVORITE' (em qualquer 1 dos list items),
+
+
+
+     ISSO __ _SÓ _ VAI MUDAR_ O VALUE 
+
+
+     DESSA PROPRIEDADE 
+
+     __ 
+
+     DENTRO__ DE CADA COMPONENT 'FRIEND' (e __ NÃO GLOBALMENTE; OU SEJA,
+     
+     NÃO VAI ALTERAR A DATA DO OBJECT 'friend' que originou esse friend, lá em 'App.vue')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     isso quer dizer que 'toggleFavorite'
+
+
+     NÃO CONSEGUE ALTERAR, DO JEITO QUE ESTÁ,
+
+
+     __ O VALOR 
+
+
+     DESSA  PROPRIEDADE 'isFavorite'
+
+
+
+     LÁ NO FRIEND CORRESPONDENTE, 
+
+     NO 'App.vue'.. 
+
+
+
+
+
+
+     -------> OK...
+
+
+
+
+
+
+
+
+
+     NO CASO DE NOSSOS 'friends',
+
+
+     ESSA DATA DELES ESTÁ 
+
+
+
+     VINDO DIRETAMENTE DE NOSSO APP, É DATA DUMMY. .. -> 
+
+
+
+     ENTRETANTO,
+
+     SE ESSA DATA ESTIVESSE VINDO DE UMA DATABASE,
+
+
+
+
+
+
+
+
+
+     NÓS PROVAVELMENTE 
+
+     GOSTARÍAMOS DE ENVIAR 
+
+
+     ESSA DATA (acerca de ''O VALOR DE FAVORITE MUDOU'') 
+
+
+
+
+
+    DE VOLTA AO NOSSO SERVIDOR --> ISSO 
+
+
+
+    QUER DIZER,
+
+    EM OUTRAS PALAVRAS,
+
+    QUE ESSA MUDANÇA 
+
+
+    INTERNA,
+
+
+
+    QUE OCORRE 
+
+    APENAS NO INTERIOR DAQUELE COMPONENT,
+
+
+    NÃO 
+
+    __ É SUFICIENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+------> queremos mudar esse 'isFavorite'
+
+
+
+LÁ NO NOSSO ARRAY DE 'FRIENDS' TAMBÉM... ( NO 'App.vue' em si) ----> PARA ISSO,
+
+
+
+PARA REALIZAR ESSA MUDANÇA,
+
+PRECISAMOS 
+
+
+
+
+
+
+DE COMMUNICATION ___ 'DO FRIEND COMPONENT PARA __ O PARENT COMPONENT'..
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+PRECISAMOS DE UM FLUXO DE DATA QUE É O 'OPOSTO' de props...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PRECISAMOS DE ALGUMA GAMBIARRA QUE 
+DEIXE 
+
+
+
+'''LET FRIEND CONTACT __ TELL APP.VUE 
+
+
+__ THAT THE FAVORITE STATUS HAS CHANGED''' --> OK, 
+
+
+
+
+MAS COMO PODERÍAMOS FAZER ISSO,
+
+COMO PODERÍAMOS IMPLEMENTAR ISSO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> BEM, COMO ISSO FUNCIONA PARA 'REGULAR HTML ELEMENTS'?
+
+
+
+
+
+
+
+
+
+--> bem... PARA 
+
+
+
+ELEMENTOS HTML NORMAIS:
+
+
+
+
+1) SE CLICAMOS EM 1 'BUTTON', O BUTTON,
+ 
+ NO FINAL DAS CONTAS,
+
+
+ QUER_ 'LET US KNOW'
+
+
+ QUE
+
+
+
+ __ ELE FOI CLICADO ----> PARA __ ISSO, ELE 
+
+
+
+ EMITE UM 
+
+ 'CLICK EVENT',
+
+
+ A QUE __ PODEMOS FAZER 'LISTEN TO'...
+
+
+
+
+ 
+
+
+
+
+
+  -----> E A MESMA COISA OCORRE COM CUSTOM COMPONENTS, NO VUE... --> 
+
+
+
+  SE 1 COMPONENT  DEVE 'FALAR COM SEU PARENT'
+
+
+  E DEIXAR O 
+
+
+  PARENT 
+
+  'SABER QUE ALGO ACONTECEU',
+
+
+
+
+
+
+
+
+
+  ESSE __ COMPONENT _ DEVE __ FAZER EMIT DE UM 'EVENT',
+
+
+  UM EVENT A QUE O PARENT VAI PODER FAZER 'LISTEN TO' (meio como no ANGULAR)...
+
+
+
+
+
+
+
+
+
+
+  -----> E, DE FATO,
+
+
+  VOCÊ PODE FAZER EMIT DE SEUS __ PRÓPRIOS __ 'CUSTOM EVENTS',
+
+
+
+  DENTRO DE SEUS VUE COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> COMEÇAMOS, PARA EXEMPLIFICAR, COM O COMPONENT DE 'FriendContact':
+
+
+
+
+
+
+
+
+
+
+  <template>
+    <li>
+      <h2>{{ name }} {{ friendIsFavorite ? '(FAVORITE)' : '' }}</h2> 
+      <button @click="toggleFavoriteCorrectVersion">Toggle Favorite</button>
+      <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+      <ul v-if="detailsAreVisible">
+        <li>
+          <strong>Phone:</strong>
+          {{ phoneNumber }}
+        </li>
+        <li>
+          <strong>Email:</strong>
+          {{ emailAddress }}
+        </li>
+      </ul>
+    </li>
+  </template>
+  
+  <script>
+  export default {
+  
+    props: [
+      'name',
+      'phoneNumber',
+      'emailAddress',
+      'isFavorite'
+    ],
+  
+    data() {
+      return {
+        friendIsFavorite: this.isFavorite,
+        detailsAreVisible: false,
+        friend: {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+      };
+    },
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+
+    toggleFavoriteCorrectVersion() {
+        this.friendIsFavorite = !this.friendIsFavorite;
+      }
+    }
+  };
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> QUANDO 'toggleFavorite'
+
+
+
+É _ TRIGGADO__, 
+
+
+
+
+PODEMOS _ FAZER COM QUE 
+
+
+UM EVENT SEJA EMITIDO AO 'PARENT COMPONENT' (na direção do parent component)...
+
+
+
+
+
+
+
+
+
+
+
+
+-> NESSE METHOD DE 'isFavorite',
+
+
+
+
+EM VEZ DE TROCAR 
+
+
+
+
+
+
+ESSA DATA PROPERTY INTERNA 
+
+
+de 
+
+'this.friendIsFavorite',
+
+
+
+
+
+
+
+PODEMOS _ USAR 
+
+
+
+UMA EXPRESSÃO 
+
+
+
+
+ESPECIAL, 
+
+BUILT-IN DO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA USAR ESSA EXPRESSÃO,
+
+
+
+
+ESCREVEMOS:
+
+
+
+
+
+
+
+this.$
+
+
+
+
+
+
+
+
+
+
+
+-> COMO 
+
+ESSA É UMA _ EXPRESSÃO QUE VEM JUNTO COM O VUE,
+
+
+ELA 
+
+
+
+É ESCRITA COM UM 'DOLLAR SIGN NO INÍCIO' (ASSIM COMO AS 'refs', que estudamos no MÓDULO ANTERIOR, o faziam)..
+
+
+
+
+
+
+
+--> CERTO, MAS AGORA NÃO USAREMOS 'this.$refs',
+
+
+
+
+E SIM USAREMOS 
+
+
+
+
+
+'this.$emit()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> FICA TIPO ASSIM:
+
+
+
+
+    toggleFavoriteCorrectVersion() {
+        this.$emit()
+      }
+
+
+
+
+
+
+
+
+
+
+--> ESSE É UM BUILT-IN METHOD QUE VOCÊ PODE CHAMAR DENTRO DE 1 VUE COMPONENT,
+
+
+
+POR MEIO DA KEYWORD DE 'this'..
+
+
+
+
+
+--> ISSO TE DEIXA FAZER EMIT DE SEU PRÓPRIO CUSTOM 'EVENT',
+
+
+
+
+A QUE VOCê PODERÁ FAZER 'LISTEN TO',
+
+
+
+DENTRO DO PARENT COMPONENT..
+
+
+
+
+
+
+
+
+
+-------> BEM, 
+
+
+
+A QUESTÃO É QUE 
+
+
+O 
+
+
+'emit()'
+
+
+EXIGE QUE VOCÊ PASSE UM ARGUMENTO, QUE, NO CASO,
+
+SERÁ 
+
+
+'O NOME DO CUSTOM EVENT'...
+
+
+
+
+
+
+
+
+
+
+
+--> fazemos tipo assim:
+
+
+
+
+
+
+    toggleFavoriteCorrectVersion() {
+        this.$emit('customEventThatICreated'))
+      }
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+    toggleFavoriteCorrectVersion() {
+        // this.friendIsFavorite = !this.friendIsFavorite;
+
+
+        // fazemos emit de um EVENTO QUALQUER, CRIADO POR NÓS, que então será CAPTADO PELO PARENT COMPONENT...
+        this.$emit('custom-event-created-by-me');  ///COM ISSO, PODEMOS FAZER 'COMMUNICATION COM O PARENT COMPONENT desse component child...' --> ou seja, COMMUNICATION NO SENTIDO INVERSO... (sentido child -> parent) 
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK...
+
+
+
+
+
+
+
+NOS EVENTS, A CONVENÇÃO É SEMPRE USAR 'kebab-case' (event-name)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... AGORA ESTAMOS CONSEGUINDO FAZER EMIT DESSE CUSTOM EVENT..
+
+
+
+
+
+
+
+
+
+
+-_> MAS O QUE FAZEMOS COM ESSE EVENT? 
+
+
+
+
+
+
+
+-> BEM, PODEMOS FAZER 'LISTEN TO' A ESSE EVENT,
+
+EXATAMENTE COMO FAZEMOS 'LISTEN TO' a click events EM BOTÕES...
+
+
+
+
+
+
+
+
+
+--> OU SEJA, 
+
+
+
+lá em 
+
+
+'App.vue',
+
+
+
+
+
+
+podemos
+
+ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+      <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     @custom-event-created-by-me=""
+     
+     
+     >
+     </friend-contact>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA, FAZEMOS UM EVENT BINDING ali,
+
+
+E AÍ 
+
+
+
+__ BINDAMOS _ ESSE 'EVENT CUSTOMIZADO'
+
+
+
+A 
+
+
+1 METHOD QUE CRÍAMOS NO PRÓPRIO 'App.vue'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <ul>
+
+      <!--versão estática do prop 'is-favorite'-->
+      <!-- <friend-contact 
+       v-for="friend in friends"
+       :key="friend.name" 
+       :name="friend.name" 
+       :phone-number="friend.phone"
+      :email-address="friend.email" 
+      :is-favorite="true"
+      
+      
+      >
+      </friend-contact> -->
+
+
+
+      <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     @custom-event-created-by-me="toggleFavoriteStatus"
+     
+     >
+     </friend-contact>
+    </ul>
+  </section>
+
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+          isFavorite: true
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+          isFavorite: false
+        },
+      ],
+    };
+  },
+
+
+  methods: {
+    toggleFavoriteStatus() {
+
+    }
+  }
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+ISSO FUNCIONA, CLARO,
+
+
+MAS AINDA NÃO FAZEMOS COISA ALGUMA,
+
+
+PQ NÃO COLOCAMOS NENHUMA LÓGICA NO METHOD...
+
+
+
+
+
+
+
+-----> PROFESSOR COLOCA UM ALERT DENTRO DE toggleFavoriteStatus'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <ul>
+
+      <!--versão estática do prop 'is-favorite'-->
+      <!-- <friend-contact 
+       v-for="friend in friends"
+       :key="friend.name" 
+       :name="friend.name" 
+       :phone-number="friend.phone"
+      :email-address="friend.email" 
+      :is-favorite="true"
+      
+      
+      >
+      </friend-contact> -->
+
+
+
+      <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     @custom-event-created-by-me="toggleFavoriteStatus"
+     
+     >
+     </friend-contact>
+    </ul>
+  </section>
+
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+          isFavorite: true
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+          isFavorite: false
+        },
+      ],
+    };
+  },
+
+
+  methods: {
+    toggleFavoriteStatus() {
+      alert('this works, inverse component communication works!')
+    }
+  }
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSE JÁ É UM GRANDE AVANÇO...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ISSO NÃO É TUDO.. -> EMITIR UM EVENT AO PARENT COMPONENT É BOM, SIM,
+
+
+
+MAS ESSE EVENT 
+TAMBÉM DEVE CARREGAR UM POUCO DE DATA,
+
+PARA QUE 
+
+O 
+
+PARENT SAIBA 
+
+
+
+''''QUAL DOS 2 CONTACTS MUDOU SEU FAVORITESTATUS'''' (
+
+
+
+  isso pq TEMOS 
+
+  2 DIFERENTES 
+
+
+
+  CONTACTS, COM STATUS DE 'favorite'
+
+
+  INDEPENDENTES...
+)
+
+
+
+
+
+
+
+
+
+
+----> DEVEMOS 
+
+
+PASSAR A INFO DE 'QUAL INSTANCIA DE FRIENDCONTACT TEVE SEU FAVORITE STATUS ALTERADO' ----> 
+
+
+
+
+
+
+
+
+
+
+
+
+------> PARA REALIZAR ESSA TAREFA, TEMOS O SEGUNDO PARÂMETRO DE 'this.$emit()',
+
+
+
+
+QUE É USADO PARA _ PASSAR DATA__...
+
+
+
+
+
+
+
+
+-> NA VERDADE, 
+
+VOCê PODE PASSAR QUANTOS ARGUMENTOS VOCÊ QUISER,
+
+e CADA 
+
+
+ARGUMENTO SERÁ SIMPLESMENTE ___ DATA__ QUE VOCê PASSA JUNTO DE SEU EVENT...
+
+
+
+
+
+
+
+
+
+
+-----> PARA COLOCAR A 'IDENTIFICAÇÃO'
+
+
+
+
+acerca de qual instancia de 'FriendContact'
+
+
+
+VAMOS QEURER ALTERAR,
+
+
+
+
+o professor decide adicionar um NOVO PROP lá em cada 'FriendComponent',
+
+
+QUE SERÁ 
+
+'id',
+
+E QUE SERÁ __ REQUIRED...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+    props: {
+
+
+      id: {
+        type: String,
+        required: true
+      },
+    name: {
+      type: String,
+      required: false,
+    },
+
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    emailAddress: String,
+
+    isFavorite: {
+      type: String,
+      required: false,
+      default: '0',
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+------>  E JÁ TEMOS IDS, CONFORME 
+
+
+OBSERVAMOS DESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+          isFavorite: true
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+          isFavorite: false
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> AGORA BASTA BINDAR ESSA PROPRIEDADE COMO UM NOVO PROP, NO NOSSO COMPONENT CITADO NO APP:
+
+
+
+
+
+
+
+
+
+
+        <friend-contact 
+      v-for="friend in friends"
+      :key="friend.name" 
+      :name="friend.name" 
+      :id="friend.id"
+      :phone-number="friend.phone"
+     :email-address="friend.email" 
+     :is-favorite="friend.isFavorite"
+     @custom-event-created-by-me="toggleFavoriteStatus"
+     
+     >
+     </friend-contact>
+    </ul>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... --> AGORA PODEMOS FAZER 'emit'
+
+
+
+DESSE PROP 'id',
+
+
+POR MEIO DAQUELE CUSTOM EVENT,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+    toggleFavoriteCorrectVersion() {
+
+        this.$emit('custom-event-created-by-me', this.id); ///// NO SEGUNDO E SEGUINTES PARÂMETROS, VOCÊ PODE COLOCAR DATA ADICIONAL QUE VOCê QUER ENVIAR JUNTO DE SEU EVENT... no nosso caso, colocamos o 'id' do FriendContact que quer ter seu próprio 'favoriteStatus' alterado...
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ---> OK... AGORA ESSE ID ESTARÁ AVAILABLE,
+
+  TUDO PQ 
+
+  ADICIONAMOS UM 
+
+
+
+
+  PROP 
+
+
+  de 'id' 
+
+
+  nesse nosso component, que agora pode ser acessado com 'this.propName'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> CERTO.... E AGORA ESSE EVENT de 'customEventThatICreated'
+
+
+
+
+
+  VAI CARREGAR TAMBÉM ESSE ID como data -->  E AÍ,
+
+
+
+  ESSE 
+
+
+
+  VALUE _ SERÁ PROVIDENCIADO,
+
+
+
+
+  COMO PRIMEIRO ARGUMENTO,
+
+
+
+  AO METHOD QUE FAZ 'LISTEN TO' 
+
+
+  a ESSE EVENT CUSTOMIZADO, CRIADO POR NÓS (no caso, 
+  
+  
+
+  será o method ' toggleFavoriteStatus ',
+
+
+
+  lá no 'App.vue',
+
+  pq ele foi 
+
+  BINDADO 
+
+
+
+  AO EVENT CUSTOMIZADO, com a escrita 
+
+
+
+  '@customEventThatICreated="toggleFavoriteStatus" ' 
+
+  
+  
+   )
+
+
+
+
+
+
+
+
+
+
+   EX:
+
+
+
+
+
+
+
+
+
+
+    methods: {
+    toggleFavoriteStatus(friendId) {  ///como esse method está BINDADO ao custom event de 'custom-event-created-by-me', ELE VAI RECEBER OS ARGUMENTOS PASSADOS POR ESSE NOSSO CUSTOM EVENT (no caso, será o 'id' de cada friend, passado como segundo argumento de 'this.$emit()' ...)
+      // alert('this works, inverse component communication works!')
+
+
+
+      
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ISSO VAI RECEBER NOSSO 'FRIEND Id' -----> 
+
+
+
+  VAMOS GANHAR 
+
+  ESSE SEGUNDO ARGUMENTO,
+
+
+  QUANDO EMITIMOS ESSE 'SPECIAL CUSTOM EVENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK... ISSO NOS AJUDA A IDENTIFICAR O FRIEND EM QUE QUEREMOS MUDAR O 'isFavorite' 
+
+
+  , essa propriedade...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ESCREVI ALGO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+      toggleFavoriteStatus(friendId) {  ///como esse method está BINDADO ao custom event de 'custom-event-created-by-me', ELE VAI RECEBER OS ARGUMENTOS PASSADOS POR ESSE NOSSO CUSTOM EVENT (no caso, será o 'id' de cada friend, passado como segundo argumento de 'this.$emit()' ...)
+      // alert('this works, inverse component communication works!')
+
+      const friendsCopy = this.friends;
+
+
+      const friendIndex = friendsCopy.findIndex(
+        (friend) => {
+          friend.id === friendId;
+        }
+      )
+
+      friendsCopy[friendIndex].isFavorite = !friendsCopy[friendIndex];
+      this.friends = friendsCopy;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... A 'COOL THING'
+
+É QUE 
+
+
+
+ASSIM QUE A DATA DESSE 
+
+
+'FRIEND' em 'friends'
+
+FOR ALTERADA,
+
+
+O VUE JÁ VAI PASSAR 
+
+
+
+
+
+AUTOMATICMANETE
+
+
+O 
+
+'UPDATED FAVORITE STATUS'
+
+
+AO 
+
+
+NOSSO COMPONENT, 
+
+
+
+
+
+O QUE VAI FAZER COM QUE A UI SEJA AUTOMATICAMENTE UPDATADA --> 
+
+
+
+
+
+
+ISSO SIGNIFICA QUE 
+
+
+NÓS NUNCA 
+
+
+TEREMOS MUDADO 
+
+
+O 'FRIEND STATUS'
+
+DENTRO 
+
+
+DE CADA COMPONENT 'FRIENDCOMPONENT',
+
+
+
+
+E SIM QUE TEREMOS MUDADO O VALUE DESSE 'favoriteStatus'
+
+
+
+
+
+LÁ NO APP.VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+    toggleFavoriteStatus(friendId) {  ///como esse method está BINDADO ao custom event de 'custom-event-created-by-me', ELE VAI RECEBER OS ARGUMENTOS PASSADOS POR ESSE NOSSO CUSTOM EVENT (no caso, será o 'id' de cada friend, passado como segundo argumento de 'this.$emit()' ...)
+      // alert('this works, inverse component communication works!')
+
+      const friendsCopy = this.friends;
+
+
+      const friendIndex = friendsCopy.findIndex(
+        (friend) => {
+         return friend.id === friendId;
+        }
+      )
+      friendsCopy[friendIndex].isFavorite = !friendsCopy[friendIndex].isFavorite;
+
+      this.friends = friendsCopy;
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+--> A ÚNICA MUDANÇA QUE PRECISAMOS FAZER, PARA VER ESSE RESULTADO, É RETIRAR AQUELA DATA PROPERTY
+
+
+DE 'friendIsFavorite'
+
+lá de cada component,
+
+e aí 
+
+REALMENTE USAR 
+
+AQUELE PROP 
+
+
+de 'isFavorite',
+
+QUE 
+
+AGORA ESTARÁ 
+
+
+
+FUNCIONANDO CORRETAMENTE (
+
+
+  agora o vue vai detectar todas as changes,
+
+  e vai updatar corretametne...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CÓDIGO COMPLETO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+      <h2>{{ name }} {{ isFavorite ? '(FAVORITE)' : '' }}</h2> 
+      <button @click="toggleFavoriteCorrectVersion">Toggle Favorite</button>
+      <button @click="toggleDetails">{{ detailsAreVisible ? 'Hide' : 'Show' }} Details</button>
+      <ul v-if="detailsAreVisible">
+        <li>
+          <strong>Phone:</strong>
+          {{ phoneNumber }}
+        </li>
+        <li>
+          <strong>Email:</strong>
+          {{ emailAddress }} 
+        </li>
+      </ul>
+    </li>
+  </template>
+  
+  <script>
+  export default {
+  
+    // props: [
+    //   'name',
+    //   'phoneNumber',
+    //   'emailAddress',
+    //   'isFavorite'
+    // ],
+
+
+    props: {
+
+
+      id: { ///será usado com 'this.$emit()', para emitir O IDENTIFICADOR DE CADA ITEM 'FriendContact'
+        type: String,
+        required: true
+      },
+    name: {
+      type: String,
+      required: false,
+    },
+
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    emailAddress: String,
+
+    isFavorite: {
+      type: Boolean,
+      required: false,
+      default: false,
+
+      // validator: function (valueProvidedByTheProp) {
+      //   if (valueProvidedByTheProp === '1' || valueProvidedByTheProp === '0') {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // },
+    },
+  },
+
+
+
+
+  
+    data() {
+      return {
+        // friendIsFavorite: this.isFavorite,
+        detailsAreVisible: false,
+        friend: {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+      };
+    },
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+
+    toggleFavoriteCorrectVersion() {
+        // this.friendIsFavorite = !this.friendIsFavorite;
+
+
+        // fazemos emit de um EVENTO QUALQUER, CRIADO POR NÓS, que então será CAPTADO PELO PARENT COMPONENT...
+        // this.$emit('custom-event-created-by-me');  ///COM ISSO, PODEMOS FAZER 'COMMUNICATION COM O PARENT COMPONENT desse component child...' --> ou seja, COMMUNICATION NO SENTIDO INVERSO... (sentido child -> parent) 
+
+
+          ///vamos passar o ID de CADA FRIENDContact, COMO _ SEGUNDO/PRIMEIRO PARÂMETRO de 'toggleFavoriteStatus', lá no 'App.vue'
+        this.$emit('custom-event-created-by-me', this.id); ///// NO SEGUNDO E SEGUINTES PARÂMETROS, VOCÊ PODE COLOCAR DATA ADICIONAL QUE VOCê QUER ENVIAR JUNTO DE SEU EVENT... no nosso caso, colocamos o 'id' do FriendContact que quer ter seu próprio 'favoriteStatus' alterado...
+      }
+    }
+  };
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ISSO SIGNIFICA QUE AGORA ESTAMOS USANDO ESSE 'UNIDIRECTIONAL DATA FLOW'
+
+
+  NOS 2 SENTIDOS (
+
+
+
+
+
+    TANTO NO SENTIDO COMU, 'PARENT -> CHILD',
+
+
+
+
+    COMO NO INVERSO, POR MEIO DE 
+
+    'this.$emit()'
+
+
+
+    E POR MEIO DO EVENT BINDING 
+
+
+    LÁ 
+
+
+
+    NO 
+
+    PARENT COMPONENT 
+
+
+    DESSE 
+
+    CHILD COMPONENT ----> AÍ FEEDAMOS ESSA 'UPDATED DATA' 
+
+    AO CHILD DESSE PARENT ,
+
+
+
+    PARA QUE 
+
+    AÍ 
+
+
+
+
+
+  O VUE PERCEBA QUE ALGO FOI ALTERADO, PARA AÍ 
+
+
+  ALTERAR A UI ----> É ASSIM QUE TRABALHAMOS 
+
+
+COM __ COMPONENTS: PODEMOS EMITIR NOSSOS PRÓPRIOS EVENTS,
+
+E PODEMOS SETTAR NOSSA DEFAULT DATA ----->  É ACTUALLY 
+
+
+BEM PARECIDO COM O TRABALHO COM 
+
+
+
+DEFAULT HMTL ELEMENTS,
+
+
+COM A DIFERENÇA QUE AGORA 
+
+VOCê 
+
+
+__CONTROLA __ O CÓDIGO 'BEHIND' DO HTML ELEMENT, por assim dizer...
+  )
