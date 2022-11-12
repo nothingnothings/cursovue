@@ -1,3 +1,456 @@
+
+
+
+
+
+
+
+
+
+
+
+
+COMO VOCÊ PODE PERCEBER,
+
+
+
+
+
+
+EMIT DE EVENTS É ALGO IMPORTANTE (por parte dos seus child components)..
+
+
+
+
+
+
+
+
+
+
+
+--> E, ASSIM COMO COM 'PROPS',
+
+
+
+VOCÊ 
+PODE 
+
+
+DEFINIR 
+
+'O QUE É EMITIDO POR CADA  
+
+
+COMPONENT'..
+
+
+
+
+
+
+
+
+
+--> BASTA 
+
+
+
+COLOCAR UMA 
+
+
+
+KEY DE 
+
+
+
+
+
+'''emits''..
+
+
+
+
+
+
+
+
+
+-> export default {
+
+
+
+    props: {
+
+    },
+
+    emits: [],
+
+
+    data() {
+        return {
+            detailsAreVisible: false
+        }
+    },
+
+
+    methods: {
+
+     } ,
+
+     computed: {}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O 'EMITS' É O CONTRÁRIO DE 'PROPS':
+
+
+
+
+COM PROPS VOCÊ DEFINE 
+
+
+OS PROPS QUE ESSE COMPONENT VAI RECEBER...
+
+
+
+
+
+
+
+
+
+
+JÁ COM 'emits',
+
+VOCê DEFINE OS EVENTS QUE SEU COMPONNET VAI EVENTUALMENTE EMITIR --> ISSO DEIXA ÓBVIO,  A OUTROS 
+
+DEVS,
+
+O QUE 
+
+
+SEU 
+
+COMPONENT EMITE...
+
+
+
+
+
+
+
+
+
+--> VOCê PODE DEFINIR:
+
+
+
+'o nome da coisa emitida'... (event emitido)..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+emits: ['toggle-favorite']
+
+
+
+
+
+
+
+
+
+
+--> OK... AÍ VOCê PODE DEFINIR COISAS MAIS EXPLÍCITAS SOBRE SEUS EVENTS,]
+
+
+
+COMO 'A DATA QUE SERÁ EMITIDA JUNTO DE SEUS EVENTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BASTA VOCê DEFFINIR 'emits'
+
+
+COMO UM __ OBJECT (em vez de um array),
+
+E, ENTÃO,
+
+DENTRO DELE,
+
+
+
+DEFINIR A DATA QUE 
+
+VOCê EVENTUALMENTE EMITIRÁ, COMO VALUE...
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+emits: {
+
+    'toggle-favorite': (id) => {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE CASO,
+
+DEFINIMOS/DEIXAMOS EXPLÍCITO QUE VAMOS 'EMITIR ID, COMO UM PARÂMETRO DESSE EVENT'.
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+emits: {
+
+    'toggle-favorite': (id) => {
+        if () {
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ, NO CASO,
+
+PODEMOS ADICIONAR 'VALIDATION' A 
+
+
+ESSE EVENT/EMIT DESSE EVENT -->  VALIDATION PARA 
+
+
+'''CHECAR SE O ID EXISTE''' --> se o id 
+
+
+
+FOR TRUE,
+
+
+
+VAMOS QUERER RETORNAR TRUE... CASO CONTRÁRIO, V AMOS QUERER RETORNAR FALSE-- >
+
+
+
+
+
+e também colocar um console.warn,
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+emits: {
+
+    'toggle-favorite': (id) => {
+        if (id) {
+            return true;
+        } else {
+            console.warn('id is missing!');
+            return false;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+----> COM ISSO,
+
+
+
+
+
+SE TENTAMOS FAZER EMIT DE UM 
+
+EVENT SEM TER 
+
+ESSE 
+
+ARGUMENTO/DATA,
+
+
+
+VAMOS RECEBER UM ERROR (
+
+    pq colocamos o 
+
+    código de 
+
+
+    ''console.warn()
+        return false''
+)
+
+
+
+
+
+
+
+
+
+
+--> ISSO É ÚTIL _ ESPECIALMENTE__ SE VOCÊ ESTÁ TRABALHANDO EM UMA EQUIPE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR NÃO VAI USAR ESSE CÓDIGO COMPLETO DE VALIDATION, 
+
+MAS É ÚTIL CONHECER ESSA FEATURE..
+
+
+
+
+
+
+
+
+
+
+-----> OK... MAS O PROFESSOR AINDA VAI USAR A SINTAXE SIMPLES DE DEFINE DE EMITS,
+
+
+PARA 
+
+DEIXAR BEM CLARO QUAIS EVENTS ELE VAI EMITIR, POR COMPONENT..
+
+
+
+
+
+
+
+
+
+
+
+EX DO CÓDIGO COMPLETO:
+
+
+
+
+
+
 <template>
   <li>
     <h2>{{ name }} {{ friendIsFavorite === '1' ? '(FAVORITE)' : '' }}</h2>
@@ -145,3 +598,16 @@ if (id) {
   }
 };
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
