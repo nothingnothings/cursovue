@@ -1,0 +1,1863 @@
+
+
+
+
+
+
+
+
+O PROFESSOR SABE QUE 
+
+
+
+__ ENSINOU UM MONTE DE COISA,
+
+
+INFO SOBRE:
+
+
+
+1) COMPONENTS 
+
+
+
+2) PROPS 
+
+
+
+
+3) EVENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> PROPS SÃO USADOS PARA ENVIAR DATA PARA UM COMPONENT..
+
+
+
+
+
+
+
+E EVENTS 
+
+SÃO 
+
+USADOS 
+
+PARA 
+
+'TAKE DATA OUT OF A COMPONENT'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR APONTA QUE MAIS TARDE TREINAREMOS ISSO SOZINHOS,
+
+MAS que  AGORA 
+
+DEVEMOS TREINAR ISSO COM ELE....
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR QUER QUE ADICIONEMOS UM COMPONENT NOVINHO AO NOSSO APP,
+
+
+ 
+E UMA NOVA FUNCIONALIDADE TAMBÉM...
+
+
+
+
+
+
+
+
+--------> NOSSOS AMIGOS, ATÉ AGORA,
+
+ESTÃO BEM ESTÁTICOS, LÁ EM 'App.vue'
+
+
+
+
+
+
+
+--> TEMOS UM ARRAY COM 2 AMIGOS,
+
+
+
+
+
+
+
+E TEMOS AQUELA PROPRIEDADE 'isFavorite: true/false'
+
+
+
+EM CADA 
+
+'
+FRIEND',
+
+
+
+
+
+
+...
+
+
+
+
+
+
+
+
+SIM,
+
+
+
+
+
+
+
+
+ISSO FUNCIONA, PODEMOS TROCAR O VALUE DE 'isFavorite',
+
+
+
+
+
+
+MAS __ O PROBLEMA É QUE 
+
+
+__ AINDA __ NÃO É POSSÍVEL 
+
+APAGAR 
+
+
+OS NOSSOS FRIENDS, OU ADICIONAR NOVOS FRIENDS, AQUI,..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA É UMA FEATURE QUE 
+
+O PROFESSOR GOSTARIA DE ADICIONAR A ESSE DEMO APP...
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR QUER CRIAR UM NOVO COMPONENT,
+
+EM QUE:
+
+
+
+
+
+
+
+1) SEREMOS CAPAZES DE INPUTTAR A DATA PARA UM NOVO FRIEND (name, phone, email addresS)
+
+
+
+
+
+
+
+
+
+
+
+2) DEVEMOS SER CAPAZES DE FAZER 'CONFIRM' DESSA DATa (provavelmente com 'ref')
+
+
+
+
+
+
+
+
+3) POR FIM,
+ 
+
+ DEVEMOS SER CAPAZES DE ADICIONAR ESSE FRIEND AO NOSSO ARRAY DE 'FRIENDS', o que fará com que 
+
+
+ ELE SEJA OUTPUTTADO AO DOM, usando 'v-for'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PODEMOS ADICIONAR ESSA FORM LOGO ABAIXO DO 'header'
+  
+  lá em 'App.vue',
+
+
+  TIPO ASSIM:
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> COMEÇAMOS PELO CREATE DE UM NOVO COMPONENT, DE NOME 'FriendForm':
+
+
+
+
+
+
+
+  <template>
+
+    <form>
+        <input type="text">
+        <input type="email">
+    </form>
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> AÍ EU IMPORTO ISSO LÁ NO MEU APP,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+import FriendContact from './components/FriendContact.vue';
+import FriendContact from './components/FriendForm.vue';
+
+const app = createApp(App);
+
+app.component('friend-contact', FriendContact);
+app.component('friend-form', FriendForm);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E PARA USARMOS ISSO LÁ NO TEMPLATE DE 'App.vue',
+
+FICA ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <friend-form></friend-form>
+    <ul>
+      <friend-contact
+        v-for="friend in friends"
+        :key="friend.name"
+        :name="friend.name"
+        :phone-number="friend.phone"
+        :email-address="friend.email"
+        :is-favorite="true"
+
+      > 
+      </friend-contact>
+    </ul>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... AGORA SÓ FALTA FAZER ESSE COMPONENT _ FUNCIONAR__ (talvez com 'v-model' 
+
+e tals, two way binding)..
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... O CÓDIGO FICOU BOM, FUNCIONA COM O 'ADD', 
+
+MAS O REMOVE ESTÁ MEIO SEM SENTIDO ( queremos que esse button de 'remove friend' exista em CADA FRIEND, e não 
+
+
+NESSE COMPONENT DE 'FORM')...
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, O CÓDIGO ATUAL ESTÁ ASSIm:
+
+
+
+
+
+
+
+<template>
+
+    <form>
+        <input type="text" v-model="name" placeholder="Your Name">
+        <input type="email" v-model="email" placeholder="Your Email">
+        <input type="email" v-model="phoneAddress" placeholder="Your Phone Address">
+        <button type="button" @click="addFriend">Add Friend</button>
+        <button type="button" @click="removeFriend">Remove Friend</button>
+    </form>
+
+</template>
+  
+<script>
+export default {
+
+    props: ['add-friend', 'remove-friend'],
+
+    emits: {
+
+    },
+
+
+    data() {
+        return {
+            name: '',
+            email: '',
+            phoneAddress: ''
+        };
+    },
+    methods: {
+
+
+        addFriend() {
+
+            this.$emit('add-friend', { name: this.name, email: this.email, phoneAddress: this.phoneAddress })
+        },
+
+        removeFriend(id) {
+            this.$emit('remove-friend', id)
+        }
+    }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <friend-form @add-friend="addFriend" @remove-friend="removeFriend"></friend-form>
+    <ul>
+      <friend-contact v-for="friend in friends" :key="friend.name" :name="friend.name" :phone-number="friend.phone"
+        :email-address="friend.email" :is-favorite="true">
+      </friend-contact>
+    </ul>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+        {
+          id: "julie",
+          name: "Julie Jones",
+          phone: "0987 654421 21",
+          email: "julie@localhost.com",
+        },
+      ],
+    };
+  },
+
+  methods: {
+    addFriend(data) {
+      this.friends.push(data);
+    },
+
+    removeFriend(id) {
+      const friendIndex = this.friends.findIndex(
+        (friend) => {
+          return friend.id === id
+        }
+      )
+
+      this.friends.splice(friendIndex, 1);
+    }
+  }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Jost", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #58004d;
+  color: white;
+  text-align: center;
+  width: 90%;
+  max-width: 40rem;
+}
+
+#app ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#app li {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 1rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  width: 90%;
+  max-width: 40rem;
+}
+
+#app h2 {
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+  color: #58004d;
+  margin: 0 0 1rem 0;
+}
+
+#app button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid #ff0077;
+  background-color: #ff0077;
+  color: white;
+  padding: 0.05rem 1rem;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+}
+
+#app button:hover,
+#app button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> talvez seja legal também usar 'ref'
+
+
+
+em vez de 'v-model'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form>
+        <!-- <input type="text" v-model="name" placeholder="Your Name"> -->
+        <!-- <input type="email" v-model="email" placeholder="Your Email">
+        <input type="email" v-model="phoneAddress" placeholder="Your Phone Address"> -->
+        <input type="text" ref="name" placeholder="Your Name">
+        <input type="email" ref="email" placeholder="Your Email">
+        <input type="text" ref="phone" placeholder="Your Phone Address">
+        <button type="button" @click="addFriend">Add Friend</button>
+        <button type="button" @click="removeFriend">Remove Friend</button>
+    </form>
+
+</template>
+  
+<script>
+export default {
+
+    props: ['add-friend', 'remove-friend'],
+
+    emits: {
+
+    },
+
+
+    data() {
+        return {
+            // name: '',
+            // email: '',
+            // phoneAddress: ''
+        };
+    },
+    methods: {
+
+
+        addFriend() {
+
+            this.$emit('add-friend', { name: this.$refs.name.value, email: this.$refs.email.value, phoneAddress: this.$refs.phone.value })
+        },
+
+        removeFriend(id) {
+            this.$emit('remove-friend', id)
+        }
+    }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... ATÉ AÍ, TUDO BEM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESCREVE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ELE FALA O QUE FIZEMOS:
+
+
+
+
+
+
+"VAMOS CAPTAR O INPUT NESSE COMPONENT DE 'FriendForm 
+
+
+
+e AÍ EMITIR UM EVENT COM ESSA DATA, NA DIREÇÃO DO COMPONENT 'App.vue' (que 
+
+CONTERÁ O METHOD DE 'addFriend' e 'removeFriend', acho)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... AÍ TODA A 'ENTERED DATA'
+
+
+SERÁ 
+
+
+COLOCADA NO ARRAY DE 'FRIENDS' do 'App.vue'....
+
+
+
+
+
+
+
+
+
+
+-> ele começa assim:
+
+
+
+
+
+
+
+
+
+<template>
+    <form>
+
+    <div>
+    <label>Name</label>
+    <input type="text">
+    </div>
+        <div>
+    <label>Email</label>
+    <input type="email">
+    </div
+        <div>
+    <label>Phone</label>
+    <input type="tel">
+    </div>
+    <button>ADD FRIEND</button>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -> OK... AÍ TEMOS AQUELE TAG DE 
+
+
+
+
+    '<script></script>'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        export default {
+
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+    --> AÍ IMPORTAMOS ESSE COMPONENT LÁ EM 'main.js'...
+
+
+
+
+
+
+
+
+
+
+    ex:
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+import FriendContact from './components/FriendContact.vue';
+import FriendForm from './components/FriendForm.vue';
+
+const app = createApp(App);
+
+app.component('friend-contact', FriendContact);
+app.component('friend-form', FriendForm);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... 
+
+
+
+
+
+
+
+
+E AÍ ESSA FORM FOI REGISTRADA, TUDO CERTo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form>
+        <!-- <input type="text" v-model="name" placeholder="Your Name"> -->
+        <!-- <input type="email" v-model="email" placeholder="Your Email">
+        <input type="email" v-model="phoneAddress" placeholder="Your Phone Address"> -->
+        <div>
+            <label for="name">Name</label>
+            <input type="text" ref="name" placeholder="Your Name">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" ref="email" placeholder="Your Email">
+        </div>
+        <div>
+            <label for="phone">Phone</label>
+            <input type="tel" ref="phone" placeholder="Your Phone Address">
+        </div>
+        <button type="button" @click="addFriend">Add Friend</button>
+        <button type="button" @click="removeFriend">Remove Friend</button>
+    </form>
+
+</template>
+  
+<script>
+export default {
+
+    props: ['add-friend', 'remove-friend'],
+
+    emits: {
+
+    },
+
+
+    data() {
+        return {
+            // name: '',
+            // email: '',
+            // phoneAddress: ''
+        };
+    },
+    methods: {
+
+
+        addFriend() {
+
+            this.$emit('add-friend', { name: this.$refs.name.value, email: this.$refs.email.value, phoneAddress: this.$refs.phone.value })
+        },
+
+        removeFriend(id) {
+            this.$emit('remove-friend', id)
+        }
+    }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> CERTo..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ, LÁ EM APP.vue,
+
+
+
+COLOQUEI MEU NOVO COMPONENT CUSTOM, CUSTOM HTML TAG:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section>
+    <header>
+      <h1>My Friends</h1>
+    </header>
+    <friend-form @add-friend="addFriend" @remove-friend="removeFriend"></friend-form>
+    <ul>
+      <friend-contact v-for="friend in friends" :key="friend.name" :name="friend.name" :phone-number="friend.phone"
+        :email-address="friend.email" :is-favorite="true">
+      </friend-contact>
+    </ul>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> O PROFESSOR COLOCA UNS STYLINGS 
+
+
+  LÁ NO FORM,
+
+  POR MEIO 
+
+
+
+
+
+  DO TARGET 
+
+
+  DO ELEMENTO 'form' com nossos stles, tipo assim:
+
+
+
+
+
+
+  #app li,
+#app form
+ {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 1rem auto;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  width: 90%;
+  max-width: 40rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ELE COLOCA UM ARQUIVO CSS,
+
+QUE ADICIONAMOS 
+
+
+
+NO NOSSO COMPONENT DE 'FORM'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO, AGORA TEMOS ESSE 'BRAND NEW FORM COMPONENT', 
+
+O QUAL NOS PERMITE ADICIONAR 'NAME' 'PHONE' 
+
+
+
+E 
+
+'EMAIL'
+
+
+E ENTÃO 
+
+COLOCAR 
+
+'ADD 
+FRIEND'..
+
+
+
+
+
+
+
+
+----> EM QUESTÃO DE 'props',
+
+
+O 
+
+
+
+'FriendForm' 
+
+
+NÃO PRECISA DE NENHUM, PQ ELE NÃO VAI RECEBER COISA ALGUMA DE DATA(
+
+
+
+    e sim vai PRECISAR APENAS 
+
+
+
+    DE 
+
+
+
+    '__ EMIT __ DE DATA',
+
+
+
+
+    POR  MEIO DA KEY DE 
+
+    'emits',
+
+
+    EM QUE 
+
+    ESPECIFICAMOS O EVENT DE 'add-friend'
+
+
+    QUE SERÁ 
+
+
+    EMITTIDO 
+
+
+    POR ESSE COMPONENT DE 'FORM'...
+)
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form>
+        <!-- <input type="text" v-model="name" placeholder="Your Name"> -->
+        <!-- <input type="email" v-model="email" placeholder="Your Email">
+        <input type="email" v-model="phoneAddress" placeholder="Your Phone Address"> -->
+        <div>
+            <label for="name">Name</label>
+            <input type="text" ref="name" placeholder="Your Name">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" ref="email" placeholder="Your Email">
+        </div>
+        <div>
+            <label for="phone">Phone</label>
+            <input type="tel" ref="phone" placeholder="Your Phone Address">
+        </div>
+        <button type="button" @click="addFriend">Add Friend</button>
+        <!-- <button type="button" @click="removeFriend">Remove Friend</button> -->
+    </form>
+
+</template>
+  
+<script>
+export default {
+
+    props: ['add-friend'],
+
+    emits: {
+
+    },
+
+
+    data() {
+        return {
+            // name: '',
+            // email: '',
+            // phoneAddress: ''
+        };
+    },
+    methods: {
+
+
+        addFriend() {
+
+            this.$emit('add-friend', { name: this.$refs.name.value, email: this.$refs.email.value, phoneAddress: this.$refs.phone.value })
+        },
+
+        removeFriend(id) {
+            this.$emit('remove-friend', id)
+        }
+    }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR EXPLICA:
+
+
+
+
+2 MANEIRAS
+
+
+
+DE CAPTAR O INPUT FIELD DO USER:
+
+
+
+
+
+
+
+
+1) POR MEIO DE REFS 
+
+
+
+
+
+2) POR MEIO DE 'v-model' --> TWO-WAY BINDING...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> EM VEZ DE USAR '@click'
+
+
+
+NO NOSSO BUTTON,
+
+
+
+
+
+O PROFESSOR DECIDIU USAR 
+
+
+
+'@submit'
+
+
+
+
+LÁ NO NOSSO ELEMENT 'FORM',
+
+
+
+
+
+
+QUE POR SUA VEZ 
+
+
+vAI DISPARAR O METHOD DE 
+
+
+
+'addFriend' ou algo assim... ( 
+
+
+
+    é UMA ALTERNATIVA A USAR 'button type="button" ' 
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+-------> MAS SE QUEREMOS USAR O LISTENER DE '@submit',
+
+
+
+É NECESSÁRIO 
+
+USAR 
+
+
+O
+ MODIFIFER DE 
+
+
+ '.prevent'
+
+
+
+
+ PARA __ PREVENIR O COMPORTAMENTO DE 'SEND FORM'
+
+
+
+
+
+ DO ELEMENTO FORM (Qeu recarregaria a página )....
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+    <!-- versão que usa 'button type submit' e então PREVINE O DEFAULT e __SÓ ENTÃO__ executa o method... -->
+    <form @submit.prevent="addFriend">
+        <!-- <input type="text" v-model="name" placeholder="Your Name"> -->
+        <!-- <input type="email" v-model="email" placeholder="Your Email">
+        <input type="email" v-model="phoneAddress" placeholder="Your Phone Address"> -->
+        <div>
+            <label for="name">Name</label>
+            <input type="text" ref="name" placeholder="Your Name">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" ref="email" placeholder="Your Email">
+        </div>
+        <div>
+            <label for="phone">Phone</label>
+            <input type="tel" ref="phone" placeholder="Your Phone Address">
+        </div>
+        <button type="submit">Add Friend</button>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> CERTO....
+
+
+
+
+
+
+
+
+
+
+     E O METHOD DE 'addFriend':
+
+
+
+
+
+
+
+     EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+        addFriend() {
+
+            this.$emit('add-friend', { name: this.$refs.name.value, email: this.$refs.email.value, phoneAddress: this.$refs.phone.value })
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> EU USEI 'refs',
+
+
+MAS O PROFESSOR USOU 
+
+
+
+
+
+AS DATA PROPERTIES,
+
+
+
+
+MAS ISSO É EXATAMENTE A MESMA COISA,
+
+
+
+
+
+TEM O MESMO EFEITO,
+
+
+SÓ O APPROACH É UM POUCO DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+--> OK... EU AGRUPEI TUDO EM 1 ÚNICO OBJECT E EMITI ESSE OBJECT...
+
+
+
+
+
+
+
+
+-> LÁ NO 'App.vue',
+
+FIZ EXATAMENTE O QUE O PROFESSOR FEZ:
+
+
+
+
+
+    <friend-form @add-friend="addFriend"></friend-form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> OK, AÍ LÁ 
+
+
+    NOS METHODS DE 
+
+
+
+    'App.vue',
+
+    FIQUEI COM O METHOD DE 'addFriend':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        addFriend(data) {
+      this.friends.push(data);
+    },
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EU SÓ ME ESQUECI DE CRIAR AS PROPRIEDADES 'id' 
+
+e 
+'isFavorite'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA UM ID POR MEIO DE 'id: new Date().toIsoString()' 
+
+
+
+
+
+
+
+
+
+--> ISSO VAI TER UMA STRING QUE VAI REFLETIR O 'CURRENT TIMESTAMP' (
+
+    não é perfeitamente unique, mas é meio unique...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... COM ISSO, SOMOS CAPAZES DE ADICIONAR NOVOS COMPONENTS 'FRIEND CONTACT'
+
+
+
+ao dom.. --->  E FAZEMOS ISSO 
+
+
+COM UM NOVO COMPONENT, 'FriendForm',
+
+QUE TAMBÉM ESTÁ 
+
+USANDO 
+CUSTOM EVENTS...
