@@ -1,0 +1,1425 @@
+
+
+
+
+
+
+
+O PROFESSOR TEM UM NOVO ASSIGNMENT ... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER QUE PRATIQUEMOS O QUE APRENDEMOS,
+
+PARA QUE 
+CONSIGAMOS USAR TUDO ISSO POR CONTA PRÓPRIA...
+
+
+
+
+
+
+
+
+-- >TEMOS 3 TASKS:
+
+
+
+
+
+
+
+1 ) 
+
+
+
+'ADICIONAR 2 COMPONENTS AO APP',
+
+
+UM COMPONENT DE 'ACTIVEUSER',
+
+e outro de 
+
+'UserData'...
+
+
+
+
+
+
+ACTIVEUSER --> DEVE OUTPUTTAR UM USERNAME (h2) e AGE(h3)
+
+
+
+USERDATA --> DEVE OUTPUTTAR 2 INPUT FIELDS --> PARA O 'NAME' E OUTRO PARA O 'AGE'....
+
+
+
+
+OPCIONAL: ADICIONAR STYLING DE NOSSA ESCOLHA..
+
+
+
+
+
+
+
+
+
+TAREFA 2:
+
+
+
+
+OUTPUTTAR DOIS COMPONENTS SIDE-BY-SIDE NO NOSSO MAIN APP 
+
+
+
+
+
+
+
+
+
+
+3A TAREFA --> ADICIONAR USER DATA 
+
+
+
+
+E GARANTIR QUE 
+
+ELA CONTÉM 'name' 
+
+
+e 
+
+'age'...
+
+
+
+
+
+
+
+--> user data deverá ser outputtada em 'ActiveUser'...
+
+
+
+
+
+--> E DEVERÁ SER UPDATABLE COM A AJUDA DO COMPONENT 'USERDATA'..
+
+
+
+
+
+CONSEGUI FAZER ISSO, FICOU ASSim:
+
+
+
+
+
+
+
+
+
+APP.VUE:
+
+
+
+
+
+
+<template>
+
+  <section id="app">
+    <active-user :name="user.name" :age="user.age"></active-user>
+    <user-data @add-user-data="addUser"></user-data>
+  </section>
+</template>
+
+<script>
+import ActiveUser from './components/ActiveUser.vue';
+import UserData from './components/UserData.vue';
+
+export default {
+  name: 'App',
+  components: {
+    ActiveUser,
+    UserData
+  },
+  data() {
+
+    return {
+      user: {
+        name: 'EXEMPLO',
+        age: 24
+      }
+    }
+  },
+
+  methods: {
+
+    addUser(data) {
+      this.user = data;
+    }
+  }
+
+
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ACTIVEUSER.VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div>
+        <h2>{{ name }}</h2>
+        <h3>{{ age }}</h3>
+    </div>
+
+
+
+
+</template>
+
+
+
+
+<script>
+export default {
+
+
+
+    props: ['name', 'age']
+}
+
+</script>
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USERDATA.VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form @submit.prevent="sendData">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" v-model="name">
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" v-model="age">
+        </div>
+        <button type="submit">CHANGE DATA</button>
+    </form>
+
+
+
+</template>
+
+
+<script>
+export default {
+    data() {
+        return {
+            name: '',
+            age: ''
+        }
+    },
+
+    methods: {
+        sendData() {
+            this.$emit('add-user-data', { name: this.name, age: this.age })
+        }
+    }
+}
+
+</script>
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> SÓ FALTOU O STYLING, QUE O PROFESSOR PROVIDENCIOU...
+
+
+
+
+
+
+
+
+
+
+
+
+--> o professor escreve assim:
+
+
+
+
+
+
+
+
+
+<template>
+    <div>
+        <h2>{{ name }}</h2>
+        <h3>{{ age }}</h3>
+    </div>
+
+
+
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE SÓ VAI COLOCAR UM STYLE BÁSICO EM 'ActiveUser'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+<template>
+
+    <form @submit.prevent="sendData">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" v-model="name">
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" v-model="age">
+        </div>
+        <button type="submit">CHANGE DATA</button>
+    </form>
+
+
+
+</template>
+
+
+<script>
+export default {
+    data() {
+        return {
+            name: '',
+            age: ''
+        }
+    },
+
+    methods: {
+        sendData() {
+            this.$emit('add-user-data', { name: this.name, age: this.age })
+        }
+    }
+}
+
+</script>
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------->  EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form @submit.prevent="sendData">
+        <div>
+            <label for="name" placerholder="Your Name">Name</label>
+            <input type="text" v-model="name" placeholder="Your Age">
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" v-model="age">
+        </div>
+        <button type="submit">CHANGE DATA</button>
+    </form>
+
+
+
+</template>
+
+
+<script>
+export default {
+    data() {
+        return {
+            name: '',
+            age: ''
+        }
+    },
+
+    methods: {
+        sendData() {
+            this.$emit('add-user-data', { name: this.name, age: this.age })
+        }
+    }
+}
+
+</script>
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS, PRECISAMOS REGISTRAR ESSES 2 COMPONENTS NO NOSSO APP...
+
+
+
+
+
+
+
+--> VAMOS ATÉ 'main.js',
+
+E AÍ ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+import ActiveUser 
+
+
+
+import UserData 
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS ISSO:
+
+
+
+
+
+
+
+
+const app = createApp({})
+
+
+
+app.component('active-user', ActiveUser)
+
+
+
+app.component('user-data', UserData)
+
+
+
+
+app.mount('#app')
+
+
+
+
+
+
+
+
+
+--> CERTO, AGORA O VUE RECONHECE ESSES COMPONENTS,
+
+
+PODEMOS OS UTILIZAR DENTRO DE 'App.vue',..
+
+
+
+
+
+
+
+
+
+
+----> FICA TIPO ASSIM:
+
+
+
+<template>
+
+  <section id="app">
+    <active-user :name="user.name" :age="user.age"></active-user>
+    <user-data @add-user-data="addUser"></user-data>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS USAR O 'App'
+
+LÁ DO 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+--> OK, E COMO ESTÁ O 'App.vue'? 
+
+
+
+
+
+
+
+
+ESTÁ ASSIM:
+
+
+
+
+<template>
+
+  <section id="app">
+    <active-user :name="user.name" :age="user.age"></active-user>
+    <user-data @add-user-data="addUser"></user-data>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EU JÁ CONECTEI TUDO ISSO....
+
+
+
+
+
+
+
+
+
+
+
+--> NA TASK NÚMERO 3,
+
+PRECISAMOS FAZER COM QUE 
+
+
+
+
+
+NÃO SEJA DUMMY DATA OUTPUTTADA EM 'ActiveUser',
+
+
+E SIM 
+
+
+
+SEJA 
+
+
+DATA OUTPUTTADA PELO COMPONENT DE 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A COMUNICAÇÃO 
+
+
+
+
+fica mais fácil 
+
+
+
+com o setup 
+
+
+
+
+
+
+APP --> ACTIVE USER 
+I 
+I 
+I 
+I -----> USERDATA
+
+
+
+
+
+
+
+
+
+
+
+
+
+E LÁ EM DATA,
+
+
+O PROFESSOR ESCREVEU ALGO COMO EU ESCREVI:
+
+
+
+
+
+  data() {
+
+    return {
+      user: {
+        name: 'EXEMPLO',
+        age: 24
+      }
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -_> DEPOIS ELE COLOCOU UMA KEY DE 'props' 
+
+  em 
+
+  'ActiveUser',
+
+
+
+  APONTANDO QUAIS PROPS SERÃO RECEBIDOS POR ESSE 
+
+
+
+
+  COMPONENT...
+
+
+  ex:
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<template>
+    <div class="active-user">
+        <h2>{{ name }}</h2>
+        <h3>{{ age }}</h3>
+    </div>
+
+
+
+
+</template>
+
+
+
+
+<script>
+export default {
+
+
+
+    props: ['name', 'age']
+}
+
+</script>
+
+
+<style>
+
+    .active-user {
+        margin: 2rem auto;
+        max-width: 40rem;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+    }
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS É MELHOR DEIXAR A FORMA LONGA DE PROPS, PARA DEIXAR BEM EXPLÍCITO O QUE 
+
+SERÁ RECEBIDO POR ESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS ELE FAZ BIND 
+
+
+
+DOS VALUES/PROPS de 'name' e 'age'
+
+
+LÁ EM 
+
+'active-user',
+
+
+TIPO ASSIm:
+
+
+
+
+
+
+<template>
+
+  <section id="app">
+    <active-user :name="user.name" :age="user.age"></active-user>
+    <user-data @add-user-data="addUser"></user-data>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... 
+
+AGORA ESSA DATA REALMENTE ESTÁ SENDO PASSADA LÁ...
+
+
+
+
+
+
+
+--> E AGORA ESTAMOS PASSANDO VALORES DINÂMICOS A 
+
+ESSES COMPONENTS, EM VEZ DE HARD-CODED VALUES...
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR DIZ QUE PODEMOS USAR STRING INTERPOLATION PARA 
+
+
+OUTPUTTAR OS VALUES DOS PROPS 
+
+
+
+em 'ActiveUser':
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="active-user">
+        <h2>{{ name }}</h2>
+        <h3>{{ age }}</h3>
+    </div>
+
+
+
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... AÍ 
+
+
+VAMOS OBTER O VALUE DESSES PROPS...
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR FALA DA CAPTAÇÃO DO INPUT FIELD EM 'UserData',
+
+QUE EU FIZ COM 'v-model' (two-way binding),
+
+
+E QUE FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <form @submit.prevent="sendData">
+        <div>
+            <label for="name" placerholder="Your Name">Name</label>
+            <input type="text" v-model="name" placeholder="Your Age">
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" v-model="age">
+        </div>
+        <button type="submit">CHANGE DATA</button>
+    </form>
+
+
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO....
+
+
+
+
+
+
+
+E O METHOD DE 'submit' FICOU ASSIM:
+
+
+
+
+
+
+    methods: {
+        sendData() {
+            this.$emit('add-user-data', { name: this.name, age: this.age })
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> E ISSO VAI REALMENTE EMITIR ESSE EVENT, COM ESSA DATA,
+
+    QUE SERÃO CAPTADOS LÁ PELO 'App.vue',
+
+    QUE  
+
+
+
+    ENTAÕ VAI EXECUTAR SEU PRÓPRIO METHOD DE 'alterar o user',
+
+
+    que 
+
+
+
+    VAI 
+
+
+
+    REALMENTE ALTERAR A DATA QUE TEMOS LÁ 
+
+
+
+
+    NO 'data'
+
+    do 'App.vue' (e isso será REFLETIDO NO NOSSO DOM)..
+
+
+
+
+
+
+
+
+    LEMBRE-SE DO MODIFIER DE 'submit.prevent',
+
+    QUE PREVINE O DEFAULT DA PÁGINA E ENTÃO EXECUTA O METHOD PASSADO POR VOCê:
+
+
+
+
+
+
+        <form @submit.prevent="sendData">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        --> ISSO É CAPTADO LÁ NO 'App.vue',
+
+
+
+
+        POR MEIO DESTA LINHA:
+
+
+            <user-data @add-user-data="addUser"></user-data>
+
+
+
+
+
+
+
+
+
+
+
+
+            E ISSO EXECUTA ESTE METHOD:
+
+
+
+
+
+                addUser(data) {
+      this.user = data;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... E ESSE ERA O ASSIGNMENT... ACABOU...
+
+
+
+
+
+
+OK, MAS A AGE QUE ESTAMOS CAPTANDO NÃO ESTÁ SENDO EMITIDA COMO 'string'?
+
+
+
+
+
+
+sim, correto... --> 
+
+
+
+
+E AÍ ESTAMOS USANDO ISSO COMO STRING _ 
+
+
+
+LÁ 
+
+
+
+
+
+NA DATA UPDATADA... ----> ISSO QUER DIZER QUE 
+
+
+
+
+A 
+
+
+'AGE'
+
+
+ESTÁ SENDO ALTERADA,
+
+
+ESTÁ SENDO TROCADA DE 'number'
+
+para 
+
+uma 
+
+
+'STRING'....
+
+
+
+
+
+
+
+
+
+
+-> ISSO NÃO TEM 
+
+NENHUMA CONSEQUÊNCIA AGORA,
+
+
+
+MAS 
+
+
+__ QUEREMOS _ QUE 
+
+
+
+A AGE REALMENTE SEJA UM NUMBER (
+
+    e ganhamos um aviso no console por conta dessa impropriedae....
+)
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+TEMOS ESSE MINOR ERROR,
+
+QUE DEVE 
+
+SER CONSERTADO (
+
+
+imagine se você tivesse calculations,
+
+e aí 
+
+
+tivesse 
+
+essa string --> isso quebraria seu app....
+)
+
+
+
+
+
+
+--> É POR ISSO QUE DEVEMOS CONVERTER ESSA STRING,
+
+DEVEMOS CONVERTER NOSSA AGE 
+
+
+EM UMA STRING, 
+
+
+TUDO POR MEIO DO COMANDO 
+
+'+age' (em vez de só 'age' ) --> ISSO VAI CONVERTER NOSSA STRING EM UM NUMBER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+oK..
+
+
+
+
+
+DEVEMOS TER ISSO EM MENTE PARA EVITAR POSSÍVEIS BUGS, EM VÁRIOS APPS...
