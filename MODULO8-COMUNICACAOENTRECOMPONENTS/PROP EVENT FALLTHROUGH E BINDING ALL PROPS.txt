@@ -1,0 +1,741 @@
+
+
+
+
+
+
+
+DOIS CONCEITOS AVANÇADOS QUE TALVEZ JÁ TENHAMOS OUVIDO FALAR:
+
+
+
+
+
+
+
+
+
+
+'PROP FALLTHROUGH'
+
+
+
+
+
+
+
+
+
+
+'BINDING ALL PROPS ON A COMPONENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PROP FALLTHROUGH:
+
+
+
+
+
+
+
+
+--> VOCÊ PODE SETTAR PROPS (e fazer LISTEN TO a events) 
+
+
+
+EM 1 COMPONENT QUE __ VOCÊ __ NÃO REGISTROU DENTRO DE UM OUTRO COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+--> EX 'BaseButton.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <button>
+        <slot></slot>
+    </button>
+</template>
+
+
+<script>export default {} </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE COMPONENT 'BUTTON' (que pode existir para SETTAR UM BUTTON COM ALGUM DEFAULT STYLING NO SEU APP)
+
+
+
+NÃO TEM NENHUM 'special prop' 
+
+
+a ser registrado/recebido...
+
+
+
+
+
+
+
+
+-----> AINDA ASSIM,
+
+
+
+VOCÊ PODE USAR ESSE COMPONENT 'BUTTON' dessa forma:
+
+
+
+
+
+
+
+
+
+<base-button type="submit" @click="doSomething">Click me</base-button>
+
+
+
+
+
+
+
+
+
+
+
+----> AINDA QUE VOCê ___ NÃO __ TENHA SETTADO 
+
+
+''type'' (é um prop/attribute, tecnicamente) 
+
+
+
+ou 
+
+
+
+'''@click''',
+
+
+ESSE CLICK LISTENER,
+
+
+
+
+AMBOS ___ FUNCIONARIAM/SERIAM DEFINIDOS 
+
+
+LÁ 
+
+
+
+NO COMPONENT 'base-button',
+
+NO ELEMENTO 'button' (html normal, no interior de 'base-button')...
+
+
+
+
+
+
+
+
+----> MAS PQ DIABOS ISSO FUNCIONA?
+
+
+
+
+
+
+
+
+
+--> É PQ O VUE TEM 
+
+
+SUPORTE BUILT-IN AO 'prop'(e EVENT)  '''''FALLTHROUGH''''....
+
+
+
+
+
+
+
+
+
+-------> ISSO QUER   DIZER, EM OUTRAS PALAVRAS,
+
+QUE 
+
+
+__PROPS__ E EVENTS__ DEFINIDOS ___ EM 
+
+
+
+
+UM 'CUSTOM COMPONENT TAG'( como '<base-button>')
+
+
+AUTOMATICAMENTE FAZEM 
+
+'FALL THROUGH'
+
+
+
+ATÉ O __ _ ROOT COMPONENT_ 
+
+NO TEMPLATE __ 
+
+DAQUELE COMPONENNT EM QUE VOCê OS ESCREVEU...
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que ao escrevermos 'type'
+
+
+no <base-button>,
+
+
+
+esse prop/attribute/event handler 
+
+
+QUALQUER 
+
+
+VAI __ CAIR_  ATÉ O ROOT ELEMENT on interior de 'base-button' (que, no caso, é 'button')....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE 'type' 
+
+
+e '@click'
+
+chegaram até o 'button'
+
+
+
+
+no component 'BaseButton'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> LEMBRANDO AS PROPRIEDADES ESPECIAIS DO VUE:
+
+
+
+
+
+
+
+
+1) 'THIS.$REFS.xx'
+
+
+
+
+
+2) 'this.$emit()' 
+
+
+
+
+
+E,
+ AGORA:
+
+
+
+
+
+
+
+ 3) 'this.$attrs'
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA PROPRIEDADE 'this.$attrs' 
+
+
+
+
+, QUE É __ BUILT-IN,
+
+
+
+
+TE DEIXA __ ACESSAR 
+
+
+ESSES 'FALLTHROUGH PROPS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ISSO PODE SER ÚTIL EM CASOS 
+
+
+
+EM QEU 
+
+VOCê 
+
+
+QUER 
+
+
+BUILDAR 
+
+
+
+'UTILITY' OU 'PURE PRESENTATIONAL'
+
+components,
+
+
+em qu 
+
+
+VOCÊ 
+
+
+NÃO 
+
+QUER TER QUE 
+
+DEFINIR TODOS OS PROPS E EVENTS INDIVIDUALMENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> VEREMOS ISSO 
+
+
+
+EM AÇÃO NO NOSSO CURSO,
+
+
+
+NO PROJETO APP 'Learning resources'..
+
+
+
+
+
+
+
+
+
+--> ENCONTRAMOS MAIS INFO SOBRE ESSE COMPORTAMENTO AQUI:
+
+
+
+
+
+
+
+
+
+
+
+https://v3.vuejs.org/guide/component-attrs.html
+
+
+
+
+
+
+A "fallthrough attribute" is an attribute or v-on event listener that is passed to a component,
+ but is not explicitly declared in the receiving component's props or emits. Common examples of
+  this include class, style, and id attributes.
+
+
+
+
+
+
+
+
+
+If you do not want a component to automatically inherit attributes, you can set inheritAttrs:
+ false in the component's options.
+
+
+
+
+ The common scenario for disabling attribute inheritance is when 
+ attributes need to be applied to other elements besides the root node. 
+ By setting the inheritAttrs option to false, you can take full control over where 
+ the fallthrough attributes should be applied.
+
+
+
+
+
+ These fallthrough attributes can be accessed directly in template expressions as $attrs:
+
+
+
+
+
+ <span>Fallthrough attributes: {{ $attrs }}</span>
+
+
+
+
+
+ The $attrs object includes all attributes that are not declared by the component's 
+ props or emits options (e.g., class, style, v-on listeners, etc.).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ DEPOIS DISSO,
+
+
+ TEMOS O 'BIND ALL PROPS':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ É OUTRA FEATURE/BEHAVIOR BUILT-IN 
+
+
+
+ relacionado a props..
+
+
+
+
+
+
+
+
+
+
+ -----> DIGAMOS QUE TEMOS O COMPONENT 
+
+
+
+ 'UserData.vue'...
+
+
+
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <h2>{‌{ firstname }} {‌{ lastname }}</h2>
+</template>
+
+<script>
+  export default {
+    props: ['firstname', 'lastname']
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- >VOCê __ PODERIA__ UTILIZÁ-LO ASSIm:
+
+
+
+
+
+
+
+
+<template>
+  <user-data :firstname="person.firstname" :lastname="person.lastname"></user-data>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        person: { firstname: 'Max', lastname: 'Schwarz' }
+      };
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO, ISSO É VERDADE...
+
+
+
+
+
+
+
+
+
+
+mas SE VOCê TEM UM _ OBJECT JAVASCRIPT QUE 
+
+
+JÁ __ TEM TODOS OS PROPS QUE VOCÊ QUER, DEFINIDOS COMO PROPRIEDADES EM SEU INTERIOR,
+
+
+VOCÊ PODE __ SIMPLIFICAR O CÓDIGO UM POUCO, TIPO ASSIm:
+
+
+
+
+
+
+
+<template>
+  <user-data v-bind="person"></user-data>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        person: { firstname: 'Max', lastname: 'Schwarz' }
+      };
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+-------> ISSO VAI PEGAR __ tODOS 
+
+
+OS KEY-VALUE PAIRS 
+
+DENTRO DE SEU OBJECT EM 'data',
+
+
+E ENTÃO VAI PASSAR SEUS VALUES, em ordem,
+
+
+
+COMO SENDO OS 'props'
+
+
+lá do component.... (
+
+
+    tudo por conta de 
+
+
+
+    'v-bind="person" ' 
+
+
+)
+
+
+
+
+
+
+
+With v-bind="person" you pass all key-value pairs inside of person as props to the component. That of course requires person to be a JavaScript object.
+
+This is purely optional but it's a little convenience feature that could be helpful.
