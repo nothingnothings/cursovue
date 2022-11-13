@@ -1,0 +1,111 @@
+
+
+
+COMO DIABOS O VUE NOS AJUDA 
+
+
+
+A RESOLVER ESSES PROBLEMAS DE 'PASS THROUGH' DE 
+
+PROPS E EVENTS?
+
+
+
+
+
+
+
+
+
+
+--> ANTES DE MAIS NADA,
+ 
+ É IMPORTANTE ENTENDER 
+
+
+ ''' QUE ISSO NÃO É necessariamente um PROBLEMA'',
+
+
+
+
+ E QUE 
+
+
+ PODEMOS 
+
+ CONTINUAR ESCREVENDO NOSSO CÓDIGO DA MANEIRA ANTIGA (
+
+
+
+    com o pass through 
+
+
+    de props e events POR MULTIPLOS COMPONENTS,
+
+    como com o caso do intermediador 'KnowledgeBase'
+
+
+    entre o grid e o App.vue, por exemplo....
+ )
+
+
+
+
+
+
+
+
+
+
+
+ --> MAS SE VOCÊ QUER __ SE LIVRAR DESSE CÓDIGO EXTRA,
+
+ DESSE PASS-THROUGH DESNECESSÁRIO,
+
+
+ vocÊ 
+
+ pode fazer algumas alterações no seu código...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -_> COMEÇAMOS PELO COMPONENT DE 
+
+
+
+ 'KnowledgeBase' --> 
+
+
+
+
+
+
+ a primeira coisa que 
+
+ FAZEMOS É __ REMOVER __ O 
+
+
+
+
+RECEIVE DE PROPS DE 'topics'
+
+
+LÁ NO COMPONENT DE 
+
+'KnowledgeBase':
+
+
+
+
+

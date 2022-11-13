@@ -1,0 +1,963 @@
+
+
+
+
+
+
+
+O PROFESSOR PREPAROU OUTRO PROJETO PARA NÓS..
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS BAIXÁ-LO..
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER 
+
+
+
+
+QUE 
+
+NÓS 
+
+EXAMINEMOS UM 
+
+PROBLEMA QUE 
+
+FREQUENTEMENTE 
+
+VEREMOS QUANDO 
+
+CONSTRUÍRMOS 
+
+
+APPS MAIORES,
+
+E 
+
+
+EM SITUAÇÕOES EM QUE 
+
+VOCê QUER 
+PASSAR 
+
+'A LOT OF DATA AROUND'...
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR COLOCA UM DUMMY APP BEM SIMPLES...
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS SELECIONAR UM TÓPICO E TALS,
+
+
+E PODEMOS TROCAR ENTRE OS TOPICS,
+E DE ACORDO COM O TOPIC 
+
+
+ESCOLHIDO,
+
+O 
+
+
+
+CONTEÚDO 
+
+LÁ DE CIMA (da section de cima )
+
+
+É UPDATADO...
+
+
+
+
+
+
+
+
+-_> ISSO NÃO É NADA FANCY,
+MAS O PROFESSOR QUER QUE 
+ESTUDEMOS O CÓDIGO DESSE APP....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... O QUE HÁ DE ERRADO COM ESSE CÓDIGO? 
+
+
+
+
+
+
+
+
+
+BEM, TEMOS O SEGUINTE SETUP E COMPONENTS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <active-element
+      :topic-title="activeTopic && activeTopic.title"
+      :text="activeTopic && activeTopic.fullText"
+    ></active-element>
+    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+  </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+--> ESSE É O SETUP DE 'App.vue'..
+
+
+
+
+
+
+
+
+
+temos:
+
+
+
+
+
+ActiveElement 
+
+
+
+
+KnowledgeBase 
+
+
+
+KnowledgeElement 
+
+
+KnowledgeGrid
+
+
+
+
+
+
+
+
+
+
+
+
+-> o 'activeElement'
+
+É ONDE O CONTEÚDO 
+
+
+
+DE NOSSOS 'Topics'
+
+é carregado...
+
+
+
+
+
+
+
+
+
+a propriedade 'activeTopic'
+
+é a que interessa, e começa como 'null':
+
+
+
+
+
+      activeTopic: null,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É UMA COMMUNICATION ENTRE MÚLTIPLOS COMPONENTS NESTED....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> todos os components estão disponíveis no vue app inteiro...
+
+
+
+
+
+
+
+
+
+
+--> ACTIVEELEMENT É BEM STRAIGHTFORWARD:
+
+
+
+
+
+
+
+
+-> o 'App.vue'
+
+
+
+PROVIDENCIA A DATA NECESSÁRIA (props)
+
+
+A ESSE ELEMENT,
+
+
+
+POR MEIO DISTO:
+
+
+
+
+
+    <active-element
+      :topic-title="activeTopic && activeTopic.title"
+      :text="activeTopic && activeTopic.fullText"
+    ></active-element>
+
+
+
+
+
+
+
+
+    -> ESTAMOS PROVIDENCIANDO ESSA DATA 
+
+    por meio da propriedaed 
+
+    'activeTopic' (que inicialmente é NULL)... 
+
+
+
+
+
+
+
+-> lá temos um array de topics,
+
+e embaixo o 'activeTopic' --> 
+
+
+QUANDO O METHOD 'activeTopic'
+
+
+É TRIGGADO,
+
+O 
+
+
+ACTIVETOPIC 
+
+fica como 1 
+
+D
+OS 
+
+2 
+
+
+TOPICS QUE 
+
+TEMOS NAQUELE ARRAY..
+
+
+
+
+
+
+
+
+
+
+
+
+--> se temos, de fato, um activeTopic,
+
+essa data é passada ao 'activeElement'...
+
+
+
+
+
+
+
+--> OK, MAS 
+
+
+'''COMO UM TOPIC É SETTADO COMO UM ACTIVE TOPIC?'''
+
+
+
+
+---> conforme o professor mencionou,
+
+ISSO ACONTECE POR CONTA DO METHOD DE 'activateTopic' --> 
+
+
+
+E AÍ USAMOS O 'ID'
+
+para identificar 1 dos 2 topics 
+
+
+
+
+no array 'topics'... 
+
+
+
+
+
+
+
+--> CERTO, MAS COMO ESSE METHOD É TRIGGADO?
+
+
+
+
+
+
+
+
+--> isso acontece 
+
+
+
+LÁ NO COMPONENT DE 
+
+'KnowledgeBase'
+
+
+
+
+
+EM QUE TEMOS 
+
+
+
+
+O custom-event listener 
+
+de 
+
+'@select-topic',
+
+
+
+
+E QUANDO 
+
+ESSE 
+EVENT É DISPARADO,
+
+
+o 
+
+
+method de 'activateTopic'
+
+
+é triggado....
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM PERCEBA QUE 
+
+O 
+
+PROFESSOR 
+
+TAMBÉM 
+
+
+ESTÁ ALIMENTANDO 
+
+
+
+
+O array de 'topics'
+
+
+
+COMO __ PROP __DE 'knowledge-base' (Que é esse elemento que faz o FIRE do '@select-topic' custom event)...
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+E COMO É O COMPONENT DE 
+
+'KnowledgeBase'...?
+
+
+
+
+
+
+
+
+
+
+
+-----> BEM, LÁ EM 'KnowledgeBase'
+
+TEMOS ESTE CÓDIGO:
+
+
+
+
+<template>
+  <section>
+    <h2>Select a Topic</h2>
+    <knowledge-grid :topics="topics" @select-topic="$emit('select-topic', $event)"></knowledge-grid>
+  </section>
+</template>
+
+<script>
+export default {
+  props: ['topics'],
+  emits: ['select-topic'],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+ESTAMOS RECEBENDO 'topics'
+como prop...
+
+
+
+
+
+
+
+
+--> E, ALÉM DISSO,
+
+ESTAMOS DECLARANDO QUE 
+
+EVENTUALMENTE VAMOS FAZER 'EMIT' do 
+
+
+event de 'select-topic'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS AQUI É O LOCAL EM QUE AS COISAS FICAM INTERESANTES,
+
+
+E EM QUE PODEMOS VER UM PEQUENO PROBLEMA:
+
+
+
+
+
+
+1) ESTAMOS FORWARDANDO O 'TOPICS' 
+
+
+array, como prop,
+
+
+
+
+AO 'KnowledgeBase',
+
+QUE , POR SUA VEZ,
+
+
+
+__ ALIMENTA ESSE PROP AO SEU COMPONENT INTERNO DE 'knowledge-grid'..
+
+
+
+
+
+
+
+----> E O PROFESSOR __ _TAMBÉM __ ESTÁ EMITINDO 'select-topic'
+
+
+
+NESSE 'knowledgeBase',
+
+SiM,
+
+
+
+
+MAS _ QUANDO QUE ELE ESTÁ EMITINDO ESSE EVENT? 
+
+
+
+
+
+--> APENAS QUANDO O 'knowledge-grid' 
+
+FAZ EMIT DESSE EVENT.. --> ISSO QUER DIZER, EM OUTRAS PALAVRAS,
+
+QUE O ÚNICO PROPÓSITO DE 
+
+
+
+'knowledgeBase'
+
+
+
+É __ AGIR __cOMO UM 'PASS THROUGH COMPONENT',
+
+
+
+
+
+
+
+
+
+PQ AS ÚNICAS COISAS QUE ELE FAZ SÃO:
+
+
+
+
+1) PASSAR O PROP DE 'topics' ao component de 'knowledge-grid' 
+
+
+
+2) PASSAR O EVENT de 'select-topic' AO 
+
+COMPONENT DE 'App.vue', para que o METHOD DEFINIDO NELE SEJA DISPARADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA, EM OUTRAS PALAVRAS,
+QUE 
+'knowledgeBase'
+
+
+é um component que 
+
+'DOESNT REALLY HAVE ITS OWN LOGIC'...
+
+
+
+
+
+
+
+
+
+
+
+-> MAS ESSE CENÁRIO NÃO É DE TODO IRREALISTA:
+
+
+TALVEZ VOCÊ TENHA:
+
+1) STYLING NESSE COMPONENT 
+
+2) MARKUP ESPECIAL NESSE COMPONENT..
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE TER ESSES 'PASS-THROUGH' COMPONENTS 
+
+NÃO É TOTALMENTE SURREAL,
+
+E SERÁ ALGO QUE VOCÊ ENCONTRARÁ EM VUE APPS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS DEVEMOS ESTUDAR O 'KnowledgeGrid':
+
+
+
+
+
+
+
+
+
+--> BEM, 
+
+NESSE COMPONENT TEMOS ESTE C´DIGO:
+
+
+<template>
+  <ul>
+    <knowledge-element v-for="topic in topics"
+     :key="topic.id" 
+     :id="topic.id" 
+     :topic-name="topic.title"
+    :description="topic.description"
+     @select-topic="$emit('select-topic', $event)">
+  
+  </knowledge-element>
+  </ul>
+</template>
+
+<script>
+export default {
+  props: ['topics'],
+  emits: ['select-topic']
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE COMPONENT NÃO É UM 'PASS-THROUGH COMPONENT' --> 
+
+
+
+
+pq 
+
+
+ELE __ PRECISA E USA 'topics',
+
+
+
+
+MAS TAMBÉM PQ ELE EMITE O EVENT DE 'select-topic' ---> 
+
+
+
+
+
+
+E ESSE EVENT É O QUE INTERESSA, É O QUE REALMENTE PRECISA SER PASSADO -->  
+
+
+
+
+
+
+
+PQ, NO FINAL DAS CONTAS,
+
+É O 
+
+'KNOWLEDGE-ELEMENT'
+
+QUE 
+VAI 
+
+EMITITR 
+
+'select-topic'
+
+
+QUANDO CLICARMOS 
+
+
+NO BUTTON --> ou seja,
+
+é em 
+'KnowledgeElement'
+
+
+
+QUE ESSE EVENT É GERADO..
+
+
+
+
+
+
+
+--> E AÍ,
+ 
+ TANTO 'knowledgeGrid'
+
+ como 
+
+ 'knowledgeBase'
+
+
+ possuem a simples e única atribuição de 'forward' 
+
+
+
+ ESSE EVENT EM DIREÇÃO AO 'App.vue' -->  
+
+
+
+
+
+
+
+
+ ISSO SIGNIFICA QUE:
+
+
+ 1) 'O EVENT ACABA FUNNELED POR DENTRO DE 2 COMPONENTS'...
+
+
+
+
+E 
+
+
+ 2) O 'topics' ACABA FUNNELED POR DENTRO DE 'knowledgeBase'
+
+ PARA SÓ 
+
+ ENTÃO CHEGAR AO 'KNOWLEDGE GRID ' 
+
+
+
+
+
+
+
+
+--> TUDO AQUI FUNCIONA, E NADA DISSO É UMA MANEIRA RUIM 
+
+DE ESCREVER ´CODIGO --> E ISSO,
+
+NOVAMENTE,
+
+
+
+NOS MOSTRA COMO 
+PROPS E EVENTS FUNCIONAM --> MAS 
+
+AINDA ESTAMOS COM UM PROBLEMA:
+
+
+
+ESTAMOS COM UM PROBLEMA,
+
+DE QUE 
+
+TEMOS 
+ESSAS 
+
+
+'STEP-THROUGH' 
+
+
+
+DESNECESSÁRIAS -->  PQ 
+
+
+
+
+SERIA NICE SE 'KNOWLEDGEBASE'
+
+
+
+NÃO TIVESSE 
+
+QUE 
+
+LIDAR COM PROPS E FAZER GENERATE DE UM OUTRO EVENT (
+
+    pq NEM O 'TOPICS'
+
+
+    nem o 
+
+
+    'event' em si 
+
+    SÃO GERADOS DENTRO DE KNOWLEDGEBASE... ---> 
+
+    E NENHUM DESSES PROPS/EVENTS SÃO USADOS DENTRO DESSE COMPONENT EM SI...
+)
+
+
+
+
+
+
+
+
+--> E, NA VERDADE, O VUE TEM UMA SOLUÇÃO PARA PROBLEMAS COMO ESSE... ( é o RECURSO DE 'PROVIDE', junto com o recurso de 'INJECt')..
+
+
+
+
+
+
+
+
