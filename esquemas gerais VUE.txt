@@ -23,6 +23,51 @@ Vue.createApp(
 
 
 
+ESTRUTURA BÁSICA AVANÇADA:
+
+
+
+
+
+
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    },
+
+
+    computed: {},
+
+    watch: {},
+    
+    methods: {},
+
+    props: {},
+
+    emits: {
+
+    },
+
+    provide: {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 const app = Vue.createApp(
