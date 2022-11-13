@@ -109,3 +109,616 @@ LÁ NO COMPONENT DE
 
 
 
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>Select a Topic</h2>
+    <knowledge-grid :topics="topics" @select-topic="$emit('select-topic', $event)"></knowledge-grid>
+  </section>
+</template>
+
+<script>
+export default {
+  props: ['topics'],
+  emits: ['select-topic'],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS REMOVER ISTO:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>Select a Topic</h2>
+    <knowledge-grid :topics="topics" @select-topic="$emit('select-topic', $event)"></knowledge-grid>
+  </section>
+</template>
+
+<script>
+export default {
+  emits: ['select-topic'],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> REMOVEMOS ISSO,
+
+E AÍ 
+
+
+
+
+
+REMOVEMOS __ O PASS DESSE PROP AÍ 
+
+
+
+AO COMPONENT DE 'knowledge-grid':
+
+
+
+
+
+<template>
+  <section>
+    <h2>Select a Topic</h2>
+    <knowledge-grid @select-topic="$emit('select-topic', $event)"></knowledge-grid>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, POR ENQUANTO,
+
+
+
+VAMOS MANTER AQUELE EMITTED EVENT DE 'select-topic',
+
+
+
+feito por meio 
+
+
+
+
+deste código:
+
+
+
+
+@select-topic="$emit('select-topic', $event)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA, O QUE O PROFESSOR VAI QUERER FAZER,
+
+É PASSAR 
+
+
+OS 'topics' 
+
+
+
+
+
+
+
+
+
+AO COMPONENT DE 'KnowledgeGrid' (que é CHILD do component 'knowledgeBase')
+
+
+
+
+
+__ DE UMA 
+
+MANEIRA DIFERENTE, SEM O INTERMEDIADOR 'knowledgeBase'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ _ PRECISAMOS DOS 'TOPICS'
+
+lá em 'grid':
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <knowledge-element v-for="topic in topics"
+     :key="topic.id" 
+     :id="topic.id" 
+     :topic-name="topic.title"
+    :description="topic.description"
+     @select-topic="$emit('select-topic', $event)">
+  
+  </knowledge-element>
+  </ul>
+</template>
+
+<script>
+export default {
+  props: ['topics'],
+  emits: ['select-topic']
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSES TOPICS PRECISAM AINDA MORAR EM 'App.vue',
+
+
+
+PQ É NESSE LUGAR 
+
+QUE TEMOS 
+
+
+AQUELE COMPONENT DE 'Active-element',
+
+
+
+QUE _ PRECISA _ DOS 'TOPICS' (precisa saber sobre ele),
+
+
+
+e é lá que temos 
+
+o 
+
+'knowledgeBase',
+
+que 
+
+
+
+
+É O COMPONENT QUE 
+O CONECTA 
+
+A 
+'knowledgeGrid',
+
+
+no final das contas...
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+MAS COMO PODEMOS PASSAR OS TOPICS AO 
+
+
+'knowledgeGrid'
+
+
+SEM __ PASSAR_ POR 'KNOWLEDGEBASE'? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> BEM, PARA ISSO, ANTES DE MAIS NADA,
+PRECISAMOS 
+
+REMOVER 
+O PASS 
+
+DE 
+'topics'
+
+
+
+como 
+
+':topics="topics"' 
+,
+
+
+
+
+LÁ 
+
+NO '<knowledge-base>'
+
+
+
+DEFINIDO 
+
+NO NOSSO APP.VUE:
+
+
+
+
+
+
+
+ISTO:
+
+
+
+<template>
+  <div>
+    <active-element
+      :topic-title="activeTopic && activeTopic.title"
+      :text="activeTopic && activeTopic.fullText"
+    ></active-element>
+    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+  </div>
+</template>
+
+
+
+
+
+
+
+FICA COMO ISTO:
+
+
+   <knowledge-base @select-topic="activateTopic"></knowledge-base>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS PARA CONSEGUIRMOS FAZER ISSO,
+
+PRECISAMOS EXPLORAR 
+
+OUTRA FEATURE 
+
+
+PROVIDENCIADA PELO VUE,
+
+que é 
+
+o recurso de 
+
+
+
+'Provide'
+
+e 
+'
+Inject'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É UM __ PATTERN__ QUE VOCê PODE USAR _ PARA _ PROVIDENCIAR 
+
+
+
+
+
+
+__ DATA__ 
+
+
+
+EM 1 PLACE,
+
+
+E __ ENTÃO _ INJETAR_ ESSA DATA EM OUTRO LUGAR... 
+
+
+
+
+'''INject'' -> SIGNIFICA __ USAR__, usar essa data,
+
+
+
+EM OUTRO LOCAL...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA USAR ESSA FEATURE,
+
+
+
+
+
+
+
+
+PODEMOS COMEÇAR POR 'APP.VUE' --> 
+
+
+
+
+
+
+
+
+
+
+
+NO CONTEXTO DE 'App.vue',
+
+
+podemos/poderíamos FAZER 'PROVIDE'
+
+
+de nossos topics..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> FAZEMOS ISSO POR MEIO DA ESCRITA DE UMA KEY DE 'provide: {}'
+
+
+
+
+
+DENTRO DO CÓDIGO JAVASCRIPT, TIPO ASSIM:
+
+
+
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    },
+
+
+    computed: {},
+
+    watch: {},
+    
+    methods: {},
+
+    props: {},
+
+    emits: {
+
+    },
+
+    PROVIDE: {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    },
+
+
+    computed: {},
+
+    watch: {},
+    
+    methods: {},
+
+    props: {},
+
+    emits: {
+
+    },
+
+    provide: {
+
+    }
+}
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+E 'PROVIDE' 
+
+
+
+
+
+
+PODE PROVIDENCIAR UM OBJECT, SIM,
+
+
+
+EM 
