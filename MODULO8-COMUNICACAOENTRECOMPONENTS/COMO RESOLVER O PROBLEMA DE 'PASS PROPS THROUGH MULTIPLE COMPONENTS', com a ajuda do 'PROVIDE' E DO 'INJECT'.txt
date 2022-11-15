@@ -717,8 +717,1923 @@ E 'PROVIDE'
 
 
 
-PODE PROVIDENCIAR UM OBJECT, SIM,
+PODE SEGURAR UM OBJECT,
+
+SIM,
+
+
+EM QUE 
+
+VAMOS 
+
+
+FAZER 'PROVIDE'
+
+
+de datas de nosso app,
 
 
 
-EM 
+COMO 
+
+
+o 
+
+
+
+NOSSO 'TOPICS' array...
+
+
+
+
+
+
+
+
+
+
+
+no caso, o professor COPIA O ARRAY DE 'topics' 
+
+lá de 'data'
+
+
+
+E COLA 
+
+NESSA KEY DE 'provide':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <active-element :topic-title="activeTopic && activeTopic.title" :text="activeTopic && activeTopic.fullText">
+    </active-element>
+    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      topics: [
+        {
+          id: 'basics',
+          title: 'The Basics',
+          description: 'Core Vue basics you have to know',
+          fullText:
+            'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+        },
+        {
+          id: 'components',
+          title: 'Components',
+          description:
+            'Components are a core concept for building Vue UIs and apps',
+          fullText:
+            'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+        },
+      ],
+      activeTopic: null,
+    };
+  },
+  methods: {
+    activateTopic(topicId) {
+      this.activeTopic = this.topics.find((topic) => topic.id === topicId);
+    },
+  },
+
+  provide: {
+    topics: [
+      {
+        id: 'basics',
+        title: 'The Basics',
+        description: 'Core Vue basics you have to know',
+        fullText:
+          'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+      },
+      {
+        id: 'components',
+        title: 'Components',
+        description:
+          'Components are a core concept for building Vue UIs and apps',
+        fullText:
+          'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+      },
+    ],
+  }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+section {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 15rem;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h2 {
+  margin: 0.75rem 0;
+  text-align: center;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #c70053;
+  background-color: #c70053;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #e24d8b;
+  border-color: #e24d8b;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+
+AGORA ESTAMOS FAZENDO PROVIDE DESSE ARRAY DE TOPICS..
+
+
+
+
+
+
+ESSA É A PRIMEIRA ETAPA:
+
+
+
+
+
+
+
+
+
+
+
+
+1A ETAPA --> FAZER _ PROVIDE_ DA  DATA QUE VOCÊ VAI QUERER UTILIZAR EM OUTRO LUGAR/COMPONENT DE SEU CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+-> E O 'PROVIDE' USA UM MECANISMO INTERNO,
+PROVIDENCIADO PELO VUE....
+
+
+
+
+
+
+
+
+
+
+-_> MAS O 'PROVIDE' É APENAS METADE DA HISTÓRIA --> NÓS 
+
+
+
+
+__ TAMBÉM PRECISAMOS FAZER 'LISTEN TO' 
+
+A ESSA 
+
+
+PROVIDED DATA --> 
+
+
+
+
+
+
+
+
+
+
+2A ETAPA --> UTILIZAR ESSA 'PROVIDED DATA'
+
+
+EM OUTRO LUGAR/COMPONENT DE NOSSO CÓDIGO....
+
+
+
+
+
+
+
+
+
+
+--> NO NOSSO CASO,
+
+O LUGAR SERÁ 
+
+
+
+O COMPONENT DE 'KNOWLEDGEGRID' --> 
+
+
+
+
+
+
+PQ É NESSE LUGAR 
+
+QUE 
+
+
+
+PRECISAMOS DE NOSSO 'TOPICS'...
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR __ UTILIZAR 
+
+
+
+NOSSO 'PROVIDED TOPICS'
+nesse local,
+
+
+O PROFESSOR _ REMOVE__ O PROP de 'topics'
+
+QUE ESTAVA ELENCADO LÁ,
+
+
+E ENTAÕ 
+
+COLOCA 
+
+
+UMA KEY de 'inject',
+
+
+
+
+
+
+
+
+QUE É UMA __ KEY__ QUE _ FUNCIONA __ DE MANEIRA ESPECIAL,
+
+COM O 'provide' (SÃO UM PAR):
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <knowledge-element v-for="topic in topics"
+     :key="topic.id" 
+     :id="topic.id" 
+     :topic-name="topic.title"
+    :description="topic.description"
+     @select-topic="$emit('select-topic', $event)">
+  
+  </knowledge-element>
+  </ul>
+</template>
+
+<script>
+export default {
+  // props: ['topics'], ///substituído pelo 'PROVIDE'/'INJECT'...
+
+  inject: {
+    
+  }
+  emits: ['select-topic']
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E 'INJECT'
+
+FUNCIONA BASICAMENTE 
+
+COMO __ O 'PROPS',
+
+PQ 
+
+VOCÊ VAI PASSAR UM 
+
+__ ARRAY,
+
+
+UM ARRAY ESPECIFICANDO QUAIS 'injections'
+
+VOCÊ VAI RECEBER NESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ VAI REFERENCIAR TODA A 'PROVIDED DATA'
+
+QUE VOCÊ UTILIZARÁ 
+
+NESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+--> COMO AQUI SÓ TEREMOS 
+
+A DATA DE 'topics',
+
+
+BASTA 
+
+
+USAR ESSA KEY DE 'topics',
+
+
+E ESCREVER TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <knowledge-element v-for="topic in topics" :key="topic.id" :id="topic.id" :topic-name="topic.title"
+      :description="topic.description" @select-topic="$emit('select-topic', $event)">
+
+    </knowledge-element>
+  </ul>
+</template>
+
+<script>
+export default {
+  // props: ['topics'], ///substituído pelo 'PROVIDE'/'INJECT'...
+
+  inject: [ ///parecido com a sintaxe de 'props', mas _ SE UTILIZA DE 'PROVIDE/INJECT' (para evitar o uso de PASS-THROUGH components, components MEDIADORES.. )
+    'topics'
+  ]
+  emits: ['select-topic']
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> certo...
+
+
+
+
+
+
+
+
+MAS AQUI__ TEMOS UM DETALHE SUPER IMPORTANTE:
+
+
+
+
+
+
+
+
+
+3a ETAPA/DETALHE -------> VOCê _ _SÓ _ PODE __ 
+
+INJETAr__ COISAS QUE 
+
+
+__FORAM __ 'PROVIDED'
+
+
+
+POR UM __ COMPONENT DE NÍVEL _ SUPERIOR _A ESSE QUE ESTÁ RECEBENDO A INJEÇÃO (
+
+    ou seja,
+
+    VOCê SÓ PODE RECEBER INJEÇÕES EM 
+    COMPONENTS __ CHILD _ 
+
+    DE 
+
+    components PARENT...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... E NÓS PODEMOS, DE FATO, INJETAR 'TOPICS' 
+
+
+
+em 'KnowledgeGrid',
+
+
+
+
+
+PQ 
+
+_ ELE_ _ 
+
+
+É UM 
+
+
+COMPONENT FILHO DE 'App.vue'... (pq ele é filho de 'KnowledgeBase', que TAMBÉM É FILHO DE 'App.vue')....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE, POR EXEMPLO, TENTÁSSEMOS FAZER 'PROVIDE' DE ALGO QUE 
+
+EXISTE EM 'ACTIVEELEMENT',
+
+
+
+NÃO PODERÍAMOS USAR ESSA PROVIDED DATA 
+
+
+EM UMA INJECTION NO 'knowledgeBase',
+
+
+pq o _ _KNOWLEDGE BASE É APENAS UM _ NEIGHBOR COMPONENT DE 
+
+
+
+'ACTIVEELEMENT',
+
+
+
+
+E NÃO O __ PARENT_ DELE...
+
+
+
+
+
+
+
+
+
+
+
+----> ACTIVEELEMENT E KNOWLEDGE BASE --> SÃO NEIGHBORS --> POR ISSO NÃO É POSSÍVEL 
+
+
+FAZER 'INJECT' DE ALGO PROVIDENCIADO LÁ EM 'ACTIVEELEMENT'
+
+
+lá para dentro 
+
+de algo que existe 
+
+
+
+COMO COMPONNET DE 'KNOWLEDGE BASE'.. 
+
+
+
+
+
+
+
+
+
+--> ok...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO SIGNIFICA QUE 
+
+PROVIDE-INJECT 
+
+REQUER 
+
+ESSA 
+
+
+PARENT-CHILD RELATION (
+
+
+  você naõ pode fazer INJECT E PROVIDE ENTRE NEIGHBORS...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, MAS PODEMOS USAR ISSO __ COM _ 
+
+
+
+'APP.VUE'
+
+
+
+e 
+
+'KNOWLEDGE GRID',
+
+PQ 
+
+A RELAÇÃO ENTRE 
+
+OS 
+
+
+2
+
+
+É DE 'PAI-FILHO'...
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE ESCREVEMOS AQUELE CÓDIGO DE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EM 'App..vue':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+export default {
+  data() {
+    return {
+      topics: [
+        {
+          id: 'basics',
+          title: 'The Basics',
+          description: 'Core Vue basics you have to know',
+          fullText:
+            'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+        },
+        {
+          id: 'components',
+          title: 'Components',
+          description:
+            'Components are a core concept for building Vue UIs and apps',
+          fullText:
+            'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+        },
+      ],
+      activeTopic: null,
+    };
+  },
+  methods: {
+    activateTopic(topicId) {
+      this.activeTopic = this.topics.find((topic) => topic.id === topicId);
+    },
+  },
+
+  provide: {
+    topics: [
+      {
+        id: 'basics',
+        title: 'The Basics',
+        description: 'Core Vue basics you have to know',
+        fullText:
+          'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+      },
+      {
+        id: 'components',
+        title: 'Components',
+        description:
+          'Components are a core concept for building Vue UIs and apps',
+        fullText:
+          'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+      },
+    ],
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Em 
+
+
+
+'KnowledgeGrid':
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <knowledge-element v-for="topic in topics" :key="topic.id" :id="topic.id" :topic-name="topic.title"
+      :description="topic.description" @select-topic="$emit('select-topic', $event)">
+
+    </knowledge-element>
+  </ul>
+</template>
+
+<script>
+export default {
+  // props: ['topics'], ///substituído pelo 'PROVIDE'/'INJECT'...
+
+  inject: [ ///parecido com a sintaxe de 'props', mas _ SE UTILIZA DE 'PROVIDE/INJECT' (para evitar o uso de PASS-THROUGH components, components MEDIADORES.. )
+    'topics'
+  ],
+  emits: ['select-topic']
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+AO RECARREGARMOS A PÁGINA, IMEDIATAMENTE VEREMOS UM EFEITO NO NOSSO  CÓDIGO, PQ 
+
+
+
+
+
+
+
+O 'knowledge-base'
+
+
+NÃO VAI ESTAR USANDO 
+
+
+
+
+O COMPORTAMENTO DE 'PROPS' PARA 
+
+
+
+FAZER 'PASS-THROUGH' 
+
+
+
+
+
+DAQUELA DATA,
+
+
+
+E SIM 
+
+
+
+
+
+
+
+
+__eSTAREMOS __ USANDO 
+A
+ 'INJECTED DATA'
+
+
+
+
+ DIRETAMENTE 
+ LÁ EM 
+
+
+ 'KnowledgeGrid' ------> E ISSO JÁ É UMA MELHORIA __ DIRETA__....
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PODEMOS USAR OS 'TOPICS' DIRETAMENTE NO 'KNOWLEDGEGRID'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ---> OK... MAS COM ISSO TUDO, 
+
+
+ ACABAMOS CRIANDO UM PROBLEMA:
+
+
+
+
+
+
+
+
+ O ARRAY DE 'TOPICS'
+ PASSA 
+
+ A EXISTIR 
+
+
+ DUAS VEZES:
+
+
+
+
+
+
+
+
+ 1a vez -> ELE EXISTE LÁ NO 'App.vue', em 'data(){}' 
+
+
+
+
+
+
+
+
+
+
+
+
+ 2a vez --> TEMOS ELE UMA SEGUNDA VEZ, LÁ 
+
+
+ NA KEY DE 'provide',
+
+ EM QUE 
+
+ FOI DETERMINADO/ELENCADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ISSO FUNCIONA, SIM, 
+
+ MAS É 
+
+ 'CODE DUPLICATION'...
+
+
+
+
+
+
+
+
+
+
+ --> E SE TIVERMOS QUALQUER LOÓGICA NO NOSSO APP PARA 'CHANGE 
+
+ THE DATA _ 
+ STORED IN THE DATA KEY',
+
+
+ ESSA 
+
+
+
+ALTERAÇÃO  NÃO SERÁ AUTOMATICAMENTE REFLETIDA 
+
+
+
+
+
+NO topics LÁ EM 'provide:',
+
+
+
+
+_ ISSO __ PQ 
+
+
+ESSE OBJECT DE 'topics' (Que, no caso, é um array, nesse nosso exemplo)
+
+
+
+
+SERÁ 
+
+CONSIDERADO COMO UM 
+
+'BRAND NEW OBJECT'
+
+
+PELO VUE.js -->  É UM BRAND NEW ARRAY,
+
+
+É UM BRAND NEW OBJECT 
+
+NA MEMORY DO VUE..
+
+
+
+
+
+
+
+
+
+----> ISSO QUER DIZER QUE 
+
+SE ALTERAMOS A DATA DE 'topics'
+
+LÁ EM 
+
+'data',
+
+ESSA 
+
+ALTERAÇÃO 
+
+NÃO SERÁ 
+
+REFLETIDA 
+
+
+NOS 'PROVIDED TOPICS' elencados 
+
+
+lá 
+
+
+em 'provide: {
+  topics: ...
+}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> É POR ISSO QUE SERIA NICE SE PUDÉSSEMOS FAZER 
+
+
+'PROVIDE'  
+
+
+DE NOSSA DATA 
+
+
+ACTUALLY ___ 
+
+
+
+ARMAZENADA EM 'DATA' de nosso component/app,
+
+
+PARA QUE 
+
+
+ENTÃO 
+
+
+AS CHANGES 
+
+
+FEITAS 
+
+A ESSA NOSSA DATA TAMBÉM FOSSEM REFLETIDAS 
+
+
+NA 'PROVIDED DATA'
+
+REPASSADA 
+
+
+
+
+AOS COMPONENTS QUE SOFRERAM INJECTIONS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> A BOA NOTÍCIA É QUE ISSO É POSSÍVEL,
+
+
+
+
+
+_ MAS PARA FAZER ISSO,
+
+
+PRECISAMOS __ _ALTERAR __ A MANEIRA PELA QUAL USAMOS 
+
+'provide: {}' 
+
+
+
+NO NOSSO CÓDIGo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> EM VEZ DE ESCREVER
+
+
+'provide : {}' 
+
+
+
+
+
+COMO UM KEY-VALUE PAIR COM VALUE DE UM 
+
+
+
+_OBJECT__ 
+
+
+COM DIVERSAS 'data' no seu interior,
+
+
+
+
+
+DEVEMOS 
+
+
+
+COLOCAR 
+
+
+
+
+UM _ METHOD__ COMO VALUE _ 
+
+DESSE 'provide: {}'
+
+
+
+
+
+
+
+
+
+
+
+------> OU SEJA,
+
+NÃO VAMOS ESCREVER 
+
+'provide: {}',
+
+
+
+
+E SIM 
+
+VAMOS ESCREVER 
+
+
+'provide() {}' 
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  // provide: { ////VERSÃO QUE NÃO REPASSA AS 'MUDANÇAS FEITAS NA SUA DATA' aos injected components. É menos recomendada do que a de baixo....
+  //   topics: [
+  //     {
+  //       id: 'basics',
+  //       title: 'The Basics',
+  //       description: 'Core Vue basics you have to know',
+  //       fullText:
+  //         'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+  //     },
+  //     {
+  //       id: 'components',
+  //       title: 'Components',
+  //       description:
+  //         'Components are a core concept for building Vue UIs and apps',
+  //       fullText:
+  //         'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+  //     },
+  //   ],
+  // }
+
+
+
+  provide() { ///VERSÃO MAIS RECOMENDADA DE ESCREVER O 'provide' (como se fosse um METHOD) --> com isso, podemos fazer com que a 'DATA' que é alterada em nosso app REALMENTE SEJA REPASSADA aos 'injected components' (components que sofreram injeções) ---> AÍ REALMENTE HÁ UMA COMUNICAÇÃO ENTRE 'A DATA QUE FOI/É ALTERADA' e os COMPONENTS QUE RECEBEM INJEÇÕES (e que vão receber essas mudanças)..
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK... ISSO SIGNIFICA QUE 
+
+
+  'provide(){}'
+
+
+
+
+
+
+
+
+
+  VAI __ BASICAMENTE FUNCIONAR DE FORMA SIMILAR A 'data() {}' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> AÍ, DENTRO DE 'provide() {
+
+  }',
+
+
+  
+
+
+ESCREVEMOS O RETURN DE NOSSA DATA,
+
+ASSIM COMO FAZEMOS EM 'data(){}'
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS DENTRO DESSE LOCAL,
+
+VAMOS NOS REFERENCIAR AO 'this.topics',
+
+
+
+
+
+
+
+
+PARA_ QUE __ CONSIGAMOS NOS REFERIR à DATA de 'topics'
+
+
+
+ESCRITA EM 'data'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  provide() { ///VERSÃO MAIS RECOMENDADA DE ESCREVER O 'provide' (como se fosse um METHOD) --> com isso, podemos fazer com que a 'DATA' que é alterada em nosso app REALMENTE SEJA REPASSADA aos 'injected components' (components que sofreram injeções) ---> AÍ REALMENTE HÁ UMA COMUNICAÇÃO ENTRE 'A DATA QUE FOI/É ALTERADA' e os COMPONENTS QUE RECEBEM INJEÇÕES (e que vão receber essas mudanças)..
+    //sintaxe parecida com a de 'data' (e comportamento similar, também)...
+    return {
+
+      topics: this.topics ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}'
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, COM ISSO,
+
+ESTAREI PROVIDENCIANDO 
+
+
+
+'topics'
+
+
+
+SOB ESSA KEY DE 'topics
+
+
+__A QUALQUER 
+
+
+
+POTENTIAL CHILD COMPONENT DE 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+SALVAMOS TUDO ISSO E TESTAMOS...
+
+
+
+
+
+
+
+
+
+
+ficou tipo assim:
+
+
+
+
+
+
+  provide() { 
+    return {
+
+      topics: this.topics 
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  -> VAI FUNCIONAR EXATAMENTE COMO ANTES,  MAS AGORA 
+
+  ESTAMOS 
+  TRABALHANDO 
+
+  'WITH ONE AND THE SAME OBJECT, IN MEMORY'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PARA TESTAR ISSO,
+
+
+
+
+  O __ PROFESSOR VAI SIMULAR QUE 
+
+
+
+  OS 'topics'
+
+  SÃO ALTERADOS,
+
+TUDO 
+
+PARA TESTAR 
+
+
+
+
+
+
+
+
+
+
+SE 
+
+O CHANGE DA DATA em 'provide'
+
+
+REALMENTE É REFLETIDO 
+
+
+
+NOS CHILD COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+O PROFESSOR 
+
+
+COLOCA 
+
+
+
+
+
+
+
+
+
+__ UMA KEY DE 'mounted()' ----> É UM LIFECYCLE 
+
+USADO 
+
+
+
+
+__ QUANDO O 'MOUNT' DE TODOS OS COMPONENTS JÁ ACONTECEU 
+
+
+
+
+
+
+
+
+NO NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ele roda um timeOut nesse mounted,
+PARA AÍ ADICIONAR UM NOVO TOPIC A ESSE ARRAY DE TOPICS,
+
+DEPOIS DE 3 SEGUNDOS..
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+mounted() {
+  setTimeout(
+    () => {
+      this.topics.push(
+        {
+          id: 'events',
+          title: 'Events',
+          description: 'Events are important in Vue',
+          fullText: 'Events are cool.'
+        }
+      )
+    }
+  )
+}
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <active-element :topic-title="activeTopic && activeTopic.title" :text="activeTopic && activeTopic.fullText">
+    </active-element>
+    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      topics: [
+        {
+          id: 'basics',
+          title: 'The Basics',
+          description: 'Core Vue basics you have to know',
+          fullText:
+            'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+        },
+        {
+          id: 'components',
+          title: 'Components',
+          description:
+            'Components are a core concept for building Vue UIs and apps',
+          fullText:
+            'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+        },
+      ],
+      activeTopic: null,
+    };
+  },
+  methods: {
+    activateTopic(topicId) {
+      this.activeTopic = this.topics.find((topic) => topic.id === topicId);
+    },
+  },
+
+  // provide: { ////VERSÃO QUE NÃO REPASSA AS 'MUDANÇAS FEITAS NA SUA DATA' aos injected components. É menos recomendada do que a de baixo....
+  //   topics: [
+  //     {
+  //       id: 'basics',
+  //       title: 'The Basics',
+  //       description: 'Core Vue basics you have to know',
+  //       fullText:
+  //         'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+  //     },
+  //     {
+  //       id: 'components',
+  //       title: 'Components',
+  //       description:
+  //         'Components are a core concept for building Vue UIs and apps',
+  //       fullText:
+  //         'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+  //     },
+  //   ],
+  // }
+
+
+
+  provide() { ///VERSÃO MAIS RECOMENDADA DE ESCREVER O 'provide' (como se fosse um METHOD) --> com isso, podemos fazer com que a 'DATA' que é alterada em nosso app REALMENTE SEJA REPASSADA aos 'injected components' (components que sofreram injeções) ---> AÍ REALMENTE HÁ UMA COMUNICAÇÃO ENTRE 'A DATA QUE FOI/É ALTERADA' e os COMPONENTS QUE RECEBEM INJEÇÕES (e que vão receber essas mudanças)..
+    //sintaxe parecida com a de 'data' (e comportamento similar, também)...
+    return {
+
+      topics: this.topics ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}'
+    }
+  },
+
+  mounted() {
+    setTimeout(
+      () => {
+        this.topics.push(
+          {
+            id: 'events',
+            title: 'Events',
+            description: 'Events are important in Vue',
+            fullText: 'Events are cool.'
+          }
+        )
+      },
+      3000
+    )
+  }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+section {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 15rem;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h2 {
+  margin: 0.75rem 0;
+  text-align: center;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #c70053;
+  background-color: #c70053;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #e24d8b;
+  border-color: #e24d8b;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... O PROFESSOR TESTA ISSO -> 
+
+
+
+
+
+E A PARADA FUNCIONA EXATAMENTE COMO SE FOSSE 'PROPS',
+
+
+MAS AGORA 
+SEM ESSE PASS-THROUGH 
+
+DESNECESSÁRIO 
+
+
+
+
+
+ENTRE 
+
+COMPONENTS (
+
+  facilita a leitura/uso de seu código...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS A PERGUNTA É:
+
+
+
+
+
+
+
+'''ISSO TAMBÉM PODE NOS AJUDAR COM CUSTOM EVENTS???''
+
+
+(
+  PQ TAMBÉM ESTAMOS FAZENDO FUNNEL-THROUGH DE 
+
+
+  NOSSOS CUSTOM EVENTS POR DENTRO DE 'knowledgeBase'...
+)

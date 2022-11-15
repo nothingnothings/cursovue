@@ -1,9 +1,7 @@
 <template>
   <div>
-    <active-element
-      :topic-title="activeTopic && activeTopic.title"
-      :text="activeTopic && activeTopic.fullText"
-    ></active-element>
+    <active-element :topic-title="activeTopic && activeTopic.title" :text="activeTopic && activeTopic.fullText">
+    </active-element>
     <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
   </div>
 </template>
@@ -37,6 +35,52 @@ export default {
       this.activeTopic = this.topics.find((topic) => topic.id === topicId);
     },
   },
+
+  // provide: { ////VERSÃO QUE NÃO REPASSA AS 'MUDANÇAS FEITAS NA SUA DATA' aos injected components. É menos recomendada do que a de baixo....
+  //   topics: [
+  //     {
+  //       id: 'basics',
+  //       title: 'The Basics',
+  //       description: 'Core Vue basics you have to know',
+  //       fullText:
+  //         'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+  //     },
+  //     {
+  //       id: 'components',
+  //       title: 'Components',
+  //       description:
+  //         'Components are a core concept for building Vue UIs and apps',
+  //       fullText:
+  //         'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+  //     },
+  //   ],
+  // }
+
+
+
+  provide() { ///VERSÃO MAIS RECOMENDADA DE ESCREVER O 'provide' (como se fosse um METHOD) --> com isso, podemos fazer com que a 'DATA' que é alterada em nosso app REALMENTE SEJA REPASSADA aos 'injected components' (components que sofreram injeções) ---> AÍ REALMENTE HÁ UMA COMUNICAÇÃO ENTRE 'A DATA QUE FOI/É ALTERADA' e os COMPONENTS QUE RECEBEM INJEÇÕES (e que vão receber essas mudanças)..
+    //sintaxe parecida com a de 'data' (e comportamento similar, também)...
+    return {
+
+      topics: this.topics ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}'
+    }
+  },
+ 
+  mounted() {
+    setTimeout(
+      () => {
+        this.topics.push(
+          {
+            id: 'events',
+            title: 'Events',
+            description: 'Events are important in Vue',
+            fullText: 'Events are cool.'
+          }
+        )
+      },
+      3000
+    )
+  }
 };
 </script>
 
@@ -44,12 +88,15 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 html {
   font-family: sans-serif;
 }
+
 body {
   margin: 0;
 }
+
 section {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 2rem auto;
