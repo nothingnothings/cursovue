@@ -1516,6 +1516,215 @@ NEM SIBLING COMPONENTS'..
 
 
 
+-------------------------------------------
+
+
+
+
+///////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+OUTRA FEATURE, OS 'SLOTS' (são wrappers/adhoc components) 
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA USAR SEU COMPONENT COMO 'WRAPPER/SLOT',
+
+
+
+
+VOCÊ 
+
+DEVE 
+
+IR ATÉ O COMPONENT QUE SERÁ USADO COMO WRAPPER (nesse nosso caso, 'BaseCard'),
+
+
+
+
+
+
+E AÍ __ VOCÊ VAI TIRAR A KEY DE 'props',
+
+PQ 
+AGORA 
+
+
+VOCê VAI USAR 
+
+
+
+UM __ ELEMENTO HTML/VUE 
+
+
+
+
+ESPECIAL,
+
+QUE É 
+O 
+
+
+'<slot>'..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div></div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <slot></slot>
+    </div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E SE FAZEMOS ISSO  E SALVAMOS O CÓDIGO,
+
+
+
+
+VEREMOS _ QUE _ TERÁ FUNCIONADO,
+
+E QUE 
+
+AGORA TEREMOS O LOOK DESEJADO POR NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUER DIZER QUE '<slot></slot>'
+
+
+É A  __ MESMA __ COISA QUE 
+
+'{props.children}' 
+
+
+
+
+EM UM COMPONENT REACT,
+
+POR EXEMPLO....
+
 
 
 

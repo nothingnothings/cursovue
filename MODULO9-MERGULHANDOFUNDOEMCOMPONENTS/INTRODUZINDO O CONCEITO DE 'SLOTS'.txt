@@ -101,10 +101,10 @@ ESTE CÓDIGO:
 
 
     <section>
-        <div>
+    <header>
             <h3> {{ fullName }}</h3>
             <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
-        </div>
+    </header>
         <p>{{ infoText }}</p>
     </section>
 
@@ -117,3 +117,1373 @@ ESTE CÓDIGO:
 
 
     TEMOS ESTE SECTION, SIM....
+
+
+
+
+
+
+
+
+
+
+
+ESSA SECTION TEM ESSE 'HEADER',
+
+E AÍ UM PARAGRAPH LOGO ABAIXo....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... E, LÁ EM 'BadgeList',
+
+
+
+TAMBÉM TEMOS UMA SECTION COM UM MONTE DE CONTENT...
+
+
+
+
+
+
+
+
+
+
+
+--> E O 'CONTENT' DE 'UserInfo'
+
+
+
+
+E 
+
+'BadgeList'
+
+
+É DISTINTO, SIM,
+
+
+
+
+MAS __ HÁ 
+
+
+
+
+
+
+ALGO QUE __ AMBOS _ 
+
+
+
+
+
+COMPONENTS 
+
+COMPARTILHAM, TÊM EM COMUM... -->  NO CASO,
+
+
+
+
+
+
+
+
+A COISA EM COMUM É A 'SECTION' 
+
+
+QUE ESTÁ SENDO APLICADA,
+
+MAS NÃO 
+
+
+SÓ A SECTION,
+
+
+
+__ MAS _ TAMBÉM __ 
+
+
+
+O ''STYLING''' 
+
+QUE ESTÁ SENDO APLICADO 
+
+
+A ESSAS SECTIONS,
+
+
+
+
+
+
+QUE É O MESMO,
+
+
+este aqui:
+
+
+
+
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+----> VOCê DEVE SE LEMBRAR, DA ÚLTIMA AULA,
+
+
+QUE 
+O 
+
+
+PROFESSOR 
+
+COPIOU O STYLE 
+
+
+DE 'UserInfo'
+
+
+
+E COLOCOU LÁ EM 
+
+
+'BadgeList',
+
+
+
+
+PARA __ 
+
+ASSEGURAR QUE 
+
+AMBOS OS COMPONENTS TERIAM O MESMO STYLING...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE UMA ALTERNATIVA SERIA SIMPLESMENTE DEFINIR 'SECTION' COMO UM GLOBAL STYLE,
+
+
+LÁ EM 
+
+'App.vue' (sem scoping )...
+
+ 
+
+
+
+
+
+
+
+
+
+
+ --> CERTO, AÍ ESCREVERÍAMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BadgeList,
+    UserInfo
+  },
+  data() {
+    return {
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+},
+
+
+
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS UMA ALTERNATIVA SERIA _ CRIAR UM 
+
+
+'STANDALONE COMPONENT'
+
+
+QUE 
+
+
+TERIA 
+
+A SECTION E JÁ 
+
+ESSE SECTION STYLING ANEXADO,
+
+
+
+
+E AÍ 
+
+
+
+__ 
+
+
+
+SERIA EM CERTA _ MEDIDA _ FLEXÍVEL __ QUANTO _AO 
+
+
+
+CONTENT QUE RECEBERIA/RECEBE (ou seja, algo como 'props.children')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR CRIA UM COMPONENT CHAMADO DE 'BaseCard',
+
+QUE SERÁ ESSE 'SLOT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER CRIAR UM 'LOOK' 
+
+,
+AUQELE 
+
+
+
+LOOK DE 'CARD'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+--> O CARD LOOK É O LOOK DE TER UMA DROP-SHADOW E ROUNDED CORNERS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEREMOS 1 COMPONENT QUE 
+
+
+VAI 
+REPRESENTAR ESSE LOOK, E QUE PODEREMOS USAR RAPIDAMENTE EM QUALQUER LUGAR DE NOSSO CÓDIGO....
+
+
+
+
+
+
+
+
+
+
+
+--> COMEÇAMOS TIPO ASSIM:
+
+
+
+
+
+
+
+<template>
+    <div></div>
+    </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> E AÍ O PROFESSOR VAI ADICIONAR O STYLING DESSE HOC,
+
+
+
+
+    CLARO QUE COM O 
+
+
+    ATTRIBUTE DE 'scoped',
+
+    PARA QUE 
+
+    ELE SEJA SCOPADO/RESTRITO A ESSE COMPONENT... 
+
+
+
+
+
+
+
+
+
+AÍ TEREMOS UM COMPONENT COM ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+<template>
+    <div></div>
+    </template>
+
+
+
+<style scoped>
+
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div></div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUEREMOS NOS ASSEGURAR 
+
+QUE 
+
+
+
+_ O CONTEÚDO INSERIDO DENTRO DE 'div'
+
+
+SEJA 
+
+
+'QUALQUER COISA QUE QUISERMOS',
+
+
+PQ 
+
+
+A FUNÇÃO 
+
+DESSE 
+
+COMPONENT SERÁ DE 'WRAPPER',
+
+
+
+QUE 
+
+VAI 
+
+
+
+
+WRAPPAR QUALQUER COISA QUE ELE 'RECEBER'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> OK, MAS COMO PODEMOS RECEBER CONTEÚDO 'DE FORA'?
+
+
+
+
+
+
+
+BEM, BASTA USAR O CONCEITO DE 'PROPS' ---.>>>>
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS ADIICONAR UMA TAG DE `script`,
+
+
+
+
+
+
+
+
+
+
+
+
+
+E AÍ 
+
+
+
+
+
+VAMOS DEFINIR....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+<script>
+
+    export default {
+
+
+        props: {
+
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO ESCREVEMOS/ESCREVERÍAMOS NOSSOS 'props',
+
+aqui?
+
+
+
+
+
+
+
+
+
+
+--> TALVEZ ESCREVER 'content',
+
+
+E AÍ TENTAR 
+OUTPUTTAR 
+
+
+'content' 
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div></div>
+</template>
+
+
+
+
+
+<script>
+
+    export default {
+
+
+        props: ['content']
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO NÃO FUNCIONARIA/NÃO FUNCIONA,
+
+PQ SE 
+
+QUISÉSSEMOS TENTAR USAR ESSE 
+
+
+
+CARD ASSIM,
+
+
+
+NÃO CONSEGUIRÍAMOS FAZER 'PASS' 
+
+DE TODO NOSSO CONTEÚDO HTML, 
+
+COM TODAS AS FEATURES QUE 
+
+ESTAMOS/ESTÁVAMOS USANDO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM , O PROFESSOR REGISTRA 'BaseCard'
+
+COMO GLOBAL COMPONENT, EM 'main.js',
+
+PQ VAMOS O UTILIZAR EM DIVERSOS LUGARES...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+// import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+//import TheHeader from './components/TheHeader.vue';
+// import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+import BaseCard from './components/BaseCard.vue';
+
+const app = createApp(App);
+
+// app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge); ///ESTE REALMENTE É USADO GLOBALMENTE (é usado tanto em 'badge-list' como em 'user-info' )
+app.component('base-card', BaseCard); ////queremos que ele seja global, também...
+
+//app.component('the-header', TheHeader); ///REMOVEMOS ESSE IMPORT GLOBAL DE 'HEADER', PQ ELE NÃO É UTILIZADO AO LONGO DE TODO NOSSO APP (coisa redundante, desnecessária)...
+// app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... ISSO FEITO,
+VAMOS ATÉ 'UserInfo.vue'
+
+
+E ENTÃO 
+
+
+ESCREVEMOS ESSE 
+
+
+
+'<base-card>'...
+
+
+
+
+
+EM VOLTA DO __CONTEÚDO_ DE 'UserInfo'...
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM ('UserInfo' component):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <!-- <section>  O 'BaseCard' cumprirá a função de SECTION que vai wrappar esse nosso código... -->
+        <base-card>
+        <header>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+        <p>{{ infoText }}</p>
+    </base-card>
+    <!-- </section> -->
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> CERTo.... MAS SE SALVAMOS TUDO ISSO,
+
+
+TEREMOS _ PERDIDO _ TODOS OS ESTILOS, SINAL DE QUE ISSO NÃO FUNCIONA/NÃO FUNCIONOU...
+
+
+
+
+
+
+
+
+
+-> ISSO ACONTECEU JUSTAMENTE PQ 
+
+O 
+
+VUE 
+
+'não sabe onde renderizar base-card' ---> 
+
+
+
+
+
+
+
+
+
+EU ADICIONEI ESSE ELEMENTO 'base-card'
+
+ENTRE 
+AS TAGS 
+
+DE UM CUSTOM COMPONENT... ----> e isso confundiu o vue...
+
+
+
+
+
+
+
+
+
+
+
+-----> BEM..--> 
+
+
+É CLARO QUE PODERÍAMOS DEFINIR O VALUE DE 'content' como sendo uma string, mas isso não FUNCIONARIA...
+
+
+
+
+
+
+
+
+
+--> EM VEZ DISSO, PARA FAZER A SINTAXE DE 'WRAPPERS/HOCS'
+
+
+
+FFUNCIOANR,
+
+PRECISAMOS RECORRER A UAM FEATURE ESPECIAL DO VUE,
+
+
+QUE É 
+
+
+'SLOTS'...
+
+
+
+
+
+
+
+
+
+
+--> É O CENÁRIO EM QUE VOCê QUER USAR SEU PRÓPRIO COMPONENT COMO WRAPPER 
+
+EM VOLTA DE 'SPECIFIC KINDS OF HTML CONTENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA USAR SEU COMPONENT COMO 'WRAPPER/SLOT',
+
+
+
+
+VOCÊ 
+
+DEVE 
+
+IR ATÉ O COMPONENT QUE SERÁ USADO COMO WRAPPER (nesse nosso caso, 'BaseCard'),
+
+
+
+
+
+
+E AÍ __ VOCÊ VAI TIRAR A KEY DE 'props',
+
+PQ 
+AGORA 
+
+
+VOCê VAI USAR 
+
+
+
+UM __ ELEMENTO HTML/VUE 
+
+
+
+
+ESPECIAL,
+
+QUE É 
+O 
+
+
+'<slot>'..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div></div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+EX (código do HOC/wrapper):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <slot></slot>
+    </div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+CÓDIGO DE 
+
+'UserInfo':
+
+
+
+
+
+<template>
+
+    <!-- <section>  O 'BaseCard' cumprirá a função de SECTION que vai wrappar esse nosso código... -->
+        <base-card>
+        <header>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+        <p>{{ infoText }}</p>
+    </base-card>
+    <!-- </section> -->
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+--> E SE FAZEMOS ISSO  E SALVAMOS O CÓDIGO,
+
+
+
+
+VEREMOS _ QUE _ TERÁ FUNCIONADO,
+
+E QUE 
+
+AGORA TEREMOS O LOOK DESEJADO POR NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUER DIZER QUE '<slot></slot>'
+
+
+É A  __ MESMA __ COISA QUE 
+
+'{props.children}' 
+
+
+
+
+EM UM COMPONENT REACT,
+
+POR EXEMPLO....
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+
+OK.. E É ASSIM QUE SLOTS FUNCIONAM:
+
+
+
+
+
+
+
+
+ELES NOS DEIXAM RECEBER 
+
+
+
+
+__ HTML CONTENT ( que talvez também estará usando vue features),
+
+
+
+
+MAS DO LADO DE FORA DE NOSSO COMPONENT... 
+
+
+
+
+
+
+
+
+
+(
+
+    PROPS --> SÃO USADOS PARA DATA 
+
+
+
+    SLOTS --> SÃO USADOS PARA 'HTML CODE',
+
+    PARA O TEMPLATE CODE QUE UM CERTO COMPONENT REQUER...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> O 'WRAPPER' PROVIDENCIA UM CUSTOM STYLING REUTILIZÁVEL, E TAMBÉM PODE PROVIDENCIAR LÓGICA (Às vezes, como com 'withErrorHnadler'),,
+
+
+
+MAS 
+
+O QUE 
+INTERESSA É QUE 
+
+
+O 
+
+
+
+COMPONENT QUE É WRAPPADO É QUE TRAZ O CONTEÚDO 
+
+
+A ESSA RELAÇÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> E ESSA É A CORE IDEA POR TRÁS DE 'SLOTS'..

@@ -1,12 +1,14 @@
 <template>
 
-    <section>
-        <div>
+    <!-- <section>  O 'BaseCard' cumprirá a função de SECTION que vai wrappar esse nosso código... -->
+        <base-card>
+        <header>
             <h3> {{ fullName }}</h3>
             <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
-        </div>
+        </header>
         <p>{{ infoText }}</p>
-    </section>
+    </base-card>
+    <!-- </section> -->
 </template>
 
 
