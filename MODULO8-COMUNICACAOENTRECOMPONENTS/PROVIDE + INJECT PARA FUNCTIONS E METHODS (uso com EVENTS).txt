@@ -1,0 +1,1041 @@
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... MAS PODEMOS USAR 'PROVIDE' E 'INJECT'
+
+
+
+TAMBÉM PARA _ CUSTOM EVENTS?
+
+
+
+
+
+
+
+ A RESPOSTA É 'SIM.... MAS POR MEIO DE UM IMPLEMENNT UM POUCO DISTINTO'...
+
+
+
+
+
+
+
+
+
+
+ --> NÃO É TÃO SIMPLES DE IMPLEMENTAR ISSO COMO FIZEMOS COM PROPS.... é um pouco mais difícil...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> NÓS NÃO TEMOS UM MECANISMO SIMILAR A 'provide' e 'inject'
+
+
+
+
+
+
+DISPONIBILIZADO PARA 'EVENTS',
+
+
+
+MAS _ PODEMOS __ 
+
+
+PENSAR _ SOBRE 'EVENTS'
+
+
+
+DE FORMA UM POUCO DISTINTA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO FINAL DAS CONTAS,
+
+QUANDO UM CUSTOM EVENT É __EMITIDO_,
+
+
+
+
+
+
+
+NÓS, EM CERTO PONTO,
+
+CONECTAMOS UM METHOD (lá em 'App.vue")
+
+QUE 
+
+
+DEVE 
+
+SER TRIGGADO AO OCORRER ESSE EVENT...
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, É CLARO QUE __ PODEMOS PASSAR ESSE METHOD, como 'props',
+
+
+
+
+__ PARA BAIXO,
+ 
+ ATÉ ALCANÇAR O COMPONENT 
+ EM QUE 
+
+
+
+
+ ESSE METHOD DEVE SER CHAMADO... --> 
+
+
+
+
+
+
+
+
+e é exatamente por isso que, em 
+
+'App.vue',
+
+
+
+
+
+PODEMOS 
+
+REMOVER 
+
+
+
+
+AQUELE CUSTOM EVENT DE 
+
+
+
+'@select-topic',
+
+
+
+
+
+
+
+VISTO ASSIm:
+
+
+
+    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+
+
+
+e fica assim:
+
+
+
+    <knowledge-base></knowledge-base>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> REMOVER ISSO,
+
+
+E AÍ 
+
+SEGUIR 
+
+ATÉ 'knowledgeBase' -> 
+
+
+
+
+
+
+LÁ EM 'knowledgeBase',
+
+
+
+
+
+
+
+
+
+
+    <!-- <knowledge-grid :topics="topics" @select-topic="$emit('select-topic', $event)"></knowledge-grid> --> <!-- SEM USO DE 'INJECT-PROVIDE'-->
+    <knowledge-grid></knowledge-grid> <!-- COM USO DE 'INJECT-PROVIDE'-->
+
+
+
+
+
+
+
+
+
+--> DEIXAMOS ESSE NEGÓCIO BEM MAIS SIMPLES,
+
+PQ REMOVEMOS O CÓDIGO QUE FAZIA 'emit' 
+
+
+'DO EVENTO DE 'select-topic'
+
+
+
+E
+ TAMBÉM O CÓDIGO QUE RECEBIDA/CAPTAVA ESSE EVENT, LÁ EM 'App.vue':
+
+
+
+
+
+
+ 
+
+
+  
+    <knowledge-grid></knowledge-grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> EM 'knowledgeGrid',
+
+
+TAMBÉM PODEMOS FAZER ISSO,
+
+REMOVER O LISTENER 
+
+DE 
+
+'select-topic'
+
+E TAMBÉM REMOVER AQUELA OPTION DE 'emits' do evento de 'select-topic':
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>Select a Topic</h2>
+    <!-- <knowledge-grid :topics="topics" @select-topic="$emit('select-topic', $event)"></knowledge-grid> --> <!-- SEM USO DE 'INJECT-PROVIDE'-->
+    <knowledge-grid></knowledge-grid> <!-- COM USO DE 'INJECT-PROVIDE'-->
+  </section>
+</template>
+
+<script>
+export default {
+  // props: ['topics'], ////SEM USO DE INJECT-PROVIDE
+  // emits: ['select-topic'],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR FIM,
+ 
+ LÁ EM 
+
+ 'KnowledgeElement',
+
+
+
+
+
+
+
+
+
+ EM QUE ORIGINALMENTE 
+
+ FAZEMOS/FAZÍAMOS O EMIT DE 'select-topic',
+
+
+ PODEMOS 
+
+
+ REMOVER 
+ O 
+
+
+
+ EMIT/EMITTER DESSE EVENT, PARA AÍ 
+
+ FAZER ALGO DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+ Ex(código antigo):
+
+
+
+
+
+
+ <template>
+  <li>
+    <h3>{{ topicName }}</h3>
+    <p>{{ description }}</p>
+    <button @click="$emit('select-topic', id)">Learn More</button>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['id', 'topicName', 'description'],
+  emits: ['select-topic'],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+CÓDIGO ATUAL:
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ topicName }}</h3>
+    <p>{{ description }}</p>
+    <button>Learn More</button>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['id', 'topicName', 'description'],
+  // emits: ['select-topic'], ///SEM O USO DE 'provide-inject'
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM VEZ DISSO,
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ NESSE 'KnowledgeElement',
+
+
+
+PODEMOS FAZER 
+
+
+'EXPECT'  ______ DA FUNCTION _ 
+
+
+
+
+
+QUE _ DEVERÁ __ SER CHAMADA NO _ CLICK DAQUELE BUTTON ALI,
+
+
+
+SIM,
+
+
+
+MAS __ PODEMOS _ FAZER ISSO _ 
+
+
+
+
+
+
+
+
+ELENCANDO ESSE 'select-topic'
+
+
+NÃO
+
+
+COMO UM 'PROP',
+
+
+
+
+E SIM 
+
+
+COMO UM _ INJECTED__ VALUE_... ---->
+
+
+
+
+
+
+
+
+
+
+PARA ISSO, ADICIONAMOS UMA KEY de 'inject',
+
+E AÍ 
+
+
+
+
+
+
+DEFINIMOS, DENTRO DO ARRAY,
+ 
+ OS NOMES 
+
+
+ dos methods/coisas que 
+
+ SERÃO INJETADOS NESSE COMPONENT..
+
+
+
+
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <li>
+    <h3>{{ topicName }}</h3>
+    <p>{{ description }}</p>
+    <!-- <button>Learn More</button> --> <!-- CÓDIGO SEM 'PROVIDE-INJECT'-->
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['id', 'topicName', 'description'],
+  // emits: ['select-topic'], ///SEM O USO DE 'provide-inject'
+  inject: [''] ///COM O USO DE 'provide-inject'
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CLARO QUE PODEMOS DEFINIR O NOME QUE DESEJARMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ topicName }}</h3>
+    <p>{{ description }}</p>
+    <!-- <button @click="$emit('select-topic', id)">Learn More</button> --> <!-- CÓDIGO SEM 'PROVIDE-INJECT'-->
+    <button>Learn More</button> <!-- CÓDIGO COM INJECT de um METHOD-->
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['id', 'topicName', 'description'],
+  // emits: ['select-topic'], ///SEM O USO DE 'provide-inject'
+  inject: ['selectTopic'] ///COM O USO DE 'provide-inject'
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+POR FIM, FAZEMOS BIND de '@CLICK'
+
+
+
+
+
+
+A ESSE METHOD DE 'selectTopic'
+
+QUE SERÁ IMPORTADO POR MEIO DE 'inject'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, ISSO QUER DIZER QUE VAMOS FAZER 'EXPECT' 
+
+QUE 
+
+'selectTopic
+'
+
+
+SERÁ 
+UMA _ FUNCTION,
+
+UMA FUNCTION QUE 
+
+SERÁ EXECUTADA 
+
+QUANDO 
+ESSE CLICK ACONTECER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... É CLAROQ UE APENAS O 
+INJECT NÃO É O SUFICIENTE --> PRECISAMOS VOLTAR 
+
+AO 
+
+'App.vue'
+
+
+
+E ENTAÕ 
+
+FAZER _ PROVIDE_ DESSE 
+
+METHOD a esse component de 
+
+
+'KnowledgeElement'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, TEMOS A FUNCTION DE 'activateTopic',
+
+
+QUE _ É A FUNCTION QUE QUEREMOS PROVIDENCIAR A 'KnowledgeElement'...
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEUGIR FAZER ISSO,
+
+
+ELENCAMOS ESSA FUNCTION COMO UM DOS 'proivdes'
+
+em 'provide',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <active-element :topic-title="activeTopic && activeTopic.title" :text="activeTopic && activeTopic.fullText">
+    </active-element>
+    <!-- <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base> --> <!-- SEM USO DE 'INJECT-PROVIDE'-->
+    <knowledge-base></knowledge-base> <!-- COM USO DE 'INJECT-PROVIDE'-->
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      topics: [
+        {
+          id: 'basics',
+          title: 'The Basics',
+          description: 'Core Vue basics you have to know',
+          fullText:
+            'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+        },
+        {
+          id: 'components',
+          title: 'Components',
+          description:
+            'Components are a core concept for building Vue UIs and apps',
+          fullText:
+            'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+        },
+      ],
+      activeTopic: null,
+    };
+  },
+  methods: {
+    activateTopic(topicId) {
+      this.activeTopic = this.topics.find((topic) => topic.id === topicId);
+    },
+  },
+
+  // provide: { ////VERSÃO QUE NÃO REPASSA AS 'MUDANÇAS FEITAS NA SUA DATA' aos injected components. É menos recomendada do que a de baixo....
+  //   topics: [
+  //     {
+  //       id: 'basics',
+  //       title: 'The Basics',
+  //       description: 'Core Vue basics you have to know',
+  //       fullText:
+  //         'Vue is a great framework and it has a couple of key concepts: Data binding, events, components and reactivity - that should tell you something!',
+  //     },
+  //     {
+  //       id: 'components',
+  //       title: 'Components',
+  //       description:
+  //         'Components are a core concept for building Vue UIs and apps',
+  //       fullText:
+  //         'With components, you can split logic (and markup) into separate building blocks and then combine those building blocks (and re-use them) to build powerful user interfaces.',
+  //     },
+  //   ],
+  // }
+
+
+
+  provide() { ///VERSÃO MAIS RECOMENDADA DE ESCREVER O 'provide' (como se fosse um METHOD) --> com isso, podemos fazer com que a 'DATA' que é alterada em nosso app REALMENTE SEJA REPASSADA aos 'injected components' (components que sofreram injeções) ---> AÍ REALMENTE HÁ UMA COMUNICAÇÃO ENTRE 'A DATA QUE FOI/É ALTERADA' e os COMPONENTS QUE RECEBEM INJEÇÕES (e que vão receber essas mudanças)..
+    //sintaxe parecida com a de 'data' (e comportamento similar, também)...
+    return {
+
+      topics: this.topics, ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}' -> provide de uma PROPRIEDADE de data/object de 'data'...
+      selectTopic: this.activeTopic //COM ISSO, ESTOU ME REFERINDO à função/method 'activateTopic', que quero PASSAR ADIANTA, sem 'pass-through components', AO _ COMPONENT DE 'knowledgeElement'...
+    }
+  },
+
+  mounted() {
+    setTimeout(
+      () => {
+        this.topics.push(
+          {
+            id: 'events',
+            title: 'Events',
+            description: 'Events are important in Vue',
+            fullText: 'Events are cool.'
+          }
+        )
+      },
+      3000
+    )
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK... ISSO VAI REALMENTE FAZER 'PASS' DESSE METHOD 
+
+
+
+AO MEU COMPONENT DE 'knowledgeElement'..
+
+
+
+
+
+
+
+
+
+
+---> OK... COMO O 'selectTopic'
+
+
+FOI INJETADO 
+
+
+
+
+
+LÁ EM 
+
+
+'knowledgeElement',
+
+PODEMOS O UTILIZAR LÁ...
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS AQUI TEMOS UM PROBLEMA:
+
+
+
+
+
+
+
+
+
+O 'activateTopic'
+
+
+EXIGE O __  __ ID_ __ DO TÓPICO SELECIONADO... (
+
+
+pq o código dele 
+é 
+
+
+'activateTopic(topicId) {
+    ...
+}'
+
+)
+
+
+
+
+
+
+
+
+
+
+
+---> OK.... --> PARA CONSEGUIRMOS _ FAZER O PASS DESSE NEGÓCIO,
+
+
+
+
+devemos escrever '@click="selectTopic(id)" 
+
+
+
+
+
+
+
+,
+
+E NÃO 
+
+
+'selectTopic()'..
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ topicName }}</h3>
+    <p>{{ description }}</p>
+    <!-- <button @click="$emit('select-topic', id)">Learn More</button> -->
+    <!-- CÓDIGO SEM 'PROVIDE-INJECT'-->
+    <button @click="selectTopic(id)">Learn More</button> <!-- CÓDIGO COM INJECT de um METHOD-->
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['id', 'topicName', 'description'],
+  // emits: ['select-topic'], ///SEM O USO DE 'provide-inject'
+  inject: ['selectTopic'] ///COM O USO DE 'provide-inject'
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... AGORA NOSSO APP CONTINUA FUNCIONANDO COMO ANTES,
+
+MAS SEM O PASS DE PROPS POR ENTRE MÚLTIPLOS COMPONENTS,
+
+E SEM 
+FAZER O EMIT DE NOSSO 'CUSTOM  EVENT'
+ 
+
+
+POR MEIO DE VÁRIOS COMPONENTS...

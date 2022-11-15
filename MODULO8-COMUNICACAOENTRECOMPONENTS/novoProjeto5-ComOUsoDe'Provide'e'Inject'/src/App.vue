@@ -2,7 +2,8 @@
   <div>
     <active-element :topic-title="activeTopic && activeTopic.title" :text="activeTopic && activeTopic.fullText">
     </active-element>
-    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+    <!-- <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base> --> <!-- SEM USO DE 'INJECT-PROVIDE'-->
+    <knowledge-base></knowledge-base> <!-- COM USO DE 'INJECT-PROVIDE'-->
   </div>
 </template>
 
@@ -62,10 +63,11 @@ export default {
     //sintaxe parecida com a de 'data' (e comportamento similar, também)...
     return {
 
-      topics: this.topics ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}'
+      topics: this.topics, ///COM ISSO, estou me referindo à propriedade/object de 'topics' lá em 'data(){}' -> provide de uma PROPRIEDADE de data/object de 'data'...
+      selectTopic: this.activeTopic //COM ISSO, ESTOU ME REFERINDO à função/method 'activateTopic', que quero PASSAR ADIANTA, sem 'pass-through components', AO _ COMPONENT DE 'knowledgeElement'...
     }
   },
- 
+
   mounted() {
     setTimeout(
       () => {
