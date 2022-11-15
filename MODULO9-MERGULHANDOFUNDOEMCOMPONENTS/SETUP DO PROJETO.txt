@@ -114,3 +114,592 @@ PARA RODAR NOSSO DEV SERVER E VER O APP NA TELA...
 
 
 --> É UM APP BÁSICO...
+
+
+
+
+
+
+
+
+
+
+
+O SETUP:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+import TheHeader from './components/TheHeader.vue';
+import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+
+const app = createApp(App);
+
+app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge);
+app.component('the-header', TheHeader);
+app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> já defini todos os components, 
+
+no folder 'components'..
+
+
+
+
+
+
+
+-> AGORA SÓ TENHO QUE ANALISAR O CÓDIGO DE CADA UM DELES...
+
+
+
+
+
+
+
+
+
+BADGELIST:
+
+
+
+
+
+
+
+
+<template>
+    
+    <section>
+        <h2>Available Badges</h2>
+        <ul>
+            <li>
+                <base-badge type="admin" caption="ADMIN"></base-badge>
+            </li>
+            <li>
+                <base-badge type="author" caption="AUTHOR"></base-badge>
+            </li>
+
+        </ul>
+    </section>
+
+</template>
+
+
+
+<script>
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+li {
+    margin-right: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E BASEBADGE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <span class="badge" :class="classes">{{ caption }}</span>
+</template>
+
+
+
+<script>
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    },
+
+    computed: {
+        classes() {
+            return {
+                'badge--admin': this.type === 'admin',
+                'badge--author': this.type === 'author'
+            }
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  background-color: #ccc;
+  color: #2e2e2e;
+}
+
+.badge--admin {
+    background-color: #810036;
+    color: white;
+}
+
+.badge--author {
+    background-color: #002c8a;
+    color: white;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e 'THE HEADER':
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <header>
+        <h1>More on Vue Components</h1>
+    </header>
+</template>
+
+
+
+<script>
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+header {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #14005e;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS, TEMOS 'UserInfo':
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <section>
+        <div>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </div>
+        <p>{{ infoText }}</p>
+    </section>
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TODOS OS COMPONENTS ESTÃO PRONTOS, RODAMOS com 'npm run serve'...
+
+
+
+
+
+
+
+OPS... ESQUECI DE DEFINIR O LAYOUT DE 'App.vue',
+
+e todas as data properties e methods, também...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... TEMOS UM APP DUMMY BEM SIMPLES,
+
+SEM INTERATIVIDADE 
+
+
+
+E SEM NADA, NO MOMENTO --> 
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR DIZ QUE ISSO VAI NOS AJUDAR 
+
+A VER COISAS EXTRAS SOBRE COMPONENTS, 
+SOBRE 
+
+A DEFINIÇÃO DE COMPONENTS,
+
+E 
+
+
+
+VER OUTRAS CORE FEATURES...
+
+
+
+
+
+
+
+
+
+
+
+--> CONSTRUÍREMOS UM APP INTEIRO DO 0 NO PRÓXIMO MÓDULO,
+ASSIM QUE 
+
+COBRIRMOS ESSAS FEATURES IMPORTANTES DESSE MÓDULO...
+
+
+
+
+
+
+
+
+
+
+
+
+---> PROFESSOR QUER NOS MOSTRAR TODAS AS FEATURES 
+
+DESSE DUMMY APP...
+
+
+
+
+
+
+
+
+
+--> EM main.js 
+
+O PROFESSOR IMPORTOU E REGISTROU TODOS OS COMPONENTS QUE USAMOS 
+
+
+NO NOSSO APP..
+
+
+
+
+
+
+
+
+--->EM 'UserInfo' 
+
+
+ESTAMOS PASSANDO DATA POR MEIO DE PROPS... --> A DATA ESTÁ VINDO DE 'App.vue' -----> 
+
+
+
+
+
+
+
+
+
+
+
+
+Em 'UserInfo',
+
+
+ESTAMOS SIMPLESMENTE OUTPUTTANDO A DATA DE NOSSOS PROPS, COM STRING INTERPOLATION ---->
+
+
+
+
+
+
+
+
+
+O COMPONENT 'BaseBadge'
+
+É RESPONSÁVEL PELO SHOW DAQUELAS 
+BADGES 
+
+QUE PODEMOS VER NA TELA (admin e author)....
+
+
+
+
+
+
+
+
+
+
+
+--> E NO COMPONENT 'BASEBADGE.VUE',
+
+
+temos uma SIMPLES COMPUTED PROPERTY QUE RETORNA OU 'admin' ou 'author',
+PARA MUDARMOS/DERIVARMOS 
+
+
+
+A CLASS LÁ DO ATTRIBUTE DE ':class'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O 'BADGELIST'
+
+
+APENAS FAZ SHOW DE TODAS NOSSAS BADGES, NADA DE MAIS...
+
+
+
+
+
+
+(estamos usando 'basebadge' tanto em 'badgelist' como em 'userInfo')...
+
+
+
+
+
+
+
+
+-_> E O HEADER É UM COMPONENT SUPER SIMPLES,
+
+
+EM QUE O PROFESSOR APENAS ESTÁ OUTPUTTANDO E ESTLIZIANDO O HEADER..
