@@ -25,8 +25,9 @@ export default {
 
 
 
-<style>
+<style scoped> 
 header {
+    /* 'scoped' É O ATTRIBUTE QUE VOCê COLOCA NA TAG DE 'STYLE', SE VOCê DESEJA QUE ESSES STYLES DEFINIDOS AQUI __ SEJAM __ SCOPADOS APENAS A ESSE COMPONENT EM SI (ou seja, não serão repassados ao app inteiro)... NEM MESMO OS child, nem mesmo os SIBLING COMPONENTs, RECEBERÃO ESSE STYLE..  */
     width: 100%;
     height: 5rem;
     display: flex;
