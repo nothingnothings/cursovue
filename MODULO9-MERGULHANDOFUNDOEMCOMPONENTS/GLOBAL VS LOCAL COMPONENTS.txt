@@ -1,0 +1,1728 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS COMEÇAR COM O TÓPICO 'COMPONENT REGISTRATION'...
+
+
+
+
+
+
+
+
+
+
+
+
+-> ATÉ AGORA, SEMPRE ESTIVEMOS REGISTRANDO NOSSOS COMPONENTS LÁ EM 
+
+
+'main.js',
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+import TheHeader from './components/TheHeader.vue';
+import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+
+const app = createApp(App);
+
+app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge);
+app.component('the-header', TheHeader);
+app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É ASSIM QUE FIZEMOS EM TODOS OS MÓDULOS ANTERIORES..
+
+
+
+
+
+
+
+
+
+--> NÃO HÁ NADA DE ERRADO COM ISSO,
+
+mas é claro que 
+
+ESSE NÃO É SEMPRE O APPROACH MAIS ADEQUADO...
+
+
+
+
+
+
+
+
+
+
+->  PARECE QUE EXISTE UMA __ MANEIRA__ ALTERNATIVA__ DE 
+
+REGISTRAR COMPONENTS...
+
+
+
+
+
+
+
+
+----> QUANDO REGISTRAMOS COMPONENTS DESSA FORMA, DIRETAMENTE EM 'main.js',
+
+
+
+estamos 
+
+
+REGISTRANDO ESSES COMPONENTS COMO AQUILO QUE CHAMAMOS DE 
+
+
+'GLOBAL COMPONENTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> ISSO QUER DIZER QUE ELES FICAM DISPONÍVEIS GLOBALMENTE,
+
+EM TODO ESSE VUE APP --> ISSO QUER DIZER QUE 
+
+
+PODEMOS 
+
+
+USAR 
+
+
+ESSES COMPONENTS COMO 'CUSTOM HTML TEMPLATES/elementS'
+
+
+
+
+EM __ QUALQUER __ LUGAR DE NOSSO APP (
+
+    tanto em 'App.vue'
+     
+
+     como EM QUALQUER OUTRO LUGAR DE NOSSO APP.....
+)
+
+
+
+
+
+
+
+
+
+
+
+ISSO, É CLARO, É SUPER ÚTIL,
+
+PQ QUER DIZER QUE 
+
+PODEMOS 
+
+USAR 
+
+ESSES CUSTOM COMPONENTS EM QUALQUER LUGAR DE NOSSO APP,
+ 
+
+ E AÍ 
+
+
+ NÃO PRECISAMOS NOS PREOCUPAR ACERCA 
+
+
+ DE 'O LUGAR EM QUE ESTAMOS OS UTLIZANDO'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> mas AQUI HÁ UM DOWNSIDE:
+
+
+
+
+ 1) TODOS ESSES COMPONENTS CONTÊM CERTO CÓDIGO.... --> 
+
+ AQUI 
+
+
+ OS CÓDIGOS SÃO RELATIVAMENTE SIMPLES,
+
+ MAS O QUE INTERESSA 
+
+
+ É QUE 
+
+
+
+
+ AINDA TEMOS 'A LITTLE OF TEMPLATE CODE '
+
+
+ E 
+
+ 'A LITTLE OF SCRIPTING CODE '--> E É CLARO QUE,
+
+
+
+ AO PASSO QUE 
+
+ NOSSO APP VAI CRESCENDO,
+
+  
+
+  A QUANTIDADE 
+
+
+
+
+
+  DE COMPONENTS AUMENTA,
+
+  E A QUANTIDADE DE 'CODE PACKAGES'
+
+  TAMBÉM AUMENTA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> E SE VOCÊ ESTÁ REGISTRANDO TODOS ESSES COMPONENTS GLOBALMENTE,
+
+
+
+  ISSO QUER DIZER, NO FINAL DAS CONTAS,
+
+  QUE 
+
+  O 
+
+  VUE 
+
+  PRECISA 
+
+  CARREGAR TODOS ESSES COMPONENTS QUANDO O APP É CARREGADO, INICIALMENTE --.-->>
+
+
+
+
+
+
+
+
+
+  ISSO QUER DIZER QUE 
+
+
+
+  O BROWSER É FORÇADO A BAIXAR O CÓDIGO PARA TODOS ESSES COMPONENTS, INICIALMENTE-- >
+
+
+
+
+
+
+
+  E ISSO NÃO É NENHUM PROBLEMA PARA NOSSO APP BÁSICO, AQUI,
+  MAS PARA 
+
+
+  APPS MAIORES,
+
+
+  ISSO PODERIA SE TORNAR UM PROBLEMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ADICIONALMENTE,
+
+  SE VOCê 
+
+  REGISTRA ALGO GLOBALMENTE EM 
+
+  'App.vue',
+
+
+
+
+  ESSA PODE ACABAR UMA LIST_ ___ _ BEEEEEM LONGA_...
+
+
+
+
+
+
+
+
+
+  _-> SE VOCÊ TEM UM APP COM CENTENAS DE COMPONENTS,
+
+  ESSA 
+
+  LIST 
+
+  FICARIA GIGANTE,
+
+  E AÍ 
+
+  NÃO FICARIA ÓBVIO 
+
+
+  '''OS LOCAIS EM QUE CADA UM DESSES COMPONENTS SÃO 
+
+
+  UTILIZADOS''..
+
+
+
+
+
+
+
+
+
+
+
+  --> SE TODOS ESSES COMPONENTS SÃO 'MEANT' PARA 
+
+  SEREM USADOS EM VÁRIOS LUGARES,
+
+  OU APENAS EM ALGUNS POUCOS LUGARES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> EXEMPLO PERFEITO É 'HEADER' ------> ESSE COMPONENT É USADO 1 ÚNICA VEZ,
+
+
+
+  LÁ EM 
+
+
+  'App.vue',
+
+
+
+
+  DIRETAMENTE NO TEMPLATE 'root':
+
+
+
+
+
+
+  <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info
+  :full-name="activeUser.name"
+  :info-text="activeUser.description"
+  :role="activeUser.role"
+  >
+
+  </user-info>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MESMA COISA PARA 'USER-INFO',
+
+
+
+
+
+QUE TAMBÉM É UM COMPONENT QUE ACABA SENDO USADO 1 ÚNICA VEZ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> E O REGISTER GLOBAL DELES FUNCIONA,
+
+
+SIM,
+
+
+
+MAS VOCÊ PODERIA ATÉ MESMO DIZER QUE É 
+
+
+REDUNDANTE... 
+
+
+
+
+
+
+
+
+
+----> SÓ TEMOS ESSES COMPONENTS APARECENDO EM 1 ÚNICO LUGAR,
+
+
+
+E SÓ TEMOS ELES NO CÓDIGO PQ QUEREMOS 'OUTSOURCE' NOSSO CÓDIGO,
+
+PARA 
+
+DEIXAR 
+
+
+
+
+O CÓDIGO/LAYOUT DE 'App.vue'
+
+MAIS LEAN (mais legível)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É EXATAMENTE POR ISSO QUE TEMOS _ OUTRA MANEIRA_ DE REGISTRAR COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ALÉM DESSE APPROACH BÁSICO, DE 'register them globally',
+
+
+
+_ NÓS __ PODEMOS TAMBÉM REGISTRAR 
+
+ESSES COMPONENTS LOCALMENTE,
+
+NO COMPONENT EM QUE PLANEJAMOS OS UTILIZAR... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> UM EXEMPLO É 'HEADER' -->  
+
+
+
+
+PODEMOS remover A REGISTRATION DE 'HEADER'
+
+
+lá em 
+
+
+'main.js'... --> REMOVER O IMPORT TAMBÉM...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+import { createApp } from 'vue';
+import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+//import TheHeader from './components/TheHeader.vue';
+import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+
+const app = createApp(App);
+
+app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge);
+//app.component('the-header', TheHeader); ///REMOVEMOS ESSE IMPORT GLOBAL DE 'HEADER', PQ ELE NÃO É UTILIZADO AO LONGO DE TODO NOSSO APP (coisa redundante, desnecessária)...
+app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ, FEITA A REMOÇÃO DESSE IMPORT/REGISTER,
+
+
+
+
+seguimos até 
+
+
+
+
+o component 'App.vue',
+
+
+
+
+
+que é nosso MAIN APP,
+
+
+E LÁ 
+
+DENTRO 
+
+
+
+podemos 
+
+
+escrever 
+
+
+
+
+
+UM __ IMPORT DE 'import TheHeader' 
+
+
+
+
+
+
+
+
+E __ AÍ __ PODEMOS REGISTRAR 
+
+
+
+ESSE COMPONENT DIRETAMENTE 
+
+NO 'App.vue',
+
+
+
+
+
+
+BASTA COLOCAR UMA KEY de 'components',
+
+
+e aí 
+
+ELENCAR ESSE COMPONENT QUE SERÁ UTILIZADO...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info
+  :full-name="activeUser.name"
+  :info-text="activeUser.description"
+  :role="activeUser.role"
+  >
+
+  </user-info>
+</template>
+
+<script>
+
+
+export default {  
+
+    components: ['the-header'], /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+
+    data() {
+      return {
+        activeUser: {
+          name: 'Max Schwarz',
+          description: 'Site owner and admin',
+          role: 'admin'
+        }
+      }
+    }
+
+
+}
+</script>
+
+<style>
+  html {
+    font-family: sans-serif;
+  }
+  body {
+    margin: 0;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS ISSO ESTÁ ERRADO... --> EU ESCREVI '['the-header']',
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR DIZ QUE A ESCRITA CORRETA É ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+components: {
+    'the-header': TheHeader
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OS COMPONENTS ESCRITOS DENTRO DESSA KEY FAZEM COM QUE 
+
+
+
+ELES __ SÓ POSSAM SER ESCRITOS/USADOS DENTRO DO TEMPLATE DESSE ARQUIVO LOCAL..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info
+  :full-name="activeUser.name"
+  :info-text="activeUser.description"
+  :role="activeUser.role"
+  >
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+
+
+
+export default {  
+
+    components: {'the-header': TheHeader}, /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+
+    data() {
+      return {
+        activeUser: {
+          name: 'Max Schwarz',
+          description: 'Site owner and admin',
+          role: 'admin'
+        }
+      }
+    }
+
+
+}
+</script>
+
+<style>
+  html {
+    font-family: sans-serif;
+  }
+  body {
+    margin: 0;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO REALMENTE FUNCIONA,
+
+
+VAI FUNCIONAR EXATAMENTE COMO ANTES,
+
+MAS AGORA 
+
+VAMOS REGISTRAR ESSES COMPONENTS 'LOCALLY'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O HEADER AGORA ESTÁ REGISTRADO LOCALMENTE..
+
+
+
+
+
+
+
+
+
+
+
+--> E VOCÊ ACTUALLY PODE ESCREVER ISSO DE FORMA DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+--> VOCê PODE ESCREVER 
+
+
+{
+    TheHeader: TheHeader
+},
+
+
+em 
+
+vez 
+
+de 
+
+{
+
+    'the-header': TheHeader
+}
+
+
+
+
+
+
+
+
+
+
+
+--> SE VOCÊ OPTAR PELA PRIMEIRA SINTAXE,
+
+SEU COMPONENT DEVERÁ SER ESCRITO ASSIM:
+
+
+
+
+
+
+<TheHeader></TheHeader>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> O STYLE DE ESCREVER ESSES COMPONENTS DEPENDE DE VOCê...
+
+
+
+
+
+
+
+
+MAS QUANDO VOCÊ REGISTRA 
+
+assim:
+
+
+
+
+{
+    TheHeader: TheHeader
+},
+
+
+
+
+
+
+
+
+AS DUAS SINTAXES SÃO 
+
+
+SUPORTADAS...
+
+
+
+
+
+
+
+
+
+-----> E AINDA É POSSÍVEL 
+
+
+
+DEFINIR ASSIM:
+
+
+
+
+
+{
+    TheHeader
+},
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ EXISTE UMA SINTAXE JAVASCRIPT MODERNA QUE 
+
+FAZ COM QUE 
+
+'TheHeader'
+
+
+
+SEJA EXPANDIDO PARA 
+
+
+'TheHeader: TheHeader'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... ACHO QUE É MELHOR USAR ESSA SINTAXE DE 'LETRA INICIAL MAIÚSCULA',
+
+
+
+
+PQ AÍ PODEMOS USAR NOSSOS COMPONENTS DA MANEIRA QUE QUISERMOS...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info
+  :full-name="activeUser.name"
+  :info-text="activeUser.description"
+  :role="activeUser.role"
+  >
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+
+
+
+export default {  
+
+    components: {
+      
+      // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+      TheHeader ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    
+    },
+    data() {
+      return {
+        activeUser: {
+          name: 'Max Schwarz',
+          description: 'Site owner and admin',
+          role: 'admin'
+        }
+      }
+    }
+
+
+}
+</script>
+
+<style>
+  html {
+    font-family: sans-serif;
+  }
+  body {
+    margin: 0;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSES SÃO OS DETALHES MAIS IMPORTANTES SOBRE 'COMPONENT REGISTRATION'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, É CLARO, 
+
+NESSE DEMO APP,
+
+
+O 
+
+'HEADER'
+
+NÃO É 
+
+O ÚNICO COMPONENT QUE PODEMOS REGISTRAR LOCALMENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> SE DERMOS UMA OLHADA,
+
+
+
+'UserInfo'
+
+É OUTRO COMPONENT QUE 
+
+
+SIMPLESMENTE 
+USAMOS 
+
+APENAS 
+
+NO 
+
+
+'App.vue'
+
+template... -> 
+
+
+
+O
+ 
+
+ 'BADGE-LIST'
+  
+
+  É OUTRO CANDIDATO,
+  PQ 
+
+  REALMENTE 
+
+
+
+
+  NÃO O UTILIZAMOS FORA DO CONTEXTO DE 'App.vue'..
+
+
+
+
+
+
+
+
+
+
+
+  --> É POR ISSO QUE O CÓDIGO ATUAL,
+  QUE ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+  <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info
+  :full-name="activeUser.name"
+  :info-text="activeUser.description"
+  :role="activeUser.role"
+  >
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+
+
+
+export default {  
+
+    components: {
+      
+      // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+      TheHeader ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    
+    },
+    data() {
+      return {
+        activeUser: {
+          name: 'Max Schwarz',
+          description: 'Site owner and admin',
+          role: 'admin'
+        }
+      }
+    }
+
+
+}
+</script>
+
+<style>
+  html {
+    font-family: sans-serif;
+  }
+  body {
+    margin: 0;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+//import TheHeader from './components/TheHeader.vue';
+import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+
+const app = createApp(App);
+
+app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge);
+//app.component('the-header', TheHeader); ///REMOVEMOS ESSE IMPORT GLOBAL DE 'HEADER', PQ ELE NÃO É UTILIZADO AO LONGO DE TODO NOSSO APP (coisa redundante, desnecessária)...
+app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVE FICAR ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BaseBadge from './components/BaseBadge.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BaseBadge,
+    BadgeList,
+    UserInfo
+  },
+  data() {
+    return {
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+E 
+
+
+
+
+
+
+
+ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+// import BadgeList from './components/BadgeList.vue';
+import BaseBadge from './components/BaseBadge.vue';
+//import TheHeader from './components/TheHeader.vue';
+// import UserInfo from './components/UserInfo.vue';
+import App from './App.vue';
+
+const app = createApp(App);
+
+// app.component('badge-list', BadgeList);
+app.component('base-badge', BaseBadge); ///ESTE REALMENTE É USADO GLOBALMENTE (é usado tanto em 'badge-list' como em 'user-info' )
+//app.component('the-header', TheHeader); ///REMOVEMOS ESSE IMPORT GLOBAL DE 'HEADER', PQ ELE NÃO É UTILIZADO AO LONGO DE TODO NOSSO APP (coisa redundante, desnecessária)...
+// app.component('user-info', UserInfo);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> PARECE QUE O ÚNICO COMPONENT QUE DEVE SEGUIR COMO 'GLOBAL' É 'base-badge',
+
+PQ 
+
+ELE É USADO 
+
+
+COMO CHILD DE 'BadgeList'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+E O CÓDIGO VAI FUNCIONAR COMO ANTES,
+MAS AGORA 
+
+
+COM 
+
+
+ESSE SCOPING SUPERIOR..
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA KEY DE 'components'
+
+
+EXISTE NO CONFIG OBJECT __ DE QUALQUER 
+
+COMPONENT,
+
+
+
+
+NÃO SENDO RESERVADO A 'App.vue' --> 
+
+
+
+
+
+
+
+
+
+
+
+
+VOCÊ PODERIA REGISTRAR 
+
+LOCAL COMPONENTS 
+
+EM 
+
+
+
+OUTROS COMPONENTS 
+
+
+
+
+DE SEU APP (se você tiver local components que pertencerem nesses locais/components)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS NESSE APP,
+
+ESSE NÃO É O CASO... --> AGORA 
+
+FFICAMOS COM 
+
+O 
+
+COMPONENT DE `BASEBADGE`,
+
+
+
+
+1 COMPONENT QUE VAMOS QUERER DEIXAR COMO 'GLOBAL COMPONENT',
+
+PQ 
+
+
+VAMOS 
+
+QUERER 
+
+O UTILIZAR 
+
+EM MÚLTIPLAS PARTES DE NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+
+--> ESTAMOS UTILIZNADO ESSE COMPONENT EM 'BADGELSIT'
+
+
+
+E 
+
+EM 
+
+'USER-INFO' ->
+
+
+
+SEMPRE QUE VOCÊ TIVER UM GENERAL-USE COMPONENT,
+UM 
+COMPONENT 
+
+USADO 
+
+EM 
+DIVERSOS LUGARES,
+
+
+É 
+BOM 
+CONSIDERAR 
+
+
+O USO 
+
+
+DESSE COMPONENT COMO 'GLOBAL COMPONENT' --> 
+
+
+
+
+
+
+O USO DE GLOBAL COMPONENT, NESSES CASOS,
+
+
+
+
+É 
+
+
+CORRETO --> 
+
+
+
+MAS SE VOCÊ TIVER 
+
+
+
+COMPONENTS QUE 
+
+
+
+VOCê 
+
+
+
+
+
+USA SÓ 1-2 VEZES,
+
+
+
+
+GERALMENTE É MELHOR 
+
+USAR ESSA SINTAXE DE LOCAL COMPONENT REGISTRATION...
+
+
+
+
+
+
+
+
+
+
+
+
+
+agora SABEMOS GLOBAL E LOCAL REGISTRATION, E AS SITUAÇÕES PARA USAR CADA 1 DELES...
