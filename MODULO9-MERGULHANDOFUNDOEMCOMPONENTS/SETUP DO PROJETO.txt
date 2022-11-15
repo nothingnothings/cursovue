@@ -1,0 +1,116 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... O PROFESSOR TEM OUTRO STARTING PROJECT,
+
+QUE ENCONTRAMOS NESSA LESSON...
+
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS INSTALAR TODAS AS DEPENDENCIAS...
+
+
+
+
+
+
+
+
+
+
+
+----> TEMOS UM APP COM VÁRIOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+--> DEVO ESCREVÊ-LOS, 1 POR 1...
+
+
+
+
+
+
+
+
+
+TEMOS 4 COMPONENTS, E 1 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OS COMPONENTS SÃO:
+
+
+1) BadgeList 
+
+
+
+
+2) BaseBadge 
+
+
+
+3) TheHeader 
+
+
+4) UserInfo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... rodamos 'npm run serve'
+
+
+PARA RODAR NOSSO DEV SERVER E VER O APP NA TELA...
+
+
+
+
+
+
+
+
+--> É UM APP BÁSICO...

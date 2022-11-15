@@ -2,5 +2,157 @@
 
 
 
+AGORA QUE SABEMOS QUE 'COMPONENTS'
+PODEM 
 
-agora 
+SER BEM ÚTEIS,
+
+
+AGORA QUE SABEMOS COMO OS ESCREVERMOS,
+
+
+COMO OS DEIXARMOS 'REUSABLE' (com custom props e events),
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA SABEMOS COMO COMBINAR COMPONENTS E CRIAR USER INTERFACES COM ELES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> aGORA VEREMOS TUDO SOBRE COMPONENTS,
+
+PARA 
+
+
+
+NOS TORNARMOS 'VUE MASTERS'...
+
+
+
+
+
+
+
+
+--> VEREMOS:
+
+
+
+
+
+
+
+
+1) 'COMPONENT REGISTRATION' E 'COMPONENT STYLING'..
+
+
+
+
+
+
+
+--> JÁ SABEMOS COMO REGISTRAR VUE COMPONENTS NOS NOSSOS APPS,
+
+ 
+ MAS 
+ PARECE QUE HÁ 
+
+ MAIS DE 1 MANEIRA PARA FAZER ISSO.... (
+
+
+    e
+     cada maneira tem um propósito específico,
+     deve 
+
+     ser usada em certas circunstâncias...
+ )
+
+
+
+
+
+
+
+
+
+
+ 2) DEPOIS, VEREMOS 'SCOPE DE STYLES',
+ PARA 
+
+ VER 
+
+ COMO PODEMOS FAZER CERTOS STYLES AFETAREM APENAS DETERMINADOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+ 3) POR FIM, ESTUDAREMOS UM CONCEITO CHAMADO DE 
+
+ 'slots' -----> O QUE É ISSO, E PQ É ÚTIL...
+
+
+
+
+
+
+
+
+
+
+
+ TAMBÉM ESTUDAREMOS 'DYNAMIC COMPONENTS',
+
+
+
+ E EM QUE LUGAR ELES PODEM NOS AJUDAR...
+
+
+
+
+
+
+
+
+
+
+ POR FIM, VEREMOS 'COMPONENT NAMES'
+
+ E 
+
+
+ possíveis folder names que podemos usar 
+
+ nos nossos projects (
+
+
+
+    QUEREMOS SER CAPAZES DE NOS ORGANIZR, E DE ENCONTRAR NOSSOS DIFERENTES ARQUIVOS..
+ )
