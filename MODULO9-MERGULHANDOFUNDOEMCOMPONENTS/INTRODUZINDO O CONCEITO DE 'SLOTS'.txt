@@ -1,0 +1,119 @@
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... MAS HÁ OUTRA FEATURE IMPORTANTE,
+
+
+
+
+RELACIONADA COM 'VUE COMPONENTS',
+
+
+QUE 
+
+
+
+
+__ VAI __ TE DAR __ BEM MAIS OPTIONS 
+
+
+
+DE COMO __ ESTRUTURAR 
+
+
+SEU CÓDIGO,
+
+
+
+E DE COMO 
+
+
+
+
+
+
+
+
+
+
+'''SPLIT SEU CÓDIGO AO LONGO DE VÁRIOS COMPONENTS'''..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O NOME DESSA FEATURE É 'SLOTS'...
+
+
+
+
+
+
+
+
+
+
+
+--> O QUE É ISSO?  
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, EM 
+
+'UserInfo',
+
+
+TEMOS 
+
+ESTE CÓDIGO:
+
+
+
+
+
+    <section>
+        <div>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </div>
+        <p>{{ infoText }}</p>
+    </section>
+
+
+
+
+
+
+
+
+
+    TEMOS ESTE SECTION, SIM....
