@@ -1731,3 +1731,192 @@ POR EXEMPLO....
 
 
 
+
+////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+V-SLOT --> É USADO COM 'NAMED SLOTS'... --> e NAMED SLOTS são BASICAMENTE __HOCS__ COM MÚLTIPLOS SLOTS (com mais do que apenas 1 slot de 'props.children', em outras palavras, em termos React)...
+
+
+
+
+
+EXPLICAÇÃO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... agora PODEMOS ASSIGNAR CONTEÚDO AOS DIFERENTES 'SLOTS'
+
+
+dentro de 'BaseCardNamedSlots'..
+
+
+
+
+
+
+
+
+
+-->  <template>
+        <base-card> <!-- VERSÃO COM MÚLTIPLOS SLOTS NO 'HOC'... -->
+
+        <template> <!-- DEVEMOS WRAPPAR COM 'TEMPLATE' cada parte que queremos inserir em cada slot no HOC...-->
+        <header>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+    </template>
+        <p>{{ infoText }}</p>
+    </base-card>
+
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> PARA ISSO,
+
+
+
+
+
+PRECISAMOS IR ATÉ O LOCAL (component) 
+
+EM QUE TEMOS O CONTEÚDO QUE SERÁ WRAPPADO,
+
+E AÍ 
+
+
+WRAPPAR CADA PARTE DO CONTEÚDO QUE QUEREMOS QUE ENTRE EM ALGUM DOS SLOTS __ COM 
+
+A TAG__ DE 
+
+'template' (1 <template></template> PARA CADA SLOT NO HOC)...
+
+
+
+
+
+
+
+
+
+
+-> USAMOS O '<template>',
+
+
+
+QUE É UM 
+
+DEFAULT HTML ELEMENT,
+
+E DENTRO 
+
+
+DESSE 'template',
+
+
+QUE VAI SEGURAR O CONTEÚDO QUE VAI PARA DENTRO DE UM NAMED SLOT,
+
+
+
+
+
+VOCÊ DEVE ADICIONAR A DIRECTIVE SITUACIONAL DE 'v-slot'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

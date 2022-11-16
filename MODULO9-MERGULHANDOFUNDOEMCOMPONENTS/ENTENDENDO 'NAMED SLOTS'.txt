@@ -1,0 +1,1271 @@
+
+
+
+
+
+
+
+
+
+
+ESTUDAMOS OS  SLOTS 'TRADICIONAIS'...
+
+
+
+
+
+
+
+
+
+--> AGORA PODEMOS USAR ESSE 'BaseCard',
+
+
+
+NOSSO SLOT,
+
+COMO WRAPPER 
+
+
+DE 
+
+'BadgeList'
+
+
+
+e 
+
+de 
+
+
+'UserInfo'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ISSO PQ 'BADGE LIST'
+
+TAMBÉM TEM UMA SECTION,
+
+
+E ELA TAMBÉM 
+
+VAI SE BENEFICIAR DESSE 
+
+'CARD LOOK'...
+
+
+
+
+BASTA ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <!-- <section>
+        <h2>Available Badges</h2>
+        <ul>
+            <li>
+                <base-badge type="admin" caption="ADMIN"></base-badge>
+            </li>
+            <li>
+                <base-badge type="author" caption="AUTHOR"></base-badge>
+            </li>
+
+        </ul>
+    </section> -->
+
+
+
+    <base-card>
+        <h2>Available Badges</h2>
+        <ul>
+            <li>
+                <base-badge type="admin" caption="ADMIN"></base-badge>
+            </li>
+            <li>
+                <base-badge type="author" caption="AUTHOR"></base-badge>
+            </li>
+
+        </ul>
+    </base-card>
+
+
+</template>
+
+
+
+<script>
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+li {
+    margin-right: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E PODEMOS REUTILIZAR ESSE 
+
+
+
+NEGÓCIO REALMENTE EM QUALQEUR LUGAR DE NOSSO CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS OS SLOTS TAMBÉM PODEM SER USADOS PARA MAIS COISAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É BOM SER CAPAZ DE 
+
+
+PASSAR 'DYNAMIC CONTENT'
+
+PARA DENTRO DAS OPENING E CLOSING TAGS DE 
+
+
+1 DE NOSSOS COMPONENTS. . --> 
+
+
+
+
+
+
+
+
+
+
+CERTO,
+
+MAS TAMBÉM 
+
+
+EXISTIRÃO 
+CASOS EM QUE 
+
+SEU 
+
+COMPONENT 
+
+
+VAI 
+
+PRECISAR TER 'MÚLITPLOS SLOTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER MOSTRAR ISSO,
+
+já 
+COM O EXEMPLO DE 
+
+
+
+
+'BaseCard'..
+
+
+
+
+
+
+
+
+
+
+--> NO MOMENTO, TEMOS APENAS 1 ÚNICO 'SLOT',
+
+
+MAS NÃO SERIA DE TODO IRREALISTA
+
+
+PENSAR EM UM CENÁRIO EM QUE TEMOS 2 SLOTS... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK.... DIGAMOS QUE TEREMOS 1 SLOT PARA O 'HEADER',
+
+E OUTRO PARA O 'MAIN CONTENT' ( sendo que os 2 viverão no mesmo card, nesse exemplo)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, VAMOS ATÉ 'BaseCard' 
+
+
+e aí 
+
+
+
+
+
+PODEMOS ESCREVER UM HEADER COMPONENT, TIPO ASSIM:
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot', ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <header></header>
+        <slot></slot>
+    </div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> cADA CARD TERÁ ESSA ESTRUTURA, NO CASO.....
+
+
+
+
+
+
+
+
+
+
+
+--> E, DENTRO DESSE 'HEADER', VAMOS COLOCAR OUTRO 'SLOT'...
+
+
+
+
+
+
+
+
+
+
+--> QUER DIZER QUE NOSSO 'BaseCard' FICARÁ ASSim:
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot' (Terá slots), ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <header> <!-- ESTE É UM EXEMPLO DA FEATURE 'NAMED SLOTS', que é usada quando você quer MÚLTIPLOS SLOTS em um 'hoc'....-->
+        <slot></slot>
+    </header>
+        <slot></slot>
+    </div>
+</template>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK...
+
+
+
+
+
+
+MAS COMO TEMOS 2 'SLOTS' aqui ,
+
+
+
+
+O 
+
+VUE 
+
+VAI TER DIFICULDADE EM SABER 'WHERE SHOULD THE CONTENT REALLY GO'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE, QUANDO VOCÊ USA MAIS DE 1 
+
+SLOT NO SEU 'HOC' (wrapper),
+
+
+VOCÊ 
+PODE 
+
+ADICIONAR 
+
+__NOMES__ AOS seus slots,
+
+
+COM O ATTRIBUTE DE 'name="" '...
+
+
+
+
+
+
+
+
+
+--> FICARIA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot' (Terá slots), ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <header> <!-- ESTE É UM EXEMPLO DA FEATURE 'NAMED SLOTS', que é usada quando você quer MÚLTIPLOS SLOTS em um 'hoc'....-->
+        <slot name="header-slot"></slot>
+    </header>
+        <slot name="content-slot"></slot>
+    </div>
+</template>
+
+
+<script>
+export default {
+
+}
+</script>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+E PODEMOS COLOCAR QUALQUER NAME 
+
+
+
+EM CADA 'SLOT'...
+
+
+
+
+
+
+
+
+
+
+--> VOCÊ NÃO TEM QUE COLOCAR NOMES EM TODOS OS SLOTS... --> SE VOCê DEIXAR UM SLOT SEM 'name' attribute,
+
+esse 
+
+slot será considerado como o '''DEFAULT SLOT'''
+
+de seu HOC...
+
+
+
+
+
+
+-_> MAS VOCê DEVE TER APENAS 1 ÚNICO SLOT SEM NOME,
+
+mais do que isso não é permitido...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... agora PODEMOS ASSIGNAR CONTEÚDO AOS DIFERENTES 'SLOTS'
+
+
+dentro de 'BaseCardNamedSlots'..
+
+
+
+
+
+
+
+
+
+-->  <template>
+        <base-card> <!-- VERSÃO COM MÚLTIPLOS SLOTS NO 'HOC'... -->
+
+        <template> <!-- DEVEMOS WRAPPAR COM 'TEMPLATE' cada parte que queremos inserir em cada slot no HOC...-->
+        <header>
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+    </template>
+        <p>{{ infoText }}</p>
+    </base-card>
+
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> PARA ISSO,
+
+
+
+
+
+PRECISAMOS IR ATÉ O LOCAL (component) 
+
+EM QUE TEMOS O CONTEÚDO QUE SERÁ WRAPPADO,
+
+E AÍ 
+
+
+WRAPPAR CADA PARTE DO CONTEÚDO QUE QUEREMOS QUE ENTRE EM ALGUM DOS SLOTS __ COM 
+
+A TAG__ DE 
+
+'template' (1 <template></template> PARA CADA SLOT NO HOC)...
+
+
+
+
+
+
+
+
+
+
+-> USAMOS O '<template>',
+
+
+
+QUE É UM 
+
+DEFAULT HTML ELEMENT,
+
+E DENTRO 
+
+
+DESSE 'template',
+
+
+QUE VAI SEGURAR O CONTEÚDO QUE VAI PARA DENTRO DE UM NAMED SLOT,
+
+
+
+
+
+VOCÊ DEVE ADICIONAR A DIRECTIVE SITUACIONAL DE 'v-slot'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+V-SLOT --> É UMA DIRECTIVE QUE AJUDA O VUE A 
+
+ENTENDER 
+
+'WHERE CERTAIN CONTENT SHOULD GO TO'...
+
+
+
+
+
+
+
+
+
+
+
+-> E VOCê DEIXA O VUE SABER 
+
+
+'para onde esse conteúdo vai' 
+
+
+
+
+
+__ TUDO POR MEIO 
+
+
+
+
+DA ESCRITA DE 
+
+'v-slot:' 
+
+
+
+E DEPOIS O _ NOME _ DO SEU SLOT...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+v-slot=header-slot 
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESCREVA SEM "" (sem ser uma string),
+
+E ISSO 
+
+
+VAI 
+
+DIZER AO VUE QUE VOCê QUER QUE 
+
+ESSE CONTEÚDO WRAPPADO PELO TEMPLATE__ VÁ PARA __ DENTRO __ DESSE SLOT DE NOME 'header-slot'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+        <base-card> <!-- VERSÃO COM MÚLTIPLOS SLOTS NO 'HOC'... -->
+
+        <template v-slot:header-slot> <!-- DEVEMOS WRAPPAR COM 'TEMPLATE' cada parte que queremos inserir em cada slot no HOC...-->
+        <header> <!-- DEVEMOS TAMBÉM ADICIONAR A DIRECTIVE DE 'v-slot' AO TEMPLATE TAG que wrappa nosso conteúdo, para COMUNICAR AO VUE 'esse é o SLOT em que quero INSERIR ESSE CONTEÚDO QUE ESSE TEMPLATE WRAPPOU....'-->
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+    </template>
+    <template v-slot:content-slot >
+        <p>{{ infoText }}</p>
+    </template>
+    </base-card>
+
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OBS: nós usamos 'TEMPLATE' como a default HTML tag para 
+
+
+
+comunicar ao VUE 
+
+
+__ JUSTAMENTE __PQ 
+
+
+
+ELA NÃO RENDERIZA NADA À TELA, POR SI PRÓPRIA...
+
+
+
+
+
+
+
+
+
+
+---> É POR ISSO QUE USAMOS 'template'
+
+COMO UM CONTAINER...
+
+
+
+
+
+
+
+
+--> E SE VOCÊ TIVER CONTEÚDO 
+
+
+
+
+NO SEU COMPONENT QUE 
+
+NÃO ESTÁ INDO PARA DENTRO DO 'NAMED SLOT',
+
+ELE 
+
+AUTOMATICAMENTE 
+
+
+VAI SEGUIR/SER INSERIDO NO SLOT _ QUE _ FICOU SEM NOME,
+
+lá no seu HOC... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... faz sentido...
+
+
+
+
+
+
+
+
+
+
+
+
+VEREMOS MAIS DETALHES SOBRE 'STYLING'
+
+NA PRÓXIMA LIÇÃO...
+
+
+
+
+
+
+
+
+
+ANTES DISSO, NO ENTANTO,
+
+O PROFESSOR 
+
+VOLTA AO 
+
+
+CÓDIGO,
+
+
+DESSA VEZ 
+
+
+
+lá em 'BadgeList',
+
+
+
+E AÍ 
+
+
+
+LÁ 
+
+
+
+ELE 
+
+
+
+
+DECIDE COLOCAR aquela header de 'h2'
+
+
+
+PARA __ DENTRO _ 
+
+
+
+
+
+
+
+
+DE NOSSO SLOT DE 'header' lá do 'BaseCardNamedSlots'...
+
+
+
+
+
+
+
+
+
+ELE ESCREVE TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <!-- <section>
+        <h2>Available Badges</h2>
+        <ul>
+            <li>
+                <base-badge type="admin" caption="ADMIN"></base-badge>
+            </li>
+            <li>
+                <base-badge type="author" caption="AUTHOR"></base-badge>
+            </li>
+
+        </ul>
+    </section> -->
+
+
+
+    <base-card>
+        <template v-slot:header-slot> <!-- QUEREMOS QUE ISSO VÁ PARA DENTRO DO NAMED SLOT de 'header-slot', lá em 'BaseCardNamedSlots.vue'-->
+        <h2>Available Badges</h2>
+    </template>
+    <template v-slot:default> <!-- COM ISSO, DEFINIMOS QUE O RESTO DESSE CONTEÚDO, wrappado por esse template, deverá ir para dentro do UNNAMED SLOT lá no interior de 'BaseCardNamedSlots'-->
+        <ul>
+            <li>
+                <base-badge type="admin" caption="ADMIN"></base-badge>
+            </li>
+            <li>
+                <base-badge type="author" caption="AUTHOR"></base-badge>
+            </li>
+
+        </ul>
+    </template>
+    </base-card>
+
+
+</template>
+
+
+
+<script>
+
+
+export default {
+
+
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+li {
+    margin-right: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+
+
+POR FIM,
+
+ELE NOS EXPLICA UQE __ SE VOCê DESEJA _ 
+
+
+FAZER O RESTO DO CONTEÚDO ENTRAR NO 'DEFAULT SLOT' 
+
+
+
+de um component HOC,
+
+
+você 
+
+
+
+
+
+pode ser MAIS EXPLÍCIITO 
+
+E ESCREVEr 
+
+<template v-slot:default>
+...
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO DEIXA BEM CLARO 'WHERE THE CONTENT SHOULD GO' 
+
+(
+
+    DEVE IR ATÉ O DEFAULT SLOT...
+)
+
+
+
+
+
+
+
+--> AGORA DEVEMOS VER COMO PODEMOS MEXER NO STYLING,
+
+
+
+CONSEGUIR DEFINIR STLYING 
+
+MAIS ESPECIFICAMENTE,
+
+
+COM 
+
+
+
+'SLOTS'...
