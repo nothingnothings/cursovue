@@ -33,7 +33,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 section {
     margin: 2rem auto;
     max-width: 30rem;
@@ -42,7 +42,7 @@ section {
     padding: 1rem;
 }
 
-section div {
+section header {
     display: flex;
     justify-content: space-between;
     align-items: center;

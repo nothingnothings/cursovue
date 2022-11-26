@@ -1,0 +1,341 @@
+
+
+
+
+
+
+O PROFESSOR COMENTA SOBRE SLOTS... --> SÃO UMA FEATURE 
+
+PODEROSA,
+
+MAS AGORA QUEBRAMOS NOSSO STYLING...
+
+
+
+
+
+
+
+
+
+LEMBRE-SE DO CÓDIGO DE 'UserInfo':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+        <base-card> <!-- VERSÃO COM MÚLTIPLOS SLOTS NO 'HOC'... -->
+
+        <template v-slot:header-slot> <!-- DEVEMOS WRAPPAR COM 'TEMPLATE' cada parte que queremos inserir em cada slot no HOC...-->
+        <header> <!-- DEVEMOS TAMBÉM ADICIONAR A DIRECTIVE DE 'v-slot' AO TEMPLATE TAG que wrappa nosso conteúdo, para COMUNICAR AO VUE 'esse é o SLOT em que quero INSERIR ESSE CONTEÚDO QUE ESSE TEMPLATE WRAPPOU....'-->
+            <h3> {{ fullName }}</h3>
+            <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
+        </header>
+    </template>
+    <template v-slot:content-slot >
+        <p>{{ infoText }}</p>
+    </template>
+    </base-card>
+
+</template>
+
+
+
+<script>
+
+
+export default {
+    props: ['fullName', 'infoText', 'role'],
+    data() {
+        return {
+
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style scoped>
+section {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESTAMOS SCOPANDO O STYLE, DESSE COMPONENT, SIM, 
+
+
+
+
+
+
+
+
+
+MAS ESTAMOS FAZENDO ISSO  (scopando o style)
+
+PARA 
+
+
+DENTRO 
+
+
+DE OUTRO COMPONENT (o component 'BaseCard")...
+
+
+
+
+
+
+
+
+
+
+-> VOCÊ PODERIA PENSAR QUE O COMPONENT 'base-card' 
+
+
+SERIA AFETADO POR ESSE STYLING TAMBÉM...
+
+
+
+
+
+
+
+
+
+--> MAS ISSO NÃO ACONTECE, NÃO É ASSIM QUE O VUE FUNCIONA ----> QUANDO TRABALHAMSO COM SLOTS,
+
+E QUANDO ENVIAMOS CONTENT PARA DENTRO DE OUTROS 
+
+
+
+
+
+SLOTS DE COMPONENTS,
+
+
+
+__ NADA __ É ALTERADO _ 
+
+
+
+
+SOBRE AQUILO SOBRE 'DISPONIBILIDADE DE PROPS, DATA E STYLES' ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE O PROP De ''fullName''
+
+
+
+
+
+
+
+É __ REALMENTE UM PROP QUE SÓ FICA DISPONÍVEL DENTRO DE 'UserInfo',
+
+
+
+
+
+E NÃO FICA DISPONÍVEL EM 
+
+
+'base-card' (ainda que aquele markup de '{{fullName}}' ainda esteja sendo enviado a 'base-card')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS O VUEJS VAI _ ANALISAR, COMPILAR _E 'EVALUATE'
+
+
+
+
+NOSSO TEMPLATE DE 'UserInfo'
+
+
+
+__ ANTES__ DE ENVIAR __ O CONTEÚDO AOS OUTROS COMPONENTS (definidos dentro de 'UserInfo')...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE OS STYLES VÃO AFETAR O PRÓPRIO TEMPLATE DO ARQUIVO,
+
+
+
+MAS NÃO OS _ COMPONENTS/SLOTS A QUE ESTAMOS ENVIANDO NOSSO CONTEÚDO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> é por isso que o header style de 'UserInfo'
+
+NÃO AFETA NOSSO HOC de 'BaseCard'..
+
+
+
+
+
+
+
+
+
+----> É POR ISSO QUE SE QUEREMOS APLICAR ESSE STYLE AO BASE CARD,
+
+
+DEVEMOS 
+
+
+IR 
+
+ATÉ O 'style scoped'
+
+
+DO 'BaseCard'
+
+
+E ENTÃO ADICIONAR O STYLING LÁ DENTRO....
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot' (Terá slots), ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <header>
+            <!-- ESTE É UM EXEMPLO DA FEATURE 'NAMED SLOTS', que é usada quando você quer MÚLTIPLOS SLOTS em um 'hoc'....-->
+            <slot name="header-slot"></slot>
+        </header>
+        <!-- O ATTRIBUTE DE 'name' é OBRIGATÓRIO NOS SEUS SLOTS, QUANDO VOCÊ TEM MAIS DE 1 SLOT...-->
+        <slot name="content-slot"></slot>
+    </div>
+</template>
+
+
+<script>
+export default {
+
+}
+</script>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+--> 

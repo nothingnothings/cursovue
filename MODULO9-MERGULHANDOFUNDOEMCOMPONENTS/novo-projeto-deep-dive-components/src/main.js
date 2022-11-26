@@ -4,7 +4,8 @@ import BaseBadge from './components/BaseBadge.vue';
 //import TheHeader from './components/TheHeader.vue';
 // import UserInfo from './components/UserInfo.vue';
 import App from './App.vue';
-import BaseCard from './components/BaseCard.vue';
+// import BaseCard from './components/BaseCard.vue';
+import BaseCard from './components/BaseCardNamedSlots.vue';
 
 const app = createApp(App);
 

@@ -1910,9 +1910,674 @@ VOCÊ DEVE ADICIONAR A DIRECTIVE SITUACIONAL DE 'v-slot'...
 
 
 
+--> OBS: O SHORTHAND DE 'v-slot' é '#'...
 
 
 
+
+tipo 
+
+
+
+'v-slot:header-slot' 
+
+
+
+
+FICA 
+
+'#header-slot'...
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> DENTRO DE 'mounted',
+
+
+O PROFESSOR USA OUTRA PROPRIEDADE BUILT-IN DO VUE,
+
+que é 
+
+
+'this.$slots.xxxx'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA É OUTRA PROPRIEDADE PROVIDENCIADA PELO VUE,
+
+
+E __ ELa__ 'SEGURA'
+
+
+INFO SOBRE A SLOT DATA 
+
+QUE 
+
+
+__ ESSE __COMPONENT_ hoc 
+
+
+recebe 
+
+PARA OS 
+
+
+DIFERENTES SLOTS QUE POSSUI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR SALVA ISSO,
+
+
+E AÍ O OUTPUT DO CONSOLE FICA ASSIM:
+
+
+Proxy {_: 1, __vInternal: 1, header-slot: ƒ, default: ƒ}
+[[Handler]]
+: 
+Object
+[[Target]]
+: 
+Object
+[[IsRevoked]]
+: 
+false
+
+
+
+
+
+Proxy {_: 1, __vInternal: 1, default: ƒ}
+[[Handler]]
+: 
+Object
+[[Target]]
+: 
+Object
+[[IsRevoked]]
+: 
+false
+
+
+
+
+
+
+
+
+-----> OU SEJA,
+
+
+
+ENCONTRO 2 CONSOLE.LOGS...
+
+
+
+
+
+
+
+
+
+PQ ENCONTRO 2 CONSOLE.LOGS?
+
+
+
+
+
+
+
+
+
+
+--> É PQ ESTOU USANDO O COMPONENT DE 'BaseCard'
+
+
+
+DUAS VEZES...
+
+
+
+
+
+
+
+
+
+
+
+--> ESTAMOS USANDO COM 'UserInfo'
+
+
+e com 
+'BadgeList'...
+
+
+
+
+
+
+
+
+
+
+--> E CADA VEZ QUE ESSE COMPONENT É USADO, 'mounted'
+
+É CHAMADO,
+
+PQ 
+
+
+
+__ O COMPONENT ACABA SENDO CRIADO E MONTADO 2 VEZES... --> e é por isso que recebemos 2 console.logs..
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_>a COISA INTERESSANTE É QUE 
+
+
+
+
+
+
+__ NO INTERIOR __ DE CADA 
+
+
+OBJECT,
+
+
+TEMOS 
+
+ACESSO 
+
+
+
+
+AOS DIFERENTES SLOTS QUE 
+
+ESTAMOS PROVIDENCIANDo... (
+
+
+
+
+
+    é por isso que podemos 
+
+    acessar 
+
+    'this.$slots.headerSlot' 
+
+
+e 
+
+
+'this.$slots.default' (PQ SEMPRE TEMOS ESSE DEFAULT)...
+
+
+    e 
+
+
+    '
+)
+
+
+
+
+
+
+
+
+
+
+
+
+----> CERTO...
+
+
+
+
+
+
+
+
+--> PODEMOS ACESSAR ESSES SLOTS,
+
+SIM,
+
+
+
+E O PROFESSOR TENTA ACESSAR 
+
+
+'header-slot',
+
+tipo assim>:
+
+
+
+
+
+
+
+
+
+
+
+
+
+this.$slots.headerSlot
+
+
+
+
+
+
+
+
+
+-> eu escrevi assim:
+
+
+
+
+    mounted() {
+        console.log(this.$slots)
+        console.log(this.$slots['header-slot'])
+    }
+
+
+
+
+
+
+
+--> OK.. O PROFESSOR RECARREGA:
+
+
+
+
+
+
+
+--> ganhamos 'undefined' (pq não foi PASSADO UM VALOR A ESSE SLOT de nosso hoc, na primeira call dele),
+
+
+e depois 
+
+
+
+
+
+
+
+um OUTPUT estranho:
+
+
+
+
+
+
+
+
+ const renderFnWithContext = (...args) => {
+
+        if (renderFnWithContext._d) {
+            setBlockTracking(-1);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ---> O PROFESSOR APONTA QUE 
+
+
+
+        'undefined'
+
+
+
+        ESTÁ 
+
+
+        VINDO 
+
+
+        DO COMPONENT EM QUE NÃO PROVIDENCIAMOS CONTEÚDO ALGUM 
+
+
+
+
+AO 'BaseCard',
+
+
+ao SLOT DE 'header-slot' -------> 
+
+
+
+
+
+
+
+É POR ISSO QUE RECEBEMOS 'UNDEFINED'...
+
+
+
+
+
+
+
+
+
+--> E PODEMOS UTILIZAR ESSA INFO DE 'undefined',
+
+
+
+QUE OCORRE 
+
+
+SEMPRE QUE NÃO PASSAMOS NENHUM CONTEÚDO A ALGUM SLOT DE NOSSO HOC...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PROFESSOR VAI ATÉ 'BaseCard'
+
+
+E ADICIONA UM V-IF 
+
+
+NO PRÓPRIO '<header>'
+
+
+COMPONENT,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div>
+        <header v-if="$slots.['header-slot']">
+            <slot name="header">
+        <!--    <h2>The Default</h2> -->
+            </slot>
+        </header>
+    <slot></slot>
+</div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+
+
+SE NÃO FOR PASSADA NENHUMA DATA/CONTEÚDO A ESSE 'slot',
+
+
+
+__ ESSE HEADER NÃO SERÁ RENDERIZADO...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- ESTE É UM COMPONENT QUE SERÁ USADO COMO 'slot' (Terá slots), ou seja, COMO COMPONENT QUE ENVELOPA OUTROS COMPONENTS... É UM HOC/WRAPPER -->
+    <div>
+        <header v-if="$slots['header-slot']"> <!-- OU SEJA, SE NÃO FOR PASSADO NENHUM CONTENT A ESSE 'SLOT' de 'header-slot', esse header element não será renderizado-->
+            <!-- ESTE É UM EXEMPLO DA FEATURE 'NAMED SLOTS', que é usada quando você quer MÚLTIPLOS SLOTS em um 'hoc'....-->
+            <slot name="header-slot"></slot>
+        </header>
+        <!-- O ATTRIBUTE DE 'name' é OBRIGATÓRIO NOS SEUS SLOTS, QUANDO VOCÊ TEM MAIS DE 1 SLOT...-->
+        <slot name="content-slot"></slot>
+    </div>
+</template>
+
+
+<script>
+export default {
+
+
+
+    mounted() {
+        console.log(this.$slots)
+        console.log(this.$slots['header-slot'])
+    }
+}
+</script>
+
+
+<style scoped>
+div {
+    margin: 2rem auto;
+    max-width: 30rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+
+section header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... essa é uma melhoria pequena, 
+
+
+
+
+
+e é um pouco avançada --> 
+
+
+
+
+MAS O QUE INTERESSA É QUE COM '$slots' 
+
+
+PODEMOS 
+
+CHECAR 
+
+
+SE 
+
+ESTAMOS REALMENTE 
+
+
+
+__ RECEBENDO __ DATA _ PARA UM SLOT ESPECÍFICO,
+
+E SE NÃO 
+
+TIVERMOS ESSA DATA,
+
+PODEMOS 
+USAR 
+
+
+ESSA INFO 
+PARA __ NÃO RENDERIZAR 
+
+
+ALGUM ELEMENT NO NOSSO HOC...
+
+
+
+
+
+
+
+
+--> continuando... no 'UserInfo',
+PROVIDENCIAMOS CONTEÚDO PARA O 'header-slot',
+
+
+POR ISSO 
+
+ELE 
+
+É EFETIVAMENTE RENDERIZADO E APARECE...
+
+
+
+
+
+
+
+
+
+
+
+-> E É ASSIM QUE PODEMOS USAR A INFO de '$slots' ou '$this.slots'...
+
+
+
+
+
+
+
+
+
+
+
+
+-> 
 
 
 
