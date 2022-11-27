@@ -1,0 +1,1939 @@
+
+
+
+
+
+
+
+
+
+
+
+SLOTS SÃO UMA FEATURE IMPORTANTE,
+
+E PODEMOS 
+
+
+FAZER UM MONTE DE COISAS COM ELES...
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER NOS MOSTRAR UMA ÚLTIMA COISA SOBRE SLOTS...
+
+
+
+
+
+
+
+
+
+--> É ALGO AVANÇADO,
+
+MAS É ÚTIL DE SE SABER....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR CRIA UM 
+
+
+NOVO COMPONENT, DE NOME 'CourseGoals.vue'...
+
+
+
+
+
+
+
+
+
+
+DENTRO DELE, ADICIONAMOS 
+
+<template></template>
+
+
+
+
+
+
+
+
+
+
+
+-> POR ENQUANTO, FOCAREMOS NO TEMPLATE, E NÃO NOS STYLES E AFINS...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<template>
+    <ul>
+    </ul>
+
+</template>
+
+
+
+
+
+
+
+
+
+
+--> TEMOS O SCRIPT, tbm...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+    
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ TEREMOS UMA 'data',
+
+e dentro dela teremos a propriedade 'goals',
+
+
+
+QUE TERÁ UM ARRAY COM 'finish the course' 
+
+e 
+'
+learn vue'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... É CLARO QUE PODEMOS RENDERIZAR ESSES LIST ITEMS, por meio do uso de 'v-for'...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals"></li>
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TAMBÉM ADICIONAMOS 'key'
+
+PARA 
+
+
+
+
+DIFERENCIAR 1 LIST ITEM DO OUTRO... 
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">{{ goal }}</li>
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... AÍ IMPORTAMOS ESSE NOVO COMPONENT LÁ EM 'App.vue',
+
+PARA QUE 
+ 
+
+
+ SEJA POSSÍVEL O UTILIZAR NO NOSSO TEMPLATE DE 'App'...
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+import CourseGoals from './components/CourseGoals.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BadgeList,
+    UserInfo,
+    CourseGoals
+  },
+  data() {
+    return {
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> FAZEMOS ISSO, SIM...
+
+
+
+
+
+
+
+
+
+
+
+--> depois 
+
+
+
+escrevemos esse '<course-goals>'
+
+
+LÁ DENTRO DE 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals></course-goals>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK,... 
+
+
+QUANDO FAZEMOS ISSO, IMEDIATAMNETE VISUALIZAMOS UMA LIST NA NOSSA PÁGIAN...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS O QUE ISSO TEM A VER COM SLOTS?
+
+
+
+
+
+
+
+--> BEM, ÀS VEZES,
+
+
+
+SE VOCÊ ESTÁ 
+
+FAZENDO 1 COMPONENT QUE VOCÊ QUER COMPARTILHAR COM OUTROS COLEGAS,
+
+
+VOCÊ 
+
+
+
+__ PROVAVELMENET VAI QUERER QUE ALGUNS ASPECTOS DESSE COMPONENT SEJAM CUSTOMIZABLE.. 
+
+
+
+
+
+
+
+
+
+
+
+
+--> AQUI, POR EXEMPLO,
+
+
+
+TEMOS 
+
+esse component de 'CourseGoals',
+
+
+
+
+QUE PODERÁ, SE QUISERMOS,
+
+
+
+
+TER ESSA DATA DE 'COURSE GOAL' (com mais lógica vinculada a esse output dessa data),
+
+
+
+
+E QUE 
+
+
+ENTÃO 
+
+
+
+
+
+TOMARÁ CONTA DA TAREFA DE RENDERIZAR 'goals'
+
+
+
+NA TELA...
+
+
+
+
+
+
+
+
+
+---> CERTO... MAS HÁ MAIS UM ASPECTO QUE VOCê TALVEZ QUEIRA DEIXAR MAIS CUSTOMIZABLE ---> 
+
+
+
+
+
+E ISSO, NO CASO,
+
+É 
+O 
+
+
+'CONTENT'
+
+DE _ DE CADA__ LIST ITEM __ 
+
+
+
+
+no seu 'course goals'...
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+O PROFESSOR ESTÁ FALANDO DISTO AQUI:
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">{{ goal }}</li>
+    </ul>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+--> TALVEZ VOCÊ QUEIRA VARIAR O CONTEÚDO NO MEIO DAQUELE '<li></li>',
+
+
+TALVEZ 
+
+
+COLOCAR 
+
+um 
+
+'<h2>',
+
+
+
+OU ENTÃO 
+
+
+MÚLTIPLOS ELEMENTOS ('h2', 'p', 'h3', etc, etc)... 
+
+
+
+
+
+
+
+
+
+
+FARÍAMOS ISSO, NO CASO,
+
+PARA QUE 
+
+
+
+ESSE COMPONENT DE 'COURSEGOALS'
+
+
+conseguisse ser utilizado em DIFERENTES PARTES DO NOSSO APP,
+
+
+MAS QUE, 
+
+AO MESMO TEMPO,
+
+
+
+__ O CONTEÚDO DO 'LIST ITEM'
+
+
+PUDESSE 
+
+SER DIFERENTE 
+
+
+
+__ CADA _ VEZ QUE _ ELE 
+
+
+
+
+
+É/SERÁ UTILIZADO...
+
+
+
+
+
+
+
+
+
+
+----> QUANTO A ISSO ,
+
+
+PROFESSOR 
+
+APONTA QUE PODERÍAMOS PENSAR 
+
+
+SOBRE O USO DE UM 'SLOT'
+
+NO INTERIOR 
+
+DE 
+
+'<li>'...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">
+        <slot></slot>
+        </li>
+    </ul>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+--> SE FIZERMOS ISSO,
+
+
+O 
+
+
+
+
+CONTENT (markup) 
+
+QUE VAI DENTRO 
+
+
+
+
+
+DE CADA 'LI'
+ 
+
+ PODE 
+
+ SER MANIPULADO,
+
+
+
+
+ PODE SER MANIPULADO JUSTAMENTE 'NO LOCAL EM QUE O COURSE GOALS ACABA SENDO UTILIZADO'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> E É EXATAMETNE ISSO QUE O PROFESSOR ESTÁ TENTNADO FAZER...
+
+
+
+
+
+
+
+
+
+ ------> para isso,
+
+
+ O PROFESSOR 
+
+
+
+
+
+ ESCREVE '<course-goals>',
+
+
+ LÁ EM 
+
+
+ 'App.vue',
+
+ assim:
+
+
+
+
+
+
+
+
+ <course-goals>
+    <h2></h2>
+ </course-goals>
+
+
+
+
+
+
+
+
+
+
+
+ OU SEJA,
+
+
+
+
+
+
+ ELE __ PASSOU _ UMA TAG DE 'H2''
+
+ DENTRO 
+
+
+
+
+ DESSE course-goals, que é um component COM SLOTS... -----> 
+
+
+
+
+
+
+
+ ENTRETANTO,
+ É AQUI QUE __ O PROBLEMA COMEÇA -->  
+
+
+
+
+ PQ, SIM,
+
+ PODEMOS 
+
+ PASSAR ESSE CONTENT DE 'h2'
+
+
+
+ DENTRO DAS 
+
+ NOSSAS TAGS DE 'course-goals',
+
+
+
+
+
+
+ MAS FICAMOS COM UM PROLBEMA GRANDE:
+
+
+
+
+
+
+
+''''NÃO TENHO COMO OBTER ACESSO AO __ 
+GOAL INDIVIDUAL QUE DEVERÁ SER USADO PARA _o  RENDEr__ DE CADA LIST ITEM''...
+
+(
+
+    pq a variável de 'goal' 
+
+
+,
+
+
+do 'v-for',
+EXISTE APENAS DENTRO DE 'CourseGoals',
+
+desse component aí... signficia que NÃO VAI EXISTIR DO LADO DE FORA, em 'App.vue',
+por exemplo...
+)
+
+
+
+
+
+
+
+ou seja,
+
+aquele '<h2>'
+
+
+NÃO FICA COM ACESSO à DATA DE 'goal',
+
+que ficou em um nível mais inferior, em 'CourseGoals'( no próprio component 'hoc')...
+
+
+
+
+
+
+
+
+
+
+
+
+---> BEM, É POR ISSO QUE, NESSES CENARIOS ESPECÍFICSO,
+
+
+
+
+O VUE TEM OUTRA 
+
+
+
+FEATURE INTERESSANTE... ----> SÃO OS CHAMADOS 'SCOPED SLOTS'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS O QUE SÃO 'SCOPED SLOTS'?
+
+
+
+
+
+
+
+
+
+
+
+--> O CONCEITO DE 'SCOPED SLOTS'
+
+É 
+ALL ABOUT
+
+
+
+
+'''DEIXAR VOCê FAZER O PASS DE DATA,
+
+
+__ partindo DO LADO DE DENTRO __ DO COMPONENT _EM QUE VOCÊ DEFINIU 1 SLOT, PARA ENTÃO 
+
+CHEGAR _ AO COMPONENT PARENT __ EM QUE __ VOCê ESTÁ DEFININDO __o  MARKUP/HTML QUE SERÁ INSERIDO NESSE SLOT ESPECÍFICO...''... --> 
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, DEVEMOS:
+
+
+
+
+
+
+1) IR __ aTÉ O COMPONENT EM QUE TEMOS A DATA E EM QUE __ DEFINIMOS UM SLOT/SLOTSa...
+
+
+( ou seja, nesse caso, 'CourseGoals')..
+
+
+
+
+
+
+
+
+
+--> O CÓDIGO DELE, ATUALMENTE, ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">
+            <slot></slot>
+        </li>
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> 2) AÍ, DENTRO DESSE SLOT,
+
+
+VOCê 
+
+
+PODE COLOCAR 1 PROP..
+
+
+
+
+
+(por exemplo, o prop de 'goal')....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">
+            <slot goal></slot>
+        </li>
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS DISSO, VOCÊ PODE FAZER _ _BIND _ DESSE PROP,
+
+por meio de 'v-bind:goal' ou então ':goal',
+
+
+
+
+
+
+
+
+
+
+PARA __ AÍ __ BINDAR ISSO A UM VALUE DINÂMICO.. -->  O PROFESSOR, NO CASO,
+
+
+
+BINDA AO VALUE DE 'goal'
+
+
+usado no v-for,
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <li v-for="goal in goals" :key="goal">
+            <slot :goal="goal" ></slot>
+        </li>
+    </ul>
+</template>
+
+
+<script>
+
+export default {
+
+    data() {
+        return {
+
+            goals: ['Finish the course', 'Learn Vue']
+        }
+    }
+}
+
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... --> ISSO SIGNIFICA QUE AGORA o 'goal',
+
+que é 
+
+CRIADO PARA CADA ITERATION DE 'goals',
+
+
+SERÁ PASSADO COMO 
+
+PROP desse 'slot item'
+
+
+existente DENTRO DE CADA LIST ITEM....
+
+
+
+
+
+
+
+
+
+
+
+--> TUDO QUE VOCÊ SETTAR COMO 'PROP'
+
+
+em algum slot,
+
+
+em algum elemento SLOT,
+
+
+
+SERÁ __ ACESSÍVEL _ NO 
+
+
+LOCAL EM QUE VOCê PASSA DATA __ PARA _ ESSE SLOT... ( ou seja, em 'App.vue', nesse caso)
+
+
+
+
+
+
+
+----> OU SEJA,
+
+
+
+NO CASO DE 'App.vue',
+
+FICARÁ DISPONÍVEL 
+
+
+
+
+NO LOCAL EM QUE ESCREVEMOS 
+
+
+
+
+<course-goals>
+    <h2></h2>
+</course-goals>
+
+
+
+
+
+
+
+
+
+DENTRO DAS TAGS de 'course-goals,'
+
+
+QUE 
+
+
+É JUSTAMENTE O LOCAL EM QUE PASSAMOS O MARKUP PARA O NOSSO SLOT...
+
+
+
+
+
+
+
+
+
+
+--> E PARA CONSEGUIRMOS _ aCESSO_ _ à DATA 
+
+
+passada por meio de 'goal=goal',
+
+
+
+
+DEVEMOS USAR 'template'
+
+
+EM VOLTA DA 'h2' tag,
+
+
+
+
+EM VOLTA DO CONTEÚDO EM QUE VAMOS QUERER UTILIZAR ESSA DATA 
+
+
+
+extraída desse 'slot'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<course-goals>
+<template>
+    <h2></h2>
+</template>
+</course-goals>
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, NESSE TEMPLATE,
+
+
+DEVEMOS USAR 'v-slot=' ou 
+
+'
+#xxxx,
+
+
+
+
+E __ DEVEMOS 
+
+
+
+
+
+USAR ISSO PARA PASSAR DATA AO 'DEFAULT SLOT' (nesse caso específico),
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<course-goals>
+<template #default="">
+    <h2></h2>
+</template>
+</course-goals>
+
+
+
+
+
+
+
+
+
+
+---> E, DENTRO DESSE BIND DE SLOTS,
+
+PODEMOS DEFINIR QUALQUER 
+
+NOME DE NOSSA ESCOLHA,
+
+
+como 
+
+
+
+'slotProps' -------> ESSE SERÁ O NOME DE UMA VARIABLE, QUE VOCê PODE DEFINIR,
+
+
+
+QUE O VUE VAI NOS DAR.... --> E O VALUE 
+
+
+
+
+
+DE "slotProps" 
+
+
+SEMPRE SERÁ UM __ OBJECT,
+
+
+
+
+OBJECT__ EM QUE __ TODOS OS PROPS QUE 
+
+
+VOCÊ 
+
+
+
+
+DEFINIU LÁ EM 'CourseGoals',
+
+
+dentro daquele 
+
+
+
+'<slot :goal="goal"></slot>' 
+
+
+
+
+
+
+
+
+FICARÃO __ MERGED_... -----> 
+
+
+
+
+
+
+
+
+
+TODOS OS PROPS... REALMENTE,
+
+
+
+TIPO ASSIM:
+
+
+
+
+'<slot :goal="goal" :another-prop="exampleString"></slot>' 
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE FIZÉSSEMOS ASSIM,
+
+
+poderíamos 
+
+
+
+acessar esse negócio com 'this.slotProps.anotherProps', no PARENT COMPONENT...
+
+
+
+
+
+
+
+
+
+----> ou seja,
+
+todos os props definidos nesse 'slot'
+
+
+SERÃO ACESSÍVEIS POR MEIO DA KEY DE 'slotProps' (nome definido por nós)...
+
+
+
+
+
+
+
+
+
+-----> OK... MAS O QUE PODEMOS FAZER COM ESSA COISA de 'slotProps'?
+
+
+
+
+
+
+
+
+
+--> bem, o que podemos fazer, no caso,
+
+é o utilizar 
+
+
+
+COM 
+
+
+
+___ ESSE PRÓPRIO CONTEÚDO QUE EXISTE DENTRO 
+
+
+DESSE TEMPLATE...
+
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+<course-goals>
+<template #default="slotProps">
+    <h2>{{ slotProps.xxxx}}</h2>
+</template>
+</course-goals>
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{slotProps.goal}}</h2>
+    </template>
+  </course-goals>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS DISSO,
+
+O PROFESSOR 
+
+
+
+coloca 
+
+
+um <p> {{ slotProps['another-prop']}}
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{slotProps.goal}}</h2>
+      <h2>{{slotProps['another-goal']}}</h2>
+    </template>
+  </course-goals>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> OK... 
+
+
+
+
+
+
+É ASSIM QUE SCOPED SLOTS FUNCIONAM --> É BEM NICHO,
+É UMA FEATURE 
+
+NICHOM,
+
+
+
+
+MAS 
+
+HÁ CENÁRIOS
+ 
+ ESPECÍFICOS
+  
+
+
+
+
+  EM QUE 
+
+ALGO NÃO SERÁ POSSÍVEL SEM ESSA FEATURE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ UMA SIMPLIFICATION QUE PODEMOS FAZER, AQUI..
+
+
+
+
+
+--> SE ESTAMOS TARGETTANDO 1 ÚNICO SLOT,
+
+
+
+podemos 
+
+
+
+
+TIRAR AQUELE '<template></template>'
+
+
+
+TAG
+
+e então 
+
+COLOCAR o '#default="slotProps" ',
+
+
+
+
+o BIND de SLOTS,
+
+
+DIRETAMENTE __ NO __ 'course-goals' (component que segura os slots)...
+
+
+
+
+
+EX:
+
+
+
+
+ANTES:
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{slotProps.goal}}</h2>
+      <h2>{{slotProps['another-goal']}}</h2>
+    </template>
+  </course-goals>
+</template>
+
+
+
+
+
+
+DEPOIS:
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+    <course-goals #default="slotProps">  <!-- EIS O CÓDIGO EM QUESTÃO -->
+      <h2>{{slotProps.goal}}</h2>
+      <h2>{{slotProps['another-goal']}}</h2>
+    </course-goals>
+</template>
+
+
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+
+
+
+ESSA É A VERSÃO SIMPLIFICADA DESSE CÓDIGO..
+
+
+
+
+
+
+
+--> ACABAMOS COM SLOTS E COM SCOPED SLOTS..
+
+
+
+--> VEREMOS MAIS SOBRE ISSO AO LONGO DOS PROJETOS... (e o scoped slots é uma feature bem nicho)...
