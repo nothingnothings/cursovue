@@ -1,0 +1,1443 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> AGORA É HORA DE FINALMENTE SAIR DO TÓPICO DE 'SLOTS'...
+
+
+
+
+
+
+
+
+
+
+
+--> EM 'App.vue',
+
+O PROFESSOR REMOVE TUDO,
+
+
+
+
+PQ 
+
+
+AGORA 
+
+ELE QUER 
+
+LIMPAR 
+
+A UI...
+
+
+
+
+
+
+
+
+
+
+--> ELE QUER CRIAR 2 COMPONENTS INTEIRAMENTE NOVOS...
+
+
+
+
+
+
+
+
+
+
+
+--> SERÃO OS COMPONENTS DE 'MANAGEGOALS'
+
+
+e 
+
+
+
+'ACTIVEGOALS'... 
+
+
+
+
+
+
+
+
+
+
+
+-> MANAGEGOALS É O COMPONENT QUE DEIXARÁ VOCÊ 
+
+
+ADICIONAR NOVOS COURSE GOALS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ACTIVEGOLAS É ONDE 
+
+
+
+FICARÃO OS 'ACTIVE' E 'INACCTIVE GOALS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COMEÇA COM UM CÓDIGO DE TEMPLATE:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Active Goals
+    </h2>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM MANAGE GOALS,
+
+
+
+VAMOS QUERER OS `MANAGE GOALS`...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> SE VOCÊ NÃOO TEM NADA EM 1 COMPONENT,
+
+
+
+
+
+NADA DE 'SCRIPT',
+
+ESSE SCRIPT É CRIADO AUTOMATICAMENTE PELO VUE,
+
+MAS DE FORMA 'EMPTY'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... AÍ IMPORTAMOS TUDO ISSO LÁ EM 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{slotProps.goal}}</h2>
+      <h2>{{slotProps['another-goal']}}</h2>
+    </template>
+  </course-goals>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+import CourseGoals from './components/CourseGoals.vue';
+import ActiveGoals from './components/ActiveGoals.vue';
+import ManageGoals from './components/ManageGoals.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BadgeList,
+    UserInfo,
+    CourseGoals,
+    ActiveGoals,
+    ManageGoals
+  },
+  data() {
+    return {
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... AGORA TEMOS ESSES COMPONENTS LOCAIS...
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS USAR ISSO LÁ EM 'App.vue'...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{slotProps.goal}}</h2>
+      <h2>{{slotProps['another-goal']}}</h2>
+    </template>
+  </course-goals>
+  <manage-goals></manage-goals>
+  <active-goals></active-goals>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+import CourseGoals from './components/CourseGoals.vue';
+import ActiveGoals from './components/ActiveGoals.vue';
+import ManageGoals from './components/ManageGoals.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BadgeList,
+    UserInfo,
+    CourseGoals,
+    ActiveGoals,
+    ManageGoals
+  },
+  data() {
+    return {
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK..
+
+
+
+
+
+
+
+
+
+TEMOS ESSES 2 ELEMENTOS BÁSICOS NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+--> NADA DE EXCITANTE, COM ISSO AÍ..
+
+
+
+
+
+
+
+
+
+-> MAS O PROFESSOR QUER NOS MOSTRAR UM CONCEITO INTERESSANTE --> 
+
+
+
+O VUE TEM UM CONCEITO CHAMADO DE 'DYNAMIC COMPONENTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E HÁ 1 CASO ESPECÍFICO EM QUE ISSO PODE SER ÚTIL:
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE TEMOS UM COMPONENT QUE TEM VÁRIOS 
+
+
+
+'BUTTONS',
+
+
+BUTTONS QUE PODEMOS 
+
+
+
+PRESSIONAR 
+
+
+
+PARA __ MOSTRAR_ DIFERENTES COMPONENTS (
+
+
+
+
+
+    para que seja possível ver 'active' ou 'manage'
+
+    goals,
+
+    mas 
+
+
+
+    não os 2 ao mesmo tempo..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR COLOCA 2 BUTTON,
+
+
+
+
+
+
+
+
+<button>Active Goals></button>
+<button>Manage Goals></button>
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+  <button>Active Goals></button>
+<button>Manage Goals></button>
+  <manage-goals></manage-goals>
+  <active-goals></active-goals>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -----> E AÍ, QUANDO EU PRESSIONAR 1 BUTTON,
+
+
+  O 
+
+
+
+  COMPONENT CORRESPONDENTE DEVE SER MOSTRAOD, E O OUTRO DEVE SER ESCONDIDO...
+
+
+
+
+
+
+
+
+
+
+
+
+  --> MAS COMO PODEMOS IMPLEMENTAR ISSO?
+
+
+
+
+
+
+
+
+
+
+
+  --> BEM, PODEMOS MANAGEAR 
+
+
+
+
+  UMA DATA EXTRA,
+
+  LÁ EM 
+
+  'data() {}'...
+
+
+
+
+
+
+
+  eX:
+
+
+
+
+
+
+
+
+
+
+  data() {
+
+
+    return {
+
+
+        selectedComponent: 'active-goals'
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  --> INICIALMENTE, O VALUE 
+
+
+  DESSA PROPRIEDADE SERÁ DE 'active-goals'...
+
+
+
+
+
+
+
+
+
+
+
+  CERTO... AÍ VAMOS ADICIONAR 1 METHOD LÁ 
+
+
+
+
+
+  NA KEY DE 'METHODS',
+
+
+
+  o method de 
+
+
+
+
+
+
+
+  'setSelectedComponent()' ----> 
+
+
+
+
+
+
+
+  NESSE METHOD,
+   VAMOS GANHAR O COMPONENT COMO 1 ARGUMENTO,
+
+   E AÍ 
+
+   VAMOS 
+
+   DEFINIR 
+
+
+   o state de 'selectedComponent'
+
+
+
+   como SENDO EQUVALENTE AO VALUE QUE 
+
+   VAMOS RECEBER NESSE METHOD. ( que vamos bindar aos nossos button, é claro)..
+
+
+
+
+
+
+
+   TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{ slotProps.goal }}</h2>
+      <h2>{{ slotProps['another-goal'] }}</h2>
+    </template>
+  </course-goals>
+  <button @click="setSelectedComponent('active-goals')">Active Goals></button>
+  <button @click="setSelectedComponent('manage-goals')">Manage Goals></button>
+  <manage-goals></manage-goals>
+  <active-goals></active-goals>
+</template>
+
+<script>
+import TheHeader from './components/TheHeader.vue';
+import BadgeList from './components/BadgeList.vue';
+import UserInfo from './components/UserInfo.vue';
+import CourseGoals from './components/CourseGoals.vue';
+import ActiveGoals from './components/ActiveGoals.vue';
+import ManageGoals from './components/ManageGoals.vue';
+
+
+
+export default {
+
+  components: {
+
+    // 'the-header': TheHeader  /////É __ ASSIM_ QUE REGISTRAMOS UM COMPONENT DE FORMA 'LOCAL' (poderá ser usado o 'the-header' APENAS NO CONTEXTO DE APP.VUE... dentro do seu template)...
+    TheHeader, ////SINTAXE SUPERIOR/MODERNA/MAIS RÁPIDA (e que te permite escrever tanto '<the-header></the-header>' como '<TheHeader>')
+    BadgeList,
+    UserInfo,
+    CourseGoals,
+    ActiveGoals,
+    ManageGoals
+  },
+  data() {
+    return {
+      selectedComponent: 'active-goals',
+      activeUser: {
+        name: 'Max Schwarz',
+        description: 'Site owner and admin',
+        role: 'admin'
+      }
+    }
+  },
+
+
+  methods: {
+    setSelectedComponent(component) {
+        this.selectedComponent = component
+    }
+  }
+
+
+}
+</script>
+
+<style>
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> CERTO....
+
+
+
+
+
+isso vai definir 
+
+
+
+esse state como sendo esse value...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK.. ACHO QUE AGORA, O QUE EU FARIA,
+
+
+É ADICIONAR UM 'V-IF'
+
+e o conectar 
+
+
+
+
+ao state de 'selectedComponent'..
+
+
+
+
+
+
+
+
+
+---> É ISSO QUE O PROFESSOR FEZ...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<template>
+  <the-header></the-header>
+  <badge-list></badge-list>
+  <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role">
+
+  </user-info>
+  <course-goals>
+    <template #default="slotProps">
+      <h2>{{ slotProps.goal }}</h2>
+      <h2>{{ slotProps['another-goal'] }}</h2>
+    </template>
+  </course-goals>
+  <button @click="setSelectedComponent('active-goals')">Active Goals></button>
+  <button @click="setSelectedComponent('manage-goals')">Manage Goals></button>
+  <manage-goals v-if="selectedComponent === 'manage-goals'"></manage-goals>
+  <active-goals v-if="selectedComponent === 'active-goals'"></active-goals>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SALVAMOS TUDO ISSO.... - -> AGORA QUANDO CLICAMOS NESSES BUTTONS,
+
+
+NOSSOS COMPONENTS RENDERIZADOS SÃO ALTERADOS... MAS ISSO NÃO É NADA DE NOVO,
+
+
+SÃO FEATURES QUE JÁ CONHECÍAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EMBORA SEJA POSSÍVEL CONSTRUIR NOSSO APP ASSIM,
+
+
+SE VOCÊ 
+
+
+TIVER MAIS E MAIS COMPONENTS,
+
+
+
+
+
+MAIS COMPONENTS PELOS QUAIS VOCÊ QUER 'CICLE',
+
+ 
+
+
+
+
+
+ USAR O 'v-if'
+
+
+
+ O TEMPO INTEIRO 
+
+
+
+
+,
+
+
+E TER DE REPETIR 
+
+
+O CÓDIGO DE 
+
+'v-if'
+
+
+O TEMPO INTEIRO,
+
+
+ISSO 
+
+PODE SE TORNAR 
+
+
+
+BEM 
+
+
+IRRITANTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O VUE TEM UMA MANEIRA ALTERNATIVA DE ESCREVER ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR APAGA TUDO, 
+
+PQ AGORA ELE QUER NOS MOSTRAR UMA MANEIRA ALTERNATIVA DE 
+ESCREVER ISSO...
+
+
+
+
+
+
+
+
+
+
+
+--> QUER NOS OFERECER OS 'COMPONENTS DINÂMICOS'...
+
+
+
+
+
+
+
+
+
+--> O VUE NOS OFERECE 
+UM 
+
+
+
+ELEMENTO HTML__  ESPECIAL,
+ QUE PODEMOS UTILIZAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É O ELEMENTO 
+
+ '<component></component>'
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É UM COMPONENT ESPECIAL,
+
+ PROVIDENCIADO PELO VUE...
+
+
+
+
+
+
+
+
+ --> E A COISA 
+
+
+
+
+ INTERESSANTE É QUE ESSE COMPONENT NÃO _ MOSTRA COISA ALGUMA, POR SI SÓ ,
+
+
+ NA TELA...
+
+
+
+
+
+
+
+
+ ----> ESSE COMPONENT SEMPRE VAI PRECISAR DE UMA PROPRIEDADE/PROP ESPECIAL,
+
+
+ CUJO NOME É 
+
+ 'is'...
+
+
+
+
+
+
+
+
+
+
+
+ ou seja,
+
+
+ ele é escrito assim:
+
+
+
+
+
+
+
+
+ <component is="..."></component>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+   <button @click="setSelectedComponent('active-goals')">Active Goals></button>
+  <button @click="setSelectedComponent('manage-goals')">Manage Goals></button>
+
+
+  <!-- maneira tradicional de escrever components e sua renderização no vue (sem dynamic components) -->
+  <!-- <manage-goals v-if="selectedComponent === 'manage-goals'"></manage-goals>
+  <active-goals v-if="selectedComponent === 'active-goals'"></active-goals> -->
+
+  <!-- MANEIRA MAIS MODERNA DE ESCREVER A MESMA COISA: -->
+  <component is=""></component>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> USANDO o 'component',
+
+  ,
+
+  ESSE PROP AÍ,
+
+  VOCÊ 
+
+
+
+  DEFINE 'QUAL COMPONENT, DE TODOS OS COMPONENTS QUE VOCê DEFINIU',
+
+
+
+  DEVERÁ 
+
+  SER MOSTRADO 
+   
+
+   NO LUGAR DESSE COMPONENT AÍ...
+
+
+
+
+
+
+
+
+
+
+
+   --> no caso,
+
+
+   podemos escrever 
+
+
+   
+
+   <component is="active-goals"></component>
+   ,
+
+
+
+
+
+   PARA AÍ 
+
+   FAZER O SHOW/RENDER DESSE COMPONENT DE 'ActiveGoals'...
+
+
+
+
+
+
+
+
+
+
+   --> mas a VANTAGEM É QUE 
+
+
+
+
+   PODEMOS 
+
+
+
+   DEFINIR ISSO COM VALUES DINÂMICOS,
+
+   TIPO O QUE HAVÍAMOS ESCRITO ANTES:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <component is="selectedComponent"></component>
+
+
+
+
+
+
+
+
+
+
+
+
+
+     -> colocamos o VALUE DE 'selectedComponent',
+
+
+
+     QUE É ESSENCIALMENTE 
+
+
+
+     NOSSO 
+
+
+
+
+STATE DE 'selectedComponent' 
+
+
+
+
+
+
+
+
+
+--> e VAMOS COLOCAR 'is'
+
+
+COMO UM BIND (':is',),
+
+
+
+PARA UQE 
+
+
+
+ELE REALEMTNE TENHA O BIND DE SEUS VALUES DE FORMA DINÂMICA...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+  <component :is="selectedComponent"></component>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... COM ISSO,
+
+ESTAMOS DIZENDO AO VUE __ QUE 
+
+
+'component'
+
+
+DEVERÁ 
+
+
+_ BASICAMENTE __ SE TROCAR,
+
+SE TROCAR PARA SER 'MANAGED' OU 'ACTIVE' GOALS,
+
+
+
+A DEPENDER 
+
+DO VALUE QUE ESTIVER ARMAZENADO DENTRO DE 
+
+'selectedComponent'
+
+
+
+
+
+
+
+
+
+
+--> ISSO DEIXA NOSSA VIDA COMO DESENVOLVEDORES MAIS FÁCIL,
+
+COM MENOS CÓDIGO PARA ESCREVER...
