@@ -1,0 +1,717 @@
+
+
+
+
+
+PARA CONCLUIR ESTE MÓDULO,
+
+TEREMOS 
+
+
+
+
+UMA SEGUNDA LIÇÃO,
+QUE NÃO DEVE SER SKIPPADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ESSA LIÇÃO É IMPORTANTE..
+
+
+
+
+
+
+
+
+
+-> AGORA VAMOS FALAR DO LIFECYLCE 
+
+
+DA 
+
+'VUE INSTANCE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> APRENDEMOS SOBRE O FUNCIONAMENTO DO VUE POR TRÁS DAS CENAS...
+
+
+
+
+
+
+--> TAMBÉM APRENDEMOS SOBRE O 'VIRTUAL DOM',
+
+
+E QUE 
+há 
+
+
+
+VÁRIAS ETAPAS PARA TRAZER ALGO À TELA..
+
+
+
+
+
+
+
+
+
+
+
+--> àS VEZES VOCÊ PRECISA 
+RODAR 
+
+CÓDIGO 
+
+DURANTE 
+
+ESSAS ETAPAS DE 'TRAZER ALGO À TELA',
+
+
+E É POR ISSO QUE 
+
+O VUE TEM UM 
+
+LIFECYCLE BEM ELABORADO,
+
+
+EM QUE 
+
+VOCÊ PODE 'STEP-IN'
+
+
+a qualquer momento,
+
+PARA EXECUTAR OS CÓDIGOS NECESSÁRIOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E VEREMOS ALGUNS DESSES LIFECYCLE HOOKS 
+
+EM AÇÃO,
+
+AO LONGO DO CURSO...
+
+
+
+
+
+
+
+
+
+
+
+--> TUDO COMEÇA COM O METHOD DE 
+
+
+
+'createApp({'})'
+
+,
+
+
+
+
+E,
+
+DEPOIS,
+
+
+COM O 
+
+MOUNT DO APP,
+
+COM 
+
+'.mount()"..
+
+
+
+
+
+
+
+
+
+1) CREATE A NEW APP 
+
+
+
+
+
+2) MOUNT WITH THE MOUNT METHOD 
+
+
+
+
+
+
+
+3) COM ISSO, O VUE SABE 'O LOCAL EM QUE O APP DEVE SER RENDERIZADO'...
+
+
+
+
+4) BEM.. QUANDO ELE COMECA A CRIAR O APP, 
+
+A CRIAR 
+
+
+
+O NEGÓCION A TELA,
+
+
+
+
+
+
+
+O VUE COMEÇA A CRIAR UM MONTE DE 'LIFECYCLE PHASES',
+
+
+
+QUE SÃO 
+
+
+REFLETIDOS EM METHODS/KEYS 
+
+
+  
+
+
+
+
+
+
+
+
+QUE VOCÊ COLOCA NO SEU CONFIG OBJECT DO VUE,
+
+PARA 
+
+
+FAZER COISAS DIFERENTES...
+
+
+
+
+
+
+
+
+HOOKS DO VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1o HOOK --> ''''beforeCreate()'''' ->  É A PHASE _ ATIVADA _ ANTES DA CREATION DO SEU COMPONENT/APP (antes da initialization do seu app)
+
+
+
+
+
+2o HOOK --> ''''created()'' --> A DIFERENÇA É QUE 'created''' É EXECUTADO __ DEPOIS QUE O APP foi INICIALIZADO..
+
+
+
+
+
+
+
+ainda assim, nas 2 fases, inexiste alguma coisa na tela...
+
+
+
+
+
+
+
+AO FINAL DE `CREATED`,
+
+
+
+
+A ÚNICA COISA CONHECIDA PELO VUE SÃO AS 'DATA PROPERTIES',
+
+
+
+E A GENERAL APP CONFIGURATION...
+
+
+
+
+
+
+
+--> é nessa fase em que 
+
+
+O 'TEMPLATE É COMPILADO''... --> OU SEJA,
+
+
+É O MOMENTO EM QUE TODOS OS DYNAMIC PLACEHOLDERS,
+
+
+TODAS AS INTERPOLATIONS E ETC 
+
+
+
+COMEÇAM
+__A SER  _ REMOVIDOS_  E SUBSTITUÍDOS ___ PELOS VALUES CONCRETOS QUE DEVEM SER MOSTRADOSS AO USER...
+
+
+
+
+
+
+
+
+3o HOOK --> ''''beforeMount()''' --> ESSE É O MOMENTO QUE 
+
+C
+ONTINUA O 
+
+
+
+
+SWITCH DOS INTERPOLATED/BINDS 
+
+
+
+pelos values de verdaed,
+
+
+
+
+
+
+
+
+MAS O QUE INTERESSA, NESSE HOOK,
+
+
+É QUE 
+
+
+
+__ ELE _ OCORRE 'LOGO ANTES _ DO _ BRING DE ALGUMA COISA NA TELA, POR PARTE DO VUE'...
+
+
+
+
+
+
+
+
+
+
+
+depois disso,
+
+temos:
+
+
+
+
+
+
+
+
+
+4) 'mounted()" -> COM ESSE HOOK, VEMOS ALGO NA TELA --> O VUE APP FOI INICIALIZADO,
+
+O TEMPLATE 
+FOI COMPILADO E MOSTRADO NA TELA,
+
+
+
+
+E _ O VUE REPASSOU AS INSTRUÇÕES DE RENDER AO BROWSER,
+
+
+PARA QUE O BROWSER REALMENTE ADICIONE TODOS OS HTML ELEMENTS,
+
+CONFORME DEFINIMOS NO NOSSO VUE APP..
+
+
+
+
+
+
+
+
+
+--> DEPOIS DE 'mounted()",
+
+
+TEMOS NOSSA 
+
+'mounted Vue instance'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> É CLARO QUE, NA GRANDE MAIORIA DOS VUE APPS,
+
+A DATA _ MUDA __ 
+
+
+
+um monte.,.. --> 
+
+
+
+E ISSO 
+
+
+VAI TRIGAR UM 
+
+
+'NOVO LIFE CYCLE'...
+
+
+
+
+
+
+
+
+--------> 
+
+
+QUANDO OCORRE 
+
+UMA ALTERAÇÃO NA DATA DO SEU COMPONENT,
+
+TEMOS:
+
+
+
+
+
+
+
+
+
+
+5o hook (ou 1o hook do ciclo de update) ------> 
+
+
+
+
+'beforeUpdate()" --> 
+
+
+
+ESSE HOOK É TRIGGADO _ LOGO _ ANTES_ DO COMPONENT SER RE-RENDERIZADO EM ALGUM TRECHO QUE FOI ALTERADO (virtual DOM comparison )
+
+
+
+
+
+
+
+
+
+
+---> 'beforeUpdate'
+
+
+é parecido com 'created()"
+
+e 'beforeCreate()'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> 'beforeUpdate' --> É TRIGGADO __ 
+
+
+
+
+__ANTES_ DO UPDATE SER TOTALMENTE PROCESSADO PELO VUE ...
+
+
+
+
+
+
+6o HOOK --> 'updated()' ---> 
+
+
+
+
+
+
+ESSE HOOK É TRIGGADO QUANDO O UPDATE REALMENTE JÁ FOI PROCESSADO ---> ISSO OCORRE 
+
+
+
+
+
+QUANDO O 'UPDATE JÁ É VISTO NA TELA'...
+
+
+
+
+
+
+
+
+
+---> ISSO QUER DIZER QUE QUANDO ATINGIMOS 'updated()',
+
+
+
+
+
+NÓS _ NÃO _ ALCANÇAMOS 'mounted()",
+
+NAO VOLTAMOS AO 'mounted()',
+
+
+
+
+
+
+
+PQ __ O TEMPLATE_ NUNCA FOI 'UNMOUNTED' (
+
+
+    isso quer dizer que 
+
+
+    O COMPONENT 
+
+    SEMPRE ESTEVE VISÍVEL,
+
+
+
+
+    A ÚNICA COISA QUE 'updated()'
+
+
+    FEZ FOI PROCESSAR E RENDERIZAR/TROCAR AS INFO NA TELA...
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------> CERTO.. --> MAS ÀS VEZES 
+
+
+1
+ VUE APP/COMPONENT PODE SER 
+
+
+
+
+ ___ UNMOUNTED... -> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ INSTANCE UNMOUNTED --> AINDA NÃO VIMOS ESSE CENÁRIO --> ELE SE TORNARÁ MAIS IMPORTANTE 
+ MAIS TARDE,
+
+
+
+ MAS 
+ O 
+
+
+ PROFESSOR DIZ QUE PODERIA MOSTRAR 
+
+
+ O PROCESSO DE 'UNMOUNT'
+ DE UM COMPONNET __ JÁ NA PRÓXIMA AULA...
+
+
+
+
+
+
+
+
+
+
+
+ _> QUANDO UM APP É UNMOUNTED,
+
+ TODO SEU CONTEÚDO É REMOVIDO DA TELA,
+
+
+ E O _ APP _ 'IS DEAD' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> CERTO... COM 'unmount',
+
+
+
+
+
+
+
+
+ UNMOUNT DO APP,
+
+ TEMOS 2 LIFECYCLE HOOKS:
+
+
+
+
+
+
+
+
+
+ 6o hook ------> 'beforeUnmount()" --> ANTES DO ACTUAL REMOVE DO APP...
+
+
+
+
+
+
+
+
+ 7o hook --> 'unmounted()'---> É TRIGGADO QUANDO O APP REALMENTE DEIXA O DOM 
+
+
+
+
+
+
+
+
+
+
+
+
+ -- VOCÊ PODE USAR ESSES 2 LIFECYCLE HOOKS _ PARA _ RODAR QUALQUER CÓDIGO DE 'cleanup'
+
+ QUE VOCê 
+
+CONSIDERE NECESSÁRIO..
+
+
+
+
+
+
+(
+    OU ENTÃO 
+
+
+    ENVIAR 1 HTTP REQUEST AO SEU SERVER, INFORMANDO QUE OCORREU O UNMOUNT, ETC...
+)
+
+
+
+
+
+
+
+

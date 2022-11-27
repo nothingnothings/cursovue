@@ -1,0 +1,1188 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK.. PARA OBSERVARMOS ISSO EM AÇÃO,
+
+
+O PROFESSOR VOLTA AO MAIN VUE APP...
+
+
+
+
+
+
+
+
+
+
+
+----->  TEMOS O CÓDIGO NORMAL...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR MENCIONOU 
+
+
+OS LIFECYCLE HOOKS,
+E QUE 
+
+
+ELES PODEM 
+SER USADOS 
+
+NO INTERIOR 
+
+
+DO SEU 
+
+APP/COMPONENT....
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OS HOOKS SÃO ADICIONADOS AO LADO DE 'data'',
+
+'methods'
+e 'computed'...
+
+
+
+
+
+
+
+
+
+
+----> CERTO...
+
+
+
+
+
+
+O PROFESSOR ESCREVE ASSIM:
+
+
+
+
+
+
+
+data() {
+
+},
+
+methods: {
+
+},
+
+
+beforeCreate()
+
+
+
+
+
+
+
+
+
+-> AÍ O PROFESSOR COLOCA UM CONSOLE.LOG ,
+
+para ver quando esse hook é executado...
+
+
+
+
+
+
+
+
+
+
+
+
+
+beforeCreate() {
+    console.log('beforeCreate()') 
+
+}
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> CERTo..
+
+
+
+
+
+
+
+-> SE VAMOS ATÉ A ABA DE 'sources' no devtools do chrome,
+
+
+PODEMOS CHECAR 
+
+
+NOSSO 
+
+SOURCE CODE,
+
+
+
+PQ __ PODEMOS __ ADICIOANR _ 
+
+
+ESSE METHOD DE 'beforeCreate()'
+
+
+
+
+
+PARA _ COLOCAR UM BREAKPOINT NELE..
+
+
+
+
+
+
+
+
+--> FAZEMOS ISSO E ENTAÕ RECARREGAMOS A PÁGINA...
+
+
+
+
+
+
+--->A RAZÃO PARA O PROFESSOR USAR ISSO 
+
+
+
+É QUE 
+
+
+
+
+
+
+ELE QUER NOS MOSTRAR QUE 'beforeCreate'
+
+
+
+
+
+REALMENTE 
+É USADO _ ANTES__ DO APP SER INICIALIZADO/CRIADO (e antes deq ualquer coisa aparecer na tela/browser )
+
+
+
+
+
+
+
+
+
+
+
+
+---> DEPOIS DISSO, O PROFESSOR COLOCA 'created()' ----> 
+
+
+
+
+AINDA NÃO VEREMOS NADA NA TELA,
+
+
+MAS AS 'INFO' DO NOSSO VUE APP JÁ TERÃO SIDO PARCIALMENTE CARREGADAS..
+
+
+
+
+
+
+
+
+created() {
+    console.log('created()')
+}
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('created()');
+  },
+
+
+  created() {
+    console.log('created()')
+  }
+
+
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> DEPOIS DISSO, O PROFESSOR COLOCA 'beforeMount()' (AINDA NÃO VEREMOS NADA NA TELA)..
+
+
+
+
+
+
+
+
+--> MAS VEREMOS ALGO NA TELA QUANDO OCORRER O HOOK DE 'mounted()'..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('beforeCreate()');
+  },
+
+
+  created() {
+    console.log('created()')
+  },
+
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted()')
+  }
+
+
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('beforeCreate()');
+  },
+
+
+  created() {
+    console.log('created()')
+  },
+
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted()')
+  }
+
+
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('created()');
+  },
+
+  created() {
+    console.log('created()');
+  },
+
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted()')
+  }
+
+}
+
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+-------------- COM ISSO,
+O LIFECYCLE 
+
+
+
+
+
+
+HOOK DE CREATION ESTÁ ACABADO..
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR MENCIONOU QUE TEREMOS 'DATA CHANGES',
+
+
+AS QUAIS TAMBÉM VÃO TRIGGAR ALGUNS LIFECYCLE HOOKS ESPECIAIS ('beforeUpdate' e 'updated()' )...
+
+
+
+
+
+
+
+
+--> ESSAS "DATA CHANGES"  triggam os lifecycle hooks de 
+
+
+'beforeUpdate()'
+
+
+
+
+e 
+
+
+'updated()"....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> DEVEMOS VER ESSES LIFECYCLE HOOKS EM AÇÃO TAMBÉM...
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que o professor coloca o hook de 'beforeUpdate()'
+
+
+e 
+
+'updated()'..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App" />
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('created()');
+  },
+
+  created() {
+    console.log('created()');
+  },
+
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted()')
+  },
+
+  beforeUpdate() {
+    console.log('beforeUpdate()')
+  }, 
+
+  updated() {
+    console.log("updated()") 
+  }
+
+}
+
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> SE SEGUIRMOS ATÉ OS DEVTOOLS E COLOCARMOS UM BREAKPOINT,
+
+VEREMOS:
+
+
+
+
+
+1) 'beforeUpdate' --> ESSE É EXECUTADO ANTES DE UPDATES SEREM APLICADOS/VISÍVEIS NA TELA..
+
+
+
+
+
+2) 'updated' --> O OUTPUT JÁ TERÁ SIDO PROCESSADO, E SERÁ VISTO NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO NOS MOSTRA O PROCESSO DE 'UPDATE' 
+
+
+
+
+DO NOSSO APP VUE..
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+
+
+POR FIM, TAMBÉM PODEMOS 'UNMOUNT' NOSSO APP,
+
+
+
+APESAR DE AINDA NÃO 
+
+
+
+TERMOS FEITO ISSO...
+
+
+
+
+
+
+--> NÓS VAMOS TRIGGAR 
+
+
+O HOOK DE 
+
+'beforeUnmount()',
+
+
+
+e o de 
+
+
+
+'unmounted()'
+
+
+
+
+
+
+
+
+
+
+-----> ESSE PROCESSO DE 'UNMOUNTING' SE TORNARÁ MAIS IMPORTANTE MAIS TARDE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> colocamos os hooks:
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+
+  beforeCreate() {
+    console.log('created()');
+  },
+
+  created() {
+    console.log('created()');
+  },
+
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted()')
+  },
+
+  beforeUpdate() {
+    console.log('beforeUpdate()')
+  },
+
+  updated() {
+    console.log("updated()")
+  },
+/////ESSES NÃO SERÃO EXECUTADOS, pq ainda não temos nenhuma maneira de 'umount' nossos apps/components...
+  beforeUnmount() {
+    console.log('beforeUnmount()')
+  },
+
+  unmounted() {
+    console.log('unmounted()')
+  },
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO, MAS ESSES HOOKS DE 'unmount'
+
+
+NÃO SERÃO EXECUTADOS NATIVAMENTE... --> PARA QUE SEJAM 
+
+EXECUTADOS,
+
+
+PRECISAMOS 
+
+
+
+USAR ALGUMAS COISAS ESPECIAIS,
+
+
+como 
+
+
+
+'app.unmount()' 
+
+
+
+
+
+
+
+
+
+
+
+
+--> O 'app.unmount()'
+
+
+
+VAI _ REMOVER__ NOSSO VUE APp...
+
+
+
+
+
+
+
+
+
+
+
+RARAMENTE USAMOS ESSE METHOD DE 'app.unmount()'
+
+
+
+em apps de verdade...
+
+
+
+
+
+
+
+
+
+MAIS TARDE 
+
+VEREMOS UM CENÁRIO MAIS REALISTA DE 'UNMOUNT'
+
+DE APPS... ----> (MAS AINDA ESTAMOS COM UM PRÉ-REQUISITO DISSO FALTANDO, por isso seguiremos com o 'app.unmount()'.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR COLOCA UM TIMER, E AÍ CHAMA 'app.unmount()'
+
+
+DEPOIS DE 3 SEGUNDOS...
+
+
+
+
+
+
+
+
+
+
+SALVAMOS TUDO ISSO, E FICA TIPO ASSIM:
+
+
+
+
+
+
+
+import Vue from 'vue'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+
+
+
+
+
+
+// setTimeout(
+//   () => {
+//     app.unmount(); //DESMONTA NOSSO APP (trigga os hooks de 'unmount')
+//   }, 
+
+//   3000
+// )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... REALMENTE OBSERVAMOS ESSES HOOKS...
+
+
+
+
+
+
+
+
+
+
+OK, ESSE É O VUE LIFECYCLE, COM TODOS SEUS HOOKS....
+
+
+
+
+
+
+
+
+
+
+
+
+beforeUpdate()
+
+
+
+updated() 
+
+
+
+
+
+beforeMount() 
+
+
+
+
+mounted() 
+
+
+
+
+
+
+beforeCreate() 
+
+
+
+
+created() ...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA PODEMOS DEIXAR ESSE MODULE...
