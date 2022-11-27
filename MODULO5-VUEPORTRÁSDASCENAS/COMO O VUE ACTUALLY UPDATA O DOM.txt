@@ -1,0 +1,827 @@
+
+APRENDEMOS SOBRE ALGUMAS CORE FEATURES DO VUE...
+
+
+
+
+
+
+
+
+
+
+AGORA DEVEMOS ENTENDER 'COMO ELE UPDATA O QUE VEMOS NA TELA'...
+
+
+
+
+
+
+
+
+
+
+-> APRENEDMOS SOBRE A 'BUILT-IN REACTIVITY'
+
+DO VUE...
+
+
+
+
+
+
+
+
+--> o vue DETECTA QUE UM UPDATE É NECESSÁRIO,
+
+E O LOCAL EM QUE 
+
+
+
+ESSE UPDATE É NECESSÁRIO...
+
+
+
+
+
+
+
+
+
+
+
+-> MAS O PERFORM DESSE UPDATE,
+
+DE UMA MANEIRA 'PERFORMANT',
+
+
+É 
+
+
+ALGO TOTALMENTE DIFERENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR INSPECIONA UM ELEMENTO NO 
+
+DEV TOOLS...
+
+
+
+
+
+
+
+
+
+
+
+--> SE O PROFESSOR DIGITA ALGO NO INPUT FIELD,
+
+
+
+
+_ E AÍ CLICA EM 'SET TEXT' (com os refs),
+
+
+
+
+
+APENAS O PARAGRAPH 
+
+
+
+
+
+DA PÁGINA FOI UPDATADO --> E MAIS NADA NA TELA FOI UPDATADO --> E O VUE FAZ ISSO POR MEIO DE UM CONCEITO 
+
+CHAMADO DE `VIRTUAL  DOM`... 
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO ISSO FUNCIONA?
+
+
+
+E PQ 
+
+O 
+
+VUE 
+
+UPDATA O DOM DESSA FORMA? 
+
+
+
+
+
+
+BEM, TEMOS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+1) vue INSTANCE 
+
+
+
+
+
+
+
+
+
+
+
+2) BROWSER DOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> B DOM --> CÓDIGO HTML RENDERIZADO PELO BROWSER....
+
+
+
+
+
+
+
+
+
+
+
+--> O VUE APP:
+
+
+
+A) ARMAZENA DATA 
+
+
+
+
+B) ARMAZENA COMPUTED PROPERTIES 
+
+
+C) ARMAZENA METHODS...
+
+
+
+
+
+
+
+
+
+
+
+--> O BROWSER DOM É ENTÃO INFLUENCIADO,
+
+
+
+
+COM A AJUDA DAQUELE 'VUE-CONTROLLED TEMPLATE' -> 
+
+
+
+
+
+ESSE 'TEMPLATE CONTENT'
+
+
+
+É ENTÃO _ RENDERIZADO AO DOM -------> E, DURANTE ESSE PROCESSO DE RENDERING,
+
+CONTROLADO PELO VUE,
+
+
+
+AS PARTES 
+
+DINÂMICAS E PLACEHOLDERS (bindings e interpolations)
+
+
+
+
+SÃO __ REMOVIDAS,
+
+
+E OS ACTUAL 
+
+VALUES SÃO INSERIDOS...
+
+
+
+
+
+
+
+
+
+
+
+-> É ISSO QUE PODEMOS VER 
+
+
+NORMALMENTE,
+
+NADA DE MAIS...
+
+
+
+
+
+
+---> NO BUTTON,
+
+TEMOS 
+
+'@click' --> ESSA É UMA INSTRUCTION AO VUE,
+
+
+e é por isso que 
+
+NÃO A ENXERGAMOS 
+
+NO ACTUAL DOM, RENDERIZADO NO BROWSER (
+    pq 
+
+    essas vue instructions 
+
+    SÃO REMOVIDAS,
+
+    PELO VUE,
+
+    QUANDO 
+
+    ELE 
+
+    CONVERTE 
+
+    ESSE 
+
+    TEMPLATE AOS ACTUAL DOM ELEMENTS RENDERIZADOS A TELA...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É EXATAMENTE POR ISSO 
+
+
+que 
+
+
+
+
+temos data transformada assim:
+
+
+
+
+
+
+
+
+
+title: 'Hello' ----> VIRA ISSO: <h2>Hello!</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É CLARO QUE A 'DATA' 
+
+
+
+E 
+
+
+AS 'COMPUTED PROPERTIES'
+
+
+
+PODEM MUDAR... (ex: pq o user input mudou)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ESSES UPDATES, É CLARO,
+
+DEVEM SER REFLETIDOS,
+
+
+MAS _ A PAGE NÃO DEVE 
+
+SER TODA UPDATADA,
+
+E SIM 
+APEANS 
+
+AS PARTES 
+
+QUE 
+
+DEVEM 
+
+SER 
+UPDATADAS 
+
+
+(
+
+
+
+
+    AÍ FFICA BEM MELHOR AP ERFORMANCE..
+)
+
+
+
+
+
+
+
+
+--> SE APENAS O TITLE MUDOU,
+
+APENAS A <H1>
+
+
+TAG 
+
+QUE O SEGURA DEVE SER UPDATADA,
+
+E NÃO O PARAGRAPH QEU NÃO TEM NADA A VER.
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> ok, mas como O DOM PODERIA GARANTIR QUE 
+
+ISSO ACONTEÇA,
+
+
+
+NÃO RENDERIZAR TODA A TELA?
+
+
+
+
+
+
+
+
+
+
+
+PRIMEIRA POSSÍVEL SOLUÇÃO --> '''COMPARE OLD DOM VALUES WITH THE NEW ONES, AND UPDATE ACCORDINGLY'...
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+UMA COMPARAÇÃO ENTRE O DOM ANTIGO E O NOVO ---> E SE EXISTIR UMA DIFERENÇA,
+
+
+
+ELE ATUALIZA A PAGE NESSE TRECHO QUE FOI ALTERADO...
+
+
+
+
+
+
+
+
+
+--> SIM, O 
+
+
+VUE PODERIA FAZER ISSO....  ---> E, PELO MENSO,
+
+
+
+ELE NÃO ATUALIZARIA A TELA INTEIRA ------------>
+
+
+
+
+
+
+
+
+MAS _ ISSO AÍ,
+
+NA VERDADE,
+
+
+
+__ NÃO É _ a COISA QUE O VUE FAZ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ O ACTUAL 'READ'
+
+
+
+DE TODO O DOM, QUE É RENDERIZADO PELO BROWSER,
+
+O TEMPO TODO,
+
+
+
+
+
+__ SEMPRE QUE ALGO MUDA,
+
+
+
+
+TAMBÉM É ALGO 'PERFORMANCE-INTENSIVE' (
+
+
+      não é tão pesado quanto re-renderizar a página toda hora,
+
+      mas 
+
+      É ALGO BEM PESADO..
+)
+
+
+
+
+
+
+
+
+
+---> EM VEZ DISSO,
+
+COMO O PROFESSOR MENCIONOU ANTES,
+
+O VUE 
+
+USA UM CONCEITO CHAMADO 
+
+
+
+DE 
+
+
+
+
+'VIRTUAL DOM'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO QUER DIZER QUE O VUE TEM BASICAMENTE UMA CÓPIA VIRTUAL
+
+
+
+DO 
+
+
+DOM DE VERDADE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA CÓPIA É TODA MANAGEADA PELO JAVASCRIPT,
+
+DENTRO 
+
+DA MEMÓRIA DELE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESUMINDO 
+
+
+
+'''JS-BASED DOM WHICH ONLY EXISTS IN MEMORY'''' ....
+
+
+
+
+
+
+
+
+
+
+
+
+O VIRTUAL DOM TEM ESTA APARÊNCIA:
+
+
+
+
+
+
+{
+    el: "h2", "child": "Hello" 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+--> E SEMPRE QUE 
+
+
+HÁ ALTERAÇÕES 
+
+
+
+
+
+
+O VUE BASICAEMNTE CRIA UM 'NOVO VIRTUAL DOM',
+
+
+E AÍ 
+
+
+__ 
+
+
+COMPARA __ 
+
+
+O 
+
+
+VIRTUAL DOM COM O OLD VIRTUAL DOM ,
+
+
+
+
+
+
+
+E AÍ 
+
+
+
+
+
+___ APENAS_ 
+
+
+AS DIFERENÇAS ENTRE AS 2 VERSÕES,
+
+
+
+APENAS ELAS,
+
+
+SÃO 
+
+
+
+ESCRITAS NO DOM DE VERDADE... --> E ISSO É BEM MAIS EFICIENTE,
+
+PQ 
+
+
+FAZER 
+
+ESSAS COMPARAÇÕES 
+
+
+
+E  UPDATES 
+EM UM 
+VIRTUAL DOM (totalmente na memória) É BEM MAIS EFETIVO DO QUE 
+
+FAZER TUDO ISSO EM UM DOM DE VERDADE,
+
+QUE JÁ FOI RENDERIZADO NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É ASSIM QUE O VUE FAZ TUDO ISSO, POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+
+-> O VUE DETECTA A CHANGE (por meio da reactivity),
+
+
+
+
+e aí 
+
+
+CRIA UM NOVO VIRTUAL DOM,
+
+
+
+COMPARA 
+
+COM O ANTIGO VIRTUAL DOM,
+
+
+
+E AÍ
+
+APLICA AS DIFERENÇAS NO REAL DOM,
+
+NAS PARTES MAIS NECESSÁRIAS...
+
+
+
+
+
+
+
+
+
+
+----> O VUE __ TEM UM MONTE DE OPTIMIZATIONS QUE ACTUALLY DEIXAM ISSO MAIS PERFORMANT (
+
+NA REALIDADE,
+
+
+ELE NÃO RECRIA 
+
+DOMS VIRTUAIS O TEMPO INTEIRO.. TEM UM MONTE DE OPTIMIZATIONS PARA 
+
+ISSO...
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+-> VOCÊ SÓ TEM QUE SABERR COMO ISSO GERALMENTE FUNCIONA... (não é mágica)...

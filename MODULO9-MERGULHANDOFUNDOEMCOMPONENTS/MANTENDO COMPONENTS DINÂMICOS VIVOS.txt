@@ -1,0 +1,432 @@
+
+
+
+
+
+
+
+
+
+COMPONENTS DINÂMICOS SÃO DEFINITIVAMENTE UMA FEATURE INTERESSANTE....
+
+
+
+
+
+
+
+
+
+ELES TE DEIXAM ADICIONAR CERTAS FEATURES AOS SEUS APPS, de forma mais fácil...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ MAIS UMA COISA QUE VOCÊ PRECISA SABER, SOBRE OS DYNAMIC COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE EM 'MANAGE GOALS',
+
+
+NÓS TEMOS UM INPUT FIELD...
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+    <div>
+        <h2>
+        Manage Goals
+        </h2>
+        <div>
+        <input type="text" />
+        </div>
+
+
+
+
+</template>
+
+
+
+
+
+
+
+
+
+SERÁ SÓ UM DUMMY INPUT FIELD,
+
+
+NÃO VAMOS FAZER NADA COM SEU VALUE..
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS SERIA BEM REALISTA  
+
+
+
+
+QUE 
+
+
+
+TIVÉSSEMOS APENAS 1 COMPONENT (
+
+    ou múltiplos components
+)
+
+EM QUE 
+
+O USER PODE INPUTTAR ALGO,
+
+
+
+E QUE 
+
+
+
+ENTÃO 
+
+
+
+
+
+PODERÁ SER CARREGADO DINAMICAMENTE,
+
+COM 
+
+
+'<component></compnent>'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROBLEMA COM O USO DE 'component',
+
+no caso,
+
+
+SURGE QUANDO 
+
+
+
+
+tentamos:
+
+
+
+
+
+
+1) escrevemos 1 goal no input field...
+
+
+
+
+
+2) ANTES DE 'SALVAR' ESSE GOAL,
+
+
+
+TROCAMOS PARA 'ACTIVE GOALS' ..
+
+
+
+
+
+
+3) DEPOIS TROCAMOS PARA 'manage goals', mais uma vez..
+
+
+
+
+
+
+4) O QUE HAVÍAMOS INPUTTADO _ TERÁ SE PERDIDO...
+
+
+
+
+
+
+
+
+
+
+--> A RAZÃO PARA ISSO,
+
+NO CASO,
+
+É QUE 
+
+QUANDO 
+
+TROCAMOS 
+
+COMPONENTS,
+
+
+
+O 
+
+
+COMPONENT __ ANTIGO __ REALMENTE É 
+
+
+
+___dESTRUÍDO__ PELO VUE...
+
+
+
+
+
+
+
+--> É DESTRUÍDO E REMOVIDO DO DOM ---> É POR ISSO QUE 
+
+
+
+
+A COISA QUE 
+
+
+INPUTTAMOS NO INPUT FIELD,
+
+NÃO INTERESSA O VALUE,
+
+
+É __ PERDIDA_ 
+
+
+SE NÓS 'SWITCH AWAY',
+
+  
+  JUSTASMENTE PQ 
+
+
+  O 
+
+  INPUT FIELD 
+  É REMOVIDO DO DOM...
+
+
+
+
+
+
+
+
+  --> QUANDO VOLTAMOS AO 'MANAGE GOALS',
+
+
+
+
+
+  O _ INPUT FIELD __ ADICIONADO É UM 'BRAND NEW INPUT FIELD'...
+
+
+
+
+
+
+
+
+
+  --> MAS TALVEZ ESSE COMPORTAMENTO SEJA INDESEJADO A VOCÊ,
+
+  POR ISSO
+
+
+
+
+
+  O 
+
+  VUE OFERECE UMA OUTRA SOLUÇÕA, TAMB´ME...
+
+
+
+
+
+
+
+
+
+  --> O VUE TEM OUTRO 
+
+
+
+  COMPONENT BUILT-IN,
+
+
+
+  chamado 
+  de 
+
+
+  'keep-alive'...
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+    <!-- MANEIRA ALTERNATIVA/COMPORTAMENTO ALTERNATIVO DE 'COMPONENT', usando o wrapper de 'keep-alive': ele MANTÉM nosso component vivo no DOM, o que signfiica que NÃO VAMOS PERDER A INFO ENFIADA NO NOSSO COMPONENT DINÂMICO, QUANDO ELE FOR 'REMOVIDO' DO DOM... (contrário do comportamento normal de 'component', que perde essas info/state)-->
+  <keep-alive>
+    <component :is="componentId">
+      </component>
+  </keep-alive>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> KEEP-ALIVE --> FAZ EXATAMENTE O QUE O NOME DIZ:
+
+
+
+
+
+
+  --> ELE FAZ COM QUE COMPONENTS NÃO SEJAM DELETADOS E REMOVIDOS INTEIRAMENTE,
+
+
+  PQ 
+
+  SEU 'STATE'
+
+
+
+  ACABA 
+
+  _ SENDO SALVO,
+
+
+  CACHEADO,
+
+
+  POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+  --> OK... ISSO É BEM ÚTIL,
+
+  A DEPENDER DO CASO...
+
+
+
+
+
+
+  --> AGORA QUANDO TROCAMOS DE 'Active' PARA 'MANAGE',
+
+  o state 
+
+  de nosso input field
+
+
+
+  __ NÃO É PERDIDO...
+
+
+
+
+
+
+
+
+
+  --> O KEEP-ALIVE EXISTE,
+
+
+  E É BEM ÚTIL...
+
+
+
+  PODE SER USADO, A DEPENDER DO CASO CONCRETO...
