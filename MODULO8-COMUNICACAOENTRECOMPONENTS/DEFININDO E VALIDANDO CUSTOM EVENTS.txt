@@ -1,0 +1,468 @@
+
+
+
+CUSTOM EVENTS SÃO UMA FEATURE IMPORTANTE DE COMPONENT COMMUNICATION..
+
+
+
+
+
+
+
+
+
+-> ASSIM COMO PROPS, 
+
+VOCÊ 
+
+PODE DEFINIR 
+
+
+'INFO'
+
+
+SOBRE OS EVENTS QUE SEU COMPONENT VAI EMITTAR (
+
+
+    para PROPS, isso é REQUIRED,
+
+
+    mas para events,
+
+    isso é apenas RECOMMENDED...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> RECOMENDADO...
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR VAI USAR O COMPONENT DE 'FRIENDCONTACT'..
+
+
+
+
+
+
+
+------> PARA DEFINIR A 'INFO' SOBRE OS EVENTS EMITTADOS 
+
+
+
+POR ESSE COMPONENT, O PROFESSOR ADICIONA UMA NOVA KEY 
+
+
+AO 'export default {}'...
+
+
+
+
+
+
+
+---> É A PROPRIEDADE DE 'emits'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 'emits' ----> é a CONTRAPARTE DE 'props'
+
+
+
+
+
+
+
+
+
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  export default {
+    props: {
+
+
+      id: { ///será usado com 'this.$emit()', para emitir O IDENTIFICADOR DE CADA ITEM 'FriendContact'
+        type: String,
+        required: true
+      },
+    name: {
+      type: String,
+      required: false,
+    },
+
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    emailAddress: String,
+
+    isFavorite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
+    emits: [],
+
+
+
+  
+    data() {
+      return {
+        detailsAreVisible: false,
+        friend: {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+        },
+      };
+    },
+    methods: {
+      toggleDetails() {
+        this.detailsAreVisible = !this.detailsAreVisible;
+      },
+
+    toggleFavoriteCorrectVersion() {
+        this.$emit('custom-event-created-by-me', this.id); ///// NO SEGUNDO E SEGUINTES PARÂMETROS, VOCÊ PODE COLOCAR DATA ADICIONAL QUE VOCê QUER ENVIAR JUNTO DE SEU EVENT... no nosso caso, colocamos o 'id' do FriendContact que quer ter seu próprio 'favoriteStatus' alterado...
+      }
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  EM 'PROPS', VOCÊ DEFINE QUAIS PROPS SEU COMPONENT VAI USAR...
+
+
+
+
+
+
+
+
+
+
+
+  JÁ EM 'emits: []',
+
+
+
+  VOCê DEFINE __ QUAIS CUSTOM EVENTS __  
+
+
+  SEU COMPONENT VAI, EVENTUALMENTE (a algum ponto ),
+
+
+  EMITTAR 
+
+
+
+
+
+
+
+
+
+
+  --> VOCÊ FAZ ISSO PARA DOCUMENTAR SEU COMPONENT --> 
+
+
+
+  DEIXA ÓBVIO A OUTROS DEVELOPERS O FUNCIONAMENTO DE SEU 
+
+  COMPONENT,
+
+  E 
+
+
+
+
+  ''A QUAIS EVENTS OS OUTROS DEVELOPERS PODERÃO 
+
+  FAZER LISTEN TO, EM PARENT COMPONENTS''..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É MT BOM,
+
+PQ AÍ NÃO É NECESSAŔIO LER/SCANNEAR TODO SEU CÓDIGO PROCURANDO POR UM CALL 
+
+
+
+DE 
+
+'this.$emit('evento', conteúdo do evento)'
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+COM 'EMITS',
+
+
+
+
+BASTA  ADICIONAR 'toggle-favorite',
+
+
+
+como uma STRING,
+
+LÁ NO ARRAY de 'emits',
+
+
+
+
+
+para deixar BEM CLARO QUE HÁ ALGUM CÓDIGO NO SEU COMPONENT QUE 
+
+VAI LEVAR A 1 EVENT COM ESSE IDENTIFIER
+
+
+SENDO EMITTADO...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+  emits: [  /////AQUI DEFINIMOS OS EVENTS QUE SERÃO EMITTADOS POR ESSE NOSSO COMPONENT, E QUE SERÃO CAPTADOS POR OUTROS, PARENT COMPONENTS, DE NOSSO APP...
+  ///FAZEMOS ISSO APENAS PARA FACILITAR A VIDA DOS OUTROS DESENVOLVEDORES....
+    'custom-event-created-by-me'
+  ], 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, ASSIM COMO COM 'PROPS',
+
+
+PODEMOS 
+
+DEFINIR 
+
+UM OBJECT PARA CADA 'PROP',
+
+PARA 
+
+AÍ 
+
+
+
+DEFINIR 
+
+MAIS INFO SOBRE ELE...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+emits: {
+
+    'toggle-favorite': 
+}
+
+
+
+
+
+
+
+
+--> CADA EVENT SERÁ UMA ___KEY__,
+
+E AÍ VOCê PROVIDENCIARÁ,
+
+como value,
+
+UMA FUNCTION QUE 
+
+__ VAI _ RECEBER__ A DATA QUE 
+
+VOCê 
+
+EVENTUALMENTE EMITIRÁ,
+
+
+COMO _ _PARAMETER...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+emits: {
+
+    'toggle-favorite': function(id) {}
+}
+
+
+
+
+
+
+
+--> COM ISSO, DEIXAMOS BEM CLARO QUE 'toggle-favorite'
+
+É UM EVENT QUE 
+
+DEVE 
+
+SER HANDLADO 
+
+POR UMA FUNCTION 

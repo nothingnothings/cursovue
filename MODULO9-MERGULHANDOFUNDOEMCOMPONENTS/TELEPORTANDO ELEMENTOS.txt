@@ -1,0 +1,454 @@
+
+OK, MAS O QUE HÁ DE ERRADO COM O NOSSO ATUAL 
+
+
+
+
+DIALOG DE 'ERROR'?
+
+
+
+
+
+
+
+
+--> bem, aparentemente tudo está bem,
+
+
+MAS SE O INSPECIONARMOS,
+
+
+CONSTATAMOS ALGUNS PROBLEMAS RELATIVOS AO SEU CÓDIGO HTML...
+
+
+
+
+
+
+
+
+
+
+
+
+--> nosso dialog está assim:
+
+
+
+
+
+
+
+
+<dialog>
+
+    </dialog>
+
+
+
+
+
+
+
+
+
+--> QUE PROBLEMA É ESSE?
+
+
+
+
+
+
+
+
+
+--> nosso dialog está assim:
+
+
+
+<h2>
+<input>
+<button>
+
+<dialog>
+    </dialog>
+
+
+
+
+
+
+
+-> ELE ESTÁ EMBAIXO 
+DESSES ELEMENTOS... --> E ESTÁ EMBAIXO DESSES ELEMENTOS JUSTAMENTE PQ 
+
+
+É NESSE LUGAR QUE O DEFINIMOS,
+
+
+LÁ NO COMPONENT DE 'MANAGEGOALS'... 
+
+
+
+
+
+
+
+--> ISSO FUNCIONA, SIM, 
+
+MAS SEMANTICAMENTE,
+
+E DE UMA PERSPECTIVA DE HTML,
+
+
+
+
+
+TER ESSE MODAL/DIALOG,
+
+QUE 
+
+
+É ACTUALLY TRATADO COMO UM OVERLAY SOBRE A PÁGINA INTEIRA,
+
+
+TER ELE NESTEADO 
+
+
+
+
+
+
+
+NESSE LOCAL,
+
+
+SOBRE NOSSO CÓDIGO HTML,
+
+NÃO É IDEAL --->  PARA A ACESSIBILIDADE PODERIA SER STRANGE,
+
+
+
+ERROS DE STYLING.... -> É POR ISSO QUE FAZ MAIS SENTIDO SE 
+
+ESSE DIALOG 
+
+
+
+FICAR _ EM _ ALGUM __ LUGAR__ 
+
+
+NO __ ROOT_ _ DE NOSSO __ 
+
+
+HTML TREE (e não deeply nested)..
+
+
+
+
+
+
+
+
+
+
+--> FAZEMOS ISSO POR CAUSA DE SEMÂNTICA,
+
+E DE RAZÕES 
+
+DE ACESSIBILITY... --> ISSO É ALGO QUE PODEMOS 
+
+CONSEGUIR FACILMENTE COM VUE E COM UMA FEATURE CHAMADA DE 
+
+TELEPORT...
+
+
+
+
+
+
+'teleport' --> TELEPORT É UM COMPONENT VUE BUILT-IN (
+
+
+    ASSIM COMO '<component>' 
+
+
+    e '<keep-alive>' 
+)
+
+
+
+
+
+
+
+
+--> VOCÊ PODE/DEVE WRAPPAR A COISA QUE VOCê QUER TELEPORTAR 
+
+
+
+com 
+
+
+a tag de 
+
+'<teleport>'...
+
+
+
+
+
+
+E 'TELEPORT' É REALMENTE UM BUILT-IN COMPONENT DO VUE...
+
+
+
+
+
+
+
+--> VAMOS WRAPPAR ISSO EM VOLTA DE 'error-alert'..
+
+
+
+
+ex:
+
+
+
+
+<teleport>
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+OK, MAS COMO O TELEPORT FUNCIONA,
+
+
+
+E O QUE FAZEMOS COM ELE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, O TELEPORT EXIGE 1 único prop,
+
+o prop de 
+
+
+'to='
+
+
+
+
+<teleport to="">
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+
+------> NESSE PROP, VOCÊ PROVIDENCIA UM CSS SELECTOR PARA SELECIONAR 1 
+
+ELEMENTO HTML NA SUA PÁGINA INTEIRA,
+
+
+
+EM QUE 
+
+ESSE 
+
+
+CONTEÚDO DEVE 
+
+SER 
+
+ADICIONADO 
+
+
+
+
+RESUMINDO: A LÓGICA AINDA EXISTIRÁ DENTRO DESSE COMPONENT,
+
+
+
+
+VOCÊ AINDA INTERAGE COM METHODS NESSE COMPONENT,
+
+
+MAS __ A DIFERENÇA É QUE 
+
+
+
+O ELEMENTO WRAPPADO SERÁ RENDERIZADO EM ALGUM OUTRO LUGAR 
+
+DO DOM...
+
+
+
+
+
+
+
+
+-----> AQUI, NO CASO,
+
+
+
+O PROFESSOR COLOCA UM 
+
+SELECTOR DE 'body',
+
+
+mas ele poderia colocar  um 
+
+'#section'
+
+ou 
+
+
+então 
+
+
+
+
+
+UM CSS SELECTOR DE CLASS (só o 'nome', sem mais nada)
+
+
+
+
+
+
+
+
+--> ok...
+
+o PROFESSOR ESCREVEU O BODY como 'teleport'...
+
+
+
+
+
+
+ex:
+
+
+
+
+<teleport to="body">
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+    <teleport to="body">
+        <error-alert v-if="inputIsInvalid">
+            <h2>Input is Invalid!</h2>
+            <p>Please enter at least a few characters...</p>
+            <button @click="confirmError"></button>
+        </error-alert>
+    </teleport>
+
+
+
+
+
+
+
+
+
+
+
+    CERTO...
+
+
+
+
+
+
+
+
+
+
+ISSO VAI OUTPUTTAR ESSE ELEMENTO NO CONTEXTO 'BODY' (root)
+
+DO NOSSO HTML..
+
+
+
+
+
+
+
+
+
+
+--_> OK... ISSO É BEM ÚTIL...
+
+
+
+
+
+
+
+
+
+ISSO TE AJUDA COM A ESTRUTURA DO HTML,
+
+
+
+PQ TE DÁ UMA 
+
+ESTRUTURA SEMANTICAMENTE CORRETA 
+
+DE APP,
+
+POR TRÁS DAS CENAS....

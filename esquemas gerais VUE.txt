@@ -2653,3 +2653,249 @@ ELE
 
 
 
+
+
+//////////////////////////////
+
+
+
+TELEPORT:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'teleport' --> TELEPORT É UM COMPONENT VUE BUILT-IN (
+
+
+    ASSIM COMO '<component>' 
+
+
+    e '<keep-alive>' 
+)
+
+
+
+
+
+
+
+
+--> VOCÊ PODE/DEVE WRAPPAR A COISA QUE VOCê QUER TELEPORTAR 
+
+
+
+com 
+
+
+a tag de 
+
+'<teleport>'...
+
+
+
+
+
+
+E 'TELEPORT' É REALMENTE UM BUILT-IN COMPONENT DO VUE...
+
+
+
+
+
+
+
+--> VAMOS WRAPPAR ISSO EM VOLTA DE 'error-alert'..
+
+
+
+
+ex:
+
+
+
+
+<teleport>
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+OK, MAS COMO O TELEPORT FUNCIONA,
+
+
+
+E O QUE FAZEMOS COM ELE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, O TELEPORT EXIGE 1 único prop,
+
+o prop de 
+
+
+'to='
+
+
+
+
+<teleport to="">
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+
+------> NESSE PROP, VOCÊ PROVIDENCIA UM CSS SELECTOR PARA SELECIONAR 1 
+
+ELEMENTO HTML NA SUA PÁGINA INTEIRA,
+
+
+
+EM QUE 
+
+ESSE 
+
+
+CONTEÚDO DEVE 
+
+SER 
+
+ADICIONADO 
+
+
+
+
+RESUMINDO: A LÓGICA AINDA EXISTIRÁ DENTRO DESSE COMPONENT,
+
+
+
+
+VOCÊ AINDA INTERAGE COM METHODS NESSE COMPONENT,
+
+
+MAS __ A DIFERENÇA É QUE 
+
+
+
+O ELEMENTO WRAPPADO SERÁ RENDERIZADO EM ALGUM OUTRO LUGAR 
+
+DO DOM...
+
+
+
+
+
+
+
+
+-----> AQUI, NO CASO,
+
+
+
+O PROFESSOR COLOCA UM 
+
+SELECTOR DE 'body',
+
+
+mas ele poderia colocar  um 
+
+'#section'
+
+ou 
+
+
+então 
+
+
+
+
+
+UM CSS SELECTOR DE CLASS (só o 'nome', sem mais nada)
+
+
+
+
+
+
+
+
+--> ok...
+
+o PROFESSOR ESCREVEU O BODY como 'teleport'...
+
+
+
+
+
+
+ex:
+
+
+
+
+<teleport to="body">
+<error-alert v-if="inputIsInvalid">
+    <h2>Input is Invalid</h2>
+        <p>Please enter at least a few characters...</p>
+    <button @click="confirmError">Okay</button>
+</error-alert>
+</teleport>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

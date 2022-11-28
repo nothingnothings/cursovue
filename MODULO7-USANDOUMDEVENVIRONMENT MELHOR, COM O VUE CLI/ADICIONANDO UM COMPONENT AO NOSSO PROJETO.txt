@@ -1,0 +1,600 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA DEVEMOS ADICIONAR NOSSO PRIMEIRO COMPONENT AO PROJETO....
+
+
+
+
+
+
+
+
+
+
+
+
+--> NOSSO MAIN APP ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  CADA 'COMPONENT' PODE SE COMUNICAR 1 COM O OUTRO... JÁ 
+
+
+
+'APPS',
+
+não...
+
+
+
+
+
+
+
+
+-> É UMA CONVENÇÃO CRIAR 1 FOLDER CHAMADO DE 'components',
+
+lá em 
+
+'src',
+
+
+para segurar 
+
+seus 
+
+VUE COMPONENTS --> ISSO DEIXA CLARO QUE ESSES SÃO COMPONENTS,
+E NÃO 
+
+QUALQUER 'VUE APP'...
+
+
+
+
+
+
+--> O PROFESSOR CRIA UM NOVO COMPONENT,
+
+ DE NOME 
+
+ 'FriendContact.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ASSIM COMO 'App.vue',
+
+ QUEREMOS DEIXAR CLARO O QUE TEMOS DENTRO DESSA FILE --> SERÁ UM COMPONENT 
+
+
+ USADO PARA CRIAR 
+
+
+ O 'FRIEND CONTACT' --> podemos colocar qualquer nome,
+
+
+
+
+
+
+ MAS QUEREMOS REFLETIR ISSO 
+
+
+
+ NO 
+
+
+
+ __ FILE NAME....
+
+
+
+
+
+
+
+ -> CERTO...
+
+
+
+
+
+ --> USAMOS PASCAL CASE....
+
+
+
+
+
+
+
+
+ DENTRO DE 'FriendContact',
+
+ como essa é uma vue file,
+
+
+ podemos criar a área de 
+
+
+
+ 'template',
+
+ e também a área de 'script'...
+
+
+
+
+
+
+
+
+
+ --> tipo assim:
+
+
+
+
+
+
+
+
+
+ <template>
+
+
+
+</template>
+
+
+
+
+<script>
+import { defineComponent } from '@vue/composition-api'
+
+export default {
+    setup() {
+
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... ANTIGAMENTE, TÍNHAMOS UMA KEY DE 'template',
+
+para definir o conteúdo html 
+
+
+
+dentro de um template literal...
+
+
+
+
+
+
+
+
+
+-----> MAS AGORA TEMOS AQUELA ÁREA DE 'template',
+
+
+
+
+
+QUE É BEM MAIS CONVENIENTE PARA CRIAR COMPONENTS E DEFINIR SEUS TEMPLATES...
+
+
+
+
+
+
+
+
+--> escrevemos tipo assim:
+
+
+
+
+
+
+
+
+<li>
+    <h2>
+        {{ friend.name }}
+    </h2>
+
+</li>
+
+
+
+
+
+
+
+--> aí escrevemos
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<li>
+    <h2>
+        {{ friend.name }}
+    </h2>
+    <button>Show Details</button>
+
+    <ul>
+        <li><strong>Phone:</strong>{{ friend.phone }}</li>
+        <li><strong>Email:</strong>{{ friend.email }}</li>
+        
+    </ul>
+
+</li>
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS TAMBÉM TER UM FIELD DE 'data',
+
+
+
+EM QUE 
+
+
+TEREMOS O RETURN 
+
+
+
+DE PROPRIEDADES QUE SERÃO INDEPENDENTES 
+
+
+
+DA DATA DE NOSSO 'MAIN APP'..
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<li>
+    <h2>
+        {{ friend.name }}
+    </h2>
+    <button>Show Details</button>
+
+    <ul>
+        <li><strong>Phone:</strong>{{ friend.phone }}</li>
+        <li><strong>Email:</strong>{{ friend.email }}</li>
+        
+    </ul>
+
+</li>
+
+
+
+
+<script>
+
+    export default {
+        data() {
+            return {
+                detailsAreVisible: false 
+            }
+        }
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+----> VAMOS USAR ESSA PROPRIEDADE PARA FAZER 
+
+
+
+O BUTTON DE CADA 'LIST ITEM' FUNCIONAR...
+
+
+
+
+
+--> TEREMOS 
+
+TAMBÉM UMA PROPRIEDADE 'friend' temporária,
+
+que 
+
+
+
+
+por enquanto teremos o value de 'manuel'.. ( o object 'manuel')...
+
+
+
+
+
+
+
+
+
+
+
+
+----> POR FIM, O PROFESSOR ADICIONA UM  METHOD DE 'toggleDetails',
+
+
+
+QUE 
+
+
+
+
+
+É USADO PARA DEFINIR O 'this.detailsAreVisible'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+        <h2>
+            {{ friend.name }}
+        </h2>
+        <button>Show Details</button>
+
+        <ul>
+            <li><strong>Phone:</strong>{{ friend.phone }}</li>
+            <li><strong>Email:</strong>{{ friend.email }}</li>
+
+        </ul>
+
+    </li>
+</template>
+
+
+
+
+<script>
+
+export default {
+
+    data() {
+
+        return {
+            detailsAreVisible: false,
+            friend: {
+                id: 'Manuel',
+                name: 'Manuel Lorenz',
+                phone: "123456788",
+                email: 'exemplo@exemplo.com'
+            }
+        }
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+AÍ TEMOS O SCRIPT:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+        <h2>
+            {{ friend.name }}
+        </h2>
+        <button>Show Details</button>
+
+        <ul>
+            <li><strong>Phone:</strong>{{ friend.phone }}</li>
+            <li><strong>Email:</strong>{{ friend.email }}</li>
+
+        </ul>
+
+    </li>
+</template>
+
+
+
+
+<script>
+
+export default {
+
+    data() {
+
+        return {
+            detailsAreVisible: false,
+            friend: {
+                id: 'Manuel',
+                name: 'Manuel Lorenz',
+                phone: "123456788",
+                email: 'exemplo@exemplo.com'
+            }
+        }
+    },
+
+    methods: {
+        toggleDetails() {
+            this.detailsAreVisible = !this.detailsAreVisible;
+        }
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ O PROFESSOR TAMBÉM COLOCA UM 'v-if'
+
+PARA TOGGLAR O 'details'
+
+se 
+
+a propriedade 'detailsAreVisible'
+
+estiver como true....
