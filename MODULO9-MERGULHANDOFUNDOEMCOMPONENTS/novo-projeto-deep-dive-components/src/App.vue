@@ -30,7 +30,7 @@
   <!-- MANEIRA ALTERNATIVA/COMPORTAMENTO ALTERNATIVO DE 'COMPONENT', usando o wrapper de 'keep-alive': ele MANTÉM nosso component vivo no DOM, o que signfiica que NÃO VAMOS PERDER A INFO ENFIADA NO NOSSO COMPONENT DINÂMICO, QUANDO ELE FOR 'REMOVIDO' DO DOM... (contrário do comportamento normal de 'component', que perde essas info/state)-->
   <keep-alive>
     <component :is="componentId">
-      </component>
+    </component>
   </keep-alive>
 </template>
 

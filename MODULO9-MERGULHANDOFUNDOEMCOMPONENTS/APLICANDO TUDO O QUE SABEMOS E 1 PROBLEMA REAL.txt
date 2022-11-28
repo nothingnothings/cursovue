@@ -1,0 +1,1407 @@
+
+
+
+
+
+
+
+
+
+
+AGORA VEREMOS MAIS FEATURES DE COMPONENTS VUE..
+
+
+
+
+
+
+
+
+
+
+--> ESTAMOS CHEGANDO AO FINAL DESTE MODULO..
+
+
+
+
+
+
+
+
+
+--> MAS AGORA HÁ OUTRA FEATURE NICE,
+
+QUE àS VEZES VOCÊ PODE UTILIZAR...
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS O COMPONENT DE 'ManageGoals'...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ADICIONA UM NOVO BUTTON,
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+<button @click="">Set Goal</button>
+
+
+
+
+
+
+
+
+
+
+--> QUANDO ESSE BUTTON É CLICADO,
+
+VAMOS QUERER SALVAR NOSSO GOAL...
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR ADICIONA UM 
+
+
+
+method de 'setGoal()',
+
+
+E ESSE METHOD VAI 
+
+
+
+
+
+__ CHECAR__ O QUE __ HÁ 
+
+
+DENTRO DO INPUT de type text...
+
+
+
+
+e se 
+
+
+ESSE INPUT ESTIVER 
+
+VAZIO,
+
+VAMOS QUERER MOSTRAR UM ALERT AO USEr... 
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER FOCAR NESSA PARTE DE 'ERROR',
+ 
+ E NESSA 
+
+ ERROR MESSAGE...
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+</template>
+
+
+<script>
+
+
+export default {
+
+
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+</template>
+
+
+<script>
+
+
+export default {
+
+
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                alert('Input must not be empty.')
+            }
+
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+AGORA CONSEGUIMOS ESSE ALERT..
+
+
+
+
+
+
+
+
+ISSO FUNCIONA, 
+
+
+MAS FREQUENTEMENTE EM APPS,
+
+
+VOCÊ NÃO VAI QUERER UM ALERT PORCO ASSIM...
+
+
+
+
+
+
+
+
+
+--> VOCÊ QUER CONSTRUIR SEU PRÓPRIO ALERT/MOADL,
+
+
+
+
+
+SEU PRÓPRIO 
+
+OVERLAY DIALOG -->  É ISSO QUE FAREMOS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS CONSTRUIR NOSSO PRÓPRIO COMPONENT,
+
+
+DE NOME 
+
+
+
+'ErrorAlert'...
+
+
+
+
+
+
+
+
+ErrorAlert.vue..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+    <dialog>
+        
+    </dialog>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, DENTRO DE 'dialog',
+
+PODEMOS 
+
+USAR 
+
+UM POUCO DE CONTEÚDO 'SLOT'..
+
+
+
+
+
+eX:
+
+
+
+
+
+
+
+
+
+<template>
+    <dialog>
+        <slot></slot>
+    </dialog>
+</template>
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+COM ISSO, PODEMOS DEFINIR 'O QUE VAI DENTRO DESSA DIALOG BOX'.. (DEIXAR FLEXÍVEL O QUE É MOSTRADO NESSE DIALOG)
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS QUERER DEIXAR UNS STYLES SCOPADOS 
+
+
+NESSE 
+
+
+
+DIALOG...
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <dialog>
+        <slot></slot>
+
+    </dialog>
+</template>
+
+
+
+
+
+<style scoped>
+dialog {
+    position: fixed;
+    top: 20vh;
+    left: 30%;
+    width: 40%;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+OK... AGORA VAMOS OUTPUTTAR ALGUM CONTEÚDO DENTRO DESSE 'slot'...
+
+
+
+
+
+
+
+
+
+O CONTEÚDO SERÁ FLEXÍVEL,
+
+GRAÇAS AO NOSSO 'SLOT'...
+
+
+
+
+
+
+
+--> CERTO... 
+
+AGORA, EM 'ManageGoals',
+
+QEUREMOS 
+
+
+
+
+APENAS MOSTRAR ESSE 
+'DIALOG'
+
+
+
+APENAS__  
+
+
+se O user REALMENTE TIVER INPUTTADO ALGO INVÁLIDo 
+
+
+
+
+(
+
+    com o 'setGoal', provavelmente...
+)
+
+
+
+
+
+
+
+OK, MAS COMO PODERÍAMOS FAZER ISSO?
+
+
+
+
+
+
+
+
+BEM, PODERÍAMOS USAR O 'v-if'...
+
+
+
+
+
+
+
+-_> COLOCARÍAMOS UMA 'data'
+
+LÁ EM 'ManageGoals',
+
+
+
+
+
+
+
+
+
+
+
+
+
+e aí tipo um 'inputIsInvalid',
+
+
+
+uma propriedade que inicialmente fica como 'false'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                alert('Input must not be empty.')
+            }
+
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SETTAREMOS ISSO COMO 'true',
+
+SE CONSTATARMOS QUE O NEGÓCIO REALMENTE ESTÁ VAZIO, QUE REALMENTE É INVALID..
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                this.inputIsInvalid = true;
+
+            }
+
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+-> E, COM ISSO,
+
+QUEREMOS FAZER 'SHOW'
+
+
+DO NOSSO 'ERROR ALERT',
+
+
+SE ESSE inputIsInvalid
+
+
+estiver como TRUE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AQUI, NESSE NOSSO TEMPLATE,
+
+PODEMOS SIMPLESMENTE ADICIONAR O COMPONENT DE 'error-alert',
+
+
+
+E AÍ 
+
+COLOCAR UM V-IF (esse é o approach tradicional)...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+</template>
+
+
+<script>
+import ErrorAlert from './ErrorAlert.vue';
+
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                // alert('Input must not be empty.')
+                this.inputIsInvalid = true; 
+            }
+
+        }
+    },
+
+    components: [ErrorAlert]
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTo...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+    <error-alert></error-alert>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                // alert('Input must not be empty.')
+                this.inputIsInvalid = true;
+            }
+
+        }
+    },
+
+    components: [ErrorAlert
+    ]
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+ERROR ALERT ESTÁ COMO UM 'LOCAL COMPONENT',
+
+DENTRO 
+DESSE 
+'MANAGEGOALS'...
+
+
+
+
+
+
+AÍ COLOCAMOS O V-IF...
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+    <error-alert v-if="inputIsInvalid"></error-alert>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                // alert('Input must not be empty.')
+                this.inputIsInvalid = true;
+            }
+
+        }
+    },
+
+    components: [ErrorAlert
+    ]
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, ALÉM DISSO, O PROFESSOR COLOCA UM CUSTOM CONTENT,
+
+COMO 
+
+'
+
+
+<h2>Input is Invalid!</h2>
+<p>Please enter at least a few characters...</p>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+    <error-alert v-if="inputIsInvalid">
+        <h2>Input is Invalid!</h2>
+        <p>Please enter at least a few characters...</p>
+    </error-alert>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                // alert('Input must not be empty.')
+                this.inputIsInvalid = true;
+            }
+
+        }
+    },
+
+    components: [ErrorAlert
+    ]
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA UM ALERT SERÁ MOSTRADO SE O USER NÃO INPUTTAR COISA ALGUMA...
+
+
+
+
+
+
+
+
+
+
+--> salvamos tudo isso e ESCREVEMOS NADA,
+
+DEPOIS COLOCAMOS 'setGoal'..
+
+
+
+
+
+
+
+
+
+
+
+
+----> NÃO VEMOS NADA --> É PQ O PROFESSOR ESQUECEU DO ATTRIBUTE DE 'open' 
+
+LÁ 
+
+NO NOSSO ELEMENTO HTML 'dialog' -->  COLOCADO ISSO,
+
+
+
+
+__ O 
+
+
+DIALOG REALMENTE APARECE...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+<template>
+    <dialog open>
+        <slot></slot>
+
+    </dialog>
+</template>
+
+
+
+
+
+<style scoped>
+dialog {
+    position: fixed;
+    top: 20vh;
+    left: 30%;
+    width: 40%;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... --> AÍ VEMOS NOSSO ERROR DIALOG....
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COLOCA UM STYLING, NADA DE MAIS....
+
+
+
+
+
+
+
+
+
+
+
+--> MAS ESSE É UM PATTERN QUE JÁ É ÚTIL POR SI SÓ... 
+
+
+
+
+
+
+
+
+
+
+--> NÓS TAMBÉM PODEMOS FAZER ESSE NEGÓCIO FICAR 'CLOSEABLE',
+
+
+
+BASTA IR ATÉ O 
+
+
+'ManageGoals'
+
+
+E ENTÃO 
+
+COLOCAR UM BUTTON DE 'ok',
+
+
+
+
+QUE 
+
+USAREMOS PARA HANDLAR ESSE ERROR (ele vai trocar o 'inputIsInvalid' DE VOLTA PARA 'false', para dar outra chance ao user)...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>
+        Manage Goals
+    </h2>
+    <input type="text" ref="userInput">
+    <button @click="setGoal">Set Goal</button>
+    <error-alert v-if="inputIsInvalid">
+        <h2>Input is Invalid!</h2>
+        <p>Please enter at least a few characters...</p>
+        <button @click="confirmError"></button>
+    </error-alert>
+</template>
+
+
+<script>
+
+
+export default {
+
+    data() {
+        return {
+            inputIsInvalid: false
+        }
+    },
+    methods: {
+        setGoal() {
+
+            const enteredValue = this.$refs.userInput.value;  ///OBTEMOS O VALUE DESSE REF... SE ESSE VALUE FOR EMPTY, QUEREMOS RETORNAR UM ERROR...
+
+            if (enteredValue === '') {
+                // alert('Input must not be empty.')
+                this.inputIsInvalid = true;
+            }
+
+        },
+
+        confirmError() {
+            this.inputIsInvalid = false;
+        }
+    },
+
+    components: [ErrorAlert
+    ]
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ISSO JÁ NOS MOSTRA PQ O CONCEITO DE 'SLOTS' É TÃO FORTE --> 
+
+
+
+É PQ 
+
+PODEMOS INSERIR O CONTEÚDO 
+
+DE '1 COMPONENT TOTALMENTE DIFERENTE'
+
+
+
+
+__DENTRO __ DO COMPONENT_ EM QUE TEMOS 
+
+
+__ TODA A LÓGICA PARA MOSTRAR O 'ERROR ALERT COMPONENT' --> 
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE NÃO PRECISAMOS FAZER 
+
+
+PASS DE DATA AROUND 
+,
+COM CUSTOM EVENTS QUE 
+O 
+
+
+
+ERROR ALERT EMITE... em vez disso,
+
+
+
+PODEMOS HANDLAR TUDO ISSO ALI, DENTRO DO COMPONENT EM QUE O ERROR É GENERATED,
+
+
+E AÍ 
+
+
+_ AO MESMO TEMPO HANDLAR O STYLING E O MARKUP 
+
+
+DESSE DIALOG __ A UM COMPONENT _ TOTALMENTE __ DIFERENTE.. ---> OU SEJA,
+
+
+
+
+
+
+
+É UMA MANEIRA MT FFORTE DE 'SPLIT UP RESPONSIBILITY', em outras palavras...
+
+
+
+
+
+
+
+
+
+MAS ISSO NÃO É NADA DE NOVO,
+
+
+É SÓ UM PATTERN ÚTIL QUE JÁ VIMSO...
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO VIMOS NENHUMA FEATURE NOVA...
+
+
+
+
+
+
+
+
+
+--> AGORA VEREMOS UMA NOVA FEATUER --> PQ NOSSA 
+
+
+
+
+
+IMPLEMENTAÇÃO ATUAL TEM UM PEQUENO PROBLEMA...
