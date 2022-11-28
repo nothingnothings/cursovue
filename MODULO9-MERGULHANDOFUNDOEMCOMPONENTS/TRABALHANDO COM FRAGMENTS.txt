@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+--> EXISTE OUTRA FEATURE DO VUE/ASPECTO DE COMPONENTS QUE VOCê DEVE CONHECER...
+
+
+
+
+
+
+
+
+
+
+
+--> EM ALGUNS COMPONENTS,
+TEMOS APENAS 1 ROOT HTML ELEMENT (como 'header'),
+
+
+
+
+
+
+
+MAS _ TEMOS OUTROS CASOS,
+
+EM QUE 
+
+TEMOS MÚLTIPLOS HTML ELEMENTS TOP-LEVEL...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<button>
+<div>
+<h1>
+
+
+
+
+
+
+
+
+
+--> É OK TER UM MONTE DE 
+
+
+
+
+ELEMENTOS NO ROOT...
+
+
+
+
+
+
+
+
+
+
+----> É IMPORTANTE SABER QUE 
+
+
+É OK 
+
+
+ESCREVER 
+
+
+
+
+
+<template>
+
+
+<h1>
+<h2>
+<button>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+--> ANTIGAMENTE, NO VUE2,
+
+
+VOCÊ REALMENTE SÓ PODIA TER 1 ÚNICO ROOT ELEMENT PER LEVEL...
+
+
+
+
+
+
+-> MAS NO VUE3,
+
+ISSO MUDOU --> AGORA PODEMOS TER  
+
+UM NÚMERO QUALQUER DE 
+
+TOP-LEVEL ELEMENTS...
+
+
+
+
+
+
+
+------> ESSA FEATURE DO VUE3 É CHAMADA DE 'FRAGMENTS' --> ELA TE PERMITE TER MÚLTIPLOS TOP-LEVEL ELEMENTS...
