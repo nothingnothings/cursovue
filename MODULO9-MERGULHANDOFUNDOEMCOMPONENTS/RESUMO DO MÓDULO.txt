@@ -1,0 +1,325 @@
+
+
+
+
+
+
+
+
+
+OUTRO MÓDULO LONGO SOBRE COMPONENTS..
+
+
+
+
+
+
+
+ACABAMOS COM ELES...
+
+
+
+
+
+
+
+SABEMOS TODAS AS CORE FEATURES SOBRE ELES..
+
+
+
+
+
+NO PRÓXIMO MÓDULO PRATICAREMOS TUDO ISSO,
+
+POR MEIO DO BUILD DE UM APP COMPLETO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VIMOS:
+
+
+
+
+
+
+1) COMPONENT REGISTRATION E STYLES ---> COMPONENTS PODEM SER REGISTRADOS GLOBALMENTE OU LOCALMENTE...
+
+
+
+
+--> SEMPRE PREFIRÁ 'LOCAL REGISTRATION' PARA 
+
+A GRANDE MAIORIA 
+
+DOS COMPONENTS ---> MAS SE VOCÊ TEM UM COMPONENT QUE É USADO EM MTOS LUGARES DE SEU APP,
+
+GLOBAL REGISTRATION FAZ SENTIDO....
+
+
+
+
+
+2) DEPOIS VIMOS STYLING --> STYLING TAMBÉM PODE SER 'GLOBAL'
+
+OU 'SCOPED'...
+
+
+
+--> DEVEMOS PREFERIR 
+
+
+'SCOPED'
+
+PARA _ A GRANDE MAIORIA _ DOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+-----_> DEVEMOS PREFERIR SCOPED STYLES --> MAS DEVEMOS APLICAR 'GLOBAL, APP-WIDE STYLES',
+
+
+
+COMO 'FONT-FAMILY',
+
+
+EM 
+
+
+
+1 TAG 
+
+'unscoped',
+
+LÁ 
+
+
+
+NO SEU ROOT APP.vue 
+
+
+
+
+
+
+
+
+
+
+--> 3) SLOTS --> É UMA KEY  FEATURE --> PODEM SER USADOS COMO 
+
+'PLACEHOLDERS'
+
+PARA 
+
+
+CÓDIGO 
+HTML 
+DINÂMICO,
+
+QUE PODE 
+
+SER 
+
+INSERIDO, 
+
+DO LADO DE FORA,
+
+PARA DENTRO DESSE COMPONENT/SLOT NESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+-- PODEMOS TER:
+
+
+
+A) 1 SLOT 
+
+
+
+B) MULTIPLE SLOTS 
+
+
+
+
+MULTIPLE SLOTS EXIGEM NAMES --> APENAS 1 ÚNICO SLOT PODE FICAR SEM NAME...
+
+
+
+
+
+
+
+
+
+--> VOCÊ PODE PROVIDENCIAR CONTEÚDO DEFAULT PARA SLOTS,
+
+QUE SERÁ 
+
+USADO 
+
+COMO _ FALLBACK__ 
+
+
+
+
+
+-- --> TAMBÉM APRENDEMOS SOBRE SCOPED SLOTS, 
+
+
+
+
+
+
+
+
+
+
+WRAPPER COMPONENTS, COMO CARDS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMPONENTES DINÂMICOS -->  
+
+
+
+SÃO UMA FEATURE BUILT-IN NO VUE,
+
+
+
+
+desbloqueada com o  component 
+
+
+'<component>' ...
+
+
+
+
+
+
+
+-> ELE PODE SER USADO PARA SER SWAPPADO POR COMPONENTS QUE
+
+
+VOCê DEFINE..
+
+
+
+
+
+
+
+
+--> VOCê TAMBÉM PODE ALTERAR O 'CACHING' DO COMPONENT,
+
+POR MEIO 
+
+DO ELEMENTO  '<keep-alive>'
+,
+
+
+que veremos em ação no próximo módulo... 
+
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM USAREMOS ESSA FEATURE 
+
+
+
+NO PRÓXIMO COURSE MODUEL..
+
+
+
+
+
+
+--> POR FIM,
+
+TEMOS 'teleport'
+
+e o 
+
+
+STYLE GUIDE OFICIAL... -
+
+
+
+
+
+
+
+-> teleport pode ser usado para manipular a estrutura do DOM (
+
+
+    escolher onde o 
+
+    ELEMENTO É RENDERIZADO NO DOM,
+
+    ISSO SEM ALTERAR A HIERARQUIA 
+
+    ORIGINAL DO DOM...
+)
+
+
+
+
+
+POR FIM, TEMOS O STYLE GUIDE OFICIAL .---> É USADO PARA DEIXAR SEU CÓDIGO LIMPO E COMPREENSÍVEL...
+
+
+
+
+
+
+
+
+
+
+-> APLICAREMOS O QUE APRENDEMOS NESSE MÓDULO, NO PRÓXIMO...
