@@ -1,0 +1,711 @@
+
+
+
+
+
+
+
+--_> OK... PARA COMEÇAR,
+
+TEMOS UM STARTING PROJECT,
+
+QUE PODEMOS 
+
+COMEÇAR COM NPM RUN INSTALL...
+
+
+
+
+
+
+
+--> vou criar isso por conta própria...
+
+
+
+
+--> OK.. RODAMOS ISSO AÍ...
+
+
+
+
+
+
+
+
+
+
+
+--_> agora temos um projeto bem grande..
+
+
+
+
+
+
+
+-> usaremos um monte de components para construir esse projeto...
+
+
+
+
+
+
+
+--> é para isso que usamos o VUE ----> QUEREMOS CONSTRUIR UMA UI 
+
+
+POR MEIO DO COMBINE DE DIFERENTES COMPONENTS..
+
+
+
+
+
+
+--> CADA COMPONENT TEM UMA TAREFA ESPECÍFICA....
+
+
+
+
+
+
+
+
+
+--> O COMPONENT PODE MOSTRAR UM WARNING,
+
+OU ENTÃO USAR UM INPUT,
+
+ETC ETC...
+
+
+
+
+
+
+--> VEREMOS TODOS ESSES TIPOS DE COMPONENTS EM AÇÃO,
+
+NESSE MÓDULO...
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO COMEÇAMOS , COM ESSE MÓDULO?
+
+
+
+
+
+
+
+
+
+--> DEVEEMOS NOS LEMBRAR DO MONSTER SLAYER..
+
+
+
+
+
+--> NELE, COMEÇAMOS POR MEIO DO ADD DE 'FEATURE ATRÁS DE FEATURE'.
+
+
+
+
+
+
+
+--__> QUANDO UM COMPONENT FICAR MT GRANDE,
+
+VAMOS 
+
+O SPLITTAR EM COMPONENTS MENORES..
+
+
+
+
+
+
+
+
+----> ISSO DEIXA NOSSO CÓDIGO MAIS MANAGEABLE..
+
+
+
+
+
+
+
+
+
+--> COLOCAMOS UM FOLDER DE 'components',
+
+
+
+
+DENTRO DE UM FOLDER DE NOME 'src'...
+
+
+
+
+
+
+
+
+
+
+
+--> COLOCAMOS NOSSOS COMPONENTS ALI DENTRO..
+
+
+
+
+
+
+
+
+--> O PROFESSOR COMEÇA COM O ADD DE UM '<template>',
+
+no 'App.vue'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+</template>
+
+<script>
+
+export default {
+
+  data() {
+    return {
+
+    }
+  },
+
+
+  methods: {
+    
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ADICIONA UMA UL,
+
+
+E DEPOIS 
+
+
+
+
+
+ELE VAI QUERER FAZER O MANAGE DESSE NEGÓCIO,
+DENTRO DE 'data() {}'..
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <li v-for="resource in storedResources">
+
+    </li>
+  </ul>
+</template>
+
+<script>
+
+export default {
+
+  data() {
+    return {
+
+      storedResources: []
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TEREMOS UM ARRAY CHEIO DE OBJECTS --> CADA OBJECT SERÁ UM 'LEARNING RESOURCE'..
+
+
+
+
+
+
+
+
+
+
+
+--> OK, JÁ USEI UM V-FOR PARA OUTPUTTAR 
+
+ESSES STORED RESOURCES.....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> POPULAMOS ESSE ARRAY COM DUMMY DATA...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <li v-for="resource in storedResources">
+
+    </li>
+  </ul>
+</template>
+
+<script>
+
+export default {
+
+  data() {
+    return {
+
+      storedResources: [
+
+      {
+        id: 'official-guide',
+        title: 'Official Guide',
+        description: 'The official VueJS documentation.'
+      }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <li v-for="resource in storedResources">
+
+    </li>
+  </ul>
+</template>
+
+<script>
+
+export default {
+
+  data() {
+    return {
+
+      storedResources: [
+
+      {
+        id: 'official-guide',
+        title: 'Official Guide',
+        description: 'The official VueJS documentation.',
+        link: 'https://vuejs.org'
+      }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <li v-for="resource in storedResources">
+
+    </li>
+  </ul>
+</template>
+
+<script>
+
+export default {
+
+  data() {
+    return {
+
+      storedResources: [
+
+      {
+        id: 'official-guide',
+        title: 'Official Guide',
+        description: 'The official VueJS documentation.',
+        link: 'https://vuejs.org'
+      },
+
+      {
+        id: 'google',
+        title: 'Google',
+        description: 'Learn to Google...',
+        link: 'https://google.com'
+      }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS CHEGAR AO APP FINAL,
+
+ETAPA POR ETAPA...
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS CRIAR 1 COMPONENT SEPARADO, PARA CADA LIST ITEM...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <li v-for="resource in storedResources">
+
+    </li>
+  </ul>
+</template>
+
+<script>
+
+import ResourceItem from '../src/components/ResourceItem/ResourceItem'
+
+export default {
+
+
+  components: [
+    ResourceItem
+  ],
+
+  data() {
+    return {
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
