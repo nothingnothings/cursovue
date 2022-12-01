@@ -793,3 +793,525 @@ tipo assim:
 
 
 
+
+
+<template>
+    <li>
+        <div>
+            <header>
+                <h3></h3>
+                <button>Delete</button>
+            </header>
+        </div>
+
+        <p>
+        </p>
+        <nav>
+          <a href>View Resource</a>
+        </nav>
+    </li>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO DEIXAMOS ELE REUTILIZÁVEL?
+
+
+
+
+
+
+
+
+
+COM PROPS...
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS COLOCAR a option de 'props',
+
+
+em que 
+
+
+
+DECLARAREMOS OS PROPS QUE 
+
+SERÃO RECEBIDOS POR ESSE COMPONENT...
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<template>
+    <li>
+        <div>
+            <header>
+                <h3></h3>
+                <button>Delete</button>
+            </header>
+        </div>
+
+        <p>
+        </p>
+        <nav>
+          <a href>View Resource</a>
+        </nav>
+    </li>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+
+  props: [
+    "learningLink"
+  ]
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+-----> colocamos a forma simples,
+do array....
+
+
+
+
+
+
+
+--> o professor coloca os props de 'title',
+
+'description',
+
+'link'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---_> 
+
+
+
+
+
+
+
+
+
+
+
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+<template>
+    <li>
+        <div>
+            <header>
+                <h3></h3>
+                <button>Delete</button>
+            </header>
+        </div>
+
+        <p>
+        </p>
+        <nav>
+          <a href>View Resource</a>
+        </nav>
+    </li>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+
+  props: [
+    "name", "description", "link"
+  ]
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+
+
+
+---> todos os props ficarão disponíveis 
+
+
+no template... (
+
+
+
+
+  COMO SE FOSSEM PROPRIEDADES 'data'
+
+  desse component em que recebemos esse prop...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+AÍ PASSAREMOS 
+
+
+
+
+'link'
+
+
+
+como valor 
+
+
+
+do attribute 'href' (:href)
+
+
+
+
+da 
+
+
+
+anchor tag...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+        <div>
+            <header>
+                <h3></h3>
+                <button>Delete</button>
+            </header>
+        </div>
+
+        <p>
+        </p>
+        <nav>
+            <a :href="link">View Resource</a>
+        </nav>
+    </li>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+
+    props: [
+        "name", "description", "link"
+    ]
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+--__> VAMOS PASSAR ESSES PROPS 
+
+
+
+lá 
+
+
+
+
+
+em 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+--__> 
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <ResourceItem v-for="resource in storedResources"
+         :key="resource.id" 
+         :title="resource.title"
+         :description="resource.description"></ResourceItem>
+    </ul>
+</template>
+  
+<script>
+
+import ResourceItem from './ResourceItem/ResourceItem.vue'
+
+export default {
+
+    props: ["storedResources"],
+    components: { ResourceItem },
+
+    data() {
+        return {
+
+
+        }
+    }
+}
+</script>
+  
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> CERTO.... COM ISSO, TEMOS O COMEÇO 
+
+
+
+
+DE NOSSO 'RESOURCEITEM' component..
+
+
+
+
+
+
+
+
+
+--> estamos feedando values para esses props,
+que 
+
+estamos esperando la'
+
+
+no 
+
+
+'ResourceItem'...
+
+
+
+
+
+
+
+
+
+----_> AGORA BASTA USARMOS ESSE APP LÁ EM 'App.vue'...
+
+
+
+
+
+
+
+
+---------> isso mostra que 
+
+
+
+
+as coisas estão funcionando, que nossos components estão funcionando...

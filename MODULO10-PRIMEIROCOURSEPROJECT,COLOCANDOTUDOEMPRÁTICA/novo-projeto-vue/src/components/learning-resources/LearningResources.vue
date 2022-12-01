@@ -1,6 +1,9 @@
 <template>
     <ul>
-        <ResourceItem v-for="resource in storedResources" :key="resource.id"></ResourceItem>
+        <ResourceItem v-for="resource in storedResources"
+         :key="resource.id" 
+         :title="resource.title"
+         :description="resource.description"></ResourceItem>
     </ul>
 </template>
   
@@ -10,11 +13,13 @@ import ResourceItem from './ResourceItem/ResourceItem.vue'
 
 export default {
 
-
+    props: ["storedResources"],
     components: { ResourceItem },
 
     data() {
         return {
+
+
         }
     }
 }
