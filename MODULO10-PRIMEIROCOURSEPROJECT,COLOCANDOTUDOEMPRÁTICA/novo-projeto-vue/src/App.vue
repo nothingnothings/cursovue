@@ -1,22 +1,19 @@
 <template>
 
-  <ul>
-    <li v-for="resource in storedResources">
+  <LearningResources storedResources="storedResources"></LearningResources>
 
-    </li>
-  </ul>
 </template>
 
 <script>
 
-import ResourceItem from '../src/components/ResourceItem/ResourceItem'
+import LearningResources from './components/learning-resources/LearningResources.vue';
 
 export default {
 
 
-  components: [
-    ResourceItem
-  ],
+  components: {
+    LearningResources
+  },
 
   data() {
     return {

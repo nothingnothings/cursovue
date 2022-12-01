@@ -1,0 +1,795 @@
+
+
+
+
+
+
+
+--> DEVEMOS COMEÇAR A OUTPUTTAR OS RESOURCES..
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COMEÇA COM UM 'v-for'..
+
+
+
+
+
+
+
+
+---> É MELHOR CRIAR UM COMPONENT SEPARADO,
+
+
+
+PARA TER ESSE LIST ITEM...
+
+
+
+EX:
+
+
+
+
+
+
+
+<template>
+
+  <ul>
+    <ResourceItem v-for="resource in storedResources"></ResourceItem>
+  </ul>
+</template>
+
+<script>
+
+import ResourceItem from '../src/components/ResourceItem/ResourceItem'
+
+export default {
+
+
+  components: [
+    ResourceItem
+  ],
+
+  data() {
+    return {
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS PARA QUE CRIAR UM COMPONENT SEPARADO?
+
+
+
+
+
+
+
+--> BEM, 
+
+
+
+É PQ 
+
+
+
+
+__ FICA MAIS ORGANIZADO...
+
+
+
+
+
+
+
+
+--> VOCê PODERIA COLOCAR TODO O MARKUP 
+
+DENTRO 
+
+
+DE 'App.vue',
+
+por exemplo...
+
+
+
+
+
+
+
+--> MAS EDITAR ESSE DOCUMENTO AÍ,
+
+VOCÊ 
+
+
+TERIA MUITOS PROBLEMAS...
+
+
+
+
+
+
+
+--> É POR ISSO QUE É BOM SPLITTAR SEUS COMPONENTS EM DIVERSOS 
+
+COMPONENTS MENORES..
+
+
+
+
+
+--> VOCê DEVE DESENVOLVER ISSO AO LONGO DO TEMPO...
+
+
+
+
+
+
+--> MAS COISAS COMO 'LIST ITEMS'
+
+
+
+TIPICAMENTE 
+
+VIRAM 
+
+
+COMPONENTS 
+SEPARADOS...
+
+
+
+
+
+
+-----_> 
+
+
+
+
+
+
+
+Certo...
+
+
+
+
+
+
+
+
+
+
+CÓDIGO DE 'RESOURCEITEM':
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+</template>
+
+
+<script>
+
+export default {
+
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COLOCOU ESSE COMPONENT DENTRO DO FOLDER DE 'LEARNING RESOURCES'....
+
+
+
+
+
+
+
+
+CRIEI O COMPONENT 'LearningResources',
+
+
+QUE VAI 
+
+CONTER 
+
+
+TODOS 
+
+
+
+OS 'ResourceItem'.
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <LearningResources></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+
+export default {
+
+
+  components: [
+    LearningResources
+  ],
+
+  data() {
+    return {
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <ResourceItem v-for="resource in storedResources"></ResourceItem>
+    </ul>
+</template>
+  
+<script>
+
+import ResourceItem from './ResourceItem/ResourceItem.vue'
+
+export default {
+
+
+    components: [
+        ResourceItem
+    ],
+
+    data() {
+        return {
+        }
+    }
+}
+</script>
+  
+<style>
+
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <LearningResources storedResources="storedResources"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+
+export default {
+
+
+  components: [
+    LearningResources
+  ],
+
+  data() {
+    return {
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---->
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <ResourceItem v-for="resource in storedResources" :key="resource.id"></ResourceItem>
+    </ul>
+</template>
+  
+<script>
+
+import ResourceItem from './ResourceItem/ResourceItem.vue'
+
+export default {
+
+
+    components: { ResourceItem },
+
+    data() {
+        return {
+        }
+    }
+}
+</script>
+  
+<style>
+
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ----->
+
+
+
+
+
+
+
+
+
+
+
+
+  COM ISSO, CRIAMOS MÚLTIPLOS RESOURCEITEMS..
+
+
+
+
+
+
+
+
+
+
+  -----> PROFESSOR CRIA UM LIST ITEM,
+
+
+  E DENTRO DELE TEREMOS NOSSO CONTENT...
+
+
+
+
+
+
+
+
+
+
+
+  --> O PROFESSOR ESCREVE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+  <li>
+    <div>
+        <header>
+        <h3></h3>
+        <button>Delete</button>
+        </header>
+    </div>
+</li>
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <li>
+        <div>
+            <header>
+                <h3></h3>
+                <button>Delete</button>
+            </header>
+        </div>
+    </li>
+</template>
+
+
+<script>
+
+export default {
+
+}
+</script>
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... CRIAMOS ESSE TEMPLATE...
+
+
+
+
+
+
+
+
+
+
+-----> OK,
+
+TEMOS O HEADER, 
+
+
+A 
+
+H3 TAG E O 
+
+BUTTON...
+
+
+
+
+
+
+
+
+--> TUDO SOB AQUELA DIV DE 'li'...
+
+
+
+
+
+
+
+--> VAMOS COLOCAR UM 'P',
+
+
+EM QUE 
+
+FICARÁ 
+
+A DESCRIPTION..
+
+
+
+
+
+
+
+--> DEPOIS TEMOS A 'NAV',
+
+EM QEU 
+
+
+
+VAMOS QUERER TER UMA ANCHOR TAG COM 
+
+
+O LINK QUE O USER PROVIDENCIOU...
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
