@@ -1,0 +1,129 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI COMEÇAR COM O LOOK DO 'CARD'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PROFESSOR CRIA UM FOLDER DE 'UI',
+
+
+
+em que 
+
+vamos criar components 'general'..
+
+
+
+
+
+
+
+--> criamos o 'BaseCard'...
+
+
+
+
+
+
+
+
+
+--> dentro dali,
+
+o professor 
+
+
+
+escreve tipo assim:
+
+
+
+
+
+<template>
+    <div class="baseCard">
+        <slot>
+
+
+        </slot>
+
+    </div>
+
+</template>
+
+
+<script>
+
+export default {
+
+}
+
+
+</script>
+
+
+
+<style scoped>
+.baseCard {
+
+    box-shadow: 10px 4px 5px black;
+    border-radius: 25px;
+    margin: 2rem;
+
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SERÁ UM WRAPPER PARA OUTROS COMPONENTS, COISA BEM SIMPLES..
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COLOCA UM STYLE DE 
+
+
+
+
+

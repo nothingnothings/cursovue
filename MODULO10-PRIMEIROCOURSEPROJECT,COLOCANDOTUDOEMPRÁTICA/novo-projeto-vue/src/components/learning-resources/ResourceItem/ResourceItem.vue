@@ -1,4 +1,5 @@
 <template>
+    <BaseCard>
     <li>
         <div>
             <header>
@@ -14,6 +15,7 @@
             <a :href="link">View Resource</a>
         </nav>
     </li>
+</BaseCard>
 
 
 
@@ -22,16 +24,50 @@
 
 <script>
 
+import BaseCard from '@/components/UI/BaseCard/BaseCard.vue';
+
 export default {
 
     props: [
-        "name", "description", "link"
-    ]
+        'title', 'description', 'link'
+    ],
+    components: {
+    BaseCard
+}
+
 }
 </script>
 
 
 
-<style>
+<style scoped>
+li {
+    margin: auto;
+    max-width: 40rem;
+}
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ce5c00;
+}
+
+a:hover,
+a:active {
+    color: #c89300;
+}
 </style>

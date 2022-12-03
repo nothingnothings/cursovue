@@ -1,9 +1,7 @@
 <template>
     <ul>
-        <ResourceItem v-for="resource in storedResources"
-         :key="resource.id" 
-         :title="resource.title"
-         :description="resource.description"></ResourceItem>
+        <ResourceItem v-for="res in storedResources" :key="res.id" :title="res.title" :description="res.description"
+            :link="res.link"></ResourceItem>
     </ul>
 </template>
   
@@ -25,7 +23,13 @@ export default {
 }
 </script>
   
-<style>
-
+<style scoped>
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin: auto;
+    max-width: 40rem;
+}
 </style>
   

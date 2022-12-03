@@ -1,0 +1,319 @@
+
+
+
+
+
+
+
+
+
+
+queremos deixar alguns styles app-wide,
+
+
+por isso vamos até 'App.vue'...
+
+
+
+
+
+
+
+PROFESSOR FAZ IMPORT DA FONT ROBOTO...
+
+
+
+
+
+
+
+
+TAMBÉM QUEREMOS 
+
+
+
+
+
+MUDAR O STYLING DE 'Learning Resource' ( o list item)...
+
+
+
+
+
+
+
+
+
+----> PARA ISSO,
+TEREMOS O ARQUIVO DE 
+
+
+'ResourceItem.css'---> ISSO VAI CONTER 
+
+
+OS STYLES QUE 
+
+VAMOS COLOCAR DENTRO 
+
+
+
+
+
+DOS 'SCOPED STYLES'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK.. AGORA TEREMOS UM ESTILO MELHOR NA TELA...
+
+
+
+
+
+
+
+--> PARA CONSEGUIRMOS 
+
+
+FICAR PRÓXIMOS AO STLYING FINAL,
+
+
+
+
+
+O PROFESSOR ADICIONA UM OUTRO COMPONENT, DO LADO DE 'LearningResources',
+
+
+
+QUE SERÁ 
+
+UM COMPONENT QUE 
+
+
+
+
+CONTERÁ A 
+
+
+
+'UL'
+
+
+que 
+
+conterá os 'li'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> É PARA ISSO QUE O PROFESSOR CRIOU UM ARUQIVO DE nome 'storedResources' (
+
+
+    meu component é 'LearningResources'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- ok... consegui... o código ficou assim:
+
+
+
+
+
+
+
+
+
+
+<template>
+
+  <LearningResources :storedResources="storedResources"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+
+export default {
+
+
+  components: {
+    LearningResources
+  },
+
+  data() {
+    return {
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA MEUS PROPS ESTÃO SENDO PASSADOS...
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE PODERÍAMOS USAR OUTROS APPROACHES (como usar css classes no arquivo principal),
+
+
+mas esse 
+
+
+approach de usar a tag de '<style></style>'
+
+
+é bem boa (
+
+    cada component  tem seu próprio style..
+)
+
+
+
+
+
+
+
+
+
+
+-> NESSA PRÓXIMA AULA, O PROFESSOR QUER CRIAR UM 'BASECARD' para 
+
+
+
+
+WRAPPAR 
+
+cada 
+
+1 dos nossos resourceItem .
+
+
+
+
+
+
+
+--> e também um 'TheHeader'...
+
+
+
+
+
+
+-- FAREMOS ISSO NA PRÓXIMA AULA... (tentar fazer por conta própria)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... consegui...
+
+
+
+
