@@ -2,7 +2,7 @@
 
 <template>
     <header>
-        <h2>The Header</h2>
+        <h1> {{ title }} </h1>
     </header>
 
 </template>
@@ -12,6 +12,10 @@
 
 export default {
 
+
+    props: [
+        'title'
+    ]
 }
 
 
@@ -19,11 +23,22 @@ export default {
 
 
 
-<style>
+<style scoped>
 header {
 
 
 
     text-align: center;
+    justify-content: center;
+    width: 100%;
+    height: 5rem;
+    background-color: #640032;
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
 }
 </style>

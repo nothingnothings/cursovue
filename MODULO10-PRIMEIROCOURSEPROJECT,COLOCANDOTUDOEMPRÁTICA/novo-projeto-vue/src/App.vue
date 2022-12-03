@@ -1,5 +1,5 @@
 <template>
-  <TheHeader></TheHeader>
+  <TheHeader :title="chosenHeader"></TheHeader>
   <LearningResources :storedResources="storedResources"></LearningResources>
 
 </template>
@@ -19,6 +19,8 @@ export default {
 
   data() {
     return {
+      chosenHeader: "Vue Project",
+
 
       storedResources: [
 

@@ -127,3 +127,624 @@ export default {
 
 
 
+
+.baseCard {
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
+    border-radius: 25px;
+    margin: 2rem auto;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> aí o professor comenta que vai usar a feature de 'slot'
+
+para WRAPPAR cada LIST ITEM..
+
+
+
+
+
+
+
+
+
+
+
+--> TODO CÓDIGO HTML DE NOSSA ESCOLHA SERÁ WRAPPADO PELA DIV DE 'baseCard',
+
+
+
+e então será afetado
+ 
+
+
+
+ por aqueles styles em '<style scoped>'
+
+
+ do 
+
+ 'BaseCard'...
+
+
+
+
+
+
+
+
+
+
+ --> COMO ESTAMOS USANDO O 'BaseCard'
+
+
+
+ LÁ 
+
+
+
+
+
+ em 'ResourceItem',
+
+
+ poderíamos o colocar como COMPONENT LOCAL...
+
+
+
+
+
+
+
+
+
+
+
+ MAS COMO VAMOS UTILIZAR ESSES COMPONENTS EM OUTRAS PARTES,
+
+ O PROFESOR 
+
+ DEIXA ESSE COMPONENT WRAPPER LÁ 
+
+
+
+ EM 'main.js'... 
+
+
+
+
+
+
+
+
+
+
+ --> ELE ADICIONA COMO COMPONENT NO 'ROOT'
+
+
+
+ de nosso app (pq vamos usá-lo várias vezes)...
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+ import { createApp } from 'vue';
+import App from './App.vue';
+import BaseCardVue from './components/UI/BaseCard/BaseCard.vue';
+
+const app = createApp(App);
+
+app.component(BaseCard);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+
+
+
+OK... NOSSO APP FICOU BEM MELHOR...
+
+
+
+
+
+
+
+
+
+AGORA TRABALHAREMOS NO HEADER --> 
+
+
+
+
+PASTA DE 'LAYOUT',
+
+EM QUE 
+
+VAMOS TRABALHAR NESSES COMPONENTS ESPECÍFICOS...
+
+
+
+
+
+
+
+
+
+
+
+
+------> USAMOS 'TheHeader'
+
+
+
+PQ 
+
+
+
+VAMOS 
+
+UTILIZAR ESSE COMPONENT AO LONGO DO APP INTEIRO...
+
+
+
+
+
+
+
+
+
+-> O CÓDIGO DE HEADER COMEÇA ASSIM:
+
+
+
+
+
+<template>
+    <header>
+        <h2>The Header</h2>
+    </header>
+
+</template>
+
+
+<script>
+
+export default {
+
+}
+
+
+</script>
+
+
+
+<style>
+header {
+
+
+
+    text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> VOU TER UM H1,
+
+E DENTRO DELE TEREI O 'title'... EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <header>
+        <h1>{{ title }}</h1>
+    </header>
+
+</template>
+
+
+<script>
+
+export default {
+
+}
+
+
+</script>
+
+
+
+<style>
+header {
+
+
+
+    text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DEIXA UM 'title'
+
+
+dinâmico, para testarmos PROPS..
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <header>
+        <h2> {{ title }} </h2>
+    </header>
+
+</template>
+
+
+<script>
+
+export default {
+
+
+    props: [
+        'title'
+    ]
+}
+
+
+</script>
+
+
+
+<style>
+header {
+
+
+
+    text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS PASSAR ESSE PROP LÁ DE 'App.vue'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <LearningResources :storedResources="storedResources"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+
+export default {
+
+
+  components: {
+    LearningResources,
+    TheHeader
+  },
+
+  data() {
+    return {
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTo...
+
+
+
+
+
+DEVEMOS ADICIONAR UM STYLING AO NOSSO HEADER..
+
+
+
+
+
+
+
+
+
+
+-> outra style tag com 'scoped,'
+
+
+
+
+e 
+
+aí escrevemos assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <header>
+        <h1> {{ title }} </h1>
+    </header>
+
+</template>
+
+
+<script>
+
+export default {
+
+
+    props: [
+        'title'
+    ]
+}
+
+
+</script>
+
+
+
+<style scoped>
+header {
+
+
+
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    height: 5rem;
+    background-color: #640032;
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA, COMO PRÓXIMO PASSO,
+
+VAMOS TENTAR ADICIONAR UM BUTTON POR CONTA PRÓPRIA... (com seu próprio default styling)....

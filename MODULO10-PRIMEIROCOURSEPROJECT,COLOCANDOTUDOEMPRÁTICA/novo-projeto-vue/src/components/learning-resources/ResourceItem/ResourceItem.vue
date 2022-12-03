@@ -1,5 +1,5 @@
 <template>
-    <BaseCard>
+    <base-card>
     <li>
         <div>
             <header>
@@ -15,7 +15,7 @@
             <a :href="link">View Resource</a>
         </nav>
     </li>
-</BaseCard>
+</base-card>
 
 
 
@@ -24,16 +24,14 @@
 
 <script>
 
-import BaseCard from '@/components/UI/BaseCard/BaseCard.vue';
-
 export default {
 
     props: [
         'title', 'description', 'link'
     ],
-    components: {
-    BaseCard
-}
+//     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+//     BaseCard
+// }
 
 }
 </script>
