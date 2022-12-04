@@ -1,0 +1,1884 @@
+
+
+
+
+
+
+
+
+---> OK... COMO PRÓIXMO PASSO,
+
+
+
+
+
+O PROFESSOR QUER 
+ADICIONAR A OPÇÃO DE 
+
+
+PODER 
+
+'ADD NEW 
+
+RESOURCES'
+
+
+
+ao 
+
+
+
+nosso app...
+
+
+
+
+
+
+
+
+--->  PARA ISSO, PRECISAMOS DE UMA FORM...
+
+
+
+
+
+
+
+-> SERÁ UM 
+
+
+
+
+
+FORM EM QUE COLOCAREMOS:
+
+
+
+
+
+
+1) TITLE 
+
+
+2) DESCRIPTION 
+
+
+
+3) LINK 
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR TAMBÉM QUER DAR AOS USERS 2 BUTTONS,
+
+
+
+PARA QUE CONSIGAMOS 
+
+TROCAR ENTRE A LISTA DE RESOURCES E 
+
+a FORM QUE VAMOS CRIAR...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA UM NOVO COMPONENT,
+
+
+
+'AddResource' --> SERÁ UMA FORM EM QUE 
+
+
+'NOVOS RESOURCES PODERÃO SER CRIADOS'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+
+    <form>
+        <div>
+            <label for="title">Title</label>
+            <input type="text">
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text">
+        </div>
+        <div>
+            <label for="link">Link</label>
+            <input type="text">
+        </div>
+        <base-button :type="'button'" :mode="'normal'" :title="'Add Resource'"></base-button>
+    </form>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+}
+
+</script>
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS IMPORTAR ESSE COMPONENT LÁ EM 'App.vue',
+no root do app component...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... JÁ CONSEGUI ADICIONAR OS BUTTONS QUE TROCAM ENTRE 
+
+
+
+OS COMPONENTS DE 'ADD RESOURCE' 
+
+E 
+
+'RESOURCE LIST':
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'" @click="switchPage('resource-list')"></base-button>
+  <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'" @click="switchPage('add-resource')"></base-button>
+  <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+import AddResource from './components/AddResource/AddResource.vue';
+import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+
+export default {
+
+
+  components: {
+    LearningResources,
+    TheHeader,
+    AddResource
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource
+    }
+  },
+
+
+
+  data() {
+    return {
+      chosenPage: "resource-list",
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    },
+
+    switchPage(chosenPage) {
+        this.chosenPage = chosenPage
+    }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo.. bem simples...
+
+
+
+
+
+
+
+
+
+--> AGORA SÓ FALTA:
+
+
+
+
+
+
+
+1) ESTILIZAR A FORM 
+
+
+
+2) ESTILIZAR OS BUTTONS 
+
+
+
+3) ADICIONAR A LÓGICA DE 'ADD A RESOURCE'
+
+lá na form...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+
+    <form>
+        <div>
+            <label for="title">Title</label>
+            <input type="text" v-model="userText">
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text" v-model="userDescription">
+        </div>
+        <div>
+            <label for="link">Link</label>
+            <input type="text" v-model="userLink">
+        </div>
+        <base-button :type="'button'" :mode="'normal'" :buttonText="'Add Resource'"></base-button>
+    </form>
+
+</template>
+
+
+
+
+<script>
+
+export default {    
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO ATÉ AGORA FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+
+    <form>
+        <div>
+            <label for="title">Title</label>
+            <input type="text" v-model="userText" required>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text" v-model="userDescription" required>
+        </div>
+        <div>
+            <label for="link">Link</label>
+            <input type="text" v-model="userLink" required>
+        </div>
+        <base-button :type="'button'" 
+        :mode="'normal'" 
+        :buttonText="'Add Resource'"
+        :disabled="userText === '' || userDescription === '' || userLink === '' "
+            @click="addResource({ title: userText, description: userDescription, link: userLink })"></base-button>
+    </form>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'" @click="switchPage('resource-list')"></base-button>
+  <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'" @click="switchPage('add-resource')"></base-button>
+  <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+import AddResource from './components/AddResource/AddResource.vue';
+import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+
+export default {
+
+
+  components: {
+    LearningResources,
+    TheHeader,
+    AddResource
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource,
+      addResource: this.addResource
+    }
+  },
+
+
+
+  data() {
+    return {
+      chosenPage: "resource-list",
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    },
+
+    switchPage(chosenPage) {
+        this.chosenPage = chosenPage
+    },
+
+    addResource(formData) {
+      this.storedResources.push(
+        formData
+      )
+
+    }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... 
+
+
+
+
+
+
+quer dizer que 
+
+
+agora:
+
+
+
+
+
+
+
+1) CONSIGO ADICIONAR NOVOS RESOURCES 
+
+
+2) CONSIGO TROCAR ENTRE OS 2 COMPONENTS, COM AQUELES BUTTON...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESCREVE O COMPONENT DE FORMA UM POUCO DIFERENTE...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<template>
+    <h2>Add Resource</h2>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O PROFESSOR TAMBÉM CRIA UM COMPONENT 'TheResources',
+
+
+
+QUE SERÁ UM COMPONENT ÚNICO..
+
+
+
+
+
+
+
+
+
+
+--> NELE, VAMOS SWAPPAR ENTRE 'RESOURCE LIST'
+
+E 
+
+'ADD A RESOURCE'..
+
+
+
+
+
+
+
+
+
+---> tipo assim:
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button>Stored Resources</base-button>
+        <base-button>Add Resource</base-button>
+    </base-card>
+<template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PARA SWAPPARMOS ENTRE OS COMPONENTS DE 'ADD RESOURCE'
+
+E 
+'RESOURCE LIST',
+
+
+O PROFESSOR DIZ QUE 
+
+PODERÍAMOS 
+
+USAR O RECURSO DE 'DYNAMIC COMPONENTS',
+
+
+QUE 
+
+APRENDEMOS NO MÓDULO PASSADO...(
+
+
+    usar o component de '
+
+
+
+    <component>...
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+FICARIA TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button>Stored Resources</base-button>
+        <base-button>Add Resource</base-button>
+    </base-card>
+<template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<component :is="xxxx">
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button>Stored Resources</base-button>
+        <base-button>Add Resource</base-button>
+    </base-card>
+<template>
+
+
+
+
+
+
+export default {
+    data() {
+        return {
+            selectedTab: 'stored-resources' 
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+--> NESSE NEGÓCIO, O PROFESSOR TAMBÉM QUER TER UM METHOD PARA 
+_TROCAR__ ENTRE __ O COMPONENT SELECIONADO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CRIEI UMA NOVA VERSÃO DO MEU CÓDIGO, PARA TENTAR ESSE APPROACH DO PROFESSOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button>Stored Resources</base-button>
+        <base-button>Add Resource</base-button>
+    </base-card>
+</template>
+
+
+
+
+
+<script>
+export default {
+    data() {
+        return {
+            selectedTab: 'resource-list'
+        }
+    },
+
+
+    methods: {
+        
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button @click="setSelectedTab('resource-list')">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')">Add Resource</base-button>
+    </base-card>
+</template>
+
+
+
+
+
+<script>
+export default {
+    data() {
+        return {
+            selectedTab: 'resource-list'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS ENTAÕ  O PROFESSOR FAZ UMA PAUSA...
+
+
+
+
+
+
+
+
+--> ELE NOS EXPLICA QUE 
+
+ESTAMOS FAZENDO ALGO QUE AINDA NÃO HAVÍAMOS FEITO... 
+
+
+
+
+
+
+
+
+
+--> O QUE ELE ESTÁ FAZENDO, NO CASO,
+
+É ADICIONAR UM CLICK LISTENER DIRETAMENTE NO '<base-button>'
+ 
+
+ (
+
+    sem colocar no ROOT do button....
+ )
+
+
+
+
+
+
+
+
+ --> ISSO É POSSÍVEL POR CAUSA DO 'ATTRIBUTE FALLTHROUGH' de components..
+
+
+
+
+
+
+
+
+ --> PODEMOS COLOCAR O CLICK LISTENER NESSE NEGÓCIO JUSTAMENTE PQ ELE VAI 'CAIR ATÉ O 
+
+ BUTTON MAIS PROFUNDO',
+
+
+
+
+
+ é um behavior que o VUE tem --> 
+
+
+
+
+ QUANDO VOCÊ ADICIONA PROPS OU 
+
+
+ EVENT LISTENERS 
+
+
+
+ EM __ CUSTOM COMPONENTS,
+
+
+
+ POR DEFAULT,
+
+ ELES VÃO 'FALL THROUGH'
+
+ ATÉ 
+
+
+ O 
+
+
+
+
+
+ 'ROOT-LEVEL ELEMENT NAQUELE 
+
+
+ 
+ TEMPLATE DAQUELE CUSTOM COMPONENT'... --> 
+
+
+
+ É POR ISSO QUE 
+
+
+ ESSES 
+
+ EVENT LISTENERS/ATTRIBUTES (props)
+  
+
+
+
+
+  A 'base-button',
+
+
+  ELES 
+
+
+  VÃO CAIR 
+
+  E SERÃO 
+
+  APLICADOS AO 'ROOT HTML ELEMENT'
+
+
+  dentro do template de 
+
+  '<base-button>'
+
+  (
+
+
+    QUE, NESSE CASO,
+
+    É 
+    o  
+
+
+    '<button>'..
+
+
+
+  )
+
+
+
+
+
+
+
+
+  E ESSE É UM SPECIAL BEHAVIOR USADO PELO VUEJS..
+
+
+
+
+
+
+
+
+
+
+  ----> É ALGO QUE NOS AJUDA COM O WRAPPING DESSE BUTTON...
+
+
+
+
+
+
+
+
+
+  --> com isso,
+
+
+  PODEMOS ADICIONAR ESSE CLICK LISTENER ALI,
+
+  E ENTAÕ 
+
+  TROCAR A SELECTED TAB 
+
+  A PARTIR 
+
+  DE CLICKS NOS BUTTONS..
+
+
+
+
+
+
+
+
+
+  --> MAS É CLARO QUE 
+
+  VAMOS QUERER REFLETIR 
+
+  ESSAS CHANGEs 
+
+
+
+  no 'selectedTab'
+
+
+
+
+
+DIRETAMENTE NOS COMPONENTS QUE SÃO CARREGADOS POR NOSSA PÁGINA...
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE COLOCAREMOS 'resource-list'
+
+
+e 
+
+
+'add-resource' (components)
+
+
+DENTRO 
+
+
+DESSE COMPONENT DE 'TheResources.'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button @click="setSelectedTab('resource-list')">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')">Add Resource</base-button>
+    </base-card>
+    <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'resource-list'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, SÓ ENTÃO,
+
+COLOCAMOS 
+
+
+ESSE 'TheResources'
+
+component
+
+LÁ DENTRO DE 'App.vue'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button @click="setSelectedTab('resource-list')">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')">Add Resource</base-button>
+    </base-card>
+    <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'resource-list'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    },
+
+    inject: ['storedResources']
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <!-- <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
+    @click="switchPage('resource-list')"></base-button>
+  <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'"
+    @click="switchPage('add-resource')"></base-button> -->
+  <!-- <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources> -->
+
+  <TheResources :storedResources="storedResources"></TheResources>
+</template>
+
+<script>
+
+// import LearningResources from './components/learning-resources/LearningResources.vue';
+// import AddResource from './components/AddResource/AddResource.vue';
+// import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+// import TheResources from './components/TheResources/TheResources.vue';
+
+export default {
+
+
+  components: {
+    LearningResources,
+    TheHeader,
+    // AddResource,
+    // TheResources
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource,
+      addResource: this.addResource
+    }
+  },
+
+
+
+  data() {
+    return {
+      // chosenPage: "resource-list",
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    },
+
+    // switchPage(chosenPage) {
+    //   this.chosenPage = chosenPage
+    // },
+
+    // addResource(formData) {
+    //   this.storedResources.push(
+    //     {
+    //       ...formData,
+    //       id: Math.random().toString()
+    //     }
+    //   )
+
+    // }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok.... MAS A ÚNICA COISA QUE EU NÃO FIZ, ATÉ AGORA,
+
+É USAR O BASE-COMPONENT DE 
+
+
+
+'<component></component>'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button @click="setSelectedTab('learning-resources')">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')">Add Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+    <component :is="selectedTab"></component>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'learning-resources'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    },
+
+    inject: ['storedResources']
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> USAMOS O PROP DE 'is'
+
+PARA 
+
+
+
+
+DIZER AO VUE QUAL 
+
+
+
+
+
+COMPONENT DEVERÁ SER CARREGADO AQUI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+SEREMOS CAPAZES DE RENDERIZAR 'ADD A RESOURCE'
+
+E 
+
+'RESOURCE LIST',
+
+
+
+MAS AGORA 
+
+TEREMOS 
+
+
+
+
+
+
+1 PROBLEMA:
+
+
+
+
+
+
+
+'RESOURCE LIST'
+
+QUER 
+
+
+A RESOURCE LIST... --->
+
+
+
+
+e como agora estamos usando UM DYNAMIC COMPONENT ('<component :is>'),
+
+
+NÃO PODEMOS MAIS USAR O PASS DIRETO DE PROPS 
+
+
+
+PARA PASSAR ESSA INFORMAÇÃO (
+
+
+  é por isso que teremos de usar PROVIDE/INJECT.. 
+)

@@ -1,19 +1,21 @@
 <template>
   <TheHeader :title="chosenHeader"></TheHeader>
-  <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
+  <!-- <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
     @click="switchPage('resource-list')"></base-button>
   <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'"
-    @click="switchPage('add-resource')"></base-button>
-  <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
-  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources>
+    @click="switchPage('add-resource')"></base-button> -->
+  <!-- <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources> -->
 
+  <TheResources ></TheResources>
 </template>
 
 <script>
 
-import LearningResources from './components/learning-resources/LearningResources.vue';
-import AddResource from './components/AddResource/AddResource.vue';
-import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+// import LearningResources from './components/learning-resources/LearningResources.vue';
+// import AddResource from './components/AddResource/AddResource.vue';
+// import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+// import TheResources from './components/TheResources/TheResources.vue';
 
 export default {
 
@@ -21,7 +23,8 @@ export default {
   components: {
     LearningResources,
     TheHeader,
-    AddResource
+    // AddResource,
+    // TheResources
   },
 
 
@@ -30,7 +33,8 @@ export default {
 
     return {
       removeResource: this.removeResource,
-      addResource: this.addResource
+      addResource: this.addResource,
+      storedResources: storedResources
     }
   },
 
@@ -38,7 +42,7 @@ export default {
 
   data() {
     return {
-      chosenPage: "resource-list",
+      // chosenPage: "resource-list",
       chosenHeader: "Vue Project",
 
 
@@ -74,19 +78,19 @@ export default {
       );
     },
 
-    switchPage(chosenPage) {
-      this.chosenPage = chosenPage
-    },
+    // switchPage(chosenPage) {
+    //   this.chosenPage = chosenPage
+    // },
 
-    addResource(formData) {
-      this.storedResources.push(
-        {
-          ...formData,
-          id: Math.random().toString()
-        }
-      )
+    // addResource(formData) {
+    //   this.storedResources.push(
+    //     {
+    //       ...formData,
+    //       id: Math.random().toString()
+    //     }
+    //   )
 
-    }
+    // }
   }
 }
 </script>
