@@ -1,0 +1,1046 @@
+
+
+
+
+
+
+
+
+
+
+COMO PODEMOS PASSAR 
+
+
+
+
+O PROP DE 'STOREDRESOURCES'
+
+
+
+AO NOSSO DYNAMIC COMPONENT DE 
+
+'<component :is="selectedTab"></component>'? 
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR NOS EXPLICA QUE PODERÍAMOS USAR AQUELE RECURSO DE SINTAXE QUE 
+
+
+DEIXA PASSAR 
+
+PROPS A 'DYNAMIC COMPONENTS' (
+
+    ele ensinou isso em uma text lecture..
+)
+
+
+
+
+
+
+
+
+--> MAS ELE NÃO VAI QUERER FAZER ISSO;
+
+EM VEZ DISSO, QUER USAR O RECURSO DE 'PROVIDE/INJECT',
+
+
+PARA 
+
+PASSAR DIRETAMENTE A INFO 
+
+
+
+
+DE NOSSOS 'STOREDRESOURCES'
+
+
+
+A 
+
+ESSE 
+
+
+
+COMPONENT DE 'Resource-list' (que é carregado dinamicamente)...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <!-- <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
+    @click="switchPage('resource-list')"></base-button>
+  <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'"
+    @click="switchPage('add-resource')"></base-button> -->
+  <!-- <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources> -->
+
+  <TheResources></TheResources>
+</template>
+
+<script>
+
+// import LearningResources from './components/learning-resources/LearningResources.vue';
+// import AddResource from './components/AddResource/AddResource.vue';
+ import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+ import TheResources from './components/TheResources/TheResources.vue';
+
+export default {
+
+
+  components: {
+    // LearningResources,
+    TheHeader,
+    // AddResource,
+    TheResources
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource,
+      addResource: this.addResource,
+      storedResources: this.storedResources
+    }
+  },
+
+
+
+  data() {
+    return {
+      // chosenPage: "resource-list",
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    },
+
+    // switchPage(chosenPage) {
+    //   this.chosenPage = chosenPage
+    // },
+
+    // addResource(formData) {
+    //   this.storedResources.push(
+    //     {
+    //       ...formData,
+    //       id: Math.random().toString()
+    //     }
+    //   )
+
+    // }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, ESTAMOS PROVIDENCIANDO 
+
+OS 'storedResources'
+
+
+
+A TODOS 'LOWER LEVEL COMPONENTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> lá em 'LearningResources',
+
+
+que tem a lista de resourceItem,
+
+
+
+
+
+
+TROCAMOS 'props' por 'inject':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <ul>
+        <ResourceItem v-for="res in storedResources" :key="res.id" :title="res.title" :description="res.description"
+            :id="res.id" :link="res.link"></ResourceItem>
+    </ul>
+</template>
+  
+<script>
+
+import ResourceItem from './ResourceItem/ResourceItem.vue'
+
+export default {
+
+    inject: ['storedResources'],
+    components: { ResourceItem },
+
+    data() {
+        return {
+
+
+        }
+    }
+}
+</script>
+  
+<style scoped>
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin: auto;
+    max-width: 40rem;
+}
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ------> A ÚNICA COISA QUE ESTÁ BUGGADA É OS BUTTON DE 'resource lsit' 
+
+
+
+  e '
+
+  add a resource'...
+
+
+
+
+
+
+
+
+
+  --> parece que 'buttonText'
+
+  NÃO ESTÁ SENDO 
+
+  PASSADO AO NOSSO COMPONENT DE 'button'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PARA CONSEGUIR FAZER ISSO FUNCIONAR, SEREMOS OBRIGADOS A USAR A FEATURE DE 'SLOTS'
+
+  COM NOSSO BUTTON..
+
+
+
+  TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+
+
+
+    <button @click="buttonMethod" :type="type" :class="mode === 'flat' ? 'button flat' : 'button'">
+        <!-- {{ buttonText }} -->
+        <slot></slot>
+    </button>
+
+</template>
+
+
+
+<script>
+
+
+
+export default {
+
+
+
+
+    props: ['buttonText', 'buttonMethod', 'mode', 'type'],
+
+
+    data() {
+
+    },
+
+    mounted() {
+
+        console.log(this.$props.buttonText, 'LOG')
+    }
+
+    
+}
+
+</script>
+
+
+
+<style scoped>
+button {
+    padding: 0.75rem 1.5rem;
+    font-family: inherit;
+    background-color: #3a0061;
+    border: #3a0061;
+    color: white;
+    cursor: pointer;
+
+}
+
+button:hover,
+button:active {
+    background-color: #270041;
+    border-color: #270041;
+}
+
+.flat {
+    background-color: transparent;
+    color: #3a0061;
+    border: none;
+}
+
+.flat:hover,
+.flat:active {
+    background-color: #edd2ff;
+}
+
+.button[disabled] {
+    background-color: grey;
+    cursor: default;
+    pointer-events: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR INSERIR TEXTO NESSE BUTTON,
+
+FAZEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <li>
+            <div>
+                <header>
+                    <h3>{{ title }}</h3>
+                    <!-- <button>Delete</button> -->
+                    <base-button :type="'button'" :buttonMethod="() => {removeResource(id)}" :mode="'flat'">Delete</base-button>
+                </header>
+            </div>
+
+            <p>
+                {{ description }}
+            </p>
+            <nav>
+                <a :href="link">View Resource</a>
+            </nav>
+        </li>
+    </base-card>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+    inject: ['removeResource'],
+
+    props: [
+        'title', 'description', 'link', 'id'
+    ],
+    //     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+    //     BaseCard
+    // }
+
+}
+</script>
+
+
+
+<style scoped>
+li {
+    margin: auto;
+    max-width: 40rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ce5c00;
+}
+
+a:hover,
+a:active {
+    color: #c89300;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+
+    <form>
+        <div>
+            <label for="title">Title</label>
+            <input type="text" v-model="userText" required>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input type="text" v-model="userDescription" required>
+        </div>
+        <div>
+            <label for="link">Link</label>
+            <input type="text" v-model="userLink" required>
+        </div>
+        <base-button :type="'button'" 
+        :mode="'normal'" 
+        :disabled="userText === '' || userDescription === '' || userLink === '' "
+            @click="addResource({ title: userText, description: userDescription, link: userLink })">Add Resource</base-button>
+    </form>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA FUNCIONOU..
+
+
+
+A ÚNICA COISA QUE RESTA CONSERTAR É O COMPORTAMENTO DE 'disable' do button...
+
+
+
+
+
+
+
+
+
+
+--> faremos isso provavelmente com o 'component'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+    <component :is="selectedTab"></component>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'learning-resources'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    },
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok, funcionou...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+--> DEPOIS DISSO,
+
+
+
+PRECISAMOS FAZER O METHOD DE 'ADD RESOURCE'
+
+funcionar...
+
+
+
+
+
+
+
+podemos colocar esse method:
+
+
+
+
+1) OU em 'AddResource' 
+
+
+
+
+
+2) OU em 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> O PROFESSOR NOS EXPLICA QUE TER AQUELA LÓGICA DE 
+
+
+'
+
+disabled="this.selectedTab === xxxx ''
+
+
+
+
+
+É FEIO 
+
+DE 
+
+SE 
+
+TER 
+
+
+LÁ 
+
+
+
+NO NOSSO CÓDIGO HTML,
+
+POR ISSO ELE CRIA UMA 'COMPUTEDPROPERTY',
+
+
+
+
+
+
+
+em 'computed: {
+
+},
+
+
+
+
+QUE 
+
+SERÁ USADA PARA OUTPUTTAR 
+
+
+'truthy' ou 'falsy'...
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+computed: {
+
+storedResourcesMode() {
+    return this.selectedTab === 'storedResources' ? 
+}
+}
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
+        <base-button @click="setSelectedTab('learning-resources')"
+            :disabled="learningResourcesMode">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
+            Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+    <component :is="selectedTab"></component>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'learning-resources'
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        }
+    },
+
+    computed: {
+        learningResourcesMode() {
+            return this.selectedTab === 'learning-resources';
+        },
+
+        addResourcesButtonMode() {
+            return this.selectedTab === 'add-resource';
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO FORA DO CAMINHO, NOSSO NEGÓCIO PASSA A SE PARECER BEM MELHOR..
+
+
+
+
+
+
+
+
+-----> AGORA VAMOS ADICIONAR A FEATURE DE 'ADD A RESOURCE'...

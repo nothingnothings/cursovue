@@ -5,7 +5,7 @@
                 <header>
                     <h3>{{ title }}</h3>
                     <!-- <button>Delete</button> -->
-                    <base-button :type="'button'" :buttonText="'Delete'" :buttonMethod="() => {removeResource(id)}" :mode="'flat'"></base-button>
+                    <base-button :type="'button'" :buttonMethod="() => {removeResource(id)}" :mode="'flat'">Delete</base-button>
                 </header>
             </div>
 

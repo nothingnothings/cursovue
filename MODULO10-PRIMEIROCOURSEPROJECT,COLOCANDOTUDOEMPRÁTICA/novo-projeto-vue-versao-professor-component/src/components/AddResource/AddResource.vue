@@ -18,9 +18,8 @@
         </div>
         <base-button :type="'button'" 
         :mode="'normal'" 
-        :buttonText="'Add Resource'"
         :disabled="userText === '' || userDescription === '' || userLink === '' "
-            @click="addResource({ title: userText, description: userDescription, link: userLink })"></base-button>
+            @click="addResource({ title: userText, description: userDescription, link: userLink })">Add Resource</base-button>
     </form>
 
 </template>

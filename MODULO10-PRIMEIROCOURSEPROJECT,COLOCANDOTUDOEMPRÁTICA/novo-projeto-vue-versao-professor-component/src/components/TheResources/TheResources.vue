@@ -1,7 +1,11 @@
 <template>
     <base-card>
-        <base-button @click="setSelectedTab('learning-resources')">Stored Resources</base-button>
-        <base-button @click="setSelectedTab('add-resource')">Add Resource</base-button>
+        <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
+        <base-button @click="setSelectedTab('learning-resources')"
+            :disabled="learningResourcesMode">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
+            Resource</base-button>
     </base-card>
     <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
     <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
@@ -38,6 +42,16 @@ export default {
             this.selectedTab = tab;
         }
     },
+
+    computed: {
+        learningResourcesMode() {
+            return this.selectedTab === 'learning-resources';
+        },
+
+        addResourcesButtonMode() {
+            return this.selectedTab === 'add-resource';
+        }
+    }
 }
 
 </script>

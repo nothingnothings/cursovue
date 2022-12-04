@@ -2,7 +2,10 @@
 
 
 
-    <button @click="buttonMethod" :type="type" :class="mode === 'flat' ? 'button flat' : 'button'">{{ buttonText }}</button>
+    <button @click="buttonMethod" :type="type" :class="mode === 'flat' ? 'button flat' : 'button'">
+        <!-- {{ buttonText }} -->
+        <slot></slot>
+    </button>
 
 </template>
 
@@ -14,19 +17,25 @@
 
 export default {
 
+
+
+
     props: ['buttonText', 'buttonMethod', 'mode', 'type'],
 
 
     data() {
 
+    },
+
+    mounted() {
+
+        console.log(this.$props.buttonText, 'LOG')
     }
+
+    
 }
 
 </script>
-
-
-
-
 
 
 
@@ -40,8 +49,6 @@ button {
     cursor: pointer;
 
 }
-
-
 
 button:hover,
 button:active {

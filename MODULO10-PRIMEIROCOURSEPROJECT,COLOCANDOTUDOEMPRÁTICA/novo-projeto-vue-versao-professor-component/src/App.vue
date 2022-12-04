@@ -7,24 +7,24 @@
   <!-- <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
   <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources> -->
 
-  <TheResources ></TheResources>
+  <TheResources></TheResources>
 </template>
 
 <script>
 
 // import LearningResources from './components/learning-resources/LearningResources.vue';
 // import AddResource from './components/AddResource/AddResource.vue';
-// import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
-// import TheResources from './components/TheResources/TheResources.vue';
+ import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+ import TheResources from './components/TheResources/TheResources.vue';
 
 export default {
 
 
   components: {
-    LearningResources,
+    // LearningResources,
     TheHeader,
     // AddResource,
-    // TheResources
+    TheResources
   },
 
 
@@ -34,7 +34,7 @@ export default {
     return {
       removeResource: this.removeResource,
       addResource: this.addResource,
-      storedResources: storedResources
+      storedResources: this.storedResources
     }
   },
 
