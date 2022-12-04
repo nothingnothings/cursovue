@@ -17,8 +17,20 @@ export default {
     TheHeader
   },
 
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource
+    }
+  },
+
+
+
   data() {
     return {
+
       chosenHeader: "Vue Project",
 
 
@@ -45,6 +57,14 @@ export default {
 
   methods: {
 
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    }
   }
 }
 </script>

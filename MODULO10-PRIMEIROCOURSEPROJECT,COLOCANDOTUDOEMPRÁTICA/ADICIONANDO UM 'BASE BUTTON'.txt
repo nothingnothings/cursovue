@@ -1,0 +1,1020 @@
+
+
+
+
+
+
+
+
+
+
+--> OK... HORA DE ADICIONAR UM BASE BUTTON, POR CONTA PRÓPRIA...
+
+
+
+
+
+
+
+
+
+
+
+
+--> como o professor fez isso?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, EU CONSEGUI, E O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <LearningResources :storedResources="storedResources"></LearningResources>
+
+</template>
+
+<script>
+
+import LearningResources from './components/learning-resources/LearningResources.vue';
+import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+
+export default {
+
+
+  components: {
+    LearningResources,
+    TheHeader
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource
+    }
+  },
+
+
+
+  data() {
+    return {
+
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <li>
+            <div>
+                <header>
+                    <h3>{{ title }}</h3>
+                    <!-- <button>Delete</button> -->
+                    <base-button :buttonText="'Delete'" :buttonMethod="() => {removeResource(id)}"></base-button>
+                </header>
+            </div>
+
+            <p>
+                {{ description }}
+            </p>
+            <nav>
+                <a :href="link">View Resource</a>
+            </nav>
+        </li>
+    </base-card>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+    inject: ['removeResource'],
+
+    props: [
+        'title', 'description', 'link', 'id'
+    ],
+    //     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+    //     BaseCard
+    // }
+
+}
+</script>
+
+
+
+<style scoped>
+li {
+    margin: auto;
+    max-width: 40rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ce5c00;
+}
+
+a:hover,
+a:active {
+    color: #c89300;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> é claro que eu utilizei um approach 
+
+
+em que 
+
+
+
+UTILIZO 'provide/inject',
+
+para 
+
+EVITAR O PASSTHROUGH DESNECESSÁRIO DE PROPS por meio dos components...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR TAMBÉM COLOCOU UNS STYLES UM POUCO DIFERENTES..
+
+
+
+
+
+
+
+
+STYLES DO DO BUTTON:
+
+
+
+
+
+
+
+
+button {
+    padding: 0.75rem 1.5rem;
+    font-family: inherit;
+    background-color: #3a0061;
+    border: #3a0061;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+-> RESTO DOS STYLES:
+ 
+
+ button:hover,
+ button:active {
+    background-color: #270041;
+        border-color: #270041;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PROFESSOR TAMBÉM COLOCOU UMA CLASS DE 'flat' --> 
+
+
+ vamos adicionar essa class CONDICIONALMENTE,
+
+
+ PARA 
+
+
+ QUE 
+
+
+
+ TENHAMOS ACTUALLY 1 
+
+ 'BASECARD COMPONENT'
+
+ QUE 
+
+
+
+ TERÁ DIFERENTES LOOKS (e isso será configurável com PROPS)...
+
+
+
+
+
+
+
+
+
+
+ .flat {
+    background-color: transparent;
+    color: #3a0061;
+    border: none;
+ }
+
+ .flat:hover,
+ .flat:active {
+    background-color: #edd2ff;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+ -> PARA DEFINIR QUAL BUTTON QUEREMOS USAR EM 1 DETERMINADO COMPONENT/SITUAÇÃO,
+
+ UTILIZAREMOS O 
+
+
+
+ PROP DE 'type'..
+
+
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+
+
+
+    <button @click="buttonMethod" :type="type" :class="mode === 'flat' ? 'button flat' : 'button'">{{ buttonText }}</button>
+
+</template>
+
+
+
+<script>
+
+
+
+export default {
+
+    props: ['buttonText', 'buttonMethod', 'mode', 'type'],
+
+
+    data() {
+
+    }
+}
+
+</script>
+
+
+
+
+
+
+
+<style scoped>
+button {
+    padding: 0.75rem 1.5rem;
+    font-family: inherit;
+    background-color: #3a0061;
+    border: #3a0061;
+    color: white;
+    cursor: pointer;
+
+}
+
+
+
+button:hover,
+button:active {
+    background-color: #270041;
+    border-color: #270041;
+}
+
+.flat {
+    background-color: transparent;
+    color: #3a0061;
+    border: none;
+}
+
+.flat:hover,
+.flat:active {
+    background-color: #edd2ff;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... COM ISSO, TEREMOS UM 'ALTERNATE LOOK' para o nosso button..
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO É BOM SIM,
+
+MAS HÁ ALGO 
+
+IMPORTANTE QUE ESTÁ FALTANDO...
+
+
+
+
+
+
+
+
+
+
+--> FALTA O '<slot>' -----> 
+
+
+
+
+
+O PROFESSOR EXPLICA QUE VAMOS QUERER PASSAR O 'text'
+
+
+LÁ 
+
+DO LADO DE FORA,
+
+
+
+QUE VAMOS FFAZER ELE ENTRAR DENTRO DISSO..
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE PODEMOS USAR 
+
+STRING INTERPOLATION NORMAL PARA ALTERAR ESSE BUTTON...
+
+
+
+
+
+
+
+
+
+
+
+
+_--> A ÚNICA VANTAGEM DO SLOT,
+
+NESSE CASO,
+
+É QUE 
+
+OUTROS DESENVOLVEDORES TERÃO UM POUCO MAIS DE FLEXIBILIDADE 
+
+EM RELAÇÃO 
+
+àS COISAS QUE 
+
+PODERÃO ENFIAR DENTRO DESSE SLOT (pq 
+
+o dev pode enfiar coisas além de text, como icon, um svg icon, ou qualquer MARKUP de nossa escolha)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR REGISTRA O BUTTON GLOBALMENTE, PQ VAMOS O REUTILIZAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> AGORA QUE TEMOS ESSE BUTTON SETTADO,
+
+vamos até o 'ResourceItem'
+
+
+
+
+E COLOCAMOS ESSE BUTTON NO LUGAR DO <button> antigo...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <li>
+            <div>
+                <header>
+                    <h3>{{ title }}</h3>
+                    <!-- <button>Delete</button> -->
+                    <base-button :buttonText="'Delete'" :buttonMethod="() => {removeResource(id)}"></base-button>
+                </header>
+            </div>
+
+            <p>
+                {{ description }}
+            </p>
+            <nav>
+                <a :href="link">View Resource</a>
+            </nav>
+        </li>
+    </base-card>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+    inject: ['removeResource'],
+
+    props: [
+        'title', 'description', 'link', 'id'
+    ],
+    //     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+    //     BaseCard
+    // }
+
+}
+</script>
+
+
+
+<style scoped>
+li {
+    margin: auto;
+    max-width: 40rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ce5c00;
+}
+
+a:hover,
+a:active {
+    color: #c89300;
+}
+</style>
+
+
+
+
+
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> PODEMOS DEFINIR O MODO DO BUTTON COMO 'flat',
+
+para que 
+
+
+FIQUEMOS COM O LOOK DE 'flat'...
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <li>
+            <div>
+                <header>
+                    <h3>{{ title }}</h3>
+                    <!-- <button>Delete</button> -->
+                    <base-button :buttonText="'Delete'" :buttonMethod="() => {removeResource(id)}" :mode="'flat'"></base-button>
+                </header>
+            </div>
+
+            <p>
+                {{ description }}
+            </p>
+            <nav>
+                <a :href="link">View Resource</a>
+            </nav>
+        </li>
+    </base-card>
+
+
+
+</template>
+
+
+<script>
+
+export default {
+    inject: ['removeResource'],
+
+    props: [
+        'title', 'description', 'link', 'id'
+    ],
+    //     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+    //     BaseCard
+    // }
+
+}
+</script>
+
+
+
+<style scoped>
+li {
+    margin: auto;
+    max-width: 40rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+}
+
+p {
+    margin: 0.5rem 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ce5c00;
+}
+
+a:hover,
+a:active {
+    color: #c89300;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, COM ISSO TEMOS UMA BOA IDEIA DO QUE PODEMOS FAZER COM COMPONENTS (
+
+
+
+    TEMOS UM BUTTON QUE PODE SER FACILMENTE CONFIGURADO POR MEIO DE PROPS/attributes 
+
+
+    COM ESSES PROPS...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> SE VOCÊ ESTÁ TRABALHANDO COM UM PROJETO MAIOR, COM UM TIME MAIOR,
+
+ISSO É SUPER FORTE,
+
+PQ 
+
+
+
+1 ÚNICA PESSOA 
+
+PODE CRIAR O COMPONENT E O STYLING,
+
+E AÍ 
+O TIME 
+
+INTEIRO 
+
+PODE 
+
+USAR 
+
+ESSE COMPONENT,
+
+E ENTÃO 
+
+O CONFIGURAR,
+
+ATRAVÉS 
+
+DE PROPS...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR ESTÁ MOSTRANDO ISSO 
+
+
+
+PQ _ 
+
+
+NÓS DEVEMOS 
+
+
+SER CAPAZES DE UTILIZAR COISAS ASSIM,
+
+
+E 
+
+DE UTILIZAR 
+
+PATTERNS COMO ESSE..
+
+
+
+
+
+
+
+
+-> AGORA VAMOS ADICIONAR LÓGICA A ESSES COMPONENTS...
+
+
+
+
+
+
+
+--> POR ENQUANQTO,
+
+ESTAMOS USANDO UMA LISTA DE RESOURCES ('dummy')
+
+
+
+EM VEZ 
+
+
+DE RESOURCES DE UMA DATABASE OU ALGO ASSIM...
+
+
+
+
+
+
+
+
+
+--> COMO PRÓXIMO PASSO,
+
+VAMOS ADIICONAR UM 
+
+
+
+COMPONENT DE 
+
+'newResource',
+
+EM QUE 
+
+O 
+
+USER PODERÁ 
+
+INPUTTAR
+ 
+ DATA 
+ PARA CRIAR 1 NOVO RESOURCE NO NOSSO APP...

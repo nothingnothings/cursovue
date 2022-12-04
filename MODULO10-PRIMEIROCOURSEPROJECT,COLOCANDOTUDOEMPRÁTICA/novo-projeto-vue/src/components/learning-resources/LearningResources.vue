@@ -1,6 +1,9 @@
 <template>
     <ul>
-        <ResourceItem v-for="res in storedResources" :key="res.id" :title="res.title" :description="res.description"
+        <ResourceItem v-for="res in storedResources" 
+        :key="res.id" :title="res.title" 
+        :description="res.description"
+        :id="res.id"
             :link="res.link"></ResourceItem>
     </ul>
 </template>

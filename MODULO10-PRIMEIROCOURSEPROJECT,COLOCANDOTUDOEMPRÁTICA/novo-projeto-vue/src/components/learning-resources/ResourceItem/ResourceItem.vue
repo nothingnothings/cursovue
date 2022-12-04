@@ -1,21 +1,22 @@
 <template>
     <base-card>
-    <li>
-        <div>
-            <header>
-                <h3>{{ title }}</h3>
-                <button>Delete</button>
-            </header>
-        </div>
+        <li>
+            <div>
+                <header>
+                    <h3>{{ title }}</h3>
+                    <!-- <button>Delete</button> -->
+                    <base-button :buttonText="'Delete'" :buttonMethod="() => {removeResource(id)}" :mode="'flat'"></base-button>
+                </header>
+            </div>
 
-        <p>
-            {{ description }}
-        </p>
-        <nav>
-            <a :href="link">View Resource</a>
-        </nav>
-    </li>
-</base-card>
+            <p>
+                {{ description }}
+            </p>
+            <nav>
+                <a :href="link">View Resource</a>
+            </nav>
+        </li>
+    </base-card>
 
 
 
@@ -25,13 +26,14 @@
 <script>
 
 export default {
+    inject: ['removeResource'],
 
     props: [
-        'title', 'description', 'link'
+        'title', 'description', 'link', 'id'
     ],
-//     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
-//     BaseCard
-// }
+    //     components: {  ////agora usado lá em 'main.js' (pq será usado em outras partes de nosso app)...
+    //     BaseCard
+    // }
 
 }
 </script>
