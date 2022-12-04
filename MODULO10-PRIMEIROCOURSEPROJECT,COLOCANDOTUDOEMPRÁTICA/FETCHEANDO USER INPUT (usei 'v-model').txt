@@ -1,0 +1,1120 @@
+ 
+
+
+
+
+
+
+ TEMOS O COMPONENT DE 'ADD RESOURCE', 
+
+
+ QUE ESTAMOS USANDO PARA FETCHEAR O INPUT DO USER:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+
+
+
+    <base-card>
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> PROFESSOR DIZ QUE PRECISAMOS DE UM METHOD,
+
+QUE DEVE SER DISPARADO QUANDO A FORM FOR SUBMITTADA...
+
+
+
+
+
+
+
+
+--> AGORA QUEREMOS 
+
+CONSEGUIR 
+
+
+OS VALUES INPUTTADOS 
+
+
+NOS INPUT FIELDS..
+
+
+
+
+
+
+
+
+2 MANEIRAS DE FAZER ISSO:
+
+
+
+
+
+
+
+
+1) DATA PROPERTIES, USAR 'v-model' OU UM 'V-BIND' INPUT LISTENER, QUE VAI UPDATAR _ CADA _ DATA PROPERTY VALUE, A PARTIR 
+
+DE CADA KEYSTROKE..
+
+
+(ISSO FUNCIONA)..
+
+
+
+
+
+
+
+
+2) OU, ENTÃO,
+
+USAMOS 
+
+O APPROACH COM 'ref'...
+
+
+
+
+
+---> PARA CONSEGUIR O APPROACH DO REF,
+
+o professor faz assim:
+
+
+
+
+
+<input ref="textInput">
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS, LÁ NO METHOD DE SUBMIT,
+
+ele faz tipo assim:
+
+
+
+
+
+
+
+
+
+
+submitData() {
+    const enteredTitle = this.$refs.titleInput;
+
+
+
+
+
+
+    const userInput = {
+        title: enteredTitle,
+        description: enteredDescription,
+        link: enteredLink
+    }
+}
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+--> ISSO FEITO,
+
+VAMOS QUERER __ 
+
+
+
+
+ADICIONAR 
+
+ESSE NOVO 'resourceItem'
+
+LÁ 
+
+NA NOSSA LISTA 
+
+DE RESOURCE 
+
+ITEMS,
+
+
+
+
+em 'App.vue '---> 
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE PODEMOS FAZER ISSO DE 2 FORMAS:
+
+
+
+
+
+
+1) EMIT DE 1 EVENT COM DATA ANEXADA A ELE (para que essa data seja CAPTADA por 'App.vue', e então CONSEGUIR ADICIONAR O RESOURCE ITEM NAUQELE ARRAY, O QUE VAI UPDATAR A LIST EM TODO NOSSO APP)
+
+
+
+
+
+2) COLOCAR O METHOD DE 'Add resource'
+
+LA´EM 'App.vue',
+
+E ENTÃO 
+
+REPASSÁ-LO,
+
+através 
+
+de 
+
+'provide/inject'..
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE OS INPUT FIELDS DO USUÁRIO PODEM SER EMPTY, EVENTUALMENTE (
+
+
+    ignorando o 'required'...
+)
+
+
+
+
+
+
+
+
+
+---> OK...
+
+
+
+
+
+PROFESSOR FALA DE NOSSAS OPÇÕES...
+
+
+
+
+
+
+
+
+
+
+OU 1, 
+
+OU 
+
+2...
+
+
+
+
+
+
+
+
+
+
+
+-> COMO ADICIONAMOS ESSE COMPONENT DE 'AddResource'
+
+
+DINAMICAMENTE (<component>),
+
+
+
+O EMIT DESSE EVENT 
+
+
+NÃO SERÁ SUPER FÁCIL DE SER FEITO...
+
+
+
+
+
+
+
+
+
+-----> PROFESSOR QUER PRATICAR 'PROVIDE' E 'INJECT'
+
+aqui nessa parte...
+
+
+
+
+
+
+
+
+--> VOU TENTAR FAZER POR CONTA PRÓPRIA...
+
+
+
+
+
+
+--> JÁ FIZ ISSO FUNCIONAR...
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+<template>
+  <TheHeader :title="chosenHeader"></TheHeader>
+  <!-- <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
+    @click="switchPage('resource-list')"></base-button>
+  <base-button buttonText="Add a Resource" :disabled="this.chosenPage === 'add-resource'"
+    @click="switchPage('add-resource')"></base-button> -->
+  <!-- <AddResource v-if="chosenPage === 'add-resource'"></AddResource>
+  <LearningResources :storedResources="storedResources" v-if="chosenPage === 'resource-list'"></LearningResources> -->
+
+  <TheResources></TheResources>
+</template>
+
+<script>
+
+// import LearningResources from './components/learning-resources/LearningResources.vue';
+// import AddResource from './components/AddResource/AddResource.vue';
+ import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+ import TheResources from './components/TheResources/TheResources.vue';
+
+export default {
+
+
+  components: {
+    // LearningResources,
+    TheHeader,
+    // AddResource,
+    TheResources
+  },
+
+
+  provide() {
+
+
+    return {
+      removeResource: this.removeResource,
+      addResource: this.addResource,
+      storedResources: this.storedResources
+    }
+  },
+
+
+
+  data() {
+    return {
+      // chosenPage: "resource-list",
+      chosenHeader: "Vue Project",
+
+
+      storedResources: [
+
+        {
+          id: 'official-guide',
+          title: 'Official Guide',
+          description: 'The official VueJS documentation.',
+          link: 'https://vuejs.org'
+        },
+
+        {
+          id: 'google',
+          title: 'Google',
+          description: 'Learn to Google...',
+          link: 'https://google.com'
+        }
+
+      ]
+    }
+  },
+
+
+  methods: {
+
+    removeResource(id) {
+      console.log("ENTERED", id);
+      this.storedResources = this.storedResources.filter(
+        (resource) => {
+          return resource.id !== id
+        }
+      );
+    },
+
+    // switchPage(chosenPage) {
+    //   this.chosenPage = chosenPage
+    // },
+
+    addResource(formData) {
+      this.storedResources.push(
+        {
+          ...formData,
+          id: Math.random().toString()
+        }
+      )
+
+    }
+  }
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+    <base-card>
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok.. já funcionou..
+
+
+
+
+
+
+
+
+
+PARA CONSEGUIR O ID ALEATÓRIO,
+O PROFESSOR USA 
+
+
+um código de 
+
+
+'new Date().toISOString()'...
+
+
+
+
+
+
+
+
+
+
+--> OK.. 
+
+mas é basicamente a mesma coisa...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... O PROFESSOR DIZ QUE PODERÍAMOS COLOCAr 'push',
+
+ou então 
+
+'.unshift() ' ( é a mesma coisa que PUSH, mas para o INÍCIO do array)...
+
+
+
+
+
+
+
+
+
+--> POR FIM, O PROFESSOR DEFINE 'this.selectedTab = 'resource-list'',
+
+
+PARA QUE 
+
+
+TROQUEMOS PARA 
+
+
+A __ 
+
+LISTA DE RESOURCES, QUANDO UM RESOURCE FOR ADICIONADO...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
+        <base-button @click="setSelectedTab('learning-resources')" :disabled="learningResourcesMode">Stored
+            Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
+            Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+    <component :is="selectedTab"></component>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+    provide() {
+        
+
+        return {
+            storedResources: this.storedResources,
+            addResource: this.addResource
+        }
+    },
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'learning-resources',
+
+            storedResources: [
+
+                {
+                    id: 'official-guide',
+                    title: 'Official Guide',
+                    description: 'The official VueJS documentation.',
+                    link: 'https://vuejs.org'
+                },
+
+                {
+                    id: 'google',
+                    title: 'Google',
+                    description: 'Learn to Google...',
+                    link: 'https://google.com'
+                }
+
+            ]
+
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        },
+
+        addResource(formData) {
+            this.storedResources.push(
+                {
+                    ...formData,
+                    id: Math.random().toString()
+                }
+            )
+
+            this.selectedTab = 'learning-resources'
+        }
+
+
+    },
+
+    computed: {
+        learningResourcesMode() {
+            return this.selectedTab === 'learning-resources';
+        },
+
+        addResourcesButtonMode() {
+            return this.selectedTab === 'add-resource';
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+--> a versão do professor usa 
+
+
+'@submit.prevent="methodQueFazSubmit'...
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
+
+
+O STATE DE NOSSO APP APENAS PERSISTE NA MEMÓRIA,
+POR ENQUANTO (mas mais tarde usaremos um sistema para persistir essa memória EM UM SERVER/BACKEND)l..
+
+
+
+
+
+
+
+
+
+
+--> MAS AQUI 
+
+TEMOS 
+
+
+UM PROBLEMA...
+
+
+
+
+
+
+
+
+
+
+--> SE COMEÇAMOS A INPUTTAR DATA NOS INPUT FIELDS do componet 'add resource'
+
+E ENTÃO 
+
+TROCAMOS DE COMPONENT (para o 'stored resources'),
+
+PERDEMOS O STATE INPUTTADO NOS INPUT FIELDS...
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR IMPEDIR QUE ISSO ACONTEÇA,
+
+ESSA PERDA DE STATE,
+
+DEVEMOS WRAPPR 
+
+
+
+
+NOSSO COMPONENT DINÂMICO (<component>)
+
+
+
+com 
+
+
+
+'<keep-alive>',
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
+        <base-button @click="setSelectedTab('learning-resources')" :disabled="learningResourcesMode">Stored
+            Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
+            Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+
+    <KeepAlive>
+        <component :is="selectedTab"></component>
+    </KeepAlive>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> certo, acertei...
+
+
+--> O COMPONENT SERÁ CACHEADO, E A DATA NÃO SERÁ PERDIDA...
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO,
+
+A FORM DE 'Add Resource'
+
+ESTÁ QUASE 
+ACABADA,
+
+
+
+
+MAS 
+
+AINDA FALTA VALIDATION... --> 
+
+
+DEIXAR O USER SABER QUANDO 
+
+ESTAMOS SUBMITTANDO' INVALID DATA'...
+
+
+
+
+
+
+--> QUEREMOS 
+
+
+
+
+PREVENIR ISSO,
+
+
+E QUEREMOS MOSTRAR 
+
+ISSO 
+
+
+COM UM OVERLAY CUSTOMIZADO (
+
+    a nice overlay
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS TENTAR FAZER ISSO 
+
+POR CONTA PRÓPRIA..
+
+
+
+
+
+--> mostrar um overlay legal quando o user inputtar 
+
+DATA 
+
+INVÁLIDA...

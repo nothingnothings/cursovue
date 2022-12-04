@@ -2,14 +2,17 @@
     <base-card>
         <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
         <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
-        <base-button @click="setSelectedTab('learning-resources')"
-            :disabled="learningResourcesMode">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('learning-resources')" :disabled="learningResourcesMode">Stored
+            Resources</base-button>
         <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
             Resource</base-button>
     </base-card>
     <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
     <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
-    <component :is="selectedTab"></component>
+
+    <KeepAlive>
+        <component :is="selectedTab"></component>
+    </KeepAlive>
 </template>
 
 
@@ -25,6 +28,14 @@ import AddResource from '../AddResource/AddResource.vue';
 export default {
 
 
+    provide() {
+
+
+        return {
+            storedResources: this.storedResources,
+            addResource: this.addResource
+        }
+    },
 
     components: {
         AddResource,
@@ -32,7 +43,26 @@ export default {
     },
     data() {
         return {
-            selectedTab: 'learning-resources'
+            selectedTab: 'learning-resources',
+
+            storedResources: [
+
+                {
+                    id: 'official-guide',
+                    title: 'Official Guide',
+                    description: 'The official VueJS documentation.',
+                    link: 'https://vuejs.org'
+                },
+
+                {
+                    id: 'google',
+                    title: 'Google',
+                    description: 'Learn to Google...',
+                    link: 'https://google.com'
+                }
+
+            ]
+
         }
     },
 
@@ -40,7 +70,20 @@ export default {
     methods: {
         setSelectedTab(tab) {
             this.selectedTab = tab;
+        },
+
+        addResource(formData) {
+            this.storedResources.push(
+                {
+                    ...formData,
+                    id: Math.random().toString()
+                }
+            )
+
+            this.selectedTab = 'learning-resources'
         }
+
+
     },
 
     computed: {

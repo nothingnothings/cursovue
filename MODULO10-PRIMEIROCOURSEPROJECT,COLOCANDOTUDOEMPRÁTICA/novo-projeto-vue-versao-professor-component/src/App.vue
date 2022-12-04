@@ -14,8 +14,8 @@
 
 // import LearningResources from './components/learning-resources/LearningResources.vue';
 // import AddResource from './components/AddResource/AddResource.vue';
- import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
- import TheResources from './components/TheResources/TheResources.vue';
+import TheHeader from './components/Layout/TheHeader/TheHeader.vue';
+import TheResources from './components/TheResources/TheResources.vue';
 
 export default {
 
@@ -32,9 +32,9 @@ export default {
 
 
     return {
-      removeResource: this.removeResource,
-      addResource: this.addResource,
-      storedResources: this.storedResources
+       removeResource: this.removeResource,
+      // addResource: this.addResource,
+      // storedResources: this.storedResources
     }
   },
 
@@ -45,24 +45,6 @@ export default {
       // chosenPage: "resource-list",
       chosenHeader: "Vue Project",
 
-
-      storedResources: [
-
-        {
-          id: 'official-guide',
-          title: 'Official Guide',
-          description: 'The official VueJS documentation.',
-          link: 'https://vuejs.org'
-        },
-
-        {
-          id: 'google',
-          title: 'Google',
-          description: 'Learn to Google...',
-          link: 'https://google.com'
-        }
-
-      ]
     }
   },
 
@@ -81,16 +63,6 @@ export default {
     // switchPage(chosenPage) {
     //   this.chosenPage = chosenPage
     // },
-
-    // addResource(formData) {
-    //   this.storedResources.push(
-    //     {
-    //       ...formData,
-    //       id: Math.random().toString()
-    //     }
-    //   )
-
-    // }
   }
 }
 </script>
