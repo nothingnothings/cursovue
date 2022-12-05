@@ -33,7 +33,8 @@ export default {
 
         return {
             storedResources: this.storedResources,
-            addResource: this.addResource
+            addResource: this.addResource,
+            removeResource: this.removeResource
         }
     },
 
@@ -72,15 +73,31 @@ export default {
             this.selectedTab = tab;
         },
 
-        addResource(formData) {
+        addResource(title, description, link) {
             this.storedResources.push(
                 {
-                    ...formData,
+                    title: title,
+                    description: description,
+                    link: link,
                     id: Math.random().toString()
                 }
             )
-
             this.selectedTab = 'learning-resources'
+        },
+        removeResource(id) {
+
+            // this.storedResources = this.storedResources.filter( ///ISSO NÃO FUNCIONA.
+            //     (resource) => {
+            //         return resource.id !== id
+            //     }
+            // );
+
+            const itemIndex = this.storedResources.findIndex(
+                res => res.id
+            )
+
+            this.storedResources.splice(itemIndex, 1);
+            console.log("ENTERED", id, this.storedResources);
         }
 
 

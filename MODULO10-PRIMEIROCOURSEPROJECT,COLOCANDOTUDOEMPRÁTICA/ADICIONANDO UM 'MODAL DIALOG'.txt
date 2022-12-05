@@ -1,0 +1,3435 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO PODEMOS GARANTIR QUE O USER NÃO CONSIGA ENVIAR 'EMPTY DATA'
+
+
+
+LÁ NO COMPONENT DE 'ADD RESOURCE'?
+
+
+
+
+
+
+
+
+
+
+
+BEM, É CLARO QUE TEMOS AQUELES 
+
+
+3 
+
+
+
+INPUT VALUES,
+
+OBTIDOS ASSIM:
+
+
+
+
+
+submitData() {
+    const enteredTitle = this.$refs.titleInput.value;
+    const enteredDesc = this.$refs.descInput.value;
+    const enteredUrl = this.$refs.linkInput.value;
+    
+
+    this.addResource(enteredTitle, enteredDesc, enteredUrl);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PODEMOS ADICIONAR 
+
+
+IF CHECKS...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+submitData() {
+    const enteredTitle = this.$refs.titleInput.value;
+    const enteredDesc = this.$refs.descInput.value;
+    const enteredUrl = this.$refs.linkInput.value;
+
+    if (enteredTitle.trim() === '' || 
+        enteredDesc.trim() === '' ||
+        enteredUrl.trim() === ''
+    
+     ) {
+
+
+     }
+    
+
+    this.addResource(enteredTitle, enteredDesc, enteredUrl);
+}
+
+
+
+
+
+
+
+
+
+--> VAMOS RETORNAR EMPTY POR ENQUNATO,
+
+
+
+PARA EVITAR 
+
+
+A EXCUÇÃO DO RESTO DO CÓDIGO.. -> MAS TAMBÉM VAMOS QUERER 
+
+
+
+MOSTRAR UM ALERT..
+
+
+
+
+
+
+
+
+--> MAS O PROFESSOR QUER FAZER SHOW DE UM CUSTOM ALERT...
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+ 
+ O PROFESSOR ADICIONA UM NOVO COMPONENT NO NOSSO APP,
+
+
+
+
+
+
+
+
+ lá em 'UI' --> 
+
+
+
+ é um 
+
+ component de 'BaseDialog' ---> PODERÁ SER UTILIZADO PARA QUALQUER COISA, MAS O PROFESSOR USARÁ 
+
+ PARA O SHOW DE 
+
+ UMA 
+
+
+ ERROR MESSAG...
+
+
+
+
+
+
+
+
+
+
+ --> dentro 
+
+
+ desse component,
+
+
+
+ começamos assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <dialog>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O PROFESSOR JÁ COLOCA UM ATTRIBUTE DE 'open' 
+
+nesse 
+elemento,
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <dialog open>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> FAREMOS ISSO PARA QUE 
+
+
+O 
+
+DIALOG FIQUE SEMPRE 
+
+
+
+OPEN.. -> 
+
+
+MAS VAMOS 
+
+CONTROLAR
+ 
+ A
+  VISIBILIDAED 
+
+
+
+  DESSE DIALOG, NO DOM,
+
+
+
+
+  por meio do vue...
+
+
+
+
+
+
+
+
+
+  -> O PROFESSOR ADICIONA UM HEADER,M 
+
+
+
+  e dentro dele adiciona um SLOT,
+
+  para que 
+
+
+  O user/DEV 
+
+  consiga 
+
+
+
+
+  DEFINIR O QUE QUER 
+
+  ENFIAR DENTRO DELE...
+
+
+
+
+
+
+
+
+  --> MAS O PROFESSOR TAMBÉM ESCREVE UM CÓDIGO h2,
+
+  que será 
+
+  UTILIZADO SE NENHUM CONTEÚDO PARA ESSE 'DEFAULT SLOT'
+
+  for 
+
+  providenciado...
+
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+
+    <dialog open>
+        <header>
+            <slot>
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG-->
+
+                </h2>
+            </slot>
+        </header>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> PROFESSOR LEVA AO OUTRO NÍVEL,
+
+
+
+definindo uma propriedade/prop de 
+
+'title',
+
+
+
+QUE 
+
+
+SERÁ UTILIZADA SE 
+
+
+NÃO FOR PASSADO NADA A ESSE COMPONENT...
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <dialog open>
+        <header>
+            <slot>
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG-->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO NOS DÁ MAIOR FLEXIBILIDADE 
+
+NO USO DESSE COMPONENT...
+
+
+
+
+
+
+
+
+--> QUANDO USAMOS ESSE COMPONENT AÍ,
+
+
+poderemos:
+
+
+
+
+
+1) PASSAR __ O TITLE __ QUE DESEJARMOS, COMO PROP...
+
+
+
+
+
+
+
+2) OU, ENTÃO,
+ 
+ PROVIDENCIAR NOSSA ESTRUTURA HTML TOTALMENTE CUSTOMIZADA,
+
+ QUE SERÁ 
+ ENFIADA 
+
+ NESSE SLOT aí (como se o '{{title}} ' nunca tivesse existido)...
+
+
+
+
+
+
+
+
+
+ --> 
+
+
+ O PROFESSOR, POR ISSO,
+
+ VAI ADICIONAR NOSSO PROP 
+
+ DE FORMA DIFERENET...
+
+
+
+
+
+
+
+
+
+
+ --> ele 
+
+
+ vai definir o type de 'title' 
+
+
+ COMO SENDO UMA 'string',
+
+
+
+ MAS ELE NÃO SERÁ REQUIRED( 'required: false'),
+
+
+ JUSTAMENTE PQ 
+
+ VAMOS PODER ALTERNAR 
+
+ ENTRE ESSES 2 TIPOS DE USO DE 'BaseDialog'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> DEPOIS DISSO, DEPOIS DO HEADER,
+
+
+ O PROFESSOR ADICIONA UMA SECTION,
+
+ EM QUE TEREMOS O MAIN CONTENT DESSE DIALOG..
+
+
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+
+    <dialog open>
+        <header>
+            <slot>
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+            
+        </section>
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+queremos deixar esse código o mais flexível possível..
+
+
+
+
+
+
+
+
+
+
+--> é por isso que deixamos aquela tag de 'section' ali,
+
+
+e
+ provavelmente colocaremos um slot no seu interior...
+
+
+
+
+
+
+
+
+
+
+
+ <section>
+    <slot>
+        </slot>
+
+
+ <section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ MAS COMO TEMOS 2 SLOTS,
+
+ ESSE SEGUNOD SLOT PRECISA SER UM 'NAMED SLOT'...
+
+
+ (
+    pq com 2 ou mais slots,
+
+    todos slots subsequentes precisam de names..
+ )
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+ <template>
+
+    <dialog open>
+        <header>
+            <!-- ESSE É O SLOT DEFAULT-->
+            <slot>
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+                <slot name="headerSlot"></slot>
+        </section>
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+--> é melhor deixar o primeiro slot como 'header slot',
+
+e o segundo como DEFAULT...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <dialog open>
+        <header>
+            <!-- ESSE É O SLOT DEFAULT-->
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+                <slot ></slot>
+        </section>
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> DEPOIS,
+
+
+
+O PROFESSOR COLOCA 
+
+
+
+UM ELEMENTO DE 'menu'...
+
+
+
+
+
+
+
+
+
+
+<menu>
+</menu>
+
+
+
+
+
+
+
+
+
+
+MENU É UM ELEMENTO DEFAULT HTML
+
+
+
+
+queremos que o user/dev 
+
+MOSTRE
+ 
+ BUTTONS NESSE 'menu'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ok, fica tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+                <slot ></slot>            <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot"></slot>
+        </menu>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERto..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A QUESTÃO É QUE SÓ VAMOS USAR ESSE 'DIALOG'
+
+
+
+EM 1 ÚNICO LUGAR NO NOSSO APP... -->  
+
+
+
+POR ISSO,
+
+
+NÁO PRECISAMOS 
+
+ESCREVER DE FORMA TÁO FLEXível...
+
+
+
+
+
+
+
+
+
+
+--> MAS ISSO NOS MOSTRA COMO PODEMOS 
+
+
+
+DEFINIR UM DIALOG 
+TOTALMENTE 
+
+CUSTOMIZÁVEL...
+
+
+
+
+
+
+
+
+----> certo...
+
+
+
+
+
+
+
+
+E NÓS VAMOS QUERER TER UM BACKDROP ATRÁS DO MEU 
+
+DIALOG...
+
+
+
+
+
+
+
+-> por isso o professor adiciona uma div com nome de 'backdrop'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="backdrop"></div>
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+                <slot ></slot>            <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot"></slot>
+        </menu>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, 
+
+O PROFESSOR 
+
+
+TAMBÉM 
+
+NOS DÁ ALGUNS ESTILOS PRÉ-PRONTOS...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="backdrop"></div>
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+            <slot></slot> <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot"></slot>
+        </menu>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style scoped>
+@media (min-width: 768px) {
+    dialog {
+        left: calc(50% - 20rem);
+        width: 40rem;
+    }
+} 
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAIS ALGUNS STYLES:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import App from './App.vue';
+import BaseCard from './components/UI/BaseCard/BaseCard.vue';
+import BaseButton from './components/UI/BaseButton/BaseButton.vue';
+import BaseDialog from './components/UI/BaseDialog/BaseDialog.vue';
+
+const app = createApp(App);
+
+app.component('base-card', BaseCard);
+app.component('base-button', BaseButton);
+app.component('base-dialog', BaseDialog);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok..
+
+
+
+
+MAS 
+
+O DIALOG SÓ DEVE SER MOSTRADO 
+
+
+SE 
+
+O USER 
+
+
+
+INPUTTAR ALGO INVÁLIDo...
+
+
+
+
+
+
+
+
+
+
+faremos o handling disso lá em 'AddResource':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+    <base-card>
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            userText: '',
+            userDescription: '',
+            userLink: ''
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS COLOCAR UM 
+
+
+
+
+
+'data() {}',
+
+
+
+e então 
+
+
+
+
+
+
+
+
+
+
+FAREMOS MANAGE 
+
+DE 
+
+
+
+
+
+UM PIECE DE INFO --> 
+
+
+
+será 
+
+INFO ACERCA 
+
+
+
+
+
+DO USER INPUT,
+
+
+SE 
+
+ELE 
+
+ESTÁ VÁLIDO OU NÃO...
+
+
+
+
+
+
+
+
+
+
+
+--> será 'inputIsInvalid'.. --> 
+
+
+
+ELE INICIALMENTE SERÁ 'false' (
+
+
+    pq 
+
+
+    O USER NÃO TERÁ INPUTTADO COISA ALGUMA..
+)
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  SE QUALQUER UM DAQUELES INPUT FIELDS FOR DETECTADO COMO EMPTY,
+
+vamos definir 
+
+aquele 
+'InputIsInvalid'
+
+como TRUE...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                this.InputIsInvalid = false;
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA, FINALMENTE,
+
+USAREMOS 
+
+O 
+
+'base-dialog'--> VAMOS USAR O 'v-if' COM ELE...
+
+
+
+
+
+
+
+
+
+--> ELE SÓ SERÁ MOSTRADO 
+
+
+SE 
+
+
+
+
+O 'inputIsInvalid'
+
+
+ESTIVER COMO TRUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> NÓS NÃO VAMOS PROVIDENCIAR NENHUM 'HEADER SLOT',
+
+
+
+PQ VAMOS QUERER 
+
+
+USAR AQUELE 
+
+
+default fallback de '{{title}}' --> É POR ISSO QUE 
+
+DEFINIMOS APENAS ESSE PROP,
+
+COMO 
+
+'Invalid Input'...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+    <base-dialog v-if="inputIsInvalid" :title="Invalid Input"></base-dialog>
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                this.InputIsInvalid = false;
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> certo... 
+
+
+DEPOIS DISSO O PROFESSOR COLOCA UM '<template>',
+
+
+
+E DEPOIS 
+
+
+
+USA O SHORTHAND DE 
+
+
+'#default' ( para TARGETTAR O DEFAULT SLOT DO NOSSO HOC)...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+    <base-dialog v-if="inputIsInvalid" :title="Invalid Input">
+    <template #default> <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+        <p>Unfortunately, at least one input v alue is invalid.</p>
+    </template>
+
+</base-dialog>
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                this.InputIsInvalid = false;
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+    <base-dialog v-if="inputIsInvalid" :title="Invalid Input">
+    <template #default> <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+        <p>Unfortunately, at least one input v alue is invalid.</p>
+        <p>Please check all inputs and make sure you enter at least a few characters into each input field.</p>
+    </template>
+
+</base-dialog>
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                this.InputIsInvalid = false;
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+
+
+
+PREENCHEMOS:
+
+
+1) O HEADER SLOT (com o fallback de 'title')
+
+
+
+
+2) O 'DEFAULT SLOT' (com aqueles p)
+
+
+
+
+
+
+AGORA SÓ FALTA O TERCEIRO SLOT,
+
+
+o do 'menuSlot',
+
+
+
+
+
+EM QEU 
+
+COLOCAREMOS EM OUTRO TEMPLATE...
+
+
+
+
+
+
+
+
+
+
+eX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+    <base-dialog v-if="inputIsInvalid" :title="Invalid Input">
+    <template #default> <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+        <p>Unfortunately, at least one input v alue is invalid.</p>
+        <p>Please check all inputs and make sure you enter at least a few characters into each input field.</p>
+    </template>
+    <template #menuSlot>
+        <base-button @click="">Okay</base-button>
+    </template>
+</base-dialog>
+    <base-card>
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+colocamos outro '<base-button>',
+
+
+
+em que 
+
+passamos um click listener 
+
+
+
+
+para fazer 'dismiss' 
+
+do 
+
+
+
+DIALOG...  ---> e também colocamos um texto no slot, de 'Okay'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+
+    <base-dialog v-if="inputIsInvalid" :title="Invalid Input">
+        <template #default> <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+            <p>Unfortunately, at least one input v alue is invalid.</p>
+            <p>Please check all inputs and make sure you enter at least a few characters into each input field.</p>
+        </template>
+        <template #menuSlot>
+            <base-button @click="confirmError">Okay</base-button>
+        </template>
+    </base-dialog>
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" ref="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea ref="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" ref="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+
+
+
+<script>
+
+export default {
+
+
+
+    inject: [
+        'addResource'
+    ],
+
+
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            InputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+
+            ) {
+
+                this.InputIsInvalid = false;
+                return;
+            }
+
+            this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        },
+
+        confirmError() {
+            this.inputIsInvalid = false;
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM TUDO ISSO,
+
+SALVAMOS E RECARREGAMOS ESSA PAGE..
+
+
+
+
+
+
+
+--> em 'Add Resources',
+
+se tentamos SUBMITTAR UMA FORM COM 
+
+
+
+
+INPUT FIELDS INVÁLIDOS,
+
+
+
+enxergamos 
+
+
+
+
+o modal/dialog...
+
+
+
+
+
+
+
+--> NO BACKDROP,
+
+COLOCAMOS UM EVENT LISTENER 
+
+
+
+PARA __ FAZER_ EMIT __ de 
+
+
+
+um event,
+
+que  será 
+
+
+'closeDialog'..
+
+
+
+
+
+
+--> AGORA É SÓ CAPTURAR ESSE EVENRT, lá em 'AddResource'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <div class="backdrop" @click="$emit('closeDialog')"></div>
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+            <slot></slot> <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot">
+                <base-button @click="$emit('closeDialog')">Close</base-button>
+            </slot>
+        </menu>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style scoped>
+backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 10;
+}
+
+dialog {
+    position: fixed;
+    top: 20vh;
+    left: 10%;
+    width: 80%;
+    z-index: 100;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color: #3a0061;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+}
+
+header h2 {
+    margin: 0;
+}
+
+section {
+    padding: 1rem;
+}
+
+menu {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    dialog {
+        left: calc(50% - 20rem);
+        width: 40rem;
+    }
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CAPTURAMOS ISSO LÁ EM 'AddResource':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+
+    <div class="backdrop" @click="$emit('closeDialog')"></div>
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+            <slot></slot> <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot">
+                <base-button @click="$emit('closeDialog')">Close</base-button>
+            </slot>
+        </menu>
+
+    </dialog>
+
+</template>
+
+
+
+<script>
+
+export default {
+
+    emits: ['closeDialog'],
+
+    data() {
+        return {
+            props: ['title']
+        }
+    }
+}
+</script>
+
+
+
+
+
+<style scoped>
+backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 10;
+}
+
+dialog {
+    position: fixed;
+    top: 20vh;
+    left: 10%;
+    width: 80%;
+    z-index: 100;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+header {
+    background-color: #3a0061;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+}
+
+header h2 {
+    margin: 0;
+}
+
+section {
+    padding: 1rem;
+}
+
+menu {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    dialog {
+        left: calc(50% - 20rem);
+        width: 40rem;
+    }
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-dialog v-if="inputIsInvalid" :title="'Invalid Input'" @closeDialog="confirmError">
+        <template #default> <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+            <p>Unfortunately, at least one input value is invalid.</p>
+            <p>Please check all inputs and make sure you enter at least a few characters into each input field.</p>
+        </template>
+        <template #menuSlot>
+            <base-button @click="confirmError">Okay</base-button>
+        </template>
+    </base-dialog>
+    <base-card>
+        <!-- VERSÃO COM V-MODEL -->
+        <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+        <!-- VERSÃO COM REF... -->
+        <form @submit.prevent="submitData">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <!-- <input type="text" ref="userText" required name="title"> -->
+                <input type="text" ref="userText" name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <!-- <textarea ref="userDescription" required name="description" rows="4"></textarea> -->
+                <textarea ref="userDescription" name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <!-- <input type="url" ref="userLink" name="link"> -->
+                <input type="url" ref="userLink" name="link">
+            </div>
+            <div>
+                <base-button :type="'submit'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                   
+                    >Add
+                    Resource</base-button>
+            </div>
+        </form>
+    </base-card>
+
+</template>
+
+<!-- @click="addResource({ title: userText, description: userDescription, link: userLink })" -->
+
+
+<script>
+
+export default {
+    // inject: [
+    //     'addResource'
+    // ],
+    data() {
+        return {
+
+            // userText: '',
+            // userDescription: '',
+            // userLink: ''
+            inputIsInvalid: false
+        }
+    },
+
+
+    methods: {
+        submitData() {
+            const enteredTitle = this.$refs.userText.value;
+            const enteredDesc = this.$refs.userDescription.value;
+            const enteredUrl = this.$refs.userLink.value;
+
+            if (enteredTitle.trim() === '' ||
+                enteredDesc.trim() === '' ||
+                enteredUrl.trim() === ''
+            ) {
+                console.log("ENTERED");
+                this.inputIsInvalid = true;
+                return;
+            }
+
+
+            // this.addResource(enteredTitle, enteredDesc, enteredUrl);
+        },
+
+        confirmError() {
+            this.inputIsInvalid = false;
+        }
+    }
+}
+
+</script>
+
+
+
+
+<style scoped>
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3a0061;
+    background-color: #f7ebff;
+}
+
+.form-control {
+    margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok, funcionou....

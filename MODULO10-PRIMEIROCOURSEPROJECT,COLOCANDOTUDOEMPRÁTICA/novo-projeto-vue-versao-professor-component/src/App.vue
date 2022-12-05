@@ -1,4 +1,5 @@
 <template>
+
   <TheHeader :title="chosenHeader"></TheHeader>
   <!-- <base-button buttonText="Resource List" :disabled="this.chosenPage === 'resource-list'"
     @click="switchPage('resource-list')"></base-button>
@@ -32,8 +33,8 @@ export default {
 
 
     return {
-       removeResource: this.removeResource,
-      // addResource: this.addResource,
+      removeResource: this.removeResource,
+      addResource: this.addResource,
       // storedResources: this.storedResources
     }
   },
@@ -51,14 +52,14 @@ export default {
 
   methods: {
 
-    removeResource(id) {
-      console.log("ENTERED", id);
-      this.storedResources = this.storedResources.filter(
-        (resource) => {
-          return resource.id !== id
-        }
-      );
-    },
+    // removeResource(id) {
+    //   console.log("ENTERED", id, this.storedResources);
+    //   this.storedResources = this.storedResources.filter(
+    //     (resource) => {
+    //       return resource.id !== id
+    //     }
+    //   );
+    // },
 
     // switchPage(chosenPage) {
     //   this.chosenPage = chosenPage
