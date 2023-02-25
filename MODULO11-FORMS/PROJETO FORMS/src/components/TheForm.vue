@@ -12,6 +12,9 @@
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
       <input id="age" name="age" type="number" v-model="enteredAge" />
+      <!--  o fato do input ser de type 'age' faz com que TODAS AS COISAS INPUTTADAS NELE (como strings) SEJAM AUTOMATICAMENTE CONVERTIDAS EM NUMBERS, pelo vue -->
+   
+   <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
     </div>
     <div class="form-control">
       <label for="referrer">How did you hear about us?</label>
@@ -77,7 +80,7 @@ export default {
   data() {
     return {
       enteredUser: '',
-      enteredAge: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
       enteredReferrer: '',
       checkedNews: false,
       checkedTutorials: false,
@@ -186,3 +189,116 @@ button:active {
   background-color: #002350;
 }
 </style>
+
+
+
+
+
+
+
+
+<!-- 'v-model.number="" ' 
+
+
+
+
+
+
+
+
+
+
+--> 
+
+<!-- 
+
+ISSO _ VAI CONVERTEr__ AUTOMATICAMENTE __ 
+
+
+
+O VALUE INPUTTADO NESSE INPUT FIELD, PELO USER,
+
+
+
+EM 
+
+
+1 _ _ VALUE __ DE TYPE NUMBER..
+
+
+
+
+
+ -->
+
+
+<!-- 
+ TEMOS MODIFIERS COMO 
+
+
+
+
+ 'v-model.lazy'...
+
+
+
+
+
+
+
+
+
+esse modifier te deixa modificar  -->
+
+
+
+ <!-- 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'',  se ele faz isso -->
+
+ 
+
+ <!-- PARA CADA KEYSTROKE,
+
+
+ OU SE, PARA ALGUNS INPUTS,
+
+
+ ELE __ FAZ/DEVE FAZER ISSO COM 1 FREQUÊNCIA MELHOR...
+
+
+
+
+
+
+ -->
+
+
+
+
+<!-- 
+JÁ 'v-model.trim="" -->
+
+
+<!-- 
+ QUER DIZER QUE _ ELE _ DEVE __ REMOVER __ EXCESS WHITE SPACE 
+
+
+
+ AO INÍCIO E FINAL __ DO TEXTO QUE FOI INPUTTADO...
+
+
+
+ (
+
+  é a mesma coisa que 
+
+
+  escrever 
+
+  o method '.trim()' no final de 
+
+
+  'this.enteredUser',
+
+
+  por exemplo...
+ ) -->
