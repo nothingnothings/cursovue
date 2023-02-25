@@ -422,3 +422,526 @@ COMEÇA PRÉ-CARREGADO...
 É MT FÁCIL CONSEGUIR VALUES PARA 1 DROPDOWN DE 'SELECT',
 
 com o VUE...
+
+
+
+
+
+
+
+
+--> OK.... MAS O PROBLEMA É QUE O NEGÓCIO AINDA VAI SE COMPORTAR DE MANEIRA ESTRANHA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> POR EXEMPLO, SE DESCHECAMOS 1 CAIXA, TODOS 
+
+
+
+OS FIELDS FICAM UNCHECKED... ---> MAS PQ 
+
+ISSO ACONTECE?
+
+
+
+
+
+
+
+-> É PQ CADA CHECKBOX PRECISA TER 1 PROPERTY DE 'VALUE',
+
+SENÃO O 
+
+
+
+
+VUE NÃO CONSEGUE DIFERENCIAR ESSAS CHECKBOXES...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT EM RELAÇÃO A OUTRO ... -->
+        <input
+          id="interest-news"
+          name="interest"
+                 value="news"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+             value="tutorials"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          value="nothing"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-nothing">Nothing</label>
+
+
+
+
+
+
+
+
+O 
+
+
+
+'VALUE' É UM DEFAULT HTML ATTRIBUTE,
+
+
+E 
+
+
+
+
+CONFERE A CADA 1 DESSES ELEMENTS 1 UNIQUE IDENTIFIER,
+
+POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+AÍ FAZEMOS A MESMA COISA NOS RADIO BUTTONS,
+
+COLOCAMOS VALUES INDIVIDUAIS PARA CADA 1 DELES, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="onFormSubmitHandler($event)">
+    <div class="form-control">
+      <label for="user-name">Your Name</label>
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+      />
+    </div>
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+      <!--  o fato do input ser de type 'age' faz com que TODAS AS COISAS INPUTTADAS NELE (como strings) SEJAM AUTOMATICAMENTE CONVERTIDAS EM NUMBERS, pelo vue -->
+
+      <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+      <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT (de type 'checkbox' ou 'radio') EM RELAÇÃO A OUTRO ... -->
+        <input
+          id="interest-news"
+          name="interest"
+                 value="news"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+             value="tutorials"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          value="nothing"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" value="video" type="radio" v-model="how" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" value="blogs" type="radio" v-model="how" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" value="other" type="radio" v-model="how" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SALVAMOS TUDO, 
+
+
+E AÍ 
+
+
+
+PERCEBEMOS QUE 
+
+
+
+AS COISAS ESTÃO FUNCIONANDo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É ASSIM, PORTANTO, QUE PODEMOS EXTRAIR VALUES DE CHECKBOXES 
+
+
+
+E DE RADIO BUTTONS,
+
+
+TUDO COM 'V-MODEL'
+
+
+E COM A AJUDA DO ATTRIBUTE DE 
+
+'VALUE'...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS HÁ OUTRO CASE QUE PODERÍAMOS TER, AQUI....
+
+
+
+
+
+
+
+
+
+-> É UM CASE EM QUE 
+
+TEMOS 
+
+
+APENAS 
+
+
+1 ÚNICO 
+
+
+
+CHECKBOX 
+
+ELEMENT.... 
+
+
+
+
+
+EX:
+
+
+
+
+
+
+<div class="form-control">
+  <input type="checkbox" id="confirm-terms" name="confirm-terms">
+  <label for="confirm-terms">Agree to terms of use?</label>
+</div>
+
+
+
+
+
+
+
+
+
+
+BEM, MAS COMO PODEMOS ADICIONAR 
+
+O V-MODEL A ISSO AÍ, TBM?
+
+
+
+
+
+
+
+
+
+
+BEM, BASTA VINCULAR ASSIM:
+
+
+
+
+
+
+
+
+<div class="form-control">
+  <input type="checkbox" id="confirm-terms" name="confirm-terms" v-model="confirmTerms">
+  <label for="confirm-terms">Agree to terms of use?</label>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+-> COM ISSO,
+
+
+
+CONSEGUIMOS BINDAR OS 2...
+
+
+
+
+
+
+----> O VALUE INICIAL SERÁ DE 'false'... ----> 
+
+
+
+
+
+
+
+
+
+SE ATIVAMOS ESSE ELEMENTO/CHECAMOS A CAIXA,
+
+
+
+O VALUE DA PROPRIEDADE EM 'DATA'
+
+
+PASSA A SER
+
+'true'...
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+--> ISSO QUER DIZER:
+
+
+
+
+
+1) SE VC TEM UMA LISTA, GROUP DE CHECKBOXES QUE COMPARTILHAM O MESMO 
+
+ATTRIBUTE DE 'NAME',
+
+VC GANHA 1 ARRAY,
+
+
+
+EM QUE CADA checked value fará parte do array....
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<script>
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null, 
+      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+
+      // versão FEITA POR MIM, antiga, ruim...
+      // checkedNews: false,
+      // checkedTutorials: false,
+      // checkedNothing: false,
+      // checkedVideo: false,
+      // checkedBlogs: false,
+      // checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK.. É TUDO ISSO QUE 
+
+  TEMOS QUE SABER SOBRE 'CHECKBOXES' 
+
+  E 
+
+  'RADIO BUTTONS',
+
+
+  COM O V-MODEL,
+
+  NO VUE...

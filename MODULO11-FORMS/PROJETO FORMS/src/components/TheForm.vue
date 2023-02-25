@@ -27,9 +27,11 @@
     <div class="form-control">
       <h2>What are you interested in?</h2>
       <div>
+      <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT (de type 'checkbox' ou 'radio') EM RELAÇÃO A OUTRO ... -->
         <input
           id="interest-news"
           name="interest"
+                 value="news"
           type="checkbox"
           v-model="interest"
         />
@@ -39,6 +41,7 @@
         <input
           id="interest-tutorials"
           name="interest"
+             value="tutorials"
           type="checkbox"
           v-model="interest"
         />
@@ -48,6 +51,7 @@
         <input
           id="interest-nothing"
           name="interest"
+          value="nothing"
           type="checkbox"
           v-model="interest"
         />
@@ -57,18 +61,26 @@
     <div class="form-control">
       <h2>How do you learn?</h2>
       <div>
-        <input id="how-video" name="how" type="radio" v-model="checkedVideo" />
+        <input id="how-video" name="how" value="video" type="radio" v-model="how" />
         <label for="how-video">Video Courses</label>
       </div>
       <div>
-        <input id="how-blogs" name="how" type="radio" v-model="checkedBlogs" />
+        <input id="how-blogs" name="how" value="blogs" type="radio" v-model="how" />
         <label for="how-blogs">Blogs</label>
       </div>
       <div>
-        <input id="how-other" name="how" type="radio" v-model="checkedOther" />
+        <input id="how-other" name="how" value="other" type="radio" v-model="how" />
         <label for="how-other">Other</label>
       </div>
     </div>
+
+<div class="form-control">
+  <input type="checkbox" id="confirm-terms" name="confirm-terms" v-model="confirmTerms">
+  <label for="confirm-terms">Agree to terms of use?</label>
+</div>
+
+
+
     <div>
       <button>Save Data</button>
     </div>
@@ -83,8 +95,9 @@ export default {
       enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
       enteredReferrer: 'google',
       // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
-      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes)
-      how: null,
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null, 
+      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
 
       // versão FEITA POR MIM, antiga, ruim...
       // checkedNews: false,
