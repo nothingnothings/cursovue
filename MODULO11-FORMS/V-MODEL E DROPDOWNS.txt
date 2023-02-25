@@ -1,3 +1,281 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... VIMOS O 'NAME'
+
+E 
+
+A 
+
+'AGE'..
+
+
+
+
+
+
+
+
+
+--> AGORA É HORA DE ESTUDARMOS O 
+
+
+
+ELEMENTO DE 'DROPDOWN'...
+
+
+
+
+
+
+
+TEMOS ESTE CÓDIGO:
+
+
+
+
+
+   <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AS BOAS NOTÍCIAS SÃO QUE 
+
+
+
+
+O 'v-model'
+
+
+FUNCIONA EXATAMENTE DA MESMA FORMA COM 'select elements' e suas options...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----->  o PROFESSOR FAZ BIND DE ESSE 
+
+
+
+select dropdown ao 'enteredReferrer'
+
+data property,
+
+tipo assim:
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+MAS O PROFESSOR 
+
+
+
+
+
+DIZ QUE TALVEZ 
+
+
+
+QUEIRAMOS NÃO COMEÇAR COM 1 STARTING VALUE DE 
+
+
+
+"" (empty string) PARA ESSE REFERRER..
+
+
+
+
+
+
+
+
+
+
+
+
+
+TALVEZ SEJA MELHOR COMEÇAR COM 1 CHOICE JÁ DEFINIDA...
+
+
+
+
+
+
+-> BASTA COLOCAR 1 DOS VALUES DEFINIDOS NAS 'OPTIONS' desse select elemetn,
+tipo assim:
+
+
+
+
+
+
+
+   <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+  -------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+PEGAMOS O VALUE DESSE 'google'...
+
+
+
+
+
+
+
+
+
+
+----> aí esse 
+
+
+VALUE VAI REALMENTE COMEÇAR, INICIALMENTE,
+
+
+NESSE REFERRER AÍ....
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
 <template>
   <form @submit.prevent="onFormSubmitHandler($event)">
     <div class="form-control">
@@ -91,105 +369,19 @@ export default {
     };
   },
 
-  methods: {
-    onFormSubmitHandler() {
-      // event.preventDefault;
-
-      console.log(this.enteredUser);
-      console.log(this.enteredAge);
-      console.log(this.enteredReferrer);
-      console.log(this.checkedNews);
-      console.log(this.checkedTutorials);
-      console.log(this.checkedNothing);
-      console.log(this.checkedVideo);
-      console.log(this.checkedBlogs);
-      console.log(this.checkedOther);
-
-      this.enteredUser = '';
-      this.enteredAge = '';
-      this.checkedNews = '';
-      this.checkedTutorials = '';
-      this.checkedNothing = '';
-      this.checkedVideo = '';
-      this.checkedBlogs = '';
-      this.checkedOther = '';
 
-      console.log(
-        this.enteredUser,
-        this.enteredAge,
-        this.enteredReferrer,
-        this.checkedNews,
-        this.checkedTutorials
-      );
-    },
-  },
-};
-</script>
 
-<style scoped>
-form {
-  margin: 2rem auto;
-  max-width: 40rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 2rem;
-  background-color: #ffffff;
-}
 
-.form-control {
-  margin: 0.5rem 0;
-}
 
-label {
-  font-weight: bold;
-}
 
-h2 {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-}
 
-input,
-select {
-  display: block;
-  width: 100%;
-  font: inherit;
-  margin-top: 0.5rem;
-}
 
-select {
-  width: auto;
-}
 
-input[type='checkbox'],
-input[type='radio'] {
-  display: inline-block;
-  width: auto;
-  margin-right: 1rem;
-}
 
-input[type='checkbox'] + label,
-input[type='radio'] + label {
-  font-weight: normal;
-}
 
-button {
-  font: inherit;
-  border: 1px solid #0076bb;
-  background-color: #0076bb;
-  color: white;
-  cursor: pointer;
-  padding: 0.75rem 2rem;
-  border-radius: 30px;
-}
 
-button:hover,
-button:active {
-  border-color: #002350;
-  background-color: #002350;
-}
-</style>
 
+  -----------------------------
 
 
 
@@ -197,7 +389,6 @@ button:active {
 
 
 
-<!-- 'v-model.number="" ' 
 
 
 
@@ -205,100 +396,29 @@ button:active {
 
 
 
+SALVAMOS TUDO ISSO, e percebemos que 'word of mouth' 
 
+COMEÇA PRÉ-CARREGADO...
 
 
---> 
 
-<!-- 
 
-ISSO _ VAI CONVERTEr__ AUTOMATICAMENTE __ 
 
 
 
-O VALUE INPUTTADO NESSE INPUT FIELD, PELO USER,
+-----------------------------
 
 
 
-EM 
 
 
-1 _ _ VALUE __ DE TYPE NUMBER..
 
 
 
 
 
- -->
 
 
-<!-- 
- TEMOS MODIFIERS COMO 
+É MT FÁCIL CONSEGUIR VALUES PARA 1 DROPDOWN DE 'SELECT',
 
-
-
-
- 'v-model.lazy'...
-
-
-
-
-
-
-
-
-
-esse modifier te deixa modificar  -->
-
-
-
- <!-- 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'',  se ele faz isso -->
-
- 
-
- <!-- PARA CADA KEYSTROKE,
-
-
- OU SE, PARA ALGUNS INPUTS,
-
-
- ELE __ FAZ/DEVE FAZER ISSO COM 1 FREQUÊNCIA MELHOR...
-
-
-
-
-
-
- -->
-
-
-
-
-<!-- 
-JÁ 'v-model.trim="" -->
-
-
-<!-- 
- QUER DIZER QUE _ ELE _ DEVE __ REMOVER __ EXCESS WHITE SPACE 
-
-
-
- AO INÍCIO E FINAL __ DO TEXTO QUE FOI INPUTTADO...
-
-
-
- (
-
-  é a mesma coisa que 
-
-
-  escrever 
-
-  o method '.trim()' no final de 
-
-
-  'this.enteredUser',
-
-
-  por exemplo...
- ) -->
+com o VUE...
