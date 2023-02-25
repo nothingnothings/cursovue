@@ -1,7 +1,11 @@
 <template>
   <form @submit.prevent="onFormSubmitHandler($event)">
     <div class="form-control">
-      <label for="user-name" :class="{invalid: userNameValidity === 'invalid'}">Your Name</label>
+      <label
+        for="user-name"
+        :class="{ invalid: userNameValidity === 'invalid' }"
+        >Your Name</label
+      >
       <input
         id="user-name"
         name="user-name"
@@ -106,7 +110,9 @@
       />
       <label for="confirm-terms">Agree to terms of use?</label>
     </div>
-
+    <div class="form-control">
+      <rating-control></rating-control>
+    </div>
     <div>
       <button>Save Data</button>
     </div>
@@ -114,7 +120,12 @@
 </template>
 
 <script>
+import RatingControl from '../components/RatingControl';
 export default {
+  components: {
+    RatingControl,
+  },
+
   data() {
     return {
       enteredUser: '',
