@@ -1,0 +1,543 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... NÓS TAMBÉM 
+
+
+TEMOS 'CHECKBOXES' E 'RADIO BUTTONS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A DIFERENÇA ENTRE CHECKBOXES E RADIO BUTTONS É 
+
+
+
+QUE 
+
+
+
+COM ELAS PODEMOS ___ SELECIONAR_ 
+
+MÚLTIPLAS 
+
+
+
+DELAS AO MESMO TEMPO,
+
+
+
+
+
+
+
+AO PASSO QUE COM 'radio buttons'
+
+
+
+SÓ PODEMOS ESCOLHER 1 DE CADA VEZ (se eles compartilham o mesmo attribute 'name')...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+      <div>
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNews"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          v-model="checkedTutorials"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNothing"
+        />
+        <label for="interest-nothing">Nothing</label>
+
+
+
+
+
+
+
+
+    
+
+        <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" type="radio" v-model="checkedVideo" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" type="radio" v-model="checkedBlogs" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" type="radio" v-model="checkedOther" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... E PODEMOS ADICIONAR DATA PROPERTIES PARA ISSO, TAMBÉM... -> 
+
+PQ TAMBÉM 
+
+PODEMOS USAR 
+
+'v-model' para isso...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+O PROFESSOR ADICIONA 2 DATA PROPERTIES...
+
+
+
+
+
+
+
+--> ELE DEFINE 
+
+
+1 de 'interest',
+
+e outra 
+
+de 
+'how'...
+
+
+
+
+
+
+
+
+
+
+AMBAS SÃO DEFINIDAS COMO 'null',
+
+INICIALMENTE...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      interest: null,
+      how: null
+
+
+      // versão FEITA POR MIM, antiga, ruim...
+      // checkedNews: false,
+      // checkedTutorials: false,
+      // checkedNothing: false,
+      // checkedVideo: false,
+      // checkedBlogs: false,
+      // checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... MAS COMO PODEMOS 
+
+
+
+
+
+
+
+
+ USAR 'V-MODEL'
+
+ PARA ISSO AÍ?
+
+
+
+
+
+
+
+
+
+
+
+
+ --> BEM, DEVEMOS COMEÇAR COM AS CHECKBOXES....
+
+
+
+
+
+
+
+
+
+--> COLOCAMOS V-model'
+
+
+
+
+
+
+EM CADA 1 DOS INPUT FIELDS DE TYPE 'checkbox'...
+
+
+
+
+
+E AÍ, VAMOS DEFINIR A PROPRIEDADE AFETADA COMO SENDO SIMPLESMENTE AQUELA 'interest'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+         v-model="interest"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+         v-model="interest"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok....
+
+
+
+
+
+
+AGORA, SEMPRE QUANDO CLICARMOS EM ALGUM CHECKBOX,
+
+
+
+ISSO 
+
+
+
+VAI ALTERAR A PROPRIEDADE DE 
+
+
+
+'interest'
+
+
+
+
+como sendo outra coisa...
+
+
+
+
+
+
+
+
+
+
+-------> O PROFESSOR COLOCA ALGUNS CONSOLE.LOGS NO SUBMIT DA FORM,
+
+
+para enxergarmos o que fica dentro desse objeto 'data'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> BEM... MAS, DE FATO,
+
+FICAMOS COM O EXATO PROBLEMA QUE EU TINHA IMAGINADO --> 
+
+
+
+
+
+
+SE COLOCAMOS 1 MESMO NAME PARA OS 3 INPUTS DE type 'checkbox',
+
+OS 
+
+
+
+3 
+
+VÃO 
+
+SER SELECIONADOS/DE-SELECIONADOS AO MESMO TEMPO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO É BEM RUIM.... COMO PODEMOS CONSERTAR ISSO?
+
+
+
+
+
+
+
+
+
+
+--> BEM, O PROFESSOR DIZ QUE _ _DEVEMOS COLOCAR 1 'EMPTY ARRAY'
+
+
+
+
+COMO VALUE INICIAL __ DESSA PROPRIEDADE DE 'interest',
+
+tipo assim:
+
+
+
+
+
+
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes)
+      how: null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> SE DEFINIMOS O VALUE INICIAL COMO EMPTY ARRAY,
+
+
+
+O VUE __ VAI __ ADICIONAR __ 
+
+
+
+
+CADA VALUE A ESSE ARRAY AÍ,
+
+
+
+
+
+TIRANDO AQUELE COMPORTAMETNO DE 'TODOS JUNTOS'...

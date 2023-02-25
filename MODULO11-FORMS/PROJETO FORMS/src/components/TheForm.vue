@@ -13,8 +13,8 @@
       <label for="age">Your Age (Years)</label>
       <input id="age" name="age" type="number" v-model="enteredAge" />
       <!--  o fato do input ser de type 'age' faz com que TODAS AS COISAS INPUTTADAS NELE (como strings) SEJAM AUTOMATICAMENTE CONVERTIDAS EM NUMBERS, pelo vue -->
-   
-   <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
+
+      <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
     </div>
     <div class="form-control">
       <label for="referrer">How did you hear about us?</label>
@@ -31,7 +31,7 @@
           id="interest-news"
           name="interest"
           type="checkbox"
-          v-model="checkedNews"
+          v-model="interest"
         />
         <label for="interest-news">News</label>
       </div>
@@ -40,7 +40,7 @@
           id="interest-tutorials"
           name="interest"
           type="checkbox"
-          v-model="checkedTutorials"
+          v-model="interest"
         />
         <label for="interest-tutorials">Tutorials</label>
       </div>
@@ -49,7 +49,7 @@
           id="interest-nothing"
           name="interest"
           type="checkbox"
-          v-model="checkedNothing"
+          v-model="interest"
         />
         <label for="interest-nothing">Nothing</label>
       </div>
@@ -82,12 +82,17 @@ export default {
       enteredUser: '',
       enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
       enteredReferrer: 'google',
-      checkedNews: false,
-      checkedTutorials: false,
-      checkedNothing: false,
-      checkedVideo: false,
-      checkedBlogs: false,
-      checkedOther: false,
+      // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes)
+      how: null,
+
+      // versão FEITA POR MIM, antiga, ruim...
+      // checkedNews: false,
+      // checkedTutorials: false,
+      // checkedNothing: false,
+      // checkedVideo: false,
+      // checkedBlogs: false,
+      // checkedOther: false,
     };
   },
 
@@ -98,28 +103,36 @@ export default {
       console.log(this.enteredUser);
       console.log(this.enteredAge);
       console.log(this.enteredReferrer);
-      console.log(this.checkedNews);
-      console.log(this.checkedTutorials);
-      console.log(this.checkedNothing);
-      console.log(this.checkedVideo);
-      console.log(this.checkedBlogs);
-      console.log(this.checkedOther);
+      console.log(this.interest);
+      console.log(this.how);
+      // console.log(this.checkedNews);
+      // console.log(this.checkedTutorials);
+      // console.log(this.checkedNothing);
+      // console.log(this.checkedVideo);
+      // console.log(this.checkedBlogs);
+      // console.log(this.checkedOther);
 
+      //ISTO REINICIA OS INPUTS para 'empty values'..
       this.enteredUser = '';
-      this.enteredAge = '';
-      this.checkedNews = '';
-      this.checkedTutorials = '';
-      this.checkedNothing = '';
-      this.checkedVideo = '';
-      this.checkedBlogs = '';
-      this.checkedOther = '';
+      this.enteredAge = null;
+      this.enteredReferrer = '';
+      this.interest = [];
+      this.how = null;
+      // this.checkedNews = '';
+      // this.checkedTutorials = '';
+      // this.checkedNothing = '';
+      // this.checkedVideo = '';
+      // this.checkedBlogs = '';
+      // this.checkedOther = '';
 
       console.log(
         this.enteredUser,
         this.enteredAge,
         this.enteredReferrer,
-        this.checkedNews,
-        this.checkedTutorials
+        this.interest,
+        this.how
+        // this.checkedNews,
+        // this.checkedTutorials
       );
     },
   },
@@ -190,13 +203,6 @@ button:active {
 }
 </style>
 
-
-
-
-
-
-
-
 <!-- 'v-model.number="" ' 
 
 
@@ -208,7 +214,7 @@ button:active {
 
 
 
---> 
+-->
 
 <!-- 
 
@@ -231,7 +237,6 @@ EM
 
  -->
 
-
 <!-- 
  TEMOS MODIFIERS COMO 
 
@@ -250,13 +255,9 @@ EM
 
 esse modifier te deixa modificar  -->
 
+<!-- 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'',  se ele faz isso -->
 
-
- <!-- 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'',  se ele faz isso -->
-
- 
-
- <!-- PARA CADA KEYSTROKE,
+<!-- PARA CADA KEYSTROKE,
 
 
  OU SE, PARA ALGUNS INPUTS,
@@ -271,12 +272,8 @@ esse modifier te deixa modificar  -->
 
  -->
 
-
-
-
 <!-- 
 JÁ 'v-model.trim="" -->
-
 
 <!-- 
  QUER DIZER QUE _ ELE _ DEVE __ REMOVER __ EXCESS WHITE SPACE 
