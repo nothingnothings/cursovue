@@ -739,3 +739,6 @@ lá do component.... (
 With v-bind="person" you pass all key-value pairs inside of person as props to the component. That of course requires person to be a JavaScript object.
 
 This is purely optional but it's a little convenience feature that could be helpful.
+
+
+

@@ -1,0 +1,91 @@
+
+-> precisamos do elemento '<teleport></teleport>',
+
+
+
+
+
+
+QUE É UTILIZADO PARA COLOCAR NOSSO MODAL EM UM LUGAR MAIS ALTO, NO DOM....
+
+
+
+
+
+
+
+
+
+
+--> VAMOS ATÉ O COMPONENT 'BASEDIALOG':
+
+
+
+
+
+
+
+
+<template>
+
+    <teleport to="body">
+    <div class="backdrop" @click="$emit('closeDialog')"></div>
+    <dialog open>
+        <header>
+            <slot name="headerSlot">
+                <h2> <!-- ESTE CONTEÚDO DEFAULT SERÁ UTILIZADO SE NADA FOR PASSADO COMO CONTEÚDO do 'slot' DESSE DIALOG  - PODEMOS OU PASSAR ESSE PROP 'title' para definir o texto que desejarmos, ou ENTÃO REPASSAR UMA ESTRUTURA HTML TOTALMENTE DIFERNETE, QUE VAI FAZER OVERWRITE desse '{{title}}' ... -->
+                    {{ title }}
+                </h2>
+            </slot>
+        </header>
+        <section>
+            <slot></slot> <!-- ESSE É O SLOT DEFAULT-->
+        </section>
+
+        <menu>
+            <slot name="menuSlot">
+                <base-button @click="$emit('closeDialog')">Close</base-button>
+            </slot>
+        </menu>
+
+    </dialog>
+</teleport>
+
+</template>
+
+
+
+
+
+
+
+
+
+
+
+ESSE TELEPORT EXIGE 1 PROP, o 'to',
+
+
+
+QUE É ONDE COLOCAMOS 1 CSS SELECTOR, EM QUE INFORMAMOS A QUE ELEMENTO, NO DOM,
+
+
+ESSE NEGÓCIO DEVERÁ SER TELEPORTADO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+FUNCIONOU.... O TELEPORT COLOCOU NOSSO ELEMENTO NO TOPO DO DOM,
+
+
+
+lá no 'body'...

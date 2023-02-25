@@ -1,0 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+PARA ISSO,
+
+
+
+
+
+COMO SEMPRE,
+
+TEMOS 1 STARTING PROJECT...
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS PEGAR E RODAR 'npm install' nele...
+
+
+
+
+
+
+
+isso vai te dar o dev server...

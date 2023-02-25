@@ -1,6 +1,6 @@
 <template>
 
-    <Teleport to="body">
+    <teleport to="body">
     <div class="backdrop" @click="$emit('closeDialog')"></div>
     <dialog open>
         <header>
@@ -21,7 +21,7 @@
         </menu>
 
     </dialog>
-</Teleport>
+</teleport>
 
 </template>
 

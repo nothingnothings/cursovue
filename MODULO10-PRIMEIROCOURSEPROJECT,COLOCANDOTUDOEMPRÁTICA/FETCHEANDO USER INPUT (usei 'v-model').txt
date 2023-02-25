@@ -1095,16 +1095,6 @@ COM UM OVERLAY CUSTOMIZADO (
 
 
 
-
-
-
-
-
-
-
-
-
-
 DEVEMOS TENTAR FAZER ISSO 
 
 POR CONTA PRÓPRIA..
@@ -1118,3 +1108,19 @@ POR CONTA PRÓPRIA..
 DATA 
 
 INVÁLIDA...
+
+
+
+
+
+
+
+
+-> precisamos do elemento '<teleport></teleport>',
+
+
+
+
+
+
+QUE É UTILIZADO PARA COLOCAR NOSSO MODAL EM UM LUGAR MAIS ALTO, NO DOM....

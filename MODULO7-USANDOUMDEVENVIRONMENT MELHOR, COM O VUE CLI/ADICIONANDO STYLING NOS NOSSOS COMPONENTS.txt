@@ -176,3 +176,14 @@ POR MEIO DE COISAS COMO ISTO:
 Also add the following font import to the <style> section in the App.vue file (right at the beginning of the style section).
 
 @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+
+
+
+
+
+
+
+
+
+
+
