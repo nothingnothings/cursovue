@@ -1,0 +1,686 @@
+
+
+
+
+
+
+
+
+-_> OK...
+
+
+
+AGORA QUE SABEMOS COMO CONSEGUIR VALUES COM 'v-model'..
+
+
+
+
+
+
+
+
+
+O PROFESSOR MENCIONA 
+'refs' ->  AS REFS PODEM 
+
+
+
+
+
+SER ÓTIMAS SE VC QUER LER DATA '1 ÚNICA VEZ' ( comportamento diferente)..
+.
+
+
+
+
+
+
+
+
+
+
+
+
+MAS VAMOS CONTINUAR COM INPUT VALIDATION...
+
+
+
+
+
+
+
+
+
+
+JÁ FIZEMOS 1 POUCO DE VALIDATION 
+
+
+
+NO ÚLTIMO 
+
+MÓDULO,
+
+EM QUE 
+
+FIZEMOS 
+
+1 
+
+ERROR ALERT 
+
+APARECER EM CASOS DE INPUT 
+
+
+
+
+DE VALUES INVÁLIDOS...
+
+
+
+
+
+
+
+
+-> E VC PODE FAZER ISSO... 
+
+
+
+
+
+NO SEU METHOD DE 'SUBMIT',
+
+VC 
+
+PODE CHECAR TODOS OS METHODS,
+
+E 
+
+SE 
+
+
+
+
+ALGUM INPUT 
+
+ESTIVER COM ALGUM 
+
+
+VALUE INVÁLIDO,
+
+VC PODE MOSTRAR 1 ALERT/DIALOG...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS PODEMOS TAMBÉM 
+
+VALIDAR OS INPUTS 
+
+
+EM CADA KEYSTROKE,
+
+OU QUANDO 
+
+
+
+
+O INPUT FAZ 'BLUR' (Quando o input 'loses focus')...
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+PODEMOS 
+
+
+COLOCAR 
+
+'@blur' --->
+
+
+
+AÍ, QUANDO ISSO ACONTECE,
+
+PODEMOS 
+
+
+
+CHECAR SE O VALUE ESTÁ VÁLIDO,
+
+
+E 
+
+
+MOSTRAR 
+
+
+1 ALERTA A DEPENDER DISSO...
+
+
+
+
+
+
+
+
+
+
+
+-> tipo assim:
+
+
+
+
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+        @blur="validateInput()"
+      />
+
+
+
+
+
+
+
+
+
+
+
+
+    -----> OK...
+
+
+
+
+
+
+
+
+    AÍ, NO NOSSOS METHODS,
+
+    PODEMOS ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null, 
+      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK..
+
+
+
+
+
+
+
+
+
+  COLOCAREMOS UMA NOVA DATA PROPERTY, DE NOME 'userNameValidity'...
+
+
+
+
+
+
+
+  --> SERÁ 'pending', inicialmente...
+
+
+
+
+
+
+  -_> EM VALIDATE INPUT,
+
+
+  VAMOS CHECAR 
+
+  se 
+
+  'this.userName' 
+
+
+
+
+
+
+, QUANDO TRIMMADO,
+
+
+
+
+
+É IGUAL A 1 EMPTY STRING --> SE ISSO ACONTECER,
+
+VAMOS DEFINIR 
+
+
+'this.userNameValidity = 'invalid' ...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null, 
+      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+      userNameValidity: 'pending'
+    };
+  },
+
+
+
+
+
+
+
+
+
+validateInput() {
+
+
+    if (this.userName.trim() === '') {
+
+        this.userNameValidity = 'invalid';
+    } else {
+        this.userNameValidity = 'valid';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+AGORA SABEREMOS, QUANDO O USER FIZER 'BLUR'
+
+DESSE INPUT,
+
+
+
+
+se o 
+
+
+userNameValidity
+
+
+
+VAI ESTAR 'valid' ou 'invalid' (sendo 'pending' o initial value)...
+
+
+
+
+
+
+
+ISSO FEITO,
+
+PODEMOS COLOCAR UM 'p' 
+
+
+QUE É RENDERIZADO CONDICIONALMENTE,
+COM 
+
+'v-if',
+
+
+PARA 
+
+
+QUE 
+
+
+
+
+
+SEJA RENDERIZADA SUA _ MENSAGEM__ APENAS__ 
+
+
+SE A PROPRIEDADE 
+
+
+'userNameValidity' estiver como INVALID..
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+        @blur="validateInput()"
+      />
+
+<p v-if="userNameValidity === 'invalid'">Please enter a valid username!</p>
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null, 
+      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+      userNameValidity: 'pending'
+    };
+  },
+
+
+
+
+
+
+
+
+
+validateInput() {
+
+
+    if (this.userName.trim() === '') {
+
+        this.userNameValidity = 'invalid';
+    } else {
+        this.userNameValidity = 'valid';
+    }
+}
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+PODERÍAMOS TAMBÉM ADICIONAR UMA CONDITIONAL CLASS ALI EM CIMA...
+
+
+
+
+
+-> UMA CLASS CONDICIONAL NO 'FORM-CONTROL',
+
+
+
+
+_ PARA ___ QUE SEJA ADICIONADA  
+
+
+
+
+
+a class de 'invalid'
+
+
+
+NO CASO DE 'invali' ser o valor de 'userNameValidity'...
+
+
+
+
+
+
+-> PODEMOS UTILIZAR ISSO COM NOSSAS CLASSES CSS...
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+      <label for="user-name" :class="{invalid: userNameValidity === 'invalid'}">Your Name</label>
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+        @blur="validateInput()"
+      />
+      <p v-if="userNameValidity === 'invalid'">
+        Please enter a valid username!
+      </p>
+
+
+
+
+
+
+.form-control.invalid input {
+  border-color: red;
+}
+
+.form-control.invalid label {
+  color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTo..
+
+
+
+
+
+
+
+E ISSO REALMENTE FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+NOSSOS ELEMENTOS FICAM VERMELHOS, E GANHAMOS NOSSA MENSAGEM DE ERRO... --> 
+
+
+
+E 
+
+
+SE INPUTTAMOS ALGO 
+
+
+NO INPUT FIELD,
+
+
+
+
+FICAMOS SEM ESSA MENSAGEM E SEM A COR DE ERRO...
+
+
+
+
+
+
+
+
+
+
+
+--> HÁ MILHARES DE MANEIRAS DE 
+
+IMPLEMENTAR VALIDATION,
+
+
+E PODEMOS IMPLEMENTAR DE MANEIRAS MAIS FLEXÍVEIS DO QUE 
+ESSA...
+
+
+
+
+
+
+
+
+
+
+-> PODEMOS FORNECER USER EXPERIENCES CUSTOMIZADAS AOS NOSSOS USERS...
+
+
+
+
+
+
+
+
+
+-_> ESSA É 1 MANEIRA DE TER LIVE VALIDATION ANTES 
+
+
+
+DA DATA SER SUBMITTADA..
+
+
+
+
+
+
+
+
+AGORA VEREMOS COMO CONSTRUIR NOSSOS PRÓPRIOS FORM CONTROLS...

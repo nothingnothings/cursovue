@@ -1,14 +1,19 @@
 <template>
   <form @submit.prevent="onFormSubmitHandler($event)">
     <div class="form-control">
-      <label for="user-name">Your Name</label>
+      <label for="user-name" :class="{invalid: userNameValidity === 'invalid'}">Your Name</label>
       <input
         id="user-name"
         name="user-name"
         type="text"
         v-model="enteredUser"
+        @blur="validateInput()"
       />
+      <p v-if="userNameValidity === 'invalid'">
+        Please enter a valid username!
+      </p>
     </div>
+
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
       <input id="age" name="age" type="number" v-model="enteredAge" />
@@ -27,11 +32,11 @@
     <div class="form-control">
       <h2>What are you interested in?</h2>
       <div>
-      <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT (de type 'checkbox' ou 'radio') EM RELAÇÃO A OUTRO ... -->
+        <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT (de type 'checkbox' ou 'radio') EM RELAÇÃO A OUTRO ... -->
         <input
           id="interest-news"
           name="interest"
-                 value="news"
+          value="news"
           type="checkbox"
           v-model="interest"
         />
@@ -41,7 +46,7 @@
         <input
           id="interest-tutorials"
           name="interest"
-             value="tutorials"
+          value="tutorials"
           type="checkbox"
           v-model="interest"
         />
@@ -61,25 +66,46 @@
     <div class="form-control">
       <h2>How do you learn?</h2>
       <div>
-        <input id="how-video" name="how" value="video" type="radio" v-model="how" />
+        <input
+          id="how-video"
+          name="how"
+          value="video"
+          type="radio"
+          v-model="how"
+        />
         <label for="how-video">Video Courses</label>
       </div>
       <div>
-        <input id="how-blogs" name="how" value="blogs" type="radio" v-model="how" />
+        <input
+          id="how-blogs"
+          name="how"
+          value="blogs"
+          type="radio"
+          v-model="how"
+        />
         <label for="how-blogs">Blogs</label>
       </div>
       <div>
-        <input id="how-other" name="how" value="other" type="radio" v-model="how" />
+        <input
+          id="how-other"
+          name="how"
+          value="other"
+          type="radio"
+          v-model="how"
+        />
         <label for="how-other">Other</label>
       </div>
     </div>
 
-<div class="form-control">
-  <input type="checkbox" id="confirm-terms" name="confirm-terms" v-model="confirmTerms">
-  <label for="confirm-terms">Agree to terms of use?</label>
-</div>
-
-
+    <div class="form-control">
+      <input
+        type="checkbox"
+        id="confirm-terms"
+        name="confirm-terms"
+        v-model="confirmTerms"
+      />
+      <label for="confirm-terms">Agree to terms of use?</label>
+    </div>
 
     <div>
       <button>Save Data</button>
@@ -96,9 +122,9 @@ export default {
       enteredReferrer: 'google',
       // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
       interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
-      how: null, 
-      confirmTerms: false //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
-
+      how: null,
+      confirmTerms: false, //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+      userNameValidity: 'pending',
       // versão FEITA POR MIM, antiga, ruim...
       // checkedNews: false,
       // checkedTutorials: false,
@@ -148,6 +174,14 @@ export default {
         // this.checkedTutorials
       );
     },
+
+    validateInput() {
+      if (this.userName.trim() === '') {
+        this.userNameValidity = 'invalid';
+      } else {
+        this.userNameValidity = 'valid';
+      }
+    },
   },
 };
 </script>
@@ -164,6 +198,14 @@ form {
 
 .form-control {
   margin: 0.5rem 0;
+}
+
+.form-control.invalid input {
+  border-color: red;
+}
+
+.form-control.invalid label {
+  color: red;
 }
 
 label {
