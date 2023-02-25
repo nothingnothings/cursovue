@@ -1,0 +1,37 @@
+
+
+
+
+na última aula,
+
+
+vimos 
+
+
+
+
+O 'V-MODEL'...
+
+
+
+
+
+
+
+--> AGORA VAMOS VER OUTROS TIPOS DE UTILIZAÇÃO DE 'V-MODEL', COM 'INPUT'...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+

@@ -45,3 +45,1984 @@ TEMOS 1 STARTING PROJECT...
 
 
 isso vai te dar o dev server...
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK..
+
+
+
+
+
+
+
+O PROJETO É ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+COMPONENTS --> 
+
+
+
+
+temos apenas a FORM embutida no 'App.vue":
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control">
+      <label for="user-name">Your Name</label>
+      <input id="user-name" name="user-name" type="text" />
+    </div>
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" />
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <input id="interest-news" name="interest" type="checkbox" />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input id="interest-tutorials" name="interest" type="checkbox" />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input id="interest-nothing" name="interest" type="checkbox" />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" type="radio" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" type="radio" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" type="radio" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+<style scoped>
+form {
+  margin: 2rem auto;
+  max-width: 40rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  margin-top: 0.5rem;
+}
+
+select {
+  width: auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  display: inline-block;
+  width: auto;
+  margin-right: 1rem;
+}
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  font-weight: normal;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #0076bb;
+  background-color: #0076bb;
+  color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  border-color: #002350;
+  background-color: #002350;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTo...
+
+
+
+
+
+
+
+
+
+e ela foi inserida em 'App.vue'...
+
+
+
+
+
+
+
+
+
+
+A FORM AINDA NÃO TEM NENHUMA PROPRIEDADE EM 'Data'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS 2 INPUT FIELDS, E 1 DROPDOWN,
+
+
+
+E ALGUMAS CHECKBOXES E RADIO BUTTONS... TAMBÉM 1 BUTTON PARA SUBMITTAR 
+
+
+
+
+A 
+
+
+FORM...
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS PEGAR A INFO DESSES INPUTS,
+
+
+
+
+
+PROVAVELMENTE POR MEIO DE '@input' ou 
+
+'v-model'....
+
+
+
+
+
+
+
+
+
+--> DEPOIS VEREMOS FORM VALIDATION, 
+
+PARA VER COMO VALIDAR ESSES FIELDS..;
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> POR FIM,
+
+CONSTRUÍREMOS NOSSO PRÓPRIO FORM CONTROL...
+
+
+
+
+
+
+
+
+
+
+
+--> O COMPONENT ESTÁ REALMENTE SEM SCRIPT LOGIC, POR ENQUANTO...
+
+
+
+
+
+
+
+
+----> OK... VAMOS EXTRAIR DATA DESSES INPUTS,
+
+
+
+
+
+
+por meio de 'v-model', acho...
+
+
+
+
+
+
+
+--> O PROFESSOR USARÁ 1 METHOD PARA 
+
+
+EXTRAIR 
+
+A DATA 
+
+DESSES INPUTS...
+
+
+
+
+
+
+
+
+
+
+VAI FAZER ASSIM, INICIALMENTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit="onFormSubmitHandler()">
+    <div class="form-control">
+      <label for="user-name">Your Name</label>
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+      />
+    </div>
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNews"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          v-model="checkedTutorials"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNothing"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" type="radio" v-model="checkedVideo" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" type="radio" v-model="checkedBlogs" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" type="radio" v-model="checkedOther" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: '',
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+
+
+  methods: {
+
+    onFormSubmitHandler = (event) => {
+      event.preventDefault;
+
+      console.log(this.data)
+        
+
+
+    }
+  }
+};
+</script>
+
+<style scoped>
+form {
+  margin: 2rem auto;
+  max-width: 40rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  margin-top: 0.5rem;
+}
+
+select {
+  width: auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  display: inline-block;
+  width: auto;
+  margin-right: 1rem;
+}
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  font-weight: normal;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #0076bb;
+  background-color: #0076bb;
+  color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  border-color: #002350;
+  background-color: #002350;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Será que funcionou?
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, DEI UMA MODIFICADA NO CÓDIGO, E FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="onFormSubmitHandler($event)">
+    <div class="form-control">
+      <label for="user-name">Your Name</label>
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+      />
+    </div>
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNews"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          v-model="checkedTutorials"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNothing"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" type="radio" v-model="checkedVideo" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" type="radio" v-model="checkedBlogs" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" type="radio" v-model="checkedOther" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: '',
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+  methods: {
+    onFormSubmitHandler() {
+      // event.preventDefault;
+
+      console.log(this.enteredUser);
+      console.log(this.enteredAge);
+      console.log(this.enteredReferrer);
+      console.log(this.checkedNews);
+      console.log(this.checkedTutorials);
+      console.log(this.checkedNothing);
+      console.log(this.checkedVideo);
+      console.log(this.checkedBlogs);
+      console.log(this.checkedOther);
+    },
+  },
+};
+</script>
+
+<style scoped>
+form {
+  margin: 2rem auto;
+  max-width: 40rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  margin-top: 0.5rem;
+}
+
+select {
+  width: auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  display: inline-block;
+  width: auto;
+  margin-right: 1rem;
+}
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  font-weight: normal;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #0076bb;
+  background-color: #0076bb;
+  color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  border-color: #002350;
+  background-color: #002350;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... esse method é triggado quando a form é submittada...
+
+
+
+
+
+
+
+
+
+--> colocamos 
+
+
+
+um listener 
+
+
+
+
+de 'submit' na form...
+
+
+
+
+
+
+
+
+
+
+-> TIPICAMENTE ADICIONAMOS 1 
+
+
+
+
+modifier de '.prevent' 
+
+
+nesse listener,
+
+para assegurar que não tenhamos o comportamento default do 
+
+browser (Que é o reloaD)...
+
+
+
+
+
+
+
+
+
+------> ok...
+
+
+
+
+
+
+
+
+
+
+--> TRIGGAMOS ESSE METHOD..
+
+
+
+(
+
+    
+    pode ser 
+
+    só 
+
+
+    'onFormSubmitHandler()'
+
+
+    ou 
+
+    'onFormSubmitHandler'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> COMEÇAMOS COM O INPUT de 'enteredUser'...
+
+
+
+
+
+
+
+
+
+
+TEMOS 3 MAIN WAYS DE CONSEGUIR O INPUT DESSE USER:
+
+
+
+
+
+
+
+1) USAR 1 'ref' --> AÍ CONSEGUIMOS O VALUE DESSE INPUT, EM REAL TIME, Com 'this.$ref.elemento.value'...
+
+
+
+
+
+
+
+
+2) USAR 'v-model'...
+
+
+
+
+
+
+
+
+
+3) USAR "@input' -> NOSSO PRÓPRIO CUSTOM INPUT EVENT LISTENER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> EXEMPLO 
+
+
+
+
+input --> 
+
+
+
+'@input="" ' 
+
+
+
+
+
+
+
+
+
+
+
+ISSO É PERFEITAMENTE FINE,
+e USEFUL 
+
+TAMBÉM 
+
+
+SE VOCê QUER VALIDATE
+
+
+
+
+
+
+ESSE INPUT 'EM CADA KEYSTROKE' --> MOSTRAR 1 MENSAGEM DE 
+
+ERRO 
+
+
+
+__ SEMPRE QUE  _ O USER ESCREVER ALGO ERRADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> SE VC USAR O 'V-MODEL',
+
+
+
+vc tem TWO-WAY-BINDING,
+QUE 
+
+TE 
+
+
+AJUDA A TAMBÉM RESETTAR A FORM (resettar os input fields)... ---> 
+
+
+
+
+
+ISSO 
+
+PQ 
+
+
+
+
+VOCÊ 
+
+PODE 
+
+
+
+
+OVERWRITTAR TUDO QUE ESTÁ NA FORM,
+
+E MUDAR O VALUE QUE ESTÁ ARMAZENADO NO INPUT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+E É ISSO QUE O PROFESSOR FARÁ, AQUI:
+
+
+
+
+
+
+
+
+
+ELE VAI COLOCAR A PROPRIEDADE   
+
+
+
+
+
+userName e todas as outras, lá em 'data'.... 
+
+
+
+
+
+DEPOIS DE 
+
+
+
+
+
+
+
+console.loggar essa propriedae,
+
+
+
+
+
+o professor define o 'userName' como empty string (Resettando o valor do campo)...
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="onFormSubmitHandler($event)">
+    <div class="form-control">
+      <label for="user-name">Your Name</label>
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+      />
+    </div>
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNews"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          v-model="checkedTutorials"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          v-model="checkedNothing"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input id="how-video" name="how" type="radio" v-model="checkedVideo" />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input id="how-blogs" name="how" type="radio" v-model="checkedBlogs" />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input id="how-other" name="how" type="radio" v-model="checkedOther" />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: '',
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+  methods: {
+    onFormSubmitHandler() {
+      // event.preventDefault;
+
+      console.log(this.enteredUser);
+      console.log(this.enteredAge);
+      console.log(this.enteredReferrer);
+      console.log(this.checkedNews);
+      console.log(this.checkedTutorials);
+      console.log(this.checkedNothing);
+      console.log(this.checkedVideo);
+      console.log(this.checkedBlogs);
+      console.log(this.checkedOther);
+
+      this.enteredUser = '';
+      this.enteredAge = '';
+      this.checkedNews = '';
+      this.checkedTutorials = '';
+      this.checkedNothing = '';
+      this.checkedVideo = '';
+      this.checkedBlogs = '';
+      this.checkedOther = '';
+
+      console.log(
+        this.enteredUser,
+        this.enteredAge,
+        this.enteredReferrer,
+        this.checkedNews,
+        this.checkedTutorials
+      );
+    },
+  },
+};
+</script>
+
+<style scoped>
+form {
+  margin: 2rem auto;
+  max-width: 40rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  margin-top: 0.5rem;
+}
+
+select {
+  width: auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  display: inline-block;
+  width: auto;
+  margin-right: 1rem;
+}
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  font-weight: normal;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #0076bb;
+  background-color: #0076bb;
+  color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  border-color: #002350;
+  background-color: #002350;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> CERTO... entendi...
+
+
+
+
+
+
+
+-> AGORA DEVEMOS ESTUDAR COMO PODEMOS RETRIEVAR VALORES DOS OUTROS TIPOS DE INPUT FIELD..
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS POR 1 INPUT DE TYPE 'NUMBER':
+
+
+
+
+
+
+
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+
+
+
+
+
+
+
+
+
+
+
+--> ESTRANHAMENTE,
+
+
+
+MESMO QUE O TYPE DESSE NEGÓCIO ESTEJA COMO 'NUMBER',
+
+
+
+
+
+o value que será RETRIEVADO, LÁ NO 'V-MODEL',
+
+SERÁ UMA __STRING__....
+
+
+
+
+
+
+
+
+
+
+
+-----> PARECE-SE COM 1 NUMBER,
+
+
+
+E VC NÃO SERÁ CAPAZ DE INPUTAR NADA QUE N SEJA 1 NUMBER,
+
+
+
+
+MAS VC _ REALMENTE N VAI __ GANHAR ___ 1 VALUE QUE SEJA 1 NUMBER,
+
+
+AUTOMATICAMENTE,
+
+
+
+NO SEU CÓDIGO/LÓGICA/SCRIPT....
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DEMONSTRA ISSO COM 'enteredAge'...
+
+
+
+
+
+--> O PROFESSOR COLOCA O VALUE INICIAL DE 'enteredAge'
+
+
+
+
+COMO 
+
+
+
+1 'NULL',
+
+
+
+PARA DEMONSTRAR QUE 
+
+
+NÃO TEMOS VALUE INICIAL PARA ESSE NUMBER...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS COM 'v-model' SEMPRE SÃO __ STRINGS__... --> devemos convertê-los para __ TYPE NUMBER MANUALMENTE... (pq serão inicialmente strings, apesar de serem TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... PARA DEMONSTRAR A DIFERENÇA,
+
+
+
+
+
+
+
+
+
+
+  o professor faz console.logs de números 
+
+
+  no CONSOLE --> TODOS OS NÚMEROS (type NUMBER) são 
+
+
+
+  OUTPUTTADOS 
+
+
+
+  COM LETRAS AZUIS... (
+
+    BLUE SIGNIFICA --> TYPE NUMBER...
+
+
+
+
+    BLACK SIGNIFICA --> TYPE STRING...
+  )
+
+
+
+
+
+
+
+
+
+  -> SE O PROFESSOR FAZ O CONSOLE.LOG DE 
+
+
+
+  'this.$refs.ageReference.value',
+
+
+
+
+  ELE VAI JUSTAMENTE 
+
+
+
+
+  CONSEGUIR 
+
+
+
+
+  1 OUTPUT NO TERMINAL QUE SERÁ 
+
+
+
+  __ UMA STRING...
+
+
+
+
+
+
+
+
+
+
+  ----> ISSO É IMPORTANTE:
+
+
+
+
+
+
+
+
+
+  SE O __ 'v-model'
+
+  É USADO,
+
+
+
+
+
+
+
+  AS STRINGS (mesmo sendo numberS)
+
+
+  INPUTTADAS 
+
+
+
+  NO FIELD_ _ SÃO AUTOMATICAMENTE _ CONVERTIDAS_ __ 
+
+
+  EM __ NUMBERS... (
+
+
+    É UMA FEATURE EXTRA DO VUE E DO 'V-MODEL'...
+
+  )
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+
+  <script>
+export default {
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: '',
+      checkedNews: false,
+      checkedTutorials: false,
+      checkedNothing: false,
+      checkedVideo: false,
+      checkedBlogs: false,
+      checkedOther: false,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  -> OK... ISSO QUER DIZER QUE O VUE PERCEBE QUE 
+
+  ESSE 
+
+
+  INPUT É DE TYPE NUMBER,
+
+
+
+
+  __ E QUE __ ISSO __ É USADO __ PARA 
+
+  CONVERTEr_ _ 
+
+
+
+
+
+ESSE STRING VALUE EM 1 NUMBER VALUE, PARA NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM _ ___ PODEMOS  FORÇAR __ O VUE 
+
+
+
+
+A FAZER ESSA CONVERSION (
+
+
+
+  por exemplo, em casos em que 
+
+  TEMOS 
+
+  1 
+
+  TYPE DIFERENTE 
+
+  NESSE INPUT FIELD, como 'text'...
+),
+
+
+
+
+
+
+
+
+TUDO POR MEIO 
+
+
+DO MODIFIER DE '.number'..
+
+
+TIPO 
+
+
+
+
+
+
+'v-model.number="" ' 
+
+
+
+
+
+
+
+
+
+
+--> ISSO _ VAI CONVERTEr__ AUTOMATICAMENTE __ 
+
+
+
+O VALUE INPUTTADO NESSE INPUT FIELD, PELO USER,
+
+
+
+EM 
+
+
+1 _ _ VALUE __ DE TYPE NUMBER..
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+   <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+ <input type="text" v-model.number="enteredAge"></input>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ É CLARO QUE 
+
+ TEMOS OUTROS TIPOS DE MODIFIER, TAMBÉM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ TEMOS MODIFIERS COMO 
+
+
+
+
+ 'v-model.lazy'...
+
+
+
+
+
+
+
+
+
+ -----> esse modifier te deixa modificar 
+
+
+
+ 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'' --> se ele faz isso 
+
+ 
+
+ PARA CADA KEYSTROKE,
+
+
+ OU SE, PARA ALGUNS INPUTS,
+
+
+ ELE __ FAZ/DEVE FAZER ISSO COM 1 FREQUÊNCIA MELHOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> JÁ 'v-model.trim='
+
+
+
+
+
+
+
+
+
+ QUER DIZER QUE _ ELE _ DEVE __ REMOVER __ EXCESS WHITE SPACE 
+
+
+
+ AO INÍCIO E FINAL __ DO TEXTO QUE FOI INPUTTADO...
+
+
+
+ (
+
+  é a mesma coisa que 
+
+
+  escrever 
+
+  o method '.trim()' no final de 
+
+
+  'this.enteredUser',
+
+
+  por exemplo...
+ )
+
+
+
+
+
+
+
+
+
+
+
+ tipo this.userName.trim() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK... ISSO TAMBÉM PODERIA SER ÚTIL, 
+
+ SIM..
+
+
+
+
+
+
+
+
+ ---> FALAMOS BASTANTE SOBRE 
+
+
+ v-model e modifiers...
+
+
+
+
+
+
+
+
+ --> mas esse pode ser um BUG COMUM, ADICIONADO A 1 APP -> VOCÊ ACHA QUE 
+
+ ESTÁ TRABALHANDO COM 1 NUMBER,
+
+
+ MAS ESTÁ TRABALHANDO COM 1 STRING...
+
+
+
+
+
+
+
+
+
+
+ --> É IMPORTANTE 
+
+
+
+
+ COMPREENDER 
+
+ ESSE COMPORTAMENTO ESPECIAL 
+
+ DO 'v-model' 
+
+
+
+com uso de 'input type=number'..
+
+
+
+
+
+
+
+
+
+-> PQ O USO DE 'V-MODEL' E 'REFS' É REALMENTE DIFERENTE,
+
+
+ESSES 2 APPROACHES POSSUEM DIFERENTES BEHAVIORS,
+
+POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+SE VC USAR 'ref',
+
+VC DEVE TER EM MENTE QUE 
+VC VAI PRECISAR 
+
+
+
+__ CONVERTER_ ESSES STRINGS _ EM NUMBERS PARA RODAR CÁLCULOS, POR EXEMPLO...
