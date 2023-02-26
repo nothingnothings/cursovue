@@ -1,0 +1,418 @@
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK... COM O FIREBASE SETTADO,
+
+
+ COMO DEVEMOS NOS COMUNICAR COM ELE,
+
+ DE DENTRO DO NOSSO VUE APP?
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> ACIDENTALMENTE, JÁ VIMOS 1 MANEIRA 
+
+
+
+ DE 
+
+ ENVIAR 
+
+ 1
+
+  
+
+
+  HTTP REQUEST...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> TEMOS 1 BUTTON DE SUBMIT,
+
+  LÁ EM 
+
+
+  'LearningSurvey' ---> 
+
+
+
+
+
+
+
+
+
+
+  PQ TEMOS AQUELE CÓDIGO 'submit.prevent' -> SE TIRAMOS O MODIFIER DE 'PREVENT',
+
+
+
+
+
+  NOSSA PÁGINA SERÁ RECARREGADA DEPOIS DE SER SUBMITTADA A FORM (o browser vai usar o DEFAULT BEHAVIOR, QUE É ENVIAR 1 HTTP REQUEST)..
+
+
+
+
+
+
+
+
+
+
+
+  -_> MAS O PROBLEMA É QUE ELE NÃO ESTÁ ENVIANDO ESSE 
+
+
+
+  REQUEST AO 
+
+
+
+  BACKEND/http server, 
+
+  E SIM 
+
+  ESTÁ 
+
+  ENVIANDO A ESSA PRÓPRIA PAGE SERVIDA EM 'LOCALHOST:8080' -->  E, EM VUE APPS,
+
+
+
+  TIPICAMENTE 
+
+
+  ESSA NÃO SERÁ A PAGE QUE HANDLARÁ NOSSOS REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> NOSSO LOCAL COMPUTER, NO MOMENTO, NÃO ESTÁ COM NENHUM BACKEND 
+
+
+
+
+  SERVIDO 
+
+
+
+
+  NA MESMA PORTA EM QUE 
+
+
+  TEMOS NOSSO VUE APP.
+
+
+
+
+
+
+
+
+
+
+
+  --> BEM, É CLARO QUE 
+
+
+  EXISTEM APPS EM QUE O VUE APP É SERVIDO PELO MESMO BACKEND 
+
+
+
+
+
+  QUE __ rECEBE/HANDLA OS REQUESTS -> NESSE CASO,
+
+
+
+  ESSE BROWSER DEFAULT PODE SER FINE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ENTRETANTO, NA GRANDE MAIORIA DOS CASOS, VC TERÁ UM SERVER SEPARADO 
+
+  PARA SEU VUE APP (
+
+    que vai entregar apenas esse vue app aos seus users 
+  )
+
+
+
+
+
+
+  E ENTÃO 
+
+  TERÁ 
+
+
+  1 
+
+  BACKEND PARA HANDLAR TODA USER DATA ------> NESSES CENÁRIOS,
+
+
+
+VC VAI QUERER PREVENIR
+
+
+ESSE 
+
+
+
+
+BROWSER DEFAULT,
+
+E AÍ 
+
+VAI QUERER 
+
+HANDLAR 
+
+A SUBMITTED DATA EM JAVASCRIPT, COM O VUE ------> PARA, POR EXEMPLO,
+
+
+
+
+VALIDAR SEU INPUT E MOSTRAR 1 'CLIENT-SIDE ERROR MESSAGE'...
+
+
+
+
+
+
+
+
+
+
+
+---> E, ASSIM QUE FOR VALIDADA SUA DATA,
+
+VAI QUERER 
+
+
+ENVIÁ-LA AO SEU SERVIDOR DE ESCOLHA (que é o firebase, nesse caso)..
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, MAS COMO PODEMOS ENVIAR 1 HTTP REQUEST
+
+
+AO FIREBASE?
+
+
+
+
+
+
+
+
+
+--> BASTA PEGAR O ADDRESS DO FIREBASE E COLOCAR NO HTTP REQUEST,
+
+
+
+
+
+
+PQ AÍ QUALQUER 
+
+DISPARO CONTRA ESSE BACKEND VAI AUTOMATICAMENTE 
+
+
+FAZER 'WRITE' NA DATABASE
+ 
+
+
+ DO FIREBASE..
+
+
+
+
+
+
+ tipo assim:
+
+
+
+
+https://vue-http-requests-81003-default-rtdb.firebaseio.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO...
+
+
+
+
+
+
+aí vamos disparar 1 request contra isso...
+
+
+
+
+
+
+
+
+MAS COMO FAZEMOS DISPAROS DE DENTRO DO NOSSO VUE CODE?
+
+
+
+
+
+
+
+
+
+
+
+USAREMOS O AXIOS ---> É UMA PACKAGE MT POPULAR, USADA PARA ENVIAR 
+
+HTTP REQUESTS..
+
+
+
+
+
+
+
+
+------> ALTERNATIVAMENTE, BROWSERS POSSUEM BUILT-IN METHODS 
+
+
+PARA ENVIAR HTTP REUESTS...
+
+
+
+
+
+
+
+
+-> O METHOD DE 'FETCH' -> É USADO PARA 
+
+
+DISPARAR 
+
+
+DATA A SERVERS, TAMBÉM..
+
+
+
+
+
+
+
+
+--> o fetch usa uma url como PRIMEIRO ARGUMENTO,
+
+E AÍ 
+
+
+PODEMOS O CONFIGURAR 
+
+
+PARA DISPARAR GET, FETCH, DELETE, POST REQUESTS...
+
+
+
+
+
+
+
+
+
+
+TANTO O FETCH COMO O AXIOS 
+
+DISPARAM 'BEHIND THE SCENES' HTTP REQUESTS --> ISSO SIGNIFICA QUE 
+
+
+O APP CONTINUA RODANDO,
+
+E O 
+
+
+HTTP REQUEST É DISPARADO NO FUNDO (não há reloads de páginA)...
+
+
+
