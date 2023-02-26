@@ -1,6 +1,10 @@
 <template>
-  <learning-survey @survey-submit="storeSurvey"></learning-survey>
-  <user-experiences :results="savedSurveyResults"></user-experiences>
+  <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
+  <user-experiences :results="savedSurveyResults"></user-experiences> -->
+
+
+    <learning-survey></learning-survey>
+  <user-experiences></user-experiences>
 </template>
 
 <script>
@@ -21,15 +25,15 @@ export default {
   },
 
   methods: {
-    storeSurvey(surveyData) {
-      const surveyResult = {
-        name: surveyData.userName,
-        rating: surveyData.rating,
-        id: new Date.toISOString() + Math.random().toString(),
-      };
-      console.log(surveyResult);
-      this.savedSurveyResults.push(surveyResult);
-    },
+    // storeSurvey(surveyData) {  /// deixaremos de fazer isso localmente, para fazer REMOTAMENTE, com o firebase e o component 'LearningSurvey.vue'....
+    //   const surveyResult = {
+    //     name: surveyData.userName,
+    //     rating: surveyData.rating,
+    //     id: new Date.toISOString() + Math.random().toString(),
+    //   };
+    //   console.log(surveyResult);
+    //   this.savedSurveyResults.push(surveyResult);
+    // },
   },
 };
 </script>

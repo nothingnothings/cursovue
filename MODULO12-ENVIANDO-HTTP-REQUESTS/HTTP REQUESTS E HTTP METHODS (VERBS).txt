@@ -1,0 +1,15 @@
+In the last lecture, we sent a POST request to a REST API.
+
+What is that? A POST request? And a REST API?
+
+There are different "kinds" of Http requests you could say - defined by the method (POST, GET, DELETE, ...) you attach to them (via the "method" you define on an outgoing request).
+
+And the server to which you're sending those requests may then react in which ever way it is configured to react to incoming requests with different methods.
+
+It may store data in a database for an incoming POST request, it may fetch data for a GET request.
+
+Typically, servers are built to work as a "REST API" - that means they have clearly defined "endpoints" (URL + Http method combinations) for which they do different things.
+
+You can learn more about REST APIs (and how to build your own one!) with this free series: https://academind.com/learn/node-js/building-a-restful-api-with/what-is-a-restful-api-/
+
+Also make sure you understand, in general, how the web works: https://academind.com/learn/web-dev/how-the-web-works/

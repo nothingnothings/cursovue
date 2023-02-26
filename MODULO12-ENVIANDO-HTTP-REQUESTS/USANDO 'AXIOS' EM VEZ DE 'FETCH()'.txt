@@ -1,0 +1,33 @@
+In this course, we use the native fetch() API for sending Http requests. It's built into the browser and hence we don't have to install any extra package to use it.
+
+If you prefer third-party libraries like Axios (https://github.com/axios/axios) you can of course also use such libraries though.
+
+For example, you could replace the fetch() code from the last lecture with this Axios code:
+
+Instead of:
+
+fetch('https://vue-http-demo-85e9e.firebaseio.com/surveys.json', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: this.enteredName,
+    rating: this.chosenRating,
+  }),
+});
+you can write this code with Axios:
+
+import axios from 'axios'; // at the start of your <script> tag, before you "export default ..."
+...
+axios.post('https://vue-http-demo-85e9e.firebaseio.com/surveys.json', {
+  name: this.enteredName,
+  rating: this.chosenRating,
+});
+As you can see, with Axios, you have to write less code. It automatically sets the Content-Type header for you, it also automatically converts the body data to JSON.
+
+BUT - as a downside - you have to add an extra package, which ultimately increases the size of the web app you're shipping in the end.
+
+Later in the module, we'll also start reacting to the response returned by the request.
+
+fetch() returns a Promise, hence we can use then(), catch() and async/ await there. For Axios, it's just the same - it also returns a Promise.

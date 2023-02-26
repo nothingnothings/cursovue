@@ -21,7 +21,7 @@
 <script>
 import SurveyResult from '../survey/SurveyResult';
 export default {
-  props: ['results'],
+  // props: ['results'],
   components: {
     SurveyResult,
   },
