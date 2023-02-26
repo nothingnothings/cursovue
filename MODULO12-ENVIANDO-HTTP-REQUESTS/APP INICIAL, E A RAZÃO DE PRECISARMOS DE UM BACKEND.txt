@@ -1,0 +1,982 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS 1 NOVO PROJETO PREPARADO PARA NÓS...
+
+
+
+
+
+
+
+
+-> É UM BASIC VUE APP,
+
+
+EM QUE PODEMOS 
+
+
+
+
+PREENCHER UMA BASIC SURVEY,
+
+
+
+
+
+
+E 
+
+
+
+
+
+ESSE APP TEM FEATURES QUE JÁ USAMOS aNTES....
+
+
+
+
+
+
+
+
+COMEÇO COM 'npx vue create novo-projeto-http'...
+
+
+
+
+
+
+
+
+---> isso vai criar 1 novo projeto vue...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok, mas como é esse app do professor?
+
+
+
+
+
+-> SEU CÓDIGO É ESTE:
+
+
+
+
+
+
+
+
+
+<template>
+  <learning-survey @survey-submit="storeSurvey"></learning-survey>
+  <user-experiences :results="savedSurveyResults"></user-experiences>
+</template>
+
+<script>
+import LearningSurvey from './components/survey/LearningSurvey.vue';
+import UserExperiences from './components/survey/UserExperiences.vue';
+
+export default {
+  name: 'App',
+  components: {
+    LearningSurvey,
+    UserExperiences,
+  },
+
+  data() {
+    return {
+      savedSurveyResults: [],
+    };
+  },
+
+  methods: {
+    storeSurvey(surveyData) {
+      const surveyResult = {
+        name: surveyData.userName,
+        rating: surveyData.rating,
+        id: new Date.toISOString() + Math.random().toString(),
+      };
+      console.log(surveyResult);
+      this.savedSurveyResults.push(surveyResult);
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM PADRÃO, ESSE CÓDIGO INICIAL...
+
+
+
+
+
+
+
+
+no 'main.js',
+
+
+
+
+temos um código de import de COMPONENTS GENÉRICOS, QUE SERÃO USADOS NO APP INTEIRO...
+
+
+
+
+
+TIPO ASSIm:
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import BaseCard from './components/UI/BaseCard.vue';
+import BaseButton from './components/UI/BaseButton.vue';
+
+import App from './App.vue';
+
+const app = createApp(App);
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA SÓ FALTA CODAR ESSES COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SURVEYRESULT:
+
+
+
+
+
+
+<template>
+  <li>
+    <p>
+      <span class="highlight">{{ name }}</span> rated the learning experience
+      <span :class="ratingClass"> {{ rating }} </span>
+    </p>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['name', 'rating'],
+
+  computed: {
+    ratingClass() {
+      return 'highlight rating--' + this.rating;
+    },
+  },
+};
+</script>
+
+<style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+h3,
+p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.highlight {
+  font-weight: bold;
+}
+
+.rating--poor {
+  color: #b80056;
+}
+
+.rating--average {
+  color: #330075;
+}
+
+.rating--great {
+  color: #008327;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USEREXPERIENCES:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <h2>Submitted Experiences</h2>
+      <div>
+        <base-button>Load Submitted Experiences</base-button>
+      </div>
+      <ul>
+        <survey-result
+          v-for="result in results"
+          :key="result.id"
+          :name="result.name"
+          :rating="result.rating"
+        >
+        </survey-result>
+      </ul>
+    </base-card>
+  </section>
+</template>
+
+<script>
+export default {
+  props: ['results'],
+  components: {
+    SurveyResult,
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(COMPONENT 'V-FOR' genérico, de list)....
+
+
+
+
+
+
+
+LEARNINGSURVEY:
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <h2>How was your learning experience?</h2>
+      <form @submit.prevent="submitSurvey">
+        <div class="form-control">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" v-model.trim="enteredName" />
+        </div>
+        <h3>My learning experience was ...</h3>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-poor"
+            value="poor"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-poor">Poor</label>
+        </div>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-average"
+            value="average"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-average">Average</label>
+        </div>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-great"
+            value="great"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-average">Great</label>
+        </div>
+        <p v-if="invalidInput">
+          One or more input fields are invalid. Please check your provided data.
+        </p>
+        <div>
+          <base-button>Submit</base-button>
+        </div>
+      </form>
+    </base-card>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      enteredName: '',
+      chosenRating: null,
+      invalidInput: false,
+    };
+  },
+
+  emits: ['survey-submit'],
+
+  methods: {
+    submitSurvey() {
+      if (this.enteredName === '' || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      this.$emit('survey-submit', {
+        userName: this.enteredName,
+        rating: this.chosenRating,
+      });
+
+      this.enteredName = '';
+      this.chosenRating = null;
+    },
+  },
+};
+</script>
+
+<style scoped>
+.form-control {
+  margin: 0.5rem 0;
+}
+
+input[type='text'] {
+  display: block;
+  width: 20rem;
+  margin-top: 0.5rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... todos components estão prontos...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <h2>Submitted Experiences</h2>
+      <div>
+        <base-button>Load Submitted Experiences</base-button>
+      </div>
+      <ul>
+        <survey-result
+          v-for="result in results"
+          :key="result.id"
+          :name="result.name"
+          :rating="result.rating"
+        >
+        </survey-result>
+      </ul>
+    </base-card>
+  </section>
+</template>
+
+<script>
+import SurveyResult from '../survey/SurveyResult';
+export default {
+  props: ['results'],
+  components: {
+    SurveyResult,
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+o method de 'storeSurvey'
+
+
+
+É USADO PARA ADICIONAR 1 NOVO 
+
+
+
+
+
+__ RESULT..
+
+
+
+
+
+
+
+
+
+-> E O 'LearningSurvey'
+,
+
+
+
+
+O COMPONENT,
+
+
+SEGURA 
+
+
+
+
+ESSE ELEMENTO INPUT, BINDADO COM 'V-MODEL',
+
+E AÍ 
+
+
+
+1 MONTE DE RADIO BUTTONS...
+
+
+
+
+
+
+
+
+
+
+
+-_> A FORM 
+
+
+TEM 1 METHOD DE SUBMIT,
+
+ESTAMOS VALIDANDO O INPUT 
+
+
+E MOSTRANDO 1 MENSAGEM DE 
+
+INPUT INVÁLIDO 
+
+SE 1 OU MAIS DOS INPUT FIELDS ESTÃO INVÁLIDOS...
+
+
+
+
+
+
+
+
+
+
+
+-> ESSE METHOD DE submit também 
+
+
+FAZ 
+
+1 EMIT DO EVENTO DE 'submit-survey',
+
+
+que é 
+
+capturado 
+
+
+
+LÁ EM 'App.vue',
+
+
+
+NO COMPONENT DE 'LearningSurvey' ( listener de '@survey-submit',
+
+
+QUE ENTÃO DISPARA 
+
+ 
+
+ O METHOD DE 'storeSurvey' ) ---> ISSO 
+
+
+
+ FAZ COM QUE 
+
+
+
+
+
+
+ A _ SURVEY DATA 
+
+
+ SEJA ___ ENRIQUECIDA COM 1 ID,
+
+ E ENTÃO 
+
+
+ ARMAZENADA EM 1 ARRAY,
+
+ TUDO LOCALMENTE...
+
+
+
+
+
+
+
+
+
+ JÁ 'USEREXPERIENCES'
+
+
+ É USADO 
+
+
+ PARA _ 
+
+ OUTPUTTAR 
+
+
+
+ OS SURVEYRESULT EM MASSA -> 
+
+
+
+ O 'SurveyResult'
+
+ É USADO 
+
+ PARA RENDERIZAR 
+
+ OS 
+
+
+
+ LIST ITEMS INDIVIDUALMENTE...
+
+
+
+
+
+
+
+
+
+
+ ISSO NÃO É NADA FANCY DEMAIS..
+.
+
+
+
+
+
+
+
+
+MAS É CLARO QUE AQUI TEMOS 1 PROBLEMA CRÍTICO --> 
+
+
+
+
+SEMPRE QUE 
+
+RECARREGAMOS NOSSA PAGE,
+
+
+TODA DATA É 
+
+PERDIDA --> MAS ISSO NÃO É UM BUG --> N É UM BUG JUSTAMENTE PQ 
+
+ATÉ AGORA 
+SEMPRE 
+
+ARMAZENAMOS TODA A DATA 
+
+
+
+LOCALMENTE,
+
+
+
+
+NA MEMÓRIA DO BROWSER.....
+
+
+
+
+
+
+
+
+
+--> E TODA ESSA DATA É PERDIDA SEMPRE QUE 
+
+
+
+ESSE APP É RECARREGADO ---> 1 NOVA INSTANCE DO 
+VUE APP É INICIADA,
+ 
+ E 
+
+ TODA DATA ANTERIOR É PERDIDA...
+
+
+
+
+
+
+
+
+
+ --> É CLARO QUE, NA REALIDADE,
+
+ VC FREQUENTEMENTE 
+
+ VAI TRABALHAR COM DATA 
+
+
+
+
+ QUE _ É SALVA __ EM 1 SERVIDOR... --> 
+
+
+
+ E ELA N DEVE SER SALVA LOCALMENTE,
+
+
+
+
+
+
+
+ EM 1 FILE,
+
+ E SIM EM 
+
+ 1 DATABASE --> 
+ DATABASE CONECTADA A 1 SERVIDOR... -> 
+
+
+
+
+ VC DEVE PENSAR EM 'AMAZON.COM' --> TODOS OS PRODUTOS 
+
+
+ SÃO ARMAZENADOS NOS SERVIDORES DA AMAZON,
+ E 
+
+ SÃO EXIBIDOS 
+
+ AOS USERS QUE 
+
+ VISITAM AS PAGES...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OS VUE APPS DEVEM SE CONECTAR AOS
+
+ SERVERS E RETRIEVAR DATA/ENVIAR DATA A ELES...
+
+
+
+
+
+
+
+
+
+ --> ESSE SURVEY APP DEVE FAZER MAIS DO QUE O OUTPUT 
+
+
+
+ DE 
+
+
+
+
+ EXPERIENCES LÁ EM BAIXO,
+
+  
+
+
+
+
+
+
+  E __ SIM ___ 
+
+
+  DEVE SE COMUNICAR COM 1 SERVER...
+
+
+
+
+
+
+
+
+
+
+
+  --> ESSE SEU APP, NA REALIDADE,
+
+
+
+  __ PODE ATÉ MESMO SER 2 SEPARATE VUE APPLICATIONS --> 
+
+
+
+
+
+
+
+
+  EX:
+
+
+  'A SURVEY FORM É O APP Q VC MOSTRA AOS 
+  SEUS USERS,
+
+
+  AO PASSO QUE AQUELE DASHBOARD,
+
+  EM Q VC 
+
+
+  VÊ AS SUBMITTED SURVEYS,
+
+  ISSO PODERIA SER 1 PARTE DO APP QUE APENAS VOCê, O ADMIN, VISUALIZA'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  AINDA ASSIM,
+
+
+
+
+
+  TIPICAMENTE QUEREMOS 1 SERVER,
+  
+
+  1 SERVER PARA CONSEGUIRMOS ENVIAR 
+
+  DATA..
+
+
+
+
+
+
+
+  --> E ISSO É UM BACKEND,
+
+  É A OUTRA PONTA,
+
+  A PONTA QUE NÃO RODA NO 
+  BROWSER DOS SEUS USERS,
+
+  E SIM 
+
+
+
+  EM 
+
+  1 SERVER QUE 
+
+  VOCÊ POSSUI...
+
+
+
+
+
+
+
+  --> SEU BACKEND SERÁ DETACHADO DO VUE APP...
