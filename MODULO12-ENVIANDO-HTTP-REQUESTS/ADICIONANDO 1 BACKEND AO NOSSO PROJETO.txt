@@ -1,0 +1,218 @@
+
+
+
+
+
+
+OBVIAMENTE, PRECISAMOS DE 1 BACKEND...
+
+
+
+
+
+A CRIAÇAÕ DE 1 BACKEND LEVARIA 1 CURSO INTEIRO (é verdade)....
+
+
+
+
+
+
+
+
+
+--> O CONNECT DE 1 DATABASE A ESSE CÓDIGO,
+
+
+
+
+OUTRAS COISAS,
+
+HÁ CURSOS INTEIROS SOBRE ISSO...
+
+
+
+
+
+
+
+
+
+
+ESTE CURSO FOCA NO VUE,
+
+POR ISSO NÃO VAMOS ESCREVER CÓDIGO BACKEND....
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE USAREMOS O FIREBASE --> O FIREBASE 
+
+
+
+É MAIS DO QUE 1 DATABASE,
+PQ 
+
+É 
+
+
+
+1 BACKEND TBM (é pré-configurado para nós)...
+
+
+
+
+
+
+
+
+usarei a conta 'nothingnothings2022@gmail.com'...
+
+
+
+
+
+
+
+
+
+
+
+
+-_> TUDO ISSO É CONFERIDO DE GRAÇA PELO GOOGLE...
+
+
+
+
+
+
+
+
+--> BASTA LOGGAR NO CONSOLE DO FIREBASE...
+
+
+
+
+
+
+
+NO CONSOLE DO FIREBASE, PODE ADICIONAR QUALQUER NOME 
+
+
+
+
+etc etc...
+
+
+
+
+O FIREBASE TEM 1 MONTE DE COISAS, MAS NÃO VAMOS USAR TUDO..
+
+
+
+
+
+
+
+
+
+-_> VAMOS USAR O DATABASE DO FIREBASE....
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS USAR 1 LÓGICA BEM TÍPICA DE BACKEND...
+
+
+
+
+
+
+-_> VAMOS EM 'DATABASE', lá no firebase...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-_> OK... AÍ USAMOS 
+
+
+
+
+
+
+
+AQUELE 'REALTIME DATABASE' --> É MAIS FÁCIL DE USAR,
+
+
+E 
+
+
+
+TEM 1 REST API 
+
+
+PARA ENVIAR REQUESTS 
+
+a 
+
+
+ELE...
+
+
+
+
+
+
+
+
+
+
+--> OK.... COMEÇAMOS 1 DATABASE DESSAS, E AÍ COMEÇAMOS EM 'TEST MODE' (para ter read e write ilimitados)...
+
+
+
+
+
+
+
+-_> POR ENQUANTO, NÃO TEREMOS NENHUMA DATA NA NOSSA DATABASE...
+
+
+
+
+
+
+
+
+
+NO VUE APP,
+
+
+VEREMOS COMO PODEMOS ENVIAR HTTP REQUESTS A ESSE BACKEND (
+
+
+    e como __ NÃO FAZER ISSO_...
+)
