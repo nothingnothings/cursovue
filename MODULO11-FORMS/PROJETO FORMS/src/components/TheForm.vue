@@ -111,7 +111,8 @@
       <label for="confirm-terms">Agree to terms of use?</label>
     </div>
     <div class="form-control">
-      <rating-control></rating-control>
+    <!-- EXEMPLO DA UTILIZAÇÃO DE 'V-MODEL' com CUSTOM COMPONENTS (Em vez de input fields clássicos)-->
+      <rating-control v-model="rating"></rating-control>
     </div>
     <div>
       <button>Save Data</button>
@@ -136,6 +137,10 @@ export default {
       how: null,
       confirmTerms: false, //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
       userNameValidity: 'pending',
+      rating: null ////USADO  PARA DEMONSTRAR O FUNCIONAMENTO DE 'V-MODEL' COM CUSTOM COMPONENTS (em vez de input fields clássicos)...
+
+
+
       // versão FEITA POR MIM, antiga, ruim...
       // checkedNews: false,
       // checkedTutorials: false,
@@ -155,6 +160,7 @@ export default {
       console.log(this.enteredReferrer);
       console.log(this.interest);
       console.log(this.how);
+      console.log(this.rating);
       // console.log(this.checkedNews);
       // console.log(this.checkedTutorials);
       // console.log(this.checkedNothing);
@@ -168,6 +174,7 @@ export default {
       this.enteredReferrer = '';
       this.interest = [];
       this.how = null;
+      this.rating = null;
       // this.checkedNews = '';
       // this.checkedTutorials = '';
       // this.checkedNothing = '';
@@ -187,7 +194,7 @@ export default {
     },
 
     validateInput() {
-      if (this.userName.trim() === '') {
+      if (this.enteredUser.trim() === '') {
         this.userNameValidity = 'invalid';
       } else {
         this.userNameValidity = 'valid';

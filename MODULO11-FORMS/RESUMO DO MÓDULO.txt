@@ -1,0 +1,173 @@
+
+
+
+
+
+
+
+VIMOS COMO USAR O 'V-MODEL',
+
+
+
+
+
+
+
+
+
+VIMOS COMO PODEMOS O UTILIZAR PARA PEGAR USER INPUT,
+
+MAS TBM PARA MANIPULAR USER INPUT,
+
+COMO PARA O RESETTAR
+ 
+
+
+
+ QUANDO SUBMITTAMOS 1 FORM...
+
+
+
+
+
+
+
+
+
+
+
+
+ -> TAMBÉM VIMOS COMO PODEMOS 'SHOW AN ERROR MESSAGE'
+
+
+ EM RELAÇÃO AO INPUT,
+
+COM 'v-if' e DATA PROPERTIES,
+
+
+
+
+
+
+TUDO ANTES DE SUBMITTAR 1 FORM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VIMOS COMO USAR 'v-model'
+
+
+
+COM TRIM 
+
+E 
+
+
+
+NUMBER INPUTS..
+
+
+
+
+
+
+
+
+
+-> VIMOS COMO USAR 'v-model'
+
+
+COM 
+SINGLE CHECKBOXES E GROUPS DE CHECKBOXES (inputs de checkbox com o mesmo'name" attribute)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, VIMOS COMO CONSTRUIR NOSSOS PRÓPRIOS CONTROLS,
+
+
+
+
+em que podemos usar 'V-MODEL',
+tudo 
+
+
+
+GRAÇAS 
+
+AO PROP ESPECIAL DE 
+
+
+'modelValue'
+
+
+
+E O EVENT ESPECIAL de 'update:modelValue',
+
+
+
+
+
+
+QUE É EMITTADO POR SEU COMPONENT CUSTOMIZADO, 
+
+
+
+
+
+
+E QUE É UTILIZADO POR 'V-MODEL', POR TRÁS DAS CENAS,
+
+SE 
+
+VC USA
+
+O 
+
+'
+v-model'
+
+EM 
+
+
+1 
+CUSTOM COMPONENT...
+
+
+
+
+
+
+
+
+É TUDO ISSO QUE PRECISAMSO SABER SOBRE FORMS,
+
+ATÉ AGORA...
+
+
+
+
+
+
+
+
+JÁ TEMOS BASTANTES FERRAMENTAS...

@@ -1,0 +1,2118 @@
+
+
+
+
+
+
+
+
+
+
+
+
+PARA CONSEGUIR TRANSMITIR O 'SELECTED BUTTON'
+
+lá 
+
+
+
+
+
+de 'RatingControl'
+
+
+
+PARA NOSSO ELEMENTO 'TheForm' (que é tipo a FORM INTEIRA),
+
+
+
+
+
+
+
+O PROFESSOR NOS DIZ QUE DEVEMOS USAR 'v-model'
+
+
+
+
+
+COM 
+
+
+
+O NOSSO PRÓPRIO COMPONENT 'RatingControl' (que está com 
+
+ESSES BUTTONS E ESSA PROPRIEDADE, NO SEU INTERIOR)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+SERIA LEGAL SE PUDÉSSEMOS USAR o 'rating-control'
+
+
+
+
+
+EXATAMENTE COMO NOSSOS OUTROS INPUT FIELDS (que estão recebendo 'v-model')...
+
+
+
+
+
+
+
+
+-> BINDARÍAMOS O VALUE QUE ESSE COMPONENT TERIA INTERNAMENTE 
+
+
+A 
+1 PROPRIEDADE DENTRO DE 'TheForm'...
+
+
+
+
+
+
+
+
+
+
+SERIA LEGAL SE PUDÉSSEMOS USAR ASSIM MSM... --> E PODEMOS, NA VERDADE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> VOCÊ DEVE SE LEMBRAR QUE,
+
+NO INÍCIO DO 
+
+CURSO,
+
+
+
+
+
+
+O PROFESSOR EXPLICOU QUE 
+
+
+
+
+
+'V-MODEL',
+
+
+no final das contas,
+
+
+É APENAS 1 ATALHO,
+
+
+É 
+
+
+1 ATALHO PARAA 
+
+
+
+
+
+
+
+
+A ESCRITA DE 
+
+
+
+'@input="" :value=""  ' 
+
+
+
+
+
+
+
+
+
+
+(OU SEJA, É 1 SHORTCUT PARA 
+
+
+O 
+
+
+LISTEN TO AO EVENT DE 'INPUT' E O BIND DO ATTRIBUTE DE 'VALUE' em 1 elemento... )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO É ALGO QUE PODEMOS APROVEITAR, AQUI..
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ O INPUT EVENT 
+
+E O 
+
+
+PROP DE 'value'
+
+
+
+É ALGO ESPECÍFICO 
+
+
+
+
+
+AOS __ ELEMENTOS DE TIPO 'INPUT'..
+
+
+
+
+
+
+
+
+
+
+---> MAS NADA 
+
+
+TE IMPEDE DE USAR 'v-model'
+
+
+
+EM 
+
+
+1 CUSTOM COMPONENT, EM VEZ DE 1 'INPUT ELEMENT'.... --> ISSO É ALGO SUPORTADO 
+
+
+
+PELO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+-> E O VUE VAI SETTAR 1 PROP BEM ESPECÍFICO SE 
+
+VC 
+
+SETTA 
+
+
+1 
+
+
+'V-MODEL'
+
+
+
+
+EM 1 COMPONENT.. -> E, AÍ,
+
+
+O VUE 
+
+
+VAI 
+
+
+FAZER 
+
+
+'LISTEN TO'
+
+A 
+
+
+1 
+
+EVENT 
+
+BEM ESPECÍFICO,
+
+
+
+
+QUE PODERÁ SER EMITIDO JUSTAMENTE POR ESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS QUE PROP É ESSE,
+
+
+E QUE 
+
+EVENT É ESSE?
+
+
+
+
+
+
+
+
+
+
+bem, devemos ir até o 'RatingControl' --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMO O PROFESSOR MENCIONA,
+
+
+O VUE VAI SETTAR 1 PROP BEM ESPECÍFICO,
+
+DENTRO DO SEU COMPONENT...
+
+
+
+
+
+
+
+
+E PRECISAMOS DECLARAR, EM 'RatingControl',
+
+
+
+ESSE PROP...
+
+
+
+
+
+
+
+-> O NOME DO PROP SERÁ 'modelValue'...
+
+
+
+
+
+
+
+
+
+
+--> DECLARAMOS ISSO LÁ NO ARRAY DE 'props':
+
+
+
+
+
+
+
+
+props: ['modelValue']
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+export default {
+  props: ['modelValue'], //ESPECIFICAMOS ESSE PROP SE __ PLANEJAMOS USAR 'v-model' com esse component aqui, com 'RatingControl'....
+  data() {
+    return {
+      currentlyActiveButton: null,
+    };
+  },
+
+  methods: {
+    selectButtonHandler(type) {
+      this.currentlyActiveButton = type;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS O QUE ESSE 'modelValue'
+
+
+FAZ?
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, USAR 
+
+
+
+
+
+
+1 'v-model'
+
+
+
+
+EM 1 COMPONENT 
+
+
+É EQUIVALENTE 
+
+A 
+
+
+SETTAR
+
+
+
+
+O PROP DE ':model-value' 
+
+
+
+NESSE COMPONENT AÍ...
+
+
+
+
+
+
+EX:
+
+
+
+    ///se declaramos esse prop no contexto desse COMPONENT, estamos basicamente escrevendo/bindando esse prop assim '<rating-control :model-value="" '
+
+
+
+
+
+
+------> OK...
+
+
+
+
+
+
+
+ISSO É ALGO QUE O VUE FAZ UNDER THE HOOD,
+
+
+
+EM CUSTOM COMPONENTS...
+
+
+
+
+
+
+
+
+OUTRA COISA ESPECIAL,
+
+COM ESSE USO DE 'v-model',
+
+
+
+É _ O EMIT __ DE 1 TIPO ESPECIAL DE EVENT,
+
+
+QUE É O EVENT DE 'update:modelValue'...
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE DECLARAMOS, lá em 'emits: []' 
+
+desse component de 'RatingControl',
+
+
+
+
+o event de 'update:modelValue'...
+
+
+
+
+ex:
+
+
+
+
+
+'emits: ['update:modelValue']'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+export default {
+  props: ['modelValue'], //ESPECIFICAMOS ESSE PROP SE __ PLANEJAMOS USAR 'v-model' com esse component aqui, com 'RatingControl'....
+                ///se declaramos esse prop no contexto desse COMPONENT, estamos basicamente escrevendo/bindando esse prop assim '<rating-control :model-value="" '
+  
+
+  emits: ['update:modelValue'], ///TAMBÉM PRECISAMOS DECLARAR O EMIT DESSE EVENT AÍ, pq ele realmente será emitido por esse nosso component...
+
+
+
+
+
+
+
+
+
+
+  ISSO PODE PARECER ESTRANHO,
+
+
+  MAS ESSE É O NOME PELO QUAL
+   
+
+   VUE ESTARÁ 
+
+
+   'WAITING FOR',
+
+
+
+   QUANDO VC USA V-MODEL 
+
+
+
+   NESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+TODA ESSA ESCRITA AÍ,
+
+
+
+
+SE TRADUZIDA PARA A LINGUAGEM DO VUE,
+
+
+FICARIA TIPO ASSIM:
+
+
+
+
+
+<rating-control :model-value="" @update:modelValue=""></rating-control>
+
+
+
+
+
+
+
+
+
+
+
+
+--> tudo isso é obtido pela MERA __ ESCRITA DO PROP DE 'v-model="rating" ' 
+
+
+
+NESSE RATING-CONTROL,
+
+TIPO ASSIM:
+
+
+
+
+
+<rating-control v-model="rating"></rating-control>
+
+
+
+
+
+
+
+
+
+
+---> ISSO QUER DIZER QUE,
+
+
+
+SE 
+
+
+
+NÓS 'ACCEPT' ESSE PROP DE ':model-value' 
+
+
+
+
+NO NOSSO COMPONENT 'rating-control',
+
+
+
+E SE __ FAZEMOS __ EMIT_ DE ESSE EVENT DE 'update:modelValue',
+
+
+
+
+
+
+
+
+
+__ PODEMOS JUSTAENTE USAR 'v-model' 
+
+NO NOSSO COMPONENT..
+
+
+
+
+
+
+
+
+
+-> DE VOLTA AO 'rating-control',
+
+
+
+
+
+
+tudo o que precisamos fazer,
+
+
+NAQUELE METHOD DE 
+
+
+'selectButtonHandler',
+
+
+
+É ___ FAZER TAMBÉM UM 
+
+
+'this.$emit()'
+
+
+
+
+
+
+DE ESSE 
+
+EVENT DE 'update:modelValue',
+
+
+
+
+
+AO MESMO TEMPO QUE FORWARDAMOS O PARÂMETRO DESSE METHOD,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+  methods: {
+    selectButtonHandler(type) {
+      this.currentlyActiveButton = type;
+      this.$emit('update:modelValue', type); //////FAZEMOS ISSO PARA _ EMITIR _ O VALUE _ DE ESSE NOSSO COMPONENT, EM DIREÇÃO À FORM.... (e fazemos isso por meio de 'v-model' nesse component de 'RatingControl', no caso)... -> para isso, precisamos declarar o prop de 'modelValue' e o EMIT/event de 'update:modelValue'... 
+      
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+  --> OK...
+
+
+
+
+
+
+  POR FIM, TAMBÉM PRECISAMOS TROCAR O VALUE DE 
+
+
+
+  ''
+
+
+  data() {
+    return {
+        currentlyActiveButton: null
+    }
+  }
+
+
+  ''
+
+
+  para 
+
+
+
+
+
+
+  ''''
+
+  data() {
+    return {
+        currentlyActiveButton: this.modelValue
+    }
+  }
+
+
+
+'''
+
+
+
+
+
+
+
+
+FAREMOS ISSO JUSTAMENTE PARA QUE 
+
+O 
+
+
+FORM COMPONENT CONSIGA _ SETTAR __ NOSSO 'INITIAL VALUE'..
+
+
+
+
+(ISSO FARÁ COM QUE 'rating', que é INICIALMENTE SETTADO COMO 'NULL', LÁ EM 'TheForm', 
+
+SEJA CONSIDERADO COMO O VALUE INICIAL DE ESSE COMPONENT 'RatingControl')...
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+(TheForm):
+
+
+
+
+
+
+
+    <div class="form-control">
+    <!-- EXEMPLO DA UTILIZAÇÃO DE 'V-MODEL' com CUSTOM COMPONENTS (Em vez de input fields clássicos)-->
+      <rating-control v-model="rating"></rating-control>
+    </div>
+
+
+
+
+data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null,
+      confirmTerms: false, //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+      userNameValidity: 'pending',
+      rating: null ////USADO  PARA DEMONSTRAR O FUNCIONAMENTO DE 'V-MODEL' COM CUSTOM COMPONENTS (em vez de input fields clássicos)...
+      
+
+
+
+
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+(RatingControl):
+
+
+
+
+
+
+export default {
+  props: ['modelValue'], //ESPECIFICAMOS ESSE PROP SE __ PLANEJAMOS USAR 'v-model' com esse component aqui, com 'RatingControl'....
+                ///se declaramos esse prop no contexto desse COMPONENT, estamos basicamente escrevendo/bindando esse prop assim '<rating-control :model-value="" '
+  
+
+  emits: ['update:modelValue'], ///TAMBÉM PRECISAMOS DECLARAR O EMIT DESSE EVENT AÍ, pq ele realmente será emitido por esse nosso component...
+  data() {
+    return {
+      currentlyActiveButton: null,
+    };
+  },
+
+  methods: {
+    selectButtonHandler(type) {
+      this.currentlyActiveButton = type;
+      this.$emit('update:modelValue', type); //////FAZEMOS ISSO PARA _ EMITIR _ O VALUE _ DE ESSE NOSSO COMPONENT, EM DIREÇÃO À FORM.... (e fazemos isso por meio de 'v-model' nesse component de 'RatingControl', no caso)... -> para isso, precisamos declarar o prop de 'modelValue' e o EMIT/event de 'update:modelValue'... 
+      
+    },
+  },
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+E SE FAZEMOS TUDO ISSO,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA CONSEGUIREMOS SETTAR O VALUE DESSE NEGÓCIO, LÁ EM 'TheForm'...
+
+
+
+
+
+
+
+
+--> COLOCAMOS 1 CONSOLE.LOG, PARA VER O VALUE DE 'rating'
+
+QUANDO 
+
+
+
+
+
+APERTAMOS EM ALGUM BUTTON E ENTÃO CLICAMOS EM 'submit'...
+
+
+
+
+
+
+
+
+TAMBÉM TENTAMOS COLOCAR 1 CÓDIGO DE 'RESET DO VALUE DE RATING',
+
+
+
+para que
+
+
+OS BUTTONS DEIXEM DE FICAREM SELECIONADOS ,
+
+
+
+ao SUBMITTARMOS A FORM...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+  methods: {
+    onFormSubmitHandler() {
+      // event.preventDefault;
+
+      console.log(this.enteredUser);
+      console.log(this.enteredAge);
+      console.log(this.enteredReferrer);
+      console.log(this.interest);
+      console.log(this.how);
+      console.log(this.rating);
+
+
+      //ISTO REINICIA OS INPUTS para 'empty values'..
+      this.enteredUser = '';
+      this.enteredAge = null;
+      this.enteredReferrer = '';
+      this.interest = [];
+      this.how = null;
+      this.rating = null;
+
+
+
+
+
+-------------------------
+
+
+
+
+
+
+
+
+OK... TEORICAMENTE, ISSO DEVERIA TER REINICIADO OS  BUTTONS DE ESSE COMPONENT CUSTOM,
+
+
+
+
+MAS ISSO N ACONTECEU, POR ALGUMA RAZÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE NOSSO 'VISUAL FEEDBACK' 
+
+
+NÃO ESTÁ SINCRONIZADO COM O VALUE 
+
+
+ARMAZENADO EM 'rating'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É RUIM, BEM RUIM...
+
+
+
+
+
+
+
+
+
+
+
+MAS PQ ISSO ESTÁ ACONTECENDO?
+
+
+
+
+
+
+É PQ __ 
+
+
+
+
+
+
+
+
+NÓS __ APENAS _USAMOS 
+O PROP 
+
+
+
+de 'modelValue'
+
+
+PARA __ INICIALIZAR 
+
+
+A PROPERTY 
+
+DE 
+
+
+
+'currentlyActiveButton'
+
+
+lá em 'RatingControl' --> ENTRETANTO,
+
+
+DEPOIS DISSO,
+
+
+
+O 'modelValue'
+
+
+NÃO É REFLETIDO NO NOSSO 'currentlyActiveButton'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO, É CLARO, É UM PROBLEMA....
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE 
+
+
+_ HÁ _ UMA MANEIRA _ DE 
+
+
+
+
+
+
+RESOLVER ISSO (workaround)... --> 
+
+
+
+
+
+
+
+
+
+
+EM VEZ DE USAR 'data',
+
+
+
+
+
+
+
+EM VEZ DE USAR 'DATA',
+
+QUE SIMPLESMENTE NÃO VAI REAGIR A 'CHANGES'
+
+
+
+NO VALUE DE 'modelValue',
+
+
+QUE 
+VÊM DO LADO DE FORA,
+
+
+
+
+
+
+
+
+
+PODEMOs_ SIMPLESMENTE_  SETTAR 
+
+
+'currentlyActiveButton'
+
+
+COMO 1 
+
+__ COMPUTED_ PROPERTY.... (com 'computed: {}' )...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, MAS QUAL A IDEIA DO PROFESSOR, AQUI?
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, ESTAMOS EMITINDO O EVENT DE 'update:modelValue'
+
+
+
+SEMPRE QUE SELECIONAMOS ALGUMA OPTION... -> E ESSE EVENT É 
+
+
+'PICKED UP'
+
+
+PELO 
+
+
+
+
+
+V-MODEL,
+
+
+E AÍ 
+
+
+
+A OPTION QUE 
+
+
+
+
+PEGAMOS É ENTÃO ARMAZENADA 
+
+
+LÁ NAQUELA PROPERTY DE 'rating' na 'data' de 
+
+
+
+'TheForm',
+
+
+
+
+PQ É JUSTAMENTE ESSA PROPERTY QUE BINDAMOS 
+
+AO 'rating-control',
+
+
+POR MEIO DE 'v-model=rating'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS A QUESTÃO É QUE 
+
+
+'v-model'
+
+
+FUNCIONA 
+
+DE MODO QUE 
+
+
+
+ESSE VALUE DE 'rating'
+
+
+É ENTÃO 
+
+'FEEDADO'
+
+
+DE VOLTA 
+
+A ESSE COMPONENT DE 'RatingControl'-->  ISSO SIGNIFICA QUE 
+
+
+
+O PROP VALUE De 'modelValue' 
+
+
+
+SERÁ ATUALIZADO _ SEMPRE QUE _ EMITIRMOS ESSE 
+
+
+EVENT 
+
+
+
+de 'update:modelValue'...
+
+
+
+
+
+
+
+
+
+
+
+--> É JUSTAMENTE POR ISSO QUE 
+
+PODEMOS TER 'currentlyActiveButton'
+
+
+COMO 1 
+
+
+COMPUTED PROPERTY,
+
+
+PARA ENTÃO 
+
+FAZER RETURN DE 'this.modelValue'..
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+computed: {
+  currentlyActiveButton() {
+    // return this.modelValue; ////essa é UMA DAS DUAS MANEIRAS DE VINCULAR SEU CUSTOM COMPONENT COM 'v-model' a 1 component 'pai'...
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+ALTERNATIVAMENTE,
+
+
+
+VC PODE SKIPPAR TUDO ISSO 
+
+
+E USAR 
+
+
+DIRETAMENTE 
+
+
+'modelValue'
+
+
+
+COMO VALOR __ DAS COISAS NAS SUAS CLASSES DINÂMICAS (
+    pq 
+
+    'modelValue'
+
+    JÁ VAI SER O PROP QUE VC VAI RECEBER, 
+
+    E VAI 
+
+
+    
+    SER JUSTAMENTE ESSE VALUE DINÂMICO, UPDATADO COM ESSE 'V-MODEL'...
+
+)
+
+
+
+
+
+Ex:
+
+
+
+
+
+
+
+        <li :class="{ active: modelValue === 'poor' }">
+      <button type="button" @click="selectButtonHandler('poor')">Poor</button>
+    </li>
+    <li :class="{ active: modelValue === 'average' }">
+      <button type="button" @click="selectButtonHandler('average')">
+        Average
+      </button>
+    </li>
+    <li :class="{ active: modelValue === 'great' }">
+      <button type="button" @click="selectButtonHandler('great')">Great</button>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM PODEMOS TIRAR AQUELA LINHA QUE UPDATA A PROPRIEDADE DE 'data',
+
+
+LÁ NO METHOD DE 'selectButtonHandler':
+
+
+
+
+
+  methods: {
+    selectButtonHandler(type) {
+      // this.currentlyActiveButton = type; ///usado com a PRIMEIRA DAS '2 MANEIRAS DE VINCULAR SEU CUSTOM COMPONENT com v-model'
+      this.$emit('update:modelValue', type); //////FAZEMOS ISSO PARA _ EMITIR _ O VALUE _ DE ESSE NOSSO COMPONENT, EM DIREÇÃO À FORM.... (e fazemos isso por meio de 'v-model' nesse component de 'RatingControl', no caso)... -> para isso, precisamos declarar o prop de 'modelValue' e o EMIT/event de 'update:modelValue'... 
+
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    OK... SALVAMOS TUDO ISSO E RECARREGAMOS..
+
+
+
+
+
+
+
+
+
+
+    AINDA PODEMOS 
+
+
+    SELECIONAR DIFERENTES OPÇÕES,
+
+
+
+    MAS AGORA TEMOS O BONUS DE QUE 
+
+
+
+
+
+    SE ___ CLICAMOS NO BUTTON DE 'SUBMIT',
+
+
+
+
+
+    NOSSOS BUTTONS SÃO RESETTADOS TBM..(pq agora tudo está em sincronia)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+É ASSIM QUE PODEMOS CONSTRUIR 'CUSTOM CONTROLS' ---> BUILDAMOS 
+
+
+
+REGULAR COMPONENTS,
+
+E AÍ 
+
+FAZEMOS 'LISTEN TO' 
+
+
+
+A ESSE PROP ESPECIAL DE 'modelValue',
+
+
+E AÍ 
+
+FAZEMOS EMIT 
+
+
+
+DESSE EVENT DE 'update:modelValue'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <!-- <li :class="{ active: currentlyActiveButton === 'poor' }">
+      <button type="button" @click="selectButtonHandler('poor')">Poor</button>
+    </li>
+    <li :class="{ active: currentlyActiveButton === 'average' }">
+      <button type="button" @click="selectButtonHandler('average')">
+        Average
+      </button>
+    </li>
+    <li :class="{ active: currentlyActiveButton === 'great' }">
+      <button type="button" @click="selectButtonHandler('great')">Great</button>
+    </li> -->
+
+
+
+        <li :class="{ active: modelValue === 'poor' }">
+      <button type="button" @click="selectButtonHandler('poor')">Poor</button>
+    </li>
+    <li :class="{ active: modelValue === 'average' }">
+      <button type="button" @click="selectButtonHandler('average')">
+        Average
+      </button>
+    </li>
+    <li :class="{ active: modelValue === 'great' }">
+      <button type="button" @click="selectButtonHandler('great')">Great</button>
+    </li>
+  </ul>
+</template>
+
+<script>
+export default {
+  props: ['modelValue'], //ESPECIFICAMOS ESSE PROP SE __ PLANEJAMOS USAR 'v-model' com esse component aqui, com 'RatingControl'....
+                ///se declaramos esse prop no contexto desse COMPONENT, estamos basicamente escrevendo/bindando esse prop assim '<rating-control :model-value="" '
+  
+
+  emits: ['update:modelValue'], ///TAMBÉM PRECISAMOS DECLARAR O EMIT DESSE EVENT AÍ, pq ele realmente será emitido por esse nosso component...
+  data() {
+    return {
+      // currentlyActiveButton: this.modelValue,  // quando USAMOS 'v-model' com algum CUSTOM COMPONENT, não devemos usar data properties como propriedades que seguram os valores... (prefira COMPUTED PROPERTIES; AS COMPUTED VÃO ATUALIZAR A PARTE VISUAL DO SEU SITE, SEMPRE QUE O VALUE DO PROP de 'modelValue' FOR ALTERADO, após ser triggado o v-model desse component...
+    };
+  },
+
+
+// computed: {
+//   currentlyActiveButton() {
+//     // return this.modelValue; ////essa é A PRIMEIRA DAS DUAS MANEIRAS DE VINCULAR SEU CUSTOM COMPONENT COM 'v-model' a 1 component 'pai'...
+//   }
+// },
+
+  methods: {
+    selectButtonHandler(type) {
+      // this.currentlyActiveButton = type; ///usado com a PRIMEIRA DAS '2 MANEIRAS DE VINCULAR SEU CUSTOM COMPONENT com v-model'
+      this.$emit('update:modelValue', type); //////FAZEMOS ISSO PARA _ EMITIR _ O VALUE _ DE ESSE NOSSO COMPONENT, EM DIREÇÃO À FORM.... (e fazemos isso por meio de 'v-model' nesse component de 'RatingControl', no caso)... -> para isso, precisamos declarar o prop de 'modelValue' e o EMIT/event de 'update:modelValue'... 
+
+    },
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  display: flex;
+}
+
+li {
+  margin: 0 1rem;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  font: inherit;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.active {
+  border-color: green;
+}
+
+.active button {
+  color: green;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISTO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="onFormSubmitHandler($event)">
+    <div class="form-control">
+      <label
+        for="user-name"
+        :class="{ invalid: userNameValidity === 'invalid' }"
+        >Your Name</label
+      >
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model="enteredUser"
+        @blur="validateInput()"
+      />
+      <p v-if="userNameValidity === 'invalid'">
+        Please enter a valid username!
+      </p>
+    </div>
+
+    <div class="form-control">
+      <label for="age">Your Age (Years)</label>
+      <input id="age" name="age" type="number" v-model="enteredAge" />
+      <!--  o fato do input ser de type 'age' faz com que TODAS AS COISAS INPUTTADAS NELE (como strings) SEJAM AUTOMATICAMENTE CONVERTIDAS EM NUMBERS, pelo vue -->
+
+      <!-- TAMBÉM PODEMOS FORÇAR ESSA CONVERSÃO COM OUTROS TYPES DE INPUT FIELD, botando o modifier '.number' em 'v-model', TIPO <input type="text" v-model.number="enteredAge"></input> -->
+    </div>
+    <div class="form-control">
+      <label for="referrer">How did you hear about us?</label>
+      <select id="referrer" name="referrer" v-model="enteredReferrer">
+        <option value="google">Google</option>
+        <option value="wom">Word of mouth</option>
+        <option value="newspaper">Newspaper</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <h2>What are you interested in?</h2>
+      <div>
+        <!-- ESSA PROPRIEDADE DE 'value' É ESSENCIAL  para DIFERENCIAR 1 INPUT (de type 'checkbox' ou 'radio') EM RELAÇÃO A OUTRO ... -->
+        <input
+          id="interest-news"
+          name="interest"
+          value="news"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-news">News</label>
+      </div>
+      <div>
+        <input
+          id="interest-tutorials"
+          name="interest"
+          value="tutorials"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-tutorials">Tutorials</label>
+      </div>
+      <div>
+        <input
+          id="interest-nothing"
+          name="interest"
+          value="nothing"
+          type="checkbox"
+          v-model="interest"
+        />
+        <label for="interest-nothing">Nothing</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input
+          id="how-video"
+          name="how"
+          value="video"
+          type="radio"
+          v-model="how"
+        />
+        <label for="how-video">Video Courses</label>
+      </div>
+      <div>
+        <input
+          id="how-blogs"
+          name="how"
+          value="blogs"
+          type="radio"
+          v-model="how"
+        />
+        <label for="how-blogs">Blogs</label>
+      </div>
+      <div>
+        <input
+          id="how-other"
+          name="how"
+          value="other"
+          type="radio"
+          v-model="how"
+        />
+        <label for="how-other">Other</label>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <input
+        type="checkbox"
+        id="confirm-terms"
+        name="confirm-terms"
+        v-model="confirmTerms"
+      />
+      <label for="confirm-terms">Agree to terms of use?</label>
+    </div>
+    <div class="form-control">
+    <!-- EXEMPLO DA UTILIZAÇÃO DE 'V-MODEL' com CUSTOM COMPONENTS (Em vez de input fields clássicos)-->
+      <rating-control v-model="rating"></rating-control>
+    </div>
+    <div>
+      <button>Save Data</button>
+    </div>
+  </form>
+</template>
+
+<script>
+import RatingControl from '../components/RatingControl';
+export default {
+  components: {
+    RatingControl,
+  },
+
+  data() {
+    return {
+      enteredUser: '',
+      enteredAge: null, ///VALUES DE NUMBER EXTRAÍDOS de 'inputs'  DE TYPE NUMBER COM 'v-model' SEMPRE SÃO __ NUMBER__... --> ELES SÃO CONVERTIDOS PARA TYPE 'NUMBER' MANUALMENTE... (pq serão inicialmente strings, apesar de ser TEORICAMENTE apenas possível inputtar numbers nesse input field....)
+      enteredReferrer: 'google',
+      // interest: null,  //// VERSÃO ERRADA (os 3 checkboxes vão se habilitar/desabilitar CONJUNTAMENTE, se fizermos assim)...
+      interest: [], //VERSÃO CERTA. (os 3 checkboxes serão independentes) --> SE VC TEM MÚLTIPLOS CHECKBOXES COMPARTILHANDO O MESMO 'NAME', SEUS VALUES PASSAM A FAZER PARTE DESSE ARRAY, QUANDO MARCADOS/CHECADOS...
+      how: null,
+      confirmTerms: false, //// JÁ SE O CHECKBOX É __ÚNICO, SÓ ELE EXISTE (só ele com aquele 'name' attribute), AÍ __ ELE VAI ALTERNAR ENTRE 'false' e 'true', quando marcado...
+      userNameValidity: 'pending',
+      rating: null ////USADO  PARA DEMONSTRAR O FUNCIONAMENTO DE 'V-MODEL' COM CUSTOM COMPONENTS (em vez de input fields clássicos)...
+
+
+
+      // versão FEITA POR MIM, antiga, ruim...
+      // checkedNews: false,
+      // checkedTutorials: false,
+      // checkedNothing: false,
+      // checkedVideo: false,
+      // checkedBlogs: false,
+      // checkedOther: false,
+    };
+  },
+
+  methods: {
+    onFormSubmitHandler() {
+      // event.preventDefault;
+
+      console.log(this.enteredUser);
+      console.log(this.enteredAge);
+      console.log(this.enteredReferrer);
+      console.log(this.interest);
+      console.log(this.how);
+      console.log(this.rating);
+      // console.log(this.checkedNews);
+      // console.log(this.checkedTutorials);
+      // console.log(this.checkedNothing);
+      // console.log(this.checkedVideo);
+      // console.log(this.checkedBlogs);
+      // console.log(this.checkedOther);
+
+      //ISTO REINICIA OS INPUTS para 'empty values'..
+      this.enteredUser = '';
+      this.enteredAge = null;
+      this.enteredReferrer = '';
+      this.interest = [];
+      this.how = null;
+      this.rating = null;
+      // this.checkedNews = '';
+      // this.checkedTutorials = '';
+      // this.checkedNothing = '';
+      // this.checkedVideo = '';
+      // this.checkedBlogs = '';
+      // this.checkedOther = '';
+
+      console.log(
+        this.enteredUser,
+        this.enteredAge,
+        this.enteredReferrer,
+        this.interest,
+        this.how
+        // this.checkedNews,
+        // this.checkedTutorials
+      );
+    },
+
+    validateInput() {
+      if (this.enteredUser.trim() === '') {
+        this.userNameValidity = 'invalid';
+      } else {
+        this.userNameValidity = 'valid';
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+form {
+  margin: 2rem auto;
+  max-width: 40rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+.form-control.invalid input {
+  border-color: red;
+}
+
+.form-control.invalid label {
+  color: red;
+}
+
+label {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  margin-top: 0.5rem;
+}
+
+select {
+  width: auto;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  display: inline-block;
+  width: auto;
+  margin-right: 1rem;
+}
+
+input[type='checkbox'] + label,
+input[type='radio'] + label {
+  font-weight: normal;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #0076bb;
+  background-color: #0076bb;
+  color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+}
+
+button:hover,
+button:active {
+  border-color: #002350;
+  background-color: #002350;
+}
+</style>
+
+<!-- 'v-model.number="" ' 
+
+
+
+
+
+
+
+
+
+
+-->
+
+<!-- 
+
+ISSO _ VAI CONVERTEr__ AUTOMATICAMENTE __ 
+
+
+
+O VALUE INPUTTADO NESSE INPUT FIELD, PELO USER,
+
+
+
+EM 
+
+
+1 _ _ VALUE __ DE TYPE NUMBER..
+
+
+
+
+
+ -->
+
+<!-- 
+ TEMOS MODIFIERS COMO 
+
+
+
+
+ 'v-model.lazy'...
+
+
+
+
+
+
+
+
+
+esse modifier te deixa modificar  -->
+
+<!-- 'COMO O VUE __ UPDATA__ A __ BOUND PROPERTY'',  se ele faz isso -->
+
+<!-- PARA CADA KEYSTROKE,
+
+
+ OU SE, PARA ALGUNS INPUTS,
+
+
+ ELE __ FAZ/DEVE FAZER ISSO COM 1 FREQUÊNCIA MELHOR...
+
+
+
+
+
+
+ -->
+
+<!-- 
+JÁ 'v-model.trim="" -->
+
+<!-- 
+ QUER DIZER QUE _ ELE _ DEVE __ REMOVER __ EXCESS WHITE SPACE 
+
+
+
+ AO INÍCIO E FINAL __ DO TEXTO QUE FOI INPUTTADO...
+
+
+
+ (
+
+  é a mesma coisa que 
+
+
+  escrever 
+
+  o method '.trim()' no final de 
+
+
+  'this.enteredUser',
+
+
+  por exemplo...
+ ) -->
