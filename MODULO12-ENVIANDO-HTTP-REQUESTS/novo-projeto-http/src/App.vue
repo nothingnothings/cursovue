@@ -2,9 +2,11 @@
   <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
   <user-experiences :results="savedSurveyResults"></user-experiences> -->
 
-
-    <learning-survey></learning-survey>
-  <user-experiences></user-experiences>
+  <learning-survey></learning-survey>
+  <user-experiences
+    :results="savedSurveyResults"
+    @loadExperiencesHandler="loadExperiencesHandler"
+  ></user-experiences>
 </template>
 
 <script>
@@ -34,6 +36,45 @@ export default {
     //   console.log(surveyResult);
     //   this.savedSurveyResults.push(surveyResult);
     // },
+
+    loadExperiencesHandler() {
+      fetch(
+        'https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+        .then((res) => {
+          const formattedResponse = res.json();
+          console.log(formattedResponse);
+          return formattedResponse;
+          // this.savedSurveyResults = res.data;
+        })
+        .then((experiences) => {
+          console.log(experiences, 'EXPERIENCES');
+
+          const userExperiences = experiences;
+          const experiencesArray = [];
+          // this.savedSurveyResults = experiences;
+
+          for (const experience in userExperiences) {
+            experiencesArray.push({
+              id: experience,
+              name: experiences[experience].name,
+              rating: experiences[experience].rating,
+            });
+          }
+
+          this.savedSurveyResults = experiencesArray;
+
+          console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
+        })
+        .catch((err) => {
+          console.log(err, 'THE ERROR');
+        });
+    },
   },
 };
 </script>
