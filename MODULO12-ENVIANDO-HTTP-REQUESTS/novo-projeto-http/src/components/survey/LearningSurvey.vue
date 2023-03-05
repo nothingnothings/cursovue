@@ -41,6 +41,7 @@
         <p v-if="invalidInput">
           One or more input fields are invalid. Please check your provided data.
         </p>
+        <p v-if="error">{{ error }}</p>
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -53,9 +54,10 @@
 export default {
   data() {
     return {
-      enteredName: '',
+      enteredName: "",
       chosenRating: null,
       invalidInput: false,
+      error: null,
     };
   },
 
@@ -63,7 +65,8 @@ export default {
 
   methods: {
     submitSurvey() {
-      if (this.enteredName === '' || !this.chosenRating) {
+      this.error = null;
+      if (this.enteredName === "" || !this.chosenRating) {
         this.invalidInput = true;
         return;
       }
@@ -75,20 +78,35 @@ export default {
       // });
 
       fetch(
-        'https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json',
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: this.enteredName,
             rating: this.chosenRating,
           }),
         }
-      );
+      )
+        .then((res) => {
+          ///ERRORS THAT ARE NOT TECHNICAL ERRORS
+          //(like WRONG URL - that is a technical error), shown by status codes of 400/500.
 
-      this.enteredName = '';
+          if (response.ok) {
+            console.log(response);
+          } else {
+            throw new Error("Could not save data!");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.error = error.message; ///vai outputtar 'Could not save data', pq 'message' é a propriedade em que ficará armazenada a string de 'Could not save data!'
+          // this.error = "Something went wrong!";
+        });
+
+      this.enteredName = "";
       this.chosenRating = null;
     },
   },
@@ -100,7 +118,7 @@ export default {
   margin: 0.5rem 0;
 }
 
-input[type='text'] {
+input[type="text"] {
   display: block;
   width: 20rem;
   margin-top: 0.5rem;

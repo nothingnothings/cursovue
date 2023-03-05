@@ -1,0 +1,1262 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS HÁ MAIS 1 COISA QUE VOCÊ TEM QUE SABER SOBRE ISSO TUDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O METHOD DE 'FETCH' FUNCIONA 
+
+
+DE MODO QUE 
+
+
+'ERROS TÉCNICOS',
+
+
+
+
+COMO ESTE GERADO PELA 'URL INVÁLIDA',
+
+
+
+
+
+
+
+
+
+SÃO CAPTURADOS 
+
+
+
+
+PELO BLOCO DE '.catch(() => {'})'
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE VC TBM PODE TER ERRORS ORIGINADOS DO 
+
+FIREBASE,
+
+
+
+
+
+ERRORS QUE NÃO SERÃO ERROS TÉCNICOS,
+
+
+
+
+EM QUE _ 
+
+
+
+
+
+VC_ _ CONSEGUE _ UMA RESPONSE 'REGULAR' DO FIREBASE,
+
+MAS QUE 
+
+
+
+
+BASICAMENTE 
+
+
+
+TE 
+
+
+INFORMA QUE 'ALGO DEU ERRADO'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--->  E O IMPORTANTE É QUE 
+
+
+ESSES 
+
+
+
+NEGÓCIOS DE 'ALGO DEU ERRADO, MAS NÃO TANTO'
+
+
+NÃO __ SERÃO ___ 
+
+
+
+
+CAPTURADOS PELO BLOCK DE 'CATCH'...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR NOS MOSTRA 1 DESSES SERVERSIDE ERRORS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> VAMOS ATÉ O FILE DE 'LearningSurvey' -> LÁ,
+
+ESTAMOS ENVIANDO 
+
+
+
+
+
+1 REQUEST DE TIPO 'POST',
+
+E AÍ 
+
+
+NÃO ESTAMOS COLOCANDO 1 THEN 
+
+BLOCK,
+
+PQ NÃO ESTÁVAMOS NOS PREOCUPANDO COM A RESPONSE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ submitSurvey() {
+      if (this.enteredName === '' || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      fetch(
+        'https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      );
+
+      this.enteredName = '';
+      this.chosenRating = null;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O.. MAS AGORA DEVEMOS NOS PREOCUPAR COM A RESPONSE,
+
+
+COM 'WHETHER
+
+
+TUDO FUNCIONOU OU Não'... -> ISSO QUER DIZER QUE 
+
+
+VOU QEURER 
+
+
+MOSTRAR 
+
+
+1 MESSAGE AO USER,
+
+
+
+
+
+
+
+
+
+SE __ O SEND DE DATA FALHAR...
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO, O PROFESSOR NOVAMENTE COLOCA 1 PROPERTY DE 'error '
+
+
+
+
+NO DATA DESSE COMPONNET,
+
+
+
+
+
+PARA ENTÃO 
+
+COLOCAR 1 CATCH BLOCK NESSE 
+
+
+
+
+FETCH -> s
+
+
+
+
+
+
+AÍ COLOCAMOS 
+
+
+
+
+
+assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  submitSurvey() {
+      this.error = null;
+      if (this.enteredName === "" || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      ).catch((error) => {
+        console.log(error);
+        this.error = "Something went wrong!";
+      });
+
+      this.enteredName = "";
+      this.chosenRating = null;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ------> O PROFESSOR USA ESSA PROPRIEDADE DE 'error'
+
+    para 
+
+    mostrar 
+
+    1 paragraph,
+    tipo assim:
+
+
+
+
+
+
+
+    <template>
+  <section>
+    <base-card>
+      <h2>How was your learning experience?</h2>
+      <form @submit.prevent="submitSurvey">
+        <div class="form-control">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" v-model.trim="enteredName" />
+        </div>
+        <h3>My learning experience was ...</h3>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-poor"
+            value="poor"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-poor">Poor</label>
+        </div>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-average"
+            value="average"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-average">Average</label>
+        </div>
+        <div class="form-control">
+          <input
+            type="radio"
+            id="rating-great"
+            value="great"
+            name="rating"
+            v-model="chosenRating"
+          />
+          <label for="rating-average">Great</label>
+        </div>
+        <p v-if="invalidInput">
+          One or more input fields are invalid. Please check your provided data.
+        </p>
+        <p v-if="error">{{error}}</p>
+        <div>
+          <base-button>Submit</base-button>
+        </div>
+      </form>
+    </base-card>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+PODEMOS GERAR O MESMO ERRO DE ANTES
+,
+
+
+
+
+COM '.json' 
+
+FALTANDO NA URL..
+
+
+
+
+
+
+
+
+-> AÍ VAMOS GANHAR AQUELE OUTPUT DE 'Something went wrong',
+
+
+
+
+
+
+MAS 
+
+ISSO ÉEXATAMENTE AQUELE 
+
+
+
+
+
+'TECHNICAL ERROR'
+
+
+de que o professor falou,
+
+
+
+aquele 
+
+
+ERRO 
+QUE É COBERTO PELOS CATCH...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS AGORA O PROFESSOR 
+
+
+
+QUER NOS MOSTRAR O HANDLE DE 1 ERROR QUE NÃO É 1 
+
+
+ERROR TÉCNICO,
+
+
+ATIRADO PELO BROWSER,
+
+
+
+
+
+
+
+__ MAS SIM 1 ERROR QUE É GERADO PELO SERVER,
+
+
+
+QUE AINDA 
+
+
+VAI RESULTAR 
+
+
+EM UMA 'REGULAR RESPONSE' SENDO RETORNADA,
+
+
+
+
+MAS 1 RESPONSE QUE 
+
+NÃO É EXATAMENTE OK,
+
+
+PQ 
+
+
+
+POSSUIRÁ 
+
+
+
+
+1 STATUS CODE QUE VAI __ INDICAR QUE 
+
+ALGO DEU ERRADO NO SERVER...
+
+
+
+
+
+
+
+
+
+
+
+-> E PODEMOS 
+
+
+
+FORÇAR O 
+
+
+
+FIREBASE A 
+
+
+
+
+NOS DAR 1 RESPONSE DE 'ALGO ESTÁ ERRADO' (uma response dizendo isso),
+
+
+
+
+
+BASTA 
+
+
+
+
+
+
+
+
+
+
+TIRAR 
+
+
+O 
+
+
+
+'JSON.stringify()'
+
+
+
+EM VOLTA DE NOSSO BODY,
+
+
+
+PQ AÍ
+
+
+
+ESTAREMOS ENVIANDO 1 BODY 
+
+
+QUE NÃO 
+
+
+
+
+
+
+ESTARÁ 
+
+
+EM 1 FORMATO JSON (e sim em um formato JAVASCRIPT OBJECT),
+
+
+
+
+
+
+
+
+O QUE VAI RESULTAR NESSA 
+
+
+
+
+RESPONSE COM UM STATUS CODE DIFERENTE DE 200/201...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+  fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: {
+            name: this.enteredName,
+            rating: this.chosenRating,
+          },
+        }
+      )
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... SE ABRIMOS OS DEV TOOLS,
+
+
+
+FICAMOS
+
+
+COM 1 ERROR DE 'FAILED TO LOAD RESOURCE, 
+
+THE SERVER RESPONDED WITH A STATUS OF 400' --> ISSO SIGNIFICA QUE 
+
+
+AGORA _ NÃO _ 
+
+
+
+
+ESTAMOS COM 1 TECHNICAL ERROR ATIRADO PELO BROWSER,
+
+
+E SIM 
+
+UMA REGULAR RESPONSE 
+
+
+
+
+COM STATUS CODE DE 400... (E NÃO 200/201)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+400 e 500 --> ALGO DEU ERRADO NO SERVIDOR...
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO PODE ACONTECER, SIM,
+
+
+E QUER DIZER QUE 
+
+
+O 'CATCH 'NÃO ESTÁ PICKING IT UP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR HANDLAR ESSE CASE,
+
+
+
+
+PRECISAMOS DE 1 THEN BLOCK,
+
+
+E AÍ RODAR IF CHECKS EM CIMA 
+
+
+
+DOS STATUS CODES 
+
+
+DA RESPONSE.... (
+    que será retornada em  caso de AUSÊNCIA DE TECHNICAL ERROR....
+)
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+  submitSurvey() {
+      this.error = null;
+      if (this.enteredName === "" || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      )
+        .then((res) => {
+          ///ERRORS THAT ARE NOT TECHNICAL ERRORS
+          //(like WRONG URL - that is a technical error), shown by status codes of 400/500.
+
+
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          this.error = "Something went wrong!";
+        });
+
+      this.enteredName = "";
+      this.chosenRating = null;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESCREVEMOS 
+
+'if (response.ok) {
+
+} else {
+
+}
+'
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK..
+
+
+
+
+CASO ENTREMOS NO ELSE (não está ok a response),
+
+
+VAMOS QUERER 
+
+FAZER O THROW DE 1 ERROR,
+
+PARA QUE 
+
+ENTÃO CONSIGAMOS ENTRAR NO 
+
+CATCH BLOCK..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+    submitSurvey() {
+      this.error = null;
+      if (this.enteredName === "" || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      )
+        .then((res) => {
+          ///ERRORS THAT ARE NOT TECHNICAL ERRORS
+          //(like WRONG URL - that is a technical error), shown by status codes of 400/500.
+
+          if (response.ok) {
+            console.log(response);
+          } else {
+            throw new Error("Could not save data!");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.error = "Something went wrong!";
+        });
+
+      this.enteredName = "";
+      this.chosenRating = null;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --------> OK...
+
+
+
+
+
+
+
+    ISSO VAI ATIRAR 1 NOVO ERROR,
+
+
+    E VAI FAZER COM QUE O 
+
+    CATCH BLOCK DE ERROR SEJA AUTOMATICAMENTE TRIGGADO...
+
+
+
+
+
+
+
+
+    ----> MAS PRECISAMOS DEFINIR O 'this.error'
+
+
+    COMO SENDO 
+
+
+    'error.message',
+
+    PQ 
+
+
+
+
+    ___ A NOSSA STRING de 'Could not Save Data'
+
+
+    TERÁ SIDO ARMAZENADA DENTRO DESSA KEY, DENTRO DESSE OBJECT DE 'error'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    submitSurvey() {
+      this.error = null;
+      if (this.enteredName === "" || !this.chosenRating) {
+        this.invalidInput = true;
+        return;
+      }
+
+      this.invalidInput = false;
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: this.enteredName,
+            rating: this.chosenRating,
+          }),
+        }
+      )
+        .then((res) => {
+          ///ERRORS THAT ARE NOT TECHNICAL ERRORS
+          //(like WRONG URL - that is a technical error), shown by status codes of 400/500.
+
+          if (response.ok) {
+            console.log(response);
+          } else {
+            throw new Error("Could not save data!");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.error = error.message; ///vai outputtar 'Could not save data', pq 'message' é a propriedade em que ficará armazenada a string de 'Could not save data!'
+          // this.error = "Something went wrong!";
+        });
+
+      this.enteredName = "";
+      this.chosenRating = null;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    RETORNAMOS O NOSSO CÓDIGO 
+
+
+
+
+
+
+    À SITUAÇÃO ORIGINAL,
+
+
+    EM QUE 
+    TÍNAHMOS O JSON.stringify()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS É CLARO QUE NA REALIDADE 
+
+
+PODEMOS TER 
+
+
+
+
+
+SITUAÇÕES 
+
+EM QUE 
+
+
+O 
+
+
+SERVER 
+
+
+
+
+GERA TAIS 'ERROR RESPONSES' SEM VC,
+
+
+COMO O FRONTEND DEVELOPER,
+
+
+
+SER RESPONSÁVEL 
+
+
+
+
+POR ESSA RESPONSE. .
+
+
+
+
+
+
+
+
+
+
+--> MAS ISSO TE MOSTRA COMO VC PODE HANDLAR 
+
+
+ESSES 'SERVERSIDE ERROR RESPONSES'...
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+HANDLAMOS TUDO O QUE TÍNHAMOS QUE HANDLAR (
+
+
+    success cases,
+    error cases,
+    loading cases,
+
+    no data cases..
+
+
+    
+)
