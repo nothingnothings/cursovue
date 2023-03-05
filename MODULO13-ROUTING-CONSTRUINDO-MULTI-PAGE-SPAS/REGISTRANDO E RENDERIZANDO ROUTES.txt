@@ -1,0 +1,951 @@
+COMEÇAMOS COM ESTE CÓDIGO, em 'main.js':
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+const router = createRouter({
+  routes: [], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+  history: createWebHistory() /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
+    ///com isso, permitimos que seja usado o COMPORTAMENTO DEFAULT DE HISTORY DO BROWSER...
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS COMO PODEMOS REGISTRAR ROUTES?
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, TEMOS O ARRAY DE ROUTES --> DEVEMOS PASSAR OBJECTS JAVASCRIPT A ESSE ARRAY...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CADA OBJECT REPRESENTA 1 ROUTE, e a CONFIGURATION PARA ESSA ROUTE...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/teams/TeamsList.vue';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+  ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+  history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
+  ///com isso, permitimos que seja usado o COMPORTAMENTO DEFAULT DE HISTORY DO BROWSER...
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR FALA DA OPTION DE 'PATH' --> ISSO DIZ 
+
+
+
+
+
+
+
+PARA _ QUE _ 'PATH' 
+
+
+
+CADA COMPONENT DEVERÁ SER CARREGADO...
+
+
+
+
+
+
+
+
+
+--> COLOCO '/teams',
+
+
+PARA QUE 
+
+
+
+
+
+CERTO COMPONENT SEJA CARREGADO A PARTIR DESSA ROUTE (component de 'TeamsList')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> É CLARO QUE PRECISAMOS 
+
+
+
+TROCAR O CÓDIGO DE 
+
+
+
+'<component :is="activePage"></component>'
+
+
+
+
+
+LÁ EM 
+
+
+'App.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+----> TIRAMOS ISSO DE LÁ...
+
+
+
+
+
+
+
+
+--> VAMOS COLOCAR '<router-view>'
+
+
+NO SEU LUGAR, PROVAVELMENTE...
+
+
+
+
+
+
+
+
+
+
+OK.... MAS É CLARO QUE 'TheNavigation'
+
+TAMBÉM DEVERÁ SER ALTERADA...
+
+
+
+
+
+
+
+
+
+-> VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+<div>
+  <the-navigation @set-page="setActivePage"></the-navigation>
+  <main>
+  <!-- SEM ROUTING -->
+    <!-- <component :is="activePage"></component> -->
+  <!-- COM ROUTING -->
+  <router-view></router-view>
+  </main>
+</div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <!-- <button @click="setActivePage('teams-list')">Teams</button> -->
+          <router-link to="/teams">Teams</router-link>
+        </li>
+        <li>
+          <!-- <button @click="setActivePage('users-list')">Users</button> -->
+          <router-link to="/users">Users</router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</template>
+
+<script>
+export default {
+  emits: ['set-page'],
+  methods: {
+    setActivePage(page) {
+      this.$emit('set-page', page);
+    },
+  },
+};
+</script>
+
+<style scoped>
+header {
+  width: 100%;
+  height: 5rem;
+  background-color: #11005c;
+}
+
+nav {
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  margin: 0 2rem;
+}
+
+button {
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+}
+
+button:hover,
+button:active {
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA É HORA DE TESTAR ESSE SETUP...
+
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+ganhei 1 error...
+
+
+
+
+
+
+
+
+
+OK, CONSERTEI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MEU ROUTING JÁ ESTÁ FUNCIONANDO....
+
+
+
+
+
+
+
+
+
+BEM MAIS SIMPLES DO QUE PARECE, COM O VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TUDO DEPENDE DE 'router-view'
+
+
+
+
+
+e 'router-link'...
+
+
+
+
+
+
+
+
+
+
+
+-->  O PROFESSOR VOLTA PARA O TÓPICO DE 'main.js'...
+
+
+
+
+
+
+
+
+
+--> LÁ, PRECISAMOS FAZER O VUE APP FICAR 'AWARE'
+
+
+
+DESSAS ROUTES 
+
+
+
+DO VUE...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+TEMOS O METHOD DE 
+
+
+'app.use()',
+
+
+DO VUE,
+
+QUE 
+
+EU 
+
+USEI 
+
+
+
+
+
+PARA___ CONSEGUIR _ CONECTAR 
+
+
+MEU VUE APP 
+
+
+
+
+COM 1 THIRD PARTY PACKAGE (no caso, o ROUTER)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+
+CONECTEI O ROUTER AO MEU APP...
+
+
+
+
+
+
+
+
+
+
+-> OK... 
+
+
+
+
+
+MAS AINDA ESTAMOS COM ALGO FALTANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> TEORICAMENTE,
+
+
+
+
+O ___ VUE-ROUTER JÁ PERCEBE QUE,
+
+
+SE VISITARMOS 'domain.com/teams',
+
+
+
+
+VAMOS 
+VISITAR 
+
+
+ESSE COMPONENT .... ----->
+
+
+
+
+
+
+
+
+ENTRETANTO,
+
+A INFO QUE ESTÁ FALTANDO É 
+
+
+
+''''EM QUE LUGAR ELE DEVE CARREGAR ESSE COMPONENT????'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> JUSTAMENTE PQ _ __ 
+
+NÓS _ PODEMOS 
+
+
+ESCOLHER, POR MEIO DA TAG DE '<router-view>',
+
+
+
+O LOCAL 
+
+
+
+
+EM NOSSA TELA 
+
+
+
+
+EM QUE 
+
+
+ __ DEVERÁ __ 
+
+
+
+
+ SER RENDERIZADO 
+
+
+
+ ESSE COMPONENT DINÂMICO, 
+
+
+
+
+
+ RENDERIZADO A PARTIR 
+
+
+DA URL...
+
+
+
+
+
+
+
+
+
+
+--> E O PROFESSOR FAZ EXATAMENTE ISSO,
+
+TROCA O COMPONENT DINÂMICO DE '<component :is="xxx"></component>'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> EM VEZ DISSO, USAMOS O COMPONENT BUILT-IN DE 
+
+
+'<router-view></router-view>',
+
+
+
+
+
+
+
+
+QUE 
+
+É JUSTAMENTE 1 PLACEHOLDER,
+
+
+PLACEHOLDER 
+
+
+
+
+
+
+
+_ QUE _ É USADO __ PARA __ RENDERIZAR O 'ROUTED-TO COMPONENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK...
+
+
+
+
+
+FOI EXATAMENTE ISSO QUE FIZ, NO PROJETO DO 'FIDELIZOU.ME'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FEITO ISSO,
+
+
+CARREGADO 1 COMPONENT ATRAVÉS DE ROUTING,
+
+ 
+
+ VC N PRECISA 
+
+ CARREGAR ESSE COMPONENT COMO 
+
+
+ COMPONENT LOCAL/GLOBAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ISSO FEITO,
+
+ SALVAMOS TUDO E 
+
+ OBSERVAMOS A TELA --> 
+
+
+
+
+
+
+
+
+
+
+
+ VEREMOS ALGO NA NOSSA TELA APENAS SE COLOCARMOS
+
+
+
+ 'domain.com/users' 
+
+
+
+
+
+ e 
+
+ 'domain.com/teams'...
+
+
+
+
+
+ (
+
+    NÃO TEMOS UMA 'HOME PAGE',
+    pq não colocamos nenhuma page para '/'....
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> E A NAVIGATION FUNCIONA, POR CONTA DE 
+
+
+
+ 'router-link'...
+
+
+
+
+
+
+
+
+
+ --->CERTO..
+
+
+
+
+
+
+
+
+ COMO PODEMOS 'NAVIGATE AROUND'
+
+
+ nas nossas routes?
+
+
+
+
+
+
+
+
+
+
+2 formas:
+
+
+
+
+
+
+
+
+
+1) LINKS, COM 'router-link'...
+
+
+
+
+
+
+
+2) NAVIGATE PROGRAMMATICALLY,
+
+
+
+
+COM 'this.$router.push('/xxx');'
+
+
+
+
+
+

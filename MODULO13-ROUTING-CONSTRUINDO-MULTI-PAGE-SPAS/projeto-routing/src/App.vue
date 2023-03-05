@@ -2,21 +2,24 @@
 <div>
   <the-navigation @set-page="setActivePage"></the-navigation>
   <main>
-    <component :is="activePage"></component>
+  <!-- SEM ROUTING -->
+    <!-- <component :is="activePage"></component> -->
+  <!-- COM ROUTING -->
+  <router-view></router-view>
   </main>
 </div>
 </template>
 
 <script>
-import TeamsList from './components/teams/TeamsList.vue';
-import UsersList from './components/users/UsersList.vue';
+// import TeamsList from './components/teams/TeamsList.vue';
+// import UsersList from './components/users/UsersList.vue';
 import TheNavigation from './components/nav/TheNavigation.vue';
 
 export default {
   components: {
     TheNavigation,
-    TeamsList,
-    UsersList,
+    // TeamsList,
+    // UsersList,
   },
   data() {
     return {
