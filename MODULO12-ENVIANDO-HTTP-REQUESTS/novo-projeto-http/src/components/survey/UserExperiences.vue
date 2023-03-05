@@ -9,13 +9,14 @@
       <ul>
       <div v-if="experiencesAreLoading">Loading...</div>
         <survey-result
-        v-else
+        v-else-if="!experiencesAreLoading && results.length > 0"
           v-for="result in results"
           :key="result.id"
           :name="result.name"
           :rating="result.rating"
         >
         </survey-result>
+      <div v-if="!experiencesAreLoading && results.length === 0">No Experiences Were Found</div>
       </ul>
     </base-card>
   </section>
