@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       savedSurveyResults: [],
-      experiencesAreLoading: false
+      experiencesAreLoading: false,
+      error: null,
     };
   },
 
@@ -53,7 +54,8 @@ export default {
     // },
 
     loadExperiencesHandler() {
-               this.experiencesAreLoading = true;
+      this.experiencesAreLoading = true;
+      this.error = null;
       fetch(
         "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
         {
@@ -63,7 +65,6 @@ export default {
         }
       )
         .then((res) => {
- 
           if (res.ok) {
             const formattedResponse = res.json();
             console.log(formattedResponse);
@@ -92,6 +93,8 @@ export default {
           console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
         })
         .catch((err) => {
+          this.experiencesAreLoading = false;
+          this.error = "Failed to fetch data - please try again later.";
           console.log(err, "THE ERROR");
         });
     },

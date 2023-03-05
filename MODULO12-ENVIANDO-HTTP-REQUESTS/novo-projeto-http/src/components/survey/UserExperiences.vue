@@ -7,16 +7,23 @@
           >Load Submitted Experiences</base-button> -->
       </div>
       <ul>
-      <div v-if="experiencesAreLoading">Loading...</div>
+      <!-- LOADING -->
+        <div v-if="experiencesAreLoading">Loading...</div>
+        <!-- ERROR HANDLING-->
+        <p v-if="!experiencesAreLoading && error">{{ error }}</p>
+        <!-- NO DATA FOUND-->
+        <p v-if="!experiencesAreLoading && results.length === 0">
+          No Experiences Were Found
+        </p>
+        <!-- DATA FOUND -->
         <survey-result
-        v-else-if="!experiencesAreLoading && results.length > 0"
+          v-else-if="!experiencesAreLoading && results.length > 0"
           v-for="result in results"
           :key="result.id"
           :name="result.name"
           :rating="result.rating"
         >
         </survey-result>
-      <div v-if="!experiencesAreLoading && results.length === 0">No Experiences Were Found</div>
       </ul>
     </base-card>
   </section>

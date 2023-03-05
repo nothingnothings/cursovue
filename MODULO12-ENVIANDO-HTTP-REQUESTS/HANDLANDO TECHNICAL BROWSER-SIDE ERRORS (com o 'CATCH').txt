@@ -1,0 +1,737 @@
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR DEMONSTRA COMO 1 ERRO DE VERDADE PODERIA ACONTECER, AQUI...
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR 
+
+COLOCA 
+
+
+1 
+
+
+
+
+URL INVÁLIDA, PARA FORJAR 1 ERRO (pq não podemos avacalhar com o backend, pq é o firebase)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE TIRAMOS '.json',
+
+
+O FIREBASE VAI RETORNAR COM 1 RESPONSE DE ERROR...
+
+
+
+
+
+
+
+
+
+
+
+--> DE FATO, RECEBEMOS 1 ERRO..
+
+
+
+
+
+
+
+
+--> O REQUEST FALHOU...
+
+
+
+
+
+
+
+PODEMOS HANDLAR ESSE TIPO DE ERRO 
+
+
+POR MEIO DO 
+
+
+
+BLOCO DE 'CATCH'...
+
+
+
+
+
+
+
+--> NESSE BLOCK,
+
+PODEMOS 
+
+
+
+
+
+COLOCAR 'this.experiencesAreLoading'
+
+
+E COLOCAR 
+
+COMO 
+
+
+'false',
+
+
+
+
+PQ 
+
+
+VAMOS QUERER QUE O LOADING TAMBÉM 
+
+
+
+
+ACABE...
+
+
+
+
+
+
+
+
+--> ENTRETANTO,
+
+AGORA PROVAVELMENTE VAMOS QUERER __ MOSTRAR 1 MODAL DE ERROR,
+
+
+COM A MENSAGEM DE ERROR/MENSAGEM GENÉRICA DE ERROR..
+
+
+
+
+
+
+
+
+
+COMEÇAMOS COM 1 CONSOLE.LOG:
+
+
+
+
+
+
+    loadExperiencesHandler() {
+               this.experiencesAreLoading = true;
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+ 
+          if (res.ok) {
+            const formattedResponse = res.json();
+            console.log(formattedResponse);
+            return formattedResponse;
+            // this.savedSurveyResults = res.data;
+          }
+        })
+        .then((experiences) => {
+          console.log(experiences, "EXPERIENCES");
+
+          const userExperiences = experiences;
+          const experiencesArray = [];
+          // this.savedSurveyResults = experiences;
+
+          for (const experience in userExperiences) {
+            experiencesArray.push({
+              id: experience,
+              name: experiences[experience].name,
+              rating: experiences[experience].rating,
+            });
+          }
+
+          this.savedSurveyResults = experiencesArray;
+          this.experiencesAreLoading = false;
+
+          console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
+        })
+        .catch((err) => {
+          console.log(err, "THE ERROR");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+     .catch((err) => {
+          console.log(err, "THE ERROR");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS QUEREMOS 
+
+
+MOSTRAR ALGO AO USUÁRIO,
+
+
+A PARTIR DESSA RESPONSE DE ERROR --> PQ OS USERS 
+
+
+VERÃO 
+
+APENAS 
+
+QUE 
+
+ESTÁ 'LOADING',
+
+E NÃO 
+
+TERÃO 
+
+
+
+
+
+RETORNO NENHUM --> PARA 
+
+
+
+
+
+
+
+
+DAR FEEDBACK AO USER,
+
+
+PODERÍAMOS MOSTRAR 1 DIALOG/MODAL,
+
+
+
+OU ENTÃO 
+
+
+
+
+
+
+FAZER SHOW DE 1 DIV 
+
+
+COM A MENSAGEM DE ERROR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> O PROFESSOR, PARA ISSO, COLOCA 1 
+
+PROPERTY DE 'error',
+
+
+
+
+
+
+
+
+
+
+QUE INICIALMENTE SERÁ 'NULL':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  data() {
+    return {
+      savedSurveyResults: [],
+      experiencesAreLoading: false,
+      error: null,
+    };
+  },
+
+     .catch((err) => {
+          console.log(err, "THE ERROR");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> QUANDO ENTRARMOS NESSE CATCH, VAMOS QUERER DEFINIR 'error'
+
+como 
+
+
+'Failed to fetch data - please try again later.'''
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE 
+
+
+PODEMOS SER MAIS ESPECÍFICOS QUANTO AOS ERRORS,
+
+A DEPENDER DE NOSSO APP E USE-CASES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS AGORA QUEREMOS USAR ESSA PROPRIEDADE de 'error'
+
+
+PARA MOSTRAR 1 '<p>'
+
+
+DE ERRO,
+
+LÁ EM 
+
+
+'UserExperiences'...
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+        <p v-if="error && !experiencesAreLoading">{{ error }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+        .catch((err) => {
+          this.experiencesAreLoading = false;
+          this.error = "Failed to fetch data - please try again later.";
+          console.log(err, "THE ERROR");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE TAMBÉM VAMOS QUERER __ RESETTAR O ERROR 
+
+
+SEMPRE QUE 
+
+
+DISPARARMOS 1 NOVO REQUEST DE 'FETCH EXPERIENCES',
+
+
+
+
+POR ISSO
+
+
+ESCREVEMOS ASSIM 
+
+
+
+NO 
+
+
+
+
+CÓDIGO DE FETCH:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   loadExperiencesHandler() {
+      this.experiencesAreLoading = true;
+      this.error = null;
+      fetch(
+        "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            const formattedResponse = res.json();
+            console.log(formattedResponse);
+            return formattedResponse;
+            // this.savedSurveyResults = res.data;
+          }
+        })
+        .then((experiences) => {
+          console.log(experiences, "EXPERIENCES");
+
+          const userExperiences = experiences;
+          const experiencesArray = [];
+          // this.savedSurveyResults = experiences;
+
+          for (const experience in userExperiences) {
+            experiencesArray.push({
+              id: experience,
+              name: experiences[experience].name,
+              rating: experiences[experience].rating,
+            });
+          }
+
+          this.savedSurveyResults = experiencesArray;
+          this.experiencesAreLoading = false;
+
+          console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
+        })
+        .catch((err) => {
+          this.experiencesAreLoading = false;
+          this.error = "Failed to fetch data - please try again later.";
+          console.log(err, "THE ERROR");
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OK....
+
+
+
+
+
+
+
+
+
+
+        ISSO FOI UM SUCESSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <h2>Submitted Experiences</h2>
+      <div>
+        <!-- <base-button @click="loadExperiences()"
+          >Load Submitted Experiences</base-button> -->
+      </div>
+      <ul>
+      <!-- LOADING -->
+        <div v-if="experiencesAreLoading">Loading...</div>
+        <!-- ERROR HANDLING-->
+        <p v-if="!experiencesAreLoading && error">{{ error }}</p>
+        <!-- NO DATA FOUND-->
+        <p v-if="!experiencesAreLoading && results.length === 0">
+          No Experiences Were Found
+        </p>
+        <!-- DATA FOUND -->
+        <survey-result
+          v-else-if="!experiencesAreLoading && results.length > 0"
+          v-for="result in results"
+          :key="result.id"
+          :name="result.name"
+          :rating="result.rating"
+        >
+        </survey-result>
+      </ul>
+    </base-card>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+
+
+ATÉ AÍ, TUDO BEM...
+
+
+
+
