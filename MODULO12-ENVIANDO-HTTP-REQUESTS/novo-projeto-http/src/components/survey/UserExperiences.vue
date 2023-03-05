@@ -7,7 +7,9 @@
           >Load Submitted Experiences</base-button> -->
       </div>
       <ul>
+      <div v-if="experiencesAreLoading">Loading...</div>
         <survey-result
+        v-else
           v-for="result in results"
           :key="result.id"
           :name="result.name"
@@ -24,7 +26,7 @@ import SurveyResult from "../survey/SurveyResult";
 export default {
   // props: ['results'],
   // props: ['results', 'loadExperiencesHandler'],
-  props: ["results"],
+  props: ["results", "experiencesAreLoading"],
 
   components: {
     SurveyResult,

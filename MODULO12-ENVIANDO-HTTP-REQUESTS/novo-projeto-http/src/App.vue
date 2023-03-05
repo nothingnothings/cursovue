@@ -1,8 +1,8 @@
 <template>
   <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
   <user-experiences :results="savedSurveyResults"></user-experiences> -->
-  
-<!-- <div>
+
+  <!-- <div>
   <learning-survey></learning-survey>
   <user-experiences
     :results="savedSurveyResults"
@@ -10,12 +10,12 @@
   ></user-experiences>
   </div> -->
 
-
   <div>
-  <learning-survey></learning-survey>
-  <user-experiences
-    :results="savedSurveyResults"
-  ></user-experiences>
+    <learning-survey></learning-survey>
+    <user-experiences
+      :results="savedSurveyResults"
+      :experiencesAreLoading="experiencesAreLoading"
+    ></user-experiences>
   </div>
 </template>
 
@@ -33,16 +33,13 @@ export default {
   data() {
     return {
       savedSurveyResults: [],
+      experiencesAreLoading: false
     };
   },
 
-
-
   mounted() {
-
-this.loadExperiencesHandler()
+    this.loadExperiencesHandler();
   },
-
 
   methods: {
     // storeSurvey(surveyData) {  /// deixaremos de fazer isso localmente, para fazer REMOTAMENTE, com o firebase e o component 'LearningSurvey.vue'....
@@ -56,6 +53,7 @@ this.loadExperiencesHandler()
     // },
 
     loadExperiencesHandler() {
+               this.experiencesAreLoading = true;
       fetch(
         "https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json",
         {
@@ -65,6 +63,7 @@ this.loadExperiencesHandler()
         }
       )
         .then((res) => {
+ 
           if (res.ok) {
             const formattedResponse = res.json();
             console.log(formattedResponse);
@@ -88,6 +87,7 @@ this.loadExperiencesHandler()
           }
 
           this.savedSurveyResults = experiencesArray;
+          this.experiencesAreLoading = false;
 
           console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
         })
