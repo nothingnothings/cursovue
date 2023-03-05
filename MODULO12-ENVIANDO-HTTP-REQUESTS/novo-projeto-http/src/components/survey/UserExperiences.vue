@@ -3,9 +3,8 @@
     <base-card>
       <h2>Submitted Experiences</h2>
       <div>
-        <base-button @click="loadExperiences()"
-          >Load Submitted Experiences</base-button
-        >
+        <!-- <base-button @click="loadExperiences()"
+          >Load Submitted Experiences</base-button> -->
       </div>
       <ul>
         <survey-result
@@ -21,20 +20,21 @@
 </template>
 
 <script>
-import SurveyResult from '../survey/SurveyResult';
+import SurveyResult from "../survey/SurveyResult";
 export default {
   // props: ['results'],
-  props: ['results', 'loadExperiencesHandler'],
+  // props: ['results', 'loadExperiencesHandler'],
+  props: ["results"],
 
   components: {
     SurveyResult,
   },
 
   methods: {
-    loadExperiences() {
-      console.log("ENTERED");
-      this.$emit('loadExperiencesHandler');
-    },
+    // loadExperiences() {
+    //   console.log("ENTERED");
+    //   this.$emit('loadExperiencesHandler');
+    // },
   },
 };
 </script>

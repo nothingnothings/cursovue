@@ -330,3 +330,249 @@ ESTÁ FALTANDO 1 KEY, PROVAVELMENTE...
 
 
 
+
+ok... consegui, ficou assim:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
+  <user-experiences :results="savedSurveyResults"></user-experiences> -->
+
+  <learning-survey></learning-survey>
+  <user-experiences
+    :results="savedSurveyResults"
+    @loadExperiencesHandler="loadExperiencesHandler"
+  ></user-experiences>
+</template>
+
+<script>
+import LearningSurvey from './components/survey/LearningSurvey.vue';
+import UserExperiences from './components/survey/UserExperiences.vue';
+
+export default {
+  name: 'App',
+  components: {
+    LearningSurvey,
+    UserExperiences,
+  },
+
+  data() {
+    return {
+      savedSurveyResults: [],
+    };
+  },
+
+  methods: {
+    // storeSurvey(surveyData) {  /// deixaremos de fazer isso localmente, para fazer REMOTAMENTE, com o firebase e o component 'LearningSurvey.vue'....
+    //   const surveyResult = {
+    //     name: surveyData.userName,
+    //     rating: surveyData.rating,
+    //     id: new Date.toISOString() + Math.random().toString(),
+    //   };
+    //   console.log(surveyResult);
+    //   this.savedSurveyResults.push(surveyResult);
+    // },
+
+    loadExperiencesHandler() {
+      fetch(
+        'https://vue-http-requests-81003-default-rtdb.firebaseio.com/surveys.json',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+        .then((res) => {
+          const formattedResponse = res.json();
+          console.log(formattedResponse);
+          return formattedResponse;
+          // this.savedSurveyResults = res.data;
+        })
+        .then((experiences) => {
+          console.log(experiences, 'EXPERIENCES');
+
+          const userExperiences = experiences;
+          const experiencesArray = [];
+          // this.savedSurveyResults = experiences;
+
+          for (const experience in userExperiences) {
+            experiencesArray.push({
+              id: experience,
+              name: experiences[experience].name,
+              rating: experiences[experience].rating,
+            });
+          }
+
+          this.savedSurveyResults = experiencesArray;
+
+          console.log(this.savedSurveyResults, typeof this.savedSurveyResults);
+        })
+        .catch((err) => {
+          console.log(err, 'THE ERROR');
+        });
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PODERÍAMOS FAZER O HANDLING DE ERROS,
+
+
+MAS AINDA NÃO FAREMOS ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+MEU APP JÁ ESTÁ CONSEGUINDO 
+
+
+
+
+RETRIEVAR 
+
+
+
+OS 'Experiences'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TUDO ISSO JÁ ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK.... É CLARO QUE ESTOU COM ESSE METHOD LÁ 
+
+
+
+NO PRÓPRIO 'App.vue',
+
+
+
+
+E NÃO 
+
+
+
+
+
+
+
+
+
+NO COMPONENT DE 'UserExperiences'...
+
+
+
+
+
+
+
+
+PROFESSOR FALA DO USO DAS ARROW FUNCTIONS PARA HANDLAR NOSSA DATA,
+QUE É 
+
+ALGO BEM SUPERIOR....
+
+
+
+
+
+
+
+
+
+
+--> OK, AGORA SOMOS CAPAZES DE SALVAR DATA EM 1 SERVER/DATABASE,
+
+
+E TAMBÉM RETRIEVAR DATA DE LÁ...

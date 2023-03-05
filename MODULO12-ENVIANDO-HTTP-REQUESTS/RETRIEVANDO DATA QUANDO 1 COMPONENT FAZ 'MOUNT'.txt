@@ -1,3 +1,72 @@
+
+
+
+
+
+
+
+
+
+
+NESSA AULA, VEREMOS 
+
+COMO FAZER O RETRIEVE DE DATA _ NO MOMENTO EM QUE 
+
+
+1 
+
+COMPONENT É MONTADO NA TELA.. --> 
+
+
+
+PARA ISSO,
+PROVAVELMENTE USAREMOS O METHOD DE 'mounted() {
+
+}'....
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PRECISAMOS REMOVER NOSSO BUTTON DE 'LOAD SUBMITTED EXPERIENCES',
+
+E 
+
+CHAMAR O METHOD DE 'loadExperiencesHandler'
+
+lá no 
+
+'mounted(){}' de 'App.vue'...
+
+
+
+
+
+--> TIPO ALGO ASSIM (App.vue):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <template>
   <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
   <user-experiences :results="savedSurveyResults"></user-experiences> -->
@@ -112,3 +181,109 @@ body {
   margin: 0;
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, JÁ FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FALA DO 
+
+
+
+
+
+
+
+
+LIFECYCLE DESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS O LIFECYCLE DE TODO COMPONENT DE NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.. -> O PROFESSOR DECIDE COLOCAR O CALL DESSE METHOD NO 'MOUNTED'
+
+
+
+LÁ 
+
+
+
+
+DO COMPONENT 'userExperiences'...
+
+
+
+
+
+
+
+
+
+--> MAS EU COLOQUEI ISSO LÁ EM 'App.vue'...
+
+
+
+
+
+
+
+
+CERTO, MAS ISSO FUNCIONOU...
+
+
+
+
+
+
+
+-_> ESSA É UMA MELHORA, SIM...
