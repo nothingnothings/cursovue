@@ -1,0 +1,171 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... ACABAMOS COM ESTE MÓDULO... APRENDEMOS A ENVIAR HTTP REQUESTS (
+
+    PARA FAZER SEND DE DATA,
+
+
+    E GET DE DATA....
+)
+
+
+
+
+
+
+
+
+
+APRENDEMOS A TRABALHAR COM A RESPONSE DATA,
+
+
+
+
+
+APRENDEMOS A MOSTRAR 1 LOADING SPINNER...
+
+
+
+
+
+
+
+
+APRENDEMOS A HANDLAR ERRORS PARA CASOS EM QUE 
+
+
+ALGO DÁ ERRADO...
+
+
+
+
+
+
+
+
+
+APRENDEMOS A RAZÃO DE QUERERMOS 1 BACKEND (para alguns dos apps que estamos construindo),
+
+
+
+
+E 
+APRENDEMOS 
+
+
+A 
+NOS COMUNICAR,
+
+
+POR TRÁS DAS CENAS,
+
+
+
+
+
+COM NOSSO VUE APP..
+
+
+
+
+
+
+
+
+
+--> USAR A FETCH FUNCTION É BOM,
+
+MAS O AXIOS É MELHOR..
+
+
+
+
+
+
+
+
+
+-> AXIOS É UM TPP QUE TE AJUDA A ENVIAR REQUESTS COMO ESSES,
+
+
+mas que funciona de forma 1 pouco diferente...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PQ O CATCH NO AXIOS TAMBÉM 
+
+É TRIGGADO AUTOMATICMAENTE,
+
+
+
+SE _ VC RECEBE 'ERROR RESPONSES' --> 
+
+
+
+
+
+ISSO QUER DIZER QUE AQUELE HANDLING EXTRA 
+
+
+QUE TÍNHAMOS, COM A FUNCTION DE 'FETCH',
+
+NÃO SERIA 
+
+NECESSÁRIO
+
+
+
+
+COM  O AXIOS...
+
+
+
+
+
+
+
+
+
+
+
+ACABAMOS... VEREMOS ISSO EM AÇÃO EM 1 COURSE PROJECT, TAMBÉM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ISSO JÁ 
+
+NOS AJUDA COM O SEND DE HTTP REQUESTS NOS NOSSOS APPS...
