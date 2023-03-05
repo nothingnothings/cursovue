@@ -1,0 +1,872 @@
+
+NOSSA... O CÓDIGO DO PROFESSOR É MUITO BONITO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+<template>
+<div>
+  <the-navigation @set-page="setActivePage"></the-navigation>
+  <main>
+    <component :is="activePage"></component>
+  </main>
+</div>
+</template>
+
+<script>
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TheNavigation from './components/nav/TheNavigation.vue';
+
+export default {
+  components: {
+    TheNavigation,
+    TeamsList,
+    UsersList,
+  },
+  data() {
+    return {
+      activePage: 'teams-list',
+      teams: [
+        { id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
+        { id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
+        { id: 't3', name: 'Client Consulting', members: ['u4', 'u5'] },
+      ],
+      users: [
+        { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+        { id: 'u2', fullName: 'Praveen Kumar', role: 'Engineer' },
+        { id: 'u3', fullName: 'Julie Jones', role: 'Engineer' },
+        { id: 'u4', fullName: 'Alex Blackfield', role: 'Consultant' },
+        { id: 'u5', fullName: 'Marie Smith', role: 'Consultant' },
+      ],
+    };
+  },
+  provide() {
+    return {
+      teams: this.teams,
+      users: this.users,
+    };
+  },
+  methods: {
+    setActivePage(page) {
+      this.activePage = page;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXTREMAMENTE ORGANIZADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FALA DO INSTALL DO PACKAGE DE ROUTING...
+
+
+
+
+
+
+
+
+
+
+
+
+npm install --save vue-router...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ELE TAMBÉM FALA PARA ESCREVERMOS 
+
+
+
+
+
+'npm install --save vue-router@next',
+
+
+
+
+JUSTAMENTE PARA OBTERMOS A VERSÃO MAIS RECENTE DESSE PACOTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ESSA PACKAGE ADICIONA A FUNCIONALIDADE DE ROUTING AOS SEUS PROJECTS VUE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ASSIM QUE VC INSTALAR ESSE NEGÓCIO, VC 
+
+
+SERÁ CAPAZ 
+
+DE 
+
+
+
+ADICIONAR ROUTING 
+
+
+NO SEU APP...
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+
+
+
+
+
+VAMOS ATÉ O ARQUIVO 'main.js',
+
+
+
+QUE É O  ARQUIVO EM QUE 
+
+DEFINIREMOS NOSSAS ROUTES (como no projeto 'fidelizou.me')...
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+--> O CÓDIGO ESTÁ ASSIM, INICIALMENTE:
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+
+const app = createApp(App)
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE APP,
+
+PODEMOS __ REGISTRAR_ ESSE ROUTER QUE RECÉM INSTALAMOS,
+E, MAIS IMPORTANTEMENTE,
+
+
+AS DIFERENTES ROUTES QUE VAMOS QUERER SUPORTAR NO NOSSO PROJETO...
+
+
+
+
+
+
+
+
+
+
+--> VOU TENTAR ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import VueRouter from "vue-router";
+
+import App from './App.vue';
+
+
+const router = new VueRouter()
+
+
+
+const app = createApp(App);
+
+app.use(router)
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS NÃO SEI SE ISSO ESTÁ CERTO...
+
+
+
+
+
+
+
+
+
+
+----> PARECE QUE ESTÁ ERRADO....
+
+
+
+
+
+
+
+
+
+
+
+O QUE DEVEMOS IMPORTAR É A FUNCTION DE 'createRouter',
+
+LÁ DE DENTRO DE 'vue-router'...
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter } from 'vue-router';
+
+import App from './App.vue';
+
+const router = createRouter(
+
+)
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... 
+
+
+
+
+
+
+
+
+
+MAS COMO PODEOMS CRIAR ESSE ROUTER?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> bem,
+
+
+VAMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter } from 'vue-router';
+
+import App from './App.vue';
+
+const router = createRouter(
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE 'createRouter'
+
+
+PRECISA DE ALGUMA CONFIGURATION -> 
+
+
+
+
+
+
+
+
+PRECISA SABER:
+
+
+
+1) QUAIS URLS VAMOS QUERER SUPORTAR... (as routes)
+
+
+
+
+
+
+
+
+2) OUTRAS COISAS..
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS PASSAR 1 OBJECT JAVASCRIPT AO CREATEROUTER..
+
+
+
+
+
+
+
+
+--> DENTRO DESSE OBJECT,
+
+TEMOS 
+
+2 OPTIONS IMPORTANTES QUE DVEMOS SETTAR...
+
+
+
+
+
+
+
+
+
+1a COISA --> AS 'routes' --> DEVMOS SETTAR AS DIFERENTES ROUTES,
+
+
+OS DIFERENTES URLS QUE 
+
+DEVERÃO SER SUPORTADOS...
+
+
+
+
+
+
+
+
+
+
+
+--> TIPICAMENTE TEREMOS 1 ARRAY DE ROUTES... 
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter } from 'vue-router';
+
+import App from './App.vue';
+
+const router = createRouter({
+  routes: [], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+});
+
+
+
+
+
+
+
+
+
+
+
+
+A SEGUNDA PARTE IMPORTANTE 
+
+
+
+
+É
+
+
+A KEY 
+
+
+DE 
+
+
+
+2) 'HISTORY' -> ESSA KEY BASICAMENTE 
+
+
+
+
+
+
+COMUNICA AO VUE ROUTER __ 
+
+
+
+
+
+A __ MANEIRA __ PELA QUAL ELE DEVERÁ HANDLAR A 'ROUTING HISTORY' 
+
+
+NESSE APP (
+
+    quando 1 user 
+
+    clica em algo,
+
+vai para outra page, 
+
+
+ESSA PAGE 
+NOVA 
+
+
+É ADICIONADA 
+
+
+À BROWSER HISTORY --> E, SE O USER CLICA NO BOTÃO DE 'BACK',
+
+
+A HISTORY VAI GARANTIR 
+
+QUE 
+
+
+O BROWSER 
+
+
+VAI __ SACAr_ _'QUAL ERA A PAGE ANTERIOR' --> 
+
+ 
+)
+
+
+
+
+
+
+
+
+
+
+HÁ DOIS TIPOS DE 'HISTORY'
+
+
+QUE VC PODE TER....
+
+
+
+
+
+
+
+
+
+
+--> NÓS QUEREMOS, NESSE CASO,
+
+
+
+IMPORTAR OUTRA FUNCTION 
+
+LÁ DO VUE-ROUTER, QUE 
+
+
+
+
+
+É 
+
+
+
+'createWebHistory'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> VOCÊ ESCREVE ASSIM:
+
+
+
+
+
+
+const router = createRouter({
+  routes: [], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+  history: createWebHistory() /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR EXPLICA:
+
+
+
+
+
+
+
+
+
+HISTORICAMENTE,
+O 
+
+
+JAVASCRIPT NEM SEMPRE 
+
+
+
+ERA CAPAZ DE MANIPULAR A MEMÓRIA 
+
+
+
+
+
+DE 'EM QUE PAGE O USER ESTÁ, E DE ONDE ELE VEIO''' ---> PORTANTO,
+
+
+
+HISTORICAMENTE,
+
+O 
+
+
+
+ROUTER TINHA QUE EMULAR ESSE _ BEHAVIOR,
+
+
+
+E __ POR ISSO NÃO USÁVAMOS 
+
+
+
+
+
+O 'BUILT-IN BROWSER HISTORY' ------> MAS __ DE ALGUNS ANOS PARA CÁ,
+
+
+
+
+ISSO DEIXOU DE SER UM PROBLEMA,
+
+
+
+
+E É EXAMENTE POR ISSO QUE DEIXAMOS ESSA OPTION DE 'createWebHistory',
+
+
+
+
+
+
+PARA DIZER 'HEY, APENAS USE O MECANISMO BUILT-IN DE HISTORY 
+
+DO BROWSER PARA SE LEMBRAR DE ONDE O USER VEIO E ETC'....
+
+
+
+
+
+
+
+
+
+
+
+
+---> É TUDO ISSO QUE PRECISAMOS FAZER , PARA A HISTORY...
+
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS NOS FOCAR NAS ROUTES,
+
+
+EM QUE 
+
+
+DEVEMOS ESPECIFICAR 'QUAL COMPONENT/PAGE' DEVE SER CARREGADO,
+
+PARA CADA ROUTE...
+
+
+
+
+
+
+
+
+
+---> digamos que QUEREMOS 
+
+
+
+CARREGAR 
+
+
+
+
+'teams' quando estivermos em 'domain.com/teams' 
+
+
+
+
+
+
+e 
+
+
+
+'users' quando estivermos em 'domain.com/users'...
