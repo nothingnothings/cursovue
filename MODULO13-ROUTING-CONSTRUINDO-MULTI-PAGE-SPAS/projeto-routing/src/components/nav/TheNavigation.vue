@@ -51,6 +51,7 @@ li {
   margin: 0 2rem;
 }
 
+/*
 button {
   font: inherit;
   background: transparent;
@@ -63,6 +64,25 @@ button {
 
 button:hover,
 button:active {
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
+}
+*/
+
+a {
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+}
+
+a:hover,
+a:active {
   color: #f1a80a;
   border-color: #f1a80a;
   background-color: #1a037e;

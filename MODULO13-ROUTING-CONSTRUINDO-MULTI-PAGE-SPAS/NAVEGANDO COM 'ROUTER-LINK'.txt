@@ -1,0 +1,529 @@
+
+
+
+
+
+
+
+
+
+OK... AGORA, COM NOSSAS ROUTES REGISTRADAS,
+
+COM ESTE CÓDIGO (
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+  ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+  history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
+  ///com isso, permitimos que seja usado o COMPORTAMENTO DEFAULT DE HISTORY DO BROWSER...
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+queremos nos certificar de que conseguimos navegar para páginas,
+
+
+DE DENTRO DE NOSSO APP....
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O PROFESSOR REMOVE 
+
+
+
+
+OS LISTENERS E EMIT DE EVENTOS 
+
+
+
+
+
+DE PÁGINAS.. ----> 
+
+
+
+
+PQ AGORA VAMOS UTILIZAR 
+
+
+
+
+
+
+
+
+O RECURSO DO 'VUE-ROUTER'...
+
+
+
+
+
+
+
+
+
+
+-> CERTo..
+
+
+
+
+
+
+
+
+
+NOS LIVRAMOS DE TUDO ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM 'TheNavigation',
+
+
+
+NÃO VAMOS MAIS EMITIR NADA,
+
+
+
+
+
+
+
+AGORA VAMOS NAVEGAR POR MEIO DE '<router-link to="">'
+
+
+
+
+
+
+
+
+
+
+
+
+
+ELE FUNCIONA 
++ OU - COMO UMA ANCHOR TAG BUILT-IN,
+
+
+
+
+
+
+
+
+
+MAS QUE FUNCIONA DE MODO 1 POUCO DIFERENTE -> DIFERENTE PQ 
+
+
+
+
+__ NÃO VAI ACTUALLY _ 
+
+CARREGAR 1 NOVA PAGE E 'RELOAD' O APP INTEIRO (perdendo o state),
+
+
+
+
+
+
+
+E ___ SIM __ VAI _ MANTER __ _O BROWSER SEM RECARREGAR,
+
+
+
+VAI PREVENIR O DEFAULT,
+
+
+VAI 
+
+
+FAZER O VUE ROUTER ANALISAR O 
+
+
+LINK CLICADO 
+
+PELO 
+USER,
+
+PARA ENTÃO 
+
+
+CARREGAR O COMPONENT APROPRIADO 
+
+E 
+
+
+ATUALIZAR A URL...
+
+
+
+
+
+
+
+
+
+
+----> PODEMOS COLOCAR __ QUALQUER HTML ELEMENT 
+
+
+DENTRO DE '<router-link>',
+
+PQ 
+
+
+
+
+ELE, INTERNAMENTE,
+
+USA 
+
+
+
+SLOTS...
+
+
+
+
+
+
+
+
+
+
+--> A CONFIGURATION MAIS IMPORTANTE DE '<router-link>'
+É 
+
+
+
+
+O PROP DE '/' -----> ESSE NEGÓCIO ACEITA DIVERSOS VALORES 
+
+DIFERNTES,
+
+
+
+
+MAS A MANEIRA MAIS SIMPLES DE O UTILIZAR É PASSAR 
+
+
+
+A STRING 
+
+A QUE 
+VC VAI QUERER 
+
+NAVEGAR (
+
+    conforme definido na sua 
+
+    configuration de 'main.js'...
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <!-- <button @click="setActivePage('teams-list')">Teams</button> -->
+          <router-link to="/teams">Teams</router-link>
+        </li>
+        <li>
+          <!-- <button @click="setActivePage('users-list')">Users</button> -->
+          <router-link to="/users">Users</router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------> vamos ter problemas de styling, por isso o professor coloca styles de ANCHOR TAG...
+
+
+
+
+
+
+
+
+
+
+
+(PQ O ROUTER-LINK RENDERIZA UMA ANCHOR TAG, POR TRÁS DAS CENAS)..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+a {
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+}
+
+a:hover,
+a:active {
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... TEREMOS OS MESMOS 'BUTTONS' DE ANTES,
+
+
+
+
+
+MAS AGORA 
+
+ELES 
+
+VÃO REALMENTE TROCAR AS PAGES DE NOSSO APP....
+
+
+
+
+
+
+
+
+
+
+-> TEREMOS ANCHOR TAGS,
+
+
+COM O ATTRIBUTE DE 'href' --> MAS O COMPONNET DE 'router-link'
+
+
+ASSEGURA QUE O BROWSER DEFAULT É PREVENIDO (não tenta carregar 1 arquivo html automaticamente)....
+
+
+
+
+
+
+EM VEZ DISSO,
+
+O ROUTER ANALISA 
+
+
+O 
+
+
+
+
+VALUE NO ATTRIBUTE DE 'HREF', QUE ENTÃO É COMPARADO 
+
+
+COM A CONFIG DE ROUTING LÁ EM 'main.js' (para determinar qual component deve ser renderizado )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ALÉM DISSO,
+
+PERCEBMOS QUE ALGUMAS CLASSES DE CSS FORAM ADICIONADAS  EM 'TEAMS' (
+
+
+    'router-link-active' e 'router-link-exact-active'...
+)
+
+
+
+
+
+
+
+
+
+
+
+E ESSAS CLASSES _ SÃO ADICIONADAS __ AUTOMATICAMENTE PELO VUE ROUTER,
+
+
+
+NO LINK QUE ESTÁ ATIVO,
+
+
+
+
+
+
+PARA QUE VC POSSA ENTÃO ESTILIZAR ESSES LINKS COM BASE NO 'ACTIVE',
+
+
+PARA 
+
+QUE 
+
+O USER RECEBA 1 FEEDBACK SOBRE A PÁGINA EM QUE ELE ESTÁ ATUALMENTE..
