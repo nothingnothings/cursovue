@@ -45,9 +45,9 @@ export default {
     };
   },
   methods: {
-    setActivePage(page) {
-      this.activePage = page;
-    },
+    // setActivePage(page) {
+    //   this.activePage = page;
+    // },
   },
 };
 </script>

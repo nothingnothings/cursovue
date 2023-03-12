@@ -81,10 +81,75 @@ a {
   display: inline-block;
 }
 
-a:hover,
+/* a:hover,
 a:active {
   color: #f1a80a;
   border-color: #f1a80a;
   background-color: #1a037e;
+} */
+
+/* 'a.router-link-active' --> é o nome da class que fica em uma ANCHOR-TAG, quando vc usa o routing */
+
+a:hover,
+a:active,
+a.router-link-active {  
+  color: #f1a80a;
+  border-color: #f1a80a;
+  background-color: #1a037e;
 }
+
+
+
+/* 
+--> COMO 1 SIDE-NOTE,
+
+
+
+
+
+TEMOS 2 CLASSES COM O VUE:
+
+
+
+
+
+O 'router-link-active' 
+
+
+
+e 
+
+
+
+o 
+
+
+
+'router-link-exact-active'... */
+
+/* A DIFERENÇA ENTRE OS 2 É QUE 
+
+
+'router-link-active'
+
+
+TAMBÉM 
+
+SERIA APLICADO AO ITEM DE 'Users' (na toolbar) 
+
+
+
+SE TIVÉSSEMOS UMA 'NESTED ROUTE'....
+
+(
+
+  tipo 
+
+  'domain.com/users/user' (aí, o 'users' ficaria highlighted TAMBÉM... se tivéssemos 'router-link-exact-active', ELE NÃO FICARIA LIGADO/ATIVADO)...
+) */
 </style>
+
+
+
+
+
