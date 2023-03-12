@@ -3,6 +3,7 @@
     <teams-item
       v-for="team in teams"
       :key="team.id"
+      :team="team"
       :name="team.name"
       :member-count="team.members.length"
     ></teams-item>

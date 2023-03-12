@@ -1,0 +1,1936 @@
+
+
+
+
+
+
+
+
+
+
+
+ESSA AULA É IMPORTANTE,
+
+PQ 
+TRATA 
+
+
+DE SEGMENTOS DINÂMICOS...
+
+
+
+
+
+
+
+
+
+
+
+-> AGORA TRATAREMOS DE 1 
+
+
+FEATURE IMPORTANTE,
+NECESSÁRIA EM VÁRIOS APPS..
+
+
+
+
+
+
+
+
+
+--> TEMOS AQUELE COMPONENT DE 'TEAMMEMBERS'-->  NESSE 
+
+
+
+
+COMPONENT,
+
+
+
+
+QUEREMOS __ RENDERIZAR OS DIFERENTES MEMBERS DE 1 TEAM QUE SELECIONAMSO...
+
+
+
+
+
+
+
+
+
+
+-> O CÓDIGO É ESTE:
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ teamName }}</h2>
+    <ul>
+      <user-item
+        v-for="member in members"
+        :key="member.id"
+        :name="member.fullName"
+        :role="member.role"
+      ></user-item>
+    </ul>
+  </section>
+</template>
+
+<script>
+import UserItem from '../users/UserItem.vue';
+
+export default {
+  components: {
+    UserItem
+  },
+  data() {
+    return {
+      teamName: 'Test',
+      members: [
+        { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+        { id: 'u2', fullName: 'Max Schwarz', role: 'Engineer' },
+      ],
+    };
+  },
+};
+</script>
+
+<style scoped>
+section {
+  margin: 2rem auto;
+  max-width: 40rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+h2 {
+  margin: 0.5rem 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO MOMENTO, ISSO É DUMMY DATA,
+
+
+
+
+E NÃO ESTAMOS RENDERIZANDO ESSE COMPONENT EM LUGAR ALGUM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS 1 CENÁRIO COMUM, VISTO EM 
+
+VÁRIOS APPS,
+
+
+
+É 
+
+
+
+
+'
+TER OUTRA ROUTE, PARA __ /teams',
+
+
+
+
+
+
+MAS __ AGORA 
+
+
+
+PARA ALGO ALÉM DE '/teams',
+
+
+QUE SERÁ 
+
+
+'/:memberId',
+
+
+
+
+OU ALGO ASSIM:
+
+
+
+
+
+
+
+
+const router = createRouter({
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+
+    {
+        path: '/teams/:memberId',
+        component: xxx
+    }
+  ],
+
+  history: createWebHistory(),
+});
+
+
+
+
+
+
+
+
+
+
+
+A 
+
+MORAL, AQUI,
+
+É SUPORTAR 
+
+
+PATHS COMO 
+
+
+'
+teams/1',
+
+
+
+
+
+
+'teams/2',
+
+
+
+
+
+
+
+
+
+E AÍ 
+
+
+
+__ CARREGAREMOS O MESMO COMPONENT,
+
+MAS 
+
+COM DATA DIFERENTE,
+
+
+PARA 
+
+DIFERENTES TEAMS...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PRECISAMOS DE UMA 'DYNAMIC ROUTE',
+
+
+COM 
+
+CHAMADOS 'ROUTE PARAMETERS'...
+
+
+
+
+
+
+
+
+-> E ESSA É UMA FEATURE SUPORTADA PELO VUE-ROUTER...
+
+
+
+
+
+
+
+
+
+--> PODEMOS 
+
+
+
+DEFINIR 1 'DYNAMIC PATH SEGMENT'
+
+
+POR MEIO DE 1 ':' ,
+
+
+
+E AÍ 
+
+QUALQUER 
+
+NOME DE SUA ESCOLHA, TIPO ASSIM:
+
+
+
+
+
+
+const router = createRouter({
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+
+    {
+        path: '/teams/:memberId',
+        component: '/teams/:teamId'
+    }
+  ],
+
+  history: createWebHistory(),
+});
+
+
+
+
+
+
+
+
+
+
+
+OK....
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE ESSA ROUTE VAI SE TORNAR ATIVA 
+
+
+SE 
+
+O 
+USER 
+
+DIGITAR 
+
+'/teams/1' (ou qualquer outra coisa, outro número/string nesse meio)...
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+E É CLARO QUE A ORDEM 
+
+
+__ IMPORTA_... --> 
+
+
+
+SE VC 
+
+
+TIVER ALGUMA 
+
+
+ROUTE 
+
+
+
+
+ESPECÍFICA,
+
+como 
+
+'/teams/new',
+
+
+
+
+
+
+VC DEVE COLOCAR ESSA ROUTE ANTES DE '/:teamId',
+
+
+
+
+
+PQ 
+
+
+SE VC N FIZER ISSO,
+
+
+O INPUT DE '/new', 
+
+nessa parte aí,
+
+
+
+
+SERÁ TRATADO 
+
+
+COMO 1 ':teamId'
+
+QUALQUER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...  QUEREMOS CARREGAR ESSA ROUTE DINÂMICA..
+
+
+
+
+
+
+
+
+
+
+-> QUEREMOS CARREGAR 1 COMPONENT,
+
+
+QUE 
+
+
+SERÁ O 
+
+COMPONENT DE 'TEAMMEMBERS',
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
+
+const router = createRouter({
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+
+    {
+      path: '/teams/:teamId',
+      component: TeamMembers,
+    },
+  ],
+
+  history: createWebHistory(),
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+AGORA SE 
+
+
+
+
+
+
+RODAMOS NOSSO APP E DIGITAMOS 
+
+'localhost:8080/teams/1',
+
+
+VAMOS CONSEGUIR CARREGAR ESSE COMPONENT (mas sem dados dinâmicos, é claro)...
+
+
+
+
+
+
+
+
+
+
+
+QUEREMOS PASSAR PARAMS A ESSE COMPONENT, É CLARO... ROUTE PARAMS.
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+ VOU COMENTAR 'Data' para fora...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ----> ok...
+
+
+
+
+
+
+ E É CLARO QUE PODEMOS 
+
+ 'GANHAR ACESSO AO VALUE QUE 
+
+ O 
+
+ USER INPUTTOU',
+
+
+
+ DENTRO 
+
+
+
+ DO 
+
+
+
+ COMPONENT QUE ESTÁ SENDO CARREGADO (
+
+ou seja,
+
+dentro de 'TeamMembers'...
+
+ )
+
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO,
+
+
+
+ TIRAMOS A 'DUMMY DATA'
+
+
+ DENTRO 
+
+
+
+
+ DO 'TeamMembers,
+
+
+
+ PQ 
+
+ ESSA DATA 
+
+
+
+
+ DEVE SER CARREGADA DO LADO DE Fora (
+
+    por meio de uma das outras routes, com 'router-link', talvez...
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR QUER PEGAR A DUMMY DATA, DEFINIDA PARA TODAS AS 'TEAMS',
+LÁ EM 
+
+
+'App.vue'...
+
+
+
+
+
+
+EX:
+
+
+
+
+  data() {
+    return {
+      activePage: 'teams-list',
+      teams: [
+        { id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
+        { id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
+        { id: 't3', name: 'Client Consulting', members: ['u4', 'u5'] },
+      ],
+      users: [
+        { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+        { id: 'u2', fullName: 'Praveen Kumar', role: 'Engineer' },
+        { id: 'u3', fullName: 'Julie Jones', role: 'Engineer' },
+        { id: 'u4', fullName: 'Alex Blackfield', role: 'Consultant' },
+        { id: 'u5', fullName: 'Marie Smith', role: 'Consultant' },
+      ],
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+  como vc pode observar, cada 'team'
+
+
+  TEM 
+
+  1 CONJUNTO DE 'MEMBERS'...
+  
+
+
+
+
+
+
+  --> E QUEREMOS REPASSAR ESSA INFO AOS NOSSOS ITEMS DE 'TeamsList',
+
+
+
+  PARA ENTÃO REPASSAR ESSA INFO PARA A PAGE DE 'TeamMembers'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  TIPO ASSIM (tentar fazer por conta própria):
+
+
+
+
+
+
+
+
+
+  <template>
+  <li>
+    <h3>{{ name }}</h3>
+    <div class="team-members">{{ memberCount }} Members</div>
+    <!-- <a href="#">View Members</a> -->
+      <router-link :to="'/teams/' + name">View Members</router-link>
+  </li>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO POSSO FAZER 'CADA PAGE DE TeamMembers' receber 
+
+OS PARAMS 
+
+
+PASSADOS POR ESSE 'ROUTER-LINK'?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, O LOAD 
+
+
+
+
+DE URLS COMO '/team/1'
+
+
+
+
+
+
+PODE SER REALIZADO POR MEIO DESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ name }}</h3>
+    <div class="team-members">{{ memberCount }} Members</div>
+      <router-link :to="'/teams/' + team.id">View Members</router-link>
+  </li>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR MEIO DO BIND DE ':to',
+
+
+
+PODEMOS PASSAR URL DINÂMICAS... (parte estática + dinâmica)..
+
+
+
+
+
+
+
+BASTA PEGAR O PROP DE 'team',
+
+PASSADO A ESSE COMPONENT,
+
+e então usar o id de cada team...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> agora a dificuldade é passar a data de cada 'TEAM'
+
+para dentro 
+
+
+dessa route/page de '/teams/:teamId'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... quase consegui... mas é hora de ver a aula do professor...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A IDEIA DO PROFESSOR É SIMPLES:
+
+
+
+
+
+
+
+
+
+QUANDO 1 DOS 3 
+
+TEAM IDS válidos (t1, t2, t3) FOR INPUTTADO 
+
+
+
+NA URL, DEPOIS DE '/teams',
+
+
+
+
+
+
+
+O PROFESSOR QUER:
+
+
+
+
+
+
+
+
+
+
+1) 'LOAD THE APPROPRIATE TEAM'....
+
+
+
+
+
+
+
+2) ENCONTRAR QUAIS MEMBERS TEMOS NAQUELE TEAM...
+
+
+
+3) TAMBÉM CARREGAR OS 'USERS' APROPRIADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, JÁ ESTAMOS FAZENDO PROVIDE DE 'members' e 'users'
+
+
+LÁ EM 
+
+'App.vue' -------> EU TINHA PENSADO BREVEMENTE NISSO,
+
+
+
+MAS PELO VISTO É VERDADE:
+
+
+
+
+
+
+
+PRECISAMOS FAZER 'INJECT'
+
+
+
+DE TANTO 'teams' como 'users'
+
+
+
+
+LÁ 
+
+
+EM 
+'TeamMembers',
+
+
+
+PARA QUE CONSIGAMOS TER ACESSO A ESSAS INFOS (
+
+    provavelmente vamos 
+
+    RETRIEVAR O 'teamId'
+
+    LÁ DA URL,
+
+    PARA ENTÃO __ PEGAR _ O 
+
+
+    'team'
+
+
+    COM ESSE ID CORRESPONDENTE,
+
+    DENTRO DA DATA INJETADA DE 'teams'
+
+    NESSE COMPONENT/PAGE...
+
+
+
+
+
+)
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+CONSEGUI, MEU CÓDIGO FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ teamName }}</h2>
+    <ul>
+      <user-item
+        v-for="member in loadedTeam.members"
+        :key="member.id"
+        :name="member.name"
+        :role="member.role"
+      ></user-item>
+    </ul>
+  </section>
+</template>
+
+<script>
+import UserItem from '../users/UserItem.vue';
+
+export default {
+  // props: ['members'],
+  data() {
+    return {
+      loadedTeam: null,
+    };
+  },
+
+  props: ['teamId'],
+  inject: ['teams', 'users'],
+  components: {
+    UserItem,
+  },
+  created() {
+    // console.log(this.$props, this.teams[this.teamId]);
+
+    const desiredTeam = this.teams.filter((team) => {
+      console.log(this.teamId, team.id);
+      return +team.id === +this.teamId;
+    });
+
+    console.log(desiredTeam, 'TEAM DOS GURI');
+
+    this.loadedTeam = desiredTeam[0];
+  },
+  // data() {
+  //   return {
+  //     teamName: 'Test',
+  //     // members: [
+  //     //   { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+  //     //   { id: 'u2', fullName: 'Max Schwarz', role: 'Engineer' },
+  //     // ],
+  //   };
+  // },
+};
+</script>
+
+<style scoped>
+section {
+  margin: 2rem auto;
+  max-width: 40rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+h2 {
+  margin: 0.5rem 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA DEVO VER A AULA DO PROFESSOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CONTINUANDO, ELE FEZ INJECT 
+
+
+
+
+
+DA DATA DE APP EM 'TeamMembers'....
+
+
+
+
+
+
+
+
+
+
+--> 
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ teamName }}</h2>
+    <ul>
+      <user-item
+        v-for="member in loadedTeam.members"
+        :key="member.id"
+        :name="member.name"
+        :role="member.role"
+      ></user-item>
+    </ul>
+  </section>
+</template>
+
+<script>
+import UserItem from '../users/UserItem.vue';
+
+export default {
+  // props: ['members'],
+  data() {
+    return {
+      loadedTeam: null,
+    };
+  },
+
+  props: ['teamId'],
+  inject: ['teams', 'users'],
+  components: {
+    UserItem,
+  },
+  created() {
+    // console.log(this.$props, this.teams[this.teamId]);
+
+    const desiredTeam = this.teams.filter((team) => {
+      console.log(this.teamId, team.id);
+      return +team.id === +this.teamId;
+    });
+
+    console.log(desiredTeam, 'TEAM DOS GURI');
+
+    this.loadedTeam = desiredTeam[0];
+  },
+  // data() {
+  //   return {
+  //     teamName: 'Test',
+  //     // members: [
+  //     //   { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
+  //     //   { id: 'u2', fullName: 'Max Schwarz', role: 'Engineer' },
+  //     // ],
+  //   };
+  // },
+};
+</script>
+
+<style scoped>
+section {
+  margin: 2rem auto;
+  max-width: 40rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+h2 {
+  margin: 0.5rem 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE QUEREMOS 
+
+GANHAR ACESSO 
+
+
+
+
+
+AO VALUE QUE FOI INSERIDO COMO 
+
+
+
+
+DYNAMIC SEGMENT..
+
+
+
+
+
+
+--> PARA ISSO,
+
+COLOCAMOS 
+
+
+'created() {}' 
+
+
+
+
+nesse component/page de 'TeamMembers',
+
+
+
+
+PQ 'created()'
+
+
+É O LIFECYCLE QUE É CHAMADO 
+
+
+
+
+
+
+
+BEM QUANDO O COMPONENT É CRIADO,
+
+ANTES DE ELE SER MOSTRADO NA TELA,
+
+MAS NO MOMENTO EM QUE TODA A DATA FICA DISPONÍVEL..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> GANHAMOS ACESSO A 'INJECTED DATA',
+
+
+SIM,
+
+
+MAS TAMBÉM
+
+
+
+TEMOS ACESSO 
+
+
+
+
+
+A
+ ALGO BEM IMPORATNTE,
+
+
+ POR MEIO DE OUTRA 
+
+
+ PROPRIEDADE ESPECIAL...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ANTERIORMENTE,
+
+ VIMOS 'this.$router',
+
+ que 
+
+ nos dá 
+
+ ACESSO 
+
+
+
+
+ AO ROUTER.....
+
+
+
+
+
+
+
+
+
+
+ ENTRANTO, AGORA O PROFESSOR NOS MOSTRA 'this.$route',
+
+
+
+
+
+
+
+QUE NOS 
+
+
+DÁ 
+
+
+
+
+ACESSO 
+
+à DATA DA 'ROUTE' em si...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... MAS O QUE NOS DÁ ESSE 'ROUTE'?
+
+
+
+
+
+
+
+
+
+
+BEM, ELA FICA DISPONÍVEL NESSE COMPONENT JUSTAMENTE PQ 
+
+
+
+ELE É 
+
+
+__cARREGADO__ POR MEIO _ DO ROUTER..
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... E, AÍ, A ROUTE NOS DÁ ACESSO A DIVERSAS PIECES DE INFO...
+
+
+
+
+
+
+
+A PRIMEIRA INFO QUE ELE NOS DÁ 
+
+
+
+é o 'PATH',
+
+O PATH QUE FOI 
+
+
+
+RESPONSÁVEL PELO LOAD DESSA NOSSA PÁGINA...
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+   console.log(this.$route) ////// É DIFERENTE DE 'this.$router', pq NOS DÁ ACESSO A DATA DA NOSSA PRÓPRIA ROUTE...
+    console.log(this.$route.path) ////NOS DÁ ACESSO A 'ROUTE QUE FOI RESPONSÁVEL PELO CARREGAMENTO DESSA NOSSA PAGE'...
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E PODERÍAMOS, SIM,
+
+
+
+
+
+
+PARSEAR O 'TEAM ID'
+
+
+
+DE DENTRO DESSE PATH.. -> MAS NÃO PRECISAMOS DISSO, NA VERDADE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA __ CONSEGUIR __ 
+
+
+
+
+ACESSO AO 'TEAM ID'
+
+QUE 
+
+
+FOI PASSADO POR MEIO DA URL,
+
+
+
+
+
+NÃO É NECESSÁRIO ESCREVER ISTO:
+
+
+
+
+(main.js)
+
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+      props: true
+    },
+
+
+
+
+
+
+
+
+
+E ISTO:
+
+
+
+
+
+
+(na actual page)
+
+
+export default {
+  // props: ['members'],
+  data() {
+    return {
+      loadedTeam: null,
+    };
+  },
+
+  props: ['teamId'],
+  inject: ['teams', 'users'],
+  components: {
+    UserItem,
+  },
+
+
+
+
+
+
+
+
+
+
+
+  --> EM VEZ DE FAZER ISSO,
+
+   
+   VC DEVE USAR 
+
+
+
+   'this.$route.params' -------> ISSO TE DÁ ACESSO 
+
+
+
+   A __ TODOS __ OS ROUTE PARAMETERS QUE FORAM USADOS 
+
+   PARA 
+
+   CONSEGUIR 
+   CHEGAR 
+
+   ATÉ ESSA PAGE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... POR MEIO DE 'this.$route.params',
+
+
+
+
+PODEMOS 
+
+EXTRAIR O VALUE 
+
+
+DE 
+
+NOSSO 
+
+
+
+
+DYNAMIC SEGMENT,
+
+
+POR MEIO DISSO:
+
+
+
+
+'this.$route.params'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK....
+
+
+
+
+
+
+POR MEIO 
+
+
+DESSE ID, OBTIDO DO 'this.$route.params',
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR 
+
+
+RODA UM CÓDIGO PARECIDO COM O MEU:
+
+
+
+
+
+
+
+
+created() {
+
+    const teamId = this.$route.params.teamId;
+    const selectedTeam = this.teams.find(team => team.id === teamId )
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... MAS AÍ, O QUE ELE FEZ,
+
+FOI USAR OS 'ids' 
+
+
+dos MEMBERS, LÁ EM 'team',
+
+PARA 
+AÍ 
+
+
+ENCONTRAR TODOS OS USERS CORRESPONDENTES (tipo um JOIN, mas no frontend... meio desnecessário, mas tudo bem)...
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+created() {
+
+    const teamId = this.$route.params.teamId;
+    const selectedTeam = this.teams.find(team => team.id === teamId );
+    const members = selectedTeam.members;
+
+    const selectedMembers = [];
+
+    for (const member of members) {
+      const selectedUser = this.users.find(user => user.id === member)
+      this.selectedMembers.push(selectedUser)
+    }
+    this.members = selectedMembers
+}
+
+
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+
+OK... DEU CERTo...
+
+
+
+
+
+
+
+FUNCIONOU....
+
+
+
+
+
+
+O PROFESSOR FALA DO USO DE 'router-view'
+
+PARA CHEGAR A ESSAS PAGES... (já consegui fazer isso, por meio deste código:
+
+
+
+
+      <router-link :to="{
+        name: 'TeamMembers',
+        params: { teamId: team.id}
+      }">View Members</router-link>
+      
+
+
+
+)

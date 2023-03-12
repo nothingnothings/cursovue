@@ -1,13 +1,13 @@
 <template>
-<div>
-  <the-navigation @set-page="setActivePage"></the-navigation>
-  <main>
-  <!-- SEM ROUTING -->
-    <!-- <component :is="activePage"></component> -->
-  <!-- COM ROUTING -->
-  <router-view></router-view>
-  </main>
-</div>
+  <div>
+    <the-navigation @set-page="setActivePage"></the-navigation>
+    <main>
+      <!-- SEM ROUTING -->
+      <!-- <component :is="activePage"></component> -->
+      <!-- COM ROUTING -->
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -25,9 +25,44 @@ export default {
     return {
       activePage: 'teams-list',
       teams: [
-        { id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
-        { id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
-        { id: 't3', name: 'Client Consulting', members: ['u4', 'u5'] },
+        {
+          id: 1,
+          name: 'Frontend Engineers',
+          members: [
+            {
+              id: 1,
+              name: 'Max',
+              role: 'Dev',
+            },
+            {
+              id: 2,
+              name: 'Manu',
+              role: 'A dude',
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Backend Engineers',
+          members: [
+            {
+              id: 3,
+              name: 'Martha',
+              role: 'Prof',
+            },
+            {
+              id: 4,
+              name: 'Mario',
+              role: 'Consultant',
+            },
+            {
+              id: 5,
+              name: 'Julie',
+              role: 'Doctor',
+            },
+          ],
+        },
+        { id: 3, name: 'Client Consulting', members: ['u4', 'u5'] },
       ],
       users: [
         { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },

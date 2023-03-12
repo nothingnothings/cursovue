@@ -6,9 +6,10 @@ import App from './App.vue';
 
 import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
 
 const router = createRouter({
-  linkActiveClass: 'active',  ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
+  linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
   linkExactActiveClass: 'exact-active',
   routes: [
     {
@@ -20,6 +21,18 @@ const router = createRouter({
       path: '/users',
       component: UsersList,
     },
+    // {
+    //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
+    //   component: Xxxx,
+    // },
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+      // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+    },
+
+    
   ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
 
   history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
@@ -113,3 +126,39 @@ app.mount('#app');
 // PARA DIZER 'HEY, APENAS USE O MECANISMO BUILT-IN DE HISTORY
 
 // DO BROWSER PARA SE LEMBRAR DE ONDE O USER VEIO E ETC'....
+
+/////////////////
+
+// --> OK...
+
+// E É CLARO QUE A ORDEM
+
+// __ IMPORTA_... -->
+
+// SE VC
+
+// TIVER ALGUMA
+
+// ROUTE
+
+// ESPECÍFICA,
+
+// como
+
+// '/teams/new',
+
+// VC DEVE COLOCAR ESSA ROUTE ANTES DE '/:teamId',
+
+// PQ
+
+// SE VC N FIZER ISSO,
+
+// O INPUT DE '/new',
+
+// nessa parte aí,
+
+// SERÁ TRATADO
+
+// COMO 1 ':teamId'
+
+// QUALQUER...
