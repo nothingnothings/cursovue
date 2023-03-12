@@ -8,8 +8,9 @@
         :name="member.name"
         :role="member.role"
       ></user-item>
-      <router-link to="/teams/2">Go To Page 2</router-link>
     </ul>
+    <router-link to="/teams/2">Go To Team 2</router-link>
+    <!-- PARA QUE ISSO FUNCIONE, PRECISAMOS DE 1 WATCHER, SENÃO NADA ACONTECERÁ quando clicamos nesse link... -->
   </section>
 </template>
 
@@ -33,6 +34,7 @@ export default {
 
   watch: {
     $route(newRoute) {
+      ///usado para fazer WATCH em coisas como 'this.$route.params' (para que então CONSIGAMOS MUDAR ENTRE DIFERENTES 'ITEMS' representados por essa url dinâmica)
       const desiredTeam = this.teams.filter((team) => {
         console.log(this.$route.params.teamId, team.id);
         return +team.id === +this.$route.params.teamId;
@@ -44,7 +46,6 @@ export default {
       this.teamName = desiredTeam[0].name;
     },
   },
-
   created() {
     console.log(this.$route); ////// É DIFERENTE DE 'this.$router', pq NOS DÁ ACESSO A DATA DA NOSSA PRÓPRIA ROUTE...
     console.log(this.$route.path); ////NOS DÁ ACESSO A 'ROUTE QUE FOI RESPONSÁVEL PELO CARREGAMENTO DESSA NOSSA PAGE'...

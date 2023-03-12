@@ -1,0 +1,805 @@
+
+
+
+
+
+
+
+
+
+-> OK... ROUTE PARAMETERS (this.$route.params)
+
+
+
+
+
+
+PODEM SER ÚTEIS,
+
+SIM,
+
+
+
+MAS TAMBÉM PODEM SER 'TRICKY'...
+
+
+
+
+
+
+
+
+
+
+--> HÁ VÁRIOS ASPECTOS QUE 
+
+
+VC DEVE TER EM MENTE,
+
+
+OS QUAIS 
+
+VC 
+
+
+
+ 
+
+
+
+talvez queira ou não  'TAKE CARE ABOUT'...
+
+
+
+
+
+
+
+
+--> 1 GOTCHA QUE 
+
+PODEMOS TER EM 1 APP... -> 
+
+
+
+
+
+
+
+
+
+NÃO TEMOS ESSE GOTCHA AINDA,
+
+
+MAS 
+
+PODEMOS FACILMENTE O ADICIONAR NO NOSSO PROJETO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO,
+
+VAMOS ATÉ O COMPONENT DE 'TeamMembers',
+
+
+
+
+E 
+
+
+AÍ, 
+
+LÁ 
+
+DENTRO,
+
+
+COLOCAMOS 
+
+OUTRO ROUTER-LINK..
+
+
+
+
+
+
+
+
+--> SERÁ 1 ROUTER LINK 
+
+
+de 
+
+
+
+
+
+<router-link to="/teams/t2">Go to Team 2</router-link>
+
+
+
+
+
+
+
+
+
+
+
+-----> COM ISSO,
+
+FICAMOS COM 1 LINK 'ESPECÍFICO',
+
+QUE 
+
+VAI 
+
+
+SEMPRE NOS LEVAR 
+
+A 
+
+ESSA 'TEAM 2'...
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ teamName }}</h2>
+    <ul>
+      <user-item
+        v-for="member in loadedTeam.members"
+        :key="member.id"
+        :name="member.name"
+        :role="member.role"
+      ></user-item>
+    </ul>
+    <router-link to="/teams/t2">Go to Team 2</router-link>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE CENÁRIO É BEM ESPECÍFICO,
+
+
+
+
+
+
+
+
+MAS AINDA ASSIM,
+
+
+EM 1 APP DE VERDADE,
+
+
+
+
+
+
+PODE ACONTECER QUE 
+
+
+
+'NA PAGE QUE FOI CARREGADA PARA 1 DETERMINADO PARAMETER,
+
+VC VAI QUERER IR __ PARA _ A MESMA PAGE, _ 
+
+MAS COM 1 
+__ VALUE DIFERENTE PARA __ ESSE MESMO PARAMETER' 
+
+
+
+
+
+
+
+
+
+(
+
+
+
+OU SEJA,
+
+1 VALUE DIFERENTE 
+PARA 
+
+
+CARREGAR ESSA MESMA PAGE DNV,
+
+MAS COM 
+
+
+1 VALUE DIFERENTE, PARA CONSEGUIR 1 TEAM DIFERENTE...
+
+)
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+SE RECARREGARMOS A PÁGINA, 
+CLICARMOS EM ALGUMA TEAM (e aí aparece esse link de 'ir para a TEAM 2, ESPECÍFICA')
+
+
+E ENTÃO 
+
+CLICARMOS NESSE LINK,
+
+
+
+__ NADA__ OCORRERÁ...
+
+
+
+
+
+
+
+
+------> ESSE É JUSTAMENTE O GOTCHA 
+
+MENCIONADO PELO PROFESSOR ------>  
+
+
+
+
+
+
+
+
+
+
+
+O GOTCHA --> SE VC ESTIVER NA MESMA PAGE 
+
+QUE FOI CARREGADA POR 1 DYNAMIC VALUE/PARAMETER,
+
+
+SE VC QUISER IR PARA 1 PAGE DIFERENTE,
+
+
+PARA 1 PAGE QUE É 'THE SAME PAGE',
+MAS 
+
+COM 
+
+1 VALUE DIFERENTE 
+
+DESSE PARAM (para carregar dados diferentes),
+
+
+
+
+VAI ACONTECER ESSE PROBLEMA AÍ,
+
+em que NADA VAI ACONTECER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O ESTRANHO É QUE O LINK ACABA SENDO ALTERADO PARA 't2',
+
+
+
+MAS AINDA ASSIM,
+
+NADA ACONTECE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO __ NÃO É UM BUG,
+
+
+
+
+
+
+
+E SIM É UM 'INTENDED BEHAVIOR'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO ACONTECE JUSTAMENTE PQ _ 
+
+
+
+
+
+
+
+
+'''' O VUE-ROUTER NÃO DESTRÓI E RECONSTRÓI 
+
+
+
+OS COMPONENTS QUE FORAM 
+
+
+
+CARREGADOS, SEMPRE QUE VC FAZ NAVIGATE AROUND''' -> PQ É BEM MAIS 
+
+
+
+EFICIENTE 
+
+
+__ CACHEAR _ 
+
+
+
+SEUS COMPONENTS,
+ 
+
+ SEM OS DESTRUIR E REBUILDAR QUANDO A URL É ALTERADA -------> 
+ 
+
+
+ MAS É EXATAMENTE ISSO QUE 
+
+
+ ORIGINA 
+
+ NOSSO PROBLEMA ------> 
+
+
+
+
+
+
+
+
+TODA A DATA DOS 'Team members' É CARREGADA 
+
+
+LÁ em 'created()',
+
+
+
+
+
+
+
+
+e esse lifecycle é chamado quando esse component de 'TeamMembers'
+
+É CRIADO... ->     E, __ COMO O PROFESSOR MENCIONOU,
+
+
+
+
+
+
+
+
+O VUE-ROUTER 
+
+
+NÃO DESTRÓI E RECONSTRÓI O COMPONENT 
+
+
+
+SÓ PQ _ A URL MUDOU.. (é o comportamento),
+
+
+
+
+
+
+
+O QUE QUER DIZER QUE 
+
+
+
+__ O  
+CÓDIGO NO INTERIOR 
+
+
+
+
+
+
+
+
+
+DE 'created()',
+
+
+que DEFINE 
+
+
+
+
+
+OS MEMBERS (
+
+
+
+  created() {
+    console.log(this.$route); ////// É DIFERENTE DE 'this.$router', pq NOS DÁ ACESSO A DATA DA NOSSA PRÓPRIA ROUTE...
+    console.log(this.$route.path); ////NOS DÁ ACESSO A 'ROUTE QUE FOI RESPONSÁVEL PELO CARREGAMENTO DESSA NOSSA PAGE'...
+
+    console.log(this.$route.params); //NOS DÁ ACESSO A COISAS COMO 'teamId' (dynamic segment)...
+
+    // console.log(this.$props, this.teams[this.teamId]);
+
+    const desiredTeam = this.teams.filter((team) => {
+      console.log(this.$route.params.teamId, team.id);
+      return +team.id === +this.$route.params.teamId;
+    });
+
+    console.log(desiredTeam, 'TEAM DOS GURI');
+
+    this.loadedTeam = desiredTeam[0];
+    this.teamName = desiredTeam[0].name;
+  },
+
+
+
+)
+
+
+
+
+
+
+
+
+
+NÃO É REEXECUTADO,
+
+
+SEMPRE QUE A URL É 
+
+
+ALTERADA... -------> PORTANTO,
+
+
+
+
+SE VC 
+
+ESTÁ NA PAGE QUE 
+
+VC QUER CARREGAR DE NOVO,
+
+MAS CARREGAR COM NOVA DATA,
+
+
+
+
+
+POR DEFAULT O VUE-ROUTER NÃO VAI FAZER COISA ALGUMA...
+
+
+
+E ISSO É RUIM.. COMO PODEMOS MUDAR ISSO?
+
+
+
+
+
+
+BEM, MAS COMO PODEMOS REAGIR A ESSA 'CHANGED URL'?
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, NO FINAL DAS CONTAS,
+
+
+
+
+QUANDO A URL MUDA,
+
+1 OUTRA COISA IMPORTANTE 
+
+MUDA... -> A COISA QUE 
+
+
+
+
+
+
+MUDA É A PROPRIEADE DE 
+
+
+
+
+
+'this.$route.params'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ _ ESSA PROPRIEDADE VAI SEMPRE 'HOLD THE LATEST INFO' 
+
+SOBRE A LOADED ROUTE,
+
+
+E ELA 
+
+REALMENTE VAI 
+
+UPDATAR 
+
+
+
+SEMPRE QUE __ A URL _ FOR ALTERADA...
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE 
+
+
+
+ESSA PROPRIEDADE VAI SEMPRE 'HOLD THE LATEST VALUE'...
+
+
+
+
+
+
+
+
+
+
+--> COMO ESSA PROPRIEDADE SEMPRE VAI SER ALTERADA, EVENTUALMENTE,
+
+
+
+
+VC __ PODE __ USAR_ 1 WATCHER_ EM CIMA 
+
+DESSA PROPRIEDADE,
+
+
+PARA 
+
+
+
+
+
+
+ENTÃO 
+
+
+
+
+RODAR _ O CÓDIGO DE 'REDEFINE MEMBERS'
+
+
+sempre que  A ROUTE FOR ALTERADA,
+
+
+
+
+
+
+
+
+JUSTAMENTE POR MEIO DESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+
+
+
+
+watch: {
+    $route() {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+  watch: {
+
+    $route(newRoute) { ///usado para fazer WATCH em coisas como 'this.$route.params' (para que então CONSIGAMOS MUDAR ENTRE DIFERENTES 'ITEMS' representados por essa url dinâmica)
+
+
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+  -> COM ISSO, VAMOS RECEBER ESSA 'NEW ROUTE'
+
+
+
+
+  dentro desse watcher...
+
+
+
+E AÍ PODEMOS RODAR TODA AQUELA LÓGICA DE 'load team'
+
+
+
+
+
+
+DENTRO DESSE NEGÓCIO, exatamente como tivemos ali em cima...
+
+
+
+
+
+
+
+
+
+
+
+CERTo..
+
+
+
+
+
+
+COM ISSO, SE SALVAMOS O ARQUIVO,
+
+
+
+TORNAMO-NOS CAPAZES DE TROCAR ENTRE 'team' pages,
+
+
+ 
+ TUDO PQ ESTAMOS FAZENDO 'WATCH' DAS CHANGES NA NOSSA ROUTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ OK... MAS ESSA É APENAS 1 DAS MANEIRAS DE FAZER ISSO FUNCIONAR (pq existe outra maneira)..
+
+
+
+
+
+
+
+
+
+
+ -> ISSO PQ _ HÁ OUTRO PROBLEMA QUE VC PODE ENCONTRAR COM ESTE APPROACH AQUi...
+
+
+ ---> VEREMOS ESSE PROBLEMA NA PRÓXIMA AULA...
