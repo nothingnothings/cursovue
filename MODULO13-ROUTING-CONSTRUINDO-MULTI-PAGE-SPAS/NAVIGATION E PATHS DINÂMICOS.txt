@@ -1,0 +1,423 @@
+
+
+
+
+
+
+VAMOS ATÉ O COMPONENT DE 'TEAMSITEM' --> 
+
+
+
+
+
+COLOCAMOS ' ROUTER-LINK',
+
+
+
+
+QUE VAI CHEGAR ATÉ A ROUTE 
+
+
+
+
+
+
+
+
+
+DE 'TeamMembers' (que é '/teams/:teamId'),
+
+
+
+
+
+
+
+QUE É A NOSSA ROUTE DINÂMICA (segmento terá 1 value diferente para cada listItem/team)...
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+
+
+
+
+O PROFESSOR COMEÇA COM ISTO:
+
+
+
+
+
+
+
+<router-link to="/teams/xxxx">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR EXPLICA QUE, ANTES DE MAIS NADA,
+
+PRECISAMOS DO 'ID'
+
+
+COMO 1 PROP DENTRO 
+DE 
+
+'TeamsItem' ---->
+
+
+
+
+PQ SERÁ DIFÍCIL CONSTRUIR O LINK CORRETO SEM TER 
+
+
+
+O 
+
+ID 
+
+
+DE NOSSO 
+
+
+
+NEGÓCIO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <teams-item
+      v-for="team in teams"
+      :key="team.id"
+      :team="team"
+      :name="team.name"
+      :member-count="team.members.length"
+    ></teams-item>
+  </ul>
+</template>
+
+<script>
+import TeamsItem from './TeamsItem.vue';
+
+export default {
+  components: {
+    TeamsItem,
+  },
+  inject: ['teams'],
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+eu fiz o inject de 'teams',
+
+que deu na mesma..
+
+
+
+
+
+
+
+
+
+
+OK, 
+
+
+
+
+
+MAS ___ AINDA PRECISAMOS CONSTRUIR ESSE LINK...
+
+
+
+
+
+
+
+
+COMO PODEMOS FAZER ISSO? 
+
+
+
+
+
+
+
+
+
+PODEMOS DEFINIR 1 DYNAMIC VALUE NO 'to',
+
+
+com 
+
+
+':to',
+
+
+
+
+E AÍ 
+
+
+
+
+ESCREVEMOS 1 OBJECT JAVASCRIPT/JAVASCRIPT EXPRESSION...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODERÍAMOS ESCREVER ASSIM:
+
+
+
+
+
+:to="'/teams/' + id" 
+
+
+
+
+
+
+
+
+
+--> ISSO CONSTRÓI/CONSTRUIRIA NOSSO LINK....
+
+
+
+
+
+
+--> MAS EU ESCREVI ASSIM (acho melhor):
+
+
+
+
+
+      <router-link :to="{
+        name: 'TeamMembers',
+        params: { teamId: team.id}
+      }">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ok...
+
+
+
+
+com isso, o router-link 
+funcionou...
+
+
+
+
+
+
+
+
+
+
+
+ISSO FUNCIONOU...
+
+
+
+
+
+
+
+
+PARA LIBERAR ESPAÇO/DEIXAR MAIS LIMPO,
+
+PODEMOS 
+
+
+
+COLOCAR 
+
+ESSE VALUE 
+
+DO LINK EM UMA COMPUTED PROPERTY,
+TIPO ASSIM:
+
+
+
+
+
+ 
+
+
+
+
+
+ <template>
+  <li>
+    <h3>{{ name }}</h3>
+    <div class="team-members">{{ memberCount }} Members</div>
+
+    <router-link :to="teamMembersLink">View Members</router-link>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['name', 'memberCount', 'team'],
+
+  created() {
+    console.log(this.team);
+  },
+
+  computed: {
+    teamMembersLink() {
+      return '/teams' + this.id;
+    },
+  },
+};
+</script>
+
+<style scoped>
+li {
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+li h3 {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+li .team-members {
+  margin: 0.5rem 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: #11005c;
+}
+
+a:hover,
+a:active {
+  background-color: #220a8d;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE ISSO É OPCIONAL, MAS FICA BOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RECARREGAMOS, E ISSO FUNCIONA...

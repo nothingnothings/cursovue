@@ -1,0 +1,6 @@
+
+In the next lecture, you might encounter an error when following along.
+
+Uncaught (in promise) TypeError: Cannot read property 'members' of undefined
+
+This error occurs because of a bug with Vue.js (NOT because the code would be wrong). Fixing it is easy - have a look at this Q&A thread if you're running into the problem: https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/#questions/12619882/

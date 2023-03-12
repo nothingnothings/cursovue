@@ -3,10 +3,13 @@
     <h3>{{ name }}</h3>
     <div class="team-members">{{ memberCount }} Members</div>
     <!-- <a href="#">View Members</a> -->
-      <router-link :to="{
+    <!-- <router-link :to="{
         name: 'TeamMembers',
         params: { teamId: team.id}
-      }">View Members</router-link>
+      }">View Members</router-link> -->
+    <!-- OUTSOURCEAMOS ESSE LINK EM 1 COMPUTED PROPERTY, para ficar mais limpo o nosso html... -->
+  
+  <router-link :to="teamMembersLink">View Members</router-link>
   </li>
 </template>
 
@@ -14,10 +17,14 @@
 export default {
   props: ['name', 'memberCount', 'team'],
 
-
-
   created() {
-    console.log(this.team)
+    console.log(this.team);
+  },
+
+  computed: {
+    teamMembersLink() {
+      return '/teams' + this.id;
+    },
   },
 };
 </script>
