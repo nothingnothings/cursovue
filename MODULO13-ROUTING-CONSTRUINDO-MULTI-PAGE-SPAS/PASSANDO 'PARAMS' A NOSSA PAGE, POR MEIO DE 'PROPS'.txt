@@ -1,0 +1,567 @@
+
+
+
+
+
+
+
+
+
+
+ok... mas nosso component de 'teamMembers'
+
+
+
+POSSUI 1 DESVANTAGEM EM POTENCIAL...
+
+
+
+
+
+
+
+
+A DESVANTAGEM É QUE,
+
+
+NO CÓDIGO,
+
+
+
+
+
+
+NÓS DEPENDEMOS 
+
+
+
+
+
+
+
+
+TOTALMENTE DA PROPRIEDADE 'this.$route'...
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO PQ ESTAMOS USANDO 
+
+esse 'this.$route'
+
+
+
+
+TANTO EM 'created()'
+
+
+como em 'watch':
+
+
+
+
+
+
+
+  watch: {
+    $route() {
+      const desiredTeam = this.teams.filter((team) => {
+        console.log(this.$route.params.teamId, team.id);
+        return +team.id === +this.$route.params.teamId;
+      });
+
+      console.log(desiredTeam, 'TEAM DOS GURI');
+
+      this.loadedTeam = desiredTeam[0];
+      this.teamName = desiredTeam[0].name;
+    },
+  },
+
+  created() {
+    console.log(this.$route); ////// É DIFERENTE DE 'this.$router', pq NOS DÁ ACESSO A DATA DA NOSSA PRÓPRIA ROUTE...
+    console.log(this.$route.path); ////NOS DÁ ACESSO A 'ROUTE QUE FOI RESPONSÁVEL PELO CARREGAMENTO DESSA NOSSA PAGE'...
+
+    console.log(this.$route.params); //NOS DÁ ACESSO A COISAS COMO 'teamId' (dynamic segment)...
+
+    // console.log(this.$props, this.teams[this.teamId]);
+
+    const desiredTeam = this.teams.filter((team) => {
+      console.log(this.$route.params.teamId, team.id);
+      return +team.id === +this.$route.params.teamId;
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ISSO PODE CAUSAR PROBLEMAS SE:
+
+
+
+
+
+
+1) VC TENTAR FAZER 'EMBED' DE SEU COMPONENT __ DENTRO __ DO CÓDIGO DE OUTRO 
+
+COMPONENT
+
+
+(
+    CASOS EM QUE VC MUDOU SEU APP,
+
+
+    EM QUE AGORA QUER CARREGAR ESSE COMPONENT DE FORMA DISTINTA...
+)
+
+
+
+
+
+
+
+
+
+BEM, SE ISSO ACONTECER,
+
+
+SE VC DE REPENTE 
+
+
+
+DECIDIR QUE 
+
+
+
+''DEVEMOS USAR ISSO DE FORMA DIFERENTE, 
+
+
+1 HORA USADO COM ROUTING, OUTRA VEZ USADO/CARREGADO 
+
+
+POR MEIO DA TAG DELE, NO TEMPLATE'' -> em casos como esses,
+
+
+
+ambivalentes,
+
+vc terá problemas..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO 
+
+
+QUE àS VEZES 
+será bem melhor CONSEGUIR 
+
+
+
+
+
+SEUS VALUES NECESSÁRIOS ATRAVÉS DE _ PROPS_,
+
+
+
+
+e não 
+
+
+
+
+POR MEIO DE 'this.$route'...
+
+
+
+(
+
+    EXATAMENTE COMO EU HAVIA FEITO, ANTERIORMENTE...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+props: ['teamId']
+
+
+
+
+
+
+
+
+,
+
+
+
+
+
+E AÍ LÁ NO 'main.js',
+
+
+COLOCARÍAMOS ASSIM:
+
+
+
+
+
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+       props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+    },
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+MAS HÁ ALGUM DOWNSIDE 
+
+
+EM RELAÇÃO A ESSE APPROACH?
+
+
+
+
+
+
+
+
+
+---->  ok...
+
+
+
+
+
+
+
+SE TENTAMOS RECARREGAR NOSSA PÁGINA,
+
+NÃO VAMOS GANHAR COISA ALGUMA... -> ISSO ACONTECE JUSTAMENTE 
+
+
+
+PQ OS MEMBERS (que aparecem como 'undefined')
+
+
+
+
+
+NÃO SERÃO CARREGADOS,
+
+PQ 
+
+
+
+ELES FORAM SETTADOS PARA SEREM CARREGADOS POR MEIO 
+
+
+DE 'PROPS',
+
+E NÃO POR MEIO DE ROUTING (
+
+
+
+E, POR DEFUALT,
+
+
+O BROWSER NÃO ADICIONA 'PROPS' AO SEU LOADED COMPONENT...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS ESSE COMPORTAMENTO (de não adicionar props ao carregar components 'page')
+
+
+
+
+PODE SER ALTERADO, POR MEIO DA KEY DE 'props: true'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA OPTION FAZ 1 COISA IMPORTANTE --> ISSO COMUNICA AO VUE-ROUTER QUE 
+
+
+OS 
+
+
+PARAMETERS DINÂMICOS 
+
+_DEVEM __ SER PASSADOS __ PARA DENTRO DESSE COMPONENT COMO 'PROPS',
+
+
+EM VEZ DE APENAS COMO 'this.$route.params'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  // props: ['teamId'],  ////em vez de usar isso, use 'this.$route.params' (os PARAMETERS DO SEU ROUTER)...
+  ////apenas use 'props' SE FOR REALMENTE NECESSÁRIO SEMPRE CARREGAR ESSA DATA AO RECARREGAR SUA PÁGINA...
+ inject: ['teams', 'users'],
+  components: {
+    UserItem,
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSA ERA A MANEIRA PELA QUAL EU HAVIA ESCRITO, ANTERIORMENTE...
+
+
+
+
+
+
+
+
+
+--> OK... ISSO SIGNIFICA QUE 
+
+
+
+
+O VALUE DE 'teamId' (parte da url)
+
+
+
+
+
+SERÁ PASSADO COMO __ PROP _ DO COMPONENT DE 'TeamMembers',
+
+
+quando ele for carregado...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA ISSO ESTÁ FUNCIONANDO,
+
+
+E AGORA TEMOS OUTRA VANTAGEM:
+
+
+
+
+'''AGORA ESSE COMPONENT DE TEAMMEMBERS
+É MAIS REUTILIZÁVEL,
+
+
+PQ AGORA PODEMOS USAR ESSE COMPONNET EM QUALQUER LUGAR,
+BASTA 
+
+
+
+ADICIONAR AQUELE PROP'' (não fica mais limitado apenas ao 'routing')...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+      // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+      //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ATÉ MESMO EM CASES 
+
+
+
+
+EM QUE _ VC N VAI REUTILIZAR ESSE COMPONNET,
+
+
+
+
+
+MTAS VEZES SERÁ MELHOR FAZER 'GET' DE SUA DATA ATRAVÉS DE PROPS,
+
+EM VEZ DE 
+
+PROCURAR POR SUA DATA 
+
+
+
+
+LÁ NA PROPRIEDADE de 'this.$route.params'...

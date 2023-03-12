@@ -30,8 +30,8 @@ const router = createRouter({
       path: '/teams/:teamId',
       component: TeamMembers,
       // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+      //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
     },
-
     
   ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
 

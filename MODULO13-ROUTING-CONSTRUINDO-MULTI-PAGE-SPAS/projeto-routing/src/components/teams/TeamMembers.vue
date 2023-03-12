@@ -26,13 +26,14 @@ export default {
   },
 
   // props: ['teamId'],  ////em vez de usar isso, use 'this.$route.params' (os PARAMETERS DO SEU ROUTER)...
-  inject: ['teams', 'users'],
+  ////apenas use 'props' SE FOR REALMENTE NECESSÁRIO SEMPRE CARREGAR ESSA DATA AO RECARREGAR SUA PÁGINA...
+ inject: ['teams', 'users'],
   components: {
     UserItem,
   },
 
   watch: {
-    $route(newRoute) {
+    $route() {
       const desiredTeam = this.teams.filter((team) => {
         console.log(this.$route.params.teamId, team.id);
         return +team.id === +this.$route.params.teamId;
