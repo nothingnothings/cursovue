@@ -1,0 +1,666 @@
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER VOLTAR AO TÓPICO DE 'NAVIGATION'...
+
+
+
+
+
+--> ATUALMENTE, ESTAMOS USANDO 
+
+'ROUTER-LINK'
+
+PARA 
+
+CONSEGUIR 
+
+
+CHEGAR A DIFERENTES 
+
+PARTES DE NOSSO APP,
+
+
+
+
+A DIFERENTES PAGES...
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA É UMA MANEIRA BEM COMUM DE NAVEGAR ENTRE PAGES..
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, EXISTIRÃO CASOS EM QUE VC VAI QUERER 
+
+
+
+'NAVEGAR PROGRAMATICAMENTE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SUPONHA-SE QUE NA 
+
+PAGE 
+
+DE 
+
+'Userslist'
+
+
+
+VC TENHA 1 BUTTON,
+
+
+QUE DIZ 'CONFIRM'...
+
+
+
+
+
+
+
+ 
+ --> SERÁ 1 BUTTON, E NÃO 1 LINK...
+
+
+
+
+
+ --> TIPO ASSIM:
+
+
+
+
+
+
+
+ <template>
+  <div>
+  <button>Confirm</button>
+  <ul>
+    <user-item v-for="user in users" :key="user.id" :name="user.fullName" :role="user.role"></user-item>
+  </ul>
+  </div>
+</template>
+
+<script>
+import UserItem from './UserItem.vue';
+
+export default {
+  components: {
+    UserItem,
+  },
+  inject: ['users'],
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 20rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE, AO SER CLICADO ESSE BUTTON,
+
+
+VC QUER QUE 
+
+SEJA EXECUTADO
+ 
+
+
+ ALGUM CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO,
+
+
+ VAMOS ESCREVER 1 METHOD,
+
+
+ O METHOD DE 'confirmInput'..
+
+
+
+
+
+
+
+
+ --> ESSE METHOD VAI __ FAZER _ ALGUMA COISA (VAI 
+ 
+ ARMAZENAR DATA EM 1 VARIABLE,
+
+ ENVIAR DATA A 1 SERVER,
+
+
+FAZER ALGO IMPORTANTE... 
+ ) 
+
+
+
+ --> E, ASSIM QUE ISSO 
+
+
+
+ ACABAR,
+
+
+
+
+
+ VC VAI QEURER __ MUDAR A PÁGINA --> ISSO É ACTUALLY 1 
+
+
+ CENÁRIO COMUM,
+
+
+ 
+
+ EM QUE 
+
+ VC 
+
+ VAI QUERER 'NAVIGATE AWAY'
+
+
+ ASSIM QUE 
+
+
+
+
+ ALGUM PROCESSO TIVER ACABADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> EM APPS MAIORES, 
+
+
+
+ VC TALVEZ TENHA 1 'FORM QUE PRECISA SER SUBMITTADA',
+
+
+ E AÍ 
+
+
+
+ TVZ VC QUEIRA 'NAVIGATE THE USER AWAY'
+
+ ASSIM QUE 
+
+
+
+ ESSE PROCESSO ACABAR...
+
+
+
+
+
+
+
+
+
+
+ --> OK...
+
+
+
+
+
+
+
+ QUEREMOS O BUTTON, 
+
+ PARA 
+
+ RODAR ALGUMA COISA, E DEPOIS FAZER 'NAVIGATE AWAY'...
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+     confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      this.$router.go()  ///talvez assim?
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    MAS QUEREMOS NAVEGAR O USER PROGRAMATICAMENTE,
+
+
+
+
+
+    NÃO QUEREMOS TER 1 LINK NA PAGE CLICADO PELO USER,
+
+
+
+
+    E SIM 
+
+
+    QUEREMOS 
+
+
+
+
+NAVEGAR O USER POR MEIO DE CÓDIGO JAVASCRIPT,
+
+DE DENTRO 
+
+
+DO 
+
+CÓDIGO 
+
+
+
+JAVASCRIPT..
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, COMO ESTAMOS USANDO O 'VUE-ROUTER',
+
+
+
+TEMOS 
+
+1 
+
+PROPRIEDADE 
+
+
+
+
+
+ESPECIAL 
+
+
+DISPONÍVEL 
+
+
+
+NOS NOSSOS 'COMPONENT CONFIG OBJECTS'...
+
+
+
+
+
+
+
+
+
+--> PODEMOS ACESSAR ESSA PROPRIEDADE POR MEIO 
+
+
+
+DA KEYWORD 'this',
+
+
+
+E AÍ USAMOS O '$router'...
+
+
+
+
+
+
+
+
+
+-> OK..
+
+
+
+
+
+
+
+AÍ VAMOS USAR 
+
+'this.$router.go()'..
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DO ROUTER,
+
+TEMOS 
+
+VÁRIOS 
+
+METHODS QUE PODEMOS USAR...
+
+
+
+
+
+
+
+
+
+
+PARA NAVEGAR 
+
+
+PROGRAMATICAMENTE,
+
+TEMOS O METHOD DE 
+
+'.push()',
+
+
+
+QUE É USADO PARA FAZER PUSH DE UMA NOVA ROUTE A ESSA 'ROUTER HISTORY'...
+
+
+
+
+
+
+
+
+DENTRO DE PUSH,
+
+COLOCAMOS 
+
+O PATH A QUE QUEREMOS IR...
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams')  ////outra maneira de fazer isso...
+    },
+
+
+
+
+
+
+
+
+
+
+
+--> COLOCAMOS 'TEAMS',
+PARA 
+
+
+QUE 
+
+O USER SEJA REDIRECIONADO A ESSE PATH...
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+É CLARO QUE EXISTEM OUTROS METHODS 
+
+
+
+
+
+QUE PODEM SER ACESSADOS EM '$router'...
+
+
+
+
+TEMOS 
+
+'.back()'
+
+e 
+
+'.forward()',
+
+
+
+QUE SÃO USADOS PARA 
+
+
+EMULAR 
+
+OS BOTÕES DE '<-  ->' 
+
+
+DO BROWSER....
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    OK...
+
+
+
+
+
+
+
+
+
+
+
+
+    COM ISSO,
+
+    SOMOS LEVADOS 
+
+    A PAGE 
+
+    DE 
+
+
+    'teams'
+
+    PROGRAMATICAMENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+OK... SEMPRE QUE VC TIVER QUE RODAR CÓDIGO ANTES DE NAVEGAR,
+
+USE 
+
+'PROGRAMMATIC NAVIGATION',
+
+
+com essa 
+
+escrita de 
+
+'this.$router.xxxx'...

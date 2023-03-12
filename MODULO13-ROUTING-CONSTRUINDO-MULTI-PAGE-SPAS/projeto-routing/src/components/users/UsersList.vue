@@ -1,7 +1,15 @@
 <template>
-  <ul>
-    <user-item v-for="user in users" :key="user.id" :name="user.fullName" :role="user.role"></user-item>
-  </ul>
+  <div>
+    <button @click="confirmInput()">Confirm</button>
+    <ul>
+      <user-item
+        v-for="user in users"
+        :key="user.id"
+        :name="user.fullName"
+        :role="user.role"
+      ></user-item>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -12,6 +20,19 @@ export default {
     UserItem,
   },
   inject: ['users'],
+
+  methods: {
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+  },
 };
 </script>
 
