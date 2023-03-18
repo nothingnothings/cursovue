@@ -7,6 +7,7 @@ import App from './App.vue';
 import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 import TeamMembers from './components/teams/TeamMembers.vue';
+import NotFound from "./components/nav/NotFound.vue"
 
 const router = createRouter({
   linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
@@ -14,12 +15,22 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/teams',  //exemplo de redirect clássico....
+      redirect: '/teams', //exemplo de redirect clássico....
     },
+    // {
+    //   path: '/teams',
+    //   // alias: '/',   ////alternativa ao uso de REDIRECT...
+    //   component: TeamsList,
+    // },
     {
       path: '/teams',
-      // alias: '/',   ////alternativa ao uso de REDIRECT...
       component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ], 
     },
 
     {
@@ -30,20 +41,21 @@ const router = createRouter({
     //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
     //   component: Xxxx,
     // },
-    {
-      name: 'TeamMembers',
-      path: '/teams/:teamId',
-      component: TeamMembers,
-      // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
-      //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
-    },
+
+    // {
+    //   name: 'TeamMembers',
+    //   path: '/teams/:teamId',
+    //   component: TeamMembers,
+    //   // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+    //   //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
+    // },
 
     {
       path: '/:catchAll(.*)', ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
-    
+      component: NotFound
       // component: "" ///ao ser capturada essa route/catch-all, podemos OU RENDERIZAR 1 COMPONENT DE PÁGINA 404/500, OU ENTÃO REDIRECIONAR PARA A HOME PAGE, ETC...
       // redirect: ""
-    }
+    },
   ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
 
   history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
@@ -174,71 +186,24 @@ app.mount('#app');
 
 // QUALQUER...
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //////////EX:
-
-
-
-
-
-
 
 // A ESCRITA DE 'alias'
 
-
-// FAZ BASICAMENTE A MESMA COISA QUE 
+// FAZ BASICAMENTE A MESMA COISA QUE
 
 // O WRITE DE 1 ROUTE COM 'component',
 
-
-
-// MAS A DIFERENÇA É QUE 
-
+// MAS A DIFERENÇA É QUE
 
 // SUA OPTION É ESCRITA DENTRO DA PRÓPRIA ROUTE, TIPO ASSIM:
 
-
-
-
-
-
-
 // --> DEVEMOS ESCREVER ASSIM:
 
-
-
-
-
-
-
 // {
-//      path:  '/teams', component: TeamsList, alias: '/' 
+//      path:  '/teams', component: TeamsList, alias: '/'
 // }
 
-
-
-
-
-
-
-
-
-// ISSO SIGNIFICA QUE __ TANTO __ '/teams' como '/' 
-
+// ISSO SIGNIFICA QUE __ TANTO __ '/teams' como '/'
 
 // __ VÃO ___ REDIRECIONAR A ESSE COMPONENT/PAGE....

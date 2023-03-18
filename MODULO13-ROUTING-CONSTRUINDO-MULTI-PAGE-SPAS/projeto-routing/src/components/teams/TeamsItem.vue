@@ -15,15 +15,15 @@
 
 <script>
 export default {
-  props: ['name', 'memberCount', 'team'],
+  props: ['name', 'memberCount', 'team', ],
 
   created() {
-    console.log(this.team);
+    console.log(this.team, this.teamMembersLink);
   },
 
   computed: {
     teamMembersLink() {
-      return '/teams' + this.id;
+      return '/teams/' + this.team.id;
     },
   },
 };

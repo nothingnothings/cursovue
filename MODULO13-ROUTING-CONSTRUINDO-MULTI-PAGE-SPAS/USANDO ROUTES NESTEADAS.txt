@@ -1,0 +1,859 @@
+
+
+
+
+
+
+
+
+
+--> HÁ MAIS COISAS QUE VOCÊ PODE CONFIGURAR, QUANDO O 
+
+
+
+
+ASSUNTO É  AS ROUTES QUE VC PODE CONFIGURAR NO SEU ROUTER...
+
+
+
+
+
+
+
+
+
+
+-> POR EXEMPLO, TEMOS A FEATURE BEM NICE DE 'NESTED ROUTES'...
+
+
+
+
+
+
+
+
+
+
+
+--> EM ALGUNS APPS,
+
+vc talvez queira 
+
+
+TER 1 'ROUTER DENTRO DE OUTRO ROUTER'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR NOS DÁ UM EXEMPLO:
+
+
+
+
+
+
+
+
+
+1) DIGAMOS QUE O COMPONENT DE 'TEAM MEMBERS' 
+NÃO DEVE SER _ RENDERIZADO 
+
+
+
+EM 1 NOVA STANDALONE PAGE,
+
+
+
+
+
+E SIM QUE 
+
+
+
+
+
+
+SEJA CARREGADA A PAGE DE 'VIEW MEMBERS'
+
+ACIMA 
+
+DA LISTA DE MEMBERS,
+
+
+
+
+
+
+
+sem '''renderizar'''' uma nova página...
+
+
+
+
+
+
+
+
+
+
+
+
+--> em outras palavras, queremos fazer 'EMBED' 
+
+DA PAGE DE 
+
+
+
+'members of a team'
+
+
+
+EM CIMA 
+
+
+
+DA LIST DE MEMBERS GERAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.. MAS COMO PODEMOS FAZER ISSO, COM O VUE-ROUTER?
+
+
+
+
+
+
+
+
+-> BEM, TEMOS AQUELA ROUTE DE 
+
+
+
+'{
+
+
+    path: '/teams/:teamId',
+    component: TeamMembers,
+    props: true
+}
+'
+
+
+
+
+
+
+
+
+
+
+QUE __ ATUALMENTE ESTÁ COMO UMA 'STAND ALONE' ROUTE,
+
+
+DEFINIDA DO LADO DA ROUTE DE '/teams' (
+
+
+
+
+
+    ou seja,
+
+
+    definida no ROOT LEVEL 
+
+
+    do nosso app,
+
+    O QUE QUER DIZER QUE SÃO PARENTES...
+
+)
+
+
+
+
+
+
+
+
+--> BEM, PODEMOS ___ SETTAR UMA 'NESTED ROUTE'
+
+
+POR MEIO DA OPTION DE 'children'
+
+
+
+
+
+__ NA __ ROUTE _ EM QUE QUEREMOS __ NESTEAR ROUTES,
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+    {
+      path: '/teams',
+      component: TeamsList,
+      children: []  ////exemplo de como escrever 'NESTED ROUTES'.
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, E O INTERESSANTE É QUE 
+'children'
+
+
+TAMBÉM É UMA OPTION __ QUE VAI EXIGIR A DEFINIÇÃO DE ROUTES,
+
+
+DENTRO DAQUELE ARRAY...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+--> 
+
+
+
+PARA _ CONSEGUIR 'RENDERIZAR NOSSA VIEW DE MEMBERS DE 1 CERTO TEAM'
+
+
+
+__ DENTRO __ DA PRÓPRIA _ PAGE 
+
+
+
+DE 
+'teams' (Que tem/terá aquela LIST de members GERAL),
+
+
+
+
+
+
+DEVEMOS __ COLOCAR __ ESSA ROUTE DE 
+
+
+
+
+''
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+
+    }
+
+
+'''
+
+
+
+
+
+
+
+DENTRO DA KEY DE 'children':
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+    {
+      path: '/teams',
+      component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'TeamMembers',
+          path: '/teams/:teamId',
+          component: TeamMembers,
+        },
+      ], 
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, DENTRO DE NOSSA ROUTE DE 'teams',
+
+
+
+TEMOS ESSA CHILD ROUTE..
+
+
+
+
+
+
+
+
+---> OK... MAS, DENTRO DESSA KEY DE 'children',
+
+VC N PRECISA, EM CADA ROUTE,
+
+REPETIR 
+
+O SEGMENTO 
+
+do 'pai' (Que, nesse caso, é '/teams'),
+
+
+
+
+
+PQ BASTA ESCREVER 'O SEGMENTO QUE VAI VIR DEPOIS DO SEGMENTO INICIAL'( no caso, ':teamId')..
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+    {
+      path: '/teams',
+      component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'TeamMembers',
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ], 
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO..
+
+
+E VC PODE TER 
+
+
+
+MAIS DE 1 ÚNICA ROUTE 
+
+
+
+COMO CHILDREN DESSA 'PAGE'... --> PODERÍAMOS FAZER ISSO, SIM...
+
+
+
+
+
+
+
+
+
+
+
+-> MAS AQUI TEREMOS APENAS _ 1 ÚNICA ROUTE,
+
+
+
+
+
+que 
+
+
+SERÁ ATINGIDA 
+
+
+
+POR 1 URL COMO 
+
+
+
+'/teams/1'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS QUAL É A DIFERENÇA 
+
+DE 
+
+TER 
+
+1 
+
+
+'NESTED ROUTE'
+
+EM VEZ DE UMA STANDALONE ROUTE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> OK... A PRIMEIRA DIFERENÇA:
+
+
+
+
+1) SE AGORA CLICAMOS NO BUTTON DE 'View Members',
+
+
+VEREMOS QUE  
+
+
+
+__ NOSSA __ ROUTE __de 'TeamMembers'
+
+NÃO SERÁ MAIS CARREGADA..
+
+
+
+
+
+
+
+--> A RAZÃO PARA ISSO, NO CASO,
+É QUE 
+
+
+
+''' O VUE NÃO VAI MAIS SABER EM QUE _ LUGAR__ ELE __DEVERÁ _ RENDERIZAR_ 
+
+
+ESSE COMPONENT DE 'TeamMembers'''...
+
+
+
+
+
+
+
+
+
+
+
+
+-> É NECESSÁRIO USAR o component de '<router-view>'
+
+DENTRO DO COMPONENT/PAGE DE 
+
+
+'/teams',
+
+
+PARA QUE 
+
+
+CONSIGA SER 
+
+INDICADO 
+
+O LOCAL
+ 
+ EM QUE 
+
+
+
+DEVERÁ SER RENDERIZADA ESSA 'NESTED ROUTE'...
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO FAZEMOS ISSO, COMO FICARÁ ESSA ESCRITA?
+
+
+
+
+
+
+
+
+PROVAVELMENTE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <router-view></router-view>
+    <ul>
+      <teams-item
+        v-for="team in teams"
+        :key="team.id"
+        :team="team"
+        :name="team.name"
+        :member-count="team.members.length"
+      ></teams-item>
+    </ul>
+  </div>
+</template>
+
+<script>
+import TeamsItem from './TeamsItem.vue';
+
+export default {
+  components: {
+    TeamsItem,
+  },
+  inject: ['teams'],
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+SERÁ NAQUELE 'router-view'
+
+QUE 
+
+
+SERÁ 
+
+RENDERIZADA 
+
+
+
+A NOSSA CHILD ROUTE...
+
+
+
+
+
+
+
+
+CERTo... AGORA POSSO TESTAR..
+
+
+
+
+
+
+
+
+
+
+FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ name }}</h3>
+    <div class="team-members">{{ memberCount }} Members</div>
+    <!-- <a href="#">View Members</a> -->
+    <!-- <router-link :to="{
+        name: 'TeamMembers',
+        params: { teamId: team.id}
+      }">View Members</router-link> -->
+    <!-- OUTSOURCEAMOS ESSE LINK EM 1 COMPUTED PROPERTY, para ficar mais limpo o nosso html... -->
+  
+  <router-link :to="teamMembersLink">View Members</router-link>
+  </li>
+</template>
+
+<script>
+export default {
+  props: ['name', 'memberCount', 'team', ],
+
+  created() {
+    console.log(this.team, this.teamMembersLink);
+  },
+
+  computed: {
+    teamMembersLink() {
+      return '/teams/' + this.team.id;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA QUANDO CLICAMOS EM 'VIEW MEMBERS',
+
+
+
+
+
+VEREMOS ___  
+
+
+
+
+que a page vai mudar em tempo real,
+
+
+vai 
+
+
+
+COLOCAR AQUELE 'PEDAÇO DE PAGE'
+
+
+NO TOPO DE NOSSA OVERALL PAGE...
+
+
+
+
+
+
+
+
+
+
+
+essa é uma feature nice, esses nested routes..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTRO DETALHE:
+
+
+
+
+
+COM AS NESTED ROUTES,
+
+
+
+
+
+
+NOSSOS LINKS DO NAV VÃO FICAR 
+
+ATIVOS (relação 
+
+
+
+
+entre 'router-link-active' 
+
+e 
+
+'router-link-exact-active'...
+
+
+
+)
+
+
+
+
+
+
+
+E NESTED ROUTES PODEM SER 1 FEATURE MT ÚTIL PARA CONSTRUIR 
+
+USER INTERFACES COMPLEXAS,
+
+EM QUE 
+
+
+VC QUER 
+
+CONSTRUIR DIFERENTES 
+
+
+PARTES, 
+
+
+TALVEZ NESTEADAS EM DIFERENTES COMPONENTS,
+
+COM BASE EM DIFERENTES URLS e PATHS..
