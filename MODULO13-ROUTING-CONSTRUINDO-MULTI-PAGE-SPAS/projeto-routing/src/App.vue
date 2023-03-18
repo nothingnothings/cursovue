@@ -5,8 +5,11 @@
       <!-- SEM ROUTING -->
       <!-- <component :is="activePage"></component> -->
       <!-- COM ROUTING -->
-      <router-view></router-view>
+      <router-view name="main"></router-view>
     </main>
+    <footer>
+      <router-view name="footer"></router-view>
+    </footer>
   </div>
 </template>
 

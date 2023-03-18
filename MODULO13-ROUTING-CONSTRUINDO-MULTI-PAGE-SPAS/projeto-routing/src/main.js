@@ -7,11 +7,13 @@ import App from './App.vue';
 import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 import TeamMembers from './components/teams/TeamMembers.vue';
-import NotFound from "./components/nav/NotFound.vue"
+import TeamsFooter from './components/teams/TeamsFooter.vue';
+import UsersFooter from './components/users/UsersFooter.vue';
+import NotFound from './components/nav/NotFound.vue';
 
 const router = createRouter({
-  linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
-  linkExactActiveClass: 'exact-active',
+  // linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
+  // linkExactActiveClass: 'exact-active',
   routes: [
     {
       path: '/',
@@ -22,22 +24,44 @@ const router = createRouter({
     //   // alias: '/',   ////alternativa ao uso de REDIRECT...
     //   component: TeamsList,
     // },
+    // {
+    //   path: '/teams',
+    //   name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+    //   component: TeamsList,
+    //   children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+    //     {
+    //       name: 'team-members', //opcional, mas recomendado.
+    //       path: ':teamId',
+    //       component: TeamMembers,
+    //     },
+    //   ],
+    // },
+
     {
       path: '/teams',
       name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
-      component: TeamsList,
-      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+      components: {
+        //usamos 'components' quando queremos carregar MÚLTIPLOS COMPONENTS POR 'page' DO VUE...
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        ////exemplo de como escrever 'NESTED ROUTES'.
         {
           name: 'team-members', //opcional, mas recomendado.
           path: ':teamId',
           component: TeamMembers,
         },
-      ], 
+      ],
     },
 
     {
       path: '/users',
-      component: UsersList,
+      // component: UsersList,
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
     },
     // {
     //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
@@ -54,7 +78,10 @@ const router = createRouter({
 
     {
       path: '/:catchAll(.*)', ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
-      component: NotFound
+      components: {
+        main: NotFound,
+        // footer: UsersFooter,
+      },
       // component: "" ///ao ser capturada essa route/catch-all, podemos OU RENDERIZAR 1 COMPONENT DE PÁGINA 404/500, OU ENTÃO REDIRECIONAR PARA A HOME PAGE, ETC...
       // redirect: ""
     },
