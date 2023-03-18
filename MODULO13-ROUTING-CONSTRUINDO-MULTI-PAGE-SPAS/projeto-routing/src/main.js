@@ -89,6 +89,24 @@ const router = createRouter({
 
   history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
   ///com isso, permitimos que seja usado o COMPORTAMENTO DEFAULT DE HISTORY DO BROWSER...
+
+  scrollBehavior(to, from, savedPosition) {
+    ///usamos isso para 'SCROLLAR PARA CIMA', quando existir ALGUMA TROCA DE ROTA, AUTOMATICAMENTE...
+
+    //'to' e 'from' são ROUTE OBJECTS... (basicamente a mesma coisa que vc recebe com 'this.$route')...
+    /// 'savedPosition' será a POSIÇÃO QUE O USER TEVE, ANTES DE CLICAR NO BUTTON DE 'back', no browser (é um object tipo '{left: 212, top: 21}' )
+
+    if (savedPosition) { ///com esse if check, VOLTAMOS PRECISAMENTE AO LOCAL EM QUE O USER ESTAVA, ANTES DE ELE TROCAR DE PÁGINA...( melhor dos 2 mundos)...
+      return savedPosition;
+    }
+
+    return {
+      ///scrollBehavior DEVE SEMPRE RETORNAR 1 OBJECT COM 'top' e 'left'...
+      //com isso, definimos que QUEREMOS QUE O APP SCROLLE PARA O TOPO, SEMPRE QUE A PAGE FOR ALTERADA...
+      top: 0,
+      left: 0,
+    };
+  },
 });
 
 const app = createApp(App);

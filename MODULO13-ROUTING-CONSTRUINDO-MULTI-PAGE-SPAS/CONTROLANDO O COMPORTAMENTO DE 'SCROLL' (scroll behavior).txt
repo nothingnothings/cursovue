@@ -1,0 +1,785 @@
+
+
+
+
+
+
+
+
+
+--> OK... COM TODO O CONHECIMENTO ADQUIRIDO NAS ÚLTIMAS LIÇÕES,
+
+ESTAMOS CHEGANDO AO FIM DESSE MÓDULO...
+
+
+
+
+
+
+
+APRENDEMOS TODAS AS KEY FEATURES SOBRE:
+
+
+1) REGISTER DE ROUTES 
+
+
+2) LOAD DE COMPONENTS 
+
+
+
+3) NAVIGATING...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS HÁ 
+
+OUTRAS 2 FEATURES QUE TE AJUDAM A PROVIDENCIAR A USER EXPERIENCE 
+
+
+QUE VC QUER..
+
+
+
+
+
+
+
+
+
+
+1a coisa) --> CONTROLAR O SCROLL BEHAVIOR DE SUAS PAGES....
+
+
+
+
+
+
+
+
+2a coisa) --> CONTROLAR AS NAVIGATION BARS...
+
+
+
+
+
+
+
+
+
+
+COMEÇAREMOS PELO SCROLL BEHAVIOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O QUE O PROFESSOR QUER DIZER, POR ISSO?
+
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE ESTAMOS 
+
+NA NOSSA 
+
+
+
+PAGE DE 'teams'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR 
+
+SCROLLA PARA BAIXO, E AÍ ESCOLHE A ÚLTIMA TEAM...
+
+
+
+
+
+
+
+
+
+
+
+
+-> A PÁGINA UPDATA,
+SIM,
+
+
+
+MAS O PROFESSOR TEM DE SCROLLAR PARA CIMA,
+
+DEPOIS QUE A PÁGINA MUDOU,
+
+PARA VER A PRÓXIMA TEAM...
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE A PÁGINA SCROLLE AUTOMATICAMENTE PARA CIMA,
+
+QUANDO TROCARMOS A ROUTE --> 
+
+
+
+QUEREMOS QUE 
+
+
+SEMPRE QUE 
+
+
+A ROUTE FOR ALTERADA,
+
+
+
+
+
+O NEGÓCIO SCROLLE PARA O TOPO,
+
+PARA QUE O USER SEMPRE VEJA A PÁGINA COMPLETA,
+
+
+E NÃO FIQUE 'STUCK' 
+
+LÁ EM BAIXO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ISSO É ALGO QUE PODEMOS ADICIONAR, COM O VUE-ROUTER...
+
+
+
+
+
+
+
+
+
+
+
+--> LÁ EM 'main.js',
+
+
+EM QUE CRIAMOS NOSSO ROUTER,
+
+ 
+
+
+
+ __ ALÉM DE REGISTRAR TODAS AS ROUTES 
+
+
+ E ENTÃO 
+
+ SETTAR ALGUMA GLOBAL CONFIG (com o 'linkActiveClass', por exemplo),
+
+
+
+
+
+
+ TEMOS A POSSIBILIDADE 
+
+
+
+
+
+
+
+ DE ADICIONAR A OPTION DE 'scrollBehavior' --> ESSE NEGÓCIO, NA VERDADE,
+
+
+
+
+ É UM METHOD...
+
+
+
+
+
+
+
+
+
+
+
+ --> É UM METHOD QUE SERÁ CHAMADO PELO VUEROUTER,
+
+
+ E QUE 
+
+
+ ENTÃO PODERÁ RODAR LÓGICA POR VOCÊ....
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
+import TeamsFooter from './components/teams/TeamsFooter.vue';
+import UsersFooter from './components/users/UsersFooter.vue';
+import NotFound from './components/nav/NotFound.vue';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',
+    },
+
+    {
+      path: '/teams',
+      name: 'teams',
+      components: {
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        {
+          name: 'team-members',
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+    {
+      path: '/users',
+
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
+    },
+
+    {
+      path: '/:catchAll(.*)',
+      components: {
+        main: NotFound,
+      },
+    },
+  ],
+
+  history: createWebHistory(),
+
+  scrollBehavior() {},
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ENTÃO,
+
+ESSE METHOD 
+
+VAI RECEBER 3 
+
+
+ARGUMENTS, AUTOMATICAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+SERÃO OS METHODS 'to', 'from' e 'savedPosition'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+MAS O QUE SÃO ESSES 3 PARÂMETROS?
+
+
+
+
+
+
+
+O PROFESSOR FAZ CONSOLE.LOG DOS 3 PARÂMETROS, E RECARREGA...
+
+
+
+
+
+
+
+
+
+
+
+'to' 
+
+
+e 
+
+'
+from'
+
+
+
+
+SÃO __ _ 
+
+
+'ROUTE OBJECTS'...
+
+
+
+
+
+SÃO BASICAMENTE A MESMA COISA QUE VC OBTÉM COM 
+
+'this.$route'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ou seja,
+
+temos 1 monte de coisa dentro desse object....
+
+
+
+
+
+
+
+
+
+
+
+
+são objects 'de onde viemos' e 'para onde vamos'...
+
+
+
+
+
+
+
+
+
+--> A 'savedPosition'
+
+
+ESTARÁ SETTADA COMO 'null'...
+
+
+
+
+
+
+
+
+--> A 'SAVED POSITION' SÓ FICARÁ PREENCHIDA SE VC USAR O BOTÃO DE 'back'...
+
+
+
+
+
+
+
+
+
+
+--> ESSA 'SAVED POSITIION'
+
+
+
+
+
+SERÁ SEMPRE UM OBJECT ASSIM:
+
+'
+{
+    left: 0, top: 0
+}
+'
+
+
+
+
+
+ESSA PROPRIEDADE 
+
+BASICAMENTE 
+
+
+
+DESCREVE 
+
+
+
+
+O LOCAL EM QUE O USER ESTAVA,
+
+NO MOMENTO QUE ELE CLICOU EM 'back'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS QUAL É A UTILIDADE DE TUDO ISSO?
+
+
+
+
+
+
+
+
+
+BEM, ESSE METHOD 'scrollBehavior'
+
+
+
+DEVERÁ _ RETORNAR __ 1 OBJECT__ 
+
+
+DESCREVENDO 'A QUE LUGAR O BROWSER DEVERÁ SCROLLAR, QUANDO A PAGE MUDAR'...
+
+
+
+
+
+
+
+
+--> E O OBJECT QUE VC RETORNA DEVERÁ TER UMA PROPRIEDADE DE 'top: ' e 'left: '...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+  scrollBehavior(to, from, savedPosition) { ///usamos isso para 'SCROLLAR PARA CIMA', quando existir ALGUMA TROCA DE ROTA, AUTOMATICAMENTE...
+    
+
+    //'to' e 'from' são ROUTE OBJECTS... (basicamente a mesma coisa que vc recebe com 'this.$route')...
+    /// 'savedPosition' será a POSIÇÃO QUE O USER TEVE, ANTES DE CLICAR NO BUTTON DE 'back', no browser (é um object tipo '{left: 212, top: 21}' )
+
+    return { ///scrollBehavior DEVE SEMPRE RETORNAR 1 OBJECT COM 'top' e 'left'...
+      //com isso, definimos que QUEREMOS QUE O APP SCROLLE PARA O TOPO, SEMPRE QUE A PAGE FOR ALTERADA...
+      top: 0,
+      left: 0,
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS, POR OUTRO LADO,
+
+SE DESEJAMOS 
+
+
+'VOLTAR PARA EXATAMENTE O LOCAL EM QUE ESTÁVAMOS, QUANDO RETORNARMOS 
+PARA 1 PAGE ANTERIOR',
+
+
+
+
+
+
+
+
+
+DEVEMOS RODAR OUTRA LÓGICA... --> E ESSA LÓGICA DEVERÁ USAR 
+
+
+
+
+O parâmetro de 'savedPosition',
+
+
+QUE É USADO JUSTAMENTE PARA ESSE FIM...
+
+
+
+
+
+
+--> FAZEMOS 
+
+
+
+''SE SAVEDPOSITION EXISTIR,
+
+QUEREMOS A RETORNAR'' ( 
+
+
+    ISSO SIGNIFICA QUE SE ``WE DO GO BACK``,
+
+    vamos retornar precisamente ao local 
+
+    salvado, ao 'previous position' que estávamos... 
+
+    MAS SE
+
+
+    NÃO FIZERMOS 'GO BACK' (botão de return),
+
+    NOSSO COMPORTAMENTO DEFAULT SERÁ DE 'JUMP TO THE TOP OF THE PAGE'...
+)
+
+
+
+
+
+
+
+
+ISSO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+scrollBehavior(to, from, savedPosition) {
+
+if (savedPosition) {
+    return savedPosition;
+}
+
+return { left: 0, top: 0};
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM TUDO ISSO SALVO,
+
+
+
+
+NOSSA USER EXPERIENCE É 
+
+
+
+MELHORADA CONSIDERAVELMENTE...
+
+
+
+
+
+
+AGORA QUANDO O USER RETORNA,
+
+ELE 
+
+
+É CAPAZ 
+
+DE 
+VER 
+
+EXATAMENTE O CONTEÚDO QUE ELE TINHA ANTES,
+
+
+E 
+
+
+AGORA QUANDO ELE TROCAR DE PÁGINA (para 'frente'),
+
+
+
+SUA PÁGINA VAI SALTAR PARA O TOPO, AUTOMATICAMENTE...
