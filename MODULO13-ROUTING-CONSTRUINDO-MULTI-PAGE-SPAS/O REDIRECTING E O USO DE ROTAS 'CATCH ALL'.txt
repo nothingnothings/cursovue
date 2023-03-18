@@ -1,0 +1,1077 @@
+
+
+
+
+
+
+
+
+
+--> OK.... 
+AGORA NESSE DEMO APP QUE USAMOS ATÉ AGORA,
+
+
+TEMOS 
+
+ACTUALLY 1 PROBLEMA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROBLEMA É QUE 
+
+
+
+
+VÁRIAS PAGES FUNCIONAM,
+
+
+
+
+
+
+MAS SE O USER ENTRAR NO SEU DOMAIN PADRÃO,
+
+
+
+
+
+VC N VAI VER COISA ALGUMA NA TELA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO ACONTECE, NO NOSSO CASO,
+
+JUSTAMENTE PQ 
+
+'O APP NÃO CONSEGUE/NÃO CONSEGUIU ENCONTRAR NENHUM COMPONENT PARA A ROUTE DE "/"'
+
+
+
+
+
+
+
+
+
+
+
+-> E ESSE NÃO É UM ERRO TÉCNICO, APESAR DE N SER DESEJÁVEL..
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE VC VAI QUERER 
+
+FAZER OUTPUT DE ALGO NA SUA TELA...
+
+
+
+
+
+
+
+
+
+
+--> MAS TUDO VAI DEPENDER DO APP QUE VC ESTÁ CONTRUINDO,
+
+E DO EFEITO QUE VC QUER... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> POR EXEMPLO, TVZ QUEIRAMOS MOSTRAR A 'TEAMSLIST' 
+
+
+
+SE O USER INPUTTAR apenas '/'
+
+
+
+
+
+
+
+
+
+-> ok... entretanto,
+
+o PROFESSOR QUER TER '/teams' 
+
+SEMPRE QUE 
+
+A 
+
+'TEAMSLIST'
+
+ESTIVER SENDO CARREGADA....
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, TEREMOS 1 URL EXPRESSIVA, QUE KIND OF 
+
+
+
+
+DESCREVE O TIPO DE CONTEÚDO QUE ESTAMOS VENDO NA PÁGINA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+QUEREMOS MOSTRAR ALGO NA TELA, SIM,..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 
+
+
+1 COMPORTAMENTO POSSÍVEL:
+
+
+
+
+'''FAZER O REDIRECT DO USER, PARA A __ ROTA/COMPONENT DE TEAMS,
+
+
+
+SE ELE ENTRAR EM '/' ''' (slash nothing)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ENTRETANTO, AQUI O PROFESSOR QUER CONTINUAR TENDO 
+
+
+'/teams' 
+
+
+
+
+NA URL,
+
+
+QUANDO AS TEAMS FOREM REALMENTE RENDERIZADAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> para conseguir REDIRECIONAR NOSSO USER à PAGE DE 
+
+'
+teams',
+
+
+
+QUANDO ELE _ ESCREVER APENAS '/',
+
+
+
+
+
+devemos usar a clássica 'catch all route',
+
+
+para 
+
+
+AÍ REDIRECIONAR PARA ESSA PAGE DE TEAMS.
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO FAZEMOS ISSO?
+
+
+
+
+
+
+
+PROVAVELMENTE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
+
+const router = createRouter({
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',
+    },
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+    },
+  ],
+
+  history: createWebHistory(),
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO REALMENTE FUNCIONOU...
+
+
+
+
+
+
+COM ISSO, PODEMOS 
+
+
+
+
+CAPTURAR O PATH DE '/', 
+
+
+
+
+
+
+
+
+PARA ENTAÕ FAZER O REDIRECT A ESSA ROUTE 
+
+
+
+
+DE '/teams'..
+
+
+
+
+
+
+
+
+
+
+
+
+--> poderíamos ter escrito '
+
+    {
+      path: '/',
+      component: TeamsList,
+    },
+
+    ',
+
+
+
+
+
+
+
+
+    É CLARO,
+
+
+
+
+
+
+
+    MAS ISSO 
+
+
+    AÍ __ NÃO FARIA O 'ACTUAL REDIRECT' (
+
+        o que quer dizer que nossa ROUTE,
+
+        o '/teams',
+
+
+        NÃO SERIA MOSTRADO NA URL... 
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É ESSA A DIFERENÇA 
+
+ENTRE 
+
+
+'component: ' 
+
+
+
+e 
+
+'redirect: '...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, O PROFESSOR REVELA QUE EXISTE UMA ALTERNATIVA AO 'redirect',
+
+QUE É A OPTION DE 
+
+
+'alias:'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+    {
+      path: '/',
+      redirect: '/teams',  //exemplo de redirect clássico....
+    },
+    {
+      path: '/teams',
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: 
+
+
+
+
+
+
+
+
+
+
+A ESCRITA DE 'alias'
+
+
+FAZ BASICAMENTE A MESMA COISA QUE 
+
+O WRITE DE 1 ROUTE COM 'component',
+
+
+
+MAS A DIFERENÇA É QUE 
+
+
+SUA OPTION É ESCRITA DENTRO DA PRÓPRIA ROUTE, TIPO ASSIM:
+
+
+
+
+
+
+
+--> DEVEMOS ESCREVER ASSIM:
+
+
+
+
+
+
+
+{
+     path:  '/teams', component: TeamsList, alias: '/' 
+}
+
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE __ TANTO __ '/teams' como '/' 
+
+
+__ VÃO ___ REDIRECIONAR A ESSE COMPONENT/PAGE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... mas a desvantagem/diferença, em relação aos redirects de verdade,
+
+
+
+é que __ A URL_ É ALTERADA... (
+
+    e, com o 'alias', ou com o 'component', isso não acontece,
+
+
+    PQ NÃO SOMOS REDIRECIONADOS,
+
+    E SIM 
+
+
+    APENAS CARREGAMOS O MESMO COMPONENT DAQUELA OUTRA PAGE
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> COMO O PROFESSOR QUER REDIRECIONAR, REDIRECIONAR A '/teams',
+
+
+
+
+
+
+
+
+ELE __ DEIXA O CÓDIGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+const router = createRouter({
+  linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',  //exemplo de redirect clássico....
+    },
+    {
+      path: '/teams',
+      // alias: '/',   ////alternativa ao uso de REDIRECT...
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+    // {
+    //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
+    //   component: Xxxx,
+    // },
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+      // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+      //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
+    },
+  ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+  history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
+  ///com isso, permitimos que seja usado o COMPORTAMENTO DEFAULT DE HISTORY DO BROWSER...
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok....... 
+
+
+
+
+MAS OUTRO USE-CASE QUE NÃO ESTÁ SENDO 
+
+ABRANGIDO,
+
+AQUI,
+
+
+
+É O USE-CASE DE 
+
+
+'ROUTE NÃO CONFIGURADA PARA ESSA URL' ----> PARA ISSO, 
+
+
+PRECISAMOS:
+
+
+
+1) OU DEFINIR 1 REDIRECT, PARA A 'HOME-PAGE' (ou TeamsPage)
+
+PARA __ CADA _ ROUTE QUE USUÁRIO INPUTTAR QUE NÃO EXISTE...
+
+
+
+
+
+
+
+2) OU DEFINIR 1 PAGE DE 'ERRO 404',
+
+
+
+QUE DEVERÁ SER EXIBIDA AO USER...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+const router = createRouter({
+  linkActiveClass: 'active', ///com essas 2 options, podemos mudar o NOME DA CSS CLASS DE 'active' QUE APARECE NAS NOSSAS ANCHOR TAGS, quando estamos em 1 determinado link (routing, etc)...
+  linkExactActiveClass: 'exact-active',
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',  //exemplo de redirect clássico....
+    },
+    {
+      path: '/teams',
+      // alias: '/',   ////alternativa ao uso de REDIRECT...
+      component: TeamsList,
+    },
+
+    {
+      path: '/users',
+      component: UsersList,
+    },
+    // {
+    //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
+    //   component: Xxxx,
+    // },
+    {
+      name: 'TeamMembers',
+      path: '/teams/:teamId',
+      component: TeamMembers,
+      // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
+      //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
+    },
+
+    {
+      path: '/:catchAll' ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
+    }
+  ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS 
+
+NÃO ACABAMOS, AINDA..
+
+
+
+
+
+
+
+
+
+-> PQ É NECESSÁRIO ESCREVER '(.*)'
+
+
+
+NESSE PATH, PARA QUE ELE REALMENTE SEJA UM CATCH ALL..
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+    {
+      path: '/:catchAll(.*)' ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSA SINTAXE PODE PARECER ESTRANHA,
+
+
+
+
+
+
+
+
+
+
+
+MAS O QUE INTERESSA É QUE ISSO É UM DYNAMIC SEGMNET,
+
+
+
+
+
+
+E AQUELA SINTAXE DE '.*'
+
+
+
+
+
+É UMA REGULAR EXPRESSION (
+
+    significa que 
+
+
+    ''QUALQUER CHARACTER COMBINATION, QUE ESTÁ SENDO USADA COMO VALUE AQUI,
+
+    DEVERÁ LEVAR A ESSA ROUTE SER CARREGADA''...
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> A ORDEM É IMPORTANTE, 
+
+ESSA ROUTE DEVE VIR POR ÚLTIMO, PARA NÃO OVERWRITTAR AS OUTRAS ROUTES QUE 
+
+TEMOS...
+
+
+
+
+
+
+
+----> certo...
+
+
+
+
+
+
+
+
+--> COM ISSO,, PODEMOS 
+
+
+
+SETTAR QUAL COMPONENT/REDIRECT DEVERÁ SER APLICADO,
+
+
+SE ESSA ROUTE FOR ATINGIDA...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    {
+      path: '/:catchAll(.*)', ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
+    
+      component: "" ///ao ser capturada essa route/catch-all, podemos OU RENDERIZAR 1 COMPONENT DE PÁGINA 404/500, OU ENTÃO REDIRECIONAR PARA A HOME PAGE, ETC...
+    }
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template lang="en">
+  
+        <h2>
+            Page not found! Maybe view our<router-link to="/teams">Teams</router-link>?
+        </h2>
+</template>
+<script>
+export default {};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> PODEMOS CARREGAR ESSE COMPONENT, POR MEIO DO SEU IMPORT NO NOSSO 'main.js',
+
+
+PARA ENTÃO 
+
+
+
+
+O CARREGAR DENTRO DO ROUTER...
+
+
+
+
+
+
+
+
+
+
+
+FEITO ISSO,
+
+
+
+QUANDO DIGITARMOS ALGUM PATH NÃO SUPORTADO, SEREMOS REDIRECIONADOS PARA 'TEAMS'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É ASSIM QUE PODEMOS HANDLAR QUAISQUER INPUTS INVÁLIDOS 
+
+
+FEITOS PELO USER...
+
+
+
+
+
+
+
+
+
+--> ISSO É BEM ÚTIL,
+
+
+E, JUNTO 
+
+
+DA FEATURE DE 'redirect',
+
+
+
+
+ISSO TE DEIXA 
+
+TER CONTROLE TOTAL SOBRE OS LUGARES 
+
+
+DO APP A QUE SEU USER VAI IR...

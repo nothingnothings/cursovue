@@ -13,7 +13,12 @@ const router = createRouter({
   linkExactActiveClass: 'exact-active',
   routes: [
     {
+      path: '/',
+      redirect: '/teams',  //exemplo de redirect clássico....
+    },
+    {
       path: '/teams',
+      // alias: '/',   ////alternativa ao uso de REDIRECT...
       component: TeamsList,
     },
 
@@ -32,7 +37,13 @@ const router = createRouter({
       // props: true //// em vez de usar isso com sua page dinâmica, use 'this.$router.params'...
       //apenas use 'props:true' SE VC QUER DEIXAR SEU COMPONENT MAIS 'REUSABLE' (usável tanto POR MEIO DE ROUTING (pages) COMO POR MEIO DO USO COMO COMPONENT NORMAL (que recebe props, etc))
     },
+
+    {
+      path: '/:catchAll(.*)', ///ROUTE UTILIZADA PARA FAZER 'CATCH ALL'; pegar/capturar todas as urls inputtadas por seu user que NÃO FORAM CONTEMPLADAS PELAS DEMAIS ROUTES...
     
+      // component: "" ///ao ser capturada essa route/catch-all, podemos OU RENDERIZAR 1 COMPONENT DE PÁGINA 404/500, OU ENTÃO REDIRECIONAR PARA A HOME PAGE, ETC...
+      // redirect: ""
+    }
   ], /////OPTION MAIS IMPORTANTE, SÃO AS DIFERENTES ROUTES QUE VC VAI QUERER TER NO SEU APP...
 
   history: createWebHistory(), /////'createWebHistory()' É O METHOD/OPÇÃO MAIS COMUM PARA __ SPAs....
@@ -162,3 +173,72 @@ app.mount('#app');
 // COMO 1 ':teamId'
 
 // QUALQUER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////EX:
+
+
+
+
+
+
+
+// A ESCRITA DE 'alias'
+
+
+// FAZ BASICAMENTE A MESMA COISA QUE 
+
+// O WRITE DE 1 ROUTE COM 'component',
+
+
+
+// MAS A DIFERENÇA É QUE 
+
+
+// SUA OPTION É ESCRITA DENTRO DA PRÓPRIA ROUTE, TIPO ASSIM:
+
+
+
+
+
+
+
+// --> DEVEMOS ESCREVER ASSIM:
+
+
+
+
+
+
+
+// {
+//      path:  '/teams', component: TeamsList, alias: '/' 
+// }
+
+
+
+
+
+
+
+
+
+// ISSO SIGNIFICA QUE __ TANTO __ '/teams' como '/' 
+
+
+// __ VÃO ___ REDIRECIONAR A ESSE COMPONENT/PAGE....
