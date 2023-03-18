@@ -8,22 +8,36 @@
         params: { teamId: team.id}
       }">View Members</router-link> -->
     <!-- OUTSOURCEAMOS ESSE LINK EM 1 COMPUTED PROPERTY, para ficar mais limpo o nosso html... -->
-  
-  <router-link :to="teamMembersLink">View Members</router-link>
+
+    <router-link :to="teamMembersLink">View Members</router-link>
   </li>
 </template>
 
 <script>
 export default {
-  props: ['name', 'memberCount', 'team', ],
+  props: ['name', 'memberCount', 'team'],
 
   created() {
     console.log(this.team, this.teamMembersLink);
   },
 
   computed: {
+    // teamMembersLink() {
+    //   return '/teams/' + this.team.id;
+    // },
+
     teamMembersLink() {
-      return '/teams/' + this.team.id;
+      return {
+        //versão mais 'COMPLEXA' do prop de 'to' de router-link...
+        // path: '/teams' + this.id
+
+        name: 'team-members', //conforme definido lá em 'main.js', na NESTED CHILDREN ROUTE DE 'team-members',
+        params: {
+          teamId: this.id,
+        },
+      };
+
+      // this.$router.push({ name: 'team-members', params: { teamId: this.id } }); ////PODEMOS TAMBÉM NAVEGAR PROGRAMATICAMENTE, COM O MESMO USO DESSE 'LOCATION OBJECT'...
     },
   },
 };

@@ -1,0 +1,844 @@
+
+
+
+
+
+
+
+
+
+APRENDEMOS SOBRE 'NESTED ROUTES'...
+
+
+
+SÃO ASSIM:
+
+
+    {
+      path: '/teams',
+      component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ], 
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA IMAGINE 1 APP VUE MAIOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 APP EM QUE TEMOS CENTENAS DE ROUTES,
+
+
+ALGUMAS ROUTES NESTEADAS DENTRO DE OUTRAS...
+
+
+
+
+
+
+
+
+
+
+----> SE TEMOS 1 APP GIGANTE DESSES,
+
+
+
+
+CONSTRUIR LINKS COMO ESTAMOS FAZENDO AGORA,
+
+
+
+
+
+
+
+COM 
+
+COISAS COMO 
+
+
+
+
+
+''
+
+    teamMembersLink() {
+      return '/teams/' + this.team.id;
+    },
+
+''
+
+
+
+
+
+PODE 
+
+
+
+RAPIDAMENTE SE TORNAR 
+
+
+INCÔMODO....
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ ISSO PODE FICAR CUMBERSOME,
+
+
+O 
+
+
+VUE-ROUTER 
+
+OFERECE 2 
+
+
+FEATURES MT ÚTEIS,
+
+QUE 
+
+
+TORNA 
+
+
+
+A CONSTRUÇÃO DE LINKS NO '<router-link>'  
+
+
+BEM MAIS CONVENIENTE... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A PRIMEIRA FEATURE:
+
+
+
+
+
+
+
+  <router-link :to="teamMembersLink">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE PROP DE ':to',
+
+
+EM 
+
+
+
+
+
+ROUTER-LINK,
+
+
+
+
+ACEITA 
+
+
+
+
+NÃO SÓ STRING LINKS,
+
+
+
+
+
+
+MAS __ TBM __ 
+
+
+
+
+
+OBJETOS...
+
+
+
+
+
+
+
+
+
+
+EU JÁ FIZ ISSO,
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+  <router-link :to="{
+
+
+  }">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DESSE OBJECT,
+
+
+PODEMOS DEFINIR COISAS COMO:
+
+
+
+
+
+
+
+1) PROPRIEDADE DE 'path'...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+  <router-link :to="{
+    path: '/teams' + this.id
+
+  }">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+MAS ISSO N MUDA MT,
+
+EM RELAÇÃO ÀQUILO QUE ESTÁVAMOS FAZENDO ANTES...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ISSO SE TORNA MAIS ÚTIL SE COMBINARMOS ESSA FEATURE 
+
+
+
+
+
+
+COM OUTRA FEATURE DO VUE-ROUTER,
+
+QUE 
+
+SÃO 
+
+'NAMED ROUTES'...
+
+
+
+
+
+
+
+
+
+
+
+
+>>>> PODEMOS ADICIONAR 1 NAME ___ A CADA__  ROUTE QUE 
+
+ADICIONAMOS...
+
+
+
+
+
+
+
+
+--> POR EXEMPLO, PODEMOS CHAMAR NOSSA ROUTE DE 'teams' de 'teams',
+
+
+tipo assim:
+
+
+
+
+    {
+      path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ], 
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+VOCE PODE COLOCAR O NOME QUE QUISER...
+
+
+
+
+
+
+
+
+
+PODEMOS COLOCAR NAMES TBM NAS NOSSAS CHILDREN ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... DE VOLTA AO ITEM DE 'teamsItem',
+
+
+
+
+
+
+
+a page,
+
+
+
+
+
+
+
+
+EM VEZ DE 
+
+DEFINIR ESSA PROPRIEDADE 
+
+
+
+de 'path: xxx',
+
+
+
+
+
+
+
+
+PODEMOS 
+
+
+USAR A PROPRIEDADE 
+
+
+
+
+
+
+
+
+'name: ',
+
+
+
+
+PARA ENTÃO PASSAR O NAME DE 'team-members',
+
+PARA DEIXAR BEM CLARO QUE_ 
+
+
+
+A ROUTE _ QUE DEVERÁ SER CARREGADA, 
+
+COM ESSE ROUTER-LINK,
+
+
+DEVERÁ 
+
+SER 
+
+
+A ROUTE DE 
+
+
+
+''
+
+
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+
+
+'',
+
+
+
+
+
+dentro de 'teams':
+
+
+
+
+
+    {
+      path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      component: TeamsList,
+      children: [ ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ], 
+    },
+
+
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, COM ISSO, ESPECIFICAMOS QUE 
+
+
+DEVERÁ SER CARREGADA ESSA NESTED ROUTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS AINDA PRECISAMOS DO VALUE RELATIVO à PARTE DINÂMICA DA URL (o 'team id'),
+
+
+
+
+
+
+QUE É ALGO QUE PODE SER OBTIDO COM A PROPRIEDADE 'params: {}',
+
+
+
+
+QUE VAI TE PERMITIR __ ESCREVER __ KEYS __ QUE SERÃO ESPERADAS 
+
+PELA ROUTE 
+
+
+COM AQUELE NOME ... --> no caso,
+
+
+
+vamos colocar 'teamId',
+
+
+pq é isso que estava sendo esperado:
+
+
+
+
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+    teamMembersLink() {
+      return { //versão mais 'COMPLEXA' do prop de 'to' de router-link...
+        // path: '/teams' + this.id
+
+        name: 'team-members', //conforme definido lá em 'main.js', na NESTED CHILDREN ROUTE DE 'team-members',
+        params: {
+          teamId: this.id
+        }
+     
+      }
+    },
+
+
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+É MAIS CÓDIGO DO QUE ANTES,
+
+
+MAS TRAZ 2 GRANDES VANTAGENS:
+
+
+
+
+1) É BEM MAIS LEGÍVEL  E BEM MAIS MAINTAINEABLE 
+
+
+
+
+2) (VANTAGEM MAIOR) --> SE ALGUMA HORA VC DECIDIR 
+
+
+QUE QUER 
+
+USAR 1 PATH DIFERENTE COM ALGUMA DE SUAS ROUTES ( como 'team' em vez de 'teams'),
+
+
+
+AÍ VC N VAI PRECISAR 
+
+
+
+
+ABRIR TODOS OS ARQUIVOS EM QUE VC USOU AQUELE PATH (como '/teams' vira '/team'),
+
+
+
+
+
+PQ __ O NAME__ EM SI NÃO TERÁ SIDO ALTERADO,
+
+
+
+CONTINUARÁ SENDO O MESMO... (
+
+
+    é por isso que navegar por NAME em vez de PATH 
+
+    PODE SER BEM MELHOR,
+    AINDA MAIS EM APPS MAIORES,
+
+
+    EM QUE VC USA 1 ROUTE EM 1 MONTE DE COMPONENTS DIFERENTES...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... E É POR ISSO QUE O PASS DE 1 OBJECT, EM VEZ DE UMA STRING,
+
+A 'to',
+
+
+PODE SER MT ÚTIL...
+
+
+
+
+
+
+
+
+
+--> ADICIONALMENTE,
+
+
+VC PODE PROVIDENCIAR O MESMO OBJECT EM 
+
+'this.$router.push({})',
+
+
+
+
+
+EM VEZ DE UMA STRING...
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+this.$router.push({name: 'team-members', params: {teamId: this.id} })
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+      // this.$router.push({ name: 'team-members', params: { teamId: this.id } }); ////PODEMOS TAMBÉM NAVEGAR PROGRAMATICAMENTE, COM O MESMO USO DESSE 'LOCATION OBJECT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O NOME DISSO É 'LOCATION OBJECT', no contexto do Vue...
+
+
+
+
+
+
+
+
+
+
+
+--> ok... agora podemos CARREGAR DIFERENTES 'TEAM' pages,
+
+
+
+
+tudo por meio desse router-link customizado,
+
+
+
+
+
+
+o VUE-ROUTER ANALISA ESSE OBJECT,
+
+
+
+COMPARA COM SUA 'ROUTE SETUP',
+
+PARA ENTÃO CRIAR 
+
+
+A ANCHOR TAG CORRETA, COM O LINK CORRETO,
+
+A ESSA 'TO-BE LOADED ROUTE' E 'TO-BE LOADED COMPONENT'...
+
+
+
+
+

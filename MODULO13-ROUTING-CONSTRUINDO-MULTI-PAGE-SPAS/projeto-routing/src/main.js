@@ -24,9 +24,11 @@ const router = createRouter({
     // },
     {
       path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
       component: TeamsList,
       children: [ ////exemplo de como escrever 'NESTED ROUTES'.
         {
+          name: 'team-members', //opcional, mas recomendado.
           path: ':teamId',
           component: TeamMembers,
         },
