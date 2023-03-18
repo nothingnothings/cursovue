@@ -18,7 +18,9 @@ export default {
   props: ['name', 'memberCount', 'team'],
 
   created() {
+    console.log(this);
     console.log(this.team, this.teamMembersLink);
+    console.log(this.$route.query, this.$route.params);
   },
 
   computed: {
@@ -32,12 +34,19 @@ export default {
         // path: '/teams' + this.id
 
         name: 'team-members', //conforme definido lá em 'main.js', na NESTED CHILDREN ROUTE DE 'team-members',
-        params: {
-          teamId: this.id,
+        query: {
+          sort: 'asc',
         },
+        params: {
+          teamId: this.team.id,
+        },
+        // query: { ///É ASSIM QUE ADICIONAMOS QUERY PARAMS (ou seja, coisas como '?sort=asc') NESSE NOSSO LINK/URL...
+        //     sort: 'asc'
+        // }
       };
 
       // this.$router.push({ name: 'team-members', params: { teamId: this.id } }); ////PODEMOS TAMBÉM NAVEGAR PROGRAMATICAMENTE, COM O MESMO USO DESSE 'LOCATION OBJECT'...
+      ///PODEMOS ACESSAR NOSSO OBJECT 'query' por meio de 'this.$route.query'...
     },
   },
 };

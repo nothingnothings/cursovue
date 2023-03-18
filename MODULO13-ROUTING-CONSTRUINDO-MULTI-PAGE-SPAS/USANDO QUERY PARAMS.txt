@@ -1,0 +1,494 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESSA MANEIRA 'OBJECT'  DE 
+
+DESCREVER A 'LOCATION'/DESTINATION 
+
+DE 
+1
+ 
+ LINK,
+
+ VISTA 
+
+
+
+ AQUI:
+
+
+
+
+
+
+
+computed: {
+ 
+    teamMembersLink() {
+      return {
+        //versão mais 'COMPLEXA' do prop de 'to' de router-link...
+        // path: '/teams' + this.id
+
+        name: 'team-members', //conforme definido lá em 'main.js', na NESTED CHILDREN ROUTE DE 'team-members',
+        params: {
+          teamId: this.id,
+        },
+      };
+
+      // this.$router.push({ name: 'team-members', params: { teamId: this.id } }); ////PODEMOS TAMBÉM NAVEGAR PROGRAMATICAMENTE, COM O MESMO USO DESSE 'LOCATION OBJECT'...
+    },
+
+}
+
+
+
+
+
+
+
+
+
+     <router-link :to="teamMembersLink">View Members</router-link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ISSO PODE SER ÚTIL PARA OUTRAS COISAS,
+    ALÉM 
+
+
+
+
+DE 
+
+
+'USE NAMES'
+
+
+E
+ 
+
+
+ ALÉM DE SETTAR O LINK DE UMA FORMA MAIS CONVENIENTE (sem settar uma link extra longa),
+
+
+
+ MAS 
+
+
+ TAMBÉM 
+
+ PARA 
+
+
+
+
+
+
+
+
+''ADICIONAR INFO EXTRA'',
+
+que talvez seja necessária.. -->  DIGAMOS QUE VC QUER USAR 
+
+
+
+1 
+
+__qUERY PARAMETER.... --> 
+
+
+
+
+
+
+
+
+
+
+
+
+QUERY PARAMETER- -> É AQUELA COISA QUE 
+
+
+VEMOS 
+
+
+
+EM ALGUMAS URL/ROUTES,
+
+AQUELAS 
+
+INFOS QUE ENXERGAMOS DEPOIS DO '?'...
+
+
+
+
+
+
+
+
+
+
+
+-> TIPO '?sort=ascending'...
+
+
+
+
+
+
+
+
+
+
+
+--> É UM OPTIONAL ROUTE PARAMETER,
+
+
+
+QUE NÃO É PROPRIAMENTE NECESSÁRIO PARA ENCONTRAR E CARREGAR 1 COMPONENT,
+
+
+
+MAS QUE É USADO PARA __ PASSAR__ INFO _eXTRA__ A ESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+NÃO É UM MUST-USE,
+
+
+
+MAS PODE SER ÚTIL EM ALGUNS APPS E PAGES...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS ADICIONAR 1 
+
+
+QUERY PARAMETER DESSES MANUALMENTE,
+
+
+
+
+
+SE VC CONSTRUIR O LINK MANUALMENTE, TIPO ASSIM:
+
+
+
+
+
+'/teams/this.id/?sort=asc'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE VC USAR AQUELE FORMATO 'OBJECT' DE LOCATION,
+
+
+
+
+
+BASTA VC USAR A OPTION DE 'query',
+
+
+
+
+QUE AÍ VAI ACEITAR 
+
+
+
+
+VÁRIAS KEYS,
+
+
+coisa normal, tipo assim:
+
+
+
+
+
+
+
+      return {
+
+        name: 'team-members', //conforme definido lá em 'main.js', na NESTED CHILDREN ROUTE DE 'team-members',
+        params: {
+          teamId: this.id,
+        },
+        query: {
+            sort: 'asc'
+        }
+      };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+E PODEMOS ADICIONAR QUAISQUER QUERY PARAMETERS QUE DESEJAMOS/SÃO SUPORTADOS POR NOSSA PAGE...
+
+
+
+
+
+
+
+
+
+
+--> OK..
+
+
+
+E VC N PRECISA DEFINIR COISA ALGUMA LÁ NA CONFIG DE 'ROUTE',
+
+
+PQ 
+
+
+ESSES QUERY PARAMS __ SÃO OPCIONAIS POR NATUREZA... 
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS SE SALVAMOS TUDO ISSO E RECARREGAMOS,
+VEREMOS QUE ESSE QUERY PARAM TERÁ SIDO ADICIONADO NA NOSSA URL,
+AUTOMATICAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... 
+
+
+
+
+
+
+
+
+
+MAS SE __ VC _ QUISER_ USAR __ ESSE QUERY PARAMETER,
+
+
+USAR NO PRÓPRIO COMPONENT QUE FOI CARREGADO,
+
+
+VC PODE 
+
+USAR 
+
+
+
+
+O 
+
+
+OBJECT GLOBAL DE 
+
+'this.$route.query'...
+
+
+
+
+
+
+
+
+
+
+
+----> ok...
+
+
+
+
+
+
+até aí, tudo bem...
+
+
+
+
+
+
+é assim que conseguimos acesso aos query params que ganhamos em 1 component,
+
+através desse object..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+
+
+MAS 1 DETALHE = === QUERY PARAMS 
+
+
+NÃO SÃO OBTIDOS 
+
+
+ATRAVÉS DE PROPS, ISSO É IMPORTANTE...
+
+
+
+
+
+
+
+
+
+
+--> QUERY PARAMS APENAS PODEM SER OBTIDOS ATRAVÉS DE 
+
+
+'this.$route.params'...
+
+
+
+
+
+
+
+
+
+
+
+
+---> QUERY PARAMS SÃO OPCIONAIS --> ISSO QUER DIZER QUE 
+
+
+
+
+SE VC USAR SEU COMPONENT DE UMA FORMA ALTERNATIVA (dentro de 1 outro component, embed em outro component),
+
+seu código deverá 
+
+estar 
+
+preparado 
+
+
+para handlar a 'não existência' desse query param...
+
+
+
+
+
+
+
+
+
+--> É IMPORTANTE SABER QUE O VUE-ROUTER DEIXA O ADD E EXTRACT DE 
+
+
+query params bem mais simples...
