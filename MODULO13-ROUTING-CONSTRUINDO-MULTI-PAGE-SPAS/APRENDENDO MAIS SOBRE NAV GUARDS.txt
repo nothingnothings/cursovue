@@ -1,0 +1,836 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+MAS É CLARO QUE TEMOS MAIS DO QUE ESSA 'GLOBAL GUARD' 
+
+
+
+DE 
+
+
+
+
+'
+
+router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+    next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
+    // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
+
+    /// next('pathComoString') ///ISSO VAI REDIRECIONAR O USER, SE VC DEIXAR ESSA STRING/URL como parâmetro de 'next'...
+
+    /////next({name: 'team-members', params: { teamId: 't2' }}) /////ISSO TAMBÉM VAI REDIRECIONAR O USER, usar 1 'location object'...
+  }
+);
+
+
+
+
+
+''
+
+
+
+
+
+
+
+
+
+
+
+PQ É CLARO  QUE ISSO  AÍ VAI RODAR 
+
+
+EM __ QUALQUER_ _ NAVIGATION __ QUE 
+
+ACONTECER,
+
+
+
+
+NÃO IMPORTANDO 
+
+
+QUAL 
+
+ROUTE 
+
+ESTÁ SENDO USADA,
+
+
+NÃO IMPORTANDO 
+
+
+
+
+
+
+
+A ROUTE 'FROM' E A ROUTE 'TO'... -> E ISSO __ É _ ALGO QUE ÀS VEZES 
+
+VC 
+
+
+
+VAI QUERER,
+
+
+MAS QUE 
+
+àS VEZES N VAI QUERER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> às VEZES VC VAI QUERER PROTEGER __ aPENAS __ ALGUMAS 
+
+
+
+ROUTES ESPECÍFICAS...
+
+
+
+
+
+
+
+
+
+--> PARA FZER ISSO,
+
+
+VC PODERIA 
+
+
+
+
+USAR 
+
+IF CHECKS 
+
+
+
+
+DENTRO DO 'beforeEach',
+
+
+PARA RODAR 
+
+DIFERENTE LÓGICA,
+
+
+COM 
+
+BASE 
+
+EM DIFERENTES ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS, EM VEZ DISSO,
+
+
+MTAS VEZES É MELHOR SETTAR ESSA NAVIGATION GUARD de 'beforeEach'
+
+
+
+
+
+EM _ ROUTES_ _INDIVIDUAIS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS, POR EXEMPLO,
+
+QUE QUEREMOS 
+
+
+
+SETTAR 1 AUTH GUARD LÁ EM 'USERS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ADICIONAR UMA 'NAV GUARD' A 1 ROUTE,
+
+
+VC DEVE COLOCAR A OPTION DE 'beforeEnter'
+
+
+LÁ 
+
+
+NA SUA ROUTE,
+
+EM 'main.js'...
+
+
+
+
+
+
+
+
+
+
+
+--> ok...
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+    {
+      path: '/users',
+      // component: UsersList,
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
+
+      beforeEnter(to, from, next) {
+
+      }
+    },
+
+
+
+
+
+
+
+
+
+-> E, EXATAMENTE COMO COM 'beforeEach',
+
+
+
+O BEFOREENTER 
+
+
+
+
+
+
+
+TBM 
+
+TEM 'to', 'from' e 'next'...
+
+
+
+
+
+
+
+
+
+
+O FUNCIONAMENTO É EXATAMENTE O MESMO DE 'beforeEach',
+
+
+
+
+
+
+MAS 
+
+
+
+OCORRE 
+
+
+APENAS COM ESSA ROUTE ESPECÍFICA...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      path: '/users',
+      // component: UsersList,
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
+
+      beforeEnter(to, from, next) {
+        ////é exatamente a mesma coisa que 'beforeEach', mas COM ESSA ROUTE ESPECÍIFCA (acesso do user a essa route vai ser BLOQUEADO/PERMITIDO, A DEPENDER DE SUA SITUAÇÃO NO APP)...
+
+        console.log(to, from);
+
+        next();
+      },
+    },
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+
+
+É ASSIM QUE FUNCIONA O ROUTER DO VUE, essencialmente...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS EM CASOS EM QUE VC NÃO QUER __ REGISTRAR ESSE 'AUTH GUARD' ( ou NAV GUARD)
+
+
+
+
+no nível da route/na router config,
+
+
+
+
+
+
+VC PODE 
+
+ADICIONAR 
+
+
+
+1 NOVO METHOD/HOOK DENTRO 
+
+
+
+DE 
+
+SEU PRÓPRIO COMPONENT...
+
+
+
+
+
+
+
+
+
+
+a alternativa a rodar os CHECKS de auth guards no ROUTER __ É __ RODAR ESSAS COISAS DIRETAMENTE NOS COMPONENTS, como em 'UsersList', dentro dos lifecycle methods...
+
+
+
+
+
+
+------> SE VC QUER SEGUIR ESSE APPROACH DE 'DEFINIR A ROUTE/AUTH GUARD __ DIRETAMENTE NO 
+
+
+SEU COMPONENT',
+
+
+
+
+vc _ DEVE USAR _ O HOOK DE 'beforeRouteEnter() {}',
+
+
+
+
+LÁ NA SUA PÁGINA, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <button @click="confirmInput()">Confirm</button>
+    <ul>
+      <user-item
+        v-for="user in users"
+        :key="user.id"
+        :name="user.fullName"
+        :role="user.role"
+      ></user-item>
+    </ul>
+  </div>
+</template>
+
+<script>
+import UserItem from './UserItem.vue';
+
+export default {
+  components: {
+    UserItem,
+  },
+  inject: ['users'],
+
+  methods: {
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    /////ALTERNATIVA A DEFINIR A NAV GUARD LÁ NO ROUTER (alternativa a 'beforeEnter', lá na sua route)...
+
+    console.log(to, from);
+    next();
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 20rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... ISSO FUNCIONA...
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+E A ORDEM 
+
+
+DOS NAVIGATION GUARDS É ASSIM:
+
+
+
+
+
+
+
+beforeEach(()=>{}) -> beforeEnter(()=>{}) -> beforeRouteEnter(()=>{})
+
+(GLOBAL)      (ROUTE-SPECIFIC)   (COMPONENT-LEVEL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK...
+
+
+
+
+
+MAS O QUE INTERESSA É QUE 
+
+
+
+
+___ESSES 3 HOOKS __ SÃO __ EXECUTADOS_ ANTES__ DA ROUTE 
+
+
+SER 'CONFIRMADA',
+
+
+
+POR ISSO 
+
+
+É REALMENTE 
+
+NECESSÁRIO 
+
+
+CHAMAR 'next()',
+
+
+para 
+
+
+CONFIRMAR 
+
+
+A NAVEGAÇÃO MANUALMENTE,
+
+NEGAR,
+
+OU 
+
+
+REDIRECIONAR O USER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS TEMOS TAMBÉM OUTROS 2 TIPOS DE GUARDS, RELACIONADOS COM O LOAD DE 1 COMPONENT...
+
+
+
+
+
+
+
+
+
+1o TIPO DE GUARD ALTERNATIVO --> 
+
+
+
+
+
+''''beforeRouteUpdate()''' -->   ESSE HOOK/GUARD É CHAMADO 
+
+
+
+__DENTRO __ DE COMPONENTS, DIRETAMENTE... -> PARA SERMOS MAIS PRECISOS, 
+
+
+É CHAMADO 
+
+
+DENTRO __ DE COMPONENTS__ QUE SÃO __ REUTILIZADOS... (
+
+
+no nosso caso,
+
+seria o component de 'TeamMembers',
+
+
+QUE __ POSSUI AQUELE 
+
+PARÂMETRO DE 'teamId' 
+
+) -------------------> PODEMOS USAR ESSE 'TeamMembers'
+
+
+
+COMO EXEMPLO, PQ EXATAMENTE?
+
+
+
+
+
+
+É __ PQ __ PODEMOS __ eSTAR_ DENTRO __ DE 1 PAGE DE 'TEAMMEMBERS' (clicado em alguma das teams)
+
+E, LOGO DEPOIS, 
+
+PODEMOS 
+
+
+ACABAR CLICANDO EM ALGUM OUTRO TEAM QUE TEMOS NESSA PAGE QUE JÁ FOI CARREGADA.. -> 
+
+QUANDO 
+
+ISSO 
+ACONTECER,
+
+
+
+PODEMOS FAZER COM QUE 
+
+
+
+A PÁGINA NUNCA SAIA DA TELA,
+
+
+FORÇAR COM QUE ESSA PÁGINA SEJA REUTILIZADA,
+
+
+E APENAS FORRADA COM NOVA DATA...
+
+
+
+
+
+
+
+
+
+
+
+--> É PARA ISSO QUE SERVE O METHOD DE 'beforeRouteUpdate()' --> SE QUEREMOS 
+
+
+
+RODAR LÓGICA __ ESPECÍFICA A PARTIR DESSA CHANGE/HOOK,
+
+
+
+DEVEMOS USAR ESSE HOOK.... ->  O VUE 
+
+
+
+
+VAI CHAMAR 
+
+ESSE 
+
+METHOD DE 
+
+
+
+'beforeRouteUpdate()'
+
+
+
+__sEMPRE __ QUE __ ESSE COMPONENT DE 'TeamMembers'
+
+
+FOR __ REUTILIZADO POR _ CONTA _ DE ALGUMA CHANGE DE DATA (como a troca da team que foi selecionada...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO, ESCREVEMOS ASSIM, LÁ EM 'TeamMembers':
+
+
+
+
+
+
+
+  beforeRouteUpdate() { //ESSE METHOD/HOOK SERÁ CHAMADO SEMPRE QUE ESSE COMPONENT/page de 'TeamMembers' FOR _ REUTILIZADO COM NOVA DATA_...
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+  beforeRouteUpdate(to, from, next) { //ESSE METHOD/HOOK SERÁ CHAMADO SEMPRE QUE ESSE COMPONENT/page de 'TeamMembers' FOR _ REUTILIZADO COM NOVA DATA_ (por conta da troca de 1 route, como por exemplo 'o load de 1 team diferente...')...
+
+
+  
+  },
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+OK... ESSE É OUTRO NAVIGATION HOOK/GUARD QUE VALE A PENA CONHECER...

@@ -62,6 +62,17 @@ const router = createRouter({
         main: UsersList,
         footer: UsersFooter,
       },
+
+      //beforeEach(()=>{}) -> beforeEnter(()=>{}) -> beforeRouteEnter(()=>{})
+
+      // (GLOBAL)      (ROUTE-SPECIFIC)   (COMPONENT-LEVEL)
+      beforeEnter(to, from, next) {
+        ////é exatamente a mesma coisa que 'beforeEach', mas COM ESSA ROUTE ESPECÍIFCA (acesso do user a essa route vai ser BLOQUEADO/PERMITIDO, A DEPENDER DE SUA SITUAÇÃO NO APP)...
+        ///a alternativa a rodar os CHECKS de auth guards no ROUTER __ É __ RODAR ESSAS COISAS DIRETAMENTE NOS COMPONENTS, como em 'UsersList', dentro dos lifecycle methods... (com o lifecycle hook de 'beforeRouteEnter()'...)
+        console.log(to, from);
+
+        next();
+      },
     },
     // {
     //   path: '/teams/new', //routes específicas, se existirem, devem sempre serem carregadas ANTES DAS ROUTES DINÂMICAS (como ':teamId')...
@@ -111,6 +122,7 @@ const router = createRouter({
 });
 
 router.beforeEach(
+  //já se seu intuito é colocar 1 NAV GUARD EM 1 ROUTE ESPECÍFICA, USE a propriedade 'beforeEnter', na route específica.... (como visto em '/users')...
   ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
   (to, from, next) => {
     console.log('GLOBAL FOR EACH');

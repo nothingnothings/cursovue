@@ -33,6 +33,14 @@ export default {
       // this.$router.back()
     },
   },
+
+
+
+  beforeRouteEnter(to, from, next) { /////ALTERNATIVA A DEFINIR A NAV GUARD LÁ NO ROUTER (alternativa a 'beforeEnter', lá na sua route)...
+
+    console.log(to, from)
+    next();
+  }
 };
 </script>
 

@@ -27,10 +27,14 @@ export default {
 
   // props: ['teamId'],  ////em vez de usar isso, use 'this.$route.params' (os PARAMETERS DO SEU ROUTER)...
   ////apenas use 'props' SE FOR REALMENTE NECESSÁRIO SEMPRE CARREGAR ESSA DATA AO RECARREGAR SUA PÁGINA...
- inject: ['teams', 'users'],
+  inject: ['teams', 'users'],
   components: {
     UserItem,
   },
+
+  // beforeRouteUpdate(to, from, next) { //ESSE METHOD/HOOK SERÁ CHAMADO SEMPRE QUE ESSE COMPONENT/page de 'TeamMembers' FOR _ REUTILIZADO COM NOVA DATA_ (por conta da troca de 1 route, como por exemplo 'o load de 1 team diferente...')...
+      // console.log("teammembers cmp beforeRouteUpdate")
+  // },
 
   watch: {
     $route() {
