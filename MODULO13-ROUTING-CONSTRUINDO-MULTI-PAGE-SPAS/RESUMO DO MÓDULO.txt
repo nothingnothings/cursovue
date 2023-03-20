@@ -1,0 +1,171 @@
+
+
+
+
+
+
+
+
+APRENDEMOS:
+
+
+
+
+
+
+
+
+1) A RAZÃO DE PRECISARMOS DE ROUTING 
+
+
+2) COMO SETTAR ROUTES 
+
+
+
+
+3) COMO SETTAR REDIRECTS 
+
+
+
+4) COMO SETTAR NAMES
+
+
+
+
+5) COMO SETTAR PATHS 
+
+
+
+6) COMO SETTAR METADATA
+
+
+
+7) COMO SETTAR MÚLTIPLOS COMPONENTS A SEREM CARREGADOS (múltiplos router-views em 1 mesmo apP) 
+
+
+
+
+
+8) NESTED ROUTES COM CHILDREN (router-view dentro de 1 router-view/page)...
+
+
+9) COMO TRABALHAR COM DYNAMIC PATH SEGMENTS (
+
+    para usar ROUTE PARAMETERS, que podemos extrair nos loaded components...
+) --> VIMOS COMO PODEMOS 
+
+PASSAR ESSES ROUTE PARAMETERS 
+
+
+
+COMO __ PROPS _ AOS 'TO-BE LOADED COMPONENTS'..
+
+
+
+
+
+
+
+10) APRENDEMOS SOBRE NAV GUARDS 
+
+
+
+
+
+11) APRNEDEMOS SOBRE O SCROLL BEHAVIOR 
+
+
+
+
+
+12) APRENDEMOS SOBRE O NAVIGATE,
+
+
+COM O ROUTER-LINK,
+
+OU, ENTAÕ,
+
+
+
+
+PROGRAMATICAMENTE,
+
+
+COM o 
+
+'this.$router.go()'
+
+e 
+
+'this.$router.push({})' 
+
+
+
+
+
+
+
+
+
+
+13) APRENDEMOS A _ DESCREVER A LOCATION QUE 
+
+QUEREMOS 'go to',
+
+
+
+
+OU POR MEIO DE 1 STRING,
+
+OU POR MEIO DE 'LOCATION OBJECTS' (
+
+
+    {
+
+        name: x,
+        params: {},
+        query?: {}
+    }
+)
+
+
+
+
+
+
+
+
+
+
+COM ISSO, PODEMOS PROVIDENCIAR UMA BOA USER EXPERIENCE...
+
+
+
+
+
+
+
+
+--> FICAMOS COM URLS LEGAIS, QUE DESCREVEM O QUE EXISTE NA TELA,
+
+EXATAMENTE...
+
+
+
+
+
+
+--> FICAMOS COM URLS COMPARTILHÁVEIS,
+
+
+AINDA QUE 
+
+NOSSO APP SEJA 1 SINGLE PAGE APPLICATION..
+
+
+
+
+
+
+
+VAMOS PRECISAR DO VUE-ROUTER EM QUALQUER APP QUE VC CONSTRUIR...

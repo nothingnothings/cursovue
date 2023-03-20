@@ -1,0 +1,497 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+AGORA JÁ SABEMOS AS FEATURES CORE E AVANÇADAS DO ROUTING...
+
+
+
+
+
+
+
+
+
+VIMOS TODAS ELAS EM AÇÃO,
+
+NESSE 
+
+
+
+
+COURSE PROJECT...
+
+
+
+
+
+
+
+
+
+
+
+VEREMOS TUDO EM AÇÃO NO PRÓXIMO MÓDULO..
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ANTES DISSO,
+
+DEVEMOS 
+
+
+FALAR SOBRE O ORGANIZE DE NOSSAS DIFERENTES FILES E FOLDERS...
+
+
+
+
+
+
+
+
+
+
+
+
+PQ, POR ENQUANTO,
+
+ESTAMOS 
+
+
+
+TRABALHANDO COM:
+
+
+
+
+
+
+1) COMPONENTS FOLDER  (com diferentes feature areas, e nossos components)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS QUANDO 
+
+TRABALHAMOS 
+
+COM ROUTES,
+ 
+
+
+ É BOM 
+
+
+ TER 1 FOLDER ADICIONAL,
+
+ DE NOME 'pages' ou 'views',
+
+ ou 
+
+ 'screens'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É OPCIONAL, MAS É BOM...
+
+
+
+
+
+
+
+
+ --> DEVEMOS COLOCAR AS PAGES 
+
+
+ DENTRO 
+
+ DESSES FOLDERS,
+
+
+ PARA 
+
+ QUE 
+
+ SAIBAMOS 
+
+ QUAIS SÃO COMPONENTS REGULARES,
+
+ E QUAIS 
+
+ SÃO 
+
+ PAGES DE VERDADE...
+
+
+
+
+
+
+
+
+
+
+ ----> 'TeamMembers',
+
+
+ na opinião do professor,
+
+ deveria ser 1 component comum....
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO, DEVEMOS CRIAR O FOLDER DE 'PAGES',
+
+ E ENTÃO MOVER AS PAGES LÁ PARA DENTRO...
+
+
+
+
+
+
+ CERTO.... ATÉ AÍ, TUDO BEM....
+
+
+
+
+
+
+
+
+ O PROFESSOR UPDATA TODOS OS IMPORTS...
+
+
+
+
+
+
+
+
+
+ MAIS ALGUMA COISA?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ HMMMM... PARECE QUE O ARQUIVO 'main.js'
+
+ fica realmente 
+
+ BEM GRANDE...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ALGUMA SOLUÇÃO PARA ISSO?
+
+
+
+
+
+
+
+
+
+
+ --> EM APPS MAIORES,
+
+
+ ISSO FICA GIGANTE...
+
+
+
+
+
+
+
+
+
+
+
+ A LÓGICA DE ROUTING 
+
+ FICA BEM GRANDE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ FICA DIFÍCIL DE ENCONTRAR O LOCAL EM QUE VC CRIA SEU APP E ASSIM POR DIANTE...
+
+
+
+
+
+
+
+
+
+
+
+ --> É POR ISSO QUE É BOM CRIAR 1 ARQUIVO SEPARADO DE 'router.js',
+
+ E AÍ 
+
+ MOVER TODO O 'ROUTING RELATED CODE'
+
+ PARA DENTRO 
+
+ DESSE ARQUIVO...
+
+
+ 
+
+
+
+ESCREVA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import router from './router';
+import App from './App.vue';
+
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ EM 'router.js',
+
+FICAMOS COM O CÓDIGO TODO DAS ROUTES, 
+
+TIPO ASSIM:
+
+
+
+
+
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
+import TeamsFooter from './components/teams/TeamsFooter.vue';
+import UsersFooter from './components/users/UsersFooter.vue';
+import NotFound from './components/nav/NotFound.vue';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',
+    },
+
+    {
+      path: '/teams',
+      name: 'teams',
+      meta: {
+        needsAuth: true,
+      },
+
+      components: {
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        {
+          name: 'team-members',
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+    {
+      path: '/users',
+
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
+
+      beforeEnter(to, from, next) {
+        console.log(to, from);
+
+        next();
+      },
+    },
+
+    {
+      path: '/:catchAll(.*)',
+      components: {
+        main: NotFound,
+      },
+    },
+  ],
+
+  history: createWebHistory(),
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+
+    return {
+      top: 0,
+      left: 0,
+    };
+  },
+});
+
+router.beforeEach((to, from, next) => {
+  console.log('GLOBAL FOR EACH');
+  console.log(to, from, 'SÃO ROUTE OBJECTS');
+  console.log(
+    'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+  );
+
+  if (to.meta.needsAuth) {
+    console.log(
+      'CHECK IF USER IS AUTHENTICATED, THEN RETURN next(false) or next(true)'
+    );
+  }
+
+  next();
+});
+
+router.afterEach((to, from) => {
+  console.log('global afterEach');
+});
+
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO TUDO FUNCIONA EXATAMENTE COMO ANTES,
+
+
+
+
+MAS NOSSO CÓDIGO FICA MAIS MAINTAINEABLE E MANAGEABLE...
