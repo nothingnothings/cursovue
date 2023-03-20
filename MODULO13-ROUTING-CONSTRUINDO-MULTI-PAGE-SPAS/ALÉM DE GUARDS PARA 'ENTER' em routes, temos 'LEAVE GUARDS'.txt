@@ -1,0 +1,905 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESSAS ERAM AS GUARDS RELATIVAS AO 'COMING TO A PAGE'... -> 
+
+
+
+ERAM GUARDS  USADAS PARA BLOQUEAR A NAVIGATION ,
+
+
+QUE SÃO EXECUTADAS/CHAMADAS __ _ ANTES__ DE 
+
+
+1 NAVIGATION ACTION SER __ CONFIRMADA__...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> MAS TAMBÉM EXISTE 1 GUARD ÚTIL DIFERENTE,
+
+QUE 
+
+É USADA/CHAMADA 
+
+
+SEMPRE QUE 
+
+
+
+
+1 USER __ TENTA__ SAIR_ DE 1 PAGE...
+
+
+
+
+
+
+-----> É CLARO QUE, QUANDO VC SAI DE 1 PAGE E VAI PARA A OUTRA PAGE,
+
+
+
+TODAS AS GUARDS DE 'BEFORE ENTER'
+
+SERÃO __ tRIGGADAS_ NO ENTER NESSA OUTRA PAGE,
+
+
+
+
+
+
+
+
+
+MAS _ TVZ__ VC TAMBÉM QUEIRA _ RODAR __ ALGUM CÓDIGO_ _ NO COMPONENT __ 
+
+
+QUE ESTÁ SENDO __ 'DEIXADO PARA TRÁS',
+
+
+
+
+
+RODAR 1 CÓDIGO _ NO EXATO MOMENTO EM QUE ELE ESTÁ SENDO ABANDONADO...
+
+
+
+
+
+
+-----> OUTRA POSSIBILIDADE, ALÉM DE 'QUERER RODAR 1 CÓDIGO NO EXATO MOMENTO EM QUE ESSE COMPONENT É ABANDONADO',
+
+
+
+É 
+
+
+
+A TENTATIVA DE '__IMPEDIR O USER __ DE REALIZAR A ACTION DE _ DEIXAR _ eSSA PAGE'...
+ 
+
+
+
+
+
+
+
+
+
+
+ ---> OK... DIGAMOS QUE QUEREMOS RODAR 
+
+
+
+CÓDIGO, LÁ NO COMPONENT DE 'UsersList',
+
+
+
+SEMPRE QUE ELE __ SAI...
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS FAZER ISSO __ POR MEIO __ DO LIFECYCLE HOOK DE 
+
+
+'unmounted() {
+
+}
+'
+
+
+
+(
+    é como se fosse 'onComponentUnmount()'...
+)
+
+
+
+
+
+
+
+
+
+
+------> TIPO ASSIM:
+
+
+
+
+
+  unmounted() { ////ESSE CÓDIGO RODARÁ SEMPRE QUE __ O COMPONENT/PÁGINA SAIR DE NOSSA TELA...
+
+  }
+
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+  <script>
+import UserItem from './UserItem.vue';
+
+export default {
+  components: {
+    UserItem,
+  },
+  inject: ['users'],
+
+  methods: {
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY.
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    /////ALTERNATIVA A DEFINIR A NAV GUARD LÁ NO ROUTER (alternativa a 'beforeEnter', lá na sua route)...
+
+    console.log(to, from);
+    next();
+  },
+
+
+  unmounted() { ////ESSE CÓDIGO RODARÁ SEMPRE QUE __ O COMPONENT/PÁGINA SAIR DE NOSSA TELA...
+
+    console.log("component/page left the screen")
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ok...
+
+
+
+
+
+
+QUANDO ESSE COMPONENT/PAGE SAIR,
+
+VEREMOS ESSE CONSOLE.LOG...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok, mas aqui temos 1 problema:
+
+
+
+
+
+
+
+
+
+
+ESSE HOOK __ RODA__ DEPOIS __ DOS HOOKS (
+
+ou seja,
+
+
+DEPOIS __ DA NAVIGATION SER CONFIRMADA...
+
+)
+
+
+
+
+
+
+
+
+
+COMO A NAVIGATION JÁ FOI CONFIRMADA, 
+
+
+
+ESSE HOOK A PRINCÍPIO NÃO NOS DARIA NENHUMA MANEIRA DE CANCELAR A NAVIGATION...
+
+
+
+
+
+
+
+
+
+OK, MAS PQ DIABOS GOSTARÍAMOS DE _ CANCELAR_ _a NAVIGATION _ ___ DO LADOO _ 'DE DENTRO' 
+
+
+DO COMPONENT QUE 
+
+
+__ESTAMOS ABANDONANDO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, DIGAMOS QUE, POR EXEMPLO,
+
+
+
+__ TÍNHAMOS 1 FORM DENTRO DESSE COMPONENT... -> AÍ, NESSE CASO,
+
+
+
+VC TALVEZ QUEIRA __ AVISAR __ O USER _ DE QUE 
+
+ESSA FORM 
+
+AINDA NÃO FOI SALVA,
+
+
+
+QUE __ AINDA EXISTEM UNSAVED CHANGES, QUE SERIAM PERDIDAS SE O USER 
+
+TROCASSE DE PAGE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR AFIRMA QUE PODEMOS SIMULAR ESSA SITUAÇÃO,
+
+
+
+
+
+POR MEIO DE OUTRO BUTTON 
+
+
+
+
+em 'UsersList',
+
+
+
+e outra 
+
+propriedade em 'data() {}'...
+
+
+
+
+
+
+
+
+
+
+
+TEREMOS 1 PROPRIEDADE INICIAL DE 'changesSaved: false',
+
+
+
+
+
+
+
+
+
+E O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <button @click="confirmInput()">Confirm</button>
+    <button @click="saveChanges()">Save Changes</button>
+    <ul>
+      <user-item
+        v-for="user in users"
+        :key="user.id"
+        :name="user.fullName"
+        :role="user.role"
+      ></user-item>
+    </ul>
+  </div>
+</template>
+
+<script>
+import UserItem from './UserItem.vue';
+
+export default {
+  data() {
+    return { changesSaved: false };
+  },
+
+  components: {
+    UserItem,
+  },
+  inject: ['users'],
+
+  methods: {
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY (método criado por mim)
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+
+    saveChanges() {
+      //usado para demonstrar o funcionamento de 'unmounted()' (que é usado para fazer avisos em forms como 'sua data ainda não foi salva, certeza de quer sair dessa página?')
+      this.changesSaved = true;
+    },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    /////ALTERNATIVA A DEFINIR A NAV GUARD LÁ NO ROUTER (alternativa a 'beforeEnter', lá na sua route)...
+
+    console.log(to, from);
+    next();
+  },
+
+  unmounted() {
+    ////ESSE CÓDIGO RODARÁ SEMPRE QUE __ O COMPONENT/PÁGINA SAIR DE NOSSA TELA...
+
+    console.log('component/page left the screen');
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 20rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE ESSE É UM CÓDIGO DUMMY...
+
+
+
+
+
+
+
+
+
+
+--> MAS QUEREMOS QUE UMA MENSAGEM APAREÇA (ou um alert, ou um <p>, ou qualquer coisa) 
+
+
+SE O 
+
+USER TENTAR 
+
+
+SAIR 
+
+
+DA PAGE 
+
+
+
+
+COM ESSA PROPRIEDADE DE 'changesSaved' como false...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK.... MAS AÍ O PROFESSOR APONTA QUE DEVEMOS USAR OUTRA NAV GUARD..
+
+
+
+
+
+-> É A GUARD DE 'beforeRouteLeave()'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  beforeRouteLeave(to, from, next) { ///é chamado ANTES DE TODAS AS OUTRAS ROUTES ( ou seja, antes de 'beforeEach', antes de 'beforeEnter', e antes de 'beforeRouteEnter()'..)
+
+  console.log("Users List cmp beforeRouteLeave");
+  console.log(to, from);
+
+  next();
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ---> EXATAMENTE COMO NAS OUTRAS GUARDS,
+
+  PODEMOS CHAMAR 'next()"
+
+
+  PARA CONFIRMAR O LEAVE DESSA PAGE,
+
+  OU ENTÃO 
+
+  RODAR 
+
+  CÓDIGO CONDICIONAL (if checks),
+
+
+  para avisar o user de que suas mudanças 
+
+
+
+  serão 
+
+
+  PERDIDAS SE ELE SAIR DA PAGE,
+  TIPO ASSIM:
+
+
+
+
+
+
+    beforeRouteLeave(to, from, next) {
+    ///é chamado ANTES DE TODAS AS OUTRAS ROUTES ( ou seja, antes de 'beforeEach', antes de 'beforeEnter', e antes de 'beforeRouteEnter()'..)
+
+    console.log('Users List cmp beforeRouteLeave');
+    console.log(to, from);
+
+    if (this.changesSaved) {
+      next();
+    } else {
+      confirm('Are you sure? You got unsaved changes!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> RODAMOS ESSE 'confirm()'
+
+  aí,
+
+
+
+
+
+  que exige 1 sim ou não...
+
+
+
+
+
+
+
+  -> ARMAZENAMOS ESSE VALUE EM 1 CONSTANTE, PQ ELE SERÁ TRUEE/FALSE...
+
+
+
+aí passamos 'next(valorDaConstante)'
+
+
+
+
+
+
+
+
+_-> SE FOR TRUE,
+
+
+
+O USER VAI NAVEGAR PARA LONGE DE NOSSA PAGE (e ele vai perder todos os dados da page),
+
+
+
+
+caso contrário, ele vai ficar na page ('next(false)')..
+
+
+
+
+
+
+
+
+
+
+
+
+CÓDIGO COMPLETO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <button @click="confirmInput()">Confirm</button>
+    <button @click="saveChanges()">Save Changes</button>
+    <ul>
+      <user-item
+        v-for="user in users"
+        :key="user.id"
+        :name="user.fullName"
+        :role="user.role"
+      ></user-item>
+    </ul>
+  </div>
+</template>
+
+<script>
+import UserItem from './UserItem.vue';
+
+export default {
+  data() {
+    return { changesSaved: false };
+  },
+
+  components: {
+    UserItem,
+  },
+  inject: ['users'],
+
+  methods: {
+    confirmInput() {
+      // DO SOMETHING, THEN NAVIGATE AWAY (método criado por mim)
+
+      // this.$router.go()  ///talvez assim?
+
+      this.$router.push('/teams'); ////outra maneira de fazer isso...
+
+      // this.$router.forward(); ////botões '<-' e '->' do navegador...
+      // this.$router.back()
+    },
+
+    saveChanges() {
+      //usado para demonstrar o funcionamento de 'beforeRouteLeave()' (que é usado para fazer avisos em forms como 'sua data ainda não foi salva, certeza de quer sair dessa página?')
+      this.changesSaved = true;
+    },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    /////ALTERNATIVA A DEFINIR A NAV GUARD LÁ NO ROUTER (alternativa a 'beforeEnter', lá na sua route)...
+
+    console.log(to, from);
+    next();
+  },
+
+  beforeRouteLeave(to, from, next) {
+    ///é chamado ANTES DE TODAS AS OUTRAS ROUTES ( ou seja, antes de 'beforeEach', antes de 'beforeEnter', e antes de 'beforeRouteEnter()'..)
+
+    console.log('Users List cmp beforeRouteLeave');
+    console.log(to, from);
+
+    if (this.changesSaved) {
+      next();
+    } else {
+      const userAnswer = confirm('Are you sure? You got unsaved changes!'); ///retorna 'true' ou 'false', a depender do 'SIM ' ou 'NÃO' do user...
+
+      next(userAnswer); ///yes = true, no = false --> next(true) ou next(false) (bloqueia a navigation)...
+    }
+  },
+
+  unmounted() {
+    ////ESSE CÓDIGO RODARÁ SEMPRE QUE __ O COMPONENT/PÁGINA SAIR DE NOSSA TELA...
+
+    console.log('component/page left the screen');
+  },
+};
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  max-width: 20rem;
+  padding: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO,
+
+
+
+
+
+FICAMOS COM 1 AVISO 
+
+
+
+DO BROWSER 
+
+
+PERGUNTANDO SE O USER QUER REALMENTE TROCAR DE PÁGINA (e perder todos os inputs na form)...
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE O 
+
+
+
+
+HOOK DE 'beforeRouterLeave'
+
+PODE 
+
+SER 
+
+MT ÚTIL 
+
+PARA 
+
+
+A USER EXPERIENCE,
+
+PQ 
+
+ELE 
+
+
+PODE 
+
+
+IMPEDIR 
+
+LEAVEs desnecessários de página..
+
+
+
+
+
+
+
+
+
+OK..
+
+
+
+
+
+
+
+
+ESSAS FORAM AS GUARDS... SÃO MT ÚTEIS...
+
+
+
+
+
+
+
+
+-_> BOAS PARA USER EXPERIENCE...
+
+
+VEREMOS ESSAS GUARDS EM ACTION LOGO LOGO...
