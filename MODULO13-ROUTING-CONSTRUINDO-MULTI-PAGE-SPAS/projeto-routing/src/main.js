@@ -96,7 +96,8 @@ const router = createRouter({
     //'to' e 'from' são ROUTE OBJECTS... (basicamente a mesma coisa que vc recebe com 'this.$route')...
     /// 'savedPosition' será a POSIÇÃO QUE O USER TEVE, ANTES DE CLICAR NO BUTTON DE 'back', no browser (é um object tipo '{left: 212, top: 21}' )
 
-    if (savedPosition) { ///com esse if check, VOLTAMOS PRECISAMENTE AO LOCAL EM QUE O USER ESTAVA, ANTES DE ELE TROCAR DE PÁGINA...( melhor dos 2 mundos)...
+    if (savedPosition) {
+      ///com esse if check, VOLTAMOS PRECISAMENTE AO LOCAL EM QUE O USER ESTAVA, ANTES DE ELE TROCAR DE PÁGINA...( melhor dos 2 mundos)...
       return savedPosition;
     }
 
@@ -108,6 +109,23 @@ const router = createRouter({
     };
   },
 });
+
+router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+    next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
+    // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
+
+    /// next('pathComoString') ///ISSO VAI REDIRECIONAR O USER, SE VC DEIXAR ESSA STRING/URL como parâmetro de 'next'...
+
+    /////next({name: 'team-members', params: { teamId: 't2' }}) /////ISSO TAMBÉM VAI REDIRECIONAR O USER, usar 1 'location object'...
+  }
+);
 
 const app = createApp(App);
 

@@ -1,0 +1,761 @@
+
+
+
+
+
+
+
+
+AGORA TEMOS UMA FEATURE SUPER IMPORTANTE...
+
+
+
+
+
+
+
+
+
+
+
+--> SÃO OS NAVIGATION GUARDS...
+
+
+
+
+
+
+
+
+
+
+
+ESSAS GUARDS PODEM SER ÚTEIS SE VC TEM AUTHENTICATION...
+
+
+
+
+
+
+
+
+
+
+--> AUTHENTICATION,
+ 
+
+
+ MAS TBM SÃO ÚTEIS PARA 
+
+
+
+ FICAR 'AWARE' DE CHANGING PAGES... 
+
+
+
+
+
+
+ TAMBÉM SÃO ÚTEIS PARA GARANTIR QUE 
+ ''1 USER NÁO CONSIGA NAVEGAR 
+
+
+ ACIDENTALMENTE PARA FORA DE 1 PAGE,
+
+ EM CASOS EM QUE ELA N TEM __ SAVED EDITS (em uma form, por exemplo)'''..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ TEREMOS 
+
+
+ EXEMPLOS PRÁTICOS DE GUARDS NO COURSE PROJECT,
+
+
+
+ MAS COMO 
+
+ ESSE 
+
+ É 
+
+ O MODULE DE GUARDS,
+
+
+
+ VEREMOS ISSO AGORA, UM POUCO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ OK...
+
+
+
+
+
+
+
+
+
+
+
+ GUARDS --> O PROFESSOR ESTÁ FALANDO DE 
+
+ 
+
+ FUNCTIONS, MEHTODS,
+
+
+ QUE 
+ SÃO 
+
+ CHAMADOS 
+
+ PELO 
+
+ VUE-ROUTER 
+
+ AUTOMATICAMENTE 
+
+ QUANDO 
+
+
+ 1 PAGE 'CHANGES',
+
+
+ OU, 
+
+ PARA SER MAIS PRECISO,
+
+
+
+
+ QUANDO 
+
+
+ '1 NAVIGATION ACTION STARTS'... ---------> 
+
+
+
+
+
+
+
+
+
+
+
+ POR EXEMPLO,
+
+
+
+ NO NOSSO ROUTER,
+
+ EM 'main.js',
+
+
+
+ 
+
+
+
+
+
+ TEMOS 
+
+
+
+ 1 METHOD ESPECIAL,
+
+
+
+
+ QUE 
+
+
+
+
+DEVE SER CHAMADO _ ANTES_ 
+
+
+
+DA VINCULAÇÃO DO ROUTER AO MAIN VUE APP (
+
+    código de 'app.use(router)',
+
+)
+
+
+
+
+
+
+PODEMOS CHAMAR 
+
+
+1 METHOD ESPECIAL,
+
+
+
+
+
+
+CHAMADO DE 
+
+
+
+'router.beforeEach()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE METHOD É UM METHOD ESPECIAL,
+
+E ELE __ REQUER_ UMA FUNCTION COMO ARGUMENTO,....
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+router.beforeEach( ///usado com AUTH GUARDS E NAV GUARDS....
+
+() => {
+  
+}
+) 
+
+
+
+
+
+
+
+
+
+
+----> ok.... essa function será chamada,
+
+pelo vue-router,
+
+
+SEMPRE QUE 
+
+NAVEGARMOS DE 1 PAGE PARA OUTRA...
+
+
+
+
+
+
+
+
+
+
+--> ANTES DE CADA NAVIGATION ACTION, ESSA 
+
+
+
+FUNCTION SERÁ CHAMADA...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+
+  (to, from, next) => {
+    console.log(to, from, "SÃO ROUTE OBJECTS")
+    console.log(next, "FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION ")
+
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+TO E FROM SÃO ROUTER OBJECTS...
+
+
+
+
+
+
+
+
+JÁ 
+
+
+
+'next'
+
+
+É USADO __ PARA __ CONFIRMAR OU CANCELAR UMA 'NAVIGATION ACTION'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ISSO É ALGO QUE PODEMOS FAZER COM NAVIGATION GUARDS (
+
+    cancelar uma 
+
+    navigation se 
+
+    1 requisito n for satisfeito, comoo por exemplo, 
+
+    falta de autenticação..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+O PROFESSOR CHAMA 'next()' ao final,
+
+
+
+
+sem nenhum parâmetro:
+
+
+
+
+
+
+
+
+
+
+router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+    next();
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... NOSSO APP CONTINUA FUNCIONANDO COMO ANTES,
+
+PQ 
+
+
+SE 
+
+VC 
+
+
+RODA O 'next()',
+
+
+ 
+
+ VC _ CONFIRMA _ A NAVIGATION... VC PERMITE A 
+
+
+
+ NAVIGATION...
+
+
+
+
+
+
+
+
+
+ --> VOCÊ TAMBÉM PODE PASSAR 'FALSE'
+
+ AO NEXT,
+
+
+ e 
+
+
+ ISSO 
+
+ VAI __ CANCELAR ESSA NAVIGATION...
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+ router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+    next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
+    // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+SE DEIXAMOS O 'NEXT(false)"
+
+
+DESCOMENTADO,
+
+
+
+NÃO 
+
+CONSEGUIMOS 
+
+NAVEGAR PARA ROUTE ALGUMA,
+
+
+
+
+O QUE NÃO É MT ÚTIL...
+
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, MAIS TARDE, NO COURSE PROJECT,
+
+
+
+VEREMOS ESSA FEATURE EM COMBINAÇÃO COM OUTRA FEATURE,
+
+
+
+
+
+
+COM O 'CHECK SE O USER ESTÁ AUTHENTICATED OU NÃO',
+
+
+para 
+
+cancelar ou não a navigation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS TEMOS UMA TERCEIRA OPÇÃO 
+
+
+
+para o 'next()" ---> PODEMOS 
+
+
+PASSAR:
+
+
+
+
+1) TRUE 
+
+
+2) FALSE 
+
+
+
+3) STRING OU LOCATION OBJECT (
+
+    para redirecionar o user,
+
+    em casos 
+
+
+    de 
+
+    FALTA DE AUTH/comportamento indesejado...
+)
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+router.beforeEach(
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+    next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
+    // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
+
+    /// next('pathComoString') ///ISSO VAI REDIRECIONAR O USER, SE VC DEIXAR ESSA STRING/URL como parâmetro de 'next'...
+
+    /////next({name: 'team-members', params: { teamId: 't2' }}) /////ISSO TAMBÉM VAI REDIRECIONAR O USER, usar 1 'location object'...
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+MAS SE SALVARMOS ASSIM MSM O NEGÓCIO,
+
+
+VAMOS CRIAR 1 INFINITE LOOP (
+
+    pq 
+
+
+
+    QUALQUER NAVIGATION VAI TRIGGAR 'beforeEach',
+
+
+    QUE 
+
+    ENTÃO VAI TRIGGAR O REDIRECT A ESSA ROUTE DE de 'team-members',
+
+
+    que,
+    por ser uma 
+
+    navigation action,
+
+    vai RODAR O 'beforeEach'
+
+
+    MAIS UMA VEZ,
+
+
+    QUE ENTAÕ 
+
+    VAI CONTINUAR INFINITAMENTE...
+)
+
+
+
+
+
+
+
+
+
+--> OK... É BOM ENTENDER COMO 
+
+ESSE METHOD FUNCIONA,
+
+E COMO 
+
+
+
+
+PODEMOS ADICIONAR NAV GUARDS NO NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... OS NAV GUARDS PODEM SER ÚTEIS PARA CHECAR SE O USER ESTÁ AUTHENTICATED...
