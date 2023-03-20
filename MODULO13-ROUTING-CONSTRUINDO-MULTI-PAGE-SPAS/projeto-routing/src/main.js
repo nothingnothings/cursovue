@@ -40,6 +40,10 @@ const router = createRouter({
     {
       path: '/teams',
       name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      meta: { ///podemos definir QUALQUER DATA QUE DESEJARMOS, DENTRO DESSa propriedade 'meta'... 
+        needsAuth: true /// os values definidos dentro de 'meta' podem ser acessados com o object de 'this.$route.xxxx'... (dentro de seus components e dentro dos objects 'to' e 'from', nos seus HOOKS)
+      }, //// META É CRUCIAL, PQ PODE SER USADO PARA SETTAR 1 GLOBAL NAVIGATION GUARD QUE FAZ DIFERENTES COISAS, A DEPENDER DA 'METADATA' QUE VC ANEXOU A 1 ROUTE...  
+      
       components: {
         //usamos 'components' quando queremos carregar MÚLTIPLOS COMPONENTS POR 'page' DO VUE...
         main: TeamsList,
@@ -130,6 +134,14 @@ router.beforeEach(
     console.log(
       'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
     );
+
+    if (to.meta.needsAuth) { //exemplo de uso de 'metadata'...
+      console.log("CHECK IF USER IS AUTHENTICATED, THEN RETURN next(false) or next(true)")
+        // next(false)
+    }
+
+
+
     next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
     // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
 

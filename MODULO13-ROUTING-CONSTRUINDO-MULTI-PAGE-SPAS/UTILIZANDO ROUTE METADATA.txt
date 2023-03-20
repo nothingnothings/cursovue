@@ -1,0 +1,418 @@
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+AGORA O PROFESSOR NOS FALA DE OUTRA FEATURE QUE PODE SER ÚTIL,
+
+
+
+
+
+PRINCIPALMENTE COM NAV GUARDS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> SÃO OS FIELDS DE 'META' EM SEUS ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM QUALQUER 
+
+
+
+ROUTE DE SUA CONFIG,
+
+VC PODE ADICIONAR UMA PROPRIEDADE EXTRA,
+
+
+
+a 'meta: {}' 
+
+
+
+
+
+
+
+
+
+
+--> ESSA PROPRIEDADE ACEITA QUALQUER VALUE (como 1 object),
+
+
+
+E AÍ VC PODE SETTAR QUALQUER KEY-VALUE PAIR LÁ DENTRO,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+    {
+      path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      meta: { ///podemos definir QUALQUER DATA QUE DESEJARMOS, DENTRO DESSa propriedade 'meta'... 
+        needsAuth: true
+      },
+      
+      components: {
+        //usamos 'components' quando queremos carregar MÚLTIPLOS COMPONENTS POR 'page' DO VUE...
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------->  OK.... MAS QUAL É A UTILIDADE DISSO?
+
+
+
+
+
+
+BEM, VC PODE ACESSAR ESSA PROPRIEDADE DE 'meta' 
+
+
+
+
+POR MEIO 
+
+
+
+
+
+
+
+
+
+DO OBJECT DE 'this.$route'...
+
+
+
+
+
+
+
+
+
+
+--> BASTA RODAR 'this.$route.xxx'....
+
+
+
+
+
+
+
+
+
+
+
+
+-> VC PODE ACESSAR ESSA PROPRIEDADE 'meta'
+
+LÁ NO INTERIOR DE SEUS COMPONENTS,
+
+MAS 
+TAMBÉM 
+
+
+
+NOS SEUS AUTH GUARDS (através dos objects de 'to' e 'from')...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    {
+      path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      meta: { ///podemos definir QUALQUER DATA QUE DESEJARMOS, DENTRO DESSa propriedade 'meta'... 
+        needsAuth: true /// os values definidos dentro de 'meta' podem ser acessados com o object de 'this.$route.xxxx'... (dentro de seus components e dentro dos objects 'to' e 'from', nos seus HOOKS)
+      },
+      
+      components: {
+        //usamos 'components' quando queremos carregar MÚLTIPLOS COMPONENTS POR 'page' DO VUE...
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VC PODE ADICIONAR META DATA PARA 
+
+
+INDICAR QUE 
+
+
+ESSA PAGE PRECISA DE AUTHENTICATION...
+
+
+
+
+
+
+VC PODE USAR ESSA INFO 
+
+PARA __ 
+
+
+
+
+COLOCAR CONDICIONALMENTE AUTH GUARDS,
+
+LÁ 
+
+
+EM 'beforeEach' (Que é executado para TODAS AS ROUTES, PARA TODAS AS NAVIGATION ACTIONS)....
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+
+router.beforeEach(
+    (to, from, next) => {
+
+        if (to.meta.needsAuth) {
+
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  {
+      path: '/teams',
+      name: 'teams', ////é assim que atribuímos NOMES a nossas routes, que se tornam especialmente úteis quando precisamos construir LINKS a essas routes, com 'router-link''...
+      meta: { ///podemos definir QUALQUER DATA QUE DESEJARMOS, DENTRO DESSa propriedade 'meta'... 
+        needsAuth: true /// os values definidos dentro de 'meta' podem ser acessados com o object de 'this.$route.xxxx'... (dentro de seus components e dentro dos objects 'to' e 'from', nos seus HOOKS)
+      }, //// META É CRUCIAL, PQ PODE SER USADO PARA SETTAR 1 GLOBAL NAVIGATION GUARD QUE FAZ DIFERENTES COISAS, A DEPENDER DA 'METADATA' QUE VC ANEXOU A 1 ROUTE...  
+      
+      components: {
+        //usamos 'components' quando queremos carregar MÚLTIPLOS COMPONENTS POR 'page' DO VUE...
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        ////exemplo de como escrever 'NESTED ROUTES'.
+        {
+          name: 'team-members', //opcional, mas recomendado.
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    E AÍ,
+
+
+    em 'forEach':
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.beforeEach(
+  //já se seu intuito é colocar 1 NAV GUARD EM 1 ROUTE ESPECÍFICA, USE a propriedade 'beforeEnter', na route específica.... (como visto em '/users')...
+  ///usado com AUTH GUARDS E NAV GUARDS.... --> a function passada a esse method é chamada TODA VEZ QUE ALGUMA NAVIGATION ACTION OCORRE, NO NOSSO APP...
+  (to, from, next) => {
+    console.log('GLOBAL FOR EACH');
+    console.log(to, from, 'SÃO ROUTE OBJECTS');
+    console.log(
+      'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+    );
+
+    if (to.meta.needsAuth) { //exemplo de uso de 'metadata'...
+      console.log("CHECK IF USER IS AUTHENTICATED, THEN RETURN next(false) or next(true)")
+        // next(false)
+    }
+
+
+
+    next(); // ou 'next(true)' --> ambas as formas vão PERMITIR a navigation...
+    // next(false); //NEXT(FALSE) VAI __ BLOQUEAR_ A NAVIGATION...
+
+    /// next('pathComoString') ///ISSO VAI REDIRECIONAR O USER, SE VC DEIXAR ESSA STRING/URL como parâmetro de 'next'...
+
+    /////next({name: 'team-members', params: { teamId: 't2' }}) /////ISSO TAMBÉM VAI REDIRECIONAR O USER, usar 1 'location object'...
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO PODE SER ___ MT ÚTIL, NA VERDADE...
