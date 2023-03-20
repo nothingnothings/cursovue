@@ -139,6 +139,14 @@ router.beforeEach(
   }
 );
 
+router.afterEach(
+  ///ESSE HOOK SÓ É EXECUTADO __ aPÓS UMA 'NAVIGATION ACTION' ter sido confirmada (por isso não temos o parâmetro 'next()', justamente pq esse hook/guard não bloqueia nada, só modifica o 'pós-guard' da navigation)
+  //// um bom uso para esse hook é o send de ANALYTICS DATA AO SEU PRÓPRIO SERVER, POR EXEMPLO.
+  (to, from) => {
+    console.log('global afterEach');
+  }
+);
+
 const app = createApp(App);
 
 app.use(router);

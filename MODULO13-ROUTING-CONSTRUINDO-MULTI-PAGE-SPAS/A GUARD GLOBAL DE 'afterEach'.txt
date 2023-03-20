@@ -1,0 +1,278 @@
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+MAS HÁ OUTRA GLOBAL GUARD QUE PODEMOS ADICIONAR...
+
+
+
+
+
+
+
+
+
+É A GUARD DE 'afterEach',
+
+
+
+QUE TAMBÉM É ADICIONADA LÁ EM 'main.js'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+
+import TeamsList from './components/teams/TeamsList.vue';
+import UsersList from './components/users/UsersList.vue';
+import TeamMembers from './components/teams/TeamMembers.vue';
+import TeamsFooter from './components/teams/TeamsFooter.vue';
+import UsersFooter from './components/users/UsersFooter.vue';
+import NotFound from './components/nav/NotFound.vue';
+
+const router = createRouter({
+  routes: [
+    {
+      path: '/',
+      redirect: '/teams',
+    },
+
+    {
+      path: '/teams',
+      name: 'teams',
+      components: {
+        main: TeamsList,
+        footer: TeamsFooter,
+      },
+      children: [
+        {
+          name: 'team-members',
+          path: ':teamId',
+          component: TeamMembers,
+        },
+      ],
+    },
+
+    {
+      path: '/users',
+
+      components: {
+        main: UsersList,
+        footer: UsersFooter,
+      },
+
+      beforeEnter(to, from, next) {
+        console.log(to, from);
+
+        next();
+      },
+    },
+
+    {
+      path: '/:catchAll(.*)',
+      components: {
+        main: NotFound,
+      },
+    },
+  ],
+
+  history: createWebHistory(),
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+
+    return {
+      top: 0,
+      left: 0,
+    };
+  },
+});
+
+router.beforeEach((to, from, next) => {
+  console.log('GLOBAL FOR EACH');
+  console.log(to, from, 'SÃO ROUTE OBJECTS');
+  console.log(
+    'NEXT É A FUNCTION QUE DEVEMOS CHAMAR PARA OU CONFIRMAR, OU CANCELAR ESSA NAVIGATION ACTION '
+  );
+  next();
+});
+
+router.afterEach((to, from) => {});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SUA FORMA É PARECIDA COM 'beforeEach',
+
+
+
+
+MAS __ 
+
+
+
+TEM UMA DIFERENÇA,
+
+
+QUE 
+
+
+É 
+
+
+A AUSÊNCIA DO PARÂMETRO DE 'next()'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+router.afterEach((to, from) => {});
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO TEMOS O 'next()'
+
+
+
+JUSTAMENTE PQ 
+
+ESSE HOOK É EXECUTADO_ _ SOMENTE __ _ APÓS UMA NAVIGATION ACTION 
+
+
+TER SIDO _ CONFIRMADA_...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+router.afterEach( ///ESSE HOOK SÓ É EXECUTADO __ aPÓS UMA 'NAVIGATION ACTION' ter sido confirmada (por isso não temos o parâmetro 'next()', justamente pq esse hook/guard não bloqueia nada, só modifica o 'pós-guard' da navigation)
+  (to, from) => {
+    
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 1 bom uso para esse hook é 
+
+
+O ENVIO DE ANALYTICS DATA AOS SEUS SERVERS...
+
+
+
+
+-----> PODE LOGGAR QUANDO 1 USER TROCA DE PAGE,
+ 
+ POR EXEMPLO...
+
+
+
+
+
+
+
+
+ MAS VC N VAI USAR O 'afterEach'
+
+
+ para controlar o que o user vai ver na tela,
+
+
+ pq 
+
+
+ já terá sido 'too late' para isso...
