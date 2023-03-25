@@ -1,0 +1,515 @@
+
+
+
+
+
+
+
+
+
+
+
+--> ALÉM DA PROPRIEDADE DE 'transition',
+
+
+QUE PODEMOS 
+
+USAR 
+
+PARA COMUNICAR AO CSS QUE QUEREMOS PROVIDENCIAR UMA TRANSITION ENTRE 2 CHANGES,
+
+
+
+TEMOS A POSSIBILIDADE DE DEFINIR 
+
+
+
+
+1 'ANIMATION MAIS DETALHADA'..
+
+
+
+
+
+
+
+
+
+PARA ISSO, PRIMEIRAMENTE PRECISAMOS DEFINIR UMA ANIMATION EM CSS...
+
+
+
+
+
+
+
+
+
+
+
+--> FAZEMOS ISSO POR MEIO DA EXPRESSÃO
+
+
+'@keyframes'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes slide-in {
+
+
+
+}
+
+
+
+
+
+
+
+
+-> DENTRO DISSO, ESPECIFICAMOS QUAIS AS PROPRIEDADES QUE A ANIMATION DEVERÁ TER...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS COLOCAR ASSIM:
+
+
+
+
+@keyframes slide-in {
+
+
+
+0% {
+    transform: translateX(0) scale(1)
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO QUER DIZER QUE, NO MOMENTO 0 DESSA ANIMATION,
+
+ELA VAI TER A ESCALA DE '1' (normal),
+
+
+
+E 1 POSIÇÃO 'ORIGEM'...
+
+
+
+
+
+
+
+
+
+
+
+
+--------> SCALE É UMA FUNCTION QUE VC PODE USAR PARA MUDAR O TAMANHO DE 1 ELEMENTO...
+
+
+
+
+
+
+
+
+
+OK... DEPOIS DE 70% de animation time,
+
+vc quer 
+
+
+
+FAZER COM QUE O NEGÓCIO SE MOVA 120PX PARA A ESQUERDA,
+
+
+E AUMENTE 10%..
+
+
+
+
+ex:
+
+
+
+
+
+
+@keyframes slide-in {
+
+
+
+0% {
+    transform: translateX(0) scale(1);
+
+}
+
+
+
+70% {
+    transform: translateX(-120px) scale(1.1);
+}
+
+
+100% {
+    transform: translateX(-150px) scale(1);
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK....
+
+
+
+ISSO VAI DAR 1 'SALTO' E ENTÃO VOLTAR AO TAMANHO NORMAL, antes de resettar a animation...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+.block {
+
+
+
+
+
+}
+
+
+@keyframes slide-in {
+
+
+
+0% {
+    transform: translateX(0) scale(1);
+
+}
+
+
+
+70% {
+    transform: translateX(-120px) scale(1.1);
+}
+
+
+100% {
+    transform: translateX(-150px) scale(1);
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+A PRIMEIRA COISA QUE VAMOS FAZER, AGORA, É 
+
+IR ATÉ A NOSSA CLASS BASE DE 'BLOCK'
+
+
+E 
+
+REMOVER 
+
+
+
+A PROPRIEDADE DE 'transition',
+
+
+PQ _ O IDEAL É USAR APENAS 1 DAS DUAS EM 1 ELEMENTO...
+
+
+
+
+
+
+
+
+
+
+
+-> PODEMOS USAR 'animation' e 'transition' em 1 mesmo elemento,
+
+mas não é recomendado...
+
+
+
+
+
+
+
+
+
+
+
+--> OK... DENTRO DA CLASS de 'active-block',
+
+O PROFESSOR 
+
+COLOCA 
+
+A PROPRIEDADE de 'animation: ' -->  ISSO VAI NOS DEIXAR ADICIONAR UMA ANIMATION,
+
+
+
+NO MOMENTO EM QUE ESSA CSS CLASS É ADICIONADA EM 1 ELEMENTO....
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.block {
+
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+}
+
+
+
+.active-block {
+    animation:
+}
+
+
+@keyframes slide-in {
+
+
+
+0% {
+    transform: translateX(0) scale(1);
+
+}
+
+
+
+70% {
+    transform: translateX(-120px) scale(1.1);
+}
+
+
+100% {
+    transform: translateX(-150px) scale(1);
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+
+.active-block {
+  /* transform: translateX(-180px);   USADO COM 'transition'*/
+
+
+  /* (NOME DA ANIMATION)/(DURATION DA ANIMATION, QUE SERÁ SPLTITADA AO LONGO DAS KEYFRAMES)/(EASING FUNCTION -> determina se começamos rápido/lento e terminamos rápido/lento) */
+  animation: slide-in 0.3s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+CLICAMOS EM 'ANIMATE'...
+
+
+
+
+
+
+
+
+
+--> ELE VAI 'ANIMATE',
+
+
+VAI 
+
+
+MOVER PARA A ESQUERDA E ENTÃO VAI 'SNAP BACK' À POSIÇÃO ORIGINAL --> PARA 
+
+
+
+TIRAR ESSE COMPORTAMENTO, PRECISAMOS COLOCAR A KEYWORD DE 'forwards' 
+
+lá em 'animation', PARA DEFINIR QUE 
+
+
+O NEGÓCIO DEVE SE MOVER ATÉ LÁ E ENTÃO __ PERMANECER LÁ....
+
+
+
+
+
+
+
+
+
+
+
+
+.active-block {
+  /* transform: translateX(-180px);   USADO COM 'transition'*/
+
+
+  /* (NOME DA ANIMATION)/(DURATION DA ANIMATION, QUE SERÁ SPLTITADA AO LONGO DAS KEYFRAMES)/(EASING FUNCTION -> determina se começamos rápido/lento e terminamos rápido/lento) */
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+->  OK... É ASSIM QUE PODEMOS ADICIONAR ANIMATIONS, COM CSS TRANSITIONS E ANIMATIONS...
+
+
+
+
+
+
+
+
+--> E TUDO O QUE O VUE FAZ É ADICIONAR ESSA CLASS DE ANIMATION 
+
+CONDICIONALMENTE (e, frequentemente, isso é o que vc vai precisar)...
+
+
+
+
+MAS EXISTIRÃO CENÁRIOS EM QUE ISSO NÃO BASTARÁ...

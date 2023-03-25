@@ -67,8 +67,9 @@ button:active {
   margin-bottom: 2rem;
   /* transition é sempre settada na class BASE de algum elemento (antes de receber 1 class condicional/'ativa') 
   */
-  /* /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
-  transition: transform 0.3s ease-out;
+  /* transition -> /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
+  /* transition: transform 0.3s ease-out; */
+
 }
 .container {
   max-width: 40rem;
@@ -83,6 +84,24 @@ button:active {
 }
 
 .active-block {
-  transform: translateX(-180px);
+  /* transform: translateX(-180px);   USADO COM 'transition'*/
+
+
+  /* (NOME DA ANIMATION)/(DURATION DA ANIMATION, QUE SERÁ SPLTITADA AO LONGO DAS KEYFRAMES)/(EASING FUNCTION -> determina se começamos rápido/lento e terminamos rápido/lento) */
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+
+  70% {
+    transform: translateX(-120px) scale(1.1);
+  }
+
+  100% {
+    transform: translateX(-150px) scale(1);
+  }
 }
 </style>
