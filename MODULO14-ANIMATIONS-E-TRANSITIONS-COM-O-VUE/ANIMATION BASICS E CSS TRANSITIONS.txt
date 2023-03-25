@@ -1,0 +1,1018 @@
+
+
+
+
+
+
+
+
+
+
+
+
+RODAMOS NPM INSTALL E DEPOIS 'npm run serve'...
+ 
+
+
+
+ --> isso roda nosso dev server,
+
+
+
+ com esse demo app...
+
+
+
+
+
+
+
+
+
+
+
+
+-> É UM 
+
+
+
+APP PLAYGROUND...
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS 1 MODAL QUE PODEMOS OPEN E CLOSE --> ELE EXISTE PARA TREINARMOS ANIMATIONS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS VAMOS COMEÇAR COM O BLOCO ROXO... --> VEREMOS COMO ANIMAR ISSO 
+
+
+
+COM CSS,
+
+ E TAMBÉM COM O VUE...
+
+
+
+
+
+
+
+
+
+--> OK, COMO PODEMOS ANIMAR COISAS?
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS COMEÇAR COM O SIMPLES:
+
+
+
+
+
+
+
+QUEREMOS CLICAR AQUELE BOTÃO DE 'ANIMATE' E, COM ISSO,
+
+
+FAZER ESSE BLOCO ROXO SE ANIMAR...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, VAMOS EM 'App.vue'
+
+
+
+E ENTÃO 
+
+
+
+
+
+
+COLOCAMOS UM CLICK LISTENER NO BOTÃO DE ANIMATE,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="container">
+    <div class="block"></div>
+    <button @click="animateBlock()">Animate</button>
+  </div>
+  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <p>This is a test dialog!</p>
+    <button @click="hideDialog">Close it!</button>
+  </base-modal>
+  <div class="container">
+    <button @click="showDialog">Show Dialog</button>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return { dialogIsVisible: false };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border: 1px solid #810032;
+  border-radius: 30px;
+  background-color: #810032;
+  color: white;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  background-color: #a80b48;
+  border-color: #a80b48;
+}
+.block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+}
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE ESSE BUTTON 
+
+VÁ 
+
+1 POUCO PARA A ESQUERDA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, ADICIONAMOS UM NOVO METHOD, DE NOME 
+
+
+'animateBlock'...
+
+
+
+
+
+
+
+
+
+
+-> COM ISSO,
+
+
+VAMOS
+
+
+
+
+
+ATUALIZAR O STATE DE NOSSO APP,
+
+
+PARA ENTÃO 
+ADICIONAR/REMOVER UMA CLASS (dinamicamente)
+
+
+
+NO NOSSO BLOCK,
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="container">
+    <div
+      class="block"
+      :class="{
+        'active-block': this.animatedBlock,
+      }"
+    ></div>
+    <button @click="animateBlock()">Animate</button>
+  </div>
+  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <p>This is a test dialog!</p>
+    <button @click="hideDialog">Close it!</button>
+  </base-modal>
+  <div class="container">
+    <button @click="showDialog">Show Dialog</button>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return { dialogIsVisible: false, animatedBlock: false };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border: 1px solid #810032;
+  border-radius: 30px;
+  background-color: #810032;
+  color: white;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  background-color: #a80b48;
+  border-color: #a80b48;
+}
+.block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+}
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+
+.active-block {
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR EXPLICA QUE PODEMOS 
+
+ANIMAR 
+
+COISAS 
+
+
+EM WEBDEVELOPMENT 
+
+
+
+__ COM APENAS _ CSS,
+
+
+E QUE 
+
+
+O 
+
+JAVASCRIPT 
+
+
+PODE SER NECESSÁRIO APENAS 
+
+PARA 
+
+INICIAR 
+
+
+ALGUMA ANIMATION,
+PARA 'STARTAR'
+
+UMA ANIMATION --> DEPOIS DISSO, O CSS FAZ TODO O TRABALHO SOZINHO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> OK...
+
+
+
+
+COLOCAMOS ESSA CLASS DINÂMICA DE 
+
+'active-block'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS DEFINIR ESSA CLASS LÁ NOS STYLES,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+PARA MOVER ESSE BLOCK POR AÍ,
+
+PODEMOS 
+
+USAR A PROPRIEDADE 'transform'
+
+
+de css,
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+.active-block {
+  transform: translateX(-60px);
+}
+
+
+
+
+
+
+
+
+
+--> O TRANSFORM É ÓTIMO PARA MOVER ELEMENTOS,
+
+
+PQ 
+
+
+
+
+NOS DÁ PERFORMANCE MT BOA COM ISSO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="container">
+    <div
+      class="block"
+      :class="{
+        'active-block': this.animatedBlock,
+      }"
+    ></div>
+    <button @click="animateBlock()">Animate</button>
+  </div>
+  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <p>This is a test dialog!</p>
+    <button @click="hideDialog">Close it!</button>
+  </base-modal>
+  <div class="container">
+    <button @click="showDialog">Show Dialog</button>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return { dialogIsVisible: false, animatedBlock: false };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border: 1px solid #810032;
+  border-radius: 30px;
+  background-color: #810032;
+  color: white;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  background-color: #a80b48;
+  border-color: #a80b48;
+}
+.block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+}
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+
+.active-block {
+  transform: translateX(-60px);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SE SALVAMOS TUDO ISSO E APLICAMOS,
+
+
+PODEMOS VER QUE NOSSO BLOCK VAI SE MOVER UM POUQUINHO --> MAS ELE VAI SE MOVER 
+
+
+DE 
+
+FORMA
+ 
+
+ INSTANTÂNEA..
+
+
+
+
+
+
+
+
+ --> PARA TER UMA ANIMATION, PRECISAMOS 
+
+ DE 
+
+
+ 'animation:'
+
+ ou 
+
+ 'transition:'....
+
+
+
+
+
+
+
+
+
+ --> 'animation-duration',
+
+ e etc...
+
+
+
+
+
+
+
+
+
+
+ ------> PARA ANIMAR 
+
+
+ ESSA CLASS,
+
+
+
+
+ DE 
+
+ 'block',
+
+
+
+
+
+ DEVEMOS 
+
+ IR 
+
+ ATÉ LÁ E ADICIONAR A PROPRIEDADE 
+
+ CSS 
+
+ DE 
+
+ 'transition',
+
+ tipo assim:
+
+
+
+
+ .block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+  transition: 
+}
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+--> ESSA PROPRIEDADE ACEITA ALGUNS VALUES:
+
+
+
+
+
+
+
+1) QUER SABER __ QUAIS_ OUTRAS CSS PROPERTIES QUEREMOS TRANSICIONAR --> pode ser 'all', ou então PROPRIEDADES ESPECÍFICAS...
+
+
+
+---> definimos 'transform',
+
+PQ __ SABEMOS _ qUE __ VAMOS MUDAR APENAS _ _A PROPRIEDADE DE 'transform' (E mais nada)...
+
+
+
+
+
+
+
+
+
+2) DEPOIS DISSO, DEFINIMOS __ A DURAÇÃO DA ANIMATION, A DURAÇÃO DELA...
+
+
+
+
+EX:
+
+
+
+
+ .block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+  transition: transform 0.3s
+}
+
+
+
+
+
+
+
+
+
+
+
+3) DEPOIS DISSO, TEMOS 1 'EASING FUNCTION' --> ELA DETERMINA COMO ESSA ANIMATION DEVE 'ACELERAR' E THROTTLE ao final...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="container">
+    <div
+      class="block"
+      :class="{
+        'active-block': this.animatedBlock,
+      }"
+    ></div>
+    <button @click="animateBlock()">Animate</button>
+  </div>
+  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <p>This is a test dialog!</p>
+    <button @click="hideDialog">Close it!</button>
+  </base-modal>
+  <div class="container">
+    <button @click="showDialog">Show Dialog</button>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return { dialogIsVisible: false, animatedBlock: false };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border: 1px solid #810032;
+  border-radius: 30px;
+  background-color: #810032;
+  color: white;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  background-color: #a80b48;
+  border-color: #a80b48;
+}
+.block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+  /* transition é sempre settada na class BASE de algum elemento (antes de receber 1 class condicional/'ativa') 
+  */
+  /* /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
+  transition: transform 0.3s ease-out;
+}
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+
+.active-block {
+  transform: translateX(-180px);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... CLICAMOS EM 'ANIMATE',
+
+E 
+
+NOSSO BLOCO REALMENTE É ANIMADO PARA O SENTIDO QUE ESPECIFICAMOS...
+
+
+
+
+
+
+
+
+
+
+-> A PARTE EM QUE USAMOS VUE É O ADD DA CLASS 'ACTIVE' 
+
+
+A NOSSO ELEMENTo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+ISSO É IMPORTANTE:
+
+
+
+
+
+ESSA É UMA MANEIRA 'PERFEITAMENTE FINE' 
+
+DE ADICIONAR ANIMATION EM UM VUE APP....
+
+
+
+
+
+
+
+
+--> MAS É CLARO QUE EXISTEM ALTERNATIVAS, 
+
+PARA CASOS EM QUE ANIMATIONS SIMPLES COMO ESSAS NÃO SÃO SUFICIENTES..
+
+
+
+
+
+
+
+
+O PROFESSOR FALA DISSO NA PRÓXIMA AULA....
