@@ -1,23 +1,32 @@
 <template>
-  <div class="container">
-    <div
-      class="block"
-      :class="{
-        'active-block': this.animatedBlock,
-      }"
-    ></div>
-    <button @click="animateBlock()">Animate</button>
-  </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
-    <p>This is a test dialog!</p>
-    <button @click="hideDialog">Close it!</button>
-  </base-modal>
-  <div class="container">
-    <p v-if="paragraphIsVisible">This is sometimes visible...</p>
-    <button @click="toggleParagraph()">Toggle Paragraph</button>
-  </div>
-  <div class="container">
-    <button @click="showDialog">Show Dialog</button>
+  <div>
+    <div class="container">
+      <div
+        class="block"
+        :class="{
+          'active-block': this.animatedBlock,
+        }"
+      ></div>
+      <button @click="animateBlock()">Animate</button>
+    </div>
+    <div class="container">
+      <!-- <Transition>
+        <p v-if="paragraphIsVisible" class="paragraph">
+          This is sometimes visible...
+        </p>
+      </Transition> -->
+      <Transition>
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+      <button @click="show = !show">Toggle Paragraph</button>
+    </div>
+    <base-modal @close="hideDialog" v-if="dialogIsVisible">
+      <p>This is a test dialog!</p>
+      <button @click="hideDialog">Close it!</button>
+    </base-modal>
+    <div class="container">
+      <button @click="showDialog">Show Dialog</button>
+    </div>
   </div>
 </template>  
 
@@ -28,6 +37,7 @@ export default {
       dialogIsVisible: false,
       animatedBlock: false,
       paragraphIsVisible: false,
+      show: true,
     };
   },
   methods: {
@@ -42,7 +52,7 @@ export default {
     },
     toggleParagraph() {
       this.paragraphIsVisible = !this.paragraphIsVisible;
-    }
+    },
   },
 };
 </script>
@@ -112,5 +122,46 @@ button:active {
   100% {
     transform: translateX(-150px) scale(1);
   }
+}
+
+/* SÃO AS 3 CSS CLASSES ADICIONADAS PELO 'VUE', POR DEFAULT, quando vc usa o '<Transition>'... */
+/* o normal é 'v-block-enter-from', mas vc pode ASSIGNAR 1 NOME AO SEU COMPONENT 'transition', e então o refernciar por nome.... */
+/* .v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+} */
+
+/* .v-enter-active { */
+/* é a class GERAL do animate de 'appears'.. */
+/* transition: all 0.3s ease-out forwards;
+} */
+/* 
+.v-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* MESMA IDEIA DAS 3 CLASSES ADICIONADAS AO 'ADD' de  animations por meio das classes de 'v-enter-from'.... */
+/* .v-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.v-leave-active {
+  transition: all 0.3s ease-out forwards;
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+} */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
