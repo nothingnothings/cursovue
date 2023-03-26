@@ -1,0 +1,569 @@
+
+
+
+
+
+
+
+
+JÁ APRENDEMOS UM MONTE SOBRE TRANSITIONS, TRANSITION COMPONENTS E SEU USO...
+
+
+
+
+
+
+
+
+
+
+
+MAS àS VEZES VC VAI QUERER RODAR TBM ALGUM CÓDIGO JAVASCRIPT,
+
+
+
+
+OU _ COMO _ PARTE__ DA TRANSITION (
+
+    TALVEZ PARA CONTROLAR A TRANSITION INTEIRA,
+
+
+    CONTROLAR OS STYLE CHANGES, POR MEIO 
+
+    DO JAVASCRIPT
+),
+
+
+
+OU TVZ 
+
+PQ 
+
+
+VC QUER FAZER ALGO ___ QUANDO 1 ANIMATION ___ COMEÇA__ OU TERMINA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O VUE NOS DÁ UMA OPORTUNIDADE PARA FAZER ISSO, TAMBÉM...
+
+
+
+
+
+
+
+
+
+--> O VUE NOS DÁ __ 1 MONTE DE __ eVENTS,
+
+QUE 
+SÃO 
+
+EMITIDOS 
+POR ESSE COMPONENT DE 'transition',
+
+
+
+DURANTE 1 TRANSITION...
+
+
+
+
+
+
+
+
+
+
+
+--> OS EVENTS SÃO EMITIDOS QUANDO:
+
+
+
+1) 1 TRANSITION COMEÇA 
+
+
+
+2) 1 ELEMENT É ADICIONADO 
+
+
+
+
+3) QUANDO 1 ELEMENT É REMOVIDO DO DOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR VAI USAR O EXEMPLO DO 
+
+
+
+
+TRANSITION WRAPPANDO O 'PARAGRAPH'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+      <Transition name="para">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS FAZER LISTEN A DIVERSOS EVENTS 
+
+COm 
+'@',
+
+
+
+
+
+E __ O PRIMEIRO __ eVENTO __ A QUE PODEMOS FAZER 'LISTEN-TO'
+
+
+É 
+
+
+'before-enter'...
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+
+      <Transition name="para" @before-enter="">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+      <!-- 'BEFORE-ENTER' será triggado __ SEMPRE QUE __a CLASS DE 'enter-from' for adicionada a seu elemento, por meio desse wrapper de 'transition'...-->
+      <Transition name="para" @before-enter="">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COLOCA 1 MONTE DE METHODS 
+COM CONSOLE LOGS,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+beforeEnter() {
+
+    console.log("beforeEnter Reached");
+}
+
+beforeLeave() {
+    console.log("beforeLeave Reached")
+}
+
+
+
+
+
+O BEFORE LEAVE É DISPARADO QUANDO ESSE ELEMENT SAI DO DOM...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+      <Transition
+        name="para"
+        @before-enter="beforeEnter"
+        @before-leave="beforeLeave"
+      
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    beforeEnter() {
+      console.log('beforeEnter Reached');
+    },
+
+    beforeLeave() {
+      console.log('beforeLeave Reached');
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS CABE RESSALTAR QUE O 
+
+
+__ VUE TRANSITION TAMBÉM TE DÁ, AO DISPARAR ESSES EVENTS,
+
+ACESSO 
+
+
+
+
+AOS ELEMENTS AUTOMATICAMENTE, COMO PARÂMETROS..
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+   beforeEnter(el) {
+      // esses disparos de events tbm nos dão acesso aos ACTUAL ELEMENTS ANIMADOS/TRANSICIONADOS... (para coisas como 'mudar coisas do elemento em si')
+      console.log('beforeEnter Reached');
+    },
+
+    beforeLeave(el) {
+      console.log('beforeLeave Reached');
+    },
+
+
+
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+OK... MAS 'beforeEnter'
+
+
+e 
+
+'beforeLeave'
+
+
+
+NÃO É TUDO.... 
+
+
+
+
+
+
+
+
+PODEMOS FAZER TAMBÉM LISTEN TO AO EVENT DE '@enter' 
+
+
+e 
+
+'@leave'...
+
+
+
+
+
+
+
+
+-> O EVENT DE '@enter' 
+
+É TRIGGADO LOGO APÓS 
+
+
+'before-enter'
+
+
+
+TER ACABADO...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    beforeEnter(el) {
+      // esses disparos de events tbm nos dão acesso aos ACTUAL ELEMENTS ANIMADOS/TRANSICIONADOS... (para coisas como 'mudar coisas do elemento em si')
+      console.log('beforeEnter Reached', el);
+    },
+
+    enter(el) {
+      console.log('enter Reached', el);
+    },
+
+    afterEnter(el) {
+      console.log('afterEnter Reached', el);
+    },
+
+    beforeLeave(el) {
+      console.log('beforeLeave Reached', el);
+    },
+
+    leave(el) {
+      console.log('leave Reached', el);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+   <Transition
+        name="para"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+    beforeEnter(el) {
+      // esses disparos de events tbm nos dão acesso aos ACTUAL ELEMENTS ANIMADOS/TRANSICIONADOS... (para coisas como 'mudar coisas do elemento em si')
+      console.log('beforeEnter Reached', el);
+    },
+
+    enter(el) {
+      console.log('enter Reached', el);
+    },
+
+    afterEnter(el) {
+      console.log('afterEnter Reached', el);
+    },
+
+    beforeLeave(el) {
+      console.log('beforeLeave Reached', el);
+    },
+
+    leave(el) {
+      console.log('leave Reached', el);
+    },
+    afterLeave(el) {
+      console.log('afterLeave Reached', el);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+ATÉ AÍ, TUDO BEM...
+
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS FAZER LISTEN TO A ESSES EVENTS,
+
+EM REAÇÃO A SUAS ANIMATIONS...
+
+
+
+
+
+
+
+
+
+
+--> ISSO PODE SER ÚTIL EM VÁRIOS CASOS,
+
+
+
+MAS VC PODE USAR ISSO TBM PARA _ _CONTROLAR__ TODA A ANIMATION COM O JAVASCRIPT,
+
+EM VEZ DE CSS, SE VC QUISER FAZER ISSO...
+
+
+
+VEREMOS ISSO NA PRÓXIMA LIÇÃO...

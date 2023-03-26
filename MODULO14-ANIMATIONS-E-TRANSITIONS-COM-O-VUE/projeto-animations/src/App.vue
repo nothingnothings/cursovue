@@ -18,7 +18,17 @@
           This is sometimes visible...
         </p>
       </Transition> -->
-      <Transition name="para">
+
+      <!-- 'BEFORE-ENTER' será triggado __ SEMPRE QUE __a CLASS DE 'enter-from' for adicionada a seu elemento, por meio desse wrapper de 'transition'...-->
+      <Transition
+        name="para"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+      >
         <h1 v-if="show">I AM A HEADING</h1>
       </Transition>
 
@@ -92,6 +102,32 @@ export default {
     },
     hideUsers() {
       this.usersAreVisible = false;
+    },
+
+    // EXEMPLIFICAM OS TRIGGERS DE 'TRANSITION' (pq o elemento 'transition' em si dispara events, events como 'before-enter'...)
+
+    beforeEnter(el) {
+      // esses disparos de events tbm nos dão acesso aos ACTUAL ELEMENTS ANIMADOS/TRANSICIONADOS... (para coisas como 'mudar coisas do elemento em si')
+      console.log('beforeEnter Reached', el);
+    },
+
+    enter(el) {
+      console.log('enter Reached', el);
+    },
+
+    afterEnter(el) {
+      console.log('afterEnter Reached', el);
+    },
+
+    beforeLeave(el) {
+      console.log('beforeLeave Reached', el);
+    },
+
+    leave(el) {
+      console.log('leave Reached', el);
+    },
+    afterLeave(el) {
+      console.log('afterLeave Reached', el);
     },
   },
 };
@@ -274,7 +310,6 @@ button:active {
 .fade-button-enter-active {
   transition: opacity 0.3s ease-out;
 }
-
 
 .fade-button-leave-active {
   transition: opacity 0.3s ease-in;
