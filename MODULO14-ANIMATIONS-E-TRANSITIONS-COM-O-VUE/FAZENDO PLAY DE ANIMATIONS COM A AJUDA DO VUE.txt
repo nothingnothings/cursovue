@@ -1,0 +1,731 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... O PROFESSOR QUER NOS MOSTRAR ISSO,
+
+
+POR MEIO 
+
+
+DA ADIÇÃO DE UMA NOVA DIV....
+
+
+
+
+
+
+--- >ELE VAI EM 'App.vue'
+
+E ADICIONA ISTO:
+
+
+
+
+
+
+
+<div class="container">
+    <button>Toggle Paragraph</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AÍ TEREMOS 1 PARAGRAPH --> ESSE __ PARAGRAPH DEVERÁ SER 'TOGGLED'
+
+SEMPRE QUE
+
+
+ESSE NOSSO BUTTON FOR CLICADO...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, AÍ FAZEMOS AS COISAS DE SEMPRE:
+
+
+ADICIONAMOS 1 NOVA DATA PROPERTY,
+
+'paragraphIsVisible: false',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div class="container">
+    <div
+      class="block"
+      :class="{
+        'active-block': this.animatedBlock,
+      }"
+    ></div>
+    <button @click="animateBlock()">Animate</button>
+  </div>
+  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <p>This is a test dialog!</p>
+    <button @click="hideDialog">Close it!</button>
+  </base-modal>
+  <div class="container">
+    <p>This is sometimes visible...</p>
+    <button @click="toggleParagraph()">Toggle Paragraph</button>
+  </div>
+  <div class="container">
+    <button @click="showDialog">Show Dialog</button>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return {
+      dialogIsVisible: false,
+      animatedBlock: false,
+      paragraphIsVisible: false,
+    };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+    toggleParagraph() {
+      this.paragraphIsVisible = !this.paragraphIsVisible;
+    }
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS DISSO, COLOCAMOS 1 V-IF nesse pararaph, para ficar assim:
+
+
+
+
+
+  <div class="container">
+    <p v-if="paragraphIsVisible">This is sometimes visible...</p>
+    <button @click="toggleParagraph()">Toggle Paragraph</button>
+  </div>
+  <div class="co
+
+
+
+
+  ----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO.... ISSO VAI TOGGLAR NOSSO PARAGRAPH, QUE VAI APARECER E DESAPARECER
+
+  INSTANTANEAMNETE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -> MAS AGORA QUEREMOS ANIMAR 
+
+  AMBAS 
+
+
+  ESSAS ACTIONS (appear e disappear)...
+
+
+
+
+
+
+
+
+
+
+
+  --> PARA ISSO, TEMOS 1 BUILT-IN COMPONENT,
+
+
+  DO VUE,
+
+
+
+  QUE PODEMOS USAR 
+
+
+  __ PARA_ _ CONTROLAR_ _ A APPEARANCE E DISAPPEARANCE
+
+  DE 
+
+
+  ELEMENTOS...
+
+
+
+
+
+
+
+
+
+
+  --> É O COMPONENT DE '<transition>' (OU '<Transition>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -_> OK.... --> A VANTAGEM É QUE PODEMOS WRAPPAR MÚLTIPLOS __ ELEMENTOS__ POR 
+
+
+
+  VUE APP/VUE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --_> ESSE COMPONENT, POR SUA VEZ,
+
+  VAI MANIPULAR ESSE WRAPPED ELEMENT...
+
+
+
+
+
+
+
+
+
+
+
+  -> IMPORTANTE:
+
+
+
+
+
+
+  O '<transition></transition>'
+
+
+
+  DEVE __ sEMPRE__ WRAPPAR APENAS 1 ÚNICO ELEMENTO,
+
+
+
+1 ÚNICO 'DIRECT CHILD'...
+
+
+
+
+
+
+
+
+
+
+
+
+HÁ APENAS 1 EXCEÇÃO A ISSO (provavelmente 'lists')....
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O QUE DIABOS 'TRANSITION' FAZ COM ESSE WRAPPED ELEMENT?
+
+
+
+
+
+
+
+
+
+
+
+---> BEM, É EXATAMENTE ESSE 'WRAPPED ELEMENT' QUE, 
+
+A CERTO PONTO,
+
+SERÁ 
+
+'MOUNTED'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> ENTRETANTO, A QUESTÃO É QUE ESSE ELEMENTO AÍ __ NÃO VAI SER 'MOUNTED' IMEDIATAMENTE NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ELEMENT NOT MOUNTED ---> ELEMENT MOUNTED 
+
+
+
+
+
+
+
+
+
+
+
+
+-> O QUE O 'TRANSITION' FAZ É ADICIONAR__ 1 MONTE DE 'CSS UTILITY CLASSES'
+
+
+A __ ESSE ELEMENTO ESPECÍFICO..
+
+
+
+
+
+
+
+
+
+
+--> AS CLASSES SÃO:
+
+
+
+
+
+
+1) *-enter-from 
+
+
+
+
+
+
+2) *-enter-to 
+
+
+
+
+3) *enter-active 
+
+
+
+
+
+
+
+
+
+ENTER-FROM      ENTER-TO 
+
+        ENTER-ACTIVE 
+
+
+
+
+
+
+
+
+
+
+--> O 'ENTER-ACTIVE' PERMANECE ATIVO __ DURANTE__ TODA A DURAÇÃO 
+
+DA ANIMATION/TRANSITION....
+
+
+
+
+
+
+
+--> JÁ O '-enter-from' 
+
+
+
+
+ENTRA 'ANTES', 
+
+
+PARA ENTÃO SER REMOVIDO E ENTÃO ENTRAR O 'enter-to' (right when the animation finishes)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM... O VUE ANALISA 'QUANTO TEMPO O PROCESSO DE ANIMATION DEVERÁ TOMAR'
+
+
+POR MEIO DO ANALYZE DESSAS CLASSES ESPECIAIS CSS,
+
+
+PROCURANDO 
+
+
+
+POR TRANSITIONS E ANIMATIONS NO INTERIOR DELAS,
+
+PARA 
+
+ 
+
+
+ ENTÃO 
+
+
+
+
+
+ LER A DURAÇÃO DELES...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ISSO QUER DIZER QUE O VUE 
+
+ VAI ANALISAR SEU CÓDIGO CSS PARA ESSES 'SPECIAL CSS CLASS NAMES',
+
+
+PARA ENTÃO DESCOBRIR A DURATION E ACTUALLY 
+
+
+
+'''ADICIONAR ESSAS CSS CLASSES AO LONGO DA DURATION''', O QUE, POR SUA VEZ,
+
+
+VAI 
+
+TE PERMITIR DEFINIR DIFERENTES STYLES 
+
+
+
+
+
+DURANTE O 
+
+
+'APPEAR' DE SEU COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O MESMO PRINCÍPIO, É CLARO, É APLICADO COM O 'DISAPPEAR' DE SEU COMPONENT --> 
+
+
+
+
+
+NESSE CASO, DO DISAPPEAR, AS CLASSES CSS 
+
+ESPECIAIS SÃO DO 'CAMINHO INVERSO',
+
+
+
+
+
+
+
+
+
+
+
+com :
+
+
+
+
+
+
+
+'*-leave-from' 
+
+
+'*-leave-to' 
+
+
+
+'-leave-active' ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO CASO, O PROCESSO DE 'DISAPPEAR' É:
+
+
+
+
+
+
+ELEMENT MOUNTED -----------> ELEMENT NOT MOUNTED 
+
+
+                leave-from  leave-to 
+                    leave-active 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------> ok.... ISSO FAZ TOTAL SENTIDO...
+
+
+
+
+
+
+
+
+
+
+---> ISSO TE PERMITE ANIMAR O 'REMOVE' DE ELEMENTS VUE...
+
+
+
+
+
+
+
+--> A COISA IMPORTANTE É:
+
+
+
+
+'''VUE VAI ANALISAR O CÓDIGO CSS QUE VC ESCREVEU PARA ESSAS CLASSES,
+
+PARA LER 
+
+
+A DURATION DAS ANIMATIONS E TRANSITIONS QUE VC ESCREVEU PARA ELAS,
+
+
+
+PARA ENTÃO SOMENTE __rEMOVER ELEMENTOS DO DOM ASSIM QUE A DURATION 
+
+ACABAR''' --> E ESSA É A KEY-DIFFERENCE EM RELAÇAÕ 
+
+
+AO 
+
+COMPORTAMENTO 'NON-VUE',
+
+
+
+
+PQ LÁ 
+
+ 
+ SEMPRE O REMOVE DE 1 ELEMENTO É FEITO 'INSTANTANEAMENTE'...
+
+
+
+
+
+
+
+
+
+
+ --> O VUE CONSEGUE PERCEBER QUE 1 DURATION ESTÁ ACONTECENDO,
+ PARA ENTÃO SOMENTE REMOVER 1 ELEMENTO ASSIM QUE SUA ANIMATION TIVER ACABADO....

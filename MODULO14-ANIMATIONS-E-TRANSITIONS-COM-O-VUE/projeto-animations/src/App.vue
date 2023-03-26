@@ -13,6 +13,10 @@
     <button @click="hideDialog">Close it!</button>
   </base-modal>
   <div class="container">
+    <p v-if="paragraphIsVisible">This is sometimes visible...</p>
+    <button @click="toggleParagraph()">Toggle Paragraph</button>
+  </div>
+  <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
 </template>  
@@ -20,7 +24,11 @@
 <script>
 export default {
   data() {
-    return { dialogIsVisible: false, animatedBlock: false };
+    return {
+      dialogIsVisible: false,
+      animatedBlock: false,
+      paragraphIsVisible: false,
+    };
   },
   methods: {
     showDialog() {
@@ -32,6 +40,9 @@ export default {
     animateBlock() {
       this.animatedBlock = !this.animatedBlock;
     },
+    toggleParagraph() {
+      this.paragraphIsVisible = !this.paragraphIsVisible;
+    }
   },
 };
 </script>
@@ -69,7 +80,6 @@ button:active {
   */
   /* transition -> /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
   /* transition: transform 0.3s ease-out; */
-
 }
 .container {
   max-width: 40rem;
@@ -85,7 +95,6 @@ button:active {
 
 .active-block {
   /* transform: translateX(-180px);   USADO COM 'transition'*/
-
 
   /* (NOME DA ANIMATION)/(DURATION DA ANIMATION, QUE SERÁ SPLTITADA AO LONGO DAS KEYFRAMES)/(EASING FUNCTION -> determina se começamos rápido/lento e terminamos rápido/lento) */
   animation: slide-in 0.3s ease-out forwards;
@@ -104,5 +113,4 @@ button:active {
     transform: translateX(-150px) scale(1);
   }
 }
-
 </style>
