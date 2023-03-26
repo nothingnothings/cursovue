@@ -1,0 +1,424 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK, MAS QUAL SERIA 1 CENÁRIO EM QUE 
+
+ESSAS TRANSITIONS E ANIMATIONS BÁSICAS DE CSS NÃO SÃO O SUFICIENTE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> BEM, ISSO É IMPORTANTE:
+
+
+
+
+
+'''AS CSS ANIMATIONS E TRANSITIONS FREQUENTEMENTE SERÃO SUFICIENTES,
+
+
+MAS _ A MANEIRA_ PELA QUAL ESTAMOS AS ADICIONANDO, COM 'state' e com ':class',
+
+
+NÃO 
+
+
+SERÁ SUFICIENTE, ÀS VEZES'''.. .--> àS VEZES ESSE JAVASCRIPT SERÁ INSUFICIENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O EXEMPLO PERFEITO É O MODAL DE NOSSO PÁGINA...
+
+
+
+
+
+
+
+
+
+
+
+
+--> NOSSO MODAL APARECE INSTANTANEAMENTE --> ÀS VEZES VC VAI QUERER ANIMAR ESSE MODAL...
+
+
+
+
+
+
+
+
+
+
+
+TBM VAI QUERER A MESMA COISA COM O REMOVE... -------> SE VC QUISER
+
+
+
+FAZER A ANIMATION DESSE MODAL COM 
+
+APENAS O ADD/REMOVE DE CLASSES,
+
+
+
+COM 
+
+
+O VUE,
+
+
+PODE ÀS VEZES SER DIFÍCIL --> ESPECIALMENTE QUANDO VC QUER 
+ANIMAR 
+
+A 
+
+
+__DISAPPEARANCE 
+
+
+
+
+__ DESSE MODAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PARA ISSO,
+
+VAMOS ATÉ O BASE MODAL,
+
+
+
+
+lá no selector de 'dialog' --> O PROFESSOR DECIDE 
+
+
+
+
+ADICIONAR UMA PEQUENA KEY-ANIMATION -->
+
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+@keyframes modal {
+
+    0% {
+
+    }
+
+    100% {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+--> COMO ESTAMOS ANIMANDO APENAS 2 STATES (0 e 100),
+
+
+PODEMOS USAR 
+
+
+AS KEYWORDs de 'from' e to'..
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+@keyframes modal {
+
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }   
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1.0);
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+AGORA PODEMOS ADICIONAR ESSA ANIMATION DE MODAL AO NOSSO SELECTOR DE 'dialog',
+
+TIPO ASSIM:
+
+
+
+
+
+
+dialog { 
+  /* MODAL - EXEMPLIFICA COMO O ADD/REMOVE DE CLASSES __ SIMPLES, COM O VUE, PODE ÀS VEZES N SER SUFICIENTE... */
+  position: fixed;
+  top: 30vh;
+  width: 30rem;
+  left: calc(50% - 15rem);
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: white;
+  z-index: 100;
+  border: none;
+  animation: modal 0.3s ease-out forwards;
+}
+
+@keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+OK..
+ 
+
+ COLOCAMOS 
+
+
+ ESSAS PROPRIEDADES PARA DIZER AO CSS QUE O FINAL STATE DEVE SER 'KEPT',
+
+
+ E QUE 
+
+ QUEREMOS QUE A ANIMATION DE DIALOG TOQUE EXATAMENTE ASSIM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> SE FIZERMOS ISSO, VEREMOS QUE A ANIMATION REALMENTE VAI TOCAR DE FORMA NORMAL,
+
+
+ ELA VAI APARECER GRADUALMENTE, COMO QUERÍAMOS...
+
+
+
+
+
+
+
+
+
+
+ --> ENTRETANTO, QUANDO FECHARMOS ESSE MODAL,
+
+ NÃO TEREMOS ANIMATION... 
+
+
+
+
+
+--> PQ ISSO ACONTECE?
+
+
+
+
+
+ ---> PQ 
+
+
+
+
+
+ A ANIMATION ACONTECE 
+
+ QUANDO 
+
+
+
+
+
+
+O SELECTOR ENCONTRA ALGO NA PAGE,
+
+
+MAS QUANDO ESSA MESMA ANIMATION É REMOVIDA,
+
+
+NÃO TEMOS NENHUMA ANIMATION SENDO TOCADA PARA ESSA REMOÇÃO (isso não existe nativamente)....
+
+
+
+
+
+
+
+
+
+
+
+--> OS PROBLEMAS COMEÇAM SE TENTAMOS ANIMAR TAMBÉM A 'REMOVAL' DESSE MODAL... --> O PROBLEMA 
+
+
+QUE TEREMOS É QUE 
+
+ESSE ELEMENTO ESTARÁ 'DETACHED' DO DOM ---> ISSO SIGNIFICA QUE 
+
+NÃO EXISTE NENHUMA MANEIRA DE ANIMAR ISSO COM CSS (
+  pq é 
+
+  removido instantaneamente,
+
+  não há como 
+
+  PEDIR AO BROWSER QUE 
+
+  REMOVA ESSE NEGÓCIO 
+
+
+  DEPOIS DA ANIMATION ACABAR --> MAS É EXATAMENTE ISSO QUE QUEREMOS,
+  ANIMAR A DISAPPEARANCE DE NOSSO ELEMENTO...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS É COM ISSO QUE O VUE PODE NOS AJUDAR,
+
+
+PODE 
+
+
+
+
+NOS AJUDAR 
+
+'FAZENDO DELAY DA DISAPPEARANCE __aTÉ QUE_ __ 1 
+
+CERTA ANIMATION TENHA ACABADO'''...

@@ -22,7 +22,8 @@ export default {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-dialog {
+dialog { 
+  /* MODAL - EXEMPLIFICA COMO O ADD/REMOVE DE CLASSES __ SIMPLES, COM O VUE, PODE ÀS VEZES N SER SUFICIENTE... */
   position: fixed;
   top: 30vh;
   width: 30rem;
@@ -34,5 +35,18 @@ dialog {
   background-color: white;
   z-index: 100;
   border: none;
+  animation: modal 0.3s ease-out forwards;
+}
+
+@keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 </style>
