@@ -155,7 +155,9 @@ button:active {
   opacity: 0;
   transform: translateY(30px);
 } */
-.v-enter-active,
+
+
+/* .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
 }
@@ -163,5 +165,11 @@ button:active {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+} */
+
+
+.v-enter-active, .v-leave-active { 
+  /* USE ISSO (apenas 'v-enter-active' e 'v-leave-active') NOS CASOS EM QUE VC QUER TER UMA __ANIMATION __ ESPECÍFICA, COMO 'slide-in', nesses caso */
+    animation: slide-in 0.3s ease-out;
 }
 </style>
