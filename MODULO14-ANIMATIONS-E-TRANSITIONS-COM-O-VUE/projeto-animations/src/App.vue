@@ -8,10 +8,7 @@
         }"
       ></div>
       <Transition name="dummy2">
-        <div
-        v-if="show"
-          class="block2"
-        ></div>
+        <div v-if="show" class="block2"></div>
       </Transition>
       <button @click="animateBlock()">Animate</button>
     </div>
@@ -36,10 +33,17 @@
       </Transition> -->
       <button @click="show = !show">Toggle Paragraph</button>
     </div>
-    <base-modal @close="hideDialog" v-if="dialogIsVisible">
+    <!-- <Transition name="modal"> -->
+    <!-- <base-modal @close="hideDialog" v-if="dialogIsVisible">
+        <p>This is a test dialog!</p>
+        <button @click="hideDialog">Close it!</button>
+      </base-modal> -->
+
+    <base-modal @close="hideDialog" :open="dialogIsVisible">
       <p>This is a test dialog!</p>
       <button @click="hideDialog">Close it!</button>
     </base-modal>
+    <!-- </Transition> -->
     <div class="container">
       <button @click="showDialog">Show Dialog</button>
     </div>
@@ -59,9 +63,11 @@ export default {
   methods: {
     showDialog() {
       this.dialogIsVisible = true;
+      console.log(this.dialogIsVisible);
     },
     hideDialog() {
       this.dialogIsVisible = false;
+      console.log(this.dialogIsVisible);
     },
     animateBlock() {
       this.animatedBlock = !this.animatedBlock;
@@ -204,12 +210,41 @@ button:active {
   transform: translateY(-30px);
 } */
 
-.dummy2-enter-active, .dummy2-leave-active {
+.dummy2-enter-active,
+.dummy2-leave-active {
   animation: slide-in 0.3s ease-out;
 }
 
 /* .dummy2-enter-to {
   opacity: 1;
   transform: translateY(0);
+} */
+
+/* .modal-enter-from {
+  opacity: 0;
+  transform: translateY(-200px);
+} */
+
+/* .modal-enter-active,
+.modal-leave-active { */
+/* transition: all 0.25s ease-out; */
+/* animation: modal 0.3s ease-out;
+} */
+
+/* .modal-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* @keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 } */
 </style>

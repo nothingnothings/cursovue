@@ -1,13 +1,26 @@
 <template>
-  <div class="backdrop" @click="$emit('close')"></div>
+  <!-- NÃO PODEMOS TER 2 CHILD ELEMENTS NESSE MODAL, PRECISAMOS QUE ELE SEJA 1 ELEMENTO ÚNICO... -->
+
+  <!-- 1 SOLUÇÃO É CRIAR 1 COMPONENT PARA O BACKDROP, OUTRO PARA O MODAL, E AÍ OS ANIMAR SEPARADAMENTE...-->
+
+  <!-- <div class="backdrop" @click="$emit('close')"></div>
   <dialog open>
     <slot></slot>
-  </dialog>
+  </dialog> -->
+  <div>
+    <div v-if="open" class="backdrop" @click="$emit('close')"></div>
+    <Transition name="modal">
+      <dialog v-if="open" open >
+        <slot></slot>
+      </dialog>
+    </Transition>
+  </div>
 </template>
 
 <script>
 export default {
   emits: ['close'],
+  props: ['open'],
 };
 </script>
 
@@ -22,7 +35,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-dialog { 
+dialog {
   /* MODAL - EXEMPLIFICA COMO O ADD/REMOVE DE CLASSES __ SIMPLES, COM O VUE, PODE ÀS VEZES N SER SUFICIENTE... */
   position: fixed;
   top: 30vh;
@@ -35,10 +48,24 @@ dialog {
   background-color: white;
   z-index: 100;
   border: none;
-  animation: modal 0.3s ease-out forwards;
+  /* animation: modal 0.3s ease-out forwards; */
 }
 
-@keyframes modal {
+.modal-enter-active {
+  /* transition: all 0.25s ease-out; */
+  animation: modal-enter 0.3s ease-out;
+}
+
+.modal-leave-active {
+  animation: modal-leave 0.3s ease-out;
+}
+
+/* .modal-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+@keyframes modal-enter {
   from {
     opacity: 0;
     transform: translateY(-50px) scale(0.9);
@@ -47,6 +74,16 @@ dialog {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modal-leave {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 </style>
