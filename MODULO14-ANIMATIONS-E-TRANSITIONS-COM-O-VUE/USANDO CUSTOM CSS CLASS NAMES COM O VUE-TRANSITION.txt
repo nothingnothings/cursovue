@@ -1,0 +1,336 @@
+
+
+
+
+
+
+
+
+
+OK... MAS E SE VC TIVESSE MÚLTIPLOS COMPONENTS DE 'TRANSITION' NA SUA PÁGINA?
+
+
+
+
+
+
+
+
+
+
+
+ISSO PQ VC TVZ QUEIRA ANIMAR 
+
+
+
+DIFERENTES COISAS,
+
+
+
+
+
+ANIMAR O PARAGRAPH,
+
+ANIMAR 
+
+
+
+O BLOCK,
+
+ETC...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROBLEMA É QUE 
+
+
+
+'v-enter-from' 
+
+
+e 
+
+
+'v-enter-to'
+
+
+SERÃO 
+
+
+
+
+APLICADAS A TODOS CSS ELEMENTS,
+
+
+
+
+
+
+
+A MESMA ANIMATION PARA TODOS OS ELEMENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE QUEREMOS DIFERENTES TRANSITIONS, PARA DIFERENTES COMPONENTS,
+
+
+TEREMOS DE CUSTOMIZAR 
+
+OS NAMES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> tipo assim:
+
+
+
+
+
+
+
+      <Transition name="para">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+.para-enter-active,
+.para-leave-active {
+  animation: slide-in 0.3s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+E ESSE NAME PODE SER SETTADO E CUSTOMIZADO PARA Q VC TENHA 
+DIFERENTES 
+
+
+
+
+
+TRANSITIONS E TRANSITION USAGES EM 1 MESMO COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+MAS TEMOS MAIS 1 DETALHE SOBRE O NAMING --> PODEMOS DEFINIR 
+
+
+
+
+
+NOSSOS PRÓPRIOS PREFIXES, SIM, 
+
+como 
+
+'para',
+
+
+etc...
+
+
+
+
+
+
+
+
+--> PODEMOS DEIXAR NOMES TOTALMENTE CUSTOMIZADOS CSS 
+
+
+
+
+NESSAS CLASSES --> TVZ PQ ESTAMOS USANDO ALGUM THIRD-PARTY CSS ANIMATION PACKAGES,
+
+EM QUE N PODEMOS TROCAR 
+
+
+OS NAMES....
+
+
+
+
+
+
+
+
+
+
+--> EM CASOS COMO ESSES, PODEMOS 
+
+
+DEFINIR MAIS PROPS __ ALÉM DE 'name' nesse 'transition'...
+
+
+
+
+
+
+
+
+
+
+
+
+-> podemos fazer assim:
+
+
+
+
+
+      <transition
+      enter-to-class="some-class"
+      enter-active-class="..."
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      COM ISSO, PODEMOS DEFINIR '''AS CLASSES QUE DEVERÃO SER ADICIONADAS EM CADA 1 DESSAS STEPS/FASES''...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+      <!-- <Transition
+      enter-active-class=""
+      leave-active-class=""
+      enter-from-class="feature-enter-from"
+      enter-to-class=""
+      leave-from-class="feature-from-leave"
+      leave-to-class="">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO É ALGO MAIS AVANÇADO, E É DE CERTA FORMA DESNECESSÁRIO...
+
+
+
+
+
+
+
+
+MAS A QUESTÃO É QUE TEMOS FLEXIBILIDADE TOTAL QUANTO A ESSES NAMES,
+E QUANTO A QUE 
+
+CLASSES 
+
+
+CSS SÃO ADICIONADAS A CERTO PONTO...

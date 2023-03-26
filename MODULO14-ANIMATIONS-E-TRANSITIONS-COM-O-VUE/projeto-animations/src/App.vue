@@ -7,6 +7,12 @@
           'active-block': this.animatedBlock,
         }"
       ></div>
+      <Transition name="dummy2">
+        <div
+        v-if="show"
+          class="block2"
+        ></div>
+      </Transition>
       <button @click="animateBlock()">Animate</button>
     </div>
     <div class="container">
@@ -15,9 +21,19 @@
           This is sometimes visible...
         </p>
       </Transition> -->
-      <Transition>
+      <Transition name="para">
         <h1 v-if="show">I AM A HEADING</h1>
       </Transition>
+
+      <!-- <Transition
+      enter-active-class=""
+      leave-active-class=""
+      enter-from-class="feature-enter-from"
+      enter-to-class=""
+      leave-from-class="feature-from-leave"
+      leave-to-class="">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition> -->
       <button @click="show = !show">Toggle Paragraph</button>
     </div>
     <base-modal @close="hideDialog" v-if="dialogIsVisible">
@@ -91,6 +107,13 @@ button:active {
   /* transition -> /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
   /* transition: transform 0.3s ease-out; */
 }
+
+.block2 {
+  width: 8rem;
+  height: 8rem;
+  background-color: red;
+  margin-bottom: 2rem;
+}
 .container {
   max-width: 40rem;
   margin: 2rem auto;
@@ -156,7 +179,6 @@ button:active {
   transform: translateY(30px);
 } */
 
-
 /* .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
@@ -167,9 +189,27 @@ button:active {
   opacity: 0;
 } */
 
+/* .v-enter-active, .v-leave-active {  */
+/* USE ISSO (apenas 'v-enter-active' e 'v-leave-active') NOS CASOS EM QUE VC QUER TER UMA __ANIMATION __ ESPECÍFICA, COMO 'slide-in', nesses caso */
+/* animation: slide-in 0.3s ease-out; */
+/* } */
 
-.v-enter-active, .v-leave-active { 
-  /* USE ISSO (apenas 'v-enter-active' e 'v-leave-active') NOS CASOS EM QUE VC QUER TER UMA __ANIMATION __ ESPECÍFICA, COMO 'slide-in', nesses caso */
-    animation: slide-in 0.3s ease-out;
+.para-enter-active,
+.para-leave-active {
+  animation: slide-in 0.3s ease-out;
 }
+
+/* .dummy2-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+} */
+
+.dummy2-enter-active, .dummy2-leave-active {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* .dummy2-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
 </style>
