@@ -1,0 +1,926 @@
+
+
+
+
+
+
+
+
+
+
+---> OK... O PROFESSOR SEMPRE REFORÇOU QUE 
+
+
+'''TRANSITION DEVE TER APENAS 1 ÚNICO CHILD ELEMENT''' -->  E É EXATAMENTE POR CONTA DISSO 
+
+
+
+QUE TIVEMOS DE MODIFICAR UM POUCO NOSSO 'BASE MODAL',
+
+
+PARA _ GARANTIR QUE O '<Transition></Transition>'
+
+
+TIVESSE 
+
+APENAS 1 ÚNICO CHILD ELEMENT..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, MAS EXISTE UMA EXCEÇÃO A ESSA REGRA,
+
+
+QUE SERÁ MOSTRADA AGORA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR ADICIONA UMA NOVA DIV 
+
+LÁ EM 'App.vue',
+
+
+
+
+
+com 1 container...
+
+
+
+
+
+
+
+DENTRO DISSO, TEREMOS 1 BUTTON.... -> MAS VAMOS ANIMAR, AGORA, O BUTTON EM SI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> Tipo assim:
+
+
+
+
+
+
+<div class="container">
+    <button>Show Users</button>
+    <button>Hide Users</button>
+</div>
+
+
+
+
+
+POR ENQUANTO não temos users,
+
+
+
+mas vamos querer, inicialmente, animar o switch entre 'show' e 'hide'...
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO QUEREMOS QUE O TEXT NO BUTTON TROQUE INSTANTANEAMENTE,
+
+
+
+queremos que exista 1 animation...
+
+
+
+
+
+
+
+
+
+PARA TROCAR ENTRE ESSES 2 STATES, COLOCAMOS ASSIM:
+
+
+
+
+
+    <div class="container"> <!-- EXEMPLO DE 'TRANSITIONING BETWEEN MULTIPLE COMPONENTS'-->
+      <button @click="showUsers">Show Users</button>
+      <button @click="hideUsers">Hide Users</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRECISAMOS DE 1 DATA PROPERTY, QUE SERÁ 'usersAreVisible'...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container">
+      <!-- EXEMPLO DE 'TRANSITIONING BETWEEN MULTIPLE COMPONENTS'-->
+      <button @click="showUsers">Show Users</button>
+      <button @click="hideUsers">Hide Users</button>
+    </div>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return {
+      dialogIsVisible: false,
+      animatedBlock: false,
+      paragraphIsVisible: false,
+      show: true,
+      usersAreVisible: false,
+    };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+      console.log(this.dialogIsVisible);
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+      console.log(this.dialogIsVisible);
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+    toggleParagraph() {
+      this.paragraphIsVisible = !this.paragraphIsVisible;
+    },
+    showUsers() {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA PODEMOS CONTROLAR 'QUAL BUTTON DEVE SER VISIBLE'
+
+
+
+COM BASE NESSA DATA PROPERTY, TIPO ASSIM:
+
+
+
+
+
+
+    <div class="container">
+      <!-- EXEMPLO DE 'TRANSITIONING BETWEEN MULTIPLE COMPONENTS'-->
+      <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+      <button @click="hideUsers" v-if="usersAreVisible">Hide Users</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE ESSES BUTTONS VÃO SER MOSTRADOS/ESCONDIDOS COM BASE NOS USERS..
+
+
+
+
+
+
+
+--> CLICAMOS NO BUTTON, E ELE TROCA INSTANTANEAMENTE ENTRE OS STATES...
+
+
+
+
+
+
+
+
+
+-> MAS O PROFESSOR QUER FOCAR NA 'TRANSITION' ENTRE ESSES 2 BUTTONS...
+
+
+
+
+
+
+
+
+
+-_> SE QUEREMOS __ALTERAR __ ESSA TRANSIÇÃO, INSTANTÂNEA,
+
+
+PODEMOS USAR O COMPONENT DE 
+
+'<Transition>'
+
+
+EM VOLTA DESSES 2 BUTTONS...
+
+
+
+
+
+
+
+
+
+
+--> OK... ESSA É A ÚNICA EXCEÇÃO EM QUE 
+
+NOS É PERMITIDO 
+
+
+COLOCAR 2 ELEMENTS COMO DIRECT CHILDREN 
+
+
+DE 1 WRAPPER '<transition>'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESTA É JUSTAMENTE A EXCEÇÃO:
+
+
+
+
+
+
+
+1) A EXCEÇÃO É '''SE DOS CHILD ELEMENTS QUE VC TEM NA SUA TRANSITION,
+
+VC GARANTE QUE ___ APENAS __ 1 DELES, NO MÁXIMO, SERÁ ADICIONADO AO DOM,
+
+AO MESMO TEMPO''' -> E ESSE É O CASO, AQUI,
+
+
+
+
+PQ TEMOS 
+
+2 
+
+IF STATEMENTS ALTERNATIVOS (opostos),
+
+
+E __ PORTANTO GARANTIMOS QUE __ _APENAS_ 1 DESSES 2 BUTTONS SERÁ ADICIONADO 
+
+AO REAL 
+
+
+DOM 
+
+POR VEZ...
+
+
+
+
+
+
+
+
+
+
+
+
+OK..
+
+
+
+
+
+
+
+
+
+SE TIVER 1 CHANCE DE AMBOS OS BUTTONS SEREM ADICIONADOS AO MESMO TEMPO NA PAGE,
+
+
+
+ISSO NÃO SERÁ OK... -----> OK... SE VC DEIXAR A MESMA IF CONDITION,
+
+
+ISSO NÃO SERÁ ACEITO PELO VUE, PQ OS 
+
+2 ELEMENTOS 
+
+FARÃO PARTE DA PÁGINA  AO MESMO TEMPO.... (proibido).
+
+
+
+
+
+
+
+
+
+
+
+
+----> colocamos um nome de transition de 'fade-button'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+.fade-button-enter-from {
+}
+
+.fade-button-enter-active {
+}
+
+.fade-button-enter-to{
+}
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+OS STYLES FICARÃO ASSIM:
+
+
+
+
+
+
+
+
+
+
+.fade-button-enter-from {
+    opacity: 0;
+}
+
+.fade-button-enter-active {
+    transition: opacity 0.3s ease-out;
+}
+
+.fade-button-enter-to{
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+NO CASO, VAMOS REUTILIZAR O STYLE DE 'enter-from', PQ 
+
+
+
+
+O __ STATE DE 'enter-from' 
+
+
+TAMBÉM 
+
+
+É O STATE DE 'leave'...
+
+
+
+(JUSTAMENTE PQ VAMOS SWITCHAR ENTRE OS 2)...
+
+
+
+
+
+EX:
+
+
+
+
+
+.fade-button-enter-from, .fade-button-leave-to {
+  opacity: 0;
+}
+
+.fade-button-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-button-enter-to, .fade-button-leave-from {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+A ÚNICA COISA QUE SERÁ REALMENTE DIFERENTE SERÁ A EASING FUNCTION DO 'leave-active'...
+
+
+
+
+
+
+EX:
+
+
+
+
+.fade-button-enter-from,
+.fade-button-leave-to {
+  opacity: 0;
+}
+
+.fade-button-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+
+.fade-button-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+.fade-button-enter-to,
+.fade-button-leave-from {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA ESTAMOS REUTILIZANDO 1 POUCO DE CÓDIGO, CLARO...
+
+
+
+
+
+
+
+
+
+
+
+--> SALVAMOS TUDO ISSO,
+
+
+
+
+E ENTÃO GANHAMOS 1 ERROR --> 
+
+
+'Transition espera exatamente apenas 1 único direct child component'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> REALMENTE,
+ 
+
+
+
+
+APENAS NOS É PERMITIDO COLOCAR 2 CHILD ELEMENTS SE APENAS 1 DELES FOR RENDERIZADO AT A GIVEN TIME....
+
+
+
+
+
+
+
+MAS O VUE NÃO É TÃO ESPERTO,
+
+ELE NÃO VAI ANALISAR TODAS AS SUAS CONDITIONS --> É POR ISSO QUE 
+
+VC 
+
+PRECISA 
+
+DAR 
+
+
+AO 
+
+VUE 
+
+
+'''UM SINAL BEM CLARO''' DE QUE 
+
+
+É __ OU __ 'o component 1 ou o component 2 ' 
+
+
+
+que 
+
+
+SERÁ RENDERIZADO NA TELA, AT A GIVEN TIME...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PRECISAMOS USAR O 'v-else',
+
+
+PQ 
+
+
+
+ELE _ _REALMENTE_  GARANTE QUE 'OU THIS, OU THAT,
+
+
+É RENDERIZADO'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    <div class="container">
+      <!-- EXEMPLO DE 'TRANSITIONING BETWEEN MULTIPLE COMPONENTS'-->
+      <!-- esse é o único caso em que podemos colocar múltiplos direct child elements para 1 mesmo wrapper de 'Transition'...-->
+      <!-- APENAS COM 'v-else' GARANTIMOS, AO VUE, QUE APENAS 1 DESSES ELEMENTOS SERÁ RENDERIZADO NA TELA, AT A GIVEN TIME...-->
+      <Transition name="fade-button">
+        <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+        <button @click="hideUsers" v-else>Hide Users</button>
+      </Transition>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... COM ISSO,
+
+VEREMOS 
+
+QUE TERÁ FUNCIONADO --> MAS TERÁ FICADO FEIO,
+
+
+
+PQ __ ELE FAZ 'JUMP',
+
+
+E,
+
+DURANTE A TRANSITION,
+
+
+
+TEMOS 
+
+
+
+OS 2 BUTTONS PRESENTES 
+
+NA TELA -------> BEM, MAS NÃO É ISSO O QUE DESEJAMOS...
+
+
+
+
+
+
+
+
+
+QUEREMOS TER OS 2 BUTTONS, MAS NÃO OS 2 BUTTONS NA TELA AO MESMO TEMPO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS QUE 1 BUTTON FAÇA 'FADE-OUT',
+
+E QUE 
+
+SÓ ENTÃO O OUTRO BUTTON FAÇA 'FADE-IN'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> E ISSO TBM É ALGO QUE PODEMOS CONTROLAR... -> PODEMOS COLOCAR O PROP DE 'mode'...
+
+
+
+
+
+
+
+--> <transition name="fade-button" mode=""></transition>
+
+
+
+
+
+
+
+
+
+
+E O MODE CONHECE 2 VALUES,
+
+'in-out' 
+
+
+e 
+
+'out-in'..
+
+
+
+
+
+
+
+
+
+ISSO __ CONTROLA__ 
+
+
+SE 
+
+
+
+
+
+'''PRIMEIRAMENTE, O LEAVING ELEMENT DEVERÁ SER ANIMADO''',
+
+
+
+OU 
+
+ENTÃO 
+
+
+'''PRIMEIRAMENTE, O ENTERING ELEMENT DEVERÁ SER ANIMADO'''...
+
+
+
+
+
+
+
+
+--> SE DEIXAMOS 'in-out',
+
+
+GANHAMOS O MESMO BEHAVIOR  DE ANTES...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+<transition name="fade-button" mode="in-out"></transition>
+
+
+
+
+
+
+
+
+
+
+
+
+MAS SE COLOCAMOS 'out-in',
+
+
+
+FICAMOS COM 1 BEHAVIOR MELHOR:
+
+
+
+
+
+
+
+<transition name="fade-button" mode="out-in"></transition>
