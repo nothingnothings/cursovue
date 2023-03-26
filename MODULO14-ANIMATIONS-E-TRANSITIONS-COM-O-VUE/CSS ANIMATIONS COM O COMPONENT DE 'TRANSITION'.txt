@@ -1,0 +1,143 @@
+
+
+
+
+
+O TRANSITION   DO VUE PODE SER USADO COM 'ANIMATION' E COM 'TRANSITION'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA VEREMOS COMO FAZER ISSO COM 'ANIMATION'...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR MOSTRA COMO PODEMOS ADICIONAR ISSO COM O COMPONENT WRAPPER DE 'Transition'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS SE N QUISERMOS USAR ESSA WAY DE 'transition',
+
+
+TALVEZ PQ 
+
+VC TEM UMA ANIMATION MAIS COMPLEXA,
+
+COM VÁRIAS 'STEPS'....
+
+
+
+
+
+
+
+
+
+
+
+SE VC FOR USAR O 'ANIMATION',
+
+
+
+
+
+O IDEAL É TIRAR TODAS AS CLASSES 'TO' E 'FROM',
+
+
+para focar apenas na 'v-enter-active' e 'v-leave-active'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> o professor escreve assim:
+
+
+
+
+
+
+.v-enter-active, .v-leave-active {
+    animation: slide-in 0.3s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'ADD TO DOM/REMOVE TO DOM' (com v-show e v-if, ou com render condicional)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TODAS ESSAS CLASSES SERÃO ADICIONADAS/REMOVIDAS COM A AJUDA DO VUE 
+
+
+
+
+
+
+
+
+
+
+
+--> e nosso animate funciona, o paragraph realmente é movido para a esquerda.
