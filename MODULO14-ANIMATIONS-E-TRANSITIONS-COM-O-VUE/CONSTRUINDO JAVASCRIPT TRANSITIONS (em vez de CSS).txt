@@ -1,0 +1,1680 @@
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+AGORA DEVEMOS CONSTRUIR UMA ANIMATION INTEIRA COM JAVASCRIPT, EM VEZ DE CSS...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR FARÁ ISSO 
+
+
+PARA O PARAGRAPH DE 'para2'... (esse é o transition name, no caso)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+      <Transition
+        name="para2"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA VAMOS ATIVAR ANIMATIONS SOMENETE COM JAVASCRIPT...
+
+
+
+
+
+
+
+
+
+
+
+BEM, É ÓBVIO QUE VC USARÁ CSS COM MAIOR FREQUÊNCIA, PARA ATIVAR SUAS ANIMATIONS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O USO DE JAVASCRIPT PARA ANIMAR SEUS COMPONENTS 
+
+PODE 
+
+SER 
+
+ÚTIL PRINCIPALMENTE 
+
+
+SE 
+
+VC 
+
+QUER 
+
+USAR 
+
+1
+ 
+ THIRD PARTY BASED 
+
+
+
+ JAVASCRIPT ANIMATION LIBRARY,
+
+ COMO 
+
+
+ 'GREEN SOCK' -------> O GREEN SOCK 
+
+
+
+NÃO TEM NADA A VER COM O VUE,
+
+
+
+MAS É UMA 
+
+
+LIBRARY JAVASCRIPT 
+
+
+
+MT FORTE,
+
+USADA 
+PARA 
+
+
+
+
+CONSTRUIR ANIMATIONS (complexaS)
+ 
+
+
+
+ COM 
+
+ O JAVASCRIPT... -----> ESSE SERIA 1 USE-CASE 
+
+
+ EM QUE 
+
+
+ VC 
+
+ GOSTARIA 
+
+
+
+ DE CONSTRUIR 1 TRANSITION INTEIRA 
+
+  
+  COM O JAVASCRIPT,
+
+
+
+  
+  PQ QUER USAR 
+
+
+
+
+  ESSA LIBRARY AÍ (ou parecidas) ...
+
+
+
+
+
+
+
+
+
+
+
+  MAS VC TBM PODE ANIMAR ESSE PARAGRAPH COM O JAVASCRIPT PURO,
+
+  SEM CSS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> BEM...
+
+
+
+
+
+
+  PARA ANIMAR/CRIAR 1 ANIMATION COM O JAVASCRIPT,
+
+
+  É 
+
+
+  NECESSÁRIO 
+  TER 
+
+  AQUELES TRIGGERS 
+
+
+  DE 
+
+
+
+         @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO _ PQ __ ESSES TRIGGERS AINDA SÃO CHAMADOS,
+
+
+
+AINDA QUE NÃO TENHAMOS 
+
+
+NENHUMA CLASS CSS ADICIONADA NESSE ELEMENT de '<p>'...
+
+
+
+
+
+
+
+
+
+OS HOOKS SERÃO CHAMADOS DE FORMA INSTANTÂNEA,
+
+MAS AINDA SÃO CHAMADOS,
+O QUE QUER DIZER QUE 
+
+
+
+
+
+ESSES EVENTS AÍ,
+
+NO COMPONENT DE 'TRANSITION',
+
+
+
+SEMPRE SÃO 
+
+DISPARADOS
+
+
+
+
+
+
+
+QUANDO ESSE ELEMENT É REMOVID/ADICIONADO AO DOM...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SEM NENHUM CÓDIGO CSS PARA CONTROLAR A ANIMATION,
+
+
+ESSES HOOKS SÃO EXECUTADOS INSTANTANEAMENTE,
+
+
+
+1 ATRÁS DO OUTRO,
+
+
+PQ 
+NÃO HÁ NENHUM 'TIMEOUT' OU DURATION ENTRE ELES...
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+ MAS É CLARO QUE PODEMOS MUDAR ISSO...
+
+
+
+
+
+
+
+ --> em 'beforeEnter',
+
+
+
+
+
+ PODERÍAMOS SETTAR NOSSO 'INITIAL ANIMATION STATE'..
+.
+
+
+
+
+
+
+--> POR EXEMPLO,
+
+
+
+AQUI PODERÍAMOS COLOCAR 'el',
+
+
+E AÍ 
+
+
+SETTAR 
+
+
+1 STYLE DE 
+
+
+
+
+
+'opacity: 0'...
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    beforeEnter2(el) {
+      el.style.opacity = 0;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, MUDAMOS O STYLE DESSE ELEMENT PROGRAMATICAMENTE...
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+AGORA, EM 'ENTER',
+
+VAMOS QUERER 
+
+
+
+
+
+DEFINIR A OPACITY DESSE NEGÓCIO COMO '1',
+
+
+MAS NÃO INSTANTANEAMENTE,
+
+E SIM 
+
+
+aos poucos --> PARA ISSO,
+
+
+VAMOS USAR 'setInterval' --->
+
+
+
+
+
+
+
+QUEREMOS 
+
+
+
+
+
+
+
+
+
+
+
+
+
+FAZER ISSO PARA RODAR 1 CÓDIGO A CADA POUCOS SEGUNDOS...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+    beforeEnter2(el) {
+      el.style.opacity = 0;
+    },
+
+
+    enter(el) {
+        setInterval(
+            () => {},
+            20
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+ESSA FUNCTION NO INTERVAL VAI SER EXECUTADA A CADA 20 MILISSEGUNDOS...
+
+
+
+
+
+
+--> QUEREMOS AUMENTAR A OPACIDADE DINAMICAMENTE...
+
+
+
+
+
+
+-> PARA DERIVAR DINAMICAMENTE 1 VALUE,
+
+
+
+COM BASE NO NÚMERO DE INTERVALS/FUNCTION EXECUTIONS JÁ EXECUTADAS,
+
+PODEMOS 
+
+
+
+DEFINIR 1 VARIABLE DE ' let round = 1',
+
+
+
+
+E AÍ 
+
+DEFINIR a opacidade como 'round * 0.1'...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+    beforeEnter2(el) {
+      el.style.opacity = 0;
+    },
+
+    enter2(el) {
+      let round = 1;
+      setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round++;
+      });
+    },
+
+
+
+
+
+
+EX:
+
+
+
+
+
+   enter2(el) {
+      let round = 1;
+      setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round++
+      });
+    },
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE TBM PRECISAMOS DE UMA _ EXIT CONDITION, DENTRO DESSE 'setInterval'.. - 
+
+
+SERÁ 
+
+'if (round > 10)' (OPACIDADE JÁ TERÁ SIDO 100%),
+
+
+
+aí
+
+VAMOS QUERER CHAMAR 'clearInterval()',
+
+PARA LIMPAR ESSE INTERVAL..
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+    beforeEnter2(el) {
+      el.style.opacity = 0;
+    },
+
+    enter2(el) {
+      let round = 1;
+      const opacityIncreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round++;
+        if (round > 10) {
+          clearInterval(opacityIncreaseInterval);
+        }
+      });
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... AGORA O INTERVAL SERÁ __ LIMPO SE EXCEDERMOS 10 ROUNDS...
+
+
+
+
+
+
+
+
+
+--> OK... MAS SE RECARREGARMOS, TEREMOS 1  PROBLEMA...
+
+
+
+
+
+
+
+
+
+
+
+--> O PARAGRAPH VAI FAZER FADE-IN,
+É CLARO,
+
+
+
+
+
+MAS __ TEREMOS OUTRO PROBLEMA....
+
+
+
+
+
+
+
+MAS FICAMOS COM 1 PROBLEMA NO CONSOLE... --> 
+
+
+
+
+
+
+
+
+
+
+
+
+o problema é que 'afterEnter'
+FOI CHAMADO AO INÍCIO 
+
+
+
+
+
+DA EXECUÇÃO...
+
+
+
+
+
+
+
+ISSO TVZ N IMPORTE,
+
+
+
+
+MAS __ àS VEZES IMPORTA...
+
+
+
+
+
+
+
+
+
+
+
+
+O PROBLEMA É QUE 'afterEnter' É _ CHAMADO __ CEDO DEMAIS...
+
+
+
+
+
+
+
+
+
+
+--> ISSO NÃO É UM BUG,
+
+
+MAS 
+
+O PROBLEM É QUE O 'VUE NÃO SABE O MOMENTO EM QUE DEVE CHAMAR afterEnter' --> 
+
+
+
+
+
+PQ O VUE NÃO SABE QUE QUEREMOS QUE 
+
+'afterEnter'
+
+
+
+SEJA __ TOCADO __ APENAS_ _ 
+
+
+DEPOIS DE __ 
+
+'enter'... ------------------> MAS O VUE NÃO COMPREENDE 
+
+
+NOSSA LÓGICA DE 
+
+
+
+'setInterval'... --> ELE NÃO ENTENDE NOSSO CÓDIGO E NOSSAS RAZÕES PARA 
+
+TER 
+
+EXECUTADO 
+
+ESSE CÓDIGo... 
+
+
+
+
+
+
+MAS É PARA ISSO QUE EXISTE 1 SEGUNDO ARGUMENTO 
+
+
+
+PASSADO PELO EVENTS DE 'before-enter', 'enter', 'before-leave',
+ etc,
+
+
+
+ QUE 
+
+ É 
+
+ O 
+
+
+ ARGUMENTO DE 'done',
+
+
+
+
+
+
+
+
+ que é BASICAMENTE CHAMADO _ NO MOMENTO EM QUE VC ESTÁ 'DONE' 
+
+
+ COM ESSE HOOK... -------> É CLARO QUE ESSE ARGUMENTO E SEU 'CALL' 
+
+ É DESNECESSÁRIO 
+
+
+
+ NAS HIPÓTESES EM QUE 
+
+ VC 
+
+
+ TEM 
+ CSS-BASED 
+
+ ANIMATIONS,
+
+
+ PQ 
+
+
+ AÍ 
+
+
+ O 
+
+ VUE JÁ É CAPAZ DE LER A 'BASIC DURATION' LÁ NO CÓDIGO CSS NORMAL..
+
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+     // EXEMPLO DE ANIMATION FEITA INTEIRAMENTE COM JAVASCRIPT...
+    ///'done' é USADO APENAS EM CASES EM QUE VC N QUER USAR CSS ANIMATIONS PARA CONTROLAR SUAS ANIMATIONS (animação apenas com javascript e propriedades do dom)...
+   //o 'done' é chamado para EXPLICITAR AO VUE QUE VC ESTÁ 'DONE' com essa fase (no caso, com 'enter2')...
+    beforeEnter2(el, done) {
+      el.style.opacity = 0;
+    },
+
+    enter2(el, done) {
+      let round = 1;
+      const opacityIncreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round++;
+        if (round > 10) {
+          clearInterval(opacityIncreaseInterval);
+          done()
+        }
+      });
+    },
+
+    afterEnter2(el, done) {},
+
+    beforeLeave2(el,done) {},
+
+    leave2(el, done) {},
+    afterLeave2(el, done) {},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA O event de 'after-enter'
+
+
+REALMENTE 
+SÓ SERÁ 
+
+CHAMADO 
+
+DEPOIS 
+
+DE 
+
+'enter'
+
+
+ACABAR,
+
+
+E DEPOIS de 'done()'
+ACABAR 
+
+
+SUA OPERATION...
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA DEVEMOS TENTAR ESCREVER A MESMA COISA PARA O 'LEAVE CASE'...
+
+
+
+
+
+
+
+
+
+--> TENTAR ESCREVER TUDO COM O JAVASCRIPT PURO...
+
+
+
+
+
+
+
+
+
+
+
+
+FUNCIONOU, FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+    beforeLeave2(
+      el
+      // done
+    ) {
+      el.style.opacity = 1;
+    },
+
+    leave2(el, done) {
+      let round = 100;
+      const opacityDecreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round--;
+        if ((round === 0)) {
+          clearInterval(opacityDecreaseInterval);
+          done();
+        }
+      });
+    },
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS SE TENTAMOS TOCAR NOSSA ANIMATION 2 VEZES,
+ 
+
+ O NEGÓCIO BUGA --> BUGA PQ __ VAMOS _ dar overlap __ DA PRIMEIRA ANIMATION
+ 
+ COM A SEGUNDA ANIMATION...
+
+
+
+
+
+
+
+
+
+
+
+ --> PODEMOS PREVENIR 
+
+ ESSE COMPORTAMENTO,
+
+ PQ 
+
+
+ EXISTE OUTRO EVENT ÚTIL 
+
+ EMITIDO 
+
+
+ PELO 
+
+
+
+
+COMPONENT DE 'TRANSITION',
+
+QUE É 
+
+O 
+
+
+
+'@event-cancelled=""' 
+
+
+
+
+
+
+
+
+
+--> também o EVENT DE 'leave-cancelled="" ' 
+
+
+
+
+
+
+COM ISSO, PODEMOS CHAMAR METHODS __ 
+
+
+
+
+
+SEMPRE QUE 
+
+1 CERTA ANIMATION É 'CANCELLED'...
+
+
+
+
+
+
+
+--> 
+
+
+     <Transition
+        name="para2"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+        @enter-cancelled=""
+        @leave-cancelled=""
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+--> SEMPRE QUE 1 TRANSITION NÃO TIVER ACABADO, QUANDO 
+
+
+
+VC STARTAR 1 NOVA TRANSITION,
+
+
+
+O EVENT '-cancelled' RESPECTIVO SERÁ CHAMADO
+
+
+
+
+
+
+
+
+
+
+
+
+--> para demonstrar esses methods, 
+
+professor escreve assim:
+
+
+
+
+
+
+
+
+
+enterCancelled(el) {
+
+}
+
+leaveCancelled(el) {
+    
+}
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI QUERER CLEARAR OS interval de 'enter' e 'leave'
+ 
+ quando esses triggers forem chamados,
+
+ para que 
+
+
+ a animation seja imediatamente cancelada...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ O PROBLEMA É QUE ESSES INTERVALS FICAM DISPONÍVEIS 
+
+
+
+ APENAS DENTRO 
+
+
+
+ DOS METHODS.. --> PARA RESOLVER ISSO, PODEMOS 
+
+ DEFINIR NOSSOS INTERVALS LÁ NAS DATA PROPERTIES,
+
+ PARA 
+ PODER 
+
+ AS 
+
+ LIMPAR 
+
+ DO LADO DE FORA DESSES METHODS, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <div>
+    <div class="container">
+      <div
+        class="block"
+        :class="{
+          'active-block': this.animatedBlock,
+        }"
+      ></div>
+      <Transition name="dummy2">
+        <div v-if="show" class="block2"></div>
+      </Transition>
+      <button @click="animateBlock()">Animate</button>
+    </div>
+    <div class="container">
+      <!-- <Transition>
+        <p v-if="paragraphIsVisible" class="paragraph">
+          This is sometimes visible...
+        </p>
+      </Transition> -->
+
+      <!-- 'BEFORE-ENTER' será triggado __ SEMPRE QUE __a CLASS DE 'enter-from' for adicionada a seu elemento, por meio desse wrapper de 'transition'...-->
+      <Transition
+        name="para"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+      <Transition
+        name="para2"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+        @enter-cancelled="enterCancelled"
+        @leave-cancelled="leaveCancelled"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+      <!-- <Transition
+      enter-active-class=""
+      leave-active-class=""
+      enter-from-class="feature-enter-from"
+      enter-to-class=""
+      leave-from-class="feature-from-leave"
+      leave-to-class="">
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition> -->
+      <button @click="show = !show">Toggle Paragraph</button>
+    </div>
+    <!-- <Transition name="modal"> -->
+    <!-- <base-modal @close="hideDialog" v-if="dialogIsVisible">
+        <p>This is a test dialog!</p>
+        <button @click="hideDialog">Close it!</button>
+      </base-modal> -->
+
+    <base-modal @close="hideDialog" :open="dialogIsVisible">
+      <p>This is a test dialog!</p>
+      <button @click="hideDialog">Close it!</button>
+    </base-modal>
+    <!-- </Transition> -->
+    <div class="container">
+      <button @click="showDialog">Show Dialog</button>
+    </div>
+
+    <div class="container">
+      <!-- EXEMPLO DE 'TRANSITIONING BETWEEN MULTIPLE COMPONENTS'-->
+      <!-- esse é o único caso em que podemos colocar múltiplos direct child elements para 1 mesmo wrapper de 'Transition'...-->
+      <!-- APENAS COM 'v-else' GARANTIMOS, AO VUE, QUE APENAS 1 DESSES ELEMENTOS SERÁ RENDERIZADO NA TELA, AT A GIVEN TIME...-->
+      <!-- com 'mode', PODEMOS CONTROLAR QUAL ELEMENT DEVERÁ SER ANIMADO ANTES, EM VEZ DE ANIMAR AMBOS OS ELEMENTS AO MESMO TEMPO (que não é o que desejamos) -->
+      <Transition name="fade-button" mode="out-in">
+        <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+        <button @click="hideUsers" v-else>Hide Users</button>
+      </Transition>
+    </div>
+  </div>
+</template>  
+
+<script>
+export default {
+  data() {
+    return {
+      dialogIsVisible: false,
+      animatedBlock: false,
+      paragraphIsVisible: false,
+      show: true,
+      usersAreVisible: false,
+      opacityIncreaseInterval: null,
+      opacityDecreaseInterval: null
+    };
+  },
+  methods: {
+    showDialog() {
+      this.dialogIsVisible = true;
+      console.log(this.dialogIsVisible);
+    },
+    hideDialog() {
+      this.dialogIsVisible = false;
+      console.log(this.dialogIsVisible);
+    },
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
+    },
+    toggleParagraph() {
+      this.paragraphIsVisible = !this.paragraphIsVisible;
+    },
+    showUsers() {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
+    },
+
+    // EXEMPLIFICAM OS TRIGGERS DE 'TRANSITION' (pq o elemento 'transition' em si dispara events, events como 'before-enter'...)
+
+    beforeEnter(el) {
+      // esses disparos de events tbm nos dão acesso aos ACTUAL ELEMENTS ANIMADOS/TRANSICIONADOS... (para coisas como 'mudar coisas do elemento em si')
+      console.log('beforeEnter Reached', el);
+    },
+
+    enter(el) {
+      console.log('enter Reached', el);
+    },
+
+    afterEnter(el) {
+      console.log('afterEnter Reached', el);
+    },
+
+    beforeLeave(el) {
+      console.log('beforeLeave Reached', el);
+    },
+
+    leave(el) {
+      console.log('leave Reached', el);
+    },
+    afterLeave(el) {
+      console.log('afterLeave Reached', el);
+    },
+
+    // EXEMPLO DE ANIMATION FEITA INTEIRAMENTE COM JAVASCRIPT...
+    ///'done' é USADO APENAS EM CASES EM QUE VC N QUER USAR CSS ANIMATIONS PARA CONTROLAR SUAS ANIMATIONS (animação apenas com javascript e propriedades do dom)...
+    //o 'done' é chamado para EXPLICITAR AO VUE QUE VC ESTÁ 'DONE' com essa fase (no caso, com 'enter2')...
+    beforeEnter2(
+      el
+      //  done
+    ) {
+      el.style.opacity = 0;
+    },
+
+    enter2(el, done) {
+      let round = 1;
+      this.opacityIncreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.opacityIncreaseInterval);
+          done();
+        }
+      }, 20);
+    },
+
+    afterEnter2(
+      el
+      // done
+    ) {
+      console.log('REACHED AFTERENTER', el);
+    },
+
+    beforeLeave2(
+      el
+      // done
+    ) {
+      el.style.opacity = 1;
+    },
+
+    leave2(el, done) {
+      let round = 100;
+      this.opacityDecreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round--;
+        if (round === 0) {
+          clearInterval(this.opacityDecreaseInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterLeave2(
+      el
+      //  done
+    ) {
+      console.log('REACHED AFTERLEAVE', el);
+    },
+
+    enterCancelled() {
+      clearInterval(this.opacityIncreaseInterval)
+    },
+
+    leaveCancelled() {
+      clearInterval(this.opacityDecreaseInterval)
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+button {
+  font: inherit;
+  padding: 0.5rem 2rem;
+  border: 1px solid #810032;
+  border-radius: 30px;
+  background-color: #810032;
+  color: white;
+  cursor: pointer;
+}
+button:hover,
+button:active {
+  background-color: #a80b48;
+  border-color: #a80b48;
+}
+.block {
+  width: 8rem;
+  height: 8rem;
+  background-color: #290033;
+  margin-bottom: 2rem;
+  /* transition é sempre settada na class BASE de algum elemento (antes de receber 1 class condicional/'ativa') 
+  */
+  /* transition -> /(PROPRIEDADE QUE SERÁ ANIMADA)/(DURAÇÃO DA ANIMAÇÃO)/(CURVA DE ACELERAÇÃO DA ANIMAÇÃO)  */
+  /* transition: transform 0.3s ease-out; */
+}
+
+.block2 {
+  width: 8rem;
+  height: 8rem;
+  background-color: red;
+  margin-bottom: 2rem;
+}
+.container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+}
+
+.active-block {
+  /* transform: translateX(-180px);   USADO COM 'transition'*/
+
+  /* (NOME DA ANIMATION)/(DURATION DA ANIMATION, QUE SERÁ SPLTITADA AO LONGO DAS KEYFRAMES)/(EASING FUNCTION -> determina se começamos rápido/lento e terminamos rápido/lento) */
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+
+  70% {
+    transform: translateX(-120px) scale(1.1);
+  }
+
+  100% {
+    transform: translateX(-150px) scale(1);
+  }
+}
+
+/* SÃO AS 3 CSS CLASSES ADICIONADAS PELO 'VUE', POR DEFAULT, quando vc usa o '<Transition>'... */
+/* o normal é 'v-block-enter-from', mas vc pode ASSIGNAR 1 NOME AO SEU COMPONENT 'transition', e então o refernciar por nome.... */
+/* .v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+} */
+
+/* .v-enter-active { */
+/* é a class GERAL do animate de 'appears'.. */
+/* transition: all 0.3s ease-out forwards;
+} */
+/* 
+.v-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* MESMA IDEIA DAS 3 CLASSES ADICIONADAS AO 'ADD' de  animations por meio das classes de 'v-enter-from'.... */
+/* .v-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.v-leave-active {
+  transition: all 0.3s ease-out forwards;
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+} */
+
+/* .v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+} */
+
+/* .v-enter-active, .v-leave-active {  */
+/* USE ISSO (apenas 'v-enter-active' e 'v-leave-active') NOS CASOS EM QUE VC QUER TER UMA __ANIMATION __ ESPECÍFICA, COMO 'slide-in', nesses caso */
+/* animation: slide-in 0.3s ease-out; */
+/* } */
+
+.para-enter-active,
+.para-leave-active {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* .dummy2-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+} */
+
+.dummy2-enter-active,
+.dummy2-leave-active {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* .dummy2-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* .modal-enter-from {
+  opacity: 0;
+  transform: translateY(-200px);
+} */
+
+/* .modal-enter-active,
+.modal-leave-active { */
+/* transition: all 0.25s ease-out; */
+/* animation: modal 0.3s ease-out;
+} */
+
+/* .modal-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* @keyframes modal {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+} */
+
+.fade-button-enter-from,
+.fade-button-leave-to {
+  opacity: 0;
+}
+
+.fade-button-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-button-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+.fade-button-enter-to,
+.fade-button-leave-from {
+  opacity: 1;
+}
+
+/* .fade-button-enter-from {
+} */
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... O CÓDIGO FUNCIONOU..
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS USAR ESSES EVENTS,
+
+
+E ESSE É o 'enter-cancelled' e 'leave-cancelled'..

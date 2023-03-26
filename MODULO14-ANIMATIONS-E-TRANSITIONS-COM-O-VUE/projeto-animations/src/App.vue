@@ -32,6 +32,20 @@
         <h1 v-if="show">I AM A HEADING</h1>
       </Transition>
 
+      <Transition
+        name="para2"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+        @enter-cancelled="enterCancelled"
+        @leave-cancelled="leaveCancelled"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
       <!-- <Transition
       enter-active-class=""
       leave-active-class=""
@@ -80,6 +94,8 @@ export default {
       paragraphIsVisible: false,
       show: true,
       usersAreVisible: false,
+      opacityIncreaseInterval: null,
+      opacityDecreaseInterval: null
     };
   },
   methods: {
@@ -128,6 +144,68 @@ export default {
     },
     afterLeave(el) {
       console.log('afterLeave Reached', el);
+    },
+
+    // EXEMPLO DE ANIMATION FEITA INTEIRAMENTE COM JAVASCRIPT...
+    ///'done' é USADO APENAS EM CASES EM QUE VC N QUER USAR CSS ANIMATIONS PARA CONTROLAR SUAS ANIMATIONS (animação apenas com javascript e propriedades do dom)...
+    //o 'done' é chamado para EXPLICITAR AO VUE QUE VC ESTÁ 'DONE' com essa fase (no caso, com 'enter2')...
+    beforeEnter2(
+      el
+      //  done
+    ) {
+      el.style.opacity = 0;
+    },
+
+    enter2(el, done) {
+      let round = 1;
+      this.opacityIncreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.opacityIncreaseInterval);
+          done();
+        }
+      }, 20);
+    },
+
+    afterEnter2(
+      el
+      // done
+    ) {
+      console.log('REACHED AFTERENTER', el);
+    },
+
+    beforeLeave2(
+      el
+      // done
+    ) {
+      el.style.opacity = 1;
+    },
+
+    leave2(el, done) {
+      let round = 100;
+      this.opacityDecreaseInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round--;
+        if (round === 0) {
+          clearInterval(this.opacityDecreaseInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterLeave2(
+      el
+      //  done
+    ) {
+      console.log('REACHED AFTERLEAVE', el);
+    },
+
+    enterCancelled() {
+      clearInterval(this.opacityIncreaseInterval)
+    },
+
+    leaveCancelled() {
+      clearInterval(this.opacityDecreaseInterval)
     },
   },
 };
