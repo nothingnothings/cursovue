@@ -1,3 +1,240 @@
+
+
+
+
+
+
+
+
+
+
+ATÉ ESTE MOMENTO,
+ 
+ NÓS SEMPRE 
+
+
+
+
+
+
+
+ TRABALHAMOS COM A 'ADDITION' OU 'REMOVAL'
+
+
+
+ DE 
+
+
+ APENAS 
+
+
+ 1 
+ ÚNICO ELEMENTO 
+
+
+
+
+ NA PAGE, EM 1 DETERMINADO MOMENTO... (at a given time)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> MESMO QUANDO TÍNHAMOS AQUELES '2 BUTTONS',
+
+
+
+ NUNCA TÍNHAMOS MAIS DO QUE __ 1 ÚNICO ELEMENTO VISÍVEL/RENDERIZADO 
+
+ NA PAGE,
+
+ AO MESMO TEMPO:
+
+
+
+
+
+
+
+       <Transition name="fade-button" mode="out-in">
+        <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+        <button @click="hideUsers" v-else>Hide Users</button>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK...
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO,
+
+EXISTIRÃO CASOS EM QUE VC 
+TERÁ
+ 
+
+ LISTS DE DATA A SEREM ANIMADAS --> VC VAI TER MÚLTIPLOS LIST ITEMS,
+
+ E VAI QUERER 
+
+ ANIMAR ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ PARA ISSO, O VUE TBM TEM UM RECURSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> PARA ISSO,
+
+ VAMOS CRIAR 1 NOVO COMPONENT 'ListData'...
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <ul>
+    <li v-for="user in users" :key="user">{{ user }}</li>
+  </ul>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      users: ['Max', 'Manu', 'Julie', 'Angela', 'Michael'],
+    };
+  },
+};
+</script>
+
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, É UMA LIST BEM SIMPLES,
+
+
+E NÃO TEMOS NENHUM STYLING, NO MOMENTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... VOLTAMOS AO 'APP.VUE',
+
+E AÍ 
+
+IMPORTAMOS ESSE NEGÓCIO COMO 1 LOCAL COMPONENT,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
 <template>
   <div>
     <div class="container">
@@ -423,3 +660,362 @@ button:active {
 /* .fade-button-enter-from {
 } */
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TEMOS UMA LIST SIMPLES,
+
+
+E NADA ANIMADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA COLOCAREMOS 1 FEATURE QUE POSSIBILITARÁ 'ADD' E 'REMOVE'
+
+
+
+ITEMS DE LÁ...
+
+
+
+
+
+
+
+
+
+
+
+
+-> TALVEZ REMOVER ALGUM 
+
+
+DOS ELEMENTOS POR MEIO DE 1 CLICK EM CIMA .
+
+
+
+
+
+
+
+
+
+
+
+
+-> TAMBÉM VAMOS QUERER COLOCAR  1 DIV COM 1 INPUT ELEMENT,
+
+
+
+
+
+
+EM QUE VAMOS DIGITAR ALGO E ENTÃO APERTAR EM 1 BUTTON,
+PARA AÍ 
+
+
+ADICIONAR ALGO, COMO 1 USER,
+
+à LIST DE USERS..
+
+
+
+
+
+
+
+
+
+
+
+-> E VAMOS QUERER QUE 1 DOS LIST ITEMS SEJA REMOVIDO COM 1 CLICK EM CIMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COLOCAMOS ALGUNS METHODS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- USADO PARA EXEMPLIFICAR O USO DE ANIMATIONS, DO VUE, COM LISTS...-->
+  <div>
+    <ul>
+      <li @click="removeUser(user)" v-for="user in users" :key="user">
+        {{ user }}
+      </li>
+    </ul>
+
+    <div>
+      <input type="text" />
+      <button @click="addUser">Add User</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      users: ['Max', 'Manu', 'Julie', 'Angela', 'Michael'],
+    };
+  },
+
+  methods: {
+    addUser() {},
+
+    removeUser(user) {
+      this.users = this.users.filter((usr) => usr !== user);
+    },
+  },
+};
+</script>
+
+
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+-----------------------
+
+
+
+
+
+
+
+
+OK.. AGORA VAMOS CONSEGUIR REMOVER 1 USER, COM A AJUDA DESSE METHOD...
+
+
+
+
+
+
+
+
+
+
+
+
+
+JÁ EM 'addUser',
+
+vamos querer 
+
+PEGAR O QUE O USER INPUTTOU NAQUELE INPUT,
+POR MEIO DE 1 REF...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- USADO PARA EXEMPLIFICAR O USO DE ANIMATIONS, DO VUE, COM LISTS...-->
+  <div>
+    <ul>
+      <li @click="removeUser(user)" v-for="user in users" :key="user">
+        {{ user }}
+      </li>
+    </ul>
+
+    <div>
+      <input type="text" ref="userNameInput" />
+      <button @click="addUser">Add User</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      users: ['Max', 'Manu', 'Julie', 'Angela', 'Michael'],
+    };
+  },
+
+  methods: {
+    addUser() {
+      const enteredUserName = this.$refs.userNameInput.value;
+      this.users.unshift(enteredUserName);
+    },
+
+    removeUser(user) {
+      this.users = this.users.filter((usr) => usr !== user);
+    },
+  },
+};
+</script>
+
+
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+TUDO PRONTO...
+
+
+
+
+
+
+
+
+
+
+AGORA PODEMOS ADICIONAR E REMOVER USERS DESSA LIST...
+
+
+
+
+
+
+
