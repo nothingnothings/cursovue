@@ -1,0 +1,756 @@
+
+
+
+
+
+
+NO FINAL DAS CONTAS,
+
+O QUE QUEREMOS FAZER, COM ESTE CÓDIGO AQUI:
+
+
+
+
+
+
+
+<template>
+  <!-- USADO PARA EXEMPLIFICAR O USO DE ANIMATIONS, DO VUE, COM LISTS...-->
+  <div>
+    <ul>
+      <li @click="removeUser(user)" v-for="user in users" :key="user">
+        {{ user }}
+      </li>
+    </ul>
+
+    <div>
+      <input type="text" ref="userNameInput" />
+      <button @click="addUser">Add User</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      users: ['Max', 'Manu', 'Julie', 'Angela', 'Michael'],
+    };
+  },
+
+  methods: {
+    addUser() {
+      const enteredUserName = this.$refs.userNameInput.value;
+      this.users.unshift(enteredUserName);
+    },
+
+    removeUser(user) {
+      this.users = this.users.filter((usr) => usr !== user);
+    },
+  },
+};
+</script>
+
+
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É 
+
+
+WRAPPAR 
+
+
+
+
+
+
+AQUELE LIST ITEM 
+
+
+
+de 'li v-for' 
+
+
+
+COM 
+
+
+
+
+
+
+O COMPONENT NATIVO DE 'transition',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JUSTAMENTE PQ _ QUEREMOS __ ANIMAR __ A 'ADDITION'
+
+E 
+'REMOVAL' 
+
+
+
+DE LIST ITEMS...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+<template>
+  <!-- USADO PARA EXEMPLIFICAR O USO DE ANIMATIONS, DO VUE, COM LISTS...-->
+  <div>
+    <ul>
+    <transition>
+      <li @click="removeUser(user)" v-for="user in users" :key="user">
+        {{ user }}
+      </li>
+    </transition>
+    </ul>
+
+    <div>
+      <input type="text" ref="userNameInput" />
+      <button @click="addUser">Add User</button>
+    </div>
+  </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS AQUI TEREMOS 1 PROBLEMA...
+
+
+
+
+
+
+
+
+
+
+N SERÁ 1 ÚNICO ITEM.... --> N SERÁ 1 ÚNICO ITEM JUSTAMENTE 
+PQ _ TEREMOS 
+
+MAIS DE 1 ÚNICO ITEM (
+    por conta do v-for,
+
+
+    teremos múltiplos items...
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+POR CONTA DISSO,
+
+
+O '<transition>'
+
+NÃO VAI FUNCIONAR, SE USADO 
+
+EM VOLTA DE ELEMENTOS COM 'v-for'...
+
+
+
+
+
+
+
+
+
+
+
+
+PARA RESOLVER ISSO,
+
+TEMOS 
+
+
+O 
+
+
+
+
+COMPONENT NATIVO '<transition-group>'...
+
+
+
+
+
+
+
+
+
+COMO SEU NOME SUGERE,
+
+
+
+ELE _ É USADO __ PARA 
+
+
+
+TE AJUDAR A TRABALHAR COM MÚLTIPLOS ELEMENTOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O 'transition-group'
+
+É MELHOR PARA LISTS JUSTAMENTE _ PQ _ ELE FUNCIONA 
+
+COM
+
+
+A ANIMAÇÃO DE MÚLTIPLOS ELEMENTOS AO MESMO TEMPO (em vez de 1 único item)..
+
+
+
+
+
+
+
+
+
+
+
+
+->  O 'transition-group'
+
+TE DEIXA 
+
+
+ANIMAR 1 ÚNICO ELEMENTO POR VEZ, SIM,
+
+
+MAS _ ELE TAMBÉM TE PERMITE 
+
+ANIMAR MÚLTIPLOS ITEMS AO MESMO TEMPO (como, por exemplo, a adição de 3 items a uma list, ao mesmo tempo)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------> CERTO... MAS HÁ 1 DETALHE SOBRE O TRANSITION-GROUP QUE 
+
+
+VC DEVE TER EM MENTE:
+
+
+
+
+
+
+
+
+1) O 'TRANSITION',
+
+
+
+NO FINAL DAS CONTAS,
+
+
+
+
+O QUE USAMOS ANTES,
+
+
+
+
+
+NÃO RENDERIZA ELEMENTO ALGUM AO DOM 
+(
+
+    ele é adicionado 
+    AO _ TEMPLATE APENAS PARA DAR AGLUMAS INSTRUCTIONS AO VUE,
+
+
+    MAS __ ELE __ NÃO _ EXISTE NO DOM....
+
+
+
+
+)
+
+
+
+
+
+
+
+
+2) MAS O MESMO NÃO SE APLICA AO 'transition-group',
+PQ 
+
+O 
+
+
+TRANSITION-GROUP __ ACTUALLY_ RENDERIZA 1 ELEMENTO AO DOM.....
+
+
+
+
+
+
+
+
+
+
+-> E PODEMOS ESCOLHER 'QUAL ELEMENT DEVE SER RENDERIZADO AO DOM' 
+
+
+
+POR MEIO DE UMA PROPRIEDADE DE ':tag'...
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+      <transition-group tag="">
+        <li @click="removeUser(user)" v-for="user in users" :key="user">
+          {{ user }}
+        </li>
+      </transition-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, PODEOMS DEFINIR 'ul',
+
+PARA 
+
+
+
+
+DEFINIR QUE QUEREMOS QUE SEJA RENDERIZADA 1 TAG DE 'ul'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+      <transition-group tag="ul"><!-- COM A PROPRIEDADE 'tag=""', DEFINIMOS QUAL _ _ ELEMENTO DEVERÁ SER RENDERIZADO __ NO LUGAR DESSE 'transition-group'-->
+        <li @click="removeUser(user)" v-for="user in users" :key="user">
+          {{ user }}
+        </li>
+      </transition-group>
+
+
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok.....
+
+
+
+
+
+
+
+
+PARA _ ANIMAR NOSSAS COISAS,
+
+O PROFESSOR 
+
+
+DECIDE COLOCAR A CLÁSSICA TAG DE 'name' 
+
+
+
+
+
+EM 'transition-group',
+
+
+
+
+
+QUE ELE DEFINE COMO SENDO 'user-list'..-->
+
+
+
+
+
+
+
+ISSO FICARÁ COM QUE NOSSAS CLASSES ESPECIAIS FIQUEM COM NOMES COMO 
+
+
+
+
+
+'.user-list-enter-from',
+
+
+'.user-list-enter-active'
+
+
+
+
+'.user-list-enter-to'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O PROFESSOR VAI DEFININDO AS CLASSES ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+.user-list-enter-from {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.user-list-enter-active {
+    transition: all 1s ease-out;
+}
+
+
+.user-list-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- USADO PARA EXEMPLIFICAR O USO DE ANIMATIONS, DO VUE, COM LISTS...-->
+  <div>
+    <!-- <ul> -->
+    <!-- <transition> .... SE FOR TRABALHAR COM LIST ITEMS DENTRO DE 1 LIST, USE 'transition-group', e não 'transition'-->
+    <transition-group tag="ul" name="user-list">
+      ><!-- COM A PROPRIEDADE 'tag=""', DEFINIMOS QUAL _ _ ELEMENTO DEVERÁ SER RENDERIZADO __ NO LUGAR DESSE 'transition-group'-->
+      <li @click="removeUser(user)" v-for="user in users" :key="user">
+        {{ user }}
+      </li>
+    </transition-group>
+    <!-- </transition> -->
+    <!-- </ul> -->
+
+    <div>
+      <input type="text" ref="userNameInput" />
+      <button @click="addUser">Add User</button>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      users: ['Max', 'Manu', 'Julie', 'Angela', 'Michael'],
+    };
+  },
+
+  methods: {
+    addUser() {
+      const enteredUserName = this.$refs.userNameInput.value;
+      this.users.unshift(enteredUserName);
+    },
+
+    removeUser(user) {
+      this.users = this.users.filter((usr) => usr !== user);
+    },
+  },
+};
+</script>
+
+
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  text-align: center;
+}
+
+.user-list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.user-list-enter-active {
+  transition: all 1s ease-out;
+}
+
+.user-list-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR TAMBÉM FAZ A MESMA COISA COM AS CLASSES DE '.user-list-leave-xxx'..
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+.user-list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.user-list-enter-active  {
+  transition: all 1s ease-out;
+}
+
+
+
+.user-list-enter-to,
+.user-list-leave-from {
+  opacity: 1;
+  transform: translateX(-30px);
+}
+
+.user-list-leave-active {
+  transition: all 1s ease-in;
+}
+
+.user-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... VEREMOS 1 ANIMATION LEGAL,
+
+
+MAS VEREMOS QUE 
+
+
+O RESTO DA LIST VAI 'JUMP'
+
+
+
+NO MOMENTO QUE 1 ELEMENT É REMOVIDO (
+
+    e isso é meio feio... 
+)....
+
+
+
+
+
+
+
+O VUE TEM UMA SOLUÇÃO PARA EVITAR ESSE 'SNAPPING INTO PLACE',
+
+para n ficar tão feio...
