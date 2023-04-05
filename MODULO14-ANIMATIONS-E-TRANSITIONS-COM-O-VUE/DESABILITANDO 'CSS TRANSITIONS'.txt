@@ -1,0 +1,319 @@
+
+
+BEM, NÓS VIMOS 
+
+
+
+
+
+COMO 'JAVASCRIPT-BASED' ANIMATIONS FUNCIONAM,
+
+COM AQUELES EVENTOS 
+
+ESPECIAIS 
+DE 
+
+
+
+'@before-enter'
+
+
+'@enter',
+
+
+
+
+'@after-enter'... 
+
+
+
+
+
+
+
+
+
+
+--> A PARTE INTERESSANTE É QUE ESSES EVENTS SÃO SEMPRE EMITIDOS PELO 'CSS TRANSITIONS',
+
+
+SÃO 
+
+
+
+
+EMITIDOS ___ INDEPENDEMENTEMENTE SE 
+
+
+CONTROLAMOS NOSSAS ANIMATIONS COM CSS (com a class '.v-before-enter', por exemplo...) OU NÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS A PARTE INTERESSANTE É QUE 
+
+
+__ PODEMOS _ USAR __ ESSES EVENTS PARA CONTROLAR 
+
+
+
+
+TODA NOSSA 'ANIMATION',
+
+SEM USAR 
+
+CSS CLASSES ------_>  PODEMOS FAZER ISSO POR MEIO DO NOSSO PRÓPRIO CÓDIGO,
+
+
+OU ENTÃO POR 
+
+
+
+MEIO 
+
+
+
+DO USO DE UMA 'THIRD PARTY LIBRARY',
+
+
+
+
+uma lib que talvez
+
+
+faça essa animation 
+
+
+
+
+
+JAVASCRIPT PARA NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... 
+
+
+E SE 
+
+
+VAMOS CONTROLAR 
+
+A ANIMATION 
+
+
+POR CONTA DE NOSSO JAVASCRIPT,
+
+
+
+
+
+
+SEM USAR O CSS,
+
+
+
+
+PODEMOS __ ADICIONAR _ UMA OUTRA PROPRIEDADE 
+
+
+
+
+
+NESSE '<transition>',
+
+
+
+
+
+
+
+
+
+QUE É JUSTAMENTE A PROPRIEDADE DE 
+
+
+
+':css="
+
+
+
+
+
+
+-----> PODEMOS BINDAR ESSA PROPRIEDADE COMO FALSE,
+
+
+
+
+
+PARA ENTÃO __ DESABILITAR O USO __ DE CLASSES 
+
+
+ESPECIAIS COMO 
+
+'.v-before-enter'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+      <!-- A PROPRIEDADE ':css=false' INDICA AO VUE _ QUE NÃO VAMOS QUERER _ USAR _ CLASSES COMO '.v-before-enter' COM ESSE ELEMENTO REVESTIDO POR ESSE 'TRANSITION' específico (determinando que será usado APENAS JAVASCRIPT PARA REALIZAR ESSA ANIMATION)...-->
+      <Transition
+      :css="false"
+        name="para3"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+        @enter-cancelled="enterCancelled"
+        @leave-cancelled="leaveCancelled"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS PQ 
+
+ESSE É UM PEDAÇO DE INFO ÚTIL PARA O VUE EM SI? (pq não é tecnicamente necessário)...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO É BOM PQ __ INDICA AO VUE _ QUE ELE NEM PRECISA 'TENTAR' 
+
+
+LER A DURATION DE NOSSA ANIMATION LÁ POR MEIO DE NOSSO CÓDIGO CSS,
+
+
+O QUE 
+
+
+DEIXA 
+
+
+O PROCESSO DE ANIMATION BEM MAIS RÁPIDO (parse da animation, pelo vue)..
+
+
+
+
+
+
+
+
+
+
+
+-_> COMO O VUE VAI 'SKIPPAR' ESSA ETAPA DE 'ANALYSIS DO SEU CÓDIGO CSS',
+
+
+
+ISSO VAI __ MELHORAR SUA PERFORMANCE,
+
+PQ 
+
+
+
+VAI __ FICAR COM MENOS ETAPAS (não vai ler seu código css, pq não existirá código css)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JÁ NOS OUTROS LUGARES, COM 'TRANSITION',
+
+NÃO VAMOS DEFINIR ':css=false',
+
+JUSTAMNETE 
+
+
+PQ 
+
+VAMOS QUERER USAR CLASSES COMO '.v-before-enter'...
+
+
+
+
+
+
+
+
+
+
+
+COISAS PEQUENAS COMO ESSAS PODEM DEIXAR SEU APP MAIS RÁPIDO...

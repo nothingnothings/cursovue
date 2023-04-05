@@ -46,6 +46,22 @@
         <h1 v-if="show">I AM A HEADING</h1>
       </Transition>
 
+      <!-- A PROPRIEDADE ':css=false' INDICA AO VUE _ QUE NÃO VAMOS QUERER _ USAR _ CLASSES COMO '.v-before-enter' COM ESSE ELEMENTO REVESTIDO POR ESSE 'TRANSITION' específico (determinando que será usado APENAS JAVASCRIPT PARA REALIZAR ESSA ANIMATION)...-->
+      <Transition
+      :css="false"
+        name="para3"
+        @before-enter="beforeEnter2"
+        @enter="enter2"
+        @after-enter="afterEnter2"
+        @before-leave="beforeLeave2"
+        @leave="leave2"
+        @after-leave="afterLeave2"
+        @enter-cancelled="enterCancelled"
+        @leave-cancelled="leaveCancelled"
+      >
+        <h1 v-if="show">I AM A HEADING</h1>
+      </Transition>
+
       <!-- <Transition
       enter-active-class=""
       leave-active-class=""
