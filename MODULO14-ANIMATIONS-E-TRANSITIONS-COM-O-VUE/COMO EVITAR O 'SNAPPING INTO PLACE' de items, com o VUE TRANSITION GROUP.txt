@@ -1,0 +1,462 @@
+
+
+
+
+
+
+
+
+OK, MAS COMO O VUE PODE NOS AJUDAR COM ESSE BEHAVIOR DE 'SNAPPING' FEIO?
+
+
+
+
+
+
+
+
+
+--> BEM, O VUE __ PROPORCIONA __ OUTRA CLASS ESPECIAL,
+
+QUANDO USAMOS 
+
+TRANSITION-GROUP (ou seja, quando está CONTROLANDO MÚLTIPLOS ELEMENTOS, EM VEZ DE 1 SÓ)
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ,
+
+VC TVZ N PERCEBA,
+
+
+
+
+MAS __ QUANDO REMOVEMOS 1 ITEM DE UMA LISTA,
+
+
+ESTAMOS ACTUALLY ANIMANDO UM MONTE DE ITEMS SIMULTANEAMENTE,
+
+
+
+
+
+PQ __ OS OUTROS ELEMENTOS TBM PRECISAM TROCAR SUAS POSITIONS,
+
+
+
+
+QUANDO 1 NOVO ITEM É ADICIONADO...  E É POR ISSO QUE USAMOS 
+
+
+TRANSITION GROUP,
+
+
+
+
+
+PQ ELE É ACTUALLY CAPAZ DE ANIMAR MÚLTIPLOS ELEMENTOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE ELE NOS DÁ 
+1 CLASS 
+
+PARA OS OUTROS ELEMENTOS, PARA OS ELEMENTOS Q N SÃO 'MOVED AROUND',
+
+
+MAS QUE DEVEM 'MAKE SPACE'
+
+PARA 
+
+1 
+
+ELEMENT QUE VAI ENTRAR,
+
+
+OU
+
+
+
+ENTÃO 'FILL UP THE SPACE' 
+
+
+DO ELEMENTO QUE VAI SAIR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------_> PARA ANIMAR ISSO,
+
+
+PRECISAMOS 
+
+
+
+COLOCAR O PREFIXO DO NOME DE NOSSO ELEMENTO (
+
+    como '.user-list'...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> DEPOIS DISSO, COLOCAMOS UM NOME ESPECIAL DE '-move'...
+
+
+
+
+
+
+
+
+
+tipo 
+
+
+
+
+.user-list-move {
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSA É UMA CLASS ESPECIAL QUE O VUE ADICIONA A TODOS OS ELEMENTOS QUE NÃO ESTARÃO 
+
+SENDO 'MOVED' COM O 'TRANSITION GROUP'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+/* --> '-move' É UMA CLASS ESPECIAL QUE O VUE ADICIONA A TODOS OS ELEMENTOS QUE NÃO ESTARÃO 
+
+SENDO 'MOVED' COM O 'TRANSITION GROUP' (o resto da lista, basicamente)... */
+.user-list-move {
+}
+
+
+
+
+
+
+
+
+
+
+MELHOR DO QUE ISSO,
+
+
+O
+
+
+
+VUE VAI ACTUALLY MOVER 
+
+
+
+ESSE NEGÓCIOS AO _ NOVO LUGAR,
+
+
+TUDO POR MEIO DA PROPRIEDADE 
+
+
+'transform' --------> E O VUE VAI USAR ESSA PROPRIEDADE, UNDER THE HOOD,
+
+
+
+PARA __ MOVER OS ELEMENTSO QUE N SÃO ADDED/REMOVED,
+
+
+
+A SUAS POSITIONS CORRETAS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR COLOCA 
+
+
+
+
+uma transition property 
+
+de 
+
+'transition: transform 0.8s ease;'
+
+
+
+
+
+
+
+
+--> COM ISSO, DISTRIBUÍMOS O TEMPO DE '0.8'
+
+UNIFORMEMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+.user-list-move {
+  transition: transform 0.8s ease; 
+  /* COM ISSO, EVITAMOS O COMPORTAMENTO DE 'SNAPPING BACK' dos list items.. */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+MAS ISSO NÃO ESTÁ FUNCIONANDO COM O 'LEAVE'
+
+
+
+DO ITEM...
+
+
+
+
+
+
+
+
+
+-----> PARA CONSEGUIR CONSERTAR ESSA COISA DE 'LEAVE' DOS ITEMS,
+
+
+PRECISAMOS IR ATÉ A CLASS DE 'LEAVE-ACTIVE'
+
+E 
+
+
+COLOCAR UMA POSITION DE 'absolute'..
+
+
+
+
+
+
+
+
+
+--> OS ELEMENTS VÃO MOVER PARA SUA NOVA POSIÇÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+o resto da página pula, sim, mas n podemos evitar isso....
+
+
+
+
+
+
+
+
+
+
+
+mas ficamos com uma animation smooth 
+
+
+dos items, tanto para o move como para o remove...
+
+
+
+
+
+
+
+
+
+--> É ASSIM QUE O TRANSITION GROUP PODE NOS AJUDAR, AQUI...
+
+
+
+
+
+
+
+
+
+-> E É ASSIM QUE O TRANSITION GROUP PODE NOS AJUDAR, AQUI:
+
+
+
+
+
+
+
+
+
+1) PODE NOS AJUDAR A ANIMAR ITEMS EM 1 LIST 
+
+
+
+
+2) NOS AJUDA A ANIMAR MÚLTIPLOS ITEMS AO MESMO TEMPO 
+
+
+3) NOS AJUDA 
+
+A MOVER ITEMS SMOOTHLY,
+
+MESMO ITEMS NÃO DIRETAMENTE AFETADOS ('o resto da lista'),
+
+
+
+
+
+e POR ISSO 
+
+
+É O COMPONENT QUE VC QUER USAR QUANDO 
+
+
+QUER ADICIONAR MÚLTIPLOS ITEMS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> JÁ SE VC TEM 1 ÚNICO ITEM,
+
+OU ENTÃO '2 ALTERNATING ITEMS' QUE VC QUER ANIMAR,
+
+
+
+AÍ 
+
+
+VC VAI USAR SÓ O '<transition>'...
+
+
+
+
+(como visto com aqueles BUTTONS)...

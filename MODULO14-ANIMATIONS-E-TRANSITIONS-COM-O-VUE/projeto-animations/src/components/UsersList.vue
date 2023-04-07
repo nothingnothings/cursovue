@@ -55,7 +55,6 @@ li {
   text-align: center;
 }
 
-
 /* USADO COM 'transition-group' */
 .user-list-enter-from {
   opacity: 0;
@@ -74,10 +73,20 @@ li {
 
 .user-list-leave-active {
   transition: all 1s ease-in;
+  position: absolute; 
+  /* position absolute EVITA O 'SNAP BACK' dos items, quando eles são removidos */
 }
 
 .user-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+
+/* --> '-move' É UMA CLASS ESPECIAL QUE O VUE ADICIONA A TODOS OS ELEMENTOS QUE NÃO ESTARÃO 
+
+SENDO 'MOVED' COM O 'TRANSITION GROUP' (o resto da lista, basicamente)... */
+.user-list-move {
+  transition: transform 0.8s ease; 
+  /* COM ISSO, EVITAMOS O COMPORTAMENTO DE 'SNAPPING BACK' dos list items.. */
 }
 </style>
