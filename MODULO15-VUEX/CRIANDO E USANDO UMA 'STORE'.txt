@@ -1,0 +1,972 @@
+
+
+
+
+
+
+
+
+
+
+ANTES DESSE MÓDULO, COMO SEMPRE,
+
+TEMOS 
+
+1 
+STARTING PROJECT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> RODAMOS NPM INSTALL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ DEPOIS TEMOS 'NPM RUN SERVE'...
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR JÁ QUER INSTALAR O VUEX,
+
+COM 
+
+'npm install --save vuex'...
+
+
+
+
+
+
+
+
+
+
+
+--> para instalar a última versão,
+
+
+
+rode:
+
+
+
+
+'npm install --save vuex@next'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEREMOS 1 APPLICATION BÁSICA,
+
+
+
+QUE SERÁ USADA PARA ENTENDER OS CONCEITOS BÁSICOS 
+
+DO VUEX...
+
+
+
+
+
+
+
+
+
+
+
+-> OK... RODAMOS NPM RUN SERVE...
+
+
+
+
+
+
+
+
+-----> TEMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex"></base-container>
+</template>
+
+<script>
+import BaseContainer from './components/BaseContainer.vue';
+
+export default {
+  components: {
+    BaseContainer,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+TEMOS 1 CONTAINER SIMPLES, EM QUE TEMOS 'VUEX'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA COMEÇAR COM ISSO TUDO,
+
+DENTRO DO CONTAINER 
+
+
+
+O PROFESSOR 
+
+
+
+COLOCA 
+
+
+1 
+BUTTON,
+
+
+QUE 
+
+
+
+DIZ 'ADD 1'...
+
+
+
+
+
+
+
+
+
+
+
+
+DENTRO DO BUTTON, O PROFESSOR COLOCA 1 COUNTER,
+
+
+
+<h3>,
+
+
+QUE 
+
+
+
+MOSTRARÁ 1 VALUE,
+
+E QUE 
+
+AUMENTARÁ 
+
+TODA VEZ 
+
+QUE 
+
+APERTARMOS EM 'add 1'...
+
+
+
+
+
+ 
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+  <h3>0</h3>
+  <button>Add 1</button>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from './components/BaseContainer.vue';
+
+export default {
+  components: {
+    BaseContainer,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE PODERÍAMOS FAZER 
+
+
+
+ESSE COUNTER AUMENTAR TODA VEZ QUE PRESSIONÁSSEMOS 
+
+ESSE BUTTON,
+
+COM 1 METHOD LOCAL E COM 'DATA' LOCAL...
+
+
+
+
+
+
+
+
+
+
+EM 1 APP COMUM,
+
+FARÍAMOS DESSA FORMA, SIM,
+
+
+
+MAS AQUI 
+
+USAREMOS 
+
+O 
+
+VUEX 
+
+
+
+
+
+PARA 
+
+
+MANAGEAR 
+
+ESSE COUNTER STATE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+PRECISAMOS CRIAR 1 'STORE',
+
+QUE VAI MANAGEAR 
+
+NOSSO GLOBAL STATE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS IR ATÉ O 'main.js',
+
+E AÍ 
+
+DEVEMOS CRIAR 1 STORE 'VUEX'..
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS LÁ EM 'main.js',
+
+E ESCREVEMOS ISTO:
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const app = createApp(App);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AÍ VAMOS CRIAR ESSE STORE E O ARMAZENAR EM UMA CONSTANTE DE NOME 'STORE'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore();
+
+const app = createApp(App);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS 
+
+
+
+O CREATE STORE EXIGE 1 OBJECT EM QUE CONFIGURAMOS 
+
+
+
+ESSA STORE,
+
+
+
+
+
+
+
+
+
+
+E AÍ VAMOS ESCREVER ASSIM:
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+
+
+});
+
+const app = createApp(App);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+O QUE COLOCAMOS NESSE STORE?
+
+
+
+
+
+
+
+
+
+1) a propriedade/method 'state()'..
+
+
+
+
+
+ESSA PROPRIEDADE/METHOD VAI RETORNAR 
+
+
+
+UM OBJECT,
+TIPO ASSIM:
+
+
+
+
+
+
+--> 
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+    state() { //similar a 'data', quando definimos LOCAL STATES... 
+        return {
+
+        }
+    }
+});
+
+const app = createApp(App);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS ESSE NEGÓCIO SERÁ O STATE GLOBAL DE SEU APP...
+
+
+
+
+
+
+
+
+E VC TERÁ 
+
+APENAS 
+
+1 
+
+
+
+
+STORE POR APP,
+
+
+APESAR DE SER POSSÍVEL TER MÚLTIPLOS STATES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+VAMOS TER 1 COUNTER NESSE OBJECT DE 'state',
+
+
+
+
+
+
+E ELE VAI COMEÇAR COM '0'...
+
+
+
+
+DEPOIS DISSO,
+CONECTAREMOS NOSSO STORE AO NOSSO APP,
+COM 'app.use(store)'..
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+ import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA PODEMOS USAR ESSE STATE 
+
+NO NOSSO COMPONENT,
+
+EM QUALQUER COMPONENT DE NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+
+MAS COMO PODEMOS USAR ESSE STATE LÁ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, TEMOS O CÓDIGO ASSIM, INICIALMENTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex"></base-container>
+</template>
+
+<script>
+import BaseContainer from './components/BaseContainer.vue';
+
+export default {
+  components: {
+    BaseContainer,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARA ACESSAR O STORE, PRECISAMOS DA VARIÁVEL GLOBAL 
+
+'$store',
+
+E AÍ 
+BASTA 
+
+ESCREVER O NOME DA PROPRIEDADE QUE VC QUER ACESSAR...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <h3>{{ $store.state.counter }}</h3>
+    <button>Add 1</button>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+
+export default {
+  components: {
+    BaseContainer,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ E ISSO FUNCIONA..
+
+
+
+
+
+
+ É CLARO QUE AINDA NÃO HÁ COMO ACRESCENTAR 
+
+
+ VALORES A ESSE COUNTER,
+
+ PQ AINDA N FIZEMOS 'WIRE'
+
+ DESSA COISA TODA, MAS ESSE SERÁ O PRÓXIMO PASSO....
