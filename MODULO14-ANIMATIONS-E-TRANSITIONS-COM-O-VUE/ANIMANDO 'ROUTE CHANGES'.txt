@@ -1,0 +1,1446 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA JÁ TEMOS 1 BOA IDEIA DE COMO VUE NOS AJUDA COM ANIMATING 
+
+
+DE COISAS...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS HÁ 1 TIPO ESPECÍFICO DE COISA QUE VC PODE QUERER 'ANIMATE',
+
+QUE 
+
+É 
+
+
+AS CHANGES ENTRE 2 ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR RAPIDAMENTE ADICIONA ROUTING NO NOSSO APP...
+
+
+
+
+
+
+CRIAMOS 1 FOLDER DE 'PAGES'... 
+
+
+
+
+
+
+
+
+
+
+
+
+N VAMOS COLOCAR MT CONTEÚDO NESSAS PAGES,
+PQ O OBJETIVO É REALMENTE 
+
+APENAS 
+
+
+MOSTRAR COMO ANIMAR ROUTE CHANGES ENTRE ELES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COLOCAMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="container">
+        <h2>All Users</h2>
+    </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ VAMOS EM 'courseGOals',
+
+
+fazemos a mesma coisa...
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="container">
+        <h2>Course Goals</h2>
+    </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, AÍ FICAMOS COM 2 COMPONENTS BEM SIMPLES,
+
+
+
+
+
+QUE VÃO DEMONSTRAR A ANIMATION DE ROUTE CHANGES....
+
+
+
+
+
+
+
+
+
+
+--> AÍ INSTALAMOS O VUE ROUTER,
+
+COM 
+
+
+
+'npm install --save vue-router'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, CRIAMOS 1 ARQUIVO 'main.js'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ALI DENTRO USAMOS O 'createRouter'...
+
+
+
+
+
+
+
+
+
+-------> já importamos também 'createWebHistory',
+
+e todo o resto...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+import BaseModal from './components/BaseModal.vue';
+import AllUsers from './pages/AllUsers.vue';
+import CourseGoals from './pages/CourseGoals.vue';
+
+const app = createApp(App);
+
+app.component('base-modal', BaseModal);
+
+const router = createRouter({
+  history: createWebHistory(),
+
+  routes: [
+    { path: '/', component: AllUsers },
+    { path: '/goals', component: CourseGoals },
+  ],
+});
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AÍ USAMOS O ROUTER...
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+import BaseModal from './components/BaseModal.vue';
+import AllUsers from './pages/AllUsers.vue';
+import CourseGoals from './pages/CourseGoals.vue';
+
+const app = createApp(App);
+
+app.component('base-modal', BaseModal);
+
+const router = createRouter({
+  history: createWebHistory(),
+
+  routes: [
+    { path: '/', component: AllUsers },
+    { path: '/goals', component: CourseGoals },
+  ],
+});
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> o professor remove TODO O CÓDIGO QUE TÍNHAMOS EM 'App.vue',
+
+
+
+
+para __ COLOCAR o component de '<router-view>',
+
+
+
+PARA PODERMOS SWITCHAR ENTRE ESSES 2 COMPONENTS,
+COM BASE NA URL....
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <router-view></router-view>
+</template>  
+  
+  <script>
+export default {};
+</script>
+  
+  <style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA QUEREMOS ANIMAR A TRANSIITON ENTRE ESSAS 2 ROUTES...
+
+
+
+
+
+
+
+
+
+--> VC PODERIA PENSAR QUE A SOLUÇÃO SERIA ESTA:
+
+
+
+
+
+
+
+
+
+<transition>
+<router-view></router-view>
+</transition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS ISSO __ NÃO FUNCIONA_...
+
+
+
+
+
+
+ISSO REALMENTE NÃO FUNCIONA..
+
+
+
+
+
+
+
+
+
+
+
+O NEGÓCIO FUNCIONA, SIM,
+
+
+MAS FUNCIONA COM UM COMPORTAMENTO ESTRANHO...
+
+
+
+
+
+
+
+
+
+--->  OK...
+
+
+
+
+
+
+
+
+O ROUTER-VIEW NÃO PODE MAIS SER USADO _ DIRETAMENTE __ DENTRO DE 
+
+'<transition>' ou '<keep-alive>'...
+
+
+
+
+
+
+
+
+
+
+-> ANTIGAMENTE, COM VERSÕES ANTIGAS DO VUE,
+
+
+
+ERA POSSÍVEL ANIMAR ROUTE CHANGES COM '<transition>',
+
+wrappando-o em volta do router-view...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA __ CONSEGUIR ANIMAR ROUTE CHANGES COM O VUE 3,
+
+
+
+
+
+TEMOS 
+
+1
+ SINTAXE DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+ --> TEMOS QUE REESTRUTURAR NOSSO CÓDIGO...
+
+
+
+
+
+
+
+
+ --> PRECISAMOS COLOCAR O 'transition'
+
+
+
+ DENTRO _ DO ROUTER VIEW..
+
+
+
+
+
+
+
+
+ ex:
+
+
+
+<template>
+  <router-view>
+    <transition name="route">
+
+    </transition>
+  </router-view>
+</template>  
+  
+
+
+
+
+
+
+
+
+
+
+
+OK...  AGORA A TRANSITION ESTÁ NO INTERIOR DO 
+
+router view...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AGORA PRECISAMOS DIZER AO ROUTER VIEW '''EM QUE LUGAR A PÁGINA 
+
+DEVERÁ SER CARREGADA, COM BASE NA ROUTE QUE FOI CARREGADA'''...
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA FAZER ISSO FUNCIONAR, PRECISAMOS USAR A SINTAXE DE 'SLOTS',
+'SCOPED SLOTS',
+
+QUE 
+
+
+O 
+
+VUE-ROUTER 
+
+
+USA, POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+
+--> PRECISAMOS USAR O RECURSO DE 'v-slot',
+
+
+
+A DIRECTIVE,
+
+
+
+
+
+
+PARA __ EXTRAIR __ OS 'slotProps' 
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+<template>
+  <router-view v-slot="slotProps">
+    <transition name="route">
+
+    </transition>
+  </router-view>
+</template>  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+ASSIM, CONSEGUIMOS OS 'SLOT PROPS'
+
+
+,
+
+
+PROPORCIONADOS PELO 'router-view' COMPONENT...
+
+
+
+
+
+
+
+
+
+
+--> AÍ USAMOS O COMPONENT DINÂMICO DE 
+
+
+
+'<component :is>'
+
+
+
+
+
+PARA __ BINDAR ___ 
+
+
+
+
+'slotProps.component'...
+
+
+
+
+
+(PQ EXISTE ESSA PROPRIEDADE, 'Component', dentro de 'slotProps')...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+<template>
+  <router-view v-slot="slotProps">
+    <transition name="route">
+
+        <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>  
+  
+
+
+
+-------------------------------------------
+
+
+
+
+ESSA PROPRIEDADE SEGURA O 'COMPONENT QUE SHOULD BE LOADED'
+
+
+PARA A ROUTE ATUALMENTE SELECIONADA..
+
+
+
+
+
+
+
+--> E ESSA SINTAXE ESTRANHA É NECESSÁRIA PARA ANIMAR OS 'SWITCHES' ENTRE 
+
+
+
+OS DIFERENTES COMPONENTS...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- SINTAXE ESTRANHA, PORÉM NECESSÁRIA (usamos o recurso 'v-slot', com o VUE3, para animar route changes).-->
+  <router-view v-slot="slotProps">
+    <transition name="route">
+        <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>  
+  
+  <script>
+export default {};
+</script>
+  
+  <style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... SE SALVAMOS TUDO ISSO 
+
+
+
+
+
+
+E TENTAMOS TROCAR AS PAGES,
+
+
+
+
+O NEGÓCIO FUNCIONA, MAS 
+FICA BEM FEIO...
+
+
+
+
+
+
+
+
+
+
+MAS, TECNICAMENTE, ISSO ESTÁ CORRETO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS UMA COISA QUE PRECISAMOS FAZER, AQUI,
+
+É 
+
+
+ALTERAR UMA PROPRIEDADE QUE JÁ ALTERAMOS ANTES (com o SWITCH ENTRE 2 BUTTONS),
+
+
+
+
+que é a propriedade de 
+
+
+
+
+'mode'...
+
+(
+    TEMOS AS OPÇÕES 'out-in' e 'in-out'...
+)
+
+
+
+
+
+
+
+
+
+
+--> 'OUT-IN' --> A ANIMAÇÃO DO LEAVING COMPONENT OCORRE ANTES DE ACONTECER A ANIMATION 
+
+DO 
+
+
+
+COMPONENT QUE ENTRA...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <!-- SINTAXE ESTRANHA, PORÉM NECESSÁRIA (usamos o recurso 'v-slot', com o VUE3, para animar route changes).-->
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+        <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>  
+  
+  <script>
+export default {};
+</script>
+  
+  <style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O NEGÓCIO AINDA FICA ESTRANHO, MAS É EM RAZÃO 
+
+
+DO CÓDIGO CSS QUE ESTAMOS USANDO..
+
+
+
+
+
+
+USAMOS 1 CÓDIGO CSS DIFERENTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- SINTAXE ESTRANHA, PORÉM NECESSÁRIA (usamos o recurso 'v-slot', com o VUE3, para animar route changes).-->
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>  
+  
+  <script>
+export default {};
+</script>
+  
+  <style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+
+.route-enter-from,
+.route-leave-to {
+  opacity: 0;
+}
+
+.route-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.route-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, FICAMOS COM 1 NICE 'FADE ANIMATION' ENTRE AS ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+--> OK..
+
+
+
+
+
+
+
+--> MAS AINDA TEMOS 1 PROBLEMA...
+
+
+
+
+
+
+ALGUMAS ANIMATIONS VÃO TOCAR MESMO QUANDO 'CARREGAMOS A PAGE PELA PRIMEIRA VEZ'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> FICAMOS COM 1 'INITIAL ANIMATION' ----> ISSO ACONTECE PQ, 
+
+
+TECNICAMENTE,
+
+
+
+
+
+QUANDO CARREGAMOS A PAGE PELA PRIMEIRA VEZ,
+
+
+
+
+
+
+COM O VUE-ROUTER,
+
+
+A PRIMEIRA 'ACTIVE-ROUTE' 
+
+É UMA __ EMPTY ROUTE --> E, QUANDO SUA PAGE CARREGA PELA PRIMEIRA VEZ,
+
+
+
+O VUE-ROUTER IMEDIATAMENTE TROCA 
+
+PARA A ROUTE QUE 
+
+DEVE SER USADA PARA O 'GIVEN PATH' NA SUA URL --> ISSO QUER DIZER QUE,
+
+TECNICAMENTE,
+
+QUANDO O 
+
+
+
+APP COMEÇA,
+
+O VUE ROUTER VAI DE 'NO-ROUTE'
+PARA 
+
+a CHOSEN ROUTE PARA O GIVEN PATH (
+
+    e aí toca 
+
+
+    ESSA ANIMATION,
+
+    PQ 
+    VAMOS 
+
+    DE 
+
+    'NO-ROUTE' PARA 'SOME-ROUTE'...
+)
+
+
+
+
+
+
+
+
+
+
+--> PARA EVITAR ESSE BEHAVIOR,
+
+
+
+
+PODEMOS IR ATÉ 'main.js',
+
+EM QUE REGISTRAMOS O ROUTER,
+E AÍ 
+
+
+ACTUALLY USAR 
+
+O 
+
+ROUTER 
+
+
+
+
+
+e chamar o method de 'isReady()" --> 
+
+
+
+
+
+
+
+TIPO 'router.isReady()'...
+
+
+
+
+
+
+
+
+
+
+
+ESSE METHOD TE DEIXA _ SABEr_ _ 'QUANDO O ROUTER AVALIOU COM SUCESSO 
+
+
+
+A ROUTE CARREGADA NELE'...
+
+
+
+
+
+
+
+
+
+--> ISSO TE DÁ UMA PROMISE, POR ISSO VC PODE CHAMAR '.then()'
+
+NISSO...
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+router.isReady().then(
+    () => {
+
+    }
+)
+
+
+
+
+
+
+
+
+-------> O VUE ROUTER VAI ESTAR 'CIENTE DA ROUTE A SER CARREGADA',
+
+
+
+
+
+E AÍ VAI RODAR ESSA FUNCTION...
+
+
+
+
+
+
+
+-> É POR ISSO QUE COLOCAMOS O 'app.mount(#app)'
+
+DENTRO 
+
+DESSA FUNCTION,
+
+
+PARA 
+QUE 
+
+
+
+
+O ___ APP __ SEJA _ MONTADO/RENDER 
+
+
+
+
+__DEPOIS _ QUE O 
+
+
+ROUTER ESTIVER 'FULLY SET UP' 
+
+
+E 
+
+'AWARE'
+
+DA PAGE QUE DEVE SER CARREGAD...
+
+
+
+
+(E ISSO EVITA A 'INITIAL ANIMATION' de nossas routes)...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+import BaseModal from './components/BaseModal.vue';
+import AllUsers from './pages/AllUsers.vue';
+import CourseGoals from './pages/CourseGoals.vue';
+
+const app = createApp(App);
+
+app.component('base-modal', BaseModal);
+
+const router = createRouter({
+  history: createWebHistory(),
+
+  routes: [
+    { path: '/', component: AllUsers },
+    { path: '/goals', component: CourseGoals },
+  ],
+});
+
+app.use(router);
+
+router.isReady().then(() => { // ISSO EVITA A ANIMAÇÃO INICIAL DE LOAD DE NOSSAS ROUTES, AO CARREGAR A PÁGINA...
+  app.mount('#app');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS É ASSIM QUE PODEMOS ANIMAR A TRANSITION ENTRE DIFERENTES ROUTES..
+
+
+
+
+
+É UMA 
+
+SINTAXE ESTRANHA,
+
+MAS É NECESSÁRIA APENAS NESSE CENÁRIO ESPECÍFICO..
+
+
+
+
+
+
+
+
+
+ASSIM PODEMOS 
+
+ANIMAR A TRANSITION ENTRE DIFERENTES PAGES...
