@@ -1,0 +1,1188 @@
+
+
+
+OK, MAS O QUE É O VUEX?
+
+
+
+
+
+
+
+
+
+
+
+É UMA LIBRARY PARA MANAGEAR GLOBAL STATE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS O QUE É 'STATE'?
+
+
+
+
+STATE === 'DATA',
+
+
+
+
+
+DATA 
+
+
+NECESSÁRIA PARA SEU APP,
+
+E DATA QUE 
+
+AFETA O QUE O USER VÊ NA TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> STATE --> É BASICAMENTE REACTIVE DATA,
+
+DATA QUE 
+
+MUDA,
+
+E 
+
+CUJAS MUDANÇAS AFETAM COISAS NA TELA...
+
+
+
+
+
+
+
+
+
+
+--> E O VUEJS É 'ALL ABOUT' ESSA REATIVIDADE,
+
+CONFORME APRENDEMOS AO LONGO DO CURSO...
+
+
+
+
+
+
+
+
+
+
+MAS MANAGEAR DATA QUE 
+
+
+AFETA 
+
+DIFERENTES 
+
+
+PARTES DE SEU APP PODE SER TRICKY..
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE PRECISAMOS DIFERENCIAR 2 TIPOS DE STATE:
+
+
+
+
+
+
+
+
+
+
+1) LOCAL STATE 
+
+
+
+
+
+
+
+2) GLOBAL STATE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> LOCAL STATE --> É O STATE/DATA QUE VC MANAGEIA DENTRO DE 1 COMPONENT,
+
+E QUE 
+AFETA 
+
+
+APENAS ESSE COMPONENT (
+
+
+
+    MAS QUE PODE TAMBÉM, INDIRETAMENTE,
+
+    ATRAVÉS 
+
+    DE PROPS,
+
+    CHILD COMPONENTS...
+) 
+
+
+
+
+
+--> EXEMPLO DISSO SÃO USER INPUT, 
+
+QUE SÃO INPUTTADOS EM USER ELEMENTS,
+
+OU 
+
+BUTTONS QUE FAZEM 'SHOW' OU 'HIDE' DE 1 CONTAINER...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS VER ISSO 
+
+EM 1 DOS NOSSOS COURSE PROJECTS,
+
+ AQUELE 
+
+
+ DE 
+
+ 'RESOURCE MANAGEMENT' (COM 'THeREsources', LearningResource, etc)...
+
+
+
+
+
+
+
+
+
+
+ --> DENTRO DISSO,
+
+
+ NA PARTE DE 'AddResource',
+
+
+ TÍNHAMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <base-dialog
+    v-if="inputIsInvalid"
+    :title="'Invalid Input'"
+    @closeDialog="confirmError"
+  >
+    <template #default>
+      <!--TARGETTAMOS ESSE SLOT DEFAULT... -->
+      <p>Unfortunately, at least one input value is invalid.</p>
+      <p>
+        Please check all inputs and make sure you enter at least a few
+        characters into each input field.
+      </p>
+    </template>
+    <template #menuSlot>
+      <base-button @click="confirmError">Okay</base-button>
+    </template>
+  </base-dialog>
+  <base-card>
+    <!-- VERSÃO COM V-MODEL -->
+    <!-- <form>
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input type="text" v-model="userText" required name="title">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea v-model="userDescription" required name="description" rows="4"></textarea>
+            </div>
+            <div class="form-control">
+                <label for="link">Link</label>
+                <input type="url" v-model="userLink" required name="link">
+            </div>
+            <div>
+                <base-button :type="'button'" :mode="'normal'"
+                    :disabled="userText === '' || userDescription === '' || userLink === ''"
+                    @click="addResource({ title: userText, description: userDescription, link: userLink })">Add
+                    Resource</base-button>
+            </div>
+        </form> -->
+
+    <!-- VERSÃO COM REF... -->
+    <form @submit.prevent="submitData">
+      <div class="form-control">
+        <label for="title">Title</label>
+        <!-- <input type="text" ref="userText" required name="title"> -->
+        <input type="text" ref="userText" name="title" />
+      </div>
+      <div class="form-control">
+        <label for="description">Description</label>
+        <!-- <textarea ref="userDescription" required name="description" rows="4"></textarea> -->
+        <textarea ref="userDescription" name="description" rows="4"></textarea>
+      </div>
+      <div class="form-control">
+        <label for="link">Link</label>
+        <!-- <input type="url" ref="userLink" name="link"> -->
+        <input type="url" ref="userLink" name="link" />
+      </div>
+      <div>
+        <base-button
+          :type="'submit'"
+          :mode="'normal'"
+          :disabled="
+            userText === '' || userDescription === '' || userLink === ''
+          "
+          >Add Resource</base-button
+        >
+      </div>
+    </form>
+  </base-card>
+</template>
+
+<!-- @click="addResource({ title: userText, description: userDescription, link: userLink })" -->
+
+
+<script>
+export default {
+  inject: ["addResource"],
+  data() {
+    return {
+      // userText: '',
+      // userDescription: '',
+      // userLink: ''
+      inputIsInvalid: false,
+    };
+  },
+
+  methods: {
+    submitData() {
+      const enteredTitle = this.$refs.userText.value;
+      const enteredDesc = this.$refs.userDescription.value;
+      const enteredUrl = this.$refs.userLink.value;
+
+      if (
+        enteredTitle.trim() === "" ||
+        enteredDesc.trim() === "" ||
+        enteredUrl.trim() === ""
+      ) {
+        console.log("ENTERED");
+        this.inputIsInvalid = true;
+        return;
+      }
+
+      this.addResource(enteredTitle, enteredDesc, enteredUrl);
+    },
+
+    confirmError() {
+      this.inputIsInvalid = false;
+    },
+    // addResource(formData) {
+    //     this.storedResources.push(
+    //         {
+    //             ...formData,
+    //             id: Math.random().toString()
+    //         }
+    //     )
+    //     this.selectedTab = 'learning-resources'
+    // },
+  },
+};
+</script>
+
+
+
+
+<style scoped>
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  padding: 0.15rem;
+  border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3a0061;
+  background-color: #f7ebff;
+}
+
+.form-control {
+  margin: 1rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE CÓDIGO,
+
+
+
+NA FILE DE 'AddResource',
+
+
+
+
+
+nesse component,
+
+
+
+TÍNHAMOS UMA FORM EM QUE FAZÍAMOS 
+
+
+
+FETCH DE USER INPUT --> E ESSA FORM,
+
+E 
+
+A VALIDITY DELA,
+
+
+
+
+
+IMPORTAVA APENAS PARA ESSE COMPONENT ESPECÍFICO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É O COMPONENT LOCAL,
+
+
+QUE 
+
+
+SERVIA 
+
+
+PARA __ MOSTRAR/ESCONDER AQUELE DIALOG/MODAL...
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+E ESSE STATE 
+
+
+
+
+
+AFETAVA O QUE O USER VIA NA TELA,
+
+
+MAS TUDO ACONTECIA/ERA CONECTADO NESSE COMPONENT EM SI.... (
+
+
+    tudo manageado internamente, através desse component...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JÁ O GLOBAL STATE É O STATE QUE AFETA MÚLTIPLOS COMPONENTS,
+
+POSSIVELMENTE O APP INTEIRO..
+
+
+
+
+
+
+
+
+
+
+
+
+--> MANAGEIA DATA QUE AFETA 
+
+
+
+
+MÚLITPLOS COMPONENTS,
+
+
+POSSIVELMENTE O APP INTEIRO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O EXEMPLO CLÁSSICO É 'USER AUTH STATUS' ,
+
+SHOPPING CART ITEMS,
+
+
+TOOLBARS INTERATIVAS,
+
+ETC ETC...
+
+
+
+
+
+
+
+
+
+
+--> OK... DE NOVO, NESSE APP QUE O PROFESSOR NOS MOSTROU,
+
+
+1 
+
+
+EXEMPLO 
+
+
+DE 
+
+'GLOBAL STATE'
+
+
+
+PODE SER ENCONTRADO 
+
+
+
+
+
+NO COMPONENT DE 'THeREsources'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <base-card>
+        <!-- <base-button @click="setSelectedTab('learning-resources')" :disabled="this.selectedTab === 'learning-resources'">Stored Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="this.selectedTab === 'add-resource'">Add Resource</base-button> -->
+        <base-button @click="setSelectedTab('learning-resources')" :disabled="learningResourcesMode">Stored
+            Resources</base-button>
+        <base-button @click="setSelectedTab('add-resource')" :disabled="addResourcesButtonMode">Add
+            Resource</base-button>
+    </base-card>
+    <!-- <LearningResources v-if="selectedTab === 'resource-list'"></LearningResources>
+    <AddResource v-if="selectedTab === 'add-resource'"></AddResource> -->
+
+    <KeepAlive>
+        <component :is="selectedTab"></component>
+    </KeepAlive>
+</template>
+
+
+
+
+
+<script>
+
+import LearningResources from '../learning-resources/LearningResources.vue';
+import AddResource from '../AddResource/AddResource.vue';
+
+
+export default {
+
+
+    provide() {
+
+
+        return {
+            storedResources: this.storedResources,
+            addResource: this.addResource,
+            removeResource: this.removeResource
+        }
+    },
+
+    components: {
+        AddResource,
+        LearningResources
+    },
+    data() {
+        return {
+            selectedTab: 'learning-resources',
+
+            storedResources: [
+
+                {
+                    id: 'official-guide',
+                    title: 'Official Guide',
+                    description: 'The official VueJS documentation.',
+                    link: 'https://vuejs.org'
+                },
+
+                {
+                    id: 'google',
+                    title: 'Google',
+                    description: 'Learn to Google...',
+                    link: 'https://google.com'
+                }
+
+            ]
+
+        }
+    },
+
+
+    methods: {
+        setSelectedTab(tab) {
+            this.selectedTab = tab;
+        },
+
+        addResource(title, description, link) {
+            this.storedResources.push(
+                {
+                    title: title,
+                    description: description,
+                    link: link,
+                    id: Math.random().toString()
+                }
+            )
+            this.selectedTab = 'learning-resources'
+        },
+        removeResource(id) {
+
+            // this.storedResources = this.storedResources.filter( ///ISSO NÃO FUNCIONA.
+            //     (resource) => {
+            //         return resource.id !== id
+            //     }
+            // );
+
+            const itemIndex = this.storedResources.findIndex(
+                res => res.id
+            )
+
+            this.storedResources.splice(itemIndex, 1);
+            console.log("ENTERED", id, this.storedResources);
+        }
+
+
+    },
+
+    computed: {
+        learningResourcesMode() {
+            return this.selectedTab === 'learning-resources';
+        },
+
+        addResourcesButtonMode() {
+            return this.selectedTab === 'add-resource';
+        }
+    }
+}
+
+</script>
+
+
+
+
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... NESSE ARQUIVO, TÍNHAMOS AQUELES 'STORED RESOURCES',
+
+QUE 
+
+
+
+ERAM ALTERADOS PELO METHOD DE 
+
+
+'addResource'... ---------> MAS ESSE METHOD 
+
+
+ERA TRIGGADO 
+
+DE DENTRO DE OUTRO COMPONENT,
+
+
+
+
+
+
+
+
+E OS 'STORED RESOURCES' 
+
+
+ERAM USADOS TAMBÉM EM OUTRAS PARTES DO APP....
+
+
+
+
+
+
+
+
+---> É POR ISSO QUE ESSE É UM EXEMPLO DE 
+
+'APP-WIDE' ( ou multi-component) state,
+
+pq 
+
+
+É USADO EM MÚLTIPLOS LUGARES DO APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E É COM O GLOBAL STATE 
+
+QUE 
+
+O 
+
+
+VUEX 
+
+PODE NOS AJDUAR...
+
+
+
+
+
+
+
+
+--> PQ, ATÉ AGORA,
+
+
+
+COM ESSE 
+
+APP QUE VIMOS,
+
+
+
+
+FAZÍAMOS MANAGE DO STATE ATRAVÉS DE 'PROVIDE' E 'INJECT'...:
+
+
+
+
+
+
+
+
+    provide() {
+
+
+        return {
+            storedResources: this.storedResources,
+            addResource: this.addResource,
+            removeResource: this.removeResource
+        }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    E ISSO FUNCIONA, MAS TRAZ ALGUNS DRAWBACKS,
+
+
+    QUE PODEM OU NÃO IMPORTAR A NÓS...
+
+
+
+
+
+
+
+
+1 DESVANTAGEM 
+
+
+
+É QUE 
+
+PODEMOS ACABAR COM TODA A DATA E 
+
+
+METHODS PARA TROCAR A DATA __ EM 1 ÚNICO COMPONENT,
+
+O COMPONENT DE 'THeREsources',
+
+
+
+QUE 
+
+VAI 
+
+
+FICAR 
+
+
+GRANDE,
+
+E COM UM MONTE DE DATA E  METHODS NO INTERIOR DELE,
+
+
+
+METHODS QUE 
+
+
+NÃO 
+
+
+SERÃO NECESSÁRIOS 
+
+
+PARA O TEMPLATE DESSE PRÓPRIO COMPONENT,
+
+
+MAS QUE SERÃO NECESSÁRIOS EM OUTROS COMPONENTS (EM QUE INJETAMOS ESSES METHODS)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--. OK.... É POR ISSO QUE 
+
+
+
+PEGAR 1 COMPONENT GRANDAO DESSES PARA FAZER MANAGE DE 
+
+CROSS-COMPONENT STATE,
+
+
+
+
+
+PODE SER BEM RUIM-->
+
+
+
+
+
+
+
+
+
+
+
+SE SEU APP FICA GRANDE DEMAIS,
+
+FICA BEM DIFÍCIL FAZER MANAGE E MAINTAIN DISSO... (mais e mais global state a ser manageado)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALÉM DISSO,
+
+O PROVIDE E INJECT PODE 
+
+TER ALGUNS 'TRICKY PROBLEMS'
+
+EM RELAÇÃO À REATIVIDADE .... --------> TUDO DEPENDE DE QUAL TIPO DE DATA VC 
+
+FAZ 
+
+'PROVIDE E INJECT'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+HÁ ALGUMAS OUTRAS SOLUÇÕES,
+
+MAS O VUEX 
+
+
+
+
+MTAS VEZES É A MELHOR SOLUÇÃO..
+
+
+
+
+
+
+
+
+
+
+
+MAS PQ O VUEX PODE SER A MELHOR SOLUÇÃO?
+
+
+
+
+
+
+
+
+1) FAZER MANAGE DE APP-WIDE STATE PODE SER DIFÍCIL... --> 
+
+COMO O PROFESSOR MENCIONOU, VC PODE FICAR COM 1 MONTE DE 'FAT' COMPONENTS,
+
+COM 
+
+1 
+
+MONTE DE LÓGICA E DATA DESNECESSÁRIA NOS PRÓPRIOS COMPONENTS, MAS NECESSÁRIA EM OUTROS 
+
+LUGARES DO APP (outros components)..
+
+
+
+
+
+2) ALÉM DISSO,
+VC TALVEZ TENHA COMPORTAMENTOS 
+
+ESTRANHOS NO SEU 
+
+
+APP,
+
+
+PQ ___ PODE NEM SEMPRE SER IMEDIATAMENTE ÓBVIO 
+
+EM QUE 
+
+LUGAR 
+
+O STATE MUDA/MUDOU,
+
+
+E 
+
+
+
+TBM àS VEZES VC 
+
+PODE ACABAR MUDANDO O STATE SEM QUERER ---------> TBM FICA ERROR-PRONE,
+
+
+PQ 
+
+
+
+STATE UPDATES ACIDENTAIS/MISSED PODEM ACONTECER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO NOSSO EXEMPLO DE 'THERESOURCES',
+
+
+
+
+OS  RESOURCES SÃO MANAGEADOS EM 'THERESOURCES',
+
+
+
+MAS PODERIAMOS INJETAR 
+
+RESOURCES DIFERENTES,
+
+
+
+
+E ISSO SERIA CATASTRÓFICO (error-prone) --> VC PODE ACABAR 
+
+
+ADICIONANDO DATA EM LUGARES QUE N DEVERIAM RECEBER ESSA DATA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E É EXATAMENTE COM ISSO QUE O VUEX NOS AJUDA --> NÓS FAZEMOS  OUTSOURCE 
+
+
+
+
+DA STATE MANAGEMENT DATA --> ELA NÃO FICA MAIS 
+
+
+
+
+
+EM 'FAT COMPONENTS',
+
+
+
+FICA EM 
+
+UM LUGAR SEPARADO DOS COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+--> E O VUEX É MAIS PREVISÍVEL,
+
+PQ 
+
+ELE TEM REGRAS CLARAS SOBRE COMO O STATE DEVE SER MANAGEADO E COMPARTILHADO....
+
+
+
+
+
+
+
+
+
+
+
+
+-------> E, PORTANTO, É MENOS ERROR-PRONE,
+PQ 
+
+TEMOS ESSE 
+
+DATA FLOW CLARAMENTE DEFINIDO..
+
+
+
+
+
+
+
+ESSE É O 'WHAT' E O 'WHY'...
+
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS INSTALAR O VUEX E COMEÇAR A TRABALHAR COM ELE...
