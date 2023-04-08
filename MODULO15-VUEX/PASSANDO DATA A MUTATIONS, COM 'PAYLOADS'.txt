@@ -31,3 +31,640 @@ const app = createApp(App);
 app.use(store);
 
 app.mount('#app');
+
+
+
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+ALGUMAS MUTATIONS, NO CASO,
+
+
+
+PODEM 
+
+
+
+
+QUERER 
+
+ARGUMENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+---> NO 'increment',
+
+
+
+A MUTATION,
+
+
+
+
+O VALUE PELO QUAL INCREMENTAMOS 
+
+
+O 
+
+COUNTER 
+
+É HARDCODADO (é 1, mas poderia ser 2, etc)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PODERÍAMOS COLOCAR 
+
+
+
+
+1 OUTRO MUTATION,
+
+'increaseCustom()',
+
+ 
+
+
+ E DIZER
+
+
+
+
+
+
+
+
+ QUE __ SERÁ __ EXATAMENTE COMO A MUTATION DE ANTES,
+
+
+
+ MAS 
+
+
+
+ QUE VAI ACEITAR 1 VALUE QUE SEŔA DEFINIDO 
+
+ QUANDO 
+
+
+
+ ESSA MUTATION 
+
+ FOR COMMITED...
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+increase(state, ) {
+    state.counter = state.counter + payload;
+}
+
+
+
+
+
+
+
+
+
+
+
+É EXATAMENTE __ POR ISSO _ QUE SUAS MUTATION ACEITAM UM SEGUNDO 
+ARGUMENTO,
+
+QUE É 1 'PAYLOAD',
+
+
+UMA DATA PACKAGE QUE PODE SER 
+
+TRANSMITIDA A ESSE METHOD....
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  mutations: {
+    //são as 'actions' do vue...
+    increment(state) {
+      //exemplo de 'action' com o vue...
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {  ///payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E O PAYLOAD PODE SER _ QUALQUER COISA...
+
+
+
+
+
+
+
+
+
+
+
+
+------> O PAYLOAD PODE SER 1 NUMBER, PODE SER 1 STRING,
+
+PODE  SER 1 OBJECT...
+
+
+
+
+
+
+
+
+AQUI ASSUMIMOS QUE 'payload' será um object,
+
+
+
+
+
+E QUE 'value' será 1 propriedade no seu interior,
+
+por isso escrevemos assim:
+
+
+
+
+
+
+    incrementCustom(state, payload) {  ///payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload.value;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO PODERÍAMOS CHAMAR ESSE METHOD AÍ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, VAMOS ALTERAR O CALL DE 'add 1' 
+lá no app vue,
+
+
+
+
+
+
+PARA QUE 
+
+
+
+
+
+
+USE ESSE NEGÓCIO, E PARA QUE 
+
+
+
+MOSTRE O USO DE 1 PAYLOAD....
+
+
+
+
+
+
+
+FICARÁ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <button @click="addTwentyFive">Add 25</button>
+    <ChangeCounter></ChangeCounter>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+import ChangeCounter from "./components/ChangeCounter.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+  },
+
+  methods: {
+    addTwentyFive() {
+      ///MANEIRA ERRADA/IMPRÓPRIA DE ATUALIZAR O STATE DO VUEX (sem mutations/actions)...
+      // $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
+      
+      //atualize seu state ASSIM:
+      this.$store.commit("incrementCustom", 25); ///exemplo de USO DE MUTATION... (COM PAYLOAD, SEGUNDO PARÂMETRO)....
+  
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK......
+
+
+
+
+
+
+
+
+
+ENTENDI, É BEM SIMPLES...
+
+
+
+
+
+
+QUASE IGUAL A ACTIONS, NA VERDADE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... ISSO QUER DIZER QUE PAYLOADS,
+
+DATA EXTRA,
+
+PODEM SER 
+
+PASSADAS A SUAS MUTATIONS..
+
+
+
+
+
+
+
+
+
+
+HÁ TBM OUTRA MANEIRA DE ESCREVER 
+
+'this.$store.commit()',
+
+
+
+MAIS VERBOSA,
+
+
+EM QUE 
+
+VC 
+
+ESCREVE ASSIm:
+
+
+
+
+
+
+
+
+this.$store.commit(
+    {
+        type: 'increaseCustom',
+        payload: 10
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+export default {
+  methods: {
+    addOne() {
+      //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+      //   this.$store.state.counter++;
+
+      this.$store.commit("increment"); ///exemplo de USO DE MUTATION...
+
+    //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+    //     type: "incrementCustom",
+    //     payload: 25,
+    //   });
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+ESSAS SÃO AS MUTATIONS...
+
+
+
+
+
+
+
+
+
+
+E A VANTAGEM MAIS CLARA É QUE 
+
+VC 
+
+MOVE SUA 
+LÓGICA QUE UPDATA 
+
+
+STATE 
+
+LÁ 
+
+
+PARA PERTO DE SEU STORE,
+
+
+
+
+
+
+
+E AÍ 
+
+VC 
+
+APENAS 
+COMMITA 
+
+
+SUAS 
+
+MUTATIONS,
+LÁ DE DENTRO 
+
+DE 
+SEUS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+--> VC SÓ FAZ COMMIT DE MUTATIONS DE DENTRO DE SEUS COMPONENTS (
+
+    e nunca edita diretamente o state,
+
+    dentro de components.... ---> PQ ESSA É UMA BAD PRACTICE...
+)

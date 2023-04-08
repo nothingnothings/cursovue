@@ -17,6 +17,11 @@ const store = createStore({
       //exemplo de 'action' com o vue...
       state.counter = state.counter++;
     },
+
+    incrementCustom(state, payload) {  ///payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
   },
 });
 

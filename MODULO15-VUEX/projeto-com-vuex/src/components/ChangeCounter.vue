@@ -11,6 +11,11 @@ export default {
       //   this.$store.state.counter++;
 
       this.$store.commit("increment"); ///exemplo de USO DE MUTATION...
+
+    //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+    //     type: "incrementCustom",
+    //     payload: 25,
+    //   });
     },
   },
 };

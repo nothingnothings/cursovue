@@ -3,7 +3,7 @@
     <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
     <!-- <h3>{{ $store.state.counter }}</h3> -->
     <TheCounter></TheCounter>
-    <button @click="addOne">Add 1</button>
+    <button @click="addTwentyFive">Add 25</button>
     <ChangeCounter></ChangeCounter>
   </base-container>
 </template>
@@ -21,12 +21,12 @@ export default {
   },
 
   methods: {
-    addOne() {
+    addTwentyFive() {
       ///MANEIRA ERRADA/IMPRÓPRIA DE ATUALIZAR O STATE DO VUEX (sem mutations/actions)...
       // $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
       
       //atualize seu state ASSIM:
-      this.$store.commit("increment"); ///exemplo de USO DE MUTATION...
+      this.$store.commit("incrementCustom", 25); ///exemplo de USO DE MUTATION... (COM PAYLOAD, SEGUNDO PARÂMETRO)....
   
     },
   },
