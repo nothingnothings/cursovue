@@ -1,0 +1,537 @@
+
+
+
+
+
+
+
+
+
+
+
+
+NOSSO CÓDIGO, ATUALMENTE, ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+  <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <h3>{{ $store.state.counter }}</h3>
+    <button>Add 1</button>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+
+export default {
+  components: {
+    BaseContainer,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+REFERENCIAMOS O STATE CENTRAL COM 'store.state.counter'...
+
+
+
+
+
+
+
+
+--> COLOCAMOS 1 METHOD, QUE DEVERÁ SER TRIGGADO 
+
+
+
+AO CLICARMOS NO BUTTON,
+
+
+
+
+
+
+
+
+
+ESSE METHOD VAI SER 'addOne',
+
+E
+
+
+ELE VAI AUMENTAR EM 1 O COUNTER 
+
+
+DO 
+COUNTER..
+
+
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DESSE NEGÓCIO,
+
+VAMOS RODAR 
+
+
+
+'this.$store.state.counter++'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <h3>{{ $store.state.counter }}</h3>
+    <button>Add 1</button>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+
+export default {
+  components: {
+    BaseContainer,
+  },
+
+  methods: {
+    addOne() {
+      $store.state.counter++;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+ISSO VAI AUMENTAR EM 1 AQUELE COUNTER..
+
+
+
+
+
+
+
+
+
+
+E ISSO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+FUNCIONA COM A AJUDA DO VUEX..
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ISSO É A MANEIRA CERTA DE ATUALIZAR O STATE DO VUEX?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, O PROFESSOR DIZ QUE ISSO JÁ NOS MOSTRA COMO TRABALHAMOS COM O STATE 
+
+DO VUEX,
+
+
+EM 1 NUTSHELL...
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS, A PARTIR DISSO,
+
+CRIAR 1 COMPONENT CHAMADO DE 'TheCounter',
+
+QUE SERÁ RESPONSÁVEL APENAS PELO LOAD DO COUNTER (a partir do state da store do global)..
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <h3>{{ counter }}</h3>
+</template>
+
+
+<script>
+export default {
+  computed: {
+    counter() {
+      return $store.state.counter;
+    },
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+ISSO VAI OUTPUTTAR
+
+
+
+
+O COUNTER, NORMALMENTE...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <button>Add 1</button>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter
+  },
+
+  methods: {
+    addOne() {
+      $store.state.counter++;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO VAI FUNCIONAR EXATAMENTE COMO ANTES,
+
+JUSTAMENTE 
+
+
+POR CONTA DO VUEX,
+
+PQ 
+
+SERÁ 
+
+
+1 
+
+STATE 
+
+GLOBAL,
+
+
+1 STORE GLOBAL,
+
+
+QUE 
+
+PODE 
+
+
+SER ACESSADO DE QUALQUER COMPONENT,
+
+
+SEM 
+
+INJECTION E SEM O PASS DE PROPS AROUND..
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO NÃO SUBSTITUI __ OS PROPS EM GERAL,
+
+
+
+
+__ PQ A 1 DIRECT CHILD VC VAI PASSAR 
+
+
+PROPS,
+
+
+
+MAS PARA APPLICATION WIDE STATE,
+
+
+
+
+
+O VUEX É BEM MELHOR,
+
+PQ 
+
+
+SEM NENHUM EXTRA SETUP,
+
+PODEMOS 'TAP INTO'
+
+
+O EXTRA STATE E O UTILIZAR...
