@@ -1,0 +1,1263 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... AGORA CONHECEMOS AS FEATURES VUEX CORE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> LOGO VEREMOS ESSAS FEATURES EM 1 APP VUE MAIS REALISTA...
+
+
+
+
+
+
+
+
+
+MAS ANTES DE REVISARMOS TUDO,
+
+DEVEMOS 
+
+
+VER ALGUMAS 'UTILITY FEATURES',
+
+
+
+QUE 
+
+
+DEIXAM NOSSA VIDA,
+
+COMO DESENVOLVEDORES,
+MAIS FÁCIL....
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS COM 'MAPPERS'...
+
+
+
+
+
+
+
+
+
+LÁ EM 'COUNTER', TEMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+<template>
+  <h3>{{ counter }}</h3>
+</template>
+
+
+<script>
+export default {
+  computed: {
+    counter() {
+      //sempre tente acessar seu store por meio de GETTERS, E NÃO DIRETAMENTE...
+      //   return this.$store.state.counter;
+
+      return this.$store.getters.finalCounter;
+    },
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS ESSA COMPUTED PROPERTY EM QUE 
+
+ACESSAMOS ESSE 
+
+
+GETTER FINAL DE 'finalCounter' --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, ISSO PODE NÃO SER MT CÓDIGO OVERHEAD,
+
+
+
+MAS 
+É 
+
+
+CÓDIGO CONSIDERÁVEL 
+
+
+
+PARA APENAS 'CONSEGUIR ACESSO AO NOSSO GETTER'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> PARA FACILITAR A ESCRITA DESSES NEGÓCIOS,
+
+
+ESCREVER MENOS CÓDIGO,
+
+O 
+
+
+VUEX 
+
+TEM 1 HELPER QUE PODEMOS UTILIZAR...
+
+
+
+
+
+
+
+
+escrevemos assim:
+
+
+
+
+
+
+
+
+import { mapGetters } from "vuex";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <h3>{{ counter }}</h3>
+</template>
+
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    counter() {
+      //sempre tente acessar seu store por meio de GETTERS, E NÃO DIRETAMENTE...
+      //   return this.$store.state.counter;
+
+      // SE DESEJAMOS ESCREVER MENOS CÓDIGO/TER UM SHORTCUT AOS NOSSOS GETTERS, PODEMOS USAR
+      //O METHOD DE 'mapGetters'...
+      return this.$store.getters.finalCounter;
+    },
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USAMOS ESSE METHOD NO INTERIOR DE NOSSO COMPUTED OBJECT..
+
+
+
+
+
+
+
+
+
+
+
+
+-------> ok, mas como fazemos isso?
+
+
+
+
+
+
+
+
+--> DEVEMOS ESCREVER 'mapGetters()' 
+
+
+
+DENTRO DE 
+
+'computed: {}',
+
+ 
+
+
+
+
+
+ E AÍ 
+
+ ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <h3>{{ counter }}</h3>
+</template>
+
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    // counter() {
+    //sempre tente acessar seu store por meio de GETTERS, E NÃO DIRETAMENTE...
+    //   return this.$store.state.counter;
+
+    // SE DESEJAMOS ESCREVER MENOS CÓDIGO/TER UM SHORTCUT
+    // AOS NOSSOS GETTERS, PODEMOS USAR
+    // O METHOD DE 'mapGetters'...
+    //   return this.$store.getters.finalCounter;
+
+    // },
+
+    ...mapGetters(), //shortcut ao call de getters manualmente, com 'mapGetters':
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+computed: {
+
+    ...mapGetters()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+FAZEMOS SPREAD DE TODOS OS GETTERS PARA DENTRO DESSA 
+
+PROPRIEDADE DE 'COMPUTED'...
+
+
+
+
+
+
+
+
+ISSO FAZ MERGE DESSE OBJECT DE 'GETTERS' 
+
+PARA 
+
+DENTRO 
+
+
+DE 
+
+'computed'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ 
+
+
+
+O 'mapGetters'
+
+
+TE DÁ 1 OBJECT QUE VC MERGEIA COM ESSE OBJECT DE 'computed' --> PQ O OBJECT 
+
+
+
+CONFERIDO 
+PELO 
+
+
+
+MAPGETTERS 
+É 
+1 
+
+OBJECT 
+
+
+CHEIO 
+
+DE 
+
+
+
+COMPUTED PROPERTIES, definidas automaticamente para nós....
+
+
+
+
+
+
+
+
+
+
+CERTO, MAS QUE 
+
+
+COMPUTED PROPERTIES VAMOS RECEBER, AQUI?
+
+
+
+
+
+
+
+
+
+
+BEM, MAPGETTERS 
+
+
+EXIGE 1 ARRAY COMO ARGUMENTO,
+
+E DENTRO DELE LISTAMOS TODOS OS GETTER NAMES, COMO STRINGS,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <h3>{{ counter }}</h3>
+</template>
+
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+
+    ...mapGetters(['finalCounter']), //shortcut ao call de getters manualmente, com 'mapGetters':
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK..
+
+
+
+
+
+ISSO VAI NOS DAR, NO FINAL DAS CONTAS,
+
+
+
+1 
+
+
+
+COMPUTED PROPERTY DE 'finalCounter',
+
+
+
+QUE 
+
+VAI REALMENTE APONTAR 
+
+
+AO GETTER 
+
+
+definido na store,
+
+de 
+
+'finalCounter'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+BASTA TROCAR O NOME DO NEGÓCIO PARA 'finalCounter',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- <h3>{{ counter }}</h3> -->
+  <h3>{{ finalCounter }}</h3>
+</template>
+
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters(["finalCounter"]), //shortcut ao call de getters manualmente, com 'mapGetters':
+  },
+};
+</script>
+
+
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+ISSO PODE SER ÚTIL QUANDO VC TEM 
+
+
+O USO DE MÚLTIPLOS GETTERS 
+
+
+EM 
+
+1 
+
+MESMO COMPONENT...
+
+
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+TEMOS ALGO SIMILAR PARA 'STATE' E 'MUTATIONS' --> MAS COMO 
+
+
+NÃO USAMOS 'STATE' E 'MUTATIONS' 
+
+
+DIRETAMENTE 
+NOS 
+
+
+NOSSOS COMPONENTS ANYWAYS,
+
+
+
+DEVEMOS 
+
+DAR 
+
+UMA 
+
+OLHADA NO 'mapActions',
+
+QUE TAMBÉM É ÚTIL...
+
+
+-------------------
+
+
+
+
+
+
+O MAP ACTIONS É USADO PARA MAPPEAR ACTIONS NOS SEUS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO ISSO FUNCIONA?
+
+
+
+
+
+
+
+
+
+
+
+BEM, DIGAMOS QUE,
+
+LÁ 
+
+
+EM 
+
+
+'ChangeCounter',
+
+
+
+NÃO QUEREMOS 
+
+TER 
+
+
+DE 
+
+DEFINIR MANUALMENTE 
+
+
+
+METHODS 
+
+QUE 
+
+
+
+
+VÃO SIMPLESMENTE 
+
+
+SÓ 
+FAZER 
+'DRILL IN'
+
+
+
+NO STORE 
+
+
+E 
+
+RODAR 
+
+COISAS COMO 
+
+
+
+
+'this.$store.dispatch('increment')'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> EM VEZ DISSO,
+
+
+PODEMOS,
+
+ASSIM COMO COM GETTERS,
+
+IMPORTAR 
+
+
+'mapActions',
+
+E AÍ 
+
+
+
+FAZER SPREAD DE 
+
+'mapActions()'
+
+PARA DENTRO DOS METHODS,
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+
+import { mapActions } from 'vuex';
+export default {
+  methods: {
+    // addOne() {
+      //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+      //   this.$store.state.counter++;
+
+      //   this.$store.commit("increment"); ///exemplo de USO DE MUTATION... (É QUASE A MANEIRA CORRETA...)
+
+      //A MANEIRA MAIS CORRETA DE ATUALIZAR O STATE É __ CHAMAR 1 ACTION/DISPARAR UMA ACTION, QUE ENTÃO FAZ COM QUE 1 COMMIT SEJA EXECUTADO, QUE ENTÃO DISPARA A MUTATION E FAZ O STATE SER ALTERADO...
+
+    //   PARA ABREVIAR/TER O ATALHO PARA ESSE METHOD, use 'mapActions'
+    //   this.$store.dispatch("delayedIncrement");
+
+      //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+      //     type: "incrementCustom",
+      //     payload: 25,
+      //   });
+    // },
+
+
+
+    ...mapActions(['increment'])
+  },
+
+
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO 
+
+
+VAI PEGAR 
+
+ESSA ACTION DE 'increment'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AÍ, COM BASE NESSE NEGÓCIO, DEVEMOS COLOCAR 
+
+'@click="increment" ' 
+
+
+
+
+
+
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <button @click="increment">Add 1</button>
+    <button @click="incrementCustom(25)">Add 25</button>
+  </div>
+</template>
+
+
+<script>
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    // addOne() {
+    //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+    //   this.$store.state.counter++;
+
+    //   this.$store.commit("increment"); ///exemplo de USO DE MUTATION... (É QUASE A MANEIRA CORRETA...)
+
+    //A MANEIRA MAIS CORRETA DE ATUALIZAR O STATE É __ CHAMAR 1 ACTION/DISPARAR UMA ACTION, QUE ENTÃO FAZ COM QUE 1 COMMIT SEJA EXECUTADO, QUE ENTÃO DISPARA A MUTATION E FAZ O STATE SER ALTERADO...
+
+    //   PARA ABREVIAR/TER O ATALHO PARA ESSE METHOD, use 'mapActions'
+    //   this.$store.dispatch("delayedIncrement");
+
+    //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+    //     type: "incrementCustom",
+    //     payload: 25,
+    //   });
+    // },
+
+    ...mapActions(["increment", "incrementCustom"]), //shortcut ao call de ACTIONS manualmente, com 'mapActions':
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    return {
+      counter: 0,
+    };
+  },
+
+  getters: {
+    finalCounter(state, getters) {
+      return state.counter * 2;
+    },
+
+    normalizedCounter(state, getters) {
+      const finalCounter = getters.finalCounter;
+      if (getters.finalCounter < 0) {
+        return 0;
+      }
+
+      if (getters.finalCounter > 100) {
+        return 100;
+      }
+
+      return finalCounter;
+    },
+  },
+
+  mutations: {
+    increment(state) {
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {
+      state.counter = state.counter + payload;
+    },
+  },
+
+  actions: {
+    increment(context) {
+      context.commit('increment');
+    },
+
+    incrementCustom(context, payload) {
+      context.commit('incrementCustom', payload);
+    },
+
+    delayedIncrement(context) {
+      setTimeout(
+        () => {
+          context.commit('increment');
+        },
+
+        2000
+      );
+    },
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+ESTAMOS MAPPEANDO ACTIONS E GETTERS,
+
+O QUE SALVA TEMPO,
+
+
+PQ NÃO TEMOS QUE ADICIONAR ESSES METHODS POR CONTA PRÓPRIA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CASO VC NÃO ESTEJA 
+
+SATISFEITO 
+
+COM 
+
+
+OS METHOD NAMES A PARTIR 
+
+
+
+
+DESSAS ACTIONS,
+
+VC PODE 
+
+USAR ESTA ESCRITA:
+
+
+
+
+
+
+...mapActions(
+    {
+        increaseMethod: 'increment',
+        increaseCustomMethod: 'incrementCustom'
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO,
+
+MAPPEARÍAMOS 
+
+
+OS NOMES DESSAS ACTIONS A ESSES NOMES DESSES METHODS...
+
+
+
+
+
+
+
+
+
+
+
+OK..
+
+
+
+
+
+
+
+
+MAP ACTIONS E MAP GETTERS PODEM SER BEM ÚTEIS, NO FINAL DAS CONTAS..
