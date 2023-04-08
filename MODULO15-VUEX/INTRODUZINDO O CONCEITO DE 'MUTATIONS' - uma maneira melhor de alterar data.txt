@@ -1,0 +1,1366 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR MOSTRA AQUELE SLIDE QUE 
+
+
+APRESENTA AS VANTAGENS DO VUEX...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> VUEX --> PREDICTABLE STATE MANAGEMENT --> DATA FLOW PREVISÍVEL,
+
+QUE 
+
+NOS OBRIGA 
+
+A SEGUIR 
+
+CERTO 
+
+APPROACH 
+
+
+
+DE UPDATE NOSSA DATA E DE CONSEGUIR NOSSA DATA,
+
+
+
+
+
+E QUE 
+
+ISSO SERIA MENOS ERROR PRONE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, A MANEIRA PELA QUAL 
+
+
+ESTAMOS 
+
+
+USANDO O VUEX STATE,
+
+
+
+NO MOMENTO,
+
+ELA FUNCIONA,
+
+
+
+
+
+
+
+MAS __ NÃO É A MANEIRA MAIS CORRETA DE SEGUIR A FILOSOFIA VUEX..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ __ ESTAMOS ACESSANDO O STATE GLOBAL DIRETAMENTE DE 1 COMPONENT,
+
+O QUE NÃO É ALGO 
+
+
+EXATAMENTE CORRETO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> APESAR DE ISSO FUNCIONAR, TECNICAMENTE,
+
+ISSO NÃO É IDEAL ---> PQ, COM ISSO,
+
+
+
+PODEMOS __ ALTERAR 
+
+O STATE __ DE QUALQUER LUGAR DO APP,
+
+
+
+
+
+
+
+
+E ISSO É RUIM (fica bagunçado)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> AINDA PODEMOS INTRODUZIR ERROS COM 
+
+
+ESSES UPDATES DO STATE,
+
+
+
+
+
+PQ 
+
+
+'''NÓS NÃO TEMOS 1 CLEAR DEFINED STATE CHANGING MECHANISM' (podemos trocar o state de QUALQUER LUGAR)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE 
+
+DEVEMOS USAR O VUEX DE FORMA 1 POUCO DIFERENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS 1 DATA STORE CENTRAL,
+
+
+
+
+E ELE, SIM,
+
+
+SE COMUNICA COM NOSSOS COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PRECISAMOS DE 1 MEDIADOR ENTRE 
+
+
+
+O 'CENTRAL DATA STORE'
+
+
+E OS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------_> NÃO QUEREMOS NOS COMUNICAR DIRETAMENTE COM O STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O VUEX TEM UM CONCEITO CHAMADO 
+
+DE 
+'MUTATIONS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O QUE SÃO MUTATIONS?
+
+
+
+
+
+
+
+
+
+
+
+
+--> MUTATIONS --> SÃO __ CLEARLY_ DEFINED METHODS 
+
+QUE POSSUEM A LÓGICA PARA __ ATUALIZAR__ 
+
+O STATE...
+
+
+
+
+
+
+
+
+
+--> E, DENTRO DOS NOSSOS COMPONENTS,
+
+DEVEMOS CHAMAR _ ESSAS MUTATIONS,
+
+EM VEZ 
+DE 
+
+
+MUDAR O STATE DIRETAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> DEVEMOS 'TRIGGER THESE MUTATIONS'...
+
+
+
+
+
+
+
+
+
+--> POR MEIO DO TRIGGER DESSAS MUTATIONS,
+
+
+
+
+TODOS OS COMPONENTS QUE _AS UTILIZAM (que querem editar 1 state)
+
+
+FAZEM 
+
+
+ESSE UPDATE DO STATE DA MESMA FORMA,
+
+
+E 
+
+ESSE UPDATE 
+
+
+
+
+É GARANTIDAMENTE FEITO DA MESMA FORMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA DAR 1 EXEMPLO,
+
+O PROFESSOR ADICIONA 1 NOVO COMPONENT, AQUI..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É O 'ChangeCounter'.... 
+
+
+
+
+
+
+
+
+
+
+
+--> É 1 COMPONENT SIMPLES, COM 1 BUTTON,
+
+
+
+
+
+
+QUE __ VAI __ ADICIONAR 1 AO COUNTER (Exatamente como estamos fazendo agora)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+export default {
+  methods: {
+    addOne() {
+      this.$store.state.counter++;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS DISSO, IMPORTAMOS ESSE BUTTON LÁ EM 'App.vue',
+
+
+
+
+E O UTILIZAMOS COM O 'the-counter'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <button @click="addOne">Add 1</button>
+    <ChangeCounter></ChangeCounter>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+import ChangeCounter from "./components/ChangeCounter.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+  },
+
+  methods: {
+    addOne() {
+      $store.state.counter++;
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, COM ISSO, FICAMOS COM 2 BUTTONS QUE FAZEM A 'MESMA COISA',
+
+
+
+1 diretamente em 'App.vue',
+
+
+E 
+
+
+
+
+
+OUTRO 
+
+
+
+
+
+
+
+
+
+
+COM 'ChangeCounter'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK.... MAS DIGAMOS QUE FIZEMOS 1 MISTYPE,
+
+POR ISSO 
+
+O ADDONE do component ficou com 'add 11'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <button @click="addOne">Add 1</button>
+    <ChangeCounter></ChangeCounter>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+import ChangeCounter from "./components/ChangeCounter.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+  },
+
+  methods: {
+    addOne() {
+      $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+A VANTAGEM DE EDITAR MUTATIONS É A MESMA VANTAGEM DE ACTIONS,
+
+FICAMOS 
+
+COM APENAS 1 ACTION,
+
+E AÍ 
+
+
+
+
+A REFERENCIAMOS NOS LUGARES 
+
+
+ADEQUADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS COMO __dEFINIMOS_ 'MUTATIONS'?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----->  DEVEMOS IR ATÉ 'main.js',
+
+
+
+LÁ NO CÓDIGO DE 'CREATESTORE',
+
+E AÍ 
+
+
+DEVEMOS 
+
+
+
+
+
+
+
+
+
+COLOCAR 1 KEY DE 'Mutations',
+
+tipo assim:
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  mutations: {
+    
+  }
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK..
+
+
+
+
+
+
+
+DENTRO DE 'mutations',
+
+VAMOS 
+
+ESCREVER NOSSOS METHODS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> O PRIMEIRO METHOD QUE PODEMOS COLOCAR é 
+
+
+
+'increment() {
+
+}'...
+
+
+
+
+
+
+
+
+ESSE METHOD DEVERÁ CONTER A LÓGICA PARA ALTERAR O STATE DO 
+
+
+
+NOSSO GLOBAL STORE...
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  mutations: { //são as 'actions' do vue...
+    increment(state) {
+      //exemplo de 'action' com o vue...
+
+      
+    },
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... 
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+E O VUEX SEMPRE VAI NOS DAR O 'CURRENT STATE'
+
+COMO PARÂMETRO... (o 'state')...
+
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+
+
+ESSE NOSSO METHOD DEVERÁ CONTER A LÓGICA PARA UPDATAR NOSSO STATE...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    //similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  mutations: {
+    //são as 'actions' do vue...
+    increment(state) {
+      //exemplo de 'action' com o vue...
+      state.counter = state.counter++;
+    },
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... AÍ, AGORA, QUEREMOS TRIGGAR ESSA MUTATION DE TODAS AS PARTES 
+
+DO CÓDIGO 
+
+
+EM QUE 
+
+
+
+É NECESSÁRIO ESSE INCREMENT..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS __ TRIGGAR ESSA MUTATION PARA O BUTTON EM 'APP.VUE',
+
+
+E 
+
+
+PARA 
+
+
+O 
+
+
+COMPONENT DE 'CHANGECOUNTER'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS COMO VAMOS CHAMAR ESSA MUTATION?
+
+
+
+
+
+
+
+
+
+
+
+PRECISAMOS USAR O METHOD DE 'this.$store.commit()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+.commit() É UM METHOD 
+
+
+
+
+BUILT-IN QUE O 
+
+
+
+VUEX NOS DÁ,
+
+PARA O NOSSO STORE..
+
+
+
+
+
+
+
+
+
+---> E O 'COMMIT' EXIGE O NOME DA MUTATION QUE VC QUER
+
+USAR...
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE VAMOS CHAMAR ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+export default {
+  methods: {
+    addOne() {
+      //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+      //   this.$store.state.counter++;
+
+      this.$store.commit("increment"); ///exemplo de USO DE MUTATION...
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <button @click="addOne">Add 1</button>
+    <ChangeCounter></ChangeCounter>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+import ChangeCounter from "./components/ChangeCounter.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+  },
+
+  methods: {
+    addOne() {
+      ///MANEIRA ERRADA/IMPRÓPRIA DE ATUALIZAR O STATE DO VUEX (sem mutations/actions)...
+      // $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
+      
+      //atualize seu state ASSIM:
+      this.$store.commit("increment"); ///exemplo de USO DE MUTATION...
+  
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE A LÓGICA DE UPDATE DE NOSSO STATE 
+
+É TRANSPLANTADA 
+
+PARA 1 LUGAR DIFERENTE, O QUE 
+É 
+
+BEM MELHOR (limpa os components)...
+
+
+
+
+
+
+--> BASTA COMMITAR ESSA MUTATION,
+
+
+DE DENTRO DE NOSSOS COMPONENTS,
+
+ 
+
+PARA 
+
+ALTERAR NOSSO STATE, DE FORMA ELEGANTE
