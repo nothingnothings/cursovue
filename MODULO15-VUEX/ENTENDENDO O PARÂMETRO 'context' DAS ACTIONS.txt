@@ -1,0 +1,263 @@
+
+
+
+
+
+
+
+
+
+
+ACTIONS....
+
+
+
+
+
+
+
+ACTIONS SÃO IMPORTANTES PARA CÓDIGO ASYNC, E EM GERAL,
+
+É 
+
+UMA BOA PRÁTICA USAR 
+
+ACTIONS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXEMPLO DE ACTION:
+
+
+
+
+
+
+
+
+
+    delayedIncrement(context) { //TODO ---  ACTIONS SÃO CAPAZES DE RODAR CÓDIGO ASYNC
+      setTimeout(
+        () => {
+          context.commit('increment')
+        },
+
+        2000
+      );
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    BEM, O PROFESSOR HAVIA MENCIONADO QUE TEMOS ESSE OBJECT DE 'context',
+
+
+
+    E QUE ELE FICA CHEIO DE COISAS INTERESSANTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O MAIS IMPORTANTE É 
+
+'commit()',
+
+
+MAS 
+
+HÁ OUTRAS COISAS 
+
+
+INTERESSANTES:
+
+
+
+
+
+
+
+
+1) COMMIT(actionName, payload)
+
+
+
+
+
+2) DISPATCH...
+
+
+
+
+
+
+
+
+
+
+
+
+-- TEMOS 1 method de 'dispatch()'
+
+
+DENTRO 
+
+
+DO 'context' DA ACTION,
+
+QUE 
+
+É USADO 
+
+PARA _ 
+
+
+
+__ DISPARAR__ 1 ACTION DE _DENTRO DE OUTRA __ ACTION...
+
+
+
+
+
+
+
+
+
+
+
+ISSO PODE SER ÚTIL EM CASOS EM QUE VC 
+
+
+ENVIA HTTP REQUESTS,
+
+E 
+
+
+
+AÍ 
+
+
+'''ENVIEI HTTP REQUEST'' --> SE DEU SUCESSO, QUERO TRIGGAR 1 ACTION DE SUCCESS...
+
+
+
+
+'''ENVIEI HTTP REQUEST'' ----> SE DEU ERRO, QUERO TRIGGAR 1 ACTION HANDLING ACTION..
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ VC PODE TER 1 ACTION QUE DISPARA MÚLTIPLAS OUTRAS ACTIONS,
+
+A PARTIR 
+
+DO RESULTADO DE ALGUM HTTP REQUEST...
+
+
+
+
+
+
+
+
+
+
+3) GETTERS -------_> TEMOS TAMBÉM A PROPRIEDADE DE 'getters',
+
+
+
+
+PARA CASOS EM QUE SUA ACTION 
+
+
+
+
+PRECISA DE ALGUM 'CALCULATED VALUE',
+
+QUE VC DERIVA DE ALGUM 
+
+GETTER...
+
+
+
+
+
+
+
+
+
+4) STATE --> PARA CASOS EM QUE 
+
+VC 
+
+PRECISA ACESSAR O STATE (MAS SEM O MUTAR, pq isso não deve ser feito de dentro de 1 action),
+
+ PARA CASOS EM QUE 
+
+ OS GETTERS NÃO SÃO SUFICIENTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ OK... AGORA TEMOS OS CONCEITOS CORES UTILIZADOS PELO VUEX,
+
+
+
+ PARA MANAGEAR STATE 
+
+
+ APP-WIDE,
+
+ QUE VC PODE ACESSAR CONVENIENTEMENTE,
+
+ DENTRO DE QUALQUER COMPONENT..
