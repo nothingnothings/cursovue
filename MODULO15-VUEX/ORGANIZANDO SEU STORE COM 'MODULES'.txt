@@ -1,3 +1,265 @@
+
+
+
+
+
+
+
+
+UMA FEATURE BEM LEGAL,
+
+
+PROVIDENCIADA PELO VUEX,
+
+
+É A POSSIBILIDADE
+
+
+DE 
+
+SETTAR 
+
+'MODULES',
+
+
+PARA 
+
+SPLITTAR
+ 
+ SEU STORE 
+
+ EM MÚLTIPLOS 
+
+ MODULES...
+
+
+
+
+
+
+
+
+
+
+
+ISSO PQ VC SÓ PODE TER 1 ÚNICO STORE POR APP,
+
+SIM,
+
+
+MAS 
+
+ESSE 
+
+STORE 
+
+
+
+
+
+
+PODE SER CONSTRUÍDO POR MÚLTIPLOS MODULES,
+
+JUSTAMENTE 
+
+PARA 
+DEIXAR 
+
+SEU CÓDIGO MAIS MANAGEABLE...
+
+
+
+
+
+
+
+
+
+VC TEM O ROOT STATE,
+
+MAS PODE ADICIONAR QUANTOS MODULES VC QUISER (1 PARA o counter,
+
+
+OUTRO PARA O LOADING,
+
+OUTRO PARA A AUTHENTICATION,
+
+etc...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU, ENTÃO,
+
+VC 
+
+DEIXA O AUTH NO 'ROOT STATE',
+
+
+E AÍ 
+
+FAZ OUTSOURCE DO COUNTER PARA 
+
+1 
+
+OUTRO MODULE...
+
+
+
+
+
+
+
+
+
+
+VAMOS FAZER OUTSOURCE DO COUNTER, NO CASO..
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+O PROFESSOR COMEÇA CRIANDO 1 OBJECT JAVASCRIPT, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+const counterModule = {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE OBJECT TERÁ __EXATAMENTE___ AS MESMAS FEATURES __ 
+
+
+
+DO OBJECT QUE VC PASSA A 'CREATE STORE'..
+
+
+
+
+
+
+eX:
+
+
+
+
+
+const counterModule = {
+    state() {
+
+    },
+
+    mutations: {
+
+    },
+    actions: {},
+
+    getters: {
+
+    }
+}
+
+
+
+
+const store = createStore(
+    {
+        state() {
+
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+ESSE 'module' VAI TER EXATAMENTE AS MESMAS 'FEATURES' DE 1 STORE CENTRAL,
+
+
+
+MAS 'MODULARIZADO' (vai ser 1 fragmento disso, basicamente)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
 import { createApp } from 'vue';
 import { createStore } from 'vuex';
 
@@ -75,9 +337,6 @@ const counterModule = {
 };
 
 const store = createStore({
-  modules: {
-    counter: counterModule, ///SÃO OS SLICES/MODULES DE NOSSO STATE...
-  },
   state() {
     // ? similar a 'data', quando definimos LOCAL STATES...
     return {
@@ -183,3 +442,206 @@ const app = createApp(App);
 app.use(store);
 
 app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, NOSSO 'GLOBAL STORE'
+
+FICA BEM MAIS LEAN,
+
+
+E MAIS DECENTRALIZADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PODERÍAMOS MODULARIZAR A LÓGICA DE 'auth', também...
+
+
+
+
+
+
+
+
+
+OK, MAS COMO CONSEGUIMOS FAZER ASSIGN DESSE MODULE PARA DENTRO 
+
+DE NOSSA STORE?
+
+
+
+
+
+
+
+
+
+
+
+bem,
+
+
+NOSSO STORE TAMBÉM ACEITA UMA KEY DE 'modules',
+
+
+
+TIPO 
+
+
+
+
+const store = createStore(
+    {
+        modules: {
+
+        }
+    }
+)
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DE MODULES,
+
+
+
+ADICIONAMOS __ TODOS OS MODULES QUE QUEREMOS 'MERGE' COMO 
+
+
+1 ÚNICO 
+
+STORE..
+
+
+
+
+
+
+
+
+--> ASSIGNAMOS 1 IDENTIFIER A CADA 'SLICE'/MODULE...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const store = createStore(
+    {
+        modules: {
+
+            counter: counterModule,
+            auth: authModule
+        }
+    }
+)
+
+
+
+----------------------------
+
+
+
+
+OK... AÍ MERGEAMOS ISSO TUDO PARA DENTRO DO STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE VC SALVA ISSO,
+
+TUDO FUNCIONA COMO ANTES,
+
+
+PQ, POR DEFAULT,
+
+
+TODOS OS 'MODULES' 
+
+MERGEADOS 
+
+PARA 
+
+DENTRO 
+DE 
+1 STORE FICAM 'NO MESMO LEVEL'...
+
+
+
+
+
+
+
+
+É POR ISSO QUE PODEMOS DISPATCHEAR AS ACTIONS EXATAMENTE COMO ATNES,
+
+
+E USAR TODOS OS GETTERS COMO ANTES,
+
+EMBORA AGORA ESTEJAMOS DENTRO DE 1 MODULE..
+
+
+E PODEMOS TER 
+
+QUANTOS MODULES DESEJAMOS...
+
+
+
+
+
+
+
+
+
+--> MAS A IDEIA 
+
+
+DOS 'MODULES' NÃO ACABA POR AQUI, PODEMOS FAZER MAIS COISAS COM ELES...
