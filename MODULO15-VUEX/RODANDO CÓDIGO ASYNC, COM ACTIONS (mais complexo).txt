@@ -1,0 +1,1437 @@
+
+
+
+
+
+
+JÁ ESTUDAMOS:
+
+
+
+
+
+
+1) STORE (
+    store() {
+        return {
+            counter: 0
+        }
+    }
+)
+
+
+
+2) MUTATONS  (this.$store.commit('mutationName', payload))
+
+
+
+
+
+3) GETTERS  (this.$store.getters.nomeDoGetter)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+AGORA É HORA 
+
+
+
+
+
+
+DE ESTUDAR __ ACTIONS__..
+
+
+
+
+
+
+
+
+
+
+
+
+--> É A FEATURE QUE ESTÁ FALTANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PARA ENTENDER ESSA FEATURE DO VUEX,
+
+
+DEVEMOS VOLTAR AO NOSSO CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE, NA MUTATION DO 'increment',
+
+
+NÃO QUEREMOS 
+
+UPDATAR O COUNTER IMEDIATMANETE,
+
+E SIM 
+QUEREMOS 
+
+'WAIT TWO SECONDS',
+
+
+E SÓ ENTÃO 
+
+INCREMENTAR...
+
+
+
+
+
+
+
+
+
+
+
+--> É UM EXEMPLO IDIOTA,
+
+
+MAS 1 EXEMPLO CLÁSSICO SERIA 1 APP EM QUE 
+
+
+VC __ ENVIA 1 HTTP REQUEST,
+
+
+
+E _ AÍ __ EM QUE VC PRECISA ESPERAR A RESPONSE,
+
+E EM QUE 
+
+
+
+APENAS QUANDO A RESPONSE É RECEBIDA VC 
+
+
+
+QUER _ QUE __ O STATE SEJA ATUALIZADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE MTAS VEZES VC TERÁ 
+
+CÓDIGO ASYNC...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROBLEMA É QUE MUTATIONS OCORREM DE FORMA 'SYNCHRONOUS',
+
+
+FORMA INSTANTÂNEA...
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE NÃO É PERMITIDO A NÓS TER 
+
+CÓDIGO ASYNC DENTRO 
+
+
+DAS MUTATIONS...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  mutations: {
+    // ? SÃO UMA FUSÃO DO 'REDUCER' COM A PARTE __ SÍNCRONA de ACTIONS (sem a parte ASSÍNCRONA, que fica a cargo das ACTIONS, no vue)....
+    increment(state) {
+      //exemplo de 'action', com o vue...
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {
+      // ? payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
+  },
+
+
+
+
+
+
+
+  ---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  AS MUTATIONS DEVEM SER ASYNC,
+
+
+  NÃO PODEM SER SYNC...
+
+
+
+
+
+
+
+
+
+
+
+
+  --> SE VC RODA 1 MUTATION,
+
+  ELA DEVE SER EXECUTADA 
+
+  ETAPA POR ETAPA POR ETAPA,
+
+
+
+  SEM TER NENHUM CÓDIGO 
+
+
+
+
+ASYNC DENTRO DAQUILO (
+    o state 
+
+    deve ser atualizado instantaneamente...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+A RAZÃO PARA ISSO,
+
+NO CASO,
+
+
+
+
+É QUE 
+
+
+
+SE __ MÚLTIPLAS MUTATIONS SÃO EXECUTADAS,
+
+
+
+
+
+
+
+CADA MUTATION DEVE PEGAR O 'LATEST STATE';
+
+
+E, SE OUTRA 
+
+MUTATION FOI EXECUTADA NESSE MEIO TEMPO,
+
+
+
+
+
+OCORRERÁ 
+
+
+1 'DESENGANO' COM 
+
+
+AS MUTATIONS,
+
+
+
+
+
+
+PQ SE OUTRA MUTATION FOI COMMITADA E AINDA NÃO FOI 'FINISHED',
+
+
+ISSO SERÁ UNEXPECTED,
+
+E LEVARÁ A PROBLEMAS NO SEU PROGRAMA --> É POR ISSO QUE 
+
+
+MUTATIONS 
+
+DEVEM 
+
+
+SER 
+
+
+
+SYNC...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS E SE QUISÉSSEMOS ESPERAR 2 SEGUNDOS ANTES DE AUMENTAR NOSSO COUNTER?
+
+
+
+
+
+
+
+
+
+
+NA TEORIA, PODERÍAMOS COLOCAR 1 TIMEOUT DENTRO DE 'increment()' --> MAS ISSO 
+
+
+NÃO É PERMITIDO... FUNCIONARIA,
+MAS É UMA 
+
+PRÁTICA MT RUIM..
+
+
+
+
+
+
+
+
+
+
+
+
+
+EM VEZ DISSO,
+
+
+
+O VUEX OFERECE 
+
+
+
+
+
+
+
+1 CONCEITO MELHOR PARA __ VOCê TRABALHAR COM CÓDIGO ASYNC...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE CONCEITO É O DE 'ACTIONS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- TEMOS MUTATIONS, GETTERS,
+
+E ACTIONS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E OS COMPONENTS DEVEM __ TRIGGAR_ ACTIONS,
+
+QUE POR SUA VEZ 
+
+DEVEM 
+
+
+
+ATIVAR __ MUTATIONS...
+
+
+
+
+
+
+
+
+
+ACTIONS --> MUTATIONS --> UPDATE DA STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const store = createStore({
+  state() {
+    // ? similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  getters: {
+    // ? QUANDO VOCÊ FOR OUTPUTTAR SEU STATE/USAR SEU STATE EM ALGUM COMPONENT, FAÇA ISSO POR MEIO DE GETTERS, e não DIRETAMENTE (pq os getters são tipo computed properties)..
+
+    finalCounter(state, getters) {
+      // ? state é o CURRENT STATE, 'getters' é uma referência aos OUTROS GETTERS (útil em algumas situações)...
+
+      return state.counter * 2;
+    },
+
+    normalizedCounter(state, getters) {
+      ///o argumento de 'getters' é usado, aqui..
+
+      const finalCounter = getters.finalCounter;
+      if (getters.finalCounter < 0) {
+        return 0;
+      }
+
+      if (getters.finalCounter > 100) {
+        return 100;
+      }
+
+      return finalCounter;
+    },
+  },
+
+  mutations: { //NÃO PODEM CONTER CÓDIGO ASSÍNCRONO...
+    // ? SÃO UMA FUSÃO DO 'REDUCER' COM A PARTE __ SÍNCRONA de ACTIONS (sem a parte ASSÍNCRONA, que fica a cargo das ACTIONS, no vue)....
+    increment(state) {
+      //exemplo de 'action', com o vue...
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {
+      // ? payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
+  },
+
+
+  actions: { // ? ACTIONS, POR SUA VEZ, SÃO REALMENTE CAPAZES DE RODAR CÓDIGO ASYNC (ao contrário de MUTATIONS, QUE SÓ EXECUTAM CÓDIGO SYNC NO STATE, atualizam o state de forma SYNC)....
+
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE SEMPRE É CONSIDERADA 1 BOA PRÁTICA SEMPRE COLOCAR 
+
+
+ACTIONS ENTRE COMPONENTS E MUTATIONS (apesar de 
+
+COMPONENTS SEREM CAPAZES DE 
+
+COMMITAR MUTATIONS POR CONTA PRÓPRIA... )
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+export default {
+  methods: {
+    addOne() {
+      //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+      //   this.$store.state.counter++;
+
+      this.$store.commit("increment"); ///exemplo de USO DE MUTATION... (É QUASE A MANEIRA CORRETA...)
+
+      //A MANEIRA MAIS CORRETA DE ATUALIZAR O STATE É __ CHAMAR 1 ACTION/DISPARAR UMA ACTION, QUE ENTÃO FAZ COM QUE 1 COMMIT SEJA EXECUTADO, QUE ENTÃO DISPARA A MUTATION E FAZ O STATE SER ALTERADO...
+
+    //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+    //     type: "incrementCustom",
+    //     payload: 25,
+    //   });
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO REALMENTE _ GARANTE _ QUE 
+
+
+
+
+
+
+
+
+
+O CÓDIGO ASYNC NÃO É COLOCADO NO INTERIOR DE MUTATIONS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO ACTIONS FUNCIONAM, COMO AS ADICIONAMOS AO NOSSO STORE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS COLOCAR A KEY DE 'actions', 
+
+LÁ NO STORE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const store = createStore({
+  state() {
+    // ? similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  getters: {
+    // ? QUANDO VOCÊ FOR OUTPUTTAR SEU STATE/USAR SEU STATE EM ALGUM COMPONENT, FAÇA ISSO POR MEIO DE GETTERS, e não DIRETAMENTE (pq os getters são tipo computed properties)..
+
+    finalCounter(state, getters) {
+      // ? state é o CURRENT STATE, 'getters' é uma referência aos OUTROS GETTERS (útil em algumas situações)...
+
+      return state.counter * 2;
+    },
+
+    normalizedCounter(state, getters) {
+      ///o argumento de 'getters' é usado, aqui..
+
+      const finalCounter = getters.finalCounter;
+      if (getters.finalCounter < 0) {
+        return 0;
+      }
+
+      if (getters.finalCounter > 100) {
+        return 100;
+      }
+
+      return finalCounter;
+    },
+  },
+
+  mutations: { //NÃO PODEM CONTER CÓDIGO ASSÍNCRONO...
+    // ? SÃO UMA FUSÃO DO 'REDUCER' COM A PARTE __ SÍNCRONA de ACTIONS (sem a parte ASSÍNCRONA, que fica a cargo das ACTIONS, no vue)....
+    increment(state) {
+      //exemplo de 'MUTATION', com o vue...
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {
+      // ? payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
+  },
+
+
+  actions: { // ? ACTIONS, POR SUA VEZ, SÃO REALMENTE CAPAZES DE RODAR CÓDIGO ASYNC (ao contrário de MUTATIONS, QUE SÓ EXECUTAM CÓDIGO SYNC NO STATE, atualizam o state de forma SYNC)....
+
+  }
+});
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... E ACTIONS, NOVAMENTE,
+
+
+SÃO APENAS METHODS COMUNS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS COLOCAR OS MESMOS NOMES QUE USAMOS EM 'mutations':
+
+
+
+
+
+
+
+
+
+
+  actions: { // ? ACTIONS, POR SUA VEZ, SÃO REALMENTE CAPAZES DE RODAR CÓDIGO ASYNC (ao contrário de MUTATIONS, QUE SÓ EXECUTAM CÓDIGO SYNC NO STATE, atualizam o state de forma SYNC)....
+
+    increment() { // ! PODEMOS USAR O MESMO NOME PARA 1 PAR 'MUTATION-ACTION' (como visto com 'increment')...
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK...
+
+
+
+
+
+
+
+
+
+
+  USAR O MESMO NOME FAZ SENTIDO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
+
+
+  e A ACTION VAI SEMPRE EXIGIR 1 PARÂMETRO DE 'context'..
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+    increment(context) { // ! PODEMOS USAR O MESMO NOME PARA 1 PAR 'MUTATION-ACTION' (como visto com 'increment')...
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSE OBJECT  
+
+VAI SEMPRE 
+
+CONTER UM MONTE DE COISAS INTERESSANTES...
+
+
+
+
+
+
+
+
+
+
+
+
+CONTEXT, POR EXEMPLO,
+
+POSSUI 1 METHOD DE 'commit()',
+
+
+
+E ELE FAZ EXATAMENTE O QUE VC 
+
+PENSA,
+
+
+ELE 
+
+
+VAI 
+
+
+
+
+'commit' 
+
+1 MUTATION...
+
+
+
+
+(
+
+    exatamente como você poderia commitar,
+
+    de dentro de 1 component...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    increment(context) {
+      // ! PODEMOS USAR O MESMO NOME PARA 1 PAR 'MUTATION-ACTION' (como visto com 'increment')...
+
+      //o parâmetro de 'context' contém várias coisas essenciais, como o method de 'commit()', usado para COMMITAR MUTATIONS...
+
+      context.commit('increment'); //commita 1 mutation...
+    },
+
+
+
+
+
+
+
+
+
+
+    ex:
+
+
+
+
+
+
+
+
+
+        incrementCustom(context) {
+      context.commit('incrementCustom', 25); //25 seria o PAYLOAD da mutation, NESSE CASO...
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    no caso,
+
+
+    O SEGUNDO PARÂMETRO SERÁ O PAYLOAD,
+
+    SE VC O ESCREVER... (aqui coloquei '25')..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> CERTO... ISSO VAI COMMITAR A MUTATION...
+
+
+
+
+
+
+
+
+
+
+
+
+O CONTEXT TEM OUTRAS COISAS NO SEU INTERIOR, MAS AS VEREMOS MAIS TARDE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... AGORA TEMOS 1 ACTION, QUE FAZ 'COMMIT' 
+
+da mutation de 'increment'...
+
+
+
+
+
+
+
+
+MAS A VANTAGEM DAS ACTIONS É QUE 
+
+ELAS 
+
+SÃO 
+
+CAPAZES DE RODAR CÓDIGO 
+ASYNC..
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+    delayedIncrement(context) { //TODO ---  ACTIONS SÃO CAPAZES DE RODAR CÓDIGO ASYNC
+      setTimeout(
+        () => {
+          context.commit('increment')
+        },
+
+        2000
+      );
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE 
+
+
+A MUTATION É COMMITADA 
+
+
+
+
+
+
+
+APENAS __ DEPOIS DESSES 2 SEGUNDOS...
+
+
+
+
+
+
+
+
+
+
+
+
+-----_> CERTO... MAS AGORA 
+
+PRECISAMOS 
+
+MUDAR 
+
+O 
+
+CALL
+
+
+
+NOS NOSSOS COMPONENTS,
+
+POR MEIO 
+
+
+
+
+DO CALL DE 'ACTIONS',
+EM VEZ 
+
+DO 
+
+COMMIT DIRETO (com 'this.$store.commit('nomeDaMutation')' )
+
+
+
+
+
+
+
+
+OK, MAS COMO 
+
+PODEMOS FAZER ISSO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+FAZEMOS ISSO POR MEIO DO 
+
+
+
+USO 
+
+
+DO METHOD DE 
+
+'this.$store.dispatch('nomeDaAction')'
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="addOne">Add 1</button>
+</template>
+
+
+<script>
+export default {
+  methods: {
+    addOne() {
+      //não atualize o store de seu vuex assim... use MUTATIONS, COM 'this.$store.commit('mutationName')'
+      //   this.$store.state.counter++;
+
+      //   this.$store.commit("increment"); ///exemplo de USO DE MUTATION... (É QUASE A MANEIRA CORRETA...)
+
+      //A MANEIRA MAIS CORRETA DE ATUALIZAR O STATE É __ CHAMAR 1 ACTION/DISPARAR UMA ACTION, QUE ENTÃO FAZ COM QUE 1 COMMIT SEJA EXECUTADO, QUE ENTÃO DISPARA A MUTATION E FAZ O STATE SER ALTERADO...
+
+      this.$store.dispatch("delayedIncrement");
+
+      //   this.$store.commit({ //maneira ALTERNATIVA DE COMMITAR/CHAMAR 1 MUTATION...
+      //     type: "incrementCustom",
+      //     payload: 25,
+      //   });
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS SETTAR 1 ACTION, ACTION QUE 
+
+TEM 1 PAYLOAD,
+
+E QUE TBM 
+
+
+
+PASSA 
+
+O 
+
+PAYLOAD 
+
+
+
+
+À MUTATION...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS DEVEMOS VOLTAR AOS COMPONENTS... --> 
+
+
+
+
+
+
+
+
+
+FIZEMOS DISPATCH DAS ACTIONS,
+
+
+
+DE DENTRO DOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+TUDO CERTO, ATÉ AGORA...
+
+
+
+
+
+
+
+
+
+COM TUDO ISSO APLICADO,
+
+
+VOLTAMOS AO NEGÓCIO, E TUDO AINDA FUNCIONA,
+
+
+E AGORA COM CÓDIGO ASYNC 
+
+
+FAZENDO O UPDATE DE NOSSO STATE,
+
+TUDO DA MANEIRA CORRETA,
+
+COM O USO DE ACTIONS...

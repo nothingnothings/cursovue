@@ -28,8 +28,12 @@ export default {
       ///MANEIRA ERRADA/IMPRÓPRIA DE ATUALIZAR O STATE DO VUEX (sem mutations/actions)...
       // $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
 
-      //atualize seu state ASSIM:
-      this.$store.commit("incrementCustom", 25); ///exemplo de USO DE MUTATION... (COM PAYLOAD, SEGUNDO PARÂMETRO)....
+      //MANEIRA __ QUASE_ APROPRIADA DE ATUALIZAR O STATE:
+      // this.$store.commit("incrementCustom", 25); ///exemplo de USO DE MUTATION... (COM PAYLOAD, SEGUNDO PARÂMETRO)....
+    
+    
+      //TODO --- MANEIRA MAIS CORRETA DE ATUALIZAR SEU STATE (com o uso DO DISPATCH DE ACTIONS)...
+      this.$store.dispatch("incrementCustom", 25); 
     },
   },
 };
