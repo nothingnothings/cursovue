@@ -1,0 +1,1126 @@
+
+
+
+
+
+
+
+
+
+
+
+OK... USAMOS MUTATIONS PARA EDITAR A DATA DE NOSSO STATE,
+
+
+NO STORE...
+
+
+
+
+
+
+
+
+--> ASSIM COMO N DEVEMOS EDITAR O STATE DIRETAMETNE,
+
+DE DENTRO DE COMPONENTS,
+
+
+
+
+
+
+
+
+PODEMOS ARGUMENTAR QUE FAZER 'READ' DO STATE, DIRETAMENTE,
+
+TBM 
+
+PODE N 
+
+SER 
+
+
+NADA ÓPTIMO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... DIGAMOS QUE TEMOS OUTRO COMPONENT 
+
+NO NOSSO APP,
+
+
+
+
+
+
+'FavoriteValue.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DENTRO DE LÁ,
+
+FAZEMOS A MESMA COISA QUE FIZEMOS DENTRO DE 'TheCounter',
+
+
+
+MAS FAZEMOS ALGUMAS COISAS A MAIS...
+
+
+
+
+
+
+
+
+
+
+--> VAMOS DEIXAR NOSSO APP ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <h3>{{ counter }}</h3>
+    <p>We do more stuff...</p>
+  </div>
+</template>
+  
+  
+  <script>
+export default {
+  computed: {
+    counter() {
+      return $store.state.counter;
+    },
+  },
+};
+</script>
+  
+  
+  <style scoped>
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-container title="Vuex">
+    <!-- EXEMPLO DE UTILIZAÇÃO DO GLOBAL STORE DO VUEX... -->
+    <!-- <h3>{{ $store.state.counter }}</h3> -->
+    <TheCounter></TheCounter>
+    <FavoriteValue></FavoriteValue>
+    <button @click="addTwentyFive">Add 25</button>
+    <ChangeCounter></ChangeCounter>
+  </base-container>
+</template>
+
+<script>
+import BaseContainer from "./components/BaseContainer.vue";
+import TheCounter from "./components/TheCounter.vue";
+import ChangeCounter from "./components/ChangeCounter.vue";
+import FavoriteValue from "./components/FavoriteValue.vue";
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+    FavoriteValue,
+  },
+
+  methods: {
+    addTwentyFive() {
+      ///MANEIRA ERRADA/IMPRÓPRIA DE ATUALIZAR O STATE DO VUEX (sem mutations/actions)...
+      // $store.state.counter + 11; ///example of a possible mistype/mistake on updating the state..
+
+      //atualize seu state ASSIM:
+      this.$store.commit("incrementCustom", 25); ///exemplo de USO DE MUTATION... (COM PAYLOAD, SEGUNDO PARÂMETRO)....
+    },
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE PODEMOS TER OS 2 COMPONENTS,
+
+E AMBOS 
+
+UTILIZAM O MESMO 'STATE',
+
+que 
+
+será 
+
+
+
+'this.$store.state.counter'...
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... FICAMOS COM O MESMO COUNTER,
+
+E ELE É UPDATADO EM AMBOS OS COMPONENTS..
+
+
+
+
+
+
+
+
+--> OK..
+
+
+
+
+
+
+
+
+MAS DIGAMOS QUE __ 
+
+QUEREMOS QUE 
+
+
+
+
+O 
+
+
+
+
+COUNTER SEJA OUTPUTTADO 
+
+
+'vezes 2'
+
+
+
+LÁ 
+
+
+EM 'FavoriteValue' -->
+
+
+
+
+PARA FAZER ISSO,
+
+PRECISAREMOS 
+
+
+COLOCAR '* 2 '
+
+LÁ DENTRO 
+
+DE 
+
+
+
+'computed'...
+
+
+
+
+
+
+
+E ISSO SERÁ MT RUIM --> O PROBLEMA SERÁ QUE 
+
+ESTAREMOS 
+
+REPLICANDO 
+
+LÓGICA (
+
+
+
+    replicando a lógica 
+
+
+    de 
+
+
+    'RETURN O VALUE DO STATE',
+
+
+    com a única diferença 
+
+    sendo a multiplicação por 2...
+)
+
+
+
+
+
+
+EX:
+
+
+
+
+
+<template>
+  <div>
+    <h3>{{ counter }}</h3>
+    <p>We do more stuff...</p>
+  </div>
+</template>
+  
+  
+  <script>
+export default {
+  computed: {
+    counter() {
+      return $store.state.counter * 2; /////MANEIRA ERRADA DE PEGAR E MANIPULAR O VALUE DE SEU STATE (acabamos com replicação de código)...
+    },
+  },
+};
+</script>
+  
+  
+  <style scoped>
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE 
+
+
+
+É MELHOR NÃO FALAR/PEGAR VALUES DIRETAMENTE 
+
+
+DO STATE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE DEVEMOS USAR 'GETTERS',
+
+
+QUE 
+
+SÃO, NO FINAL DAS CONTAS,
+
+
+
+COMPUTED PROPERTIES 
+
+DEFINIDAS DIRETAMENTE NA 
+
+STORE DE NOSSO APP,
+
+E QUE PODEMOS 
+
+
+ENTÃO USAR 
+
+
+
+EM QUALQUER 
+COMPONENT 
+
+DE 
+
+NOSSA ESCOLHA...
+
+
+
+
+
+
+
+
+--> PARA USAR GETTERS,
+
+DEVEMOS DEFINIR SUA KEY,
+LÁ NO STORE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createStore } from 'vuex';
+
+import App from './App.vue';
+
+const store = createStore({
+  state() {
+    // ? similar a 'data', quando definimos LOCAL STATES...
+    return {
+      counter: 0, ///1 'GLOBAL STATE', no caso...
+    };
+  },
+
+  getters: {
+    // ? QUANDO VOCÊ FOR OUTPUTTAR SEU STATE/USAR SEU STATE EM ALGUM COMPONENT, FAÇA ISSO POR MEIO DE GETTERS, e não DIRETAMENTE (pq os getters são tipo computed properties)..
+  },
+
+  mutations: {
+    // ? são as 'actions' do vue...
+    increment(state) {
+      //exemplo de 'action', com o vue...
+      state.counter = state.counter++;
+    },
+
+    incrementCustom(state, payload) {
+      // ? payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
+      ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
+      state.counter = state.counter + payload;
+    },
+  },
+});
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... GETTERS...
+
+
+
+
+E, DENTRO DE GETTERS,
+
+
+
+
+DEFINIMOS GETTERS...
+
+
+
+
+
+
+
+
+
+--> CADA GETTER É UM 'METHOD',
+
+
+
+mas 1 method que vai 
+
+retornar o value 
+
+
+do state 
+
+
+que vc está usando..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> E CADA GETTER METHOD VAI SEMPRE 
+
+
+CONSEGUIR 2 PARÂMETROS:  ''STATE'' ( o currentState)...
+
+
+
+
+E 
+
+
+
+'getters' -->  GETTERS REPRESENTA OS OUTROS GETTERS ------_> 
+ESSE ARGUMENTO 
+
+PODE SER 
+
+ÚTIL SE 
+
+
+O VALUE QUE VC FOR RETORNAR NESSE GETTER DEPENDER _ DO __ 
+
+
+VALUE _ DE OUTROS GETTERS
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+  getters: {
+    // ? QUANDO VOCÊ FOR OUTPUTTAR SEU STATE/USAR SEU STATE EM ALGUM COMPONENT, FAÇA ISSO POR MEIO DE GETTERS, e não DIRETAMENTE (pq os getters são tipo computed properties)..
+ 
+    finalCounter(state, getters) {
+        return 
+    }
+ 
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> EX:
+
+
+
+
+
+
+
+
+    getters: {
+    // ? QUANDO VOCÊ FOR OUTPUTTAR SEU STATE/USAR SEU STATE EM ALGUM COMPONENT, FAÇA ISSO POR MEIO DE GETTERS, e não DIRETAMENTE (pq os getters são tipo computed properties)..
+
+    finalCounter(state, getters) {
+      // ? state é o CURRENT STATE, 'getters' é uma referência aos OUTROS GETTERS (útil em algumas situações)...
+
+      return state.counter * 2;
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... AGORA TEMOS ESSE GETTER AÍ,
+
+  QUE VAI RETORNAR O VALUE DO 'STATE',
+
+
+
+  VEZES 2- --> E PODEMOS USAR ESSE GETTER EM QUALQUER COMPONENT 
+
+  DE NOSSA ESCOLHA,
+
+
+  COMO 
+
+  DENTRO 
+
+
+  DE 
+
+
+  'TheCounter'...
+
+
+
+
+
+
+
+
+  ex:
+
+
+
+
+
+
+
+  <template>
+  <div>
+    <h3>{{ counter }}</h3>
+    <p>We do more stuff...</p>
+  </div>
+</template>
+  
+  
+  <script>
+export default {
+  computed: {
+    counter() {
+    //   return $store.state.counter * 2; 
+    /////MANEIRA ERRADA DE PEGAR E MANIPULAR O VALUE DE SEU STATE (acabamos com replicação de código)
+       
+    //MANEIRA CORRETA DE OBTER ACESSO AO VALUE DE SEU STATE, por meio de GETTERS (modificam o valor retornado pelo state)...
+
+    return this.$store.getters.finalCounter;
+      
+},
+  },
+};
+</script>
+  
+  
+  <style scoped>
+</style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tipo 
+
+
+'this.$store.getters.finalCounter'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E NÃO VAMOS 
+
+EXECUTAR ESSE GETTER,
+E SIM 
+
+SIMPLESMENTE __ _APONTAR __ A ELE...
+
+
+
+
+
+
+
+
+
+----> APONTAR COMO SE FOSSE 1 PROPRIEDADE...
+
+
+
+
+
+
+
+
+--> 
+AÍ, NO FUTURO, SE DECIDIRMOS QUE O VALUE 
+
+DO COUNTER DEVE SER "* 3',
+
+e não 
+'* 2',
+
+
+
+PODEREMOS 
+
+
+
+
+FAZER ESSA ALTERAÇÃO EM 1 ÚNICO LUGAR,
+
+EM VEZ DE 
+
+EM VÁRIOS LUGARES...
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+ISSO FUNCIONOU....
+
+
+
+
+
+ESSE É O CONCEITO DE GETTERS...
+
+
+
+
+
+
+
+
+
+E PODEMOS TER MÚLTIPLOS GETTERS,
+SIM,
+
+
+E ESSES 
+
+GETTERS PODEM DEPENDER 
+
+
+
+1 EM RELAÇAÕ AO OUTRO (
+
+    por isso o argumento de 'getters'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA EXEMPLIFICAR ISSO, CRIAMOS 1 NOVO GETTER,
+
+DE NOME 
+
+
+'normalizedCounter() {}' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... MAS O QUE FAZ ESSE METHOD?
+
+
+
+
+
+
+
+
+A IDEIA É SIMPLES:
+
+
+QUEREMOS USAR O 'COUNTERVALUE' ( o 'finalCounter' value),
+
+
+
+
+
+
+MAS O PROFESSOR QUER 
+
+
+
+
+SE CERTIFICAR DE QUE O VALUE É 
+
+'MAIOR DO QUE 0,
+ 
+ MAS MENOR DO QUE 100'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE 1 DESSES LIMITES FOR CRUZADO (0 ou 100),
+
+VOU QUERER OUTPUTTAR 
+0 OU 100 (A depender do value)...
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+ normalizedCounter(state, getters) {
+
+    if(getters.finalCounter > 0 && getters.finalCounter < 100) {
+        return 0
+    } else {
+        return 100
+    }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+     normalizedCounter(state, getters) {
+      //exemplo de stte
+      if (getters.finalCounter < 0) {
+        return 0;
+      }
+
+      if (getters.finalCounter > 100) {
+        return 100;
+      }
+
+      return finalCounter;
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    --> BASTA CHAMAR ESSE GETTER COM 
+
+    'this.$store.getters.normalizedCounter'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+    normalizedCounter(state, getters) {
+      ///o argumento de 'getters' é usado, aqui..
+
+      const finalCounter = getters.finalCounter;
+      if (getters.finalCounter < 0) {
+        return 0;
+      }
+
+      if (getters.finalCounter > 100) {
+        return 100;
+      }
+
+      return finalCounter;
+    },
+
+
+
+
+
+
+
+
+
+    CERTO...
+
+
+
+
+
+
+
+
+
+    ISSO FUNCIONOU...
+
+
+
+
+
+
+
+
+É REALMENTE ÚTIL, EM VÁRIOS CASOS...
