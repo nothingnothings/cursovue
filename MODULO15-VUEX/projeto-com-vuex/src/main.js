@@ -8,6 +8,7 @@ const store = createStore({
     // ? similar a 'data', quando definimos LOCAL STATES...
     return {
       counter: 0, ///1 'GLOBAL STATE', no caso...
+      authenticated: false,
     };
   },
 
@@ -34,6 +35,10 @@ const store = createStore({
 
       return finalCounter;
     },
+
+    authenticated(state, getters) {
+      return state.authenticated;
+    },
   },
 
   mutations: {
@@ -48,6 +53,13 @@ const store = createStore({
       // ? payload é a 'DATA' que pode ser transmitida JUNTO DE SUA ACTION/MUTATION....
       ///esse payload é SEMPRE O SEGUNDO PARÂMETRO...
       state.counter = state.counter + payload;
+    },
+
+    login(state) {
+      state.authenticated = true;
+    },
+    logout(state) {
+      state.authenticated = false;
     },
   },
 
@@ -65,13 +77,13 @@ const store = createStore({
     incrementCustom(context, payload) {
       // context.commit('incrementCustom', 25); //25 seria o PAYLOAD da mutation, NESSE CASO...
       context.commit('incrementCustom', payload); //25 seria o PAYLOAD da mutation, NESSE CASO...
-
     },
 
-    delayedIncrement(context) { //TODO ---  ACTIONS SÃO CAPAZES DE RODAR CÓDIGO ASYNC
+    delayedIncrement(context) {
+      //TODO ---  ACTIONS SÃO CAPAZES DE RODAR CÓDIGO ASYNC
       setTimeout(
         () => {
-          context.commit('increment')
+          context.commit('increment');
 
           // context.dispatch --> para dispatchar OUTRAS ACTIONS, de dentro de sua action
           // context.getters ---> para GANHAR ACESSO AOS DERIVED VALUES DE OUTROS GETTERS
@@ -80,6 +92,14 @@ const store = createStore({
 
         2000
       );
+    },
+
+    login(context) {
+      context.commit('login');
+    },
+
+    logout(context) {
+      context.commit('logout');
     },
   },
 });
