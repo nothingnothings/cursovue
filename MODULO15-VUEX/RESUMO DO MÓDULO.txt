@@ -1,0 +1,105 @@
+
+
+AGORA TEMOS UMA BOA IDEIA DE COMO 
+
+
+
+
+O VUEX FUNCIONA... 
+
+
+
+
+
+
+
+
+APRENDEMOS:
+
+
+1) O QUE É,
+
+
+
+2) COMO O UTILIZAMOS 
+
+
+
+
+3) COMO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+É ALL ABOUT AQUELE CENTRAL STATE,
+
+QUE MANIPULA NOSSO APP INTEIRO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+APRENDEMOS A MANAGEAR STATES MAIS COMPLEXOS,
+
+
+
+
+E 
+
+OS HELPERS DE 'mapGetters'
+
+
+e 
+
+'mapActions'...
+
+
+
+
+
+
+
+
+
+
+--> o vuex não é tão complexo ---> vc precisa fazer mais mão,
+
+mas o state fica bem mais definido...
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que o vuex pode ser bem útil em projetos maiores,
+
+e é bem melhor do que provide e inject em 
+
+projetos maiores....
