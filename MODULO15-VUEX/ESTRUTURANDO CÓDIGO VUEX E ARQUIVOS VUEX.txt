@@ -1,0 +1,376 @@
+
+
+
+
+
+
+
+
+
+
+OK... COM TUDO ISSO,
+
+QUASE ACABAMOS COM O BÁSICO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS FICAMOS COM 1 PROBLEMA MEIO GRANDE...
+
+
+
+
+
+
+
+
+
+
+O ARQUIVO 'main.js'
+
+FICOU GIGANTE...
+
+
+
+
+
+
+PRECISAMOS OUTSOURCEAR ESSAS COISAS,
+
+COLOCAR EM DIFERENTES ARQUIVOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODE FUNCIONAR COM ESSE APP, MAS N É BOM TER TUDO ISSO DENTRO DE 'main.js'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PRECISAMOS CRIAR MÚLTIPLOS ARQUIVOS PARA ISSO...
+
+
+
+
+
+
+
+
+
+
+DEVEMOS COMEÇAR COM 1 ARQUIVO 'store.js',
+
+
+
+
+
+
+E 
+
+
+AÍ __ CONTINUAR _ SETORIZANDO A PARTIR DISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+import store from './store/store';
+
+const app = createApp(App);
+
+app.use(store);
+
+app.mount('#app');
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ BEM MAIS SIMPLES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ COLOQUEI OS MODULES DENTRO DE 1 PASTA DE 'modules'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK... MAS O PROFESSOR DIZ QUE DEVEMOS FAZER ISSO AINDA MAIS DEEP..
+
+
+
+
+
+
+
+
+
+ -> precisamos de 1 'index.js',
+
+
+ que vai segurar 
+
+ sua 
+
+ MAIN STORE...
+
+
+
+
+
+
+
+
+ --> SERIA MELHOR TAMBÉM TER FILES PARA:
+
+
+
+
+ 1) ACTIONS 
+
+
+ 2) GETTERS 
+
+
+ 3) MUTATIONS 
+
+
+
+
+
+
+
+ --> AÍ CRIAMOS SUBFOLDERS PARA CADA MODULE DE NOSSO NEGÓCIO...
+
+
+
+
+
+
+
+
+
+ OK... OUTSOURCEEI TUDO...
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+ import { createStore } from 'vuex';
+import counterModule from './modules/index';
+import rootActions from './actions';
+import rootMutations from './mutations';
+import rootGetters from './getters';
+
+export default store = createStore({
+  modules: {
+    counter: counterModule,
+  },
+  state() {
+    return {
+      authenticated: false,
+    };
+  },
+
+  getters: rootGetters,
+  mutations: rootMutations,
+  actions: rootActions,
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ, NO 'counterModule':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import counterActions from './actions';
+import counterMutations from './mutations';
+import counterGetters from './getters';
+
+export default counterModule = {
+  state() {
+    return {
+      counter: 0,
+    };
+  },
+
+  mutations: counterMutations,
+  actions: counterActions,
+  getters: counterGetters,
+};
+
+
+
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+TUDO AGORA ESTÁ BEM DIVIDIDO, O QUE É ÓTIMO....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSA ESTRUTURA DE FOLDERS É MELHOR, REALMENTE...
+
+
