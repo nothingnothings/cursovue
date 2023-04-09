@@ -1,0 +1,706 @@
+
+
+
+
+
+
+
+
+
+
+ALÉM DO USO DE 'local state',
+
+
+
+
+
+no vuex,
+
+por meio 
+
+de 
+
+MODULES,
+
+
+
+
+
+
+
+
+
+VC_ _ TAMBÉM _ PODE 
+
+
+
+
+
+
+
+
+
+__ DEIXAR _ SEU MODULE INTEIRO 
+
+''''LOCAL'''' (
+
+
+
+    ou 'namespaced', como as pessoas chamam...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ISSO QUER DIZER QUE __ PODEMOS _ FAZER ISSO PARA __ GARANTIR QUE 
+
+
+OS MODULES _ SERÃO _ REALMENTE _ SEPARADOS 1 EM RELAÇÃO AOS OUTROS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PQ FARÍAMOS ISSO? 
+
+
+
+
+É PQ __ PODERÍAMOS, A MEDIDA QUE NOSSO APP CRESCE,
+
+
+TER 
+
+
+'NAME CLASHES',
+
+
+CLASHES QUE OCORRERÃO SE USARMOS 
+
+
+
+
+
+OS MESMOS NOMES DE 'GETTER' OU 'ACTION'
+
+
+
+
+
+
+EM _ dIFERENTES MODULES DE 1 MESMA STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO NÃO ESTÁ ACONTECENDO AGORA,
+
+
+MAS DIGAMOS QUE 
+
+TEMOS 
+
+
+2 
+
+
+ACTIONS DE 'login',
+
+UMA 
+
+
+EM 
+
+
+'authModule',
+
+
+e 
+
+outra 
+
+
+
+em 
+
+
+'counterModule'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EM APPS MAIORES, PORTANTO,
+
+PODEMOS TER CLASHES COMO ESSES --> PARA EVITAR ISSO,
+
+
+PODEMOS FAZER 'NAMESPACE'
+
+
+DE NOSSOS MODULES...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, DEVEMOS COLOCAR MAIS 1 OPTION DENTRO 
+
+
+
+DE NOSSOS MODULES,
+
+
+QUE SERÁ A OPTION DE 'namespaced: true'.... 
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+const counterModule = {
+  // ? É ASSIM QUE SPLITTAMOS NOSSO STORE EM MÚLTIPLOS MÓDULOS...
+  // ? conceito similar ao dos 'state slices' do redux...
+
+
+
+  namespaced: true,
+  
+  state() {
+    return {
+      counter: 0,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  COM ISSO,
+
+
+
+
+
+
+
+
+BASICAMENTE __ ESPECIFICAMOS __ AO VUEX QUE 
+
+
+''O MODULE INTEIRO, E NÃO SÓ O STATE''',
+
+
+DEVERÁ _ sER DETACHEADO EM RELAÇAÕ AO RESTO DA STORE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  namespaced: true, //TODO --> essa opção GARANTE QUE __ O MODULE INTEIRO (state + actions + getters + mutations) DEVERÁ SER DETACHEADO EM RELAÇAÕ AO STORE...
+
+  state() {
+    return {
+      counter: 0,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... MAS SE FIZERMOS ISSO E 
+
+
+
+  RECARREGARMOS A PÁGINA,
+
+  VEREMOS 
+
+  QUE NOSSOS 'GETTERS' 
+
+  E OS 
+  'ACTION DISPATCHERS'
+
+
+
+
+  VAO DAR ERRO, NÃO VÃO MAIS FUNCIONAR..
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PQ ISSO ACONTECEU?
+
+
+
+
+
+
+
+
+
+
+  -> ACONTECEU PQ __ aGORA ESSAS ACTIONS/GETTERS NÃO 
+
+  FICAM MAIS 
+
+  DISPONÍVEIS 
+
+  NO MAIN STORE,
+
+
+
+
+
+  E SIM 
+
+
+
+
+  APENAS SÃO USADOS/FICAM DISPONÍVEIS 
+
+
+
+
+
+
+
+  __ SE _ ESPECIFICAMOS O 'namespace'
+
+  CORRETO..
+
+
+
+
+
+
+
+
+
+
+
+
+  -----_> OK, MAS QUAL É O 'namespace'?
+
+
+
+
+
+
+  NO NOSSO CASO,
+
+  OS NAMESPACES SÃO 
+
+
+
+    modules: {
+    counter: counterModule, ///SÃO OS SLICES/MODULES DE NOSSO STATE...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OU SEJA,
+
+
+
+
+
+
+
+  O NAMESPACE É 
+
+  'counter'.. --> É A KEY QUE VC ASSIGNOU 
+
+
+  PARA _ ASSIGNAR_ SEU 
+
+
+
+  MODULE de 'counterModule'
+
+
+
+
+
+  _ ao nosso store... -------_> E ESSE É O NAMESPACE 
+
+  DO 
+
+
+  MODULO DE 'COUNTER'. ---> E, AGORA ,
+
+  DEVEMOS 
+  USAR 
+
+
+
+
+  ESSE NAMESPACE PARA TRABALHAR COM MUTATIONS, ACTIONS E GETTERS... (dentro desse módulo)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... EM APPS MAIORES PODEMOS TER CLASHES COMO ESSES...
+
+
+
+
+
+
+
+'namespaced: true'...
+
+
+
+
+
+
+
+
+
+--> SE COLOCAMOS ESSA OPTION, ESPECIFICAMOS AO VUEX QUE 
+
+
+'O MODULE INTEIRO, E NAÕ SÓ O STATE, DEVERÁ SER DETACHEADO DE NOSSA STORE'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARA REFERENCIAR O NAMESPACE 
+
+de 'counterModule',
+
+
+
+precisamos escrever, em todas as calls,
+
+
+coisas como 
+
+
+
+
+
+
+
+
+'this.$store.getters['counter/normalizedCounter']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+
+SE QUEREMOS ACESSAR ESSE 'GETTER DENTRO DESSE MODULE ESPECÍFICO',
+
+
+devemos 
+
+
+
+
+
+
+
+USAR A NOTATION DE acesso de objects ('[]') 
+
+
+E ENTÃO 
+
+ESCREVER 
+
+
+
+'nomeDoNamespaceModule/nomeDoGetter',
+
+
+
+
+
+
+
+
+EXATAMENTE COMO FIZ AQUI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... JÁ SE VC ESTIVER USANDO 'mapGetters',
+
+
+VC 
+
+DEVE 
+
+
+
+usar 
+
+
+
+
+
+ASSIM:
+
+
+
+
+
+
+
+computed: {
+
+
+
+
+    ...mapGetters('counter', ['finalCounter'])
+}
+
+
+
+
+
+
+
+
+
+BASICAMENTE, PASSAMOS O 'NOME DO NAMESPACE' como primeiro argumento,
+
+e o  segundo argumento é 
+
+
+
+
+OS GETTER NAMES....
+
+
+
+
+
+
+
+
+
+
+MESMA COISA PARA AS ACTIONS:
+
+
+
+
+
+
+methods: {
+     ...mapActions('counter', ['increment', 'incrementCustom'])
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO.... ENTENDI...
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, ESTAMOS USANDO ESSA FEATURE DE 'NAMESPACE' PARA DETACHEAR NOSSO MODULE,
+
+
+E PARA __ GARANTIR QUE NÃO FIQUEMOS 
+
+
+COM NAME CLASHES...
+
+
+
+
+
+
+
+

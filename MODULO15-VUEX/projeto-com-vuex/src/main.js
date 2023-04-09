@@ -6,6 +6,13 @@ import App from './App.vue';
 const counterModule = {
   // ? É ASSIM QUE SPLITTAMOS NOSSO STORE EM MÚLTIPLOS MÓDULOS...
   // ? conceito similar ao dos 'state slices' do redux...
+
+
+
+  // namespaced: true, //TODO --> essa opção GARANTE QUE __ O MODULE INTEIRO (state + actions + getters + mutations) DEVERÁ SER DETACHEADO EM RELAÇAÕ AO STORE...
+  //mas 'namespaced' é uma feature OPCIONAL....
+
+
   state() {
     return {
       counter: 0,
