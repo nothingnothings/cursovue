@@ -1,0 +1,137 @@
+
+
+
+
+
+
+
+
+AGORA O PROFESSOR QUER QUE PRATIQUEMOS TUDO ISSO 
+
+
+COM 1 APP NOVO...
+
+
+
+
+
+
+
+
+
+
+
+--> É UM DEMO ONLINE SHOP...
+
+
+
+
+
+
+
+
+
+
+TEMOS 3 PRODUCTS,
+
+
+
+
+
+E AÍ 
+
+
+
+
+O CART VAI AUMENTAR TODA VEZ QUE CLICAMOS NO ADD DE 1 PRODUCT..
+
+
+
+
+
+TAMBÉM TEMOS 
+
+O 
+
+REMOVE 
+
+DE 
+
+
+
+PRODUCTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS O BOTÃO DE 'LOGIN',
+MAS ELE AINDA NÃO FAZ COISA ALGUMA (limitações com PROVIDE E INJECT)...
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR QUER QUE 
+TENTEMOS 
+
+
+MIGRAR 
+
+
+O STATE DESSE APP _ PARA O VUEX -----> 
+
+
+
+
+
+
+
+
+
+
+1) OS PRODUCTS 
+
+
+
+
+
+2) O 'LOGIN STATE'...
+
+
+
+
+3) TAMBÉM O CART...
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS SETTAR O VUEX DA MANEIRA QUE DESEJARMOS...
+
+
+É UM TESTE...
+
+
+
+
