@@ -135,3 +135,110 @@ DEVEMOS SETTAR O VUEX DA MANEIRA QUE DESEJARMOS...
 
 
 
+
+
+
+
+
+
+
+
+
+COMECEI ASSIM:
+
+
+
+
+
+
+
+
+
+
+import { createStore } from 'vuex'
+
+import authModule from './modules/auth'
+import cartModule from './modules/cart'
+import productModule from './modules/products'
+
+import rootActions from './actions'
+import rootGetters from './getters'
+import rootMutations from './mutations'
+
+const store = createStore({
+  modules: {
+    auth: authModule,
+    cart: cartModule,
+    products: productModule
+  },
+
+  state() {
+    return {}
+  },
+
+  actions: rootActions,
+  getters: rootGetters,
+  mutations: rootMutations
+})
+
+export default store
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+import { createApp } from 'vue'
+
+import router from './router.js'
+import store from './store/index.js'
+import App from './App.vue'
+import BaseBadge from './components/ui/BaseBadge.vue'
+
+const app = createApp(App)
+
+app.use(router)
+
+app.component('base-badge', BaseBadge)
+
+app.use(store)
+
+app.mount('#app')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... CONSEGUI... O APP INTEIRO FUNCIONOU,
+
+COM O STATE EM TODAS AS PARTES...
