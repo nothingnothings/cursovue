@@ -374,3 +374,13 @@ TUDO AGORA ESTÁ BEM DIVIDIDO, O QUE É ÓTIMO....
 ESSA ESTRUTURA DE FOLDERS É MELHOR, REALMENTE...
 
 
+
+
+O IDEAL É TER 1 PASTA DE 'MODULES', E AÍ CADA 1 DOS NEGÓCIOS COM 'actions', 'getters', 'index' e 'mutations'...
+
+
+
+
+
+
+
