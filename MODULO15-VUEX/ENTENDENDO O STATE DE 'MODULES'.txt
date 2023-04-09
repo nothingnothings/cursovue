@@ -1,0 +1,643 @@
+ 
+
+
+
+
+
+
+
+ CERTO.... O PROFESSOR HAVIA MENCIONADO QUE OS 'MODULES'
+
+ SÃO MERGEADOS 
+
+ PARA DENTRO 
+
+ DE NOSSO 
+
+ STORE,
+
+
+
+ E QUE TODOS OS SLICES/MODULES FICAM NO MESMO 
+
+ NÍVEL
+  
+  DA SUA STORE (root level)...
+
+
+
+
+
+
+
+
+
+
+
+
+  ---> MAS O PROFESSOR DIZ QUE HÁ 
+
+  UMA MANEIRA DE 
+
+
+  _ALTERAR__ ESSE BEHAVIOR...
+
+
+
+
+
+
+
+  --> NO EXEMPLO,
+
+  O PROFESSOR 
+
+  VAI DENTRO DO SLICE/MODULE DE 
+
+
+  'counter',
+
+
+  E AÍ 
+
+
+
+
+
+
+
+
+
+
+  VAI NA 
+
+
+  MUTATION DE 
+
+  'increaseCustom(state, payload)'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -> AÍ O PROFESSOR VAI LÁ E ADICIONA 
+
+
+
+
+
+
+  1 CONSOLE.LOG, QUE PRINTA O STATE 
+
+  RECEBIDO 
+
+  NESSE METHOD:
+
+
+
+
+
+
+
+
+
+
+
+
+  increase(state, payload) {
+    console.log(state);
+    state.counter = state.counter + payload;
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok.......
+
+
+
+
+
+
+COMO FICA O STATE DESSE NEGÓCIO?
+
+
+
+
+
+
+
+--> SE ABRIMOS ESSE STATE,
+
+VEMOS ALGO INTERESSANTE:
+
+
+
+
+
+1) VEMOS O 'COUNTER'
+
+DENTRO DO STATE,
+
+
+
+MAS __ NÃO VEMOS O STATE DE 'AUTHENTICATION' --> 
+
+
+ISSO QUER DIZER QUE,
+
+
+EXATAMENTE COMO NO REACT REDUX,
+
+
+
+
+
+
+
+__ OS 'SETORES' 
+
+DO STORE 
+
+FICAM INDEPENDENTES,
+
+NÃO 
+
+
+
+INTERAGEM 1 COM OS OUTROS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O STATE __ DENTRO __ DE 1 MODULE __ É SEMPRE CONSIDERADO 
+
+
+COMO 1 'LOCAL STATE'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+MAS, AO CONTRÁRIO DISSO,
+
+
+
+
+
+MUTATIONS, ACTIONS E GETTERS SÃO GLOBAIS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> APENAS STATE __ É EXCLUSIVO 
+
+
+
+A 1 GIVEN MODULE...
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+TUDO QUE VC FOR EXECUTAR, DENTRO DE 1 MODULE,
+
+VAI 
+
+SE REFERIR/USAR O __ STATE __ NO INTERIOR _ 
+
+
+
+DESSE PRÓPRIO MODULE...
+
+
+
+
+
+
+
+
+
+
+
+
+-----> PARA EXEMPLIFICAR ISSO,
+
+
+
+
+
+
+
+
+
+o PROFESSOR TENTA COLOCAR 1 GETTER, em 'counterModule',
+
+
+DE 
+
+
+
+
+'testAuth'...
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE GETTER, TENTAMOS RETORNAR O STATE DE 'auth',
+
+MESMO NÓS ESTANDO 
+DENTRO 
+
+DESSE SLICE/MODULE DE 'COUNTER'...
+
+
+
+
+
+
+
+
+
+E É __ CLARO __ QUE ISSO VAI FALHAR..
+
+
+
+
+
+
+eX:
+
+
+
+
+
+
+
+
+
+
+
+testAuth(state) {
+    return state.authenticated;
+}
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO VAI ACONTECER PQ, REALMENTE,
+
+
+
+O 
+
+STATE DE 'authenticated'
+
+
+NÃO EXISTIRÁ DENTRO DO STATE DESSE SLICE/MODULE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... O STATE É LOCAL, ENTENDI...
+
+
+
+
+
+
+
+
+É IMPORTANTE ENTENDER ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> E ISSO É SIMILAR PARA 
+
+
+
+
+'mutations' 
+
+
+
+e 
+
+'actions'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ACTIONS,
+
+
+
+
+TEMOS ACESSO AO 'context'... --> E, DENTRO DE 'CONTEXT',
+
+
+
+TEMOS AQUELA PROPRIEDADE DE 
+
+'state',
+
+
+QUE 
+
+
+TAMBÉM 
+
+VAI 
+
+
+
+TE DAR ACESSO SOMENTE AO STATE NO INTERIOR DESSE MODULE (
+
+    tipo 
+
+
+
+
+    'context.state'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS É CLARO QUE EXISTE UM 'WORKAROUND'
+ 
+ PARA 
+
+ CONSEGUIR ACESSAR STATES DE OUTROS MODULES,
+
+
+ EM 1 GIVEN MODULE...
+
+
+
+
+
+
+
+
+
+
+ MAS COMO FAZEMOS ISSO? 
+
+
+
+
+
+
+
+
+
+ FAZEMOS ISSO POR MEIO 
+
+
+
+
+ DO USO DOS ARGUMENTOS 'rootState' 
+
+
+ e 
+
+ 'rootGetters',
+
+
+ DENTRO DE NOSSOS GETTERS (nesse caso)...
+
+
+
+
+
+
+
+
+
+ Ex:
+
+
+
+
+
+
+
+
+
+
+ getters: {
+
+
+    testAuth(state, getters, rootState, rootGetters) {
+
+            return state.authenticated;
+    }
+ }
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+     incrementCustom(context, payload, rootState, rootGetters) { // ? rootState e rootGetters são usados QUANDO QUEREMOS GANHAR ACESSO A 1 STATE QUE EXISTE EM OUTRO MODULE de nossa store (mesma coisa com o 'rootGetters')....
+      // context.commit('incrementCustom', 25); //25 seria o PAYLOAD da mutation, NESSE CASO...
+      context.commit('incrementCustom', payload); //25 seria o PAYLOAD da mutation, NESSE CASO...
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS ESSA É UMA MANEIRA DE CONSEGUIR ACESSO 
+
+AO 
+
+STATE 
+
+DO SEU APP INTEIRO,
+
+EM CASOS INDISPENSÁVEIS..
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, TIPICAMENTE DENTRO DE 1 MODULE VC VAI QUERER 
+TRABALHAR 
+
+COM O 
+
+
+STATE DAQUELE MODULE ESPECÍFICO (
+    são raros os casos em que vc vai querer usar ''1 STATE DE OUTRO MODULE''...
+)
