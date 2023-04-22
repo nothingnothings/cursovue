@@ -1,0 +1,591 @@
+
+
+
+
+
+
+
+
+
+
+
+
+-- OK... DEVEMOS ADICIONAR 1 DUMMY CONTENT NAS OUTRAS PAGES..
+
+
+
+
+
+
+
+
+
+COMEÇAMOS COM O 'ALL REQUESTS'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+<template>
+  <RequestsList></RequestsList>
+</template>
+<script>
+import { mapGetters } from "vuex";
+
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+  computed: {
+    ...mapGetters(["requests"]),
+  },
+};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OUTPUTTAR A LISTA DE COACHES SERÁ APENAS 1 PARTE DO COMPONENT DO 'CoachesList'...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+O PROFESSOR VAI QUERER TER 1 COMPONENT DE 'CONTROLS' 
+
+EM CIMA 
+
+
+
+
+DE 'CoachesList',
+
+QUE 
+
+
+
+VAI 
+
+TER:
+
+
+
+1) 1 BUTTON QUE VAI NOS DEIXAR FAZER 'REFRESH' DA LISTA DE COACHES... --> 
+ESSE BUTTON DEVERÁ 
+
+FETCHEAR A LATEST SNAPSHOT DA DATA NO BACKEND...
+
+
+
+
+
+
+2) DEPOIS, TEREMOS 1 BUTTON AÍ QUE VAI NOS DEIXAR 'REGISTER'
+
+AS A COACH ------> E ESSE BUTTON NÃO SERÁ 1 BUTTON, E SIM SERÁ 
+UM 
+
+
+
+ROUTER LINK...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section id="coaches-filter">FILTER</section>
+    <section id="coaches-control">
+      <div class="controls">
+        <button>Refresh</button>
+        <router-link to="/register">Register as Coach</router-link>
+      </div>
+    </section>
+    <section id="coaches">
+      <CoachesList
+        :coaches="coaches"
+        :coachDetailLink="coachDetailLink"
+      ></CoachesList>
+    </section>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO 'COACH REGISTRATION',
+O PROFESSOR COLOCA DUMMY CODE --> MAS, NO FUTURO,
+
+TEREMOS 1
+
+
+FORM QUE VAI NOS DEIXAR PREENCHER TODAS AS INFOS 
+
+
+PARA ADICIONAR 1 NOVO COACH...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS DISSO,
+
+
+TEMOS AQUELA PAGE DE 'ContactCoach',
+
+
+QUE MAIS TARDE __ __ SERÁ ACESSADA 
+
+
+QUANDO 
+
+
+CLICAMOS 
+
+
+NO BUTTON DE 'CONTACT COACH'
+
+de cada COACH ITEM...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+--> PRECISAMOS ADICIONAR ALGUNS COACHES, MESMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COLOCA 
+
+
+
+
+
+
+esse button de 'contact coach'
+
+lá em 'CoachDetail',
+
+
+PARA FICAR TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <h1>{{ loadedCoach.name }}</h1>
+    <p>{{ loadedCoach.email }}</p>
+    <p>{{ loadedCoach.expertise }}</p>
+    <router-link :to="contactCoachLink">Contact Coach</router-link>
+  </div>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+MAS DEVEMOS TER EM MENTE QUE 'CONTACT' É UMA CHILD ROUTE 
+
+
+
+DA ROUTE DE 'CONTACT  DETAIL '--> ISSO QUER DIZER QUE 
+
+ELA NÃO SERÁ CARREGADA PARA SUBSTITUIR A ROUTE DE 
+
+'CONTACT DETAIL',
+
+
+
+
+E SIM __ 
+
+
+
+
+
+
+
+
+__ QUE __ O 'Contact Coach'
+ 
+
+ VAI PRECISAR DE 1 ROUTER VIEW SEPARADO,
+ QUE DEVERÁ 
+
+
+ EXISTIR DENTRO DO 
+
+ 'PARENT COMPONENT' DESSA CHILD ROUTE (ou seja, lá dentro de 'contact detail')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <div>
+    <h1>{{ loadedCoach.name }}</h1>
+    <p>{{ loadedCoach.email }}</p>
+    <p>{{ loadedCoach.expertise }}</p>
+    <router-link :to="contactCoachLink">Contact Coach</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO CASO,
+
+
+
+
+
+ESSA ROUTE DE 'contact'
+
+SERÁ CARREGADA DENTRO DESSE '<router-view>'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK... AGORA SE ESTIVERMOS 
+
+
+
+
+em 'localhost:8080/coaches/c1/contact',
+
+
+SERÁ CARREGADO 
+
+
+
+ESSE COMPONENT CHILD AÍ, junto dos outros...
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+COM ISSO,
+
+PODEMOS ALCANÇAR TODAS AS ROUTES,
+
+
+
+
+
+APESAR DE TER SÓ 
+
+
+DUMMY CONTENT...
+
+
+
+
+
+
+
+
+
+
+
+
+COMO PRÓXIMA ETAPA,
+
+
+O PROFESSOR 
+
+
+
+VAI ADIICONAR VUEX 
+
+
+COM 
+
+
+DATA DUMMY,
+
+PARA QUE SEJA POSSÍVEL VISUALIZAR NOSSOS COACHES E REQUESTS...

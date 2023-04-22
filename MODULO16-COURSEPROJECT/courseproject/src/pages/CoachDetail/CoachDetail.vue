@@ -4,6 +4,7 @@
     <p>{{ loadedCoach.email }}</p>
     <p>{{ loadedCoach.expertise }}</p>
     <router-link :to="contactCoachLink">Contact Coach</router-link>
+    <router-view></router-view>
   </div>
 </template>
 <script>

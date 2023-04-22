@@ -1,18 +1,14 @@
-
-
 <template>
-  <div>
-    <ul>
-      <li v-for="request in requests" :key="request.id">
-        <h1>{{ request.text }}</h1>
-        <p>{{ request.email }}</p>
-      </li>
-    </ul>
-  </div>
+  <RequestsList></RequestsList>
 </template>
 <script>
 import { mapGetters } from "vuex";
+
+import RequestsList from "../components/RequestsList/RequestsList.vue";
 export default {
+  components: {
+    RequestsList,
+  },
   computed: {
     ...mapGetters(["requests"]),
   },

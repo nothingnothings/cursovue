@@ -1,7 +1,13 @@
 <template>
   <div>
-    <section class="coaches-filter">FILTER</section>
-    <section class="coaches">
+    <section id="coaches-filter">FILTER</section>
+    <section id="coaches-control">
+      <div class="controls">
+        <button>Refresh</button>
+        <router-link to="/register">Register as Coach</router-link>
+      </div>
+    </section>
+    <section id="coaches">
       <CoachesList
         :coaches="coaches"
         :coachDetailLink="coachDetailLink"
