@@ -1,0 +1,482 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA VAMOS FALAR SOBRE O  'LAYOUT'..
+
+
+
+
+--> PROFESSOR QUER DIZER 'COMPONENTS'  E 'ROUTES'...
+
+
+
+
+
+
+
+
+
+
+
+PRIMEIRO, O LAYOUT:
+
+
+
+
+
+
+
+
+
+1) QUEREMOS TER 1 ROUTE DE '/coaches',
+
+
+
+que 
+
+vai carregar 
+
+1 LISTA DE COACHES...
+
+
+
+
+
+
+
+
+
+CoachesList component..
+
+
+
+
+
+
+2) TAMBÉM QUEREMOS TER 1 ROUTE DE 'coaches/:coachId',
+
+
+
+
+EM QUE __ PODEREMOS VER OS DETAILS DE ALGUM COACH...
+
+
+
+
+
+
+component: 'CoachDetails' ....
+
+
+
+
+
+
+3) TAMBÉM QUEREMOS 
+TER 
+
+
+1 
+
+ROUTE DE '/register',
+
+
+EM QUE 
+
+CARREGAMOS ALGUM 
+
+'COACH REGISTRATION COMPONENT'...
+
+
+
+'CoachRegistration'..
+
+
+
+
+
+
+
+
+
+
+
+ESSAS SÃO AS COACH-RELATED ROUTES...
+
+
+
+
+
+
+
+
+
+PARA REQUESTS,
+
+TEMOS:
+
+
+
+
+4)   ROUTE DE '/contact',
+
+
+em que 
+
+ABRIMOS A FORM EM QUE PODEMOS 
+
+ENVIAR 
+
+
+1 MENSAGEM AO COACH ---. component 
+
+
+
+'CoachContact'..
+
+
+
+
+
+
+
+
+
+2) /requests --> ESSA É A PAGE EM QUE VISUALIZAMOS OS 'INCOMING REQUESTS',
+
+
+
+
+
+A ROUTE DE 'requests received'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... TEMOS 5 ROTAS...
+
+É CLARO QUE 
+
+
+CADA PAGE 
+
+SERÁ 
+
+
+1 COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 5 PAGES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS E QUANTO AO RESTO DA PAGE...
+
+
+
+
+
+
+
+
+
+
+
+--> 1) QUEREMOS TER 1 HEADER, NO TOPO DA PÁGINA,
+
+EM QUE 
+TEREMOS 
+LINKS
+ 
+
+ PARA _ O 'COACH LIST'
+
+ E AO 
+
+ 'REQUEST LIST'...
+
+
+
+
+
+
+
+
+
+
+ 2) SE CLICARMOS EM 'coaches',
+
+ ISSO CARREGARÁ A 'COACHES LIST' --> E ESSA PÁGINA TERÁ 
+
+ 1 
+
+ 'FILTER' , 
+
+ EM QUE 
+
+ PODEREMOS FILTRAR POR 
+
+ 'AREA OF EXPERTISE'...
+
+
+
+
+
+
+
+
+ -------> DEVEMOS ADICIONAR 1 'AREA OF EXPERTISE' 
+
+ AOS NOSSOS COACHES.. --> 
+
+ E DEVEREMOS 
+
+ SER CAPAZES 
+
+ DE FILTRAR POR AREA OF EXPERTISE...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> EMBAIXO DE TUDO ISSO, TEREMOS OS DIFERENTES COACH ITEMS...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> SE CLICAMOS EM 1 COACH ITEM,
+
+
+ VAMOS PARA OUTRA PÁGINA, A 'COACH DETAILS PAGE',
+
+
+
+ EM QUE 
+
+
+
+ TEREMOS A DESCRIPTION, A IMAGE,
+
+ E 
+
+
+ 1 BUTTON DE 'CONTACT' -->  SE CLICAMOS 
+
+
+
+
+
+ NESSE BOTÃO,
+
+ SOMOS LEVADOS 
+
+ A UMA OUTRA PAGE,
+
+
+
+
+
+
+COM 1 FORM,
+
+EM QUE PODEMOS SETTAR NOSSO EMAIL E ENVIAR 1 MESSAGE AO COACH...
+
+
+
+
+
+
+
+
+--> E ISSO, É CLARO,
+
+LEVA AO REQUEST -> O REQUEST É ENVIADO AO COACH E AÍ PODERÁ SER VISTO NA 
+
+ÁREA 
+
+
+
+DE 
+
+REQUESTS 
+
+
+
+
+DE NOSSO SITE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> NA PÁGINA DE 'REQUESTS',
+
+
+
+TEREMOS CADA REQUEST ITEM COM 
+
+
+'email' e 'message'... 
+
+
+
+
+
+
+
+
+
+----> PODEREMOS USAR ESSE 'EMAIL' PARA RESPONDER...
+
+
+
+
+
+
+
+
+--> ESSE É O ROUGH OUTLOOK DO QUE VAMOS FAZER...
+
+
+
+
+
+
+
+--> VAMOS CONSTRUIR TUDO DO ZERO...
+
+
+
+
+
+
+
+
+
+
+--> E, NESSAS PAGES, USAREMOS UM MONTE DE COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER QUE COMEÇEMOS 
+
+
+
+
+
+
+AGORA...
+
+
+
+
+
+
+
+
+--> PROVAVELMENTE USAREMOS 1 COMPONENT SEPARADO PARA OS COACH ITEMS,
+
+
+OUTRO 
+
+PARA AS 'FORMS',
+
+
+
+
+e etc...
+
+
+
+
+
+
+
+
+O HEADER TAMBÉM SERÁ 1 COMPONENT SEPARADO..
+
+
+
+
+
+
+ESSE É O PLANO GERAL DE NOSSO APP...
