@@ -1,0 +1,471 @@
+ 
+
+
+
+
+
+
+ conforme mencionado, neste módulo 
+
+
+
+
+
+
+CONSTRUÍREMOS O APP 'COACH FINDER' --> é um app construído com vuejs,
+
+
+e que 
+
+deve nos ajudar a encontrar 1 coach 
+
+de webdev,
+
+etc...
+
+
+
+
+
+
+
+
+
+
+--> esse app terá 2 main features --> terá a feature de 'find a coach',
+
+
+e outra 
+
+
+
+
+FEATURE QUE NOS AJUDARÁ A ENVIAR REQUESTS,
+
+MESSAGES A COACHES QUE QUEREMOS ENCONTRAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO, QUEREMOS SER CAPAZES:
+
+
+
+
+
+1) DE LISTAR TODOS OS COACHES DISPONÍVEIS ...
+
+
+
+
+
+
+
+
+
+
+2) QUEREMOS SER CAPAZES DE VISUALIZAR TODOS OS DETALHES DOS COACHES 
+
+
+
+
+
+
+
+
+
+3) DE NOS REGISTRARMOS COMO COACH 
+
+
+
+
+
+4) CONTATAR PESSOA, COMO COACH..
+
+
+
+
+
+
+
+
+
+
+--> ESSA PARTE DE 'FIND A COACH' 
+
+
+VAI 
+SE CONECTAR 
+
+
+
+
+à OUTRA 
+PARTE DE NOSSO 
+
+APP,
+
+
+
+
+
+A PARTE DE 'REQUESTS' --> 
+
+
+
+
+
+
+
+
+
+COMO COACH,
+
+PODEREMOS VISUALIZAR 
+
+
+OS INCOMING REQUESTS,
+
+ETC ETC...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O FOCO DESSE APP SERÁ 
+
+
+
+APLICAR 
+
+A MAIOR QUANTIDADE DE RECURSOS VUE POSSÍVEL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS PLANEJAR O APP, ANTES DE ESCREVER QUALQUER CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+--> É IMPORTANTE PLANEJAR NOSSAS COISAS ANTES DE AS EXECUTAR...
+
+
+
+
+
+
+
+
+
+
+--> PRECISAMOS DE UM PLANO INICIAL, 
+
+ANTES DE COMEÇARMOS A TRABALHAR...
+
+
+
+
+
+
+
+
+
+--> NÃO TEMOS NENHUM BLUEPRINT AGORA,
+
+MAS 
+
+HÁ ALGUMAS IDEIAS...
+
+
+
+
+
+
+
+É BOM COMEÇAR ASSIM:
+
+
+
+
+
+
+
+
+1) DEFINIMOS AS KEY FEATURES QUE NOSSO APP DEVERÁ TER...
+
+
+
+
+
+
+
+a) FIND A COACH 
+
+
+
+b) REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+-> E, ENTÃO, TODAS AS SUBFEATURES PERTENCENTES A ESSES REQUESTS,
+
+
+
+COMOO 
+
+'list all coaches',
+
+'register as a coach',
+
+
+'send messages',
+
+
+e assim por diante..
+
+
+
+
+
+
+
+
+
+
+
+
+
+ASSIM QUE AS FEATURES SÃO DEFINIDAS,
+
+
+PODEMOS FAZER 2 COISAS IMPORTANTES:
+
+
+
+
+
+
+
+
+
+1) PODEMOS DERIVAR OS 'DATA MODULES' DE QUE PRECISAMOS (
+
+    exatamente como fiz no hugline,
+     com 
+
+     o 'employee' e 'contractor'...
+)
+
+
+--> NO MUNDO VUE,
+
+
+ISSO É O __ VUEX STORE LAYOUT...
+
+
+
+
+
+
+
+
+
+-> PODEMOS PLANEJAR NOSSO 'APP-WIDE STATE',
+
+
+OS GETTERS E TAMBÉM AS ACTIONS E MUTATIONS DE QUE PRECISAREMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> TIPICAMENTE,VAMOS 
+
+PLANEJAR 
+
+ALGUMA COISA,
+
+
+E AÍ 
+
+QUANDO 
+
+
+
+COMEÇARMOS A 
+
+
+CONSTRUIR O APP,
+
+
+
+VAMOS MUDAR NOSSOS PLANOS,
+
+E AÍ 
+
+ADICIONAR 
+
+
+MUTATIONS E 
+
+
+GETTERS DIFERENTES --> 
+
+
+
+
+
+
+
+
+
+O PROFESSOR PREFERE COMEÇAR RÁPIDO,
+
+
+E NÃO GOSTA DE PLANEJAR POR DIAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS 1 'ROUGH PLAN' NÃO MACHUCA...
+
+
+
+
+
+
+
+
+
+--> A OUTRA PARTE IMPORTANTE,
+
+
+
+
+
+É QUE VC DERIVE O 'DESIGN'/'LAYOUT'
+
+
+
+DO SEU APP,
+
+
+E _ VC __ PLANEJE _ QUAIS 
+
+
+COMPONENTS SÃO NECESSÁRIOS,  
+
+
+
+
+E __ QUAL A RELAÇÃO ENTRE ELES... --> TAMBÉM A PARTE DE 
+
+
+'QUAIS PAGES/ROUTES' QUEREMOS TER...
+
+
+
+
+
+
+
+
+
+
+
+
+--> '''DESIGN''' -> NÃO É DISSO QUE ESTAMOS FALANDO --> ISSO FREQUENTEMENTE SERÁ FEITO POR UM DESIGN,
+
+POR NÓS...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR NÃO É UM DESIGNER,
+
+
+
+
+ELE É UM WEB DEVELOPER...
+
+
+
+
+
+
+
+
+
+
+-> ESSAS SÃO AS 2 COISAS QUE QUEREMOS FAZER, AQUI...
+
+
+
