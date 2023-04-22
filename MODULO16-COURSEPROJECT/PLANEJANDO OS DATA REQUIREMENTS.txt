@@ -1,0 +1,496 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... COMEÇAMOS COM A DATA...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESOR VAI COMEÇAR COM A DATA...
+
+
+
+
+
+
+
+
+
+--> DESENHAREMOS OS COMPONENTS COMO PRÓXIMA ETAPA..
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, TEMOS 2 MAIN FEATURES...:
+
+
+
+
+
+
+
+
+1) COACHES 
+
+
+
+
+
+
+
+
+
+
+2) REQUESTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSAS SÃO NOSSAS 2 MAIN PIECES DE DATA...
+
+
+
+
+
+
+
+
+
+
+--> PROVAVELMENTE VAMOS PRECISAR DE 1 LIST DE COACHES...
+
+
+
+
+
+
+
+
+--> E VAMOS TAMBÉM PRECISAR 
+
+DE UMA LIST DE REQUESTS... --> 
+
+
+
+
+
+PQ MÚLTIPLOS REQUESTS PODERÃO SER ENVIADOS (
+
+    e também 
+
+    MÚLTIPLOS REQUESTS A 1 MESMO COACH...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+E CADA 'REQUEST ITEM' 
+
+
+
+DEVERÁ 
+
+APONTAR A COACHES---> 
+
+
+ISSO QUER DIZER QUE 
+
+1 
+
+REQUEST 
+
+
+
+DEFINITIVAMENTE SERÁ 
+
+
+1 IMPORTANT DATA PIECE --> 
+
+
+
+
+
+
+
+
+
+e cada request 
+
+
+SEGURARÁ 
+
+1 
+
+
+
+'coach id',
+
+PQ 
+
+
+
+DEVERÁ ESTAR CONECTADO A 1 COACH 
+
+
+A QUE 
+
+FOI ENVIADO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+REQUESTS SERÃO:
+
+
+1) COACH ID 
+
+
+
+2) MESSAGE 
+
+
+
+3) email address...
+
+
+
+
+
+
+
+
+
+
+
+---. QUEREMOS TER ESSES 3 PIECES OF DATA EM 1 REQUEST...
+
+
+
+
+
+
+
+
+--> E QUEREMOS TER 1 LISTA DESSES REQUESTS, TAMBEM COMO PARTE DO APP...
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM PRECISAMOS TER COACHES:
+
+
+
+
+
+
+
+
+
+COACH:
+
+
+
+
+
+1) ID 
+
+
+
+2) FIRST NAME 
+
+
+
+3) LAST NAME 
+
+
+
+4) DESCRIPTION 
+
+
+
+5) RATE (preço por hora)...
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, DEVEMOS TER AS CORE DATA ENTITIES/MODULES NECESSÁRIAS, NESSE APP...
+
+
+
+
+
+
+
+
+
+
+
+-- COACHES E REQUESTS,
+
+
+
+
+
+
+E 
+
+OS REQUESTS SÃO CONECTADOS POR MEIO DE 'coach id'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE É APENAS UM PLANO GERAL, 
+
+PARA COMEÇARMOS NOSSO 
+
+PROJETO...
+
+
+
+
+
+
+
+
+
+--> ISSO VAI NOS AJUDAR A SETUPPAR O VUEX 
+MAIS TARDE...
+
+
+
+
+
+
+
+
+
+--> TEREMOS 2 VUEX MODULES,
+
+1 PARA COACHES,
+
+E OUTRO PARA REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O VUEX É MAIS DO QUE APENAS 'PLANNING THE DATA WE WANNA STORE',
+
+PQ 
+
+TAMBÉM 
+
+É SOBRE O PLAN DE 'ACTIONS', 'GETTERS' 
+
+E 'MUTATIONS'...
+
+
+
+
+
+
+
+
+
+
+
+GETTERS --> BEM STRAIGHTFORWARD --> QUEREMOS 1 GETTER PARA PEGAR 
+TODOS OS COACHES,
+
+E OUTRO PARA PEGAR TODOS OS REQUESTS...
+
+
+
+
+
+
+
+MUTATIONS --> BEM, PARA COACHES, DEFINITIVAMENTE PRECISAMOS 
+
+DE 1 MUTATION PARA 'REGISTER AS COACH' (ser adicionado como COACH, no backend e no frontend)...
+
+
+
+
+-> TAMBÉM QUEREMOS TER UMA MUTATION PARA 'LOAD COACHES' ----> PQ QUANDO O APP INICIA,
+
+VAMOS QUERER 
+
+RETRIEVAR 
+
+OS COACHES DE 1 DATABASE,
+
+E ASSIM QUE A LISTA DE COACHES FOR CARREGADA DA DATABASE,
+QEUREMOS 
+
+SETTAR ESSA DATABASE NA NOSSA LOCAL VUEX STORE...
+
+
+
+
+
+
+
+
+
+--> JÁ PARA REQUESTS,
+
+
+QUEREMOS 
+
+TER 
+
+
+
+
+1 'CONTACT COACH' MUTATION,
+
+
+que BASICAMENTE 'SETTA' ou 'ADICIONA' 1 novo request...
+
+
+
+
+
+
+
+
+--> TAMBÉM PRECISAMOS DE 1 MUTATION PARA 'LOAD REQUESTS',
+
+
+
+
+ISSO PQ, ASSIM COMO COM OS 'COACHES',
+
+
+
+
+
+_ OS REQUESTS SERÃO ENVIADOS 1 DATABASE,
+
+
+
+E QUEREMOS SER CAPAZES DE 
+
+
+
+CARREGAR 
+
+OS REQUESTS 
+
+
+DESSA DATABASE,
+
+E AÍ AS CARREGAR 
+
+POR 
+
+MEIO DE 1 MUTATION...
+
+
+
+
+
+
+
+
+
+
+4 MUTATIONS, PORTANTO...
+
+
+
+
+
+1) LOAD COACHES 
+
+
+2) LOAD REQUESTS 
+
+
+
+3) CONTACT COACH 
+
+
+4) REGISTER/ADD COACH...
