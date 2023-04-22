@@ -1,17 +1,22 @@
-<template>
-  <div>
-    <li v-for="coach in coaches" :key="coach.id">
-      <h1>{{ coach.name }}</h1>
-      <p>{{ coach.email }}</p>
-      <router-link :to="coachDetailLink">View Coach</router-link>
-    </li>
-  </div>
+<template lang="">
+
+    <ul>
+    <CoachListItem v-for="coach in coaches" 
+    :key="coach.id" 
+    :coach="coach" 
+    :coachDetailLink="coachDetailLink">
+    </CoachListItem>
+</ul>
 </template>
 <script>
+import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
   mounted() {
     this.loadCoaches();
+  },
+  components: {
+    CoachListItem,
   },
   computed: {
     ...mapGetters(["coaches"]),
@@ -30,4 +35,5 @@ export default {
   },
 };
 </script>
-<style></style>
+<style lang="">
+</style>

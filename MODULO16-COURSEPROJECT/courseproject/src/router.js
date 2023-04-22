@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import CoachesList from './pages/CoachesList.vue';
-import RequestsList from './pages/RequestsList.vue';
+import CoachesListPage from './pages/CoachesListPage.vue';
+import RequestsListPage from './pages/RequestsListPage.vue';
 import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
 import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
 import NotFound from './pages/NotFound.vue';
@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/coaches',
-    component: CoachesList,
+    component: CoachesListPage,
   },
   {
     name: 'coach-detail',
@@ -34,7 +34,7 @@ const routes = [
   },
   {
     path: '/requests',
-    component: RequestsList,
+    component: RequestsListPage,
   },
   {
     path: '/notFound(.*)',
