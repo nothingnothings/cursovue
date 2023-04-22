@@ -1,16 +1,12 @@
 <template>
   <div>
-    <!-- <ul>
-    <li v-for="coach in coaches" :key="coach.id">
-      <h1>{{ coach.name }}</h1>
-      <p>{{ coach.email }}</p>
-      <router-link :to="coachDetailLink">View Coach</router-link>
-    </li>
-</ul> -->
-    <CoachesList
-      :coaches="coaches"
-      :coachDetailLink="coachDetailLink"
-    ></CoachesList>
+    <section class="coaches-filter">FILTER</section>
+    <section class="coaches">
+      <CoachesList
+        :coaches="coaches"
+        :coachDetailLink="coachDetailLink"
+      ></CoachesList>
+    </section>
   </div>
 </template>
 <script>

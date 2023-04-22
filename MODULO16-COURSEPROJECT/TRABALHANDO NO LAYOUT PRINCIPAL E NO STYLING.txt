@@ -1,0 +1,980 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... COACHESLIST.VUE,
+
+ESSA É A PRIMEIRA PAGE QUE QUEREMOS CRIAR...
+
+
+
+
+
+
+
+
+
+
+
+
+--> SERÁ UMA PAGE BEM COMPLEXA, NO FINAL DAS CONTAS,
+
+PQ 
+
+LÁ DENTRO 
+
+VOU QUERER OUTPUTTAR MAIS DO QUE 
+
+1 
+
+LISTA DE COACHES (
+
+
+
+    PQ VOU QUERER TAMBÉM ADICIONAR 1 LÓGICA DE FILTERING,
+
+
+    PARA QUE PÓSSAMOS FILTRAR OS COACHES...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, PRIMEIRAMENTE PRECISAMOS DE UMA LISTA DE COACHES,
+QUE AINDA NÃO TEMOS...
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR COMEÇA COM UM TEMPLATE 
+
+
+
+
+BÁSICO...
+
+
+
+
+
+
+
+--> ELE DIZ QUE DEVEREMOS TER UMA SECTION, EM QUE 
+
+MAIS TARDE TEREMOS A LIST DE ITEMS...
+
+
+
+
+
+2 SECTIONS ,PORTANTO..
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="coaches-filter">FILTER</section>
+    <section class="coaches">
+      <CoachesList
+        :coaches="coaches"
+        :coachDetailLink="coachDetailLink"
+      ></CoachesList>
+    </section>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+nossa page ficará lean, no final...
+
+
+
+
+
+
+
+
+
+MAS AGORA TEMOS 1 DUMMY TEMPLATE,
+
+QUE VAI NOS DEIXAR VER ALGUMA COISA NA TELA,
+
+
+QUANDO ESSE NEGÓCIO FOR RENDERIZADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+ENXERGAMOS 'FILTER' E 'LIST OF COACHES',
+
+O QUE 
+
+QUER DIZER QUE 
+
+
+
+
+
+ISSO DEU CERTo...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER DEFINIR  STYLING BÁSICO EM 'APP.VUE',
+
+PARA QUE 
+
+SEJA APLICADO AO APP INTEIRO..
+
+
+
+
+
+
+
+--> O PROFESSOR PREPAROU O STYLE PARA NÓS 
+
+
+PQ 
+
+
+ISSO É UM CURSO DE VUE...
+
+
+
+
+O CÓDIGO 
+
+FICA ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <TheHeader></TheHeader>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
+export default {
+  name: "App",
+  components: {
+    TheHeader,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRECISAMOS 
+
+
+
+
+
+ADICIONAR COACHES..
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU COMEÇAMOS 
+
+COM 
+
+O VUEX 
+
+
+
+E COMEÇAMOS A ADICIONAR DATA,
+
+
+OU ENTÃO 
+
+
+
+
+
+ADICIONAMOS O LAYOUT BÁSICO 
+
+
+AO NOSSO APP, PARA SÓ ENTÃO 
+
+
+ADICIONAR DATA...
+
+
+
+
+
+
+
+
+BEM, O PROFESSOR QUER 'WIRE UP' 
+
+
+A BASIC NAVIGATION E LAYOUT,
+
+
+
+
+PARA SÓ DEPOIS FOCAR NA DATA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA 1 FOLDER DE 'COMPONENTS',
+
+E AÍ 
+
+ADICIONA 
+
+
+
+
+1 FOLDER DE 'LAYOUT',
+
+E DENTRO 
+
+DELE 
+
+ELE 
+
+
+ADIICONA 
+
+
+
+
+1 FILE DE 'TheHeader',
+
+que vai segurar 
+ 
+
+
+
+
+ O BASEHEADER,
+ COM A NAVIGATION QUE 
+
+
+
+ DESEJAMOS...
+
+
+
+
+
+
+
+ ESSE COMPONENT VAI SER USADO NO COMPONENT 'App.vue',
+
+
+ ACIMA DO '<router-view>',
+
+ exatamente como eu fiz..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+ <template>
+  <div>
+    <TheHeader></TheHeader>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
+export default {
+  name: "App",
+  components: {
+    TheHeader,
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+----------------------
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+AÍ RENDERIZAMOS O HEADER, TUDO NORMAL...
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+NO HEADER.VUE,
+
+EU ESCREVI ASSIM:
+
+
+
+
+
+
+<template>
+  <nav>
+    <ul>
+      <li v-for="link in links" :key="link.name">
+        <router-link :to="link.path">{{ link.name }}</router-link>
+      </li>
+    </ul>
+  </nav>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      links: [
+        {
+          path: "/coaches",
+          name: "Coaches",
+        },
+        {
+          path: "/requests",
+          name: "Requests",
+        },
+      ],
+    };
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO FUNCIONA, MAS AINDA ESTÁ FEIO...
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR QUER TER UM <h1>
+
+com 'find a coach',
+
+e embaixo disso os 
+
+ROUTER LINKS...
+
+
+
+
+
+
+
+
+O PROFESSOR DECIDE FAZER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <nav>
+    <ul>
+      <h1><router-link to="/">Find a Coach</router-link></h1>
+      <li v-for="link in links" :key="link.name">
+        <router-link :to="link.path">{{ link.name }}</router-link>
+      </li>
+    </ul>
+  </nav>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      links: [
+        {
+          path: "/coaches",
+          name: "Coaches",
+        },
+        {
+          path: "/requests",
+          name: "Requests",
+        },
+      ],
+    };
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+isso vai sempre voltar ao 'route entry page' 
+
+
+de nosso app....
+
+
+
+
+
+
+
+--> NO PRIMEIRO LINK, COLOQUEI '/coaches'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<template>
+  <nav>
+    <ul>
+      <h1><router-link to="/">Find a Coach</router-link></h1>
+      <li v-for="link in links" :key="link.name">
+        <router-link :to="link.path">{{ link.name }}</router-link>
+      </li>
+    </ul>
+  </nav>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      links: [
+        {
+          path: "/coaches",
+          name: "All Coaches",
+        },
+        {
+          path: "/requests",
+          name: "Requests",
+        },
+      ],
+    };
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+
+
+OK... ESSE É O SETUP BÁSICO PARA O  HEADER...
+
+
+
+
+
+
+
+
+
+
+ainda não precisamos de nenhuma coisa dinâmica, aqui,
+
+mas é claro que o professor vai querer ter 1 código css scoped...
+
+
+
+
+
+
+
+
+
+
+
+--> ELE ESCREVE ASSIM:
+
+
+
+
+
+header {
+  width: 100%;
+  height: 5rem;
+  background-color: #3d008d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header a {
+  text-decoration: none;
+  color: #f391e3;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+}
+
+a:active,
+a:hover,
+a.router-link-active {
+  border: 1px solid #f391e3;
+}
+
+h1 {
+  margin: 0;
+}
+
+h1 a {
+  color: white;
+  margin: 0;
+}
+
+h1 a:hover,
+h1 a:active,
+h1 a.router-link-active {
+  border-color: transparent;
+}
+
+header nav {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  margin: 0 0.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+O PROFESSOR TAMBÉM ESTILIZA OS ROUTER ACTIVE LINKS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+AÍ FICAMOS COM O LINK ATIVO,
+
+
+
+E A PARTE DO HEADER FUNCIOAN...
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+<template>
+    <header>
+  <nav>
+    <h1><router-link to="/">Find a Coach</router-link></h1>
+    <ul>
+      <li v-for="link in links" :key="link.name">
+        <router-link :to="link.path">{{ link.name }}</router-link>
+      </li>
+    </ul>
+  </nav>
+</header>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      links: [
+        {
+          path: "/coaches",
+          name: "All Coaches",
+        },
+        {
+          path: "/requests",
+          name: "Requests",
+        },
+      ],
+    };
+  },
+};
+</script>
+<style scoped>
+header {
+  width: 100%;
+  height: 5rem;
+  background-color: #3d008d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header a {
+  text-decoration: none;
+  color: #f391e3;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+}
+
+a:active,
+a:hover,
+a.router-link-active {
+  border: 1px solid #f391e3;
+}
+
+h1 {
+  margin: 0;
+}
+
+h1 a {
+  color: white;
+  margin: 0;
+}
+
+h1 a:hover,
+h1 a:active,
+h1 a.router-link-active {
+  border-color: transparent;
+}
+
+header nav {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  margin: 0 0.5rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ATÉ AÍ, TUDO BEM...
+
+
+
+
+
+
+
+
+
+ESSA FOI A PARTE DO HEADER, TUDO CERto...
