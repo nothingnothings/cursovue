@@ -1,0 +1,581 @@
+
+
+
+
+
+VAMOS CRIAR 1 NOVO PROJECT...
+
+
+
+
+
+
+
+
+
+
+
+--> COMECEI REALMENTE DO 0..
+
+
+
+
+
+
+
+--> VOU CRIANDO ALGUMAS PASTAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS SETTAR AS ROUTES E PAGES NECESSÁRIAS PARA ESSE APP...
+
+
+
+
+
+
+
+VAMOS, ETAPA POR ETAPA,
+
+ADICIONAR A DATA 
+
+E FUNCIONALIDADE NECESSÁRIAS...
+
+
+
+
+
+
+
+
+
+
+
+--> VOU INSTALAR O VUE-ROUTER, PQ É O BÁSICO...
+
+
+
+
+
+O VUEX TBM...
+
+
+
+
+
+o código é 
+
+
+
+
+npm install --save vuex@next
+
+
+npm install --save vue-router@next
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+ISSO FUNCIONOU...
+
+
+
+
+
+PRECISAMOS DESSAS 2 PACKAGES...
+
+
+
+
+
+
+
+
+--> COM AS 2 INSTALADAS NO NOSSO PROJECT,
+
+PODEMOS USAR AMBOS OS PACKAGES...
+
+
+
+
+
+
+
+
+------> 
+
+
+
+
+
+
+MAS ANTES DE MAIS NADA,
+
+DO LADO DE 'main.js',
+
+
+O PROFESSOR COLOCA 'router.js',
+
+PQ ELE VAI QEURER 
+
+
+
+
+ARMAZENAR TODA A NOSSA ROUTING LOGIC LÁ DENTRO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> professor escreve o createRouter lá em 'router.js' mesmo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    path: '/coaches',
+    component: null,
+  },
+  {
+    path: '/coaches/:id',
+    component: null,
+  },
+  {
+    path: '/register',
+    component: null,
+  },
+  {
+    path: '/requests',
+    component: null,
+  },
+
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PARA A ROUTE EM QUE QUEREMOS 'CONTATAR 1 COACH ESPECÍFICO',
+
+
+
+O PROFESSOR PENSA QUE É MELHOR QUE ELA SEJA ADICIONADA COMO 'CHILD' 
+
+
+DAQUELE 
+
+'coaches/:id',
+
+
+
+
+pq AÍ VAMOS ENTRAR DENTRO DESSA ROUTE, e será mais conveniente...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    path: '/coaches',
+    component: null,
+  },
+  {
+    path: '/coaches/:id',
+    component: null,
+    children: [
+      {
+        path: 'contact',
+        component: null,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    component: null,
+  },
+  {
+    path: '/requests',
+    component: null,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+ficará 
+
+
+'coaches/c1/contact' --> 
+
+
+
+
+
+
+
+
+ESSA PAGE __ SERÁ ALCANÇADA, POR MEIO DE 1 FORM,
+
+PARA 1 COACH MT ESPECÍFICO..
+
+
+
+
+
+
+
+
+
+--> certo....
+
+
+
+
+
+
+
+MAS AINDA TEREMOS 1 ROUTE PARA 'REQUESTS',
+
+EM QUE VEREMOS TODOS OS REQUESTS QUE RECEBEMOS..
+
+
+
+
+
+
+
+
+
+
+-- POR FIM,
+
+TEREMOS 
+
+1 
+
+
+ROUTE DE 'catch all',
+
+
+
+DE NOT FOUND,
+
+PARA QUANDO O USER 
+
+
+
+
+INPUTTA ALGO QUE NÃO É VÁLIDO...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    path: '/coaches',
+    component: null,
+  },
+  {
+    path: '/coaches/:id',
+    component: null,
+    children: [
+      {
+        path: 'contact',
+        component: null,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    component: null,
+  },
+  {
+    path: '/requests',
+    component: null,
+  },
+  {
+    path: '/notFound(.*)',
+    component: null,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- NA VERDADE,
+
+
+
+PRECISAMOS DE MAIS 1 ROUTE,
+
+PQ NÃO TEMOS NENHUMA ROUTE DE 
+
+'/' (slash nothing)....
+
+
+
+
+
+
+
+
+
+
+
+-----> SE ISSO ACONTECER, QUEREMOS REDIRECIONAR PARA 'coaches'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    path: '/',
+    redirect: '/coaches',
+  },
+  {
+    path: '/coaches',
+    component: null,
+  },
+  {
+    path: '/coaches/:id',
+    component: null,
+    children: [
+      {
+        path: 'contact',
+        component: null,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    component: null,
+  },
+  {
+    path: '/requests',
+    component: null,
+  },
+  {
+    path: '/notFound(.*)',
+    component: null,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+AGORA PRECISAMOS DEFINIR OS COMPONENTS CARREGADOS POR ESSAS ROUTES..
+
+
+
+
+
+
+
+--> DEVEMOS TENTAR CRIAR OS PAGE COMPONENTS PARA 
+
+ESSAS ROUTES..
+
+
+
+
+
+
+
+
+--> PODEMOS PROGREDIR COM O PROFESSOR...
