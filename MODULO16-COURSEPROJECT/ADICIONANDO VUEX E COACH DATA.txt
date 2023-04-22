@@ -1,0 +1,831 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... CONFORME MENCIONADO,
+
+AGORA QUEREMOS COMEÇAR COM O ADD DE DATA...
+
+
+
+
+
+
+
+
+
+VAMOS USAR O VUEX JUSTAMENTE PQ ESSA DATA NÃO SERÁ STATIC,
+
+
+
+
+ELA VAI MUDAR AO LONGO DO TEMPO (
+
+
+
+    vamos disparar requests,
+
+    retrievar data, etc etc...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR CRIA 1 FOLDER DE 'store',
+
+E AÍ 1 ARQUIVO 'index.js',
+
+EM QUE 
+
+DEFINIMOS O STORE EM GERAL...
+
+
+
+
+
+
+VAMOS TRABALHAR COM MODULES, É CLARO..
+
+
+
+
+
+
+
+
+
+CADA 
+
+
+
+MODULE VAI TER SEUS PRÓPRIOS GETTERS, ACTIONS, STATE E MUTATIONS...
+
+
+
+
+
+
+
+
+
+
+--> OK, COMO TEREI MÚLTIPLOS MODULES,
+
+DEIXO TUDO EM 
+
+
+
+NA PASTA DE 'MODULES'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+import { createStore } from 'vuex';
+
+import coaches from './modules/coaches/index';
+import requests from './modules/requests/index';
+
+const store = createStore({
+  modules: {
+    coaches: coaches,
+    requests: requests,
+  },
+});
+
+export default store;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DECIDE USAR NAMESPACING...
+
+
+
+
+
+
+
+--> É POR ISSO QUE ELE COLOCA 
+
+'namespaced: true'
+
+
+LÁ 
+
+
+
+NO index.js 
+
+DE NOSSO STORE...
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DISPONIBILIZA UMA DUMMY DATA INICIAL PARA NOSSOS COACHES, QUE É ESTA:
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+import coachActions from './actions';
+import coachGetters from './getters';
+import coachMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      coaches: [
+        {
+          id: 'c1',
+          firstName: 'Maximilian',
+          lastName: 'Schwarzmüller',
+          areas: ['frontend', 'backend', 'career'],
+          description:
+            "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
+          hourlyRate: 30,
+        },
+        {
+          id: 'c2',
+          firstName: 'Julie',
+          lastName: 'Jones',
+          areas: ['frontend', 'career'],
+          description:
+            'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
+          hourlyRate: 30,
+        },
+      ],
+      loadedCoach: null,
+    };
+  },
+
+  actions: coachActions,
+  getters: coachGetters,
+  mutations: coachMutations,
+};
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+CERTO... TEMOS ESSES 2 DUMMY  COACHES, APENAS PARA VISUALIZARMOS ALGO NA TELA,
+
+
+DESDE O INIÍCIO...
+
+
+
+
+
+
+
+
+
+AGORA QUE TEMOS 1 STATE,
+
+QUEREMOS TER 1 GETTER PARA PEGAR ESSE STATE...
+
+
+
+
+
+
+
+
+
+
+
+--> É BEM MAIS RECOMENDADO USAR GETTERS PARA PEGAR SEU STATE,
+
+
+
+PQ 
+
+
+ACESSÁ-LO DIRETAMENTE NÃO É TÃO BOM...
+
+
+
+
+
+
+
+
+
+
+-_> É POR ISSO QUE O PROFESSOR ESCREVE ASSIM:
+
+
+
+
+
+
+
+export default {
+  coaches(
+    state
+    // getters
+  ) {
+    return state.coaches;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+MAS O PROFESSOR JÁ COLOCA 1 SEGUNDO GETTER,
+
+
+QUE É 
+
+
+'hasGetters' -->  ISSO SERÁ USADO PARA RETORNAR 'TRUE/FALSE' ---> PQ 
+
+
+
+__ APENAS __ VAMOS QUERER __ RENDERIZAR NOSSA LIST __ DE COACHES SE 
+
+REALMENTE TIVERMOS COACHES...
+
+
+
+
+
+
+
+
+
+
+SE NÃO TIVERMOS COACHES,
+
+
+
+
+
+__ O QUE É UMA POSSIBILIDADE,
+
+
+
+
+
+__ SE NÃO TIVERMOS COACHES,
+
+O PROFESSOR NÃO VAI QUERER MOSTRAR A LIST (pq ela seria vazia, de qualquer forma)..
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR ESCREVE UM HELPER GETTER ASSIM:
+
+
+
+
+
+
+
+
+
+
+hasCoaches() {
+    return state.coaches && state.coaches.length > 0;
+}
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+export default {
+  coaches(
+    state
+    // getters
+  ) {
+    return state.coaches;
+  },
+
+  hasCoaches(state) {
+    //determina se a LIST É CARREGADA OU NÃO
+    return state.coaches && state.coaches.length > 0;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+export default {
+  coaches(
+    state
+    // getters
+  ) {
+    return state.coaches;
+  },
+
+  hasCoaches(state) {
+    //determina se a LIST É CARREGADA OU NÃO (retorna true ou false)...
+
+    return state.coaches && state.coaches.length > 0;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AÍ VINCULAMOS O VUEX STORE AO NOSSO APP,
+
+COM ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store/store';
+
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+LÁ EM 'CoachesList',
+
+O PROFESSOR FAZ PULL DESSA LIST DE COACHES,
+
+COM O GETTER DE COACHES..
+
+
+
+
+
+
+Ex:
+
+
+
+
+
+
+<template lang="">
+
+    <ul>
+    <CoachListItem v-for="coach in coaches" 
+    :key="coach.id" 
+    :coach="coach" 
+    :coachDetailLink="coachDetailLink">
+    </CoachListItem>
+</ul>
+</template>
+<script>
+import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
+import { mapGetters, mapActions } from "vuex";
+export default {
+  mounted() {
+    this.loadCoaches();
+  },
+  components: {
+    CoachListItem,
+  },
+  computed: {
+    ...mapGetters(["coaches"]),
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.team.id,
+        },
+      };
+    },
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> CERTO...
+
+
+
+
+
+
+
+EU FIZ ISSO EM 1  COMPONENT DENTRO DA PRÓPRIA PAGE,
+PQ ACHEI MAIS ORGANIZADO...
+
+
+
+
+
+
+ELE ESCREVEU 
+
+
+
+'this.$store.getters['coaches/coaches']',
+
+
+
+MAS É CLARO QUE HÁ UMA MANEIRA MAIS 
+
+SIMPLES DE OUTPUTTAR ISSO AÍ...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section id="coaches-filter">FILTER</section>
+    <section id="coaches-control">
+      <div class="controls">
+        <button>Refresh</button>
+        <router-link to="/register">Register as Coach</router-link>
+      </div>
+    </section>
+    <section id="coaches">
+      <CoachesList
+      ></CoachesList>
+    </section>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+COM TUDO ISSO AÍ,
+
+
+ISSO PROVA QUE O VUEX ESTÁ WIRED CORRECTLY,
+
+E QUE SOMOS CAPAZES DE ACESSAR NOSSA 'COACH DATA'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSSA É UMA ÓTIMA PRIMEIRA ETAPA...
+
+
+
+
+
+
+
+
+
+
+--> OK...
+ 
+ ISSO FUNCIONOU...
+
+
+
+
+
+ MAS AGORA VAMOS QUERER RENDERIZAR AQUELA LIST APENAS SE NOSSA LIST 
+
+ REALMENTE NÃO ESTIVER VAZIA...
+
+
+
+
+
+
+
+
+
+(usamos aquele getter de 'hasCoaches')...
+
+
+
+
+
+
+
+OK...
+ 
+
+ ISSO FUNCIONOU:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template lang="">
+
+    <ul v-if="hasCoaches">
+    <CoachListItem v-for="coach in coaches" 
+    :key="coach.id" 
+    :coach="coach" 
+    :coachDetailLink="coachDetailLink">
+    </CoachListItem> 
+</ul>
+<div v-else>
+    No coaches were found.
+    </div>
+</template>
+<script>
+import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
+import { mapGetters, mapActions } from "vuex";
+export default {
+  mounted() {
+    this.loadCoaches();
+  },
+  components: {
+    CoachListItem,
+  },
+  computed: {
+    ...mapGetters(["coaches", "hasCoaches"]),
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TUDO CERTO...
+
+
+
+
+
+TUDO ESTÁ FUNCIONANDO... A DUMMY DATA ESTÁ 'WIRED UP' --> PODEMOS VOLTAR 
+
+NO TRABALHO COM NOSSOS COMPONENTS, E NO 
+
+
+
+
+IMPROVE DE NOSSO STYLING...
