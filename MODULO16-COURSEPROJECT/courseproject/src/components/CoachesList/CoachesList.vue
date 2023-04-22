@@ -1,12 +1,15 @@
 <template lang="">
 
-    <ul>
+    <ul v-if="hasCoaches">
     <CoachListItem v-for="coach in coaches" 
     :key="coach.id" 
     :coach="coach" 
     :coachDetailLink="coachDetailLink">
-    </CoachListItem>
+    </CoachListItem> 
 </ul>
+<div v-else>
+    No coaches were found.
+    </div>
 </template>
 <script>
 import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
@@ -19,15 +22,7 @@ export default {
     CoachListItem,
   },
   computed: {
-    ...mapGetters(["coaches"]),
-    coachDetailLink() {
-      return {
-        name: "coach-detail",
-        params: {
-          id: this.team.id,
-        },
-      };
-    },
+    ...mapGetters(["coaches", "hasCoaches"]),
   },
 
   methods: {

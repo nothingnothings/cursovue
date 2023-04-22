@@ -9,8 +9,6 @@
     </section>
     <section id="coaches">
       <CoachesList
-        :coaches="coaches"
-        :coachDetailLink="coachDetailLink"
       ></CoachesList>
     </section>
   </div>
