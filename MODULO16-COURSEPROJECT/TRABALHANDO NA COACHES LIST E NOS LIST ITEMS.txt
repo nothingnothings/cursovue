@@ -1,0 +1,872 @@
+
+
+
+
+
+
+
+
+COMEÇAMOS COM O 'COACHES LIST'...
+
+
+
+
+
+
+--> 
+
+
+
+
+
+
+VAMOS COLOCAR 
+
+TUDO ISSO 
+
+
+
+
+DENTRO DE 'COACHESLIST'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> uma boa parte de nossa lógica existirá dentro de 'coachesList',
+
+MAS É CLARO QUE 
+
+TEREMOS MAIS COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR COLOCA 1 SUBFOLDER DE 'coaches' em 'components',
+
+
+
+
+em que 
+
+
+ENTÃO 
+
+FICAMOS COM O COMPONENT DE 
+
+'CoachListItem'..
+
+
+
+
+
+
+EU HAVIA ESCRITO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h1>{{ coach.firstName }}</h1>
+    <p>{{ coach.description }}</p>
+    <router-link :to="coachDetailLink">View Coach</router-link>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id
+        },
+      };
+    },
+  },
+};
+</script>
+    <style>
+</style>
+
+
+
+
+----------------------
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+EU AJUSTO UM POUCO, DE ACORDO COM O PROFESSOR ESCREVEU:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName }}</h3>
+    <h4>{{ coach.description }}</h4>
+    <p>{{ coach.rate }}</p>
+    <router-link :to="coachDetailLink">View Coach</router-link>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+    <style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM AS 'AREAS OF EXPERTISE' desse coach...
+
+
+
+
+
+
+
+
+
+
+--> pq o professor tem 'frontend', 'backend' e 'career'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName }}</h3>
+    <h4>{{ coach.description }}</h4>
+    <p>{{ coach.rate }}</p>
+    <div class="expertise-areas">
+      <span v-for="area in coach.areas" :key="area">{{ area }}</span>
+    </div>
+    <router-link :to="coachDetailLink">View Coach</router-link>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+    <style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+EMBAIXO DISSO,
+
+TEREMOS 1 DIV COM CLASS DE 'actions',
+
+EM QUE VAMOS QUERER RENDERIZAR 2 BUTTONS ( 2 links)...
+
+
+
+
+
+
+
+
+
+
+1 DESSES LINKS SERÁ PARA 'CONTACT THIS COACH',
+
+E O OUTRO SERÁ 'VIEW COACH DETAILS' --> PARA AÍ ENTRARMOS NA ROUTE 
+
+DE 
+
+'CoachDetail'...
+
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName }}</h3>
+    <h4>{{ coach.description }}</h4>
+    <p>{{ coach.rate }}</p>
+    <div class="expertise-areas">
+      <span v-for="area in coach.areas" :key="area">{{ area }}</span>
+    </div>
+    <div class="actions">
+      <router-link :to="coachDetailLink">View Coach</router-link>
+      <router-link :to="contactCoachLink">Contact this Coach</router-link>
+    </div>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+    <style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+ESSE SERÁ O MARKUP...
+
+
+
+
+
+
+PARA O STYLING,
+USAREMOS UM 'SCOPED CSS STYLE',
+
+
+e o arquivo já foi preparado pelo professor:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName }}</h3>
+    <h4>{{ coach.description }}</h4>
+    <p>{{ coach.rate }}</p>
+    <div class="expertise-areas">
+      <span v-for="area in coach.areas" :key="area">{{ area }}</span>
+    </div>
+    <div class="actions">
+      <router-link :to="coachDetailLink">View Coach</router-link>
+      <router-link :to="contactCoachLink">Contact this Coach</router-link>
+    </div>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+<style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #424242;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h3,
+h4 {
+  margin: 0.5rem 0;
+}
+
+div {
+  margin: 0.5rem 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A IDEIA, AQUI, 
+
+
+
+É __ USAR ESSE COMPONENT DE 'CoachListItem'
+
+
+COM O 'CoachesList',
+
+
+
+
+
+PARA QUE 
+
+ESSA DATA SEJA CARREGADA POR MEIO DE PROPS...
+
+
+
+
+
+
+
+
+
+--> FAREMOS ISSO, NO CASO,
+
+
+PQ 
+
+A DATA PARA 1 COACH ESPECÍFICO
+
+
+É OBVIAMENTE NAÕ MANAGEADO PELO 
+
+
+
+VUEX,
+
+
+
+E SIM É 'LOCAL STATE',
+
+
+
+
+1 LOOP NESSE V-FOR (
+    e esse é 1 caso claro para PROPS....
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NOS PROPS DE 'CoachItem',
+
+
+
+
+
+
+O PROFESSOR ESCREVE ASSIM:
+
+
+
+
+
+
+props: ['id', 'firstName', 'lastName', 'rate', 'areas']
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE ESSAS COISAS NÃO SÃO REALMENTE NECESSÁRIAS,
+
+NO MEU CASO,
+
+PQ 
+
+EU JÁ PASSEI TUDO ISSO POR MEIO 
+
+DE 
+
+':coach'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DECIDE COLOCAR 1 COMPUTED PROPERTY,
+
+PARA AJUDAR COM O OUTPUT DO NOME DE CADA COACH..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS O MAIS IMPORTANTE É ESCREVER COMPUTED PROPERTIES PARA OS 
+
+LINKS 
+
+DINÂMICOS...
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+
+
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+
+
+
+
+
+
+
+
+
+
+
+    --> EU ESCREVI COM ESSA VERSÃO DE 'name: ',
+
+    PQ 
+
+    ELA É MAIS EXPLÍCITA...
+
+
+
+
+
+
+
+
+
+
+COM ISSO, FICAMOS COM 1 COMPONENT 'COACHLISTITEM'
+
+
+
+reutilizável..
+
+
+
+
+
+
+
+
+--> DE VOLTA AO COMPONENT 'COMPONENTSLIST',
+
+SUBSTITUÍMOS 
+
+
+
+
+O MARKUP 
+
+
+por esse component novo:
+
+
+
+
+
+
+
+
+
+
+
+<template lang="">
+
+    <ul v-if="hasCoaches">
+    <CoachListItem v-for="coach in coaches" 
+    :key="coach.id" 
+    :coach="coach" 
+    :coachDetailLink="coachDetailLink">
+    </CoachListItem> 
+</ul>
+<div v-else>
+    No coaches were found.
+    </div>
+</template>
+<script>
+import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
+import { mapGetters, mapActions } from "vuex";
+export default {
+  mounted() {
+    this.loadCoaches();
+  },
+  components: {
+    CoachListItem,
+  },
+  computed: {
+    ...mapGetters(["coaches", "hasCoaches"]),
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+  },
+};
+</script>
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... TUDO BEM, ATÉ AGORA...
+
+
+
+
+
+
+
+
+
+
+
+LOOPAMOS POR DENTRO DESSA DATA 
+
+
+em 'coach in coaches'...
+
+
+
+
+
+
+
+-----> PASSAMOS TODOS OS PROPS NECESSÁRIOS A NÓS (no caso, é 'coach')...
+
+
+
+
+
+
+
+CERTO... TESTAMOS ESSE CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO FICOU SUPER BONITO, MAS É UM COMEÇO...
+
+
+
+
+
+
+O PROFESSOR QUER 1 STYLING MELHOR...
+
+
+
+
+
+
+
+ELE QUER TER 1 LOOK DE 'CARD'
+
+EM VÁRIAS PARTES DE NOSSO APP --> ESSA SERÁ A PRÓXIMA ETAPA,
+
+
+
+CRIAR ESSE 'BASECARD COMPONENT',
+
+QUE SERÁ USADO 
+
+EM OUTRAS PARTES 
+DE NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+TAMBÉM CONSTRUÍREMOS 1 BASE COMPONENT DE 'BUTTON',
+
+
+
+
+QUE SERÁ USADO EM VÁRIAS PARTES DO APP...
