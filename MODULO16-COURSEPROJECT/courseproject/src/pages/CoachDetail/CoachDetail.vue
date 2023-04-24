@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ loadedCoach.name }}</h1>
+    <h1>{{ loadedCoach.firstName }}</h1>
     <p>{{ loadedCoach.email }}</p>
     <p>{{ loadedCoach.expertise }}</p>
     <router-link :to="contactCoachLink">Contact Coach</router-link>

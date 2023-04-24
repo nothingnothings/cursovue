@@ -1,0 +1,1250 @@
+ 
+ VAMOS ESCREVER BASE COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO,
+
+ VAMOS 
+
+ LÁ 
+
+ NA PASTA DE 'LAYOUT'...
+
+
+
+
+
+
+ --> CRIAMOS 1 'BaseCard' 
+
+ e 
+
+ 1 
+
+ 'BaseButton'...
+
+
+
+
+
+
+
+ também 1 'BaseBadge'...
+
+
+
+(SERÁ USADO COM AREAS OF EXPERTISE)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O BASECARD SERÁ 1 COMPONENT SUPER SIMPLES...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <slot></slot>
+  </div>
+</template>
+<script>
+export default {};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+SERÁ ALGO BEM SIMPLES,
+
+PQ 
+
+SERÁ UM 
+
+
+
+BASIC WRAPPER, AO REDOR DE QUALQUER CONTEÚDO DESEJADO POR NÓS...
+
+
+
+
+
+
+
+
+-> o style será este:
+
+
+
+
+
+
+<template>
+  <div class="card">
+    <slot></slot>
+  </div>
+</template>
+<script>
+export default {};
+</script>
+<style scoped>
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  margin: 2rem auto;
+  max-width: 40rem;
+}
+</style>
+
+
+
+
+
+--> 
+
+
+
+
+
+
+
+OK... AGORA BASTA REGISTRAR ESSE CARD COMO 1 GLOBAL COMPONENT (será usado em várias partes do app)..
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store/store';
+
+import BaseCard from './components/layout/BaseCard.vue';
+
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+
+app.component('base-card', BaseCard);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+E AGORA PODEMOS USAR ESSE CARD, POR EXEMPLO,
+
+LÁ 
+
+EM 
+
+
+'CoachesList',
+
+PARA WRAPPAR TUDo...
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section id="coaches-filter">FILTER</section>
+    <base-card>
+    <section id="coaches-control">
+      <div class="controls">
+        <button>Refresh</button>
+        <router-link to="/register">Register as Coach</router-link>
+      </div>
+    </section>
+    <section id="coaches">
+      <CoachesList
+      ></CoachesList>
+    </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style scoped>
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+ok.... mas agora estamos com todos esses links,
+
+
+
+que devemos fazer com que se pareçam com botões...
+
+
+
+
+
+
+
+
+--> podemos colocar o mesmo styling, não interessa se é 1 button 
+
+
+ou 
+
+link....
+
+
+
+
+
+
+
+
+
+
+--> OK.. VAMOS COLOCAR O MARKUP DO 'BaseButton'..
+
+
+
+
+
+
+o professor começa assim:
+
+
+
+
+<template>
+    <button>
+        <slot></slot>
+    </button>
+    <router-link>
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+COM ISSO, É POSSÍVEL USAR ESSE BASEBUTTON COMO TANTO 1 LINK, COMO BUTTON..
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+    <button v-if="button">
+        <slot></slot>
+    </button>
+    <router-link v-else>
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+MAS PRECISAMOS DECLARAR PROPS 
+
+NO SCRIPT,
+
+
+
+e vamos 
+
+
+
+
+colocar o prop de 'button', que será 1 boolean (True ou false)...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER DEIXAR O PROP BEM DEFINIDO,
+POR ISSO 
+
+ 
+ USA A FORMA 'OBJECT'..
+
+
+ tipo assim:
+
+
+
+
+
+
+
+
+ <template>
+    <button v-if="!link">
+        <slot></slot>
+    </button>
+    <router-link v-else>
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {
+  props: {
+    link: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+O BUTTON NORMALMENTE SERÁ 1 BUTTON, E APENAS SERÁ 1 LINK SE PROVIDENCIARMOS 
+
+
+
+O PROP DE 'link',
+
+com 1 link especificado (o link a que queremos ir, com o router)...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <button v-if="!link">
+        <slot></slot>
+    </button>
+    <router-link v-else :to="link">
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {
+  props: {
+    link: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+MAS O PROFESSOR DEFINE O 'to' separadamente de 'link'...
+
+
+
+
+
+
+
+
+--> O 'TO' SERÁ USADO SE 
+
+
+
+
+ESTIVERMOS RENDERIZANDO O ROUTER LINK...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <button v-if="!link">
+        <slot></slot>
+    </button>
+    <router-link v-else :to="link">
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {
+  props: {
+    link: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    to: {
+      type: String,
+      required: false,
+      default: '/',
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, O PROFESSOR DEFINE 1 PROP DE 'mode',
+
+
+
+
+
+QUE É UM PROP QUE NOS PERMITE CONTROLAR O STYLING DESSE BUTTON DO LADO DE FORA...
+
+
+
+
+
+
+
+
+
+
+
+--> SERÁ DE TIPO STRING, E TAMBÉM SERÁ NOT REQUIRED...
+
+
+--> O DEFAULT SERÁ 'null'...
+ 
+
+
+
+
+
+
+
+
+ SERÁ USADO PARA ESTILIZAÇÃO, BASICAMENTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+    <button v-if="!link">
+        <slot></slot>
+    </button>
+    <router-link v-else :to="link" :class="mode">
+      <slot></slot>
+    </router-link>
+    </div>
+</template>
+<script>
+export default {
+  props: {
+    link: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    to: {
+      type: String,
+      required: false,
+      default: "/",
+    },
+
+    mode: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA É HORA DE ESTILIZAR ESSE BUTTON...
+
+
+
+
+
+
+
+
+
+
+
+-_> FICA TIPO ASSIM:
+
+
+
+
+
+
+button,
+a {
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  font: inherit;
+  background-color: #3a0061;
+  border: 1px solid #3a0061;
+  color: white;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+a:hover,
+a:active,
+button:hover,
+button:active {
+  background-color: #270041;
+  border-color: #270041;
+}
+
+.flat {
+  background-color: transparent;
+  color: #3a0061;
+  border: none;
+}
+
+.outline {
+  background-color: transparent;
+  border-color: #270041;
+  color: #270041;
+}
+
+.flat:hover,
+.flat:active,
+.outline:hover,
+.outline:active {
+  background-color: #edd2ff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FLAT E OUTLINE 
+
+SÃO 
+
+
+OS 2 'MODES' SUPORTADOS POR NÓS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+
+ESSE BASE BUTTON PODE SER DEFINIDO NO 'main.js',
+
+
+
+
+
+
+
+PARA SER USADO NO APP INTEIRO...
+
+
+
+
+
+FICOU TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section id="coaches-filter">FILTER</section>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'flat'">Refresh</base-button>
+          <base-button :mode="'outline'" :link="true" :to="'/register'"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName }}</h3>
+    <h4>{{ coach.description }}</h4>
+    <p>{{ coach.hourlyRate }}</p>
+    <div class="expertise-areas">
+      <span v-for="area in coach.areas" :key="area">{{ area }}</span>
+    </div>
+    <div class="actions">
+      <base-button link :to="coachDetailLink" :mode="'outline'">View Details</base-button>
+      <base-button link :to="contactCoachLink">Contact</base-button>
+    </div>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+<style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #424242;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h3,
+h4 {
+  margin: 0.5rem 0;
+}
+
+div {
+  margin: 0.5rem 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+FICOU BEM MELHOR...
+
+
+
+
+
+
+
+
+
+ok... consegui fazer funcionar, mais ou menos...
+
+
+
+
+
+
+
+
+
+
+
+-----> OK... AGORA O PROFESSOR QUER RENDERIZAR AQUELAS 'AREAS OF EXPERTISE'
+
+
+DE UMA MANEIRA MELHOR...
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO,
+
+VAMOS USAR A BADGE, QUE TERÁ ESTE CÓDIGO:
+
+
+
+
+
+
+
+<template>
+  <span class="badge" :class="type">{{ title }}</span>
+</template>
+<script>
+export default {
+  props: ["type", "title"],
+
+  computed: {
+    text() {
+      return this.title.toUpperCase();
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+O STYLING SERÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <h3>{{ coach.firstName + " " + coach.lastName }}</h3>
+    <h4>${{ coach.hourlyRate }}/hour</h4>
+    <div class="expertise-areas">
+      <base-badge v-for="area in coach.areas" :key="area"
+      :title="area"
+      :type="area"
+        ><span>{{ area }}</span></base-badge
+      >
+    </div>
+    <div class="actions">
+      <base-button :link="true" :mode="'outline'" :to="contactCoachLink"
+        >Contact</base-button
+      >
+      <base-button :link="true" :to="coachDetailLink">View Details</base-button>
+    </div>
+  </li>
+</template>
+    <script>
+export default {
+  props: ["coach"],
+
+  computed: {
+    coachDetailLink() {
+      return {
+        name: "coach-detail",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.coach.id,
+        },
+      };
+    },
+  },
+};
+</script>
+<style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #424242;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h3,
+h4 {
+  margin: 0.5rem 0;
+}
+
+div {
+  margin: 0.5rem 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, NO BADGE, ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <span class="badge" :class="type">{{ title }}</span>
+</template>
+<script>
+export default {
+  props: ["type", "title"],
+
+  computed: {
+    text() {
+      return this.title.toUpperCase();
+    },
+  },
+};
+</script>
+<style>
+.badge {
+  background-color: #ccc;
+  color: #252525;
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.frontend {
+  background-color: #3d008d;
+  color: white;
+}
+
+.backend {
+  background-color: #71008d;
+  color: white;
+}
+
+.career {
+  background-color: #8d006e;
+  color: white;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+com isso, ficamos com essas badges nice, e esse negócio fica bem mais nice...
+
+
+
+
+COMO PRÓXIMO PASSO,
+
+VEREMOS COMO 
+
+ACESSAR OS DETAILS FOR A GIVEN COACH (coach details page)...

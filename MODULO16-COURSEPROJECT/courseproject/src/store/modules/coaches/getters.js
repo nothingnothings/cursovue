@@ -11,4 +11,9 @@ export default {
 
     return state.coaches && state.coaches.length > 0;
   },
+
+
+  loadedCoach(state) {
+    return state.loadedCoach;
+  },
 };

@@ -1,14 +1,19 @@
 <template>
   <li>
-    <h3>{{ coach.firstName }}</h3>
-    <h4>{{ coach.description }}</h4>
-    <p>{{ coach.hourlyRate }}</p>
+    <h3>{{ coach.firstName + " " + coach.lastName }}</h3>
+    <h4>${{ coach.hourlyRate }}/hour</h4>
     <div class="expertise-areas">
-      <span v-for="area in coach.areas" :key="area">{{ area }}</span>
+      <base-badge v-for="area in coach.areas" :key="area"
+      :title="area"
+      :type="area"
+        ><span>{{ area }}</span></base-badge
+      >
     </div>
     <div class="actions">
-      <router-link :to="coachDetailLink">View Coach</router-link>
-      <router-link :to="contactCoachLink">Contact this Coach</router-link>
+      <base-button :link="true" :mode="'outline'" :to="contactCoachLink"
+        >Contact</base-button
+      >
+      <base-button :link="true" :to="coachDetailLink">View Details</base-button>
     </div>
   </li>
 </template>

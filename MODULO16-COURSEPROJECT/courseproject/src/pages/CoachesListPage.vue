@@ -1,16 +1,19 @@
 <template>
   <div>
     <section id="coaches-filter">FILTER</section>
-    <section id="coaches-control">
-      <div class="controls">
-        <button>Refresh</button>
-        <router-link to="/register">Register as Coach</router-link>
-      </div>
-    </section>
-    <section id="coaches">
-      <CoachesList
-      ></CoachesList>
-    </section>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
   </div>
 </template>
 <script>
@@ -21,4 +24,9 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
