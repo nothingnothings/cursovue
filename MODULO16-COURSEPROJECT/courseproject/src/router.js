@@ -20,6 +20,7 @@ const routes = [
     name: 'coach-detail',
     path: '/coaches/:id',
     component: CoachDetail,
+    props: true, /// isso vai passar 'id', o value da url, COMO PROP, para dentro desse component 'Detail' (e isso é usado, mais tarde, para CARREGAR A DATA DE CADA COACH, dinamicamente)...
     children: [
       {
         name: 'contact-coach',

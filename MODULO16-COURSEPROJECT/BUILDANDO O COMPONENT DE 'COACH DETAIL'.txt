@@ -1,0 +1,1368 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+AGORA DEVEMOS VER A PAGE DE 'COACH DETAIL'...
+
+
+
+
+
+O DUMMY CONTENT ESTÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <h1>{{ loadedCoach.firstName }}</h1>
+    <p>{{ loadedCoach.email }}</p>
+    <p>{{ loadedCoach.expertise }}</p>
+    <router-link :to="contactCoachLink">Contact Coach</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COMEÇA A ESCREVER DO ZERO...
+
+
+
+
+
+
+
+
+
+
+
+----> DENTRO DESSE COMPONENT, QUEREMOS TER 1 SECTION...
+
+
+
+
+
+
+
+
+dentro da section, teremos 1 BASE-CARD,
+
+E DENTRO DELE 
+
+TEREMOS O NAME E A RATE 
+
+DO COACH, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+  <section>
+    <base-card>
+      <h1>{{ fullName }}</h1>
+      <p>{{ loadedCoach.rate }}</p>
+      <p>{{ loadedCoach.email }}</p>
+      <p>{{ loadedCoach.expertise }}</p>
+    </base-card>
+  </section>
+  <section>
+    <base-card>
+    <h2>Interested? Reach out now!</h2>
+    <router-link :to="contactCoachLink">Contact Coach</router-link>
+    <router-view></router-view>
+  </base-card>
+  </section>
+</base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> SUBSTITUÍREMOS O 'ROUTER-LINK' POR 1 BASE-BUTTON... (de tipo link)...
+
+
+
+
+
+
+
+
+
+
+Ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+  <section>
+    <base-card>
+      <h1>{{ fullName }}</h1>
+      <p>{{ loadedCoach.rate }}</p>
+      <p>{{ loadedCoach.email }}</p>
+      <p>{{ loadedCoach.expertise }}</p>
+    </base-card>
+  </section>
+  <section>
+    <base-card>
+    <h2>Interested? Reach out now!</h2>
+    <base-button :link="true" :to="contactCoachLink">Contact Coach</base-button>
+    <router-view></router-view>
+  </base-card>
+  </section>
+</base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR DECIDE COLOCAR O CONTEÚDO DESSE BASE-CARD DENTRO DE 1 TAG DE 'HEADER',
+
+
+
+e embaixo do header a router-view,
+
+em que mais tarde essa NESTED CHILD ROUTE,
+
+A CONTACT FORM,
+
+SERÁ 
+
+
+RENDERIZADA...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+  <section>
+    <base-card>
+      <h1>{{ fullName }}</h1>
+      <p>{{ loadedCoach.rate }}</p>
+      <p>{{ loadedCoach.email }}</p>
+      <p>{{ loadedCoach.expertise }}</p>
+    </base-card>
+  </section>
+  <section>
+    <base-card>
+    <header>
+    <h2>Interested? Reach out now!</h2>
+    <base-button :link="true" :to="contactCoachLink">Contact Coach</base-button>
+    </header>
+    <router-view></router-view>
+  </base-card>
+  </section>
+</base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+---> bem lá embaixo, o professor usará OUTRO BASE-CARD,
+
+
+
+
+EM QUE 
+
+
+VAMOS QUERER MOSTRAR AS AREAS OF EXPERTISE...
+
+
+
+
+
+
+E TAMBÉM A DESCRIPTION PARA O COACH...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <base-card>
+        <h1>{{ fullName }}</h1>
+        <p>{{ loadedCoach.rate }}</p>
+        <p>{{ loadedCoach.email }}</p>
+        <p>{{ loadedCoach.expertise }}</p>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button :link="true" :to="contactCoachLink"
+            >Contact Coach</base-button
+          >
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <base-badge v-for="area in loadedCoach.areas" :key="area">
+          {{ area }}</base-badge>
+        <p>{{ loadedCoach.description }}</p>
+      </base-card>
+    </section>
+  </base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  data() {},
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    this.loadCoach(this.loadedCoach.id);
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+E, NESSA BADGE, É CLARO QUE USAMOS V-FOR,
+
+para 
+
+
+
+
+ir por dentro de todas as areas de expertise...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA PARTE DE SCRIPTS, 
+
+
+É CLARO QUE VAMOS PEGAR OS 
+
+PROPS...
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI QUERER PEGAR APENAS 1 'ID'
+
+COMO PROP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS PQ APENAS 1 ID COMO PROP?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS QUE TER EM MENTE A MANEIRA DE CARREGAMENTO 
+
+
+
+DESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, ESSE COMPONENT SERÁ CARREGADO ATRAVÉS DE ROUTING,
+
+ATRAVÉS 
+
+
+
+DO PATH DE 
+
+
+''
+
+
+
+  {
+    name: 'coach-detail',
+    path: '/coaches/:id',
+    component: CoachDetail,
+    children: [
+      {
+        name: 'contact-coach',
+        path: 'contact',
+        component: ContactCoach,
+      },
+    ],
+  },
+
+
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PORTANTO,
+
+
+
+TEORICAMENTE,
+
+
+
+ESSE COMPONENT NÃO RECEBERIA/NÃO RECEBE PROP ALGUM....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO SIGNIFICA QUE O ROUTER CARREGA ESSE COMPONENT,
+
+
+E O ROUTER NÃO PASSA PROP ALGUM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS APRENDEMOS, NO MÓDULO DE ROUTING,
+
+QUE POR MEIO DA ADIÇÃO DE 'props: true'
+
+
+NA ROUTE CONFIG,
+
+
+
+ASSEGURAMOS 
+
+QUE ESSE 'DYNAMIC VALUE',
+
+
+O VALUE CONCRETO PARA A URL  (Que é visitada),
+
+É 
+
+PASSADA,
+
+
+
+COMO PROP 
+
+DAQUELE NOME ESPECÍFICO,
+
+àQUELE COMPONENT (
+
+    significa que 
+
+    vamos conseguir o value de 'id' 
+
+    como PROP, LÁ em 'CoachDetail'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ok...
+
+
+
+
+
+
+
+
+
+
+MAIS TARDE, PODEMOS USAR ESSA DATA/ESSE ID 
+
+PARA 
+
+FETCHEAR 
+
+
+NOSSO COACH RELEVANTE,
+
+LÁ DO 
+
+'VUEX STORE'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <base-card>
+        <h1>{{ fullName }}</h1>
+        <p>{{ loadedCoach.rate }}</p>
+        <p>{{ loadedCoach.email }}</p>
+        <p>{{ loadedCoach.expertise }}</p>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button :link="true" :to="contactCoachLink"
+            >Contact Coach</base-button
+          >
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <base-badge v-for="area in loadedCoach.areas" :key="area">
+          {{ area }}</base-badge
+        >
+        <p>{{ loadedCoach.description }}</p>
+      </base-card>
+    </section>
+  </base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  props: ["id"], ///ESSE PROP É OBTIDO LÁ DO VUE-ROUTER, como visto em 'router.js', na route  de 'CoachDetail' (props: true)...
+  data() {
+    return {
+      selectedCoach: null,
+    };
+  },
+
+  created() {},
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    // this.loadCoach(this.loadedCoach.id);
+
+    this.loadCoach(this.id); ////usamos esse PROP, que é recebido/passado através de 'props: true', lá na nossa route...
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR TAMBÉM COLOCA 1 FIELD DE 'selectedCoach: null',
+
+
+dentro do DATA DESSE COMPONENT,
+
+
+QUE INICIALMENTE
+
+SERÁ NULL,
+
+
+MAS QUE __ DEPOIS _ NÃO SERÁ 
+
+
+NULL,
+
+QUANDO 
+
+
+
+
+
+CONSEGUIRMOS FAZER 'REACH OUT' 
+
+
+
+AO __ STORE DO VUEX PARA RETRIEVAR A DATA 
+
+
+DE NOSSO 
+
+
+
+COACH E A ARMAZENARMOS NESSE LOCAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> FAZEMOS ISSO JUSTAMENTE POR MEIO DA 
+
+LINHA 
+
+
+'this.selectedCoach = this.loadedCoach(this.id)'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <base-card>
+        <h1>{{ fullName }}</h1>
+        <p>{{ loadedCoach.rate }}</p>
+        <p>{{ loadedCoach.email }}</p>
+        <p>{{ loadedCoach.expertise }}</p>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button :link="true" :to="contactCoachLink"
+            >Contact Coach</base-button
+          >
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <base-badge v-for="area in loadedCoach.areas" :key="area">
+          {{ area }}</base-badge
+        >
+        <p>{{ loadedCoach.description }}</p>
+      </base-card>
+    </section>
+  </base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  props: ["id"], ///ESSE PROP É OBTIDO LÁ DO VUE-ROUTER, como visto em 'router.js', na route  de 'CoachDetail' (props: true)...
+  data() {
+    return {
+      selectedCoach: null,
+    };
+  },
+
+  created() {
+    ///isso vai DEFINIR NOSSO LOCAL STATE DE ACORDO COM O STATE DO VUEX...
+    this.selectedCoach = this.loadedCoach(this.id);
+  },
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    // this.loadCoach(this.loadedCoach.id);
+    // this.loadCoach(this.id); ////usamos esse PROP, que é recebido/passado através de 'props: true', lá na nossa route...
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+OK, MAS É CLARO QUE 
+
+
+ISSO PODERIA FALHAR 
+
+
+
+SE O PROFESSOR COLOCASSE 1 ID 
+
+
+
+
+
+
+NÃO SUPORTADO (mas isso é impossível, praticamente)..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR COLOCA ALGUMAS COMPUTED PROPERTIES PARA 
+
+
+OS LINKS DINÂMICOS...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <base-card>
+        <h1>{{ fullName }}</h1>
+        <p>{{ loadedCoach.rate }}</p>
+        <p>{{ loadedCoach.email }}</p>
+        <p>{{ loadedCoach.expertise }}</p>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button :link="true" :to="contactCoachLink"
+            >Contact Coach</base-button
+          >
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <base-badge v-for="area in loadedCoach.areas" :key="area">
+          {{ area }}</base-badge
+        >
+        <p>{{ loadedCoach.description }}</p>
+      </base-card>
+    </section>
+  </base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  props: ["id"], ///ESSE PROP É OBTIDO LÁ DO VUE-ROUTER, como visto em 'router.js', na route  de 'CoachDetail' (props: true)...
+  data() {
+    return {
+      selectedCoach: null,
+    };
+  },
+
+  created() {
+    ///isso vai DEFINIR NOSSO LOCAL STATE DE ACORDO COM O STATE DO VUEX...
+    this.selectedCoach = this.loadedCoach(this.id);
+  },
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    // this.loadCoach(this.loadedCoach.id);
+    // this.loadCoach(this.id); ////usamos esse PROP, que é recebido/passado através de 'props: true', lá na nossa route...
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.id,
+        },
+      };
+    },
+
+    fullName() {
+      return this.loadedCoach.firstName + this.loadedCoach.lastName;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS O SELECTEDCOACH, SIM,
+
+MAS É CLARO QUE ELE ESTARÁ VAZIO, INICIALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRECISAMOS DO VUEX STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <base-card>
+        <h1>{{ fullName }}</h1>
+        <p>{{ hourlyRate }}</p>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <header>
+          <h2>Interested? Reach out now!</h2>
+          <base-button :link="true" :to="contactCoachLink"
+            >Contact Coach</base-button
+          >
+        </header>
+        <router-view></router-view>
+      </base-card>
+    </section>
+    <section>
+      <base-card>
+        <base-badge v-for="area in areas" :key="area"> {{ area }}</base-badge>
+        <p>{{ description }}</p>
+      </base-card>
+    </section>
+  </base-card>
+</template>
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  props: ["id"], ///ESSE PROP É OBTIDO LÁ DO VUE-ROUTER, como visto em 'router.js', na route  de 'CoachDetail' (props: true)...
+  data() {
+    return {
+      selectedCoach: null,
+    };
+  },
+
+  created() {
+    ///isso vai DEFINIR NOSSO LOCAL STATE DE ACORDO COM O STATE DO VUEX...
+    this.selectedCoach = this.loadedCoach(this.id);
+  },
+
+  methods: {
+    ...mapActions(["loadCoach"]),
+  },
+
+  mounted() {
+    // this.loadCoach(this.loadedCoach.id);
+    // this.loadCoach(this.id); ////usamos esse PROP, que é recebido/passado através de 'props: true', lá na nossa route...
+  },
+  computed: {
+    ...mapGetters(["loadedCoach"]),
+
+    contactCoachLink() {
+      return {
+        name: "contact-coach",
+        params: {
+          id: this.id,
+        },
+      };
+    },
+
+    fullName() {
+      return this.selectedCoach.firstName + this.selectedCoach.lastName;
+    },
+
+    areas() {
+      return this.selectedCoach.areas;
+    },
+
+    rate() {
+      return this.selectedCoach.hourlyRate;
+    },
+
+    description() {
+      return this.selectedCoach.description;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSA É A PAGE DE DETAILS..
+
+
+AGORA É HORA 
+
+
+
+
+DE CONTINUARMOS, dessa vez com o FILTER, FILTERING LOGIC..
+
