@@ -1,7 +1,7 @@
 <template lang="">
 
     <ul v-if="hasCoaches">
-    <CoachListItem v-for="coach in coaches" 
+    <CoachListItem v-for="coach in filteredCoaches" 
     :key="coach.id" 
     :coach="coach" 
     :coachDetailLink="coachDetailLink">
@@ -13,20 +13,26 @@
 </template>
 <script>
 import CoachListItem from "../../components/CoachesList/CoachListItem/CoachListItem.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
+  // data() {
+  //   return {
+  //     coaches: [],
+  //   };
+  // },
   mounted() {
-    this.loadCoaches();
+    // this.loadCoaches();
   },
+  props: ["filteredCoaches"],
   components: {
     CoachListItem,
   },
   computed: {
-    ...mapGetters(["coaches", "hasCoaches"]),
+    ...mapGetters(["hasCoaches"]),
   },
 
   methods: {
-    ...mapActions(["loadCoaches"]),
+    // ...mapActions(["loadCoaches"]),
   },
 };
 </script>

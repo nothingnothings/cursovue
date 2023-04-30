@@ -1,0 +1,1627 @@
+
+
+
+
+
+
+
+
+
+
+OK...
+ 
+
+ SEGUIMOS ATÉ O COMPONENT DE 'COACHESLIST'...
+  
+
+
+TEMOS ESTE 
+
+CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section id="coaches-filter">FILTER</section>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+export default {
+  components: {
+    CoachesList,
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+A LÓGICA RELACIONADA AO FILTERING 
+DEVE IR 
+
+EM 1 COMPONENT 
+
+
+
+DIFERENTE,
+
+PARA 
+
+
+DEIXAR 
+
+O 
+
+COMPONENT DE 'COACHESLIST'
+
+
+
+limpo...
+
+
+
+
+--> CRIAMOS 1 COMPONENT LÁ EM 'CoachesList' folder,
+
+de nome 
+
+
+'CoachFilter'...
+
+
+ 
+
+ --> VAMOS USAR O BASE COMPONENT 'BASE-CARD',
+
+ PARA 
+
+ TERMOS 
+
+ 1 
+
+ 
+
+ STYLING BÁSICO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ QUEREMOS RENDERIZAR 3 FILTERING OPTIONS, EM 1 CHECKBOX (
+
+    pq 
+
+
+
+    temos 3 areas of expertise no nosso app:
+    
+
+    1) frontend 
+
+
+    2) backend 
+
+
+
+    3) career
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+ ----> O PROFESSOR COLOCA 1 SPAN CLASS...
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <base-card>
+  <h2>Find your Coach</h2>
+  <span class="filter-option">
+    <input type="checkbox" id="frontend" checked>
+  </span>
+  </base-card>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE ELEMENTO 'input' de tipo checkbox FICARÁ CHECADO INICIALMENTE,
+
+por isso 
+
+
+coloco o attribute de 'checked'...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI QUERER QUE AS 3 OPTIONS DE 
+
+
+FILTER FIQUEM 
+
+CHECADAS INICIALMENTE (para pegar tudo, tudo inicialmente), 
+
+
+para 
+
+
+ENTÃO O USER 
+
+
+DESCHECAR 
+
+OS NEGÓCIOS,
+
+POSTERIORMENTE (para filtrar)...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+  <h2>Find your Coach</h2>
+  <span class="filter-option">
+    <input type="checkbox" id="frontend" checked>
+    <label for="frontend">Frontend</label>
+  </span>
+  </base-card>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ REPETIMOS 
+
+ESSE MARKUP, COM AS OUTRAS OPTIONS...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <input type="checkbox" id="frontend" checked />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="backend" checked />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="career" checked />
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... TEMOS ESSAS CHECKBOXES...
+
+
+
+
+
+
+
+
+
+
+AGORA PRECISAMOS DE ALGUMA LÓGICA QUE 
+
+
+REAJA 
+
+AO 
+
+USER 
+CLICANDO NESSAS CHECKBOXES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COLOCA 1 SCRIPT,
+
+COM DATA PROPERTY....
+
+
+
+
+
+
+
+
+
+
+
+
+PRECISAREMOS MANAGEAR 1 POUCO DE INTERNAL DATA, NESSE COMPONENT 
+
+
+
+DE 
+
+'filter'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> COMEÇAMOS ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <input type="checkbox" id="frontend" checked />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="backend" checked />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="career" checked />
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+
+
+  
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+QUEREMOS MANAGEAR 'QUAIS FILTER/FILTERS O USER ESCOLHEU'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE TEREMOS 1 ARRAY DE 'selectedFilters',
+
+
+ou algo assim...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <input type="checkbox" id="frontend" checked />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="backend" checked />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="career" checked />
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> é claro que, inicialmente, esses values constarão como 'true'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, MAS AGORA PRECISAMOS DE UM METHOD 
+
+
+
+
+
+QUE FAÇA TOGGLE ENTRE ESSES FILTERS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+TALVEZ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <input type="checkbox" id="frontend" checked @change="toggleFilter('frontend')"/>
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="backend" checked @change="toggleFilter('backend')"/>
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <input type="checkbox" id="career" checked  @change="toggleFilter('career')"/>
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    toggleFilter(filterType) {
+      switch (filterType) {
+        case "frontend":
+          this.filters.frontend = !this.filters.frontend;
+          break;
+        case "backend":
+          this.filters.backend = !this.filters.backend;
+          break;
+        case "career":
+          this.filters.career = !this.filters.career;
+      }
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MINHA LÓGICA FICOU ASSIM, 
+
+
+MAS O PROFESSOR ESCREVEU DE FORMA DISTINTA:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="frontend"
+        checked
+        @change="toggleFilter('frontend')"
+      /> -->
+      <input
+        type="checkbox"
+        id="frontend"
+        checked
+        @change="toggleFilter()"
+      />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="backend"
+        checked
+        @change="toggleFilter('backend')"
+      /> -->
+      <input
+        type="checkbox"
+        id="backend"
+        checked
+        @change="toggleFilter()"
+      />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="career"
+        checked
+        @change="toggleFilter('career')"
+      /> -->
+      <input
+        type="checkbox"
+        id="career"
+        checked
+        @change="toggleFilter()"
+      />
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    toggleFilter(
+      event
+      // filterType
+    ) {
+      //   switch (filterType) {
+      //     case "frontend":
+      //       this.filters.frontend = !this.filters.frontend;
+      //       break;
+      //     case "backend":
+      //       this.filters.backend = !this.filters.backend;
+      //       break;
+      //     case "career":
+      //       this.filters.career = !this.filters.career;
+      //   }
+
+      const inputId = event.target.id; //backend, frontend, career
+      const isActive = event.target.checked; //true or false
+
+      const updatedFilters = {
+        ...this.filters,
+      };
+
+      updatedFilters[inputId].isActive = isActive;
+
+      this.filters = updatedFilters;
+    },
+  },
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+ASSIM CONSEGUIMOS MANAGEAR OS FILTERS INTERNAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS NÃO PODEMOS FAZER APENAS ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PRECISAMOS TAMBÉM FAZER O 'COMPONENT QUE USA O FILTER COMPONENT'
+
+
+
+
+ter ciência dessa alteração/mudança no filter...
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO, PRECISAMOS FAZER O __ EMIT_ 
+
+
+DE 
+
+1 CUSTOM 
+
+EVENT...
+
+
+
+
+
+
+
+
+
+--> é por isso que declaramos o emit desse event, tipo assim:
+
+
+
+
+
+
+
+
+
+    toggleFilter(
+      event
+      // filterType
+    ) {
+      //   switch (filterType) {
+      //     case "frontend":
+      //       this.filters.frontend = !this.filters.frontend;
+      //       break;
+      //     case "backend":
+      //       this.filters.backend = !this.filters.backend;
+      //       break;
+      //     case "career":
+      //       this.filters.career = !this.filters.career;
+      //   }
+
+      const inputId = event.target.id; //backend, frontend, career
+      const isActive = event.target.checked; //true or false
+
+      const updatedFilters = {
+        ...this.filters,
+      };
+
+      updatedFilters[inputId].isActive = isActive;
+
+      this.filters = updatedFilters;
+
+      this.$emit("toggle-filter", updatedFilters);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, PROVIDENCIAMOS A INFO 
+
+
+
+DO UPDATE DOS FILTERS AO PARENT COMPONENT DOS FILTERS....
+
+
+
+
+
+
+
+
+
+
+
+
+--> E VAMOS INSERIR ESSE COMPONENT TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter @toggle-filter=""></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'">Register as Coach</base-button>
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+ 
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS ADICIONAR ALGUM SCOPED STYLING A ESSE FILTER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <h2>Find your Coach</h2>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="frontend"
+        checked
+        @change="toggleFilter('frontend')"
+      /> -->
+      <input type="checkbox" id="frontend" checked @change="toggleFilter()" />
+      <label for="frontend">Frontend</label>
+    </span>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="backend"
+        checked
+        @change="toggleFilter('backend')"
+      /> -->
+      <input type="checkbox" id="backend" checked @change="toggleFilter()" />
+      <label for="backend">Backend</label>
+    </span>
+    <span class="filter-option">
+      <!-- <input
+        type="checkbox"
+        id="career"
+        checked
+        @change="toggleFilter('career')"
+      /> -->
+      <input type="checkbox" id="career" checked @change="toggleFilter()" />
+      <label for="career">Career</label>
+    </span>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      filters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+  emits: ["toggle-filter"],
+
+  methods: {
+    toggleFilter(
+      event
+      // filterType
+    ) {
+      //   switch (filterType) {
+      //     case "frontend":
+      //       this.filters.frontend = !this.filters.frontend;
+      //       break;
+      //     case "backend":
+      //       this.filters.backend = !this.filters.backend;
+      //       break;
+      //     case "career":
+      //       this.filters.career = !this.filters.career;
+      //   }
+
+      const inputId = event.target.id; //backend, frontend, career
+      const isActive = event.target.checked; //true or false
+
+      const updatedFilters = {
+        ...this.filters,
+      };
+
+      updatedFilters[inputId].isActive = isActive;
+
+      this.filters = updatedFilters;
+
+      this.$emit("toggle-filter", updatedFilters);
+    },
+  },
+};
+</script>
+<style>
+h2 {
+  margin: 0.5rem 0;
+}
+
+.filter-option {
+  margin-right: 1rem;
+}
+
+.filter-option label,
+.filter-option input {
+  vertical-align: middle;
+}
+.filter-option label {
+  margin-left: 0.25rem;
+}
+.filter-option.active label {
+  font-weight: bold;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, USAMOS O FILTER NO 
+
+COMPONENT DE 'COACHES LIST'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ PODEMOS 
+
+DEFINIR 
+
+1 METHOD DE 'setFilters',
+
+
+QUE VAMOS COLOCAR NESSA NOSSA PAGE EM SI...
+
+
+
+
+
+
+
+VAI FICANDO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter @toggle-filter="setFilters()"></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'">Register as Coach</base-button>
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  methods: {
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      updatedFilters;
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... AÍ, AGORA, QUEREMOS FAZER MANAGE DE 1 PIECE OF DATA, nessa page...
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEREMOS 1 'CÓPIA' DA DATA DOS FILTERS, DENTRO DESSA LIST,
+
+TIPO ASSIm:
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter @toggle-filter="setFilters()"></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'">Register as Coach</base-button>
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true
+      },
+    };
+  },
+
+  methods: {
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      updatedFilters;
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ESSE OBJECT DEVERÁ SER OVERWRITTADO, SEMPRE QUE 
+
+
+1 EVENT DE 'FILTER'
+
+FOR EMITIDo...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter @toggle-filter="setFilters()"></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button link :to="'/register'">Register as Coach</base-button>
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+COM TUDO ISSO ADICIONADO,
+
+
+
+
+
+
+
+PODEMOS 
+
+
+
+FAZER COM QUE 
+
+
+
+ESSE CRITÉRIO DE 'FILTER'
+
+SEJA 
+
+CONSIDERADO EM 1 GETTER COM PARÂMETRO,
+
+
+
+
+
+1 GETTER QUE 
+
+ALCANCE 
+
+O STORE DO VUEX,
+
+
+
+O MODULE DE 'COACHES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... consegui...
+
+
+
+
+
+
+
+
+
+a lógica ficou assim:
+
+
+
+
+
+
+
+
