@@ -1,0 +1,1550 @@
+
+
+
+
+
+
+AGORA VAMOS ADICIONAR VALIDATION NA FORM DE 'CoachForm',
+
+PQ 
+
+
+
+
+
+
+
+
+QUEREMOS 
+
+
+
+
+
+
+
+
+QUE OS INPUTS SEJAM CHECADOS ANTES DE 
+
+
+
+SUBMITTAR A FORM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS VALIDAR OS INPUTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE O PROFESSOR CRIA 1 METHOD SEPARADO,
+
+DE NOME 'validateForm'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> FAREMOS ISSO PARA __ SPLITTAR A LÓGICA EM 2 METHODS DIFERENTES...
+
+
+
+
+
+
+
+
+
+--> lá em 'submitForm',
+
+
+
+VAMOS SIMPLESMENTE CHAMAR ESSE NOVO METHOD 
+DE 
+
+'validateForm()'...
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... VAMOS QUERER IR POR DENTRO DE TODOS OS INPUTS,
+
+E CHECAR 
+
+SE 
+ELES ESTÃO 
+
+
+
+
+VALID OU NÃO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR 
+
+ADICIONA MAIS 
+1 PROPRIEDADE A ESSE COMPONENT,
+
+DE NOME 
+
+'formIsValid'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O 'formIsValid'
+
+
+SERÁ INICIALMENTE true,
+
+
+
+
+
+
+
+MAS SERÁ FALSE ASSIM QUE 
+
+
+
+
+
+
+1 ÚNICO INPUT SEJA FALSE...
+
+
+
+
+
+Ex:
+
+
+
+
+
+
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      description: "",
+      rate: null,
+      areas: [],
+      formIsValid: true
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  emits: ["submit-form"],
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      description: "",
+      rate: null,
+      areas: [],
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    submitForm() {
+      console.log(this.areas, "AREAS DOS GURI");
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+ <style scoped>
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="checkbox"] + label {
+  font-weight: normal;
+  display: inline;
+  margin: 0 0 0 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #f0e6fd;
+  outline: none;
+  border-color: #3d008d;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  width: auto;
+  border: none;
+}
+
+input[type="checkbox"]:focus {
+  outline: #3d008d solid 1px;
+}
+
+h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O PROFESSOR TAMBÉM QUER GERENCIAR A VALIDADE DE TODOS OS ELEMENTOS DE FORMA 
+
+
+INDIVIDUAL,
+
+
+
+
+AUTONOMA...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI SEGUIR 1 APPROACH SIMILAR AO VISTO NO CURSO 
+
+
+DE REACT,
+
+
+
+
+EM QUE 
+
+CADA 
+
+FIELD SERÁ 
+
+1 OBJECT 
+
+
+COMPLEXO,
+
+
+
+COM PROPRIEDADES COMO 'isValid',
+
+'touched',
+
+etc...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+data() {
+    
+    return {
+        firstName: {
+            val: "",
+            isValid: true
+        },
+
+        lastName: {
+            val: "",
+            isValid: true
+        }
+    } 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM..
+
+
+O RESULTADO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  data() {
+    return {
+      firstName: {
+        val: "",
+        isValid: true,
+      },
+      lastName: {
+        val: "",
+        isValid: true,
+      },
+      description: {
+        val: "",
+        isValid: true,
+      },
+      rate: {
+        val: null,
+        isValid: true,
+      },
+      areas: {
+        val: [],
+        isValid: true,
+      },
+      formIsValid: true,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+TAMBÉM PRECISAMOS UPDATAR O V-MODEL,
+VINCULAR 
+
+A 
+
+coisas como 'xxxx.val'...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName.val" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName.val" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description.val"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate.val" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas.val" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas.val" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas.val" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA, COM ISSO,
+
+
+
+
+DENTRO DO NOSSO METHOD DE 'validateForm',
+
+VAMOS 
+
+IR POR DENTRO 
+
+
+DE CADA 1 DESSES INPUTS,
+
+E AÍ 
+
+
+DETERMINAR 
+
+SE 
+
+
+
+É VALID OU NÃO..
+
+
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+  methods: {
+    validateForm() {},
+
+    submitForm() {
+      this.validateForm();
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O QUE DEVEMOS FAZER, AQUI?
+
+
+
+
+
+
+INICIALMENTE,
+
+
+COLOCAMOS 
+
+'this.formIsValid' COMO TRUE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PARA CASOS EM QUE ___ 'O INPUT FICOU INVÁLIDo' da última vez...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CHECAMOS, COM 1 IF STATEMENT,
+
+SE 
+
+
+
+O __ NEGÓCIO ESTÁ 'EMPTY'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.firstName.val === "") {
+        this.firstName.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.lastName.val === "") {
+        this.lastName.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.description.val === "") {
+        this.description.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (!this.rate.val || this.rate.val <= 0) {
+        this.rate.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.areas.val.length === 0) {
+        this.areas.isValid = false;
+        this.formIsValid = false;
+      }
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+-->  OK.. MAS QUEREMOS QUE A FORM NÃO SEJA SUBMITTADA 
+
+
+SE 
+
+
+
+
+
+
+O 'formIsValid'
+
+estiver como 
+
+FALSE...
+
+
+
+
+
+
+É POR ISSO QUE O CÓDIGO FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK....
+ 
+
+
+ MAS QUEREMOS MOSTRAR ALGUM INPUT 
+
+ SE 
+ ALGUM DOS INPUTS / A OVERALL FORM ESTIVER INVÁLIDA...
+
+
+
+
+
+
+
+
+
+
+
+
+ -> PARA ISSO, O PROFESSOR COLOCA 1 PARAGRAPH 
+
+ embaixo de tudo,
+
+
+
+
+
+
+dizendo assim:
+
+
+
+
+
+
+<p> Please fix the above errors and try again!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+COLOCAMOS 1 V-IF para 'formIsValid',
+
+PARA QUE ISSO SÓ SEJA MOSTRADO 
+
+
+SE 
+
+A FORM ESTIVER COMO FALSE...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    <p v-if="!formIsValid">Please fix the errors above and try again!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS TAMBÉM VAMOS QUERER HIGHLIGHTAR 
+
+
+
+
+OS INPUTS, QUANDO ESTIVEREM 
+
+
+ERRADOS...
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR COLOCA 1 BIND DE CLASS DINÂMICO,
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control" :class="{invalid: !firstName.isValid}">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName.val" />
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO QUER DIZER QUE NOSSO INPUT FIELD FICARÁ VERMELHO,
+
+SE O NEGÓCIO ESTIVER COMO INVALID...
+
+
+TAMBÉM COLOCAMOS 
+
+1 PARAGRAPH 
+
+
+
+
+
+
+embaixo disso, que dirá 1 mensagem de erro...
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control" :class="{ invalid: !firstName.isValid }">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName.val" />
+      <p v-if="!firstName.isValid">First Name must not be empty</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !lastName.isValid }">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName.val" />
+      <p v-if="!lastName.isValid">Last Name must not be empty</p>
+    </div>
+    <div class="form-control">
+      <label for="description" :class="{ invalid: !description.isValid }"
+        >Description</label
+      >
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description.val"
+      ></textarea>
+      <p v-if="!description.isValid">Description must not be empty</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !rate.isValid }">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate.val" />
+      <p v-if="!rate.isValid">Rate must not be zero</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !areas.isValid }">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input
+          type="checkbox"
+          id="frontend"
+          value="frontend"
+          v-model="areas.val"
+        />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="backend"
+          value="backend"
+          v-model="areas.val"
+        />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas.val" />
+        <label for="career">Career</label>
+      </div>
+      <p v-if="!areas.isValid">At least one expertise must be selected.</p>
+    </div>
+    <p v-if="!formIsValid">Please fix the errors above and try again!</p>
+    <base-button>Register</base-button>
+  </form>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA SE RODARMOS ISSO,
+ 
+ VEREMOS QUE 
+
+ NOSSA FORM ESTÁ TODA 'ERRORRED OPU'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ OK... ISSO DEU CERTO... --> AGORA NOSSOS ELEMENTOS FICAM VERMELHOS QUANDO TENTAMOS 
+
+ ADICIONAR 
+
+
+
+
+
+
+ 1 COACH SEM TER NADA ESCRITO NOS FIELDS...
+
+
+
+
+
+
+
+
+ ----> MAS TEMOS 1 PROBLEMA DE INTERFACE --> O __ RED__ COLOR 
+ E O TEXTO 
+
+
+
+ CONTINUAM VERMELHOS, MESMO APÓS SUBMITTARMOS A FORM..
+
+
+
+
+
+
+
+
+ -> É POR ISSO QUE O PROFESSOR ADICIONA 1 NOVO METHOD , 
+ 
+
+ 'clearValidity()',
+ para 
+
+ LIMPAR O STATE DE 'ERROR' 
+
+ QUNADO CONSEGUIRMOS 
+
+ FAZER O 'REGISTER' DE 1 COACH..
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+ clearValidity(input) {
+    this[input].isValid = true
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK... 
+
+
+
+ MAS O PROFESSOR DECIDE COLOCAR 
+
+
+
+
+
+ ESSE 'clearValidity'
+
+
+ __ NO TRIGGER DO EVENT DE '@blur',
+
+
+
+ que acontece SEMPRE QUE 1 ELEMENT PERDE O FOCO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control" :class="{ invalid: !firstName.isValid }">
+      <label for="firstname">First Name</label>
+      <input
+        type="text"
+        id="firstname"
+        v-model.trim="firstName.val"
+        @blur="clearValidity('firstName')"
+      />
+      <p v-if="!firstName.isValid">First Name must not be empty</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !lastName.isValid }">
+      <label for="lastname">Last Name</label>
+      <input
+        type="text"
+        id="lastname"
+        v-model.trim="lastName.val"
+        @blur="clearValidity('lastName')"
+      />
+      <p v-if="!lastName.isValid">Last Name must not be empty</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !description.isValid }">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description.val"
+        @blur="clearValidity('description')"
+      ></textarea>
+      <p v-if="!description.isValid">Description must not be empty</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !rate.isValid }">
+      <label for="rate">Hourly Rate</label>
+      <input
+        type="number"
+        id="rate"
+        v-model.number="rate.val"
+        @blur="clearValidity('rate')"
+      />
+      <p v-if="!rate.isValid">Rate must not be zero</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !areas.isValid }">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input
+          type="checkbox"
+          id="frontend"
+          value="frontend"
+          v-model="areas.val"
+          @blur="clearValidity('areas')"
+        />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="backend"
+          value="backend"
+          v-model="areas.val"
+          @blur="clearValidity('areas')"
+        />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="career"
+          value="career"
+          v-model="areas.val"
+          @blur="clearValidity('areas')"
+        />
+        <label for="career">Career</label>
+      </div>
+      <p v-if="!areas.isValid">At least one expertise must be selected.</p>
+    </div>
+    <p v-if="!formIsValid">Please fix the errors above and try again!</p>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  emits: ["submit-form"],
+  data() {
+    // return { //versão SEM VALIDATION...
+    //   firstName: "",
+    //   lastName: "",
+    //   description: "",
+    //   rate: null,
+    //   areas: [],
+    //   formIsValid: true,
+    // };
+
+    return {
+      firstName: {
+        val: "",
+        isValid: true,
+      },
+      lastName: {
+        val: "",
+        isValid: true,
+      },
+      description: {
+        val: "",
+        isValid: true,
+      },
+      rate: {
+        val: null,
+        isValid: true,
+      },
+      areas: {
+        val: [],
+        isValid: true,
+      },
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.firstName.val === "") {
+        this.firstName.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.lastName.val === "") {
+        this.lastName.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.description.val === "") {
+        this.description.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (!this.rate.val || this.rate.val <= 0) {
+        this.rate.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.areas.val.length === 0) {
+        this.areas.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        first: this.firstName.val,
+        last: this.lastName.val,
+        desc: this.description.val,
+        rate: this.rate.val,
+        areas: this.areas.val,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+ <style scoped>
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="checkbox"] + label {
+  font-weight: normal;
+  display: inline;
+  margin: 0 0 0 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #f0e6fd;
+  outline: none;
+  border-color: #3d008d;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  width: auto;
+  border: none;
+}
+
+input[type="checkbox"]:focus {
+  outline: #3d008d solid 1px;
+}
+
+h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA TEMOS UMA VALIDATION BEM BÁSICA...
+
+
+
+
+
+
+
+OK... isso está funcionando,... como próximo passo, vamos ver a feature de 'requests'...
+
+
+
+
+
+
+
