@@ -16,7 +16,7 @@ export default {
           hourlyRate: 30,
         },
         {
-          id: 'c2',
+          id: 'c3',
           firstName: 'Julie',
           lastName: 'Jones',
           areas: ['frontend', 'career'],

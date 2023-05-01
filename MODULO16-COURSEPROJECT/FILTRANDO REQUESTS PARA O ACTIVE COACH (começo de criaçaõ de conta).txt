@@ -1,0 +1,379 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK... PARA GARANTIR QUE 'ENXERGAMOS APENAS REQUESTS DESTINADOS A NÓS (a nosso coachId)',
+
+
+
+DEVEMOS __ IR __ ATÉ __ OS GETTERS __ 
+
+
+
+
+DE NOSSOS 'REQUESTS',
+
+
+
+QUE ATÉ AGORA ESTÃO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  requests(
+    state
+    //getters
+  ) {
+    return state.requests;
+  },
+
+  hasRequests(state) {
+    return state.requests && state.requests.length > 0;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+MAS AGORA 
+
+NÃO VAMOS QUERER PEGAR TODOS OS REQUESTS,
+
+
+E SIM 
+
+APENAS 
+
+OS 
+
+REQUESTS
+
+
+
+
+
+
+
+
+
+QUE POSSUAM 1 'coachId'
+
+
+
+
+
+EQUIVALENTE AO 
+
+
+
+id do 'coach que está loggado'..
+
+
+
+
+
+
+
+
+
+
+BEM, O COACH QUE ESTÁ LOGGADO, O DUMMY,
+
+
+É ESTE AQUI:
+
+
+
+
+
+
+
+import { createStore } from 'vuex';
+
+import coaches from './modules/coaches/index';
+import requests from './modules/requests/index';
+
+const store = createStore({
+  modules: {
+    coaches: coaches,
+    requests: requests,
+  },
+
+  state() {
+    return {
+      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+    };
+  },
+
+  getters: {
+    userId(state) {
+      return state.userId;
+    },
+  },
+});
+
+export default store;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É O 'c3'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, PARA FILTRAR E PEGAR APENAS ESSES REQUESTS,
+
+PRECISAMOS 
+
+
+
+
+filtrar todos os requests...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  requests(
+    state
+    //getters
+  ) {
+    return state.requests;
+  },
+
+  hasRequests(state) {
+    return state.requests && state.requests.length > 0;
+  },
+
+  coachRequests(state, otherGetters, rootState, rootGetters) {
+    console.log(otherGetters, rootState);
+    return state.requests.filter((request) => {
+      request.coachId === rootGetters.userId; //com isso, retrievamos APENAS OS REQUESTS ASSOCIADOS AO NOSSO USER (que é dummy, por enquanto)...
+    });
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+ISSO VAI DAR CERTO, PROVAVELMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+E FAREMOS A MESMA COISA COM O 'hasRequests',
+
+
+PARA QUE 
+
+
+
+APAREÇAM OS REQUESTS APENAS 
+
+
+
+__ SE __ O GIVEN USER/COACH TIVER REQUESTS..
+
+
+
+
+
+
+
+
+
+
+
+PARA TESTAR ISSO TUDO,
+VER SE FUNCIONOU,
+
+
+
+
+
+
+
+
+O PROFESSOR ENVIA 1 REQUEST AO PRIMEIRO COACH... --> QUANDO ELE FAZ ISSO,
+
+AINDA NÃO VEMOS NENHUM REQUEST 
+
+LÁ NA TELA 
+DE 
+
+'REQUESTS RECEIVED' (ISSO 
+
+
+JUSTAMENTE 
+
+PQ 
+
+
+O 
+
+
+NOSSO COACH QUE ESTÁ LOGGADO TEM UM ID DE 'c3', e não de 'c1', que é esse que o professor contatou)
+
+
+
+
+
+
+
+
+
+
+OK.. FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+
+
+---> AGORA APENAS VISUALIZAMOS OS REQUESTS DESTINADOS AO NOSSO USER ('c3')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, A PARTE INICIAL DO APP ESTÁ COMPLETA (nessa versão 'dummy')...
+
+
+
+
+
+
+
+
+MAS HÁ UMA COISA QUE ESTÁ FALTANDO, QUE É UM BACKEND DE VERDADE,
+
+PARA ARMAZENAR OS COACHES E OS REQUESTS...
+
+
+
+
+E É DE ONDE 
+
+FETCHEAREMOS 
+
+A DATA...
+
+
+
+
+
+
+-- >VEREMOS ISSO NA PRÓXIMA AULA...

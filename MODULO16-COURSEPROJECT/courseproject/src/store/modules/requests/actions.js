@@ -6,7 +6,7 @@ export default {
     console.log(data, 'DATA DOS GURI');
     const requestData = {
       id: new Date().toISOString() + Math.random().toString(),
-      coachId: data.id,
+      coachId: data.coachId,
       message: data.message,
       email: data.email,
     };
