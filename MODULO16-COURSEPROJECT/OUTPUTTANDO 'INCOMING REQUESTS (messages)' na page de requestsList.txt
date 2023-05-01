@@ -1,0 +1,720 @@
+
+
+
+
+
+
+
+
+
+
+OK.. DEVEMOS COMEÇAR O MARKUP 
+
+
+
+
+DO 'REQUESTS RECEIVED' ----> POR ENQUANTO, MOSTRAREMOS TODOS OS 
+
+
+REQUESTS,
+
+
+PQ 
+
+
+
+
+1 'ACTIVE COACH' NÃO É UMA FEATURE QUE AINDA TEMOS, NA NOSSA PLATAFORMA...
+
+
+
+
+O CÓDIGO HAVIA FICADO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <p class="errors" v-if="!formIsValid">
+      Please enter a valid email and a non-empty message.
+    </p>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.val.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+        coachId: this.$route.params.id, ///obtemos o id do coach LÁ DA URL...
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+
+      this.$router.replace("/requests");
+    },
+
+    ...mapActions(["createRequest"]),
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS VAMOS DAR UMA RETOCADA NESSA PAGE...
+
+
+
+
+
+FAZEMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <header>
+        <h2>Requests Received</h2>
+      </header>
+    </base-card>
+    <RequestsList
+      v-if="requests.length > 0"
+      :requests="requests"
+    ></RequestsList>
+    <h3 v-if="requests.length === 0">You haven't received any requests yet!</h3>
+  </section>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+
+  data() {
+    return {
+      requests: [],
+    };
+  },
+
+  mounted() {
+    this.loadRequests();
+    const requests = this.$store.getters["requests"];
+
+    this.requests = requests;
+  },
+
+  methods: {
+    ...mapActions(["loadRequests"]),
+  },
+
+  computed: {
+    ...mapGetters("requests"),
+  },
+};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+COLOCAMOS ALGUNS SCOPED STYLES NESSA 'REQUESTLIST PAGE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA, NO ENTANTO,
+
+QUEREMOS 
+
+CONSEGUIR 
+
+ACESSO 
+
+A DATA 
+
+
+
+
+DO STORE DE 'REQUESTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, O PROFESSOR USA A COMPUTED PROPERTY DE 'RequestsListPage',
+
+
+
+
+
+PARA 
+
+CONSEGUIRMOS 
+
+
+
+
+
+
+TODOS OS REQUESTS 
+
+
+
+
+
+
+do store, 
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEI UMA REPAGINADA, E FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-card>
+      <header>
+        <h2>Requests Received</h2>
+      </header>
+    </base-card>
+    <RequestsList
+      v-if="hasRequests"
+      :requests="receivedRequests"
+    ></RequestsList>
+    <h3 v-if="!hasRequests">
+      You haven't received any requests yet!
+    </h3>
+  </section>
+</template>
+<script>
+// import { mapActions, mapGetters } from "vuex";
+
+import { mapActions } from "vuex";
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+
+  data() {
+    return {
+      requests: [],
+    };
+  },
+
+  mounted() {
+    this.loadRequests();
+    // const requests = this.$store.getters["requests"];
+    // this.requests = requests;
+  },
+
+  methods: {
+    ...mapActions(["loadRequests"]),
+  },
+
+  computed: {
+    receivedRequests() {
+      return this.$store.getters["requests"];
+    },
+
+    hasRequests() {
+      return this.$store.getters("hasRequests");
+    },
+    // ...mapGetters("requests"),
+  },
+};
+</script>
+<style scoped>
+header {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... FUNCIONOU...
+
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+COM ISSO, TEMOS ACESSO AOS REQUESTS...
+
+
+
+
+
+
+
+--> EU RENDERIZEI UM PUNHADO DE LIST ITEMS...
+
+
+
+
+
+
+
+
+
+--> o professor faz outsource do item do request em 1 component diferente,
+
+e escreve tipo assim:
+
+
+
+
+
+
+
+<template>
+  <li>
+    <div>
+    <a :href="">
+    {{ request.email }}
+    </a>
+    <p>{{ request.message }}</p>
+    </div>
+  </li>
+</template>
+  <script>
+export default {
+  props: ["request"],
+};
+</script>
+  <style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+a {
+  color: #3d008d;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover,
+a:active {
+  color: #8d007a;
+}
+
+p {
+  margin: 0.5rem 0 0 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+NO PROP DE 'href',
+VAMOS COLOCAR 1 COMPUTED PROPERTY,
+
+DE NOME 'EmailLink',
+
+
+
+
+
+
+
+E NELE VAMOS FAZER 
+
+
+
+
+
+
+'return 'mailto:' + this.email ''--> ESSA É UMA INSTRUÇÃO 
+
+
+
+QUE O BROWSER ENTENDE -->  O EMAIL CLIENT SERÁ ABERTO COM ESSE 
+
+
+
+EMAIL ADDRESS PRÉ-PREENCHIDo...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <li>
+    <div>
+      <a :href="emailLink">
+        {{ request.email }}
+      </a>
+      <p>{{ request.message }}</p>
+    </div>
+  </li>
+</template>
+  <script>
+export default {
+  props: ["request"],
+
+  computed: {
+    emailLink() {
+      return "mailto:" + this.request.email;
+    },
+  },
+};
+</script>
+  <style scoped>
+li {
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+a {
+  color: #3d008d;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover,
+a:active {
+  color: #8d007a;
+}
+
+p {
+  margin: 0.5rem 0 0 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+COLOCAMOS 1 STYLING, E AÍ O NEGÓCIO FICA LEGAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...  as coisas estão funcionando...
+
+
+
+
+
+
+
+
+
+MAS, NO MOMENTO, ENXERGAMOS TODOS OS REQUESTS, DE TODOS OS COACHES..
+
+
+
+
+
+-> MAS NÃO É ISSO QUE DESEJAMOS... QUEREMOS RESTRINGIR 
+
+OS REQUESTS,
+
+POR MEIO DOS 'COACH ID'...
+
+
+
+
+
+
+
+
+
+
+--> APENAS 
+
+
+MESSAGES ENVIADAS AO NOSSO COACH DEVERÃO APARECER A NÓS...

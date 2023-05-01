@@ -1,8 +1,22 @@
 <template>
-  <RequestsList :requests="requests"></RequestsList>
+  <section>
+    <base-card>
+      <header>
+        <h2>Requests Received</h2>
+      </header>
+
+      <RequestsList
+        v-if="hasRequests"
+        :requests="receivedRequests"
+      ></RequestsList>
+      <h3 v-if="!hasRequests">You haven't received any requests yet!</h3>
+    </base-card>
+  </section>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+// import { mapActions, mapGetters } from "vuex";
+
+import { mapActions } from "vuex";
 import RequestsList from "../components/RequestsList/RequestsList.vue";
 export default {
   components: {
@@ -17,9 +31,8 @@ export default {
 
   mounted() {
     this.loadRequests();
-    const requests = this.$store.getters["requests"];
-
-    this.requests = requests;
+    // const requests = this.$store.getters["requests"];
+    // this.requests = requests;
   },
 
   methods: {
@@ -27,9 +40,23 @@ export default {
   },
 
   computed: {
-    ...mapGetters("requests"),
+    receivedRequests() {
+      return this.$store.getters["requests"];
+    },
+
+    hasRequests() {
+      return this.$store.getters["hasRequests"];
+    },
+    // ...mapGetters("requests"),
   },
 };
 </script>
 <style scoped>
+header {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
 </style>

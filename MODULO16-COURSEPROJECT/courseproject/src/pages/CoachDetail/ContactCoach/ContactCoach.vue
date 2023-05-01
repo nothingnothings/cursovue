@@ -80,7 +80,7 @@ export default {
 
       this.createRequest(formData);
 
-      this.$router.replace("/coaches");
+      this.$router.replace("/requests");
     },
 
     ...mapActions(["createRequest"]),

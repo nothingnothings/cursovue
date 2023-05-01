@@ -18,5 +18,11 @@ export default {
   props: ["requests"],
 };
 </script>
-<style>
+<style scoped>
+ul {
+  list-style: none;
+  margin: 2rem auto;
+  padding: 0;
+  max-width: 30rem;
+}
 </style>
