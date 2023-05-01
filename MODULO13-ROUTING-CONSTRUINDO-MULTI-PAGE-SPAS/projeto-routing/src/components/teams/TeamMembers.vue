@@ -33,7 +33,7 @@ export default {
   },
 
   // beforeRouteUpdate(to, from, next) { //ESSE METHOD/HOOK SERÁ CHAMADO SEMPRE QUE ESSE COMPONENT/page de 'TeamMembers' FOR _ REUTILIZADO COM NOVA DATA_ (por conta da troca de 1 route, como por exemplo 'o load de 1 team diferente...')...
-      // console.log("teammembers cmp beforeRouteUpdate")
+  // console.log("teammembers cmp beforeRouteUpdate")
   // },
 
   watch: {
@@ -42,8 +42,6 @@ export default {
         console.log(this.$route.params.teamId, team.id);
         return +team.id === +this.$route.params.teamId;
       });
-
-      console.log(desiredTeam, 'TEAM DOS GURI');
 
       this.loadedTeam = desiredTeam[0];
       this.teamName = desiredTeam[0].name;
@@ -62,8 +60,6 @@ export default {
       console.log(this.$route.params.teamId, team.id);
       return +team.id === +this.$route.params.teamId;
     });
-
-    console.log(desiredTeam, 'TEAM DOS GURI');
 
     this.loadedTeam = desiredTeam[0];
     this.teamName = desiredTeam[0].name;

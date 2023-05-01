@@ -11,21 +11,11 @@
 <script>
 import RequestListItem from "./RequestListItem/RequestListItem.vue";
 
-import { mapGetters, mapActions } from "vuex";
+// import { mapGetters, mapActions } from "vuex";
 export default {
   components: { RequestListItem },
 
-  mounted() {
-    this.loadRequests();
-  },
-
-  methods: {
-    ...mapActions(["loadRequests"]),
-  },
-
-  computed: {
-    ...mapGetters("requests"),
-  },
+  props: ["requests"],
 };
 </script>
 <style>

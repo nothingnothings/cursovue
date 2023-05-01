@@ -22,6 +22,7 @@ export default {
   },
 
   loadedCoach(state) {
+    console.log(state.loadedCoach);
     return state.loadedCoach;
   },
 };

@@ -19,7 +19,7 @@
     </section>
     <section>
       <base-card>
-        <base-badge v-for="area in areas" :key="area"> {{ area }}</base-badge>
+        <base-badge v-for="area in areas" :type="area" :key="area">{{ area }}</base-badge>
         <p>{{ description }}</p>
       </base-card>
     </section>
@@ -31,14 +31,14 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   props: ["id"], ///ESSE PROP É OBTIDO LÁ DO VUE-ROUTER, como visto em 'router.js', na route  de 'CoachDetail' (props: true)...
   data() {
-    return {
-      selectedCoach: null,
-    };
+    // return {
+    //   selectedCoach: null,
+    // };
   },
 
   created() {
     ///isso vai DEFINIR NOSSO LOCAL STATE DE ACORDO COM O STATE DO VUEX...
-    this.selectedCoach = this.loadedCoach(this.id);
+    this.loadCoach(this.id);
   },
 
   methods: {
@@ -62,19 +62,21 @@ export default {
     },
 
     fullName() {
-      return this.selectedCoach.firstName + this.selectedCoach.lastName;
+      console.log(this.loadedCoach.firstName + this.loadedCoach.lastName);
+      return this.loadedCoach.firstName + " " + this.loadedCoach.lastName;
     },
 
     areas() {
-      return this.selectedCoach.areas;
+      console.log(this.loadedCoach.areas);
+      return this.loadedCoach.areas;
     },
 
     rate() {
-      return this.selectedCoach.hourlyRate;
+      return this.loadedCoach.hourlyRate;
     },
 
     description() {
-      return this.selectedCoach.description;
+      return this.loadedCoach.description;
     },
   },
 };

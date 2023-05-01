@@ -1,5 +1,5 @@
 <template>
-  <span class="badge" :class="type">{{ title }}</span>
+  <span class="badge" :class="type"><slot></slot></span>
 </template>
 <script>
 export default {

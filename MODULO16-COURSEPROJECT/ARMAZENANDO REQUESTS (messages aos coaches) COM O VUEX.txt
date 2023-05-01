@@ -1,0 +1,1329 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok... O CREATE DE REQUESTS SIGNIFICA  
+
+O ARMAZENAMENTO DE DATA NO NOSSO VUEX STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ATÉ AGORA, TEMOS APENAS O MODULE DE COACHES..
+
+
+
+
+
+MAS EU JÁ ADICIONEI O MODULE DE REQUESTS:
+
+
+
+
+import { createStore } from 'vuex';
+
+import coaches from './modules/coaches/index';
+import requests from './modules/requests/index';
+
+const store = createStore({
+  modules: {
+    coaches: coaches,
+    requests: requests,
+  },
+
+  state() {
+    return {
+      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+    };
+  },
+
+  getters: {
+    userId(state) {
+      return state.userId;
+    },
+  },
+});
+
+export default store;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA 1 ARQUIVO 
+
+
+
+index (tipo a store) para 
+
+
+
+o 
+
+
+
+requests,
+
+aí actions,
+
+
+getters,
+
+
+mutations...
+
+
+
+
+
+
+
+O PROFESSOR 
+
+DEIXA 'namespaced: true',
+
+
+
+
+MAS EU NÃO DEIXEI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O STATE DE REQUESTS DEVERÁ MANAGEAR NOSSOS REQUESTS...
+
+
+
+
+
+
+
+
+--> é por isso que ficou assim:
+
+
+
+
+
+
+import requestActions from './actions';
+import requestGetters from './getters';
+import requestMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      requests: [],
+    };
+  },
+
+  actions: requestActions,
+  getters: requestGetters,
+  mutations: requestMutations,
+};
+
+
+
+-----------------------
+
+
+
+
+CADA REQUEST SERÁ 1 OBJECT COM UM 'coachId: xxx',
+
+
+
+
+E,
+
+
+MAIS TARDE,
+
+
+SE 
+
+ESSE 
+
+
+
+coachId 
+
+
+
+MATCHEAR NOSSO PRÓPRIO COACHID,
+
+
+
+
+VAMOS VER 
+
+
+
+
+ESSE REQUEST... TODOS OS DEMAIS REQUESTS FICARÃO INVISÍVEIS A NÓS (pq não foram direcionados ao nosso coach)..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK...
+
+
+
+
+
+
+
+
+ESSE É O NOSSO STATE,
+
+
+1 ARRAY DE REQUESTS... --> MAS, É CLARO,
+
+
+COMO ESTAMOS FETCHEANDO DATA PARA NOSSOS REQUESTS 
+
+
+NO COMPONENT DE 'ContactCoach',
+
+
+
+
+
+
+AGORA PRECISAMOS DE 1 MUTATION E ACTION PARA CRIAR 1 NOVO REQUEST...
+
+
+
+
+
+
+
+
+MEU CÓDIGO HAVIA FICADO ASSIM, INICIALMENTE:
+
+
+
+
+ACTION
+
+
+
+export default {
+  loadRequests(context) {
+    context.commit('loadRequests');
+  },
+  createRequest(context, requestData) {
+    context.commit('createRequest', requestData);
+  },
+};
+
+
+
+
+
+
+
+
+MUTATION 
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  loadRequests(state) {
+    axios.get('dummy').then((res) => {
+      state.requests = res.data;
+    });
+  },
+  createRequest(state, requestData) {
+    axios
+      .post('dummy', {
+        id: requestData.id,
+        message: requestData.message,
+        email: requestData.email,
+      })
+      .then((res) => {
+        state.requests = res.data;
+      });
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE 
+
+
+
+
+ISSO NÃO É O BASTANTE...
+
+
+
+
+PRECISAMOS ALTERAR O STATE/STORE DOS REQUESTS,
+
+LÁ no 
+
+
+'createRequest'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+
+
+escrevemos tipo assim:
+
+
+
+
+
+
+
+
+
+
+export default {
+  loadRequests(context) {
+    context.commit('loadRequests');
+  },
+  createRequest(context, data) {
+    const requestData = {
+      coachId: data.id,
+      message: data.message,
+      email: data.email,
+    };
+
+    context.commit('createRequest', requestData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, AÍ,
+ 
+ LÁ NA MUTATION:
+
+
+
+
+
+
+
+
+
+ export default {
+  loadRequests(state) {},
+  
+  createRequest(state, requestData) {
+    state.requests.push(requestData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import axios from 'axios';
+
+export default {
+  loadRequests(state) {
+    // axios.get('dummy').then((res) => {
+    //   state.requests = res.data;
+    // });
+  },
+  createRequest(state, requestData) {
+    // axios
+    //   .post('dummy', {
+    //     id: requestData.id,
+    //     message: requestData.message,
+    //     email: requestData.email,
+    //   })
+    //   .then((res) => {
+    //     state.requests = res.data;
+    //   });
+
+
+
+    state.requests.push(requestData)
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+FINALMENTE, TEMOS O 'coachId' --> CADA REQUEST DEVERÁ FICAR ANEXADO A 1 COACHID...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PRECISAMOS DE 1 ID PARA CADA REQUEST,
+
+PARA QUE NENHUM DELES SEJA IGUAL/idêntico (dummyId)... 
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+export default {
+  loadRequests(context) {
+    context.commit('loadRequests');
+  },
+  createRequest(context, data) {
+    const requestData = {
+      id: new Date().toISOString() + Math.random().toString(), 
+      coachId: data.id,
+      message: data.message,
+      email: data.email,
+    };
+
+    context.commit('createRequest', requestData);
+  },
+};
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO VAI ADICIONAR 1 REQUEST AO 
+
+
+
+
+STORE DE REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA BASTA COLOCAR 1 CÓDIGO QUE FAÇA O DISPATCH 
+
+DESSE NEGÓCIO, POR MEIO DE 'mapActions'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA FAZER O DISPATCH, USAMOS O MAP ACTIONS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <p class="errors" v-if="!formIsValid">
+      Please enter a valid email and a non-empty message.
+    </p>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+    },
+
+    ...mapActions(["createRequest"]),
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESTE CÓDIGO AQUI:
+
+
+
+
+
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+    },
+
+    ...mapActions(["createRequest"]),
+
+
+
+
+
+
+
+
+
+    -----------------------
+
+
+
+
+
+
+
+
+OK... MAS HÁ 1 PEDAÇO DE DATA QUE ESTÁ FALTANDO,... O COACHID...
+
+
+
+
+
+
+
+
+
+
+
+--> COMO VAMOS CONSEGUIR O COACHID,
+
+DENTRO 
+
+
+DO SEND DE 'SUBMIT FORM'?
+
+
+
+
+
+
+
+
+
+
+
+---> BEM, O LOCAL QUE __ CONTERÁ ESSA INFORMAÇÃO É __ JUSTAMENTE __ A URL,
+
+
+PQ 
+O 
+PATH 
+VAI 
+
+FICAR ASSIM:
+
+
+
+
+'localhost:8080/coaches/c1/contact'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE, PARA CONSEGUIRMOS ACESSO A ESSE ID,
+
+PRECISAMOS DE ALGO COMO 
+
+'
+this.$route.params.coachId'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <p class="errors" v-if="!formIsValid">
+      Please enter a valid email and a non-empty message.
+    </p>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+        coach: this.$route.params.id ///obtemos o id do coach LÁ DA URL... 
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+    },
+
+    ...mapActions(["createRequest"]),
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO DEVERÁ DISPATCHEAR NOSSA ACTION COM SUCESSO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR FIM, O PROFESSOR QUER 'NAVIGATE AWAY'
+
+PARA LONGE DESSA PAGE,
+
+
+POR ISSO 
+
+ELE ESCREVE ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <p class="errors" v-if="!formIsValid">
+      Please enter a valid email and a non-empty message.
+    </p>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+        coach: this.$route.params.id, ///obtemos o id do coach LÁ DA URL...
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+
+      this.$router.replace("/coaches");
+    },
+
+    ...mapActions(["createRequest"]),
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+ficou assim:
+
+
+
+
+
+
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+        coach: this.$route.params.id, ///obtemos o id do coach LÁ DA URL...
+      };
+
+      console.log(formData);
+
+      this.createRequest(formData);
+
+      this.$router.replace("/coaches");
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, AGORA DEVEMOS SER CAPAZES DE ENVIAR REQUESTS....
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA SÓ ME RESTA SER CAPAZ DE 'VISUALIZAR OS REQUESTS'...
+
+
+
+(na page de 'requests')...
+
+
+
+
+
+
+
+
+
+
+BEM, EU JÁ CONSEGUI FAZER ISSO, O CÓDIGO FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <RequestsList :requests="requests"></RequestsList>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+
+  data() {
+    return {
+      requests: [],
+    };
+  },
+
+  mounted() {
+    this.loadRequests();
+    const requests = this.$store.getters["requests"];
+
+    this.requests = requests;
+  },
+
+  methods: {
+    ...mapActions(["loadRequests"]),
+  },
+
+  computed: {
+    ...mapGetters("requests"),
+  },
+};
+</script>
+<style scoped>
+</style>

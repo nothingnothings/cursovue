@@ -1,7 +1,7 @@
 <template>
   <li>
-    <h1>{{ request.text }}</h1>
-    <p>{{ request.email }}</p>
+    <h1>{{ request.email }}</h1>
+    <p>{{ request.message }}</p>
   </li>
 </template>
   <script>

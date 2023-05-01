@@ -19,13 +19,16 @@
         @blur="clearValidity('message')"
       ></textarea>
     </div>
-    <p class="errors" v-if="!formIsValid">Please enter a valid email and a non-empty message.</p>
+    <p class="errors" v-if="!formIsValid">
+      Please enter a valid email and a non-empty message.
+    </p>
     <div class="actions">
       <base-button>Send Message</base-button>
     </div>
   </form>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -50,7 +53,7 @@ export default {
     validateForm() {
       this.formIsValid = true;
 
-      if (this.email.val === "" || !this.email.includes("@")) {
+      if (this.email.val === "" || !this.email.val.includes("@")) {
         this.email.isValid = false;
         this.formIsValid = false;
       }
@@ -66,15 +69,21 @@ export default {
       if (!this.formIsValid) {
         return;
       }
+
       const formData = {
         email: this.email.val,
         message: this.message.val,
+        coachId: this.$route.params.id, ///obtemos o id do coach LÁ DA URL...
       };
 
       console.log(formData);
 
-      this.$emit("submit-form", formData);
+      this.createRequest(formData);
+
+      this.$router.replace("/coaches");
     },
+
+    ...mapActions(["createRequest"]),
   },
 };
 </script>
