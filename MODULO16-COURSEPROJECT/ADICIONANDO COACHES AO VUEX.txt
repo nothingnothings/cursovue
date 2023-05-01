@@ -1,0 +1,2016 @@
+
+
+FINALMENTE É HORA DE EDITAR NOSSO STATE E ADICIONAR COACHES...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS, ANTES DISSO,
+
+VAMOS EXPOR A DATA 
+
+
+
+
+
+
+DO 'COACH FORM'
+
+
+ao component de 'coach registration'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEORICAMENTE, DIZ O PROFESSOR, PODERÍAMOS, SIM, FAZER 
+
+'REACH OUT'
+
+
+AO 
+
+
+STORE__ DIRETAMENTE __ LÁ DO __ COMPONENT DE 'COACHFORM',
+
+
+
+
+
+
+
+
+
+
+pq __ isso realmente é possível -----> MAS O PROFESSOR PREFERE QUE 
+
+
+O COMPONENT 
+
+
+
+
+
+DE 'COACH FORM'
+
+SEJA 
+
+
+REUTILIZÁVEL 
+
+
+E INDEPENDENTE,
+
+E QUE 
+
+
+
+
+__ ELE _ USE __ O COMPONENT DE 'coachRegistration'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE O PROFESSOR QUER QUE 
+
+
+
+ESSE COMPONENT DE 'COACH FORM'
+
+APENAS FAÇA __ O EMIT __ dE 1 EVENT,
+
+PARA 
+
+QUE 
+
+ENTÃO 
+
+SOMENTE 
+
+O PARENT 
+COMPONENT (a page, 'coach registration')
+
+
+
+RECEBA ESSA DATA,
+
+
+
+DATA QUE ENTAÕ SERÁ PASSADA 
+
+AO STORE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> é por isso que vamos escrever um emit,
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  emits: ["submit-form"],
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: [],
+      },
+    };
+  },
+
+  methods: {
+    submitForm() {
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+ <style scoped>
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="checkbox"] + label {
+  font-weight: normal;
+  display: inline;
+  margin: 0 0 0 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #f0e6fd;
+  outline: none;
+  border-color: #3d008d;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  width: auto;
+  border: none;
+}
+
+input[type="checkbox"]:focus {
+  outline: #3d008d solid 1px;
+}
+
+h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+  methods: {
+    submitForm() {
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+PARA RECEBER ISSO COMO DATA LÁ EM 'coachRegistration',
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <h2>Register as a coach now!</h2>
+      <CoachForm @submit-form=""></CoachForm>
+    </section>
+  </base-card>
+</template>
+<script>
+import CoachForm from "@/components/CoachForm/CoachForm";
+export default {
+  components: {
+    CoachForm,
+  },
+
+  methods: {},
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA BASTA COLOCAR 1 METHOD PARA ADICIONAR ISSO LÁ NA STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PARA ISSO, TALVEZ SEJA MELHOR USAR O 'mapActions'...
+
+
+
+
+
+
+
+
+
+
+
+----> O PROFESSOR, PROVISORIAMENTE, ADICIONA 1 METHOD LOCAL DE 'saveData()',
+
+
+PARA 
+
+
+ADICIONAR 
+
+
+
+ESSE COACH AO STATE LOCAL DE 'coachRegistration'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <h2>Register as a coach now!</h2>
+      <CoachForm @submit-form="saveData(formData)"></CoachForm>
+    </section>
+  </base-card>
+</template>
+<script>
+import CoachForm from "@/components/CoachForm/CoachForm";
+export default {
+  data() {
+    return {};
+  },
+
+  components: {
+    CoachForm,
+  },
+
+  methods: {
+    saveData(formData) {
+
+
+      
+    },
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+--------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O PROFESSOR AFIRMA QUE 'PRECISAMOS DE MUTATIONS E ACTIONS PARA OS COACHES'...
+
+
+
+
+
+
+
+
+
+
+-> VAMOS ADICIONAR 1 NOVA MUTATION PARA ISSO,
+
+'addCoach'...
+
+
+
+
+
+
+
+
+
+
+
+MEU CÓDIGO HAVIA FICADO ASSIM:
+
+
+
+
+
+
+
+export default {
+  loadCoaches(context) {
+    context.commit('loadRequests');
+  },
+  loadCoach(context, coachId) {
+    context.commit('loadCoach', coachId);
+  },
+  registerCoach(context, coachData) {
+    context.commit('registerCoach', coachData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E A MUTATION:
+
+
+
+
+
+
+
+
+  registerCoach(state, coachData) {
+    axios
+      .post('dummy', {
+        id: coachData.id,
+        message: coachData.message,
+        email: coachData.email,
+      })
+      .then((res) => {
+        state.requests = res.data;
+      });
+  },
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE ESSA MUTATION ESTÁ APENAS FAZENDO O DISPARO DESSE REQUEST,
+
+E NÃO ESTÁ AFETANDO 
+
+O 
+STATE 
+
+LOCAL DE NOSSO APP (pq o backend ainda não existe...)
+
+
+
+
+
+
+
+
+
+
+
+
+SE QUISERMOS QUE ESSA ALTERAÇÃO EXISTA APENAS NO FRONTEND,
+
+
+
+PODEMOS ESCREVER ALGO ASSIM:
+
+
+
+
+
+
+
+  registerCoach(state, coachData) {
+    // axios  ///quando tivermos o backend, usaremos isso..
+    //   .post('dummy', {
+    //     id: coachData.id,
+    //     message: coachData.message,
+    //     email: coachData.email,
+    //   })
+    //   .then((res) => {
+    //     state.requests = res.data;
+    //   });
+    state = state.coaches.push(coachData);
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+  FICARIA TIPO ASSIM...
+
+
+
+
+
+
+
+
+  MAS É CLARO QUE ISSO NÃO SERIA VÁLIDO,
+
+  PQ 
+
+  O 
+
+  PAYLOAD ESTÁ COM KEYS ERRADAS...
+
+
+
+
+
+
+
+
+
+  --> precisamos alterar o nome das keys,
+
+  para 
+
+  que 
+
+  então 
+
+  fiquem exatamente 
+
+  iguais às keys que temos 
+
+  lá 
+
+
+  na data de 'coaches'...
+
+
+
+
+
+
+
+
+
+  --> PARA RESOLVER ESSE PROBLEMA,
+
+  PODEMOS TRANSFORMAR ESSA DATA LÁ NA NOSSA ACTION, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+   
+   export default {
+  loadCoaches(context) {
+    context.commit('loadRequests');
+  },
+  loadCoach(context, coachId) {
+    context.commit('loadCoach', coachId);
+  },
+  registerCoach(context, coachData) {
+    const formattedCoachData = {
+      firstName: coachData.first,
+      lastName: coachData.lastName,
+      description: coachData.desc,
+      hourlyRate: coachData.rate,
+      areas: coachData.areas,
+      id: new Date().toISOString() + coachData.first,
+    };
+    context.commit('registerCoach', formattedCoachData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+
+A MUTATION VAI ADICIONAR A DATA ASSIM,
+
+
+E ISSO VAI DAR CERTO....
+
+
+
+
+
+
+
+
+
+AGORA PODEMOS USAR ESSA ACTION NO COMPONENT DE 'coach registration',
+
+sempre que 
+
+'save-data' for executado...
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <h2>Register as a coach now!</h2>
+      <CoachForm @submit-form="registerCoach(formData)"></CoachForm>
+    </section>
+  </base-card>
+</template>
+<script>
+import CoachForm from "@/components/CoachForm/CoachForm";
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {};
+  },
+
+  components: {
+    CoachForm,
+  },
+
+  methods: {
+
+    ...mapActions(['registerCoach'])
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+AGORA VAMOS TESTAR...
+
+
+
+
+
+
+--> ISSO DEVERÁ 
+
+
+
+SETTAR 1 NOVO COACH, SEMPRE QUE 
+PREENCHERMOS TODOS OS DETAILS..
+
+
+
+
+
+
+ok... vou testar...
+
+
+
+
+
+
+
+
+
+
+OK... FUNCIONOU...
+
+
+
+
+
+----------------
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA NOSSO NOVO COACH É ADICIONADO NA LIST,
+
+
+
+
+
+
+E TUDO ESTÁ LEGAL... MAS O IDEAL SERIA REDIRECIONAR PARA A PÁGINA DE 'COACHES'
+
+AUTOMATICAMENTE, A PARTIR DESSE ADD...
+
+
+
+
+
+
+
+
+PARA ISSO, PODEMOS NAVEGAR PROGRAMATICAMENTE, POR MEIO DE 'this.$router.'.....
+
+
+
+
+
+
+
+mas isso não funciona...
+
+
+
+
+
+
+como podemos fazer isso,
+
+
+
+
+dentro do vuex?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARECE QUE N É UMA BOA PRÁTICA FAZER ISSO.... O IDEAL É FAZER ESSE REDIRECT DENTRO DE 
+
+ALGUM METHOD QUE CHAMA 1 DISPATCH PARA ESSA ACTION, LÁ NA PAGE/COMPONENT 
+
+
+
+DE 
+
+'coachRegistration'...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <section>
+      <h2>Register as a coach now!</h2>
+      <CoachForm
+        @submit-form="
+          (formData) => {
+            registerCoach(formData);
+          }
+        "
+      ></CoachForm>
+    </section>
+  </base-card>
+</template>
+<script>
+import CoachForm from "@/components/CoachForm/CoachForm";
+// import { mapActions } from "vuex";
+export default {
+  data() {
+    return {};
+  },
+
+  components: {
+    CoachForm,
+  },
+
+  methods: {
+    // ...mapActions(['registerCoach'])
+
+    registerCoach(formData) {
+      this.$store.dispatch("registerCoach", formData).then(() => {
+        this.$router.push("/coaches");
+      });
+    },
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO FUNCIONOU...
+
+
+
+
+
+
+
+
+ESSA MANEIRA É BEM EFETIVA...
+
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR TAMBÉM FALA DA DIFERENÇA DE 'push' 
+
+
+
+
+e 
+
+'replace',
+
+
+
+
+
+
+
+
+
+
+
+
+
+QUE É BASICAMENTE 
+
+
+
+'''REPLACE NÃO TE DEIXA VOLTAR à PAGE EM QUE VC ESTAVA ANTERIORMENTE''' -->  ISSO É BOM,
+
+PQ NÃO VAMOS QUERER 
+
+
+PODER VOLTAR À FORM,
+
+
+DEPOIS DE ELA TER SIDO SUBMITTADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS SEMPRE QUE 
+
+RECARREGARMOS A PÁGINA, PERDEMOS O STATE DOS COACHES --> É POR ISSO QUE MAIS TARDE 
+
+ADICIONAREMOS HTTP REQUESTS 
+
+E 
+
+1 
+
+BACKEND SERVER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> ok...
+
+
+
+
+
+
+MAS SERIA LEGAL SE O BUTTON 
+
+
+
+DE 'REGISTER AS COACH'
+
+
+
+
+
+
+
+_ NÃO FICASSE MAIS DISPONÍVEL,
+
+DEPOIS 
+
+
+
+DE 
+
+NOS REGISTRARMOS COMO 
+
+1 COACH...
+
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE O PROFESSOR QUER 
+
+
+DEIXAR O FRONTEND 'AWARE'
+
+DO FATO DE QUE 
+
+O 
+
+
+USER 'SE ADICIONOU' COMO COACH...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> E O PROFESSOR QUER ASSEGURAR QUE O NEGÓCIO 'CHEQUE'
+
+
+SE O 
+
+
+
+USUÁRIO 
+
+É 1 COACH,
+TUDO 
+
+
+POR 
+
+MEIO DO VUEX...
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+VAMOS COLOCAR 1 NOVO MODULE LÁ NO 'index.js'
+
+DO ROOT DO STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PRECISAMOS DE MAIS 1 MODULE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> precisamos de 1 'root state',
+
+
+E NESSE STATE VAMOS MANAGEAR O 
+
+ID DO USER 
+
+
+
+
+QUE 
+
+ESTÁ 
+
+
+
+
+USANDO ESSE NOSSO APP..
+
+
+
+
+
+
+
+
+
+
+
+-> POR ENQUANTO, O ID 
+
+
+SERÁ HARDCODED,
+
+
+
+
+MAS MAIS TARDE,
+
+
+NO MODULE DE AUTHENTICATION,
+
+
+VAMOS 
+TER 
+
+1 
+
+
+USERID DE VERDADE 
+
+NESSE LOCAL...
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+import { createStore } from 'vuex';
+
+import coaches from './modules/coaches/index';
+import requests from './modules/requests/index';
+
+const store = createStore({
+  modules: {
+    coaches: coaches,
+    requests: requests,
+  },
+
+  state() {
+    return {
+      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+    };
+  },
+});
+
+export default store;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO....
+
+
+
+
+
+
+
+
+
+
+
+
+MAS ESSE USERID DEVERÁ SER USADO QUANDO NÓS FIZERMOS O 'SIGN UP AS A COACH',
+
+
+
+
+
+
+
+
+
+DEVERÁ 
+
+
+SER USADO PARA 'VERIFICAR SE JÁ TEMOS 1 COACH COM ESSE 
+
+ID'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+VAMOS QUERER 
+
+ACESSAR O 'VALUE DO USERID'
+
+
+lá 
+
+DENTRO DO METHOD DE 'registerCoach',
+
+
+PQ VAMOS QUERER QUE 
+
+
+NOSSO COACH A SER ADICIONADO TENHA ESSE MESMO ID,
+PARA QUE 
+
+JUSTAMENTE O BUTTON DE 'REGISTER COACH' 
+SUMA...
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  loadCoaches(context) {
+    context.commit('loadRequests');
+  },
+  loadCoach(context, coachId) {
+    context.commit('loadCoach', coachId);
+  },
+  registerCoach(context, coachData) {
+    const formattedCoachData = {
+      firstName: coachData.first,
+      lastName: coachData.last,
+      description: coachData.desc,
+      hourlyRate: coachData.rate,
+      areas: coachData.areas,
+      // id: new Date().toISOString() + coachData.first,
+      id: context.rootGetters()
+    };
+    context.commit('registerCoach', formattedCoachData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR ACESSO 
+
+
+
+
+
+
+A ESSE ID,
+
+PRECISAMOS 
+
+
+DE 
+
+1 'ROOT GETTER' --------> E, PARA TER 1 ROOT GETTER,
+
+PRECISAMOS 
+
+O ADICIONAR LÁ NA NOSSA ROOT,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+import { createStore } from 'vuex';
+
+import coaches from './modules/coaches/index';
+import requests from './modules/requests/index';
+
+const store = createStore({
+  modules: {
+    coaches: coaches,
+    requests: requests,
+  },
+
+  state() {
+    return {
+      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+    };
+  },
+
+  getters: {
+    userId(state) {
+      return state.userId;
+    },
+  },
+});
+
+export default store;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK....
+
+
+
+
+
+
+
+
+
+
+
+
+
+AÍ VAMOS USAR ISSO, LÁ EM 'registerCoach'...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+export default {
+  loadCoaches(context) {
+    context.commit('loadRequests');
+  },
+  loadCoach(context, coachId) {
+    context.commit('loadCoach', coachId);
+  },
+  registerCoach(context, coachData) {
+    const formattedCoachData = {
+      firstName: coachData.first,
+      lastName: coachData.last,
+      description: coachData.desc,
+      hourlyRate: coachData.rate,
+      areas: coachData.areas,
+      // id: new Date().toISOString() + coachData.first,
+      id: context.rootGetters.userId
+    };
+    context.commit('registerCoach', formattedCoachData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+--> FINALMENTE, PARA UTILIZARMOS ESSA INFO DE 
+
+
+
+
+'COACH ID ADICIONADO AGORA É O MESMO 
+
+
+QUE _ ESTÁ LOGGADO NESSE APP(de mentira)',
+
+
+
+
+
+
+
+O PROFESSOR COLOCA 1 GETTER DE 'isCoach'
+
+LÁ 
+
+
+
+
+
+NOS GETTERS DO 'coaches':
+
+
+
+
+
+
+
+
+export default {
+  coaches(
+    state
+    // getters
+  ) {
+    return state.coaches;
+  },
+
+  hasCoaches(state) {
+    //determina se a LIST É CARREGADA OU NÃO (retorna true ou false)...
+
+    return state.coaches && state.coaches.length > 0;
+  },
+
+  isCoach(state, otherGetters, rootState, rootGetters) {
+    const coaches = otherGetters.coaches;
+    const userId = rootGetters.userId;
+
+    return coaches.some((coach) => {
+      return userId === coach.id;
+    });
+  },
+
+  loadedCoach(state) {
+    return state.loadedCoach;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, com 'isCoach',
+
+
+
+
+SERÁ RETORNADO TRUE 
+
+
+SE __ AO MENOS ALGUM DOS COACHES TIVER ID EQUIVALENTE AO ID DEFINIDO NO 
+
+'
+userId',
+
+
+NAQUELE ROOT GETTER DE 'userId'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... A DESVANTAGEM DESSE APPROACH É QUE 
+
+'SEMPRE VAMOS POR DENTRO DE TODOS OS COACHES PARA CHECAR SE 
+
+
+_ SOMOS 1 COACH OU NÃO' -------> 
+
+
+
+
+
+
+UMA ALTERNATIVA MAIS SIMPLES A ISSO É SETTAR 1 VARIABLE DE 
+
+'isCoach: false'
+
+
+
+
+LÁ NO ROOT STATE,
+
+
+
+
+
+
+PROPRIEDADE QUE SERIA TROCADA PARA 'TRUE' 
+
+ASSIM QUE 
+
+O 
+
+
+
+USER _SE REGISTRASSE COMO COACH...
+
+
+
+
+
+
+
+
+
+
+
+------> CERTo..
+
+
+
+
+
+
+
+
+
+vamos usar esse getter de 'isCoach'
+LÁ EM 'COACH REGISTRATION',
+
+
+
+
+PARA QUE 
+
+
+
+SEJA CARREGADO OU NÃO O 
+
+
+ELEMENTO DE 'register a coach'...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList :filteredCoaches="filteredCoaches"></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      console.log(allCoaches, "ALL COACHES DOS GURI");
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... FUNCIONOU.
+
+
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+com o v-if,
+
+o button é mostrado APENAS se o user não é 1 coach --> se fazemos sign-up/register,
+
+
+
+
+
+esse button some....
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+
+
+NOSSA CORE COACH FEATURE ESTÁ PRONTA --> MAS UMA COISA ESTÁ 
+
+
+
+
+FALTANDO --> A VALIDATION DESSA FORM --> PQ 
+
+NÃO QUEREMOS 
+
+QUE 
+
+
+FORMS VAZIAS SEJAM SUBMITTADAS...
+
+
+
+
+
+
+
+
+
+
+
+DEPOIS DISSO, VEREMOS AS FEATURES DE 'CONTACT' E 'REQUEST' 
+
+dos  coaches..

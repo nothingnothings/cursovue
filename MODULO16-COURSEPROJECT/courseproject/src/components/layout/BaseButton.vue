@@ -29,11 +29,7 @@ export default {
 
   props: ["link", "to", "mode"],
 
-  created() {
-    if (this.$props.to) {
-      console.log("CREATED", this.$props);
-    }
-  },
+  created() {},
 };
 </script>
 <style scoped>

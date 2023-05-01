@@ -8,6 +8,18 @@ const store = createStore({
     coaches: coaches,
     requests: requests,
   },
+
+  state() {
+    return {
+      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+    };
+  },
+
+  getters: {
+    userId(state) {
+      return state.userId;
+    },
+  },
 });
 
 export default store;

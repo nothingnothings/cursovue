@@ -12,7 +12,9 @@
       <section id="coaches-control">
         <div class="controls">
           <base-button :mode="'outline'">Refresh</base-button>
-          <base-button :link="true" :to="registerCoachLink">Register as Coach</base-button>
+          <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          >
         </div>
       </section>
       <section id="coaches">
@@ -22,6 +24,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import CoachesList from "../components/CoachesList/CoachesList.vue";
 import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
 export default {
@@ -49,6 +52,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(["isCoach"]),
     registerCoachLink() {
       return {
         name: "register-coach",
@@ -57,6 +61,8 @@ export default {
 
     filteredCoaches() {
       const allCoaches = this.$store.getters["coaches"];
+
+      console.log(allCoaches, "ALL COACHES DOS GURI");
       return allCoaches.filter((coach) => {
         if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
           return true;

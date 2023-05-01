@@ -41,20 +41,20 @@
 </template>
  <script>
 export default {
+  emits: ["submit-form"],
   data() {
     return {
-      fields: {
-        firstName: "",
-        lastName: "",
-        description: "",
-        rate: null,
-        areas: [],
-      },
+      firstName: "",
+      lastName: "",
+      description: "",
+      rate: null,
+      areas: [],
     };
   },
 
   methods: {
     submitForm() {
+      console.log(this.areas, "AREAS DOS GURI");
       const formData = {
         first: this.firstName,
         last: this.lastName,
@@ -64,6 +64,8 @@ export default {
       };
 
       console.log(formData);
+
+      this.$emit("submit-form", formData);
     },
   },
 };

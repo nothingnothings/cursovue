@@ -13,14 +13,15 @@ export default {
     });
   },
   registerCoach(state, coachData) {
-    axios
-      .post('dummy', {
-        id: coachData.id,
-        message: coachData.message,
-        email: coachData.email,
-      })
-      .then((res) => {
-        state.requests = res.data;
-      });
+    // axios  ///quando tivermos o backend, usaremos isso..
+    //   .post('dummy', {
+    //     id: coachData.id,
+    //     message: coachData.message,
+    //     email: coachData.email,
+    //   })
+    //   .then((res) => {
+    //     state.requests = res.data;
+    //   });
+    state = state.coaches.push(coachData);
   },
 };
