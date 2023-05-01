@@ -12,7 +12,10 @@
       <section id="coaches-control">
         <div class="controls">
           <base-button :mode="'outline'">Refresh</base-button>
-          <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button :link="true" :to="registerCoachLink"
             >Register as Coach</base-button
           >
         </div>

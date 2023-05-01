@@ -1,9 +1,25 @@
+import axios from 'axios';
+
 export default {
   loadRequests(context) {
-    context.commit('loadRequests');
+    axios
+      .get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+      )
+      .then((res) => {
+        const requests = [];
+        Object.keys(res.data).forEach((key) => {
+          requests.push(res.data[key]);
+        });
+
+        console.log(requests);
+        context.commit('loadRequests', requests);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   createRequest(context, data) {
-    console.log(data, 'DATA DOS GURI');
     const requestData = {
       id: new Date().toISOString() + Math.random().toString(),
       coachId: data.coachId,
@@ -11,6 +27,16 @@ export default {
       email: data.email,
     };
 
-    context.commit('createRequest', requestData);
+    axios
+      .post(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json',
+        requestData
+      )
+      .then(() => {
+        context.commit('registerCoach', requestData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };

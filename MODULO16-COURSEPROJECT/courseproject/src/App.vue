@@ -6,11 +6,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
 export default {
   name: "App",
   components: {
     TheHeader,
+  },
+
+  mounted() {
+    this.loadCoaches();
+  },
+  methods: {
+    ...mapActions(["loadCoaches"]),
   },
 };
 </script>

@@ -1,10 +1,9 @@
-import axios from 'axios';
-
 export default {
-  loadCoaches(state) {
-    axios.get('dummy').then((res) => {
-      state.requests = res.data;
-    });
+  loadCoaches(state, coaches) {
+    // axios.get('dummy').then((res) => {
+    //   state.requests = res.data;
+    // })
+    state.coaches = coaches;
   },
 
   loadCoach(state, coachId) {
@@ -16,7 +15,7 @@ export default {
       return coach.id === coachId;
     });
 
-  console.log(state.loadedCoach)
+    console.log(state.loadedCoach);
   },
   registerCoach(state, coachData) {
     // axios  ///quando tivermos o backend, usaremos isso..

@@ -1,12 +1,14 @@
 // import axios from 'axios';
 
 export default {
-  loadRequests(state) {
+  loadRequests(state, requests) {
     console.log(state);
 
     // axios.get('dummy').then((res) => {
     //   state.requests = res.data;
     // });
+
+    state.requests = requests;
   },
   createRequest(state, requestData) {
     // axios
