@@ -1,0 +1,1233 @@
+
+
+
+
+
+
+
+
+OK.... POR ENQUANTO, JÁ IMPLEMENTAMOS A PARTE DE 'COACHES'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS VER A PARTE DE REQUESTS --> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER QUE SEJAMOS CAPAZES DE FAZER 'CONTACT' DE 1 COACH,
+
+PARA ENVIAR 1 REQUEST 
+
+
+LÁ DA NOSSA PAGE INICIAL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR ENQUANTO TEMOS 1 WARNING, 
+
+
+MAS É JUSTAMENTE PQ 
+
+
+NA PÁGINA DE 'CONTACT COACH' 
+TEMOS APENAS ISTO:
+
+
+
+
+<template>
+    <div>
+        CONTACT COACH
+    </div>
+</template>
+<script>
+export default {
+    
+}
+</script>
+<style>
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> PRECISAMOS COLOCAR 1 HTML DE VERDADE NESSA PAGE...
+
+
+
+
+
+
+
+
+
+
+
+-> DENTRO DESSE LOCAL, QUEREMOS RENDERIZAR UMA FORM,
+
+POR ISSO COMEÇAMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div>
+        CONTACT COACH
+    </div>
+</template>
+<script>
+export default {
+    
+}
+</script>
+<style>
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control"></div>
+    <div class="form-control"></div>
+    <base-button></base-button>
+  </form>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS TER 1 INPUT PARA O 'EMAIL ADDRESS',
+
+
+PARA QUE 
+
+
+
+
+O 
+
+
+COACH QUE ESTÁ CONTATADO
+ 
+ SAIBA QUE USER ESTÁ O CONTATANDO..
+
+
+
+
+
+
+
+
+ TAMBÉM QUEREMOS DEIXAR 1 FORM CONTROL PARA 
+
+ COLOCAR 1 MESSAGE,
+
+
+
+
+
+
+ PARA DEIXAR 1 MESSAGE PARA O COACH...
+
+
+
+
+
+
+ TIPO ASSIM:
+
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input type="email" id="email" />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea type="text" id="message" rows="5"></textarea>
+    </div>
+    <base-button></base-button>
+  </form>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+EMBAIXO DISSO TUDO, 
+
+COLOCAMOS 
+
+
+
+
+1 DIV COM CLASS DE 'actions', em que teremos o button...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input type="email" id="email" />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea type="text" id="message" rows="5"></textarea>
+    </div>
+    <div class="actions">
+      <base-button></base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AÍ ADICIONAMOS OS SCOPED STYLES...
+
+
+
+
+
+
+--> EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input type="email" id="email" />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea type="text" id="message" rows="5"></textarea>
+    </div>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO DÁ A ESSA FORM 1 GENERAL STYLING...
+
+
+
+
+
+
+
+
+--> MAS É CLARO QUE 
+
+
+TBM PRECISAMOS DE 1 SCRIPT,
+
+
+PARA ENTÃO FETCHEAR A DATA DESSES FIELDS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS COPIAR _A VALIDATION LÁ DA FORM de 'coaches'.....
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form>
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "") {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+OK....
+
+
+
+
+
+
+
+
+
+só faltou o '@submit.prevent=" 
+
+
+lá no topo da form, tipo assim:
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "") {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS ADICIONAR UMA VALIDATION EXTRA NESSE EMAIL, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... CERTO...
+
+
+
+
+
+
+
+POR FIM, PODEMOS MOSTRAR 
+
+
+ERROR MESSAGES, por meio de paragraphs embaixo dos inputs... (ou perto do button)...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Your E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model.trim="email.val"
+        @blur="clearValidity('email')"
+      />
+    </div>
+    <div class="form-control">
+      <label for="message">Description</label>
+      <textarea
+        type="text"
+        id="message"
+        rows="5"
+        v-model.trim="message.val"
+        @blur="clearValidity('message')"
+      ></textarea>
+    </div>
+    <p class="errors" v-if="!formIsValid">Please enter a valid email and a non-empty message.</p>
+    <div class="actions">
+      <base-button>Send Message</base-button>
+    </div>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+
+      message: {
+        val: "",
+        isValid: true,
+      },
+
+      formIsValid: true,
+    };
+  },
+
+  methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      if (this.email.val === "" || !this.email.includes("@")) {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.message.val === "") {
+        this.message.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+      const formData = {
+        email: this.email.val,
+        message: this.message.val,
+      };
+
+      console.log(formData);
+
+      this.$emit("submit-form", formData);
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+
+.errors {
+  font-weight: bold;
+  color: red;
+}
+
+.actions {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+
+
+
+MAS O QUE INTERESSA É QUE ESTAMOS 
+
+FAZENDO FETCH DOS VALUES, E ESSA MESSAGE ESTÁ SENDO CRIADA...
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+MAS O QUE DIABOS SIGNIFICA 'CREATE A MESSAGE', NESSE APP?
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, NÓS TEMOS 
+
+AQUELA PAGE DE 
+
+'REQUESTS',
+
+QUE É O LOCAL EM QUE 
+
+
+
+''QUEREMOS MOSTRAR TODOS OS REQUESTS'' 
+
+que, nós,
+
+como coaches,
+
+
+
+
+VAMOS TER RECEBIDO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO, É CLARO,
+
+
+REQUER QUE 
+ESTEJAMOS REGISTRADOS COMO COACH...
+
+
+
+
+
+
+
+---> MAS SE ESTAMOS REGISTRADOS COMO COACH E RECEBERMOS 1 REQUEST,
+
+ 
+ ELE DEVERÁ 
+
+
+ APARECER NAQUELA PAGE --> ISSO SIGNIFICA QUE 
+
+
+ 1 REQUEST É APENAS 
+
+ OUTRO PEDAÇO DE 
+
+ DATA QUE QUEREMOS 
+
+ MANAGEAR 
+
+
+
+ NO NOSSO APP,
+
+ COM A AJUDA DO VUEX...
+
+
+ --> FAREMOS ISSO NA PRÓXIMA AULA...
