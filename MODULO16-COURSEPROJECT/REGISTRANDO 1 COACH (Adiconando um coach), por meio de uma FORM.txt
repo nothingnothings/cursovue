@@ -1,0 +1,1552 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... VAMOS ADICIONAR A FORM QUE VAI CRIAR COACHES...
+
+
+
+
+
+
+
+
+
+--> TEMOS O COMPONENT DE 'REGISTERCOACH'... 
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+<section>
+  <h2>Register as a coach</h2>
+  </section>
+</template>
+<script>
+export default {};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea type="text" id="description" rows="5"></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" />
+    </div>
+  </form>
+</template>
+ <script>
+export default {};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, NESSA FORM, OS USERS DEVERÃO SER CAPAZES DE 'CHOOSE A AREA DE EXPERTISE'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE QUEREMOS TER 3 CHECKBOXES, EM QUE 
+
+OS USERS PODERÃO CHECAR AS 
+
+
+EXPERTISES QUE ELES POSSUEM..
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea type="text" id="description" rows="5"></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+  </form>
+</template>
+ <script>
+export default {};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSAS FORAM AS 3 CHECKBOXES...
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+EMBAIXO DE TODAS AS DIVS, TEREMOS O BUTTON, EM QUE DIREMOS 'REGISTER'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea type="text" id="description" rows="5"></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RETOMAREMOS ESSA FORM MAIS TARDE....
+
+
+
+
+
+
+
+
+
+
+MAS ESSE É O COMEÇO...
+
+
+
+
+
+
+
+
+
+
+AGORA PRECISAMOS DO 'SCRIPT' de 'data',
+
+e aí 
+
+
+
+
+
+
+A LÓGICA PARA FAZER SUBMIT E TALS...
+
+fazemos tipo assim:
+
+
+
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input
+          type="checkbox"
+          id="frontend"
+          value="frontend"
+          v-model="areas.frontend"
+        />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="backend"
+          value="backend"
+          v-model="areas.backend"
+        />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas.career" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: "",
+        areas: {
+          frontend: false,
+          backend: false,
+          career: false,
+        },
+      },
+    };
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... TALVEZ ISSO FUNCIONE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK....
+
+
+
+
+
+
+
+
+MAS O PROFESSOR DEFINIU OS CHECKBOXES COMO 1 OBJECT, E NÃO COMO 1 ARRAY (mas isso n faz mt diferença)..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COLOCOU UM MODIFIER de 'v-model.number',
+
+
+para 
+
+FORÇAR 
+
+A CONVERSÃO 
+
+
+
+
+DO 
+
+VALUE STRING (do number) EM 1 NUMBER..
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input
+          type="checkbox"
+          id="frontend"
+          value="frontend"
+          v-model="areas.frontend"
+        />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="backend"
+          value="backend"
+          v-model="areas.backend"
+        />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas.career" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: {
+          frontend: false,
+          backend: false,
+          career: false,
+        },
+      },
+    };
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR TAMBÉM COLOCA 'trim()'
+
+nas outras usages do v-model,
+
+
+PARA GARANTIR QUE 
+
+
+
+TODO O EXCESS WHITE SPACE SEJA TRIMMADO...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input
+          type="checkbox"
+          id="frontend"
+          value="frontend"
+          v-model="areas.frontend"
+        />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="backend"
+          value="backend"
+          v-model="areas.backend"
+        />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas.career" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: {
+          frontend: false,
+          backend: false,
+          career: false,
+        },
+      },
+    };
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+E É MELHOR, REALMENTE,
+
+USAR 
+
+
+1 
+ARRAY 
+
+PARA 
+
+ESSES CHECKBOX 
+
+
+VALUES,
+
+PQ 
+
+AÍ 
+quando eles forem togglados,
+
+já vão adicionar seus values no array, automaticamente...
+
+
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+ <template>
+  <form>
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: [],
+      },
+    };
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO TUDO,
+
+
+
+
+
+
+
+
+
+
+
+VAMOS ATÉ OS METHODS,
+
+E AÍ 
+
+VAMOS 
+
+
+COLOCAR 1 METHOD 
+
+de 'submitForm'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: [],
+      },
+    };
+  },
+
+  methods: {
+    submitForm() {
+      const formData = {};
+    },
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAIS TARDE 
+
+VAMOS 
+
+VALIDAR ESSES INPUTS,
+
+
+MAS POR ENQUANTO VAMOS APENAS CRIAR 1 OBJECT 'FORMDATA',
+
+EM QUE 
+
+VAMOS AGRUPAR 
+
+TODOS ESSES FIELDS EM 
+
+
+
+1 ÚNICO LUGAR...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: [],
+      },
+    };
+  },
+
+  methods: {
+    submitForm() {
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+    },
+  },
+};
+</script>
+ <style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+VAMOS PREVENIR O SEND DESSA DATA,
+
+
+
+
+
+
+PQ NÃO QUEREMOS O COMPORTAMENTO DEFAULT 
+
+
+DE NOSSO SERVER....
+
+
+
+
+
+
+
+
+
+--> AÍ VAMOS ANEXAR ESSE COMPONENT DE FORM LÁ NA PAGE DE 'coachRegistration'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>Register as a coach now!</h2>
+    <CoachForm></CoachForm>
+  </section>
+</template>
+<script>
+import CoachForm from "@/components/CoachForm/CoachForm";
+export default {
+  components: {
+    CoachForm,
+  },
+};
+</script>
+<style></style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+AGORA ESSA FORM ESTÁ ALI...
+
+
+
+
+
+
+DEVEMOS CHECAR,
+
+VER SE ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AÍ WRAPPAMOS 
+
+
+ESSE ELEMENTO 
+
+
+
+NO 'base-card'...
+
+
+
+
+
+TEMOS MAIS ALGUNS STYLES 
+
+A SEREM COLOCADOS, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="firstname">First Name</label>
+      <input type="text" id="firstname" v-model.trim="firstName" />
+    </div>
+    <div class="form-control">
+      <label for="lastname">Last Name</label>
+      <input type="text" id="lastname" v-model.trim="lastName" />
+    </div>
+    <div class="form-control">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        id="description"
+        rows="5"
+        v-model.trim="description"
+      ></textarea>
+    </div>
+    <div class="form-control">
+      <label for="rate">Hourly Rate</label>
+      <input type="number" id="rate" v-model.number="rate" />
+    </div>
+    <div class="form-control">
+      <h3>Areas of Expertise</h3>
+      <div>
+        <input type="checkbox" id="frontend" value="frontend" v-model="areas" />
+        <label for="frontend">Frontend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="backend" value="backend" v-model="areas" />
+        <label for="backend">Backend</label>
+      </div>
+      <div>
+        <input type="checkbox" id="career" value="career" v-model="areas" />
+        <label for="career">Career</label>
+      </div>
+    </div>
+    <base-button>Register</base-button>
+  </form>
+</template>
+ <script>
+export default {
+  data() {
+    return {
+      fields: {
+        firstName: "",
+        lastName: "",
+        description: "",
+        rate: null,
+        areas: [],
+      },
+    };
+  },
+
+  methods: {
+    submitForm() {
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+
+      console.log(formData);
+    },
+  },
+};
+</script>
+ <style scoped>
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input[type="checkbox"] + label {
+  font-weight: normal;
+  display: inline;
+  margin: 0 0 0 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #f0e6fd;
+  outline: none;
+  border-color: #3d008d;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  width: auto;
+  border: none;
+}
+
+input[type="checkbox"]:focus {
+  outline: #3d008d solid 1px;
+}
+
+h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+AGORA NOSSA PÁGINA ESTÁ BEM MAIS LEGAL...
+
+
+
+
+
+ESTAMOS COM NOSSA REGISTRATION FORM PRONTA, inicialmente...
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button :link="true" :to="registerCoachLink">Register as Coach</base-button>
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList :filteredCoaches="filteredCoaches"></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMO PRÓXIMO PASSO,
+
+
+
+
+
+
+
+FAREMOS O PASS DESSA DATA DA FORM __ LÁ __ 
+
+
+
+
+PARA 'coach registration' (page),
+para 
+
+
+ENTÃO CRIARMOS 1 NOVO COACH NA VUEX STORE...

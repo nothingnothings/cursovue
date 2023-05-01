@@ -31,6 +31,7 @@ const routes = [
   },
   {
     path: '/register',
+    name: 'register-coach',
     component: RegisterCoach,
   },
   {

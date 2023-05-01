@@ -1,12 +1,18 @@
 <template>
   <div>
     <!-- <section id="coaches-filter">FILTER</section> -->
-    <CoachFilter @toggle-filter="(updatedFilters) => {setFilters(updatedFilters)}"></CoachFilter>
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
     <base-card>
       <section id="coaches-control">
         <div class="controls">
           <base-button :mode="'outline'">Refresh</base-button>
-          <base-button link :to="'/register'">Register as Coach</base-button>
+          <base-button :link="true" :to="registerCoachLink">Register as Coach</base-button>
         </div>
       </section>
       <section id="coaches">
@@ -43,6 +49,12 @@ export default {
   },
 
   computed: {
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
     filteredCoaches() {
       const allCoaches = this.$store.getters["coaches"];
       return allCoaches.filter((coach) => {
