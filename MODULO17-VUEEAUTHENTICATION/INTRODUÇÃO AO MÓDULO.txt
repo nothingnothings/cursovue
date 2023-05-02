@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+
+OK... NO ÚLTIMO MÓDULO, TRABALHAMOS 
+
+NO COURSE PROJECT..
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE MÓDULO, CONTINUAREMOS TRABALHANDO 
+
+
+
+COM NOSSO PROJECT,
+
+
+MAS DESSA VEZ TEREMOS __ AUTHENTICATION...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEREMOS USERS DE VERDADE,
+
+
+PODEREMOS 
+
+LOGIN E SIGNUP...
+
+
+
+
+
+
+
+VEREMOS 'COMO PODEMOS VIRAR 1 COACH',
+
+
+assim que 
+estivermos signed up....
+
+
+
+
+
+
+
+
+
+
+
+
+--> VEREMOS COMO AUTHENTICATION ACTUALLY FUNCIONA 
+
+EM VUE APPS,
+
+
+
+
+
+E VEREMOS QUE ETAPAS DEVEMOS TOMAR PARA CONSEGUIR FAZER ISSO FUNCIONAR....
+
+
+
+
+
+
+
+
+
+
+
+
+
+1) LOGIN 
+
+
+2) SIGNUP 
+
+
+3) LOGOUT ...
+
+
+
+
+
+
+
+
+
+
+VEREMOS 'COMO KEEP USERS LOGGED IN' 
+
+se eles 
+
+
+
+loggaram no passado, saíram da página e então voltaram...
+
+
+
+
+
+
+
+SÃO BASTANTES COISAS,
+
+por isso vamos começar...
