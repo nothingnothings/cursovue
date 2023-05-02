@@ -4,6 +4,7 @@ export default {
     //   state.requests = res.data;
     // })
     state.coaches = coaches;
+    state.coachesLoading = false;
   },
 
   loadCoach(state, coachId) {

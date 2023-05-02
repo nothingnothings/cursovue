@@ -4,7 +4,7 @@
       <header>
         <h2>Requests Received</h2>
       </header>
-
+      <loading-spinner v-if="requestsLoading"></loading-spinner>
       <RequestsList
         v-if="hasRequests"
         :requests="receivedRequests"
@@ -46,6 +46,10 @@ export default {
 
     hasRequests() {
       return this.$store.getters["hasRequests"];
+    },
+
+    requestsLoading() {
+      return this.$store.getters["requestsLoading"];
     },
     // ...mapGetters("requests"),
   },

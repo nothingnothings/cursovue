@@ -1,0 +1,682 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... QUEREMOS COMEÇAR A 'FETCHEAR OS COACHES' 
+
+
+SEMPRE QUE 
+
+A PAGE 
+
+
+DE COACHES 
+
+
+
+
+FOR CARREGADA..
+
+
+
+
+
+
+
+
+
+
+--> OK... --> podemos fazer isso OU:
+
+
+
+
+
+1) no 'APP.JS'
+
+
+
+2) NO 'CoachesListPage'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ---> vamos fazer todo o heavy lifting de 
+
+
+
+
+PEGAR O HTTP REQUEST E PARSEAR A RESPONSE __ NO LADO_ _ DE FORA 
+
+
+
+DOS COMPONENTS,
+
+LÁ 
+
+NO VUEX...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE ADICIONAMOS UMA NOVA MUTATION, DE NOME 'loadCoaches'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MEU CÓDIGO HAVIA FICADO ASSIM:
+
+
+
+
+
+  loadCoaches(context) {
+    axios
+      .get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      )
+      .then((res) => {
+        const coaches = [];
+
+        if (res.data) {
+          Object.keys(res.data).forEach((key) => {
+            coaches.push(res.data[key]);
+          });
+        }
+
+        console.log(coaches, res, 'RES DOS GURI');
+        context.commit('loadCoaches', coaches);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+
+
+
+
+
+
+
+
+
+  E ASSIM:
+
+
+
+
+
+
+
+
+    loadCoaches(state, coaches) {
+    // axios.get('dummy').then((res) => {
+    //   state.requests = res.data;
+    // })
+    state.coaches = coaches;
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM PRECISO VINCULAR ESSA ACTION DE 'LOAD COACHES' LÁ NO BOTÃO DE 'RELOAD COACHES',
+
+
+
+
+PARA QUE 
+
+SEJA POSSÍVEL CARREGAR OS COACHES MANUALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button :link="true" :to="registerCoachLink"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList :filteredCoaches="filteredCoaches"></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok...
+
+
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+  async loadCoaches(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    const coaches = [];
+    const response = await axios.get(
+      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    );
+
+    if (response.data) {
+      Object.keys(response.data).forEach((key) => {
+        const newCoach = response.data[key];
+
+        newCoach.id = key;
+        coaches.push(newCoach);
+      });
+
+      context.commit('loadCoaches', coaches);
+    } else {
+      console.log('something went wrong');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  o CÓDIGO DO PROFESSOR, DE TRANSFORMAÇÃO, FICOU 1 POUCO DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+  FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+  for (const key in responseData) {
+    const coach = {
+        firstName: responseData[key].firstName,
+        lastName: responseData[key].firstName,
+        description: responseData[key].description,
+        hourlyRate: responseData[key].hourlyRate,
+        areas: responseData[key].areas
+
+
+        
+            }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... COM ISSO, FICAREMOS COM 1 ARRAY DE COACHES BEM FORMATADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -->  OK... VAMOS TER O LOAD DE COACHES NO COMPONENT DE 'CoachesLiSTpAGE'
+
+
+
+
+  e no button de 'refresh coaches'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button :link="true" :to="registerCoachLink"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+      <section id="coaches">
+        <CoachesList :filteredCoaches="filteredCoaches"></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  created() {
+    this.loadCoaches();
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+essa page vai executar esse hook, para carregar esses coaches...
+
+
+
+MAS TEMOS APENAS 1 COACH,
+
+
+
+
+
+ISSO 
+
+PQ 
+ 
+
+
+
+NOSSO COACH ESTÁ SEMPRE COM O MESMO ID ('c3')... --> TEMOS QUE TROCAR ISSO, NO FUTURO...
+
+
+
+
+
+
+
+
+--> TAMBÉM PRECISAMOS 'FAZER SHOW DE 1 LOADING SPINNER',
+
+E TAMBÉM 
+FAZER O SHOW DE ERRORS DE UMA MANEIRA MAIS CAPRICHADA..

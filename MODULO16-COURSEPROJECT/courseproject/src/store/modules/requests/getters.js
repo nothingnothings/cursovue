@@ -22,4 +22,8 @@ export default {
       return request.coachId === rootGetters.userId; //com isso, retrievamos APENAS OS REQUESTS ASSOCIADOS AO NOSSO USER (que é dummy, por enquanto)...
     });
   },
+
+  requestsLoading(state) {
+    return state.requestsLoading;
+  },
 };

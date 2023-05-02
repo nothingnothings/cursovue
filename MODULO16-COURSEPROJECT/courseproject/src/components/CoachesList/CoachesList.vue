@@ -2,7 +2,7 @@
 
     <ul v-if="hasCoaches">
     <CoachListItem v-for="coach in filteredCoaches" 
-    :key="coach.id" 
+    :key="coach" 
     :coach="coach" 
     :coachDetailLink="coachDetailLink">
     </CoachListItem> 

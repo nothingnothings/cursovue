@@ -11,23 +11,34 @@
     <base-card>
       <section id="coaches-control">
         <div class="controls">
-          <base-button :mode="'outline'">Refresh</base-button>
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
           <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
             >Register as Coach</base-button
           > -->
           <base-button :link="true" :to="registerCoachLink"
+          v-if="!isCoach && !coachesLoading"
             >Register as Coach</base-button
           >
         </div>
       </section>
+
       <section id="coaches">
-        <CoachesList :filteredCoaches="filteredCoaches"></CoachesList>
+        <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+        <div v-if="!coachesLoading && filteredCoaches.length === 0">
+          No coaches found.
+        </div>
       </section>
     </base-card>
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import CoachesList from "../components/CoachesList/CoachesList.vue";
 import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
 export default {
@@ -46,7 +57,12 @@ export default {
     };
   },
 
+  created() {
+    this.loadCoaches();
+  },
+
   methods: {
+    ...mapActions(["loadCoaches"]),
     setFilters(updatedFilters) {
       //esse argumento é recebido pelo emit de 'toggle-filter'
 
@@ -76,6 +92,14 @@ export default {
           return true;
         }
       });
+    },
+
+    coachesLoading() {
+      console.log(
+        this.$store.getters["coachesAreLoading"],
+        "LOADINGSTATE DOS GURi"
+      );
+      return this.$store.getters["coachesAreLoading"];
     },
   },
 };

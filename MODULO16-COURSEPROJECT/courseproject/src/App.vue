@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
 export default {
   name: "App",
@@ -14,11 +14,11 @@ export default {
     TheHeader,
   },
 
-  mounted() {
-    this.loadCoaches();
-  },
+  // mounted() {
+  //   this.loadCoaches();
+  // },
   methods: {
-    ...mapActions(["loadCoaches"]),
+    // ...mapActions(["loadCoaches"]),
   },
 };
 </script>

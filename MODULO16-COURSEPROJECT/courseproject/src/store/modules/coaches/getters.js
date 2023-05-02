@@ -9,7 +9,7 @@ export default {
   hasCoaches(state) {
     //determina se a LIST É CARREGADA OU NÃO (retorna true ou false)...
 
-    return state.coaches && state.coaches.length > 0;
+    return !state.coachesLoading && state.coaches && state.coaches.length > 0;
   },
 
   isCoach(state, otherGetters, rootState, rootGetters) {
@@ -24,5 +24,9 @@ export default {
   loadedCoach(state) {
     console.log(state.loadedCoach);
     return state.loadedCoach;
+  },
+
+  coachesAreLoading(state) {
+    return state.coachesLoading;
   },
 };

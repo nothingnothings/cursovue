@@ -1,0 +1,1029 @@
+
+
+
+
+
+
+
+
+OK... PRECISAMOS FAZER LOADING SPINNERS SEREM CARREGADOS ENQUANTO 
+
+NOSSOS COACHES/REQUESTS NÃO SÃO CARREGADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VOU TENTAR FAZER ISSO SOZINHO...
+
+
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button :link="true" :to="registerCoachLink"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+
+      <section id="coaches">
+        <div class="loader-wrapper"><span class="loader" v-if="coachesLoading"></span></div>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  created() {
+    this.loadCoaches();
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+
+    coachesLoading() {
+      console.log(
+        this.$store.getters["coachesAreLoading"],
+        "LOADINGSTATE DOS GURi"
+      );
+      return this.$store.getters["coachesAreLoading"];
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.loader {
+  width: 48px;
+  margin-top: 2rem;
+  height: 48px;
+  border: 5px solid rgb(103, 26, 181);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ NAS ACTIONS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  async loadCoaches(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+    const response = await axios.get(
+      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    );
+
+    if (response.data) {
+      Object.keys(response.data).forEach((key) => {
+        const newCoach = response.data[key];
+
+        newCoach.id = key;
+        coaches.push(newCoach);
+      });
+
+      context.commit('loadCoaches', coaches);
+    } else {
+      console.log('something went wrong');
+    }
+  },
+
+  loadCoach(context, coachId) {
+    context.commit('loadCoach', coachId);
+  },
+
+  async registerCoach(context, coachData) {
+    const userId = context.rootGetters.userId;
+    const formattedCoachData = {
+      firstName: coachData.first,
+      lastName: coachData.last,
+      description: coachData.desc,
+      hourlyRate: coachData.rate,
+      areas: coachData.areas,
+      // id: new Date().toISOString() + coachData.first,
+      // id: context.rootGetters.userId,
+    };
+
+    const response = await axios.put(
+      `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+      formattedCoachData
+    );
+    if (!response.ok) {
+      console.log('Oops, something went wrong...');
+    } else {
+      context.commit('registerCoach', {
+        ...coachData,
+        id: userId,
+      });
+    }
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NAS MUTATIONS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  loadCoaches(state, coaches) {
+    // axios.get('dummy').then((res) => {
+    //   state.requests = res.data;
+    // })
+    state.coaches = coaches;
+    state.coachesLoading = false;
+  },
+
+  loadCoach(state, coachId) {
+    // axios.get('dummy').then((res) => {
+    //   state.loadedCoach = res.data;
+    // });
+
+    state.loadedCoach = state.coaches.find((coach) => {
+      return coach.id === coachId;
+    });
+
+    console.log(state.loadedCoach);
+  },
+  registerCoach(state, coachData) {
+    // axios  ///quando tivermos o backend, usaremos isso..
+    //   .post('dummy', {
+    //     id: coachData.id,
+    //     message: coachData.message,
+    //     email: coachData.email,
+    //   })
+    //   .then((res) => {
+    //     state.requests = res.data;
+    //   });
+    state = state.coaches.push(coachData);
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO STATE DO MODULE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import coachActions from './actions';
+import coachGetters from './getters';
+import coachMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      // coaches: [
+      //   {
+      //     id: 'c1',
+      //     firstName: 'Maximilian',
+      //     lastName: 'Schwarzmüller',
+      //     areas: ['frontend', 'backend', 'career'],
+      //     description:
+      //       "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
+      //     hourlyRate: 30,
+      //   },
+      //   {
+      //     id: 'c3',
+      //     firstName: 'Julie',
+      //     lastName: 'Jones',
+      //     areas: ['frontend', 'career'],
+      //     description:
+      //       'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
+      //     hourlyRate: 30,
+      //   },
+      // ],
+      coaches: [],
+      loadedCoach: null,
+      coachesLoading: false,
+    };
+  },
+
+  actions: coachActions,
+  getters: coachGetters,
+  mutations: coachMutations,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+AGORA VOU FAZER A MESMA COISA, MAS COM OS REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... CONSEGUI...
+ 
+
+
+ O LOADING SPINNER ESTÁ FUNCIONANDO 
+
+ NAS 2 PAGES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OUTRO PROBLEMA É QUE AINDA NÃO TEMOS NENHUM TIPO DE ERROR HANDLING...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK.... COMEÇAMOS PELO FETCH DE COACHES...
+
+
+
+
+
+
+
+
+
+ QUEREMOS MOSTRAR 1 LOADING SPINNER 
+
+
+
+
+ NO MOMENTO EM QUE COMEÇAMOS A FETCHEAR A DATA...
+
+
+
+
+
+
+
+
+
+
+ --> PEGAMOS 1 LOADING SPINNER.. --> O 
+
+ PROFESSOR PREPAROU 1 PARA NÓS,
+
+ MAS EU JÁ TINHA 1...
+
+
+
+
+
+
+
+
+
+
+
+
+ -> PODEMOS '''SABER  SE A DATA ESTÁ SENDO CARREGADA,
+ 
+ MESMO O REQUEST SENDO ENVIADO PELO VUEX... '''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO, O PROFESSOR NOS REVELA ALGO:
+
+
+
+
+
+
+ o 'this.$store.dispatch()',
+ QUE 
+
+ FAZ 
+
+ O DISPATCH DE ACTIONS,
+
+
+ TAMBÉM
+
+
+
+É CAPAZ DE 'RETORNAR ALGO'
+
+
+
+NO LOCAL EM QUE O CHAMAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM... COMO lá em 'loadCoaches'
+
+
+NÓS USAMOS 
+
+'async',
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE 
+
+
+
+ESSE METHOD VAI AUTOMATICAMENTE RETORNAR 
+
+
+1 PROMISE... ----> 
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE 
+
+PODEMOS ALTERAR O STATE DE LOADING 
+
+LÁ NO INTERIOR 
+
+DE 
+
+
+'this.$store.dispatch()',
+
+
+
+
+
+
+
+
+
+
+NOS CALLS SUBSEQUENTES,
+
+
+
+
+
+
+de '.then()" e 'catch()'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO QUER DIZER QUE PODERÍAMOS FAZER O SET DO LOADING SPINNER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+data() {
+    return {
+        isLoading: false
+    }
+}
+
+
+
+
+
+loadCoaches() {
+    this.isLoading = true;
+    this.$store.dispatch('coaches/loadCoaches').then(
+        () => {
+            this.isLoading = false;
+        }
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU, ALTERNATIVAMENTE, PODEMOS USAR 'await'
+
+
+COM ESSE 
+
+CALL,
+
+TIPO ASSIM:
+
+
+
+
+
+data() {
+    return {
+        isLoading: false
+    }
+}
+
+
+
+
+
+loadCoaches() {
+    this.isLoading = true;
+   await  this.$store.dispatch('coaches/loadCoaches');
+   this.isLoading = false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO NOS PERMITE MOSTRAR 1 LOADING SPINNER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O MEU APPROACH, NO ENTANTO,
+
+
+
+DEFINE O STATE DE 'LOADING'
+
+
+DA DATA LÁ 
+
+
+
+NO PRÓPRIO MODULE/STATE 
+
+
+do coaches...
+
+
+(
+    o que acho melhor, no caso...
+)
+
+
+
+
+
+
+
+CERTO... MAS AMBOS APPROACHES SÃO VÁLIDOS (o local e o GLOBAL)...
+
+
+
+
+
+
+tipo algo assim:
+
+
+
+
+
+
+
+
+
+
+  hasCoaches(state) {
+    //determina se a LIST É CARREGADA OU NÃO (retorna true ou false)...
+
+    return !state.coachesLoading && state.coaches && state.coaches.length > 0;
+  },
+
+
+
+
+
+
+
+
+
+
+
+  O CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button :link="true" :to="registerCoachLink"
+          v-if="!isCoach && !coachesLoading"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+
+      <section id="coaches">
+        <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+        <div v-if="!coachesLoading && filteredCoaches.length === 0">
+          No coaches found.
+        </div>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
+
+  created() {
+    this.loadCoaches();
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+
+    coachesLoading() {
+      console.log(
+        this.$store.getters["coachesAreLoading"],
+        "LOADINGSTATE DOS GURi"
+      );
+      return this.$store.getters["coachesAreLoading"];
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA NOSSOS COACHES ESTÃO SENDO RENDERIZADOS...
+
+
+
+
+MAS E QUANTO AO ERROR HANDLING?
+
+
+
+
+
+
+
+
+
+--> BEM, SE TEMOS 1 ERROR, VEMOS APENAS 1 
+
+LOADING SPINNER INFINITO,
+
+
+
+MAS 
+
+NADA ACONTECE --> QUEREMOS MOSTRAR 1 MENSAGEM DE ERRO AOS USERS,
+
+E É ISSO QUE IMPLEMENTAREMOS, NA PRÓXIMA AULA...
