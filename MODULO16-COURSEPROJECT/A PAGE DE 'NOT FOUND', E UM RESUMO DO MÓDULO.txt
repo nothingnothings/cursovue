@@ -1,0 +1,125 @@
+
+
+
+
+
+
+
+
+PARA A PAGE DE NOT FOUND,
+
+
+TEREMOS 1 BEM SIMPLES:
+
+
+
+
+
+<template>
+    <base-card>
+        <h2>Page Not Found.</h2>
+        <p>This page could not be found - maybe check out all our<router-link to="/coaches">coaches</router-link>
+    </base-card>
+</template>
+<script>
+export default {
+    
+}
+</script>
+<style>
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS O PROFESSOR WRAPPOU O CONTEÚDO NO 'BASE-CARD'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, CONSTRUÍMOS UM PROJECT COM UM MONTE DE CONCEITOS JUNTOS:
+
+
+
+
+
+1) ROUTING 
+
+2) ANIMATIONS 
+
+
+3) VUEX 
+
+4) LOCAL STATE...
+
+
+
+
+
+
+
+
+
+
+--> COMO SEMPRE, PRATIQUE TUDO ISSO...
+
+
+
+
+
+
+
+
+--> AS COISAS QUE SÃO LEGAIS PARA O PROFESSOR TALVEZ NÃO SEJAM
+ 
+ TÃO BOAS PARA NÓS...
+
+
+
+
+
+
+
+
+ --> AINDA TEMOS MAIS COISAS NESSE CURSO...
+
+
+
+
+
+
+
+
+
+
+
+ --> TEMOS UMA FEATURE TOTALMENTE NOVA, A 'COMPOSITION API'..
+
+
+
+
+
+
+
+
+ ---> E AINDA TEMOS QUE APRENDER A AUTHENTICATION COM O VUE..
+
+ -. VEREMOS ISSO NO MODULE DE AUTHENTICATION, O PRÓXIMO...
