@@ -1,0 +1,1284 @@
+
+
+
+
+
+
+OK, HORA DE ADICIONAR UMA PÁGINA DE SIGNUP...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, LÁ EM 'PAGES',
+
+ADICIONAMOS UM NOVO ARQUIVO,
+
+
+de nome 
+
+
+'UserAuth.vue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS COM ISTO:
+
+
+
+
+
+
+
+
+
+<template>
+  <div></div>
+</template>
+<script>
+export default {};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS VAMOS QUERER TER 1 FORM,
+
+
+
+COM 
+
+
+
+ALGUNS FORM-CONTROL...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Email</label>
+      <input type="email" id="email" />
+    </div>
+    <div class="form-control">
+      <label for="password">Password</label>
+      <input type="password" id="password" />
+    </div>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+
+  methods: {
+    submitForm() {},
+  },
+};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+TEREMOS TAMBÉM O BUTTON, em que diremos 'login'...
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇO COM UM CÓDIGO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <div class="form-control">
+      <label for="email">Email</label>
+      <input type="email" id="email" />
+    </div>
+    <div class="form-control">
+      <label for="password">Password</label>
+      <input type="password" id="password" />
+    </div>
+    <base-button v-if="isLogin">Login</base-button>
+    <base-button @click="switchAuth()" mode="flat" :link="false"
+      >{{ authLinkCaption }} instead</base-button
+    >
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {},
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+QUANTO AO STYLING, PODEMOS REUTILIZAR O STYLING DA PAGE DE 'CONTACT COACH'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <base-card>
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email" id="email" />
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password" />
+      </div>
+      <base-button v-if="isLogin">Login</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </base-card>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {},
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE PRECISAMOS ROTEAR ESSA PÁGINA, COLOCÁ-LA NO ROUTER...
+
+
+
+
+
+
+
+
+
+
+
+--> FAZEMOS TIPO ASSIM:
+
+
+
+
+
+<template>
+  <form @submit.prevent="submitForm()">
+    <base-card>
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email" id="email" />
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password" />
+      </div>
+      <base-button v-if="isLogin">Login</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </base-card>
+  </form>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {},
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRECISAMOS DE 1 ROUTER-LINK para conseguir entrar nessa page por meio da toolbar...
+
+
+
+
+
+
+
+
+O BUTTON DE 'SIGNUP INSTEAD'
+
+
+
+
+MAIS TARDE VAI NOS DEIXAR SWAPPAR ENTRE AS 2 FORMS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS AGORA DEVEMOS CONSEGUIR 
+
+OBTER 
+
+A DATA DO USER DE 'login'...
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+O PROFESSOR 
+
+
+
+
+
+
+
+COLOCA 1 'data() {}',
+
+
+
+pq vamos usar V-MODEL PARA HANDLAR 
+
+O USER 
+
+INPUT...
+
+
+
+
+
+
+
+
+MAS O PROFESSOR VAI FOCAR NO AUTH,
+
+PQ JÁ ADICIONAMOS 
+
+
+
+VALIDATION NO PASSADO...
+
+
+
+
+
+COMEÇAMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <form @submit.prevent="submitForm()">
+      <div class="form-control">
+        <label for="email" :class="{ 'invalid': !email.isValid }">Email</label>
+        <input type="email" id="email" v-model.trim="email.val" />
+      </div>
+      <div class="form-control">
+        <label for="password" :class="{ 'invalid': !password.isValid }">Password</label>
+        <input type="password" id="password" v-model.trim="password.val" />
+      </div>
+      <base-button v-if="isLogin">Login</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </form>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginformIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        const loginFormData = {
+          email: this.email.val,
+          message: this.password.val,
+        };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        const signupFormData = {
+          email: this.email.val,
+          message: this.password.val,
+        };
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR TAMBÉM COLOCA 1 VERIFICAÇÃO DA LENGTH DO PASSWORD...
+
+
+
+
+
+
+
+
+-> O MÍNIMO DA LENGTH SERÁ '6'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <form @submit.prevent="submitForm()">
+      <div class="form-control">
+        <label for="email" :class="{ 'invalid': !email.isValid }">Email</label>
+        <input type="email" id="email" v-model.trim="email.val" />
+      </div>
+      <div class="form-control">
+        <label for="password" :class="{ 'invalid': !password.isValid }">Password</label>
+        <input type="password" id="password" v-model.trim="password.val" />
+      </div>
+      <p v-if="!loginFormIsValid">Please enter a valid email and password (password must be at least 6 characters long).</p>
+      <p v-if="!signupFormIsValid">Please enter a valid xxxx </p>
+      <base-button v-if="isLogin">Login</base-button> 
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </form>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginFormIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        const loginFormData = {
+          email: this.email.val,
+          message: this.password.val,
+        };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        const signupFormData = {
+          email: this.email.val,
+          message: this.password.val,
+        };
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "" || this.password.val.length < 6) {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+SE PASSARMOS POR AQUELA VALIDATION,
+
+VAMOS ENVIAR 
+
+
+
+
+1 HTTP REQUEST PARA CREATE ACCOUNT OU LOGIN...
+
+
+
+
+
+
+
+ESSA SERÁ A PRÓXIMA ETAPA...
+
+
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR TRABALHA NO BOTÃO DE TROCAR DE MODO..
+
+
+
+
+
+
+FICA TIPO ASSIM>:
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <form @submit.prevent="submitForm()">
+      <div class="form-control">
+        <label for="email" :class="{ invalid: !email.isValid }">Email</label>
+        <input
+          type="email"
+          id="email"
+          v-model.trim="email.val"
+          @blur="clearValidity('email')"
+        />
+      </div>
+      <div class="form-control">
+        <label for="password" :class="{ invalid: !password.isValid }"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          v-model.trim="password.val"
+          @blur="clearValidity('password')"
+        />
+      </div>
+      <p v-if="!loginFormIsValid && this.email.val.length > 0 && this.password.val.length > 0">
+        Please enter a valid email and password (password must be at least 6
+        characters long).
+      </p>
+      <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
+      <base-button v-if="isLogin">Login</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </form>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginFormIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        // const loginFormData = {
+        //   email: this.email.val,
+        //   password: this.password.val,
+        // };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        // const signupFormData = {
+        //   email: this.email.val,
+        //   message: this.password.val,
+        // };
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "" || this.password.val.length < 6) {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <form @submit.prevent="submitForm()">
+      <div class="form-control">
+        <label for="email" :class="{ invalid: !email.isValid }">Email</label>
+        <input
+          type="email"
+          id="email"
+          v-model.trim="email.val"
+          @blur="clearValidity('email')"
+        />
+      </div>
+      <div class="form-control">
+        <label for="password" :class="{ invalid: !password.isValid }"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          v-model.trim="password.val"
+          @blur="clearValidity('password')"
+        />
+      </div>
+      <p
+        v-if="
+          !loginFormIsValid &&
+          this.email.val.length > 0 &&
+          this.password.val.length > 0
+        "
+      >
+        Please enter a valid email and password (password must be at least 6
+        characters long).
+      </p>
+      <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
+      <base-button> {{ submitButtonCaption }}</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </form>
+  </base-card>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginFormIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        // const loginFormData = {
+        //   email: this.email.val,
+        //   password: this.password.val,
+        // };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        // const signupFormData = {
+        //   email: this.email.val,
+        //   message: this.password.val,
+        // };
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "" || this.password.val.length < 6) {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+  },
+
+  computed: {
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+
+    submitButtonCaption() {
+      if (this.isLogin) {
+        return "Login";
+      } else {
+        return "Sign Up";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK..
+COMO PRÓXIMA ETAPA,
+
+PRECISAMOS PEGAR O USER INPUT E ENVIAR ESSA DATA AO FIREBASE,
+
+PARA TROCAR POR 1 TOKEN (
+
+    ou para criar 1 user, para início de conversa...
+)
