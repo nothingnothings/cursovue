@@ -29,4 +29,16 @@ export default {
   coachesAreLoading(state) {
     return state.coachesLoading;
   },
+
+  coachesShouldUpdate(state) {
+    const lastFetch = state.lastFetch;
+    if (!lastFetch) {
+      ///if coaches were never loaded, load them.
+      return true;
+    }
+
+    /// if coaches were loaded, find out if they were loaded more than 1 minute ago...
+    const currentTimeStamp = new Date().getTime();
+    return (currentTimeStamp - lastFetch) / 1000 > 60;
+  },
 };

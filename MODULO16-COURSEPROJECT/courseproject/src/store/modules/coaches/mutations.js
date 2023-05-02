@@ -30,4 +30,8 @@ export default {
     //   });
     state = state.coaches.push(coachData);
   },
+
+  setFetchTimestamp(state) {
+    state.lastFetch = new Date().getTime();
+  },
 };

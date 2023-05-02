@@ -25,6 +25,7 @@ export default {
       //     hourlyRate: 30,
       //   },
       // ],
+      lastFetch: null, ///usado para EVITAR O LOAD DE COACHES SEMPRE QUE ENTRAMOS NA PAGE (carrega apenas 1 vez inicial, aí deixa os coaches estáticos)....
       coaches: [],
       loadedCoach: null,
       coachesLoading: false,

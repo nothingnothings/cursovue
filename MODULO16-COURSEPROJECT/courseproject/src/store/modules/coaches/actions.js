@@ -22,6 +22,10 @@ export default {
     //     console.log(error);
     //   });
 
+    if (!context.getters.coachesShouldUpdate) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
+      return;
+    }
+
     context.state.coachesLoading = true;
     const coaches = [];
 
@@ -38,7 +42,10 @@ export default {
           coaches.push(newCoach);
         });
         context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp'); //evita carregamentos futuros dos coaches (vão ser carregados apenas 1 vez, ao chegar na page de coaches...)
       } else {
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');
         console.log('something went wrong');
       }
     } catch (error) {

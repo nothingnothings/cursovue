@@ -1,0 +1,733 @@
+
+
+
+
+
+
+
+
+O PROFESSOR FALOU SOBRE 1 MELHORIA QUE 
+
+
+ELE QUERIA IMPLEMENTAR....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NO MOMENTO, NO APP,
+
+
+
+NÃO ESTAMOS USANDO O 
+
+VUEX 
+
+
+TOTALMENTE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+--. NÃO PRECISAMOS DO VUEX,
+
+NA VERDADE,
+
+
+PQ 
+
+TODA VEZ 
+
+QUE 
+
+TROCAMOS DE PAGE,
+
+
+
+
+
+NOSSA DATA É CARREGADA 
+
+
+
+
+DE QUALQUER FORMA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> E O PROFESSOR N GOSTA DISSO,
+
+PQ 
+
+
+A IDEIA É JUSTAMENTE __ EVITAR_ O LOAD DESNECESSÁRIO 
+
+
+DE DATA AO TROCAR DE PÁGINA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM VEZ DISSO, PODEMOS 'CACHE' DATA LOCALMENTE,
+
+
+E AÍ APENAS FETCHEAR A DATA 
+
+
+
+
+__ APÓS 1 MINUTO OU ALGO ASSIM....
+
+
+
+
+
+
+
+
+
+
+
+
+OU, ALTERNATIVAMENTE,
+
+APENAS 
+
+
+PEGAR A DATA 1 ÚNICA VEZ,
+
+E AÍ 
+
+DEIXAR O BOTÃO DE 'REFRESH',
+
+QUE VAI REFRESHAR OS COACHES...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO É ALGO QUE PODEMOS IMPLEMENTAR FACILMENTE 
+
+
+COM O VUEX...
+
+
+
+
+
+
+
+
+--> ISSO TBM VAI NOS MOSTRAR A RAZÃO DE SER ÚTIL O 'LOCALLY MANAGED STATE'
+
+
+
+JUNTO DE SERVERSIDE DATA...
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ, ATUALMENTE,
+
+
+ESTAMOS QUASE SUBSTITUINDO O VUEX COM O FIREBASE
+
+DATABASE,
+
+E 
+
+
+NÃO É ISSO QUE QUEREMOS FAZER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, O QUE PODEMOS FAZER, AQUI,
+
+PARA NÃO
+
+FETCHEAR COACH DATA 
+
+
+O TEMPO TODO,
+
+E
+
+PARA 
+
+
+
+QUE CONSIGAMOS 
+
+REUTILIZAR EXISTING DATA?
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, NO NOSSO MODULE DE 'coaches',
+
+
+
+NO STATE,
+
+
+
+ALÉM DE MANAGEAR NOSSOS COACHES,
+
+
+
+
+PODEMOS ADICIONAR 1 
+
+KEY DE 
+
+'lastFetch',
+
+
+
+
+
+
+
+que deverá SER INICIALMENTE NULL...
+
+
+
+
+
+
+
+
+
+
+
+-> tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import coachActions from './actions';
+import coachGetters from './getters';
+import coachMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      // coaches: [
+      //   {
+      //     id: 'c1',
+      //     firstName: 'Maximilian',
+      //     lastName: 'Schwarzmüller',
+      //     areas: ['frontend', 'backend', 'career'],
+      //     description:
+      //       "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
+      //     hourlyRate: 30,
+      //   },
+      //   {
+      //     id: 'c3',
+      //     firstName: 'Julie',
+      //     lastName: 'Jones',
+      //     areas: ['frontend', 'career'],
+      //     description:
+      //       'I am Julie and as a senior developer in a big tech company, I can help you get your first job or progress in your current role.',
+      //     hourlyRate: 30,
+      //   },
+      // ],
+      lastFetch: null, ///usado para EVITAR O LOAD DE COACHES SEMPRE QUE ENTRAMOS NA PAGE (carrega apenas 1 vez inicial, aí deixa os coaches estáticos)....
+      coaches: [],
+      loadedCoach: null,
+      coachesLoading: false,
+    };
+  },
+
+  actions: coachActions,
+  getters: coachGetters,
+  mutations: coachMutations,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+DEPOIS DISSO, O PROFESSOR ADICIONA UMA NOVA MUTATION, DE NOME 
+
+'setFetchTimestamp',
+
+
+
+
+
+
+
+em que vamos definir 
+
+
+'state.lastFetch = new Date().getTime()' 
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+  setFetchTimestamp(state) {
+    state.lastFetch = new Date().getTime();
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE VALUE É O CURRENT TIME AND DATE AS A TIMESTAMP --> é o tempo e segundo desde o 'início do tempo'.... (desde 1990)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO... E DEVEMOS __ COMMITAR ESSA ACTION SEMPRE QUE 
+
+COMEÇARMOS A FETCHEAR NOSSOS COACHES,
+TIPO ASSIM:
+
+
+
+
+
+
+  async loadCoaches(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    
+    context.state.coachesLoading = true;
+    const coaches = [];
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');  //evita carregamentos futuros dos coaches (vão ser carregados apenas 1 vez, ao chegar na page de coaches...)
+      } else {
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO QUER DIZER QUE AGORA ESTAMOS ARMAZENANDO 1 TIMESTAMP 
+
+
+DO MOMENTO EM QUE 'FETCHEAMOS DATA PELA ÚLTIMA VEZ'... 
+
+
+
+
+
+
+
+
+
+
+FAREMOS ISSO JUSTAMENTE PARA TER 1 GETTER,
+
+
+DE NOME 
+
+'shouldUpdate'...
+
+
+
+
+
+
+
+
+--> NESSE GETTER,
+
+VAMOS TER O VALUE DO 'lastFetch',
+
+
+
+
+
+QUE SERÁ USADO PARA __ RETORNAR TRUE OU FALSE (se devem ser recarregados os coaches ou não)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+  coachesShouldUpdate(state) {
+    const lastFetch = state.lastFetch;
+    if (!lastFetch) {
+      ///if coaches were never loaded, load them.
+      return true;
+    }
+
+    /// if coaches were loaded, find out if they were loaded more than 1 minute ago...
+    const currentTimeStamp = new Date().getTime();
+    return (currentTimeStamp - lastFetch) / 1000 > 60;
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, TEMOS UMA LÓGICA DE 'CACHE' (ou permanencia) 
+
+
+dos 
+
+coaches 
+
+
+no nosso app... evitamos a repetição desnecessária 
+
+
+de load de coaches...
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS ONDE DEVEMOS USAR 'coachesShouldUpdate'?
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS UTILIZÁ-LO LÁ NAS ACTIONS DE 'coaches',
+
+
+no próprio module,
+
+
+
+lá em 'loadCoaches',
+tipo assim:
+
+
+
+
+
+
+
+
+    if (!context.getters.coachesShouldUpdate) {
+      return;
+    }
+
+
+
+
+
+
+
+
+
+
+    BASTA USAR ESSE BLOCK, PARA EVITAR A EXECUÇÃO DE TODO O CÓDIGO DA ACTION...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+  async loadCoaches(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    if (!context.getters.coachesShouldUpdate) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
+      return;
+    }
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp'); //evita carregamentos futuros dos coaches (vão ser carregados apenas 1 vez, ao chegar na page de coaches...)
+      } else {
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
