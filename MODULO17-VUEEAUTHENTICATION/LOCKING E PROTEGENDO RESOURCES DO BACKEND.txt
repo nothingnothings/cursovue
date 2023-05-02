@@ -1,0 +1,633 @@
+
+
+
+
+
+
+
+
+
+
+
+OK... PARA ADICIONAR AUTHENTICATION AO NOSSO APP,
+
+
+
+
+
+
+O PROFESSOR PRIMEIRAMENTE QUER 
+
+
+
+ASSEGURAR QUE O FIREBASE NÃO ENTREGUE 'READ E WRITE ACCESS'
+
+
+A TODOS OS RESOURCES..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PRECISAMOS ALTERAR 
+
+AS COISAS LÁ NO FIREBASE,
+
+PQ DEIXAMOS 
+'READ: TRUE',
+
+'WRITE: TRUE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> DEFINITIVAMENTE NÃO QUEREMOS FAZER ISSO...
+
+
+
+
+
+
+
+
+
+APENAS ALGUNS RESOURCES DEVEM 
+
+
+SER 
+
+PÚBLICOS,
+
+
+
+
+
+OUTROS DEVEM SER RESTRICTED...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> A LISTA DE COACHES... ENVIAR 1 MENSAGEM A 1 COACH... SÃO COISAS QUE DEVEM 
+
+SER DISPONÍVEIS A TODOS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> POR OUTRO LADO, VISUALIZAR OS REQUESTS E TAMBÉM FAZER SIGN UP AS A COACH,
+
+
+
+
+ESSAS SÃO COISAS QUE DEVEM SER DISPONÍVEIS APENAS A ALGUNS USERS....
+
+
+
+
+
+
+
+
+
+TUDO ISSO DEVERÁ SER REFLETIDO NO FIREBASE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE VC CONSTRUIU SEU PRÓPRIO API COM O NODEJS,
+
+
+VC PRECISA __ ESCREVER TODO ESSE CÓDIGO DE 'CHECK POR AUTH'
+
+NO 
+
+
+BACKEND, COM COISAS COMO 'EXPRESS-VALIDATOR'... 
+
+
+
+
+
+
+
+
+
+
+
+COMO ESTAMOS USANDO O REALTIME DATABASE DO FIREBASE,
+
+PODEMOS 
+
+CONTROLAR 
+
+
+O 
+
+ACESSO POR MEIO DO RULESET DELE..
+
+
+
+
+
+
+
+
+
+
+
+--> temos 
+
+'.read:' 
+
+
+e 
+'.write:'...
+
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS REESCREVER ESSAS RULES..
+
+
+
+
+
+
+
+
+
+PARA ISSO, DEVEMOS TER EM MENTE QUE TEMOS:
+
+
+
+
+
+1) COACHES 
+
+
+
+
+
+2) REQUESTS....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> O __ READ DE COACHES DEVE SER PERMITIDO A TODOS,
+
+MAS O WRITE DE 1 COACH A DATABASE, NÃO...
+
+
+
+
+
+
+
+REQUESTS -> O SEND DE 1 REQUEST DEVE SER DISPONÍVEL 
+
+A TODOS,
+ 
+
+ MAS O VIEW DE REQUESTS DEVE SER RESTRITO A PESSOAS QUE POSSUAM AUTH...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> BASTA ENTRARMOS NO OBJECT DE RULES E ESCREVER ASSIM:
+
+
+
+
+
+{
+
+
+    "rules": {
+        "coaches": {}
+
+    }
+}
+
+
+
+
+
+
+
+
+--> AGORA, DENTRO DE 'coaches',
+PODEMOS 
+
+DEFINIR 
+
+
+READ E WRITE RULES PARA ESSA PARTE DA DATABASE...
+
+
+
+
+
+
+
+
+ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+{
+  "rules": {
+    "coaches": {
+						
+    ".read": "true", 
+    ".write": "false"},
+    ".read": "now < 1685502000000",  // 2023-5-31
+    ".write": "now < 1685502000000",  // 2023-5-31
+  }
+}
+
+
+
+
+
+
+
+
+
+FAREMOS A MESMA COISA PARA OS REQUESTS...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+{
+  "rules": {
+    "coaches": {
+						
+    ".read": "true", 
+    ".write": "false"},
+      "requests": {
+        ".read": "false",
+          ".write": "true"
+      },
+    ".read": "now < 1685502000000",  // 2023-5-31
+    ".write": "now < 1685502000000",  // 2023-5-31
+  }
+}
+
+
+
+
+
+
+
+
+
+CERTO.... isso está __ QUASE certo..
+
+
+
+
+
+pq 
+
+
+PRECISAMOS QUE O NEGÓCIO FIQUE COMO 'false', sim,
+
+
+
+
+
+
+MAS SERIA MELHOR TER UMA EXPRESSÃO ALI..
+
+
+
+
+
+
+
+
+
+
+a expressão ideal é 
+
+
+
+
+
+'auth != null'...
+
+
+
+
+
+'AUTH' é uma VARIABLE DISPONÍVEL NAS RULES DO FIREBASE,
+
+QUE 
+
+__sERÁ 'NOT NULL' 
+
+
+SE _ANEXARMOS 1 TOKEN VÁLIDA NOS NOSSOS REQUESTS...
+
+
+
+
+
+
+
+É POR ISSO QUE NOSSO CÓDIGO DE RULESET FICARÁ ASSIm:
+
+
+
+
+
+
+
+
+
+
+
+{
+  "rules": {
+    "coaches": {
+						
+    ".read": "true", 
+    ".write": "auth != null"},
+      "requests": {
+        ".read": "auth != null",
+          ".write": "true"
+      },
+    ".read": "now < 1685502000000",  // 2023-5-31
+    ".write": "now < 1685502000000",  // 2023-5-31
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+SE VC PLANEJA USAR O FIREBASE PARA O SEU PROJECT,
+
+VC PODE LER OS 
+FIREBASE DOCS....
+
+
+
+
+
+
+SÃO RULES TRIVIAIS, QUE PODERIAM SER REFINADAS...
+
+
+
+
+
+
+
+
+
+
+
+--> NOS LIVRAMOS DAS RULES GERAIS, TAMBÉM...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+{
+  "rules": {
+    "coaches": {
+						
+    ".read": "true", 
+    ".write": "auth != null"},
+      "requests": {
+        ".read": "auth != null",
+          ".write": "true"
+      }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+COMO  RESULTADO DISSO,
+
+O APP VAI FUNCIONAR COMO ANTES,
+
+MAS AGORA SEREMOS 
+
+
+BLOQUEADOS 
+
+
+NA PÁGINA DE 'requests',
+
+
+PQ 
+
+
+
+
+ESSA ROTA SERÁ PROTEGIDA POR AUTH....
+
+
+
+
+
+A MESMA COISA ACONTECE COM O ADD DE COACHES,
+QUE AGORA 
+
+É PROTEGIDA..
+
+
+
+
+
+
+
+
+
+A DATA É UPDATADA NO FRONTEND,
+
+
+
+
+
+
+MAS A DATA NÃO É ADICIONADA NO BACKEND...
+
+
+
+
+
+
+O ADD DE REQUESTS É ALGO QUE PERMITIMOS,
+
+
+
+
+
+
+PQ ISSO É FREE PARA TODO MUNDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA PRECISAMOS DE 1 MANEIRA DE PRODUZIR ESSA TOKEN...
+
+
+
+
+
+--> A PRIMEIRA COISA NECESSÁRIA É UMA PAGE DE 'LOGIN/SIGNUP',
+
+
+
+
+
+
+
+
+PARA QUE CONSIGAMOS ENVIAR ESSA DATA DE ACCOUNT CREATION AO FIREBASE,
+
+PARA ENTÃO 
+
+CONSEGUIR 
+
+
+UMA TOKEN EM RESPOSTA,
+
+UMA TOKEN QUE PODEREMOS ANEXAR NOS REQUESTS 
+
+QUE SÃO ENVIADOS AO FIREBASE...
