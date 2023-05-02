@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default {
-  async loadCoaches(context) {
+  async loadCoaches(context, isRefresh = false) {
     // axios
     //   .get(
     //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
@@ -22,7 +22,7 @@ export default {
     //     console.log(error);
     //   });
 
-    if (!context.getters.coachesShouldUpdate) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
+    if (!context.getters.coachesShouldUpdate && !isRefresh) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
       return;
     }
 

@@ -15,7 +15,7 @@
     <base-card>
       <section id="coaches-control">
         <div class="controls">
-          <base-button :mode="'outline'" @click="loadCoaches()"
+          <base-button :mode="'outline'" @click="loadCoaches(true)"
             >Refresh</base-button
           >
           <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
@@ -65,7 +65,7 @@ export default {
   },
 
   created() {
-    this.loadCoaches()
+    this.loadCoaches(false)
       .then((res) => {
         console.log(res);
       })

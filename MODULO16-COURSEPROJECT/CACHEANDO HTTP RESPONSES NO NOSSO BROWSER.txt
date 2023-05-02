@@ -731,3 +731,484 @@ TIPO ASSIM:
 
 
   CERTO...
+
+
+
+
+
+
+
+
+
+  OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... --> DEPOIS DE 1 MINUTO, VEREMOS 
+
+O LOAD 
+
+DO NEGÓCIO MAIS UMA VEZ...
+
+
+
+
+
+
+
+
+FICOU BEM MELHOR...
+
+
+
+
+
+
+O BOTÃO DE 'REFRESH', NO ENTANTO,
+
+DEVE SEMPRE FUNCIONAR... --> E NÃO ESTÁ FUNCIONANDO, ATÉ AGORA...
+
+
+
+
+
+
+
+
+
+PARA FAZER O BUTTON DE 'REFRESH' FUNCIONAR COM ESSE MECANISMO,
+
+PRECISAMOS ALTERAR 1 POUCO O 'loadCoaches',
+
+
+COLOCAR 1 PARâMETRO NO PAYLOAD QUE VAI SER 'isRefresh', ou algo assim,
+
+que 
+
+
+VAI 
+
+
+
+FORÇAR O REFRESH DA PÁGINA, E QUE DEVERÁ SER PASSADO APENAS QUANDO FOR O RELOAD 
+
+TRIGGADO PELO METHOD DE 'refreshCoaches'...
+
+
+FICA TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <!-- SERÁ RENDERIZADO ESSE DIALOG EM CASOS DE ERROR NO FETCH DE COACHES... -->
+    <base-dialog :show="!!error" title="An error occurred!" @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches(true)"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button
+            :link="true"
+            :to="registerCoachLink"
+            v-if="!isCoach && !coachesLoading"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+
+      <section id="coaches">
+        <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+        <div v-if="!coachesLoading && filteredCoaches.length === 0">
+          No coaches found.
+        </div>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+      error: null,
+    };
+  },
+
+  created() {
+    this.loadCoaches(false)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+
+    hideDialog() {
+      this.error = null;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+
+    coachesLoading() {
+      console.log(
+        this.$store.getters["coachesAreLoading"],
+        "LOADINGSTATE DOS GURi"
+      );
+      return this.$store.getters["coachesAreLoading"];
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA, O QUE É INTERESSA É ISTO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  created() {
+    this.loadCoaches(false)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
+  },
+
+
+
+
+
+
+
+
+
+
+  E ISTO:
+
+
+
+
+
+
+
+
+
+
+
+            <base-button :mode="'outline'" @click="loadCoaches(true)"
+            >Refresh</base-button
+          >
+
+
+
+
+
+
+
+
+
+
+
+E ISTO:
+
+
+
+
+
+
+
+
+
+
+
+  async loadCoaches(context, isRefresh) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    if (!context.getters.coachesShouldUpdate && !isRefresh) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
+      return;
+    }
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp'); //evita carregamentos futuros dos coaches (vão ser carregados apenas 1 vez, ao chegar na page de coaches...)
+      } else {
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+podemos colocar 1 value default do refresh, como 'false',
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  async loadCoaches(context, isRefresh = false) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    if (!context.getters.coachesShouldUpdate && !isRefresh) { ///evita o load repetitivo/desnecessário dos coaches, toda vez que entramos na page... (objetivo: carregar os coaches apenas inicialmente, e então apenas se 1 minuto tiver passado...)
+      return;
+    }
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp'); //evita carregamentos futuros dos coaches (vão ser carregados apenas 1 vez, ao chegar na page de coaches...)
+      } else {
+        context.commit('loadCoaches', coaches);
+        context.commit('setFetchTimestamp');
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ISSO NOS MOSTRA O QUE PODEMOS FAZER COM VUE,
+   1 BACKEND E O VUEX...
