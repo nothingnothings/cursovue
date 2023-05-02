@@ -1,6 +1,10 @@
 <template>
   <div>
     <!-- <section id="coaches-filter">FILTER</section> -->
+    <!-- SERÁ RENDERIZADO ESSE DIALOG EM CASOS DE ERROR NO FETCH DE COACHES... -->
+    <base-dialog :show="!!error" title="An error occurred!" @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
     <CoachFilter
       @toggle-filter="
         (updatedFilters) => {
@@ -17,8 +21,10 @@
           <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
             >Register as Coach</base-button
           > -->
-          <base-button :link="true" :to="registerCoachLink"
-          v-if="!isCoach && !coachesLoading"
+          <base-button
+            :link="true"
+            :to="registerCoachLink"
+            v-if="!isCoach && !coachesLoading"
             >Register as Coach</base-button
           >
         </div>
@@ -54,11 +60,20 @@ export default {
         backend: true,
         career: true,
       },
+      error: null,
     };
   },
 
   created() {
-    this.loadCoaches();
+    this.loadCoaches()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
   },
 
   methods: {
@@ -67,6 +82,10 @@ export default {
       //esse argumento é recebido pelo emit de 'toggle-filter'
 
       this.activeFilters = updatedFilters;
+    },
+
+    hideDialog() {
+      this.error = null;
     },
   },
 

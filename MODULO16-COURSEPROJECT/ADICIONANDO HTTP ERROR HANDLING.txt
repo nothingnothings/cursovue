@@ -1,0 +1,1098 @@
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+ 
+ LÁ EM 'loadCoaches',
+
+
+
+
+
+
+
+
+ EU TENHO ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  async loadCoaches(context) {
+
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+    const response = await axios.get(
+      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    );
+
+    if (response.data) {
+      Object.keys(response.data).forEach((key) => {
+        const newCoach = response.data[key];
+
+        newCoach.id = key;
+        coaches.push(newCoach);
+      });
+
+      context.commit('loadCoaches', coaches);
+    } else {
+      console.log('something went wrong');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TEMOS O 'if (response.data)',
+
+
+MAS NÃO ESTAMOS FAZENDO HANDLE DE QUAISQUER ERROS COM O ELSE CASE DELE...
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS 
+
+
+HANDLAR 
+
+
+ERRORS NO __ COMPONENT_ QUE _ DISPATCHEIA 
+
+
+
+ESSA ACTION..
+
+
+
+
+
+
+
+
+
+
+
+
+--> bem, se tivermos 1 
+error 
+
+que 
+
+NÃO É CATCHEADO,
+
+
+
+
+
+
+
+VAMOS QUERER DAR THROW DE 1 ERROR MANUALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, COMEÇO PELO WRAP EM UMA EXPRESSÃO 'TRY-CATCH'..
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+      } else {
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+se conseguirmos a data nesse object da response,
+
+vamos querer rodar aquela expressão... caso contrário, vamos querer console.loggar 1 erro..
+
+
+
+
+
+
+
+
+
+-_> caso ACONTEÇA ALGUM ERRO TÉCNICO
+
+
+ao tentar fetchear essa data,
+
+
+vamos capturar e handlar o erro lá no 'catch'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  async loadCoaches(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+    //   )
+    //   .then((res) => {
+    //     const coaches = [];
+
+    //     if (res.data) {
+    //       Object.keys(res.data).forEach((key) => {
+    //         coaches.push(res.data[key]);
+    //       });
+    //     }
+
+    //     console.log(coaches, res, 'RES DOS GURI');
+    //     context.commit('loadCoaches', coaches);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    context.state.coachesLoading = true;
+    const coaches = [];
+
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
+
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+      } else {
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  COMO VAMOS FAZER O THROW DE 1 ERROR,
+
+  PODEMOS CAPTURAR ESSE THROW, LÁ NO CALL DE 'loadCoaches',
+
+
+
+
+
+
+  NO COMPONENT DE 'COACHESLISTPAGE'...
+
+
+
+
+
+
+
+
+OK... FUNCIONOU... FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+      error: null,
+    };
+  },
+
+  created() {
+    this.loadCoaches()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
+        console.log(err);
+        this.error = err;
+      });
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> O PROFESSOR QUER MOSTRAR 1 OVERLAY DE ERRO AO USER,
+
+
+
+
+CASO 1 ERRO ACONTEÇA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ADICIONAR 1 MODAL DESSES,
+
+
+
+
+O PROFESSOR JÁ PREPAROU 1 COMPONENT, 
+
+DE NOME 
+
+'BaseDialog'.. -->
+
+
+
+
+
+
+
+
+É UM COMPONENT GLOBAL, 
+
+
+QUE 
+
+VAI TER ALGUNS PROPS E QUE VAI SER ABERTO PARA MOSTRAR 1 MENSAGEM DE ERRO..
+
+
+
+
+
+
+SEU CÓDIGO É ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <teleport to="body">
+    <div class="backdrop" v-if="show" @click="tryClose"></div>
+    <dialog open v-if="show">
+      <header>
+        <slot name="header">
+          <h2>{{ title }}</h2>
+        </slot>
+      </header>
+      <section>
+        <slot></slot>
+      </section>
+      <menu>
+        <slot name="actions">
+          <base-button @click="tryClose">Close</base-button>
+        </slot>
+      </menu>
+    </dialog>
+  </teleport>
+</template>
+
+
+<script>
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
+    fixed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
+  methods: {
+    tryClose() {
+      if (this.fixed) {
+        return;
+      }
+
+      this.$emit("close");
+    },
+  },
+};
+</script>
+<style lang="">
+</style>
+
+
+
+
+
+
+
+
+
+o professor também usa 'TELEPORT' para renderizar 
+
+esse dialog 
+
+
+
+
+
+
+no body, diretamente...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+AÍ TEMOS 1 PROP DE 'title' e 'fixed'...
+
+
+
+
+
+
+
+
+
+--> também temos 1 method de 'tryClose()'...
+
+
+
+
+
+
+
+
+
+
+
+ESSE METHOD EMITE O EVENT DE 'close',
+
+
+
+
+
+MAS ANTES DISSO CHECA SE 
+
+O PROP DE 'fixed'
+
+ESTÁ SETTADO... --> SE ESTIVER SETTADO COMO TRUE,
+
+
+
+
+ELE NÃO VAI FECHAR --> NÃO EMITE O CLOSE EVENT --> A IDEIA É QUE 
+
+PODEMOS 
+
+USAR 
+
+ESSE 
+
+MODAL 
+
+
+
+
+TAMBÉM DE MANEIRA 'NON-CLOSABLE'...
+
+
+
+
+
+
+
+
+
+
+
+-> É POR ISSO QUE EXISTE O 
+
+'fixed' prop (para controlar se o dialog será fechável ou não)...
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... USAREMOS ESSE COMPONENT GLOBALMENTE...
+
+
+
+
+
+
+
+VAMOS QUERER MOSTRAR ESSE DIALOG LÁ EM 'CoachesList',
+
+MAS APENAS 
+
+SE 
+
+O 
+FETCH 
+
+
+DE 
+
+
+
+COACHES REALMENTE FALHAR... TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <!-- SERÁ RENDERIZADO ESSE DIALOG EM CASOS DE ERROR NO FETCH DE COACHES... -->
+    <base-dialog><p>{{ error }}</p></base-dialog>
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button
+            :link="true"
+            :to="registerCoachLink"
+            v-if="!isCoach && !coachesLoading"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+
+      <section id="coaches">
+        <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+        <div v-if="!coachesLoading && filteredCoaches.length === 0">
+          No coaches found.
+        </div>
+      </section>
+    </base-card>
+  </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SETAMOS COMO 'error,'
+
+pq 
+
+
+essa coisa será preenchida quando tivermos 1 error --> 
+
+
+
+
+
+
+MAS PRECISAMOS COLOCAR O PROP DE ':show' 
+
+
+
+
+
+
+
+nesse dialog,
+para 
+
+GARANTIR QUE 
+
+
+
+
+
+O DIALOG SEJA MOSTRADO APENAS EM CASO DE ERROR...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    <base-dialog :show="!!error"
+      ><p>{{ error }}</p></base-dialog
+    >
+
+
+
+
+
+
+
+
+
+
+
+
+2 BANGS 
+
+convertem uma __ _STRING __ EM UM VERDADEIRO 'truthy value'...  (pq apenas ':show="error" ' NÃO FUNCIONARIA)...
+
+
+
+
+
+
+
+!error --> é um boolean..
+
+error --> será uma string...
+
+
+!!error --> será um BOOLEAN (converte a string em boolean, de truthy)...
+
+
+
+
+
+
+
+
+
+
+
+QUEREMOS SER CAPAZES DE 
+
+
+
+FECHAR A JANELA DO DIALOG... PARA ISSO,
+
+
+
+
+PRECISAMOS FAZER COM QUE 
+
+
+
+
+A PROPRIEDADE DE 'error'
+
+SEJA DEFINIDA COMO 'NULL'
+
+
+AO SER CLICADO ESSE NEGÓCIO...
+
+
+
+
+--> capturamos o emit do event de 'close',
+
+e AÍ 
+
+
+
+DISPARAMOS 
+1 LÓGICA PARA DEFINIR O STATE  DE 'error' como NULL ( o que vai esconder o dialog)...
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="error = null"
+      ><p>{{ error }}</p></base-dialog
+    >
+
+
+
+
+
+
+
+
+
+
+ISSO JÁ FUNCIONA, DÁ CERTo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE O PROFESSOR ADICIONA 1 METHOD DEDICADO PARA ISSO...
+
+
+
+
+
+
+
+--> 'handleError() {
+    this.error = null
+}'
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <!-- <section id="coaches-filter">FILTER</section> -->
+    <!-- SERÁ RENDERIZADO ESSE DIALOG EM CASOS DE ERROR NO FETCH DE COACHES... -->
+    <base-dialog :show="!!error" title="An error occurred!" @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
+    <CoachFilter
+      @toggle-filter="
+        (updatedFilters) => {
+          setFilters(updatedFilters);
+        }
+      "
+    ></CoachFilter>
+    <base-card>
+      <section id="coaches-control">
+        <div class="controls">
+          <base-button :mode="'outline'" @click="loadCoaches()"
+            >Refresh</base-button
+          >
+          <!-- <base-button :link="true" :to="registerCoachLink" v-if="!isCoach"
+            >Register as Coach</base-button
+          > -->
+          <base-button
+            :link="true"
+            :to="registerCoachLink"
+            v-if="!isCoach && !coachesLoading"
+            >Register as Coach</base-button
+          >
+        </div>
+      </section>
+
+      <section id="coaches">
+        <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <CoachesList
+          :filteredCoaches="filteredCoaches"
+          v-if="!coachesLoading"
+        ></CoachesList>
+        <div v-if="!coachesLoading && filteredCoaches.length === 0">
+          No coaches found.
+        </div>
+      </section>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+import CoachesList from "../components/CoachesList/CoachesList.vue";
+import CoachFilter from "../components/CoachesList/CoachFilter/CoachFilter.vue";
+export default {
+  components: {
+    CoachesList,
+    CoachFilter,
+  },
+
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+      error: null,
+    };
+  },
+
+  created() {
+    this.loadCoaches()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
+  },
+
+  methods: {
+    ...mapActions(["loadCoaches"]),
+    setFilters(updatedFilters) {
+      //esse argumento é recebido pelo emit de 'toggle-filter'
+
+      this.activeFilters = updatedFilters;
+    },
+
+    hideDialog() {
+      this.error = null;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["isCoach"]),
+    registerCoachLink() {
+      return {
+        name: "register-coach",
+      };
+    },
+
+    filteredCoaches() {
+      const allCoaches = this.$store.getters["coaches"];
+
+      return allCoaches.filter((coach) => {
+        if (this.activeFilters.frontend && coach.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && coach.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && coach.areas.includes("career")) {
+          return true;
+        }
+      });
+    },
+
+    coachesLoading() {
+      console.log(
+        this.$store.getters["coachesAreLoading"],
+        "LOADINGSTATE DOS GURi"
+      );
+      return this.$store.getters["coachesAreLoading"];
+    },
+  },
+};
+</script>
+<style scoped>
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO FICOU ASSIM...
+
+
+
+
+
+
+
+
+O PROFESSOR APONTA QUE PODERÍAMOS TAMBÉM 
+
+
+
+
+
+COLOCAR O 'LOADING SPINNER' 
+
+
+NO 
+
+
+
+
+
+COMPONENT DE 'COACH REGISTRATION',
+
+
+E NO DE 'REQUESTS'...
+
+
+
+
+
+
+
+
+
+--> VAMOS TRAZER ESSA LÓGICA DE SPINNERS E ERROR HANDLING NOS REQUESTS..
+
+
+
+
+
+
+
+--> QEUREMOS FETCHEAR REQUESTS DO BACKEND,
+E TAMBÉM QUEREMOS SER CAPAZES DE ARMAZENAR REQUESTS NO BACKEND...

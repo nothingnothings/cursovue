@@ -24,21 +24,25 @@ export default {
 
     context.state.coachesLoading = true;
     const coaches = [];
-    const response = await axios.get(
-      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
-    );
 
-    if (response.data) {
-      Object.keys(response.data).forEach((key) => {
-        const newCoach = response.data[key];
+    try {
+      const response = await axios.get(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches.json'
+      );
+      console.log(response, 'RESPONSE DOS GURi');
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          const newCoach = response.data[key];
 
-        newCoach.id = key;
-        coaches.push(newCoach);
-      });
-
-      context.commit('loadCoaches', coaches);
-    } else {
-      console.log('something went wrong');
+          newCoach.id = key;
+          coaches.push(newCoach);
+        });
+        context.commit('loadCoaches', coaches);
+      } else {
+        console.log('something went wrong');
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch!');
     }
   },
 
