@@ -1,7 +1,11 @@
 <template>
   <div>
     <TheHeader></TheHeader>
-    <router-view></router-view>
+    <router-view v-slot="slotProps">
+      <transition name="router" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -34,5 +38,20 @@ html {
 
 body {
   margin: 0;
+}
+
+.router-enter-active,
+.router-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.router-enter-from,
+.router-leave-to {
+  opacity: 0;
+}
+
+.router-enter-to,
+.router-leave-from {
+  opacity: 1;
 }
 </style>

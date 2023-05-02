@@ -1,0 +1,658 @@
+
+
+
+
+
+
+
+
+
+--> agora o professor quer concluir essa parte 
+
+
+do projeto...
+
+
+
+
+
+
+essa parte sem autenticação...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ELE QUER CONCLUIR POR MEIO DO ADD DE ANIMATIONS, TRANSITIONS,
+
+
+COISAS QUE 
+
+
+
+PODEMOS ANIMAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER ANIMAR AS ROUTES...
+
+
+
+(ROUTE CHANGES)..
+
+
+
+
+
+
+
+
+
+
+--> MAS O PROFESSOR TAMBÉM QUER ANIMAR O MODAL DE ERROR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER COMEÇAR PELO MODAL DE ERROR...
+
+
+
+
+
+
+
+
+
+
+--> O MODAL POPPA DO NADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS COMEÇAR PELO TRANSITION...
+
+
+
+
+
+
+
+
+
+--> FAZEMOS TIPO ASSIM:
+
+
+
+
+
+<template>
+  <teleport to="body">
+    <div class="backdrop" v-if="show" @click="tryClose"></div>
+    <transition name="modal">
+      <dialog open v-if="show">
+        <header>
+          <slot name="header">
+            <h2>{{ title }}</h2>
+          </slot>
+        </header>
+        <section>
+          <slot></slot>
+        </section>
+        <menu>
+          <slot name="actions">
+            <base-button @click="tryClose">Close</base-button>
+          </slot>
+        </menu>
+      </dialog>
+    </transition>
+  </teleport>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS WRAPPAR APENAS O MODAL COM O TRANSITION, E NAÕ 
+
+
+
+O BACKDROP, PQ NÃO QUEREMOS ANIMAR O BACKDROP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> wrappamos esse dialog com o transition...
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+
+ISSO FEITO,
+
+
+
+
+DADO O NOME À TRANSITION,
+
+
+
+
+
+
+VAMOS MEXER NOS STYLES...
+
+
+
+
+
+
+
+--> CSS CLASSES QUE DEVERÃO SER APLICADAS AO VUE, SEMPRE QUE ELE FOR ADDED E REMOVED..
+
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <teleport to="body">
+    <div class="backdrop" v-if="show" @click="tryClose"></div>
+    <transition name="modal">
+      <dialog open v-if="show">
+        <header>
+          <slot name="header">
+            <h2>{{ title }}</h2>
+          </slot>
+        </header>
+        <section>
+          <slot></slot>
+        </section>
+        <menu>
+          <slot name="actions">
+            <base-button @click="tryClose">Close</base-button>
+          </slot>
+        </menu>
+      </dialog>
+    </transition>
+  </teleport>
+</template>
+
+
+<script>
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
+    fixed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
+  methods: {
+    tryClose() {
+      if (this.fixed) {
+        return;
+      }
+
+      this.$emit("close");
+    },
+  },
+};
+</script>
+<style scoped>
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+}
+
+dialog {
+  position: fixed;
+  top: 20vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: white;
+}
+
+header {
+  background-color: #3a0061;
+  color: white;
+  width: 100%;
+  padding: 1rem;
+}
+
+header h2 {
+  margin: 0;
+}
+
+section {
+  padding: 1rem;
+}
+
+menu {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.modal-enter-active {
+  transition: all 0.3s ease-out;
+}
+.modal-leave-active {
+  transition: all 0.3s ease-in;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.modal-enter-to,
+.modal-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (min-width: 768px) {
+  dialog {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, FICAMOS COM ESSA NICE ANIMATION, PARA O MODAL...
+
+
+
+
+
+
+
+
+
+
+E PODEMOS BRINCAR COM OS STYLES CONCRETOS, COM O STYLING, ETC..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS AGORA DEVEMOS ANIMAR OS ROUTE SWITCHES...
+
+
+
+
+
+O PROFESSOR FALOU DISSO LÁ NO MODULE DE TRANSITIONS...
+
+
+
+
+
+
+
+
+
+
+
+o SETUP É UM POUCO MAIS COMPLEXO, PQ NÃO PODEMOS SIMPLESMENTE USAR '<transition>'...
+
+
+
+
+
+
+
+
+
+começamos lá no component de 'app.vue'... 
+
+
+
+
+--> ME LEMBREI:
+
+
+O 'TRANSIITON' COMPONENT DEVE EXISTIR __ DENTRO __ DO ROUTER-VIEW,
+
+E NÃO NO LADO DE FORA...
+
+
+
+
+
+
+
+
+
+--> TAMBÉM É NECESSÁRIO O RECURSO 'v-slot', para conseguirmos animar essa route change...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <!-- SINTAXE ESTRANHA, PORÉM NECESSÁRIA (usamos o recurso 'v-slot', com o VUE3, para animar route changes).-->
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+</template>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <TheHeader></TheHeader>
+    <router-view v-slot="slotProps">
+      <component :is="slotProps.Component">
+        <transition name="router"></transition>
+      </component>
+    </router-view>
+  </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA RESTAM OS STYLES DE ROUTE CHANGE...
+
+
+
+
+
+
+
+
+
+
+
+NA VERDADE, O CÓDIGO ESTAVA MEIO ERRADO... O CÓDIGO CORRETO É ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <TheHeader></TheHeader>
+    <router-view v-slot="slotProps">
+      <transition name="router" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
+  </div>
+</template>
+
+<script>
+// import { mapActions } from "vuex";
+import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
+export default {
+  name: "App",
+  components: {
+    TheHeader,
+  },
+
+  // mounted() {
+  //   this.loadCoaches();
+  // },
+  methods: {
+    // ...mapActions(["loadCoaches"]),
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.router-enter-active,
+.router-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.router-enter-from,
+.router-leave-to {
+  opacity: 0;
+}
+
+.router-enter-to,
+.router-leave-from {
+  opacity: 1;
+}
+</style>
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+MAS E SE QUISERMOS ANIMAR AS CHILD ROUTES?
