@@ -1,0 +1,1046 @@
+
+
+
+
+O PROFESSOR QUER REPLICAR A ESTRUTURA DE COACHES, MAS 
+
+NOS REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUEREMOS SER CAPAZES DE FETCHEAR REQUESTS DO BACKEND,
+
+
+E TAMBÉM DE CRIAR REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+
+----> QUANDO CONTATAMOS 1 COACH,
+
+A
+ DATA 
+
+ DEVE 
+
+ SER ENVIADA AO 
+
+
+
+ FIREBASE...
+
+
+
+
+
+
+
+
+
+bem, eu já havia feito isso, o código ficou assim:
+
+
+
+
+
+
+
+ async createRequest(context, data) {
+    const requestData = {
+      id: new Date().toISOString() + Math.random().toString(),
+      coachId: data.coachId,
+      message: data.message,
+      email: data.email,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json',
+        requestData
+      );
+      context.commit('registerCoach', requestData);
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch requests!');
+    }
+  },
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+MEUS REQUESTS  JÁ SÃO CRIADOS...
+
+
+
+
+
+MAS, NOVAMENTE, O PROFESSOR QUER CRIAR 1 'ENTRY'
+
+
+NO BANCO PARA CADA REQUEST... DE ACORDO COM SEU ID,
+
+
+E NÃO COM AQUELE ID ALEATÓRIO QUE O FIREBASE CRIA PARA NÓS...
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE O CÓDIGO VAI FICAR ASSIM:
+
+
+
+
+
+
+
+  async createRequest(context, data) {
+    const requestData = {
+      id: new Date().toISOString() + Math.random().toString(),
+      coachId: data.coachId,
+      message: data.message,
+      email: data.email,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json`,
+        requestData
+      );
+      context.commit('registerCoach', requestData);
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch requests!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+BEM, ISSO VAI CRIAR 1 NODE DE 'REQUEST'
+
+LÁ 
+
+NO BACKEND 
+
+
+
+DO FIREBASE...
+
+
+
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+
+com isso, enviamos requests ao firebase...
+
+
+
+
+
+
+
+
+
+e agora podemos handlar isso no frontend...
+
+
+
+
+
+
+
+
+
+
+--> 
+
+NO COMPONENT DE 'CONTACT',
+
+
+
+nós imediatamente redirecionamos 
+
+
+
+o user,
+e não 
+
+nos importamos com o resultado do request (
+    não mostramos nenhum feedback ao user,
+
+
+    nenhum loading spinner...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+podemos escolher a interface que o user verá...
+
+
+
+
+
+
+
+
+
+--> poderíamos deixar 1 loading para impedir o user 
+
+
+de mover 
+
+para 
+
+a 
+página 
+
+de requests,
+
+
+
+
+
+
+mas o professor não fará coisa alguma... (
+
+a coisa ficará igual,
+
+
+sem loading e sem error handling...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+salvamos tudo, e ficamos com uma experiência legal...
+
+
+
+
+
+
+
+
+
+
+
+-> podemos enviar messages,
+
+
+
+
+
+
+e percebemos que as messages são criadas no firebase...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok.... 
+
+
+
+agora constataremos se nossos requests
+
+estão sendo fetcheados corretamente...
+
+
+
+
+ 
+
+
+
+
+
+--> agora só falta o fetch de messages do firebase...
+
+
+
+
+
+O FETCH JÁ FOI FEITO, E FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+  async loadRequests(context) {
+    context.state.requestsLoading = true;
+    const response = await axios.get(
+      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+    );
+
+    if (response.data) {
+      const requests = [];
+      Object.keys(response.data).forEach((key) => {
+        requests.push(response.data[key]);
+      });
+
+      context.commit('loadRequests', requests);
+    } else {
+      console.log('Oops, something went wrong.');
+    }
+  },
+
+
+
+
+
+
+
+
+
+  OK.... MAS AQUI TEMOS 1 QUESTÃO...
+
+
+
+
+
+
+
+  O PROFESSOR QUER PEGAR TODOS OS REQUESTS, SIM, 
+
+  MAS APENAS AQUELES REQUESTS DIRECIONADOS AO 'CURRENTLY ACTIVE USER'....
+
+
+
+
+
+
+
+
+--> PODEMOS 
+
+
+
+CONSEGUIR O 'USERID'
+
+
+DO COACH 
+
+
+POR MEIO 
+
+
+DO PARAMETRO 
+
+
+
+context.rootGetters.userId...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+  async loadRequests(context) {
+    context.state.requestsLoading = true;
+
+    const coachId = context.rootGetters.userId;  /////eis o código em questão
+    const response = await axios.get(
+      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+    );
+
+    if (response.data) {
+      const requests = [];
+      Object.keys(response.data).forEach((key) => {
+        requests.push(response.data[key]);
+      });
+
+      context.commit('loadRequests', requests);
+    } else {
+      console.log('Oops, something went wrong.');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA CONSEGUIR TODOS OS __ REQUESTS DIRECIONADOS AO 
+
+
+NOSSO 
+
+COACH,
+
+
+
+
+BASTA 
+
+TROCAR A URL DO REQUEST,
+
+COLOCAR TIPO ASSIM:
+
+
+
+
+`https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json`
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO VAI ENCONTRAR TODOS OS REQUESTS 
+
+
+
+DISPONIBILIZADOS PARA ESSE COACH ESPECÍFICO...
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO INTEIRO FICOU + OU - ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  async loadRequests(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+    //   )
+    //   .then((res) => {
+    //     const requests = [];
+    //     Object.keys(res.data).forEach((key) => {
+    //       requests.push(res.data[key]);
+    //     });
+
+    //     console.log(requests);
+    //     context.commit('loadRequests', requests);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    const coachId = context.rootGetters.userId;
+
+    context.state.requestsLoading = true;
+
+    try {
+      const response = await axios.get(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json`
+      );
+
+      if (response.data) {
+        const requests = [];
+        Object.keys(response.data).forEach((key) => {
+          requests.push(response.data[key]);
+        });
+
+        context.commit('loadRequests', requests);
+      } else {
+        console.log("Oops, something went wrong!")
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to add request!');
+    }
+  },
+  async createRequest(context, data) {
+    const requestData = {
+      id: new Date().toISOString() + Math.random().toString(),
+      coachId: data.coachId,
+      message: data.message,
+      email: data.email,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json`,
+        requestData
+      );
+
+      console.log(response);
+      context.commit('registerCoach', requestData);
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch requests!');
+    }
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+ok... o professor fez basicamente o que eu fiz.
+
+
+
+eu também já havia colocado a propriedade de 'loading'...
+
+
+
+
+
+
+
+
+o error handling acho que não havia sido adicionado...
+
+
+
+
+
+
+
+
+
+agora adicionei, ficou assim:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
+    <base-card>
+      <header>
+        <h2>Requests Received</h2>
+      </header>
+      <loading-spinner v-if="requestsLoading"></loading-spinner>
+      <RequestsList
+        v-if="hasRequests"
+        :requests="receivedRequests"
+      ></RequestsList>
+      <h3 v-if="!hasRequests">You haven't received any requests yet!</h3>
+    </base-card>
+  </section>
+</template>
+<script>
+// import { mapActions, mapGetters } from "vuex";
+
+import { mapActions } from "vuex";
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+
+  data() {
+    return {
+      requests: [],
+      error: null,
+    };
+  },
+
+  mounted() {
+    this.loadRequests()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
+  },
+
+  methods: {
+    ...mapActions(["loadRequests"]),
+    hideDialog() {
+      this.error = null;
+    },
+  },
+
+  computed: {
+    receivedRequests() {
+      return this.$store.getters["requests"];
+    },
+
+    hasRequests() {
+      return this.$store.getters["hasRequests"];
+    },
+
+    requestsLoading() {
+      return this.$store.getters["requestsLoading"];
+    },
+
+    // ...mapGetters("requests"),
+  },
+};
+</script>
+<style scoped>
+header {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+o spinner já está adicionado, também...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
+    <base-card>
+      <header>
+        <h2>Requests Received</h2>
+      </header>
+      <loading-spinner v-if="requestsLoading"></loading-spinner>
+      <RequestsList
+        v-if="hasRequests && !requestsLoading"
+        :requests="receivedRequests"
+      ></RequestsList>
+      <h3 v-if="!hasRequests && !requestsLoading">You haven't received any requests yet!</h3>
+    </base-card>
+  </section>
+</template>
+<script>
+// import { mapActions, mapGetters } from "vuex";
+
+import { mapActions } from "vuex";
+import RequestsList from "../components/RequestsList/RequestsList.vue";
+export default {
+  components: {
+    RequestsList,
+  },
+
+  data() {
+    return {
+      requests: [],
+      error: null,
+    };
+  },
+
+  mounted() {
+    this.loadRequests()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
+  },
+
+  methods: {
+    ...mapActions(["loadRequests"]),
+    hideDialog() {
+      this.error = null;
+    },
+  },
+
+  computed: {
+    receivedRequests() {
+      return this.$store.getters["requests"];
+    },
+
+    hasRequests() {
+      return this.$store.getters["hasRequests"];
+    },
+
+    requestsLoading() {
+      return this.$store.getters["requestsLoading"];
+    },
+
+    // ...mapGetters("requests"),
+  },
+};
+</script>
+<style scoped>
+header {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, SE AGORA MUDARMOS O ID DE NOSSO USER, DE 'C3' PARA 'C2',
+
+
+
+
+
+
+
+VEREMOS QUE FICAREMOS SEM NENHUM REQUEST( o que significa que nossa lógica de fetch deu certo...)
+
+
+
+
+
+
+
+
+
+
+
+fiz alguns ajustes, e agora o código funcionou, ficou assim:
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  async loadRequests(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+    //   )
+    //   .then((res) => {
+    //     const requests = [];
+    //     Object.keys(res.data).forEach((key) => {
+    //       requests.push(res.data[key]);
+    //     });
+
+    //     console.log(requests);
+    //     context.commit('loadRequests', requests);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    const coachId = context.rootGetters.userId;
+
+    context.state.requestsLoading = true;
+
+    try {
+      const response = await axios.get(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json`
+      );
+      const requests = [];
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          requests.push(response.data[key]);
+        });
+
+        context.commit('loadRequests', requests);
+      } else {
+        console.log('No requests were found!');
+        context.commit('loadRequests', requests);
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to add request!');
+    }
+  },
+  async createRequest(context, data) {
+    const requestData = {
+      id: new Date().toISOString() + Math.random().toString(),
+      coachId: data.coachId,
+      message: data.message,
+      email: data.email,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json`,
+        requestData
+      );
+
+      console.log(response);
+      context.commit('registerCoach', requestData);
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch requests!');
+    }
+  },
+};
+
+
+
+
+
+com isso, 
+
+
+
+
+
+
+
+
+não vemos requests para esse user ('c2'),
+
+
+
+
+
+
+mas a funcionalidade está aí...
+
+
+
+
+
+
+
+
+
+
+
+
+ESTAMOS COM O APP FUNCIONANDO,
+
+
+
+
+MAS AINDA 
+
+
+FALTA 
+
+
+
+A AUTHENTICATION E CRIAÇAÕ DE USERS...
+
+
+
+
+
+
+
+
+
+
+MAS AINDA RESTA 1 FIX/TWEAK QUE O PROFESSOR QUER FAZER, NESTE MÓDULO...

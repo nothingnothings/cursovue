@@ -11,7 +11,7 @@ const store = createStore({
 
   state() {
     return {
-      userId: 'c3', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
+      userId: 'c2', // por enquanto, esse value será HARDCODADO, mas não será assim no futuro (aula de authentication)
     };
   },
 

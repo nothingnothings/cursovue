@@ -1,15 +1,21 @@
 <template>
   <section>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="hideDialog()"
+      ><p>{{ error }}</p></base-dialog
+    >
     <base-card>
       <header>
         <h2>Requests Received</h2>
       </header>
       <loading-spinner v-if="requestsLoading"></loading-spinner>
       <RequestsList
-        v-if="hasRequests"
+        v-if="hasRequests && !requestsLoading"
         :requests="receivedRequests"
       ></RequestsList>
-      <h3 v-if="!hasRequests">You haven't received any requests yet!</h3>
+      <h3 v-if="!hasRequests && !requestsLoading">You haven't received any requests yet!</h3>
     </base-card>
   </section>
 </template>
@@ -26,17 +32,26 @@ export default {
   data() {
     return {
       requests: [],
+      error: null,
     };
   },
 
   mounted() {
-    this.loadRequests();
-    // const requests = this.$store.getters["requests"];
-    // this.requests = requests;
+    this.loadRequests()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.error = err || "Something went wrong.";
+      });
   },
 
   methods: {
     ...mapActions(["loadRequests"]),
+    hideDialog() {
+      this.error = null;
+    },
   },
 
   computed: {
@@ -51,6 +66,7 @@ export default {
     requestsLoading() {
       return this.$store.getters["requestsLoading"];
     },
+
     // ...mapGetters("requests"),
   },
 };

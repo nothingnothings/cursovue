@@ -18,24 +18,30 @@ export default {
     //   .catch((error) => {
     //     console.log(error);
     //   });
+    const coachId = context.rootGetters.userId;
 
     context.state.requestsLoading = true;
-    const response = await axios.get(
-      'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
-    );
 
-    if (response.data) {
+    try {
+      const response = await axios.get(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json`
+      );
       const requests = [];
-      Object.keys(response.data).forEach((key) => {
-        requests.push(response.data[key]);
-      });
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          requests.push(response.data[key]);
+        });
 
-      context.commit('loadRequests', requests);
-    } else {
-      console.log('Oops, something went wrong.');
+        context.commit('loadRequests', requests);
+      } else {
+        console.log('No requests were found!');
+        context.commit('loadRequests', requests);
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to add request!');
     }
   },
-  createRequest(context, data) {
+  async createRequest(context, data) {
     const requestData = {
       id: new Date().toISOString() + Math.random().toString(),
       coachId: data.coachId,
@@ -43,16 +49,16 @@ export default {
       email: data.email,
     };
 
-    axios
-      .post(
-        'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json',
+    try {
+      const response = await axios.post(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json`,
         requestData
-      )
-      .then(() => {
-        context.commit('registerCoach', requestData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      );
+
+      console.log(response);
+      context.commit('registerCoach', requestData);
+    } catch (error) {
+      throw new Error(error.message || 'Failed to fetch requests!');
+    }
   },
 };
