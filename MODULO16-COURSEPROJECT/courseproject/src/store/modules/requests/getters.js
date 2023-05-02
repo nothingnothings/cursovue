@@ -19,7 +19,6 @@ export default {
   requests(state, otherGetters, rootState, rootGetters) {
     console.log(otherGetters, rootState);
     return state.requests.filter((request) => {
-      console.log(request, rootGetters.userId, 'STORE DOS GURI');
       return request.coachId === rootGetters.userId; //com isso, retrievamos APENAS OS REQUESTS ASSOCIADOS AO NOSSO USER (que é dummy, por enquanto)...
     });
   },
