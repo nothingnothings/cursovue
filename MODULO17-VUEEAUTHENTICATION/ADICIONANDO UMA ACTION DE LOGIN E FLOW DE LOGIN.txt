@@ -1,0 +1,364 @@
+
+
+
+
+
+
+
+
+
+OK, FIZEMOS O SIGNUP FUNCIONAR, E ELE REALMENTE CRIA CONTAS NO FIREBASE...
+
+
+
+
+
+
+
+
+AGORA É HORA DE FAZERMOS O LOGIN FUNCIONAR...
+
+
+
+
+
+
+
+
+
+
+
+
+COMECEI O CÓDIGO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+  async login(context, userData) {
+    const formData = {
+      ...userData,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signIn?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError = error.message || 'Failed to Authenticate.';
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  VAMOS COMMITAR A MESMA MUTATION, DE 'setUser',
+
+
+
+
+
+
+  A ÚNICA COISA QUE VAI MUDAR É A URL, O ENDPOINT QUE TARGETTAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> AGORA TEMOS QUE DISPATCHAR ESSA ACTION...
+
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+  
+  methods: {
+    ...mapActions(["signup", "login", "clearAuthError"]),
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        const loginFormData = {
+          email: this.email.val,
+          password: this.password.val,
+        };
+
+        this.login(loginFormData);
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        const signupFormData = {
+          email: this.email.val,
+          password: this.password.val,
+        };
+
+        this.signup(signupFormData);
+      }
+    },
+
+
+
+
+
+
+
+
+
+    PODEMOS REFATORAR ISSO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      methods: {
+    ...mapActions(["signup", "login", "clearAuthError"]),
+    submitForm() {
+      const formData = {
+        email: this.email.val,
+        password: this.password.val,
+      };
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+
+        this.login(formData);
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        this.signup(formData);
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS USAR ESSE EMAIL ADDRESS E O PASSWORD,
+
+
+
+OS VÁLIDOS,
+
+RECEBEMOS 1 VALID RESPONSE...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA CONSEGUI FAZER FUNCIONAR..
+
+
+
+
+
+
+FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  async login(context, userData) {
+    const formData = {
+      ...userData,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError = error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+  async signup(context, userData) {
+    const formData = {
+      ...userData,
+      returnSecureToken: true,
+    };
+
+    context.state.isLoading = true;
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.commit('signup', null);
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError = error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+OK.... COM ISSO, AGORA PODEMOS USAR ESSE TOKEN E O ANEXAR A OUTGOING REQUESTS,
+
+
+PARA QUE 
+
+
+CONSIGAMOS NOS REGISTRAR COMO COACHES,
+
+
+
+
+
+E TAMBÉM A LER MESSAGES ENVIADAS A NOSSOS COACHES...

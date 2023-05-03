@@ -1,6 +1,10 @@
 <template>
   <div>
-    <base-dialog :show="!!authError" title="An error occurred" @close="clearAuthError()">
+    <base-dialog
+      :show="!!authError"
+      title="An error occurred"
+      @close="clearAuthError()"
+    >
       <p>{{ authError }}</p>
       <loading-spinner
         v-if="authIsLoading"
@@ -67,29 +71,26 @@ export default {
   },
 
   methods: {
-    ...mapActions(["signup", "clearAuthError"]),
+    ...mapActions(["signup", "login", "clearAuthError"]),
     submitForm() {
+      const formData = {
+        email: this.email.val,
+        password: this.password.val,
+      };
       if (this.isLogin) {
         this.validateForm("login");
         if (!this.loginFormIsValid) {
           return;
         }
-        // const loginFormData = {
-        //   email: this.email.val,
-        //   password: this.password.val,
-        // };
+
+        this.login(formData);
       } else {
         this.validateForm("signup");
         if (!this.signupFormIsValid) {
           return;
         }
 
-        const signupFormData = {
-          email: this.email.val,
-          password: this.password.val,
-        };
-
-        this.signup(signupFormData);
+        this.signup(formData);
       }
     },
 
