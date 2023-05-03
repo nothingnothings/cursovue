@@ -15,4 +15,10 @@ export default {
   clearAuthError(state) {
     state.authError = null;
   },
+
+  // logout(state) {  ///basta usar o 'setUser' sem parâmetros, para isso, para conseguir o mesmo efeito...
+  //   state.token = null;
+  //   state.userId = null;
+  //   state.tokenExpiration = null;
+  // },
 };

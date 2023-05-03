@@ -1,0 +1,430 @@
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... PARA ADICIONAR A FUNCIONALIDADE DE LOGIN, PRECISAMOS DE OUTRO ITEM 
+
+
+NO HEADER...
+
+
+
+
+
+
+O QUE A AÇÃO DE LOGIN FARÁ, ESSENCIALMENTE, É LIMPAR TODOS OS 
+
+NEGÓCIOS DE AUTH, 
+
+LÁ 
+
+NO STATE DE 'auth'...
+
+
+
+
+
+
+
+
+--> SERÁ BASICAMENTE ISTO:
+
+
+
+
+
+
+
+
+
+<template>
+  <header>
+    <nav>
+      <h1><router-link to="/">Find a Coach</router-link></h1>
+      <ul>
+        <li v-for="link in links" :key="link.name">
+          <router-link :to="link.path">{{ link.name }}</router-link>
+        </li>
+        <li v-if="token">
+          <router-link to="/requests">Requests</router-link>
+        </li>
+        <li v-if="!token">
+          <router-link to="/auth">Auth</router-link>
+        </li>
+        <li v-if="token">
+          <base-button :mode="'outline flat'" style="color: white;" :link="false" @click="handleLogout()"
+            >Logout</base-button
+          >
+        </li>
+      </ul>
+    </nav>
+  </header>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  data() {
+    return {
+      links: [
+        {
+          path: "/coaches",
+          name: "All Coaches",
+        },
+        // {
+        //   path: "/requests",
+        //   name: "Requests",
+        // },
+      ],
+    };
+  },
+
+  computed: {
+    ...mapGetters(["token"]),
+  },
+
+  methods: {
+    ...mapActions(["logout"]),
+
+    handleLogout() {
+      this.logout();
+      this.$router.replace("/coaches");
+    },
+  },
+};
+</script>
+<style scoped>
+header {
+  width: 100%;
+  height: 5rem;
+  background-color: #3d008d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header a {
+  text-decoration: none;
+  color: #f391e3;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+}
+
+a:active,
+a:hover,
+a.router-link-active {
+  border: 1px solid #f391e3;
+}
+
+h1 {
+  margin: 0;
+}
+
+h1 a {
+  color: white;
+  margin: 0;
+}
+
+h1 a:hover,
+h1 a:active,
+h1 a.router-link-active {
+  border-color: transparent;
+}
+
+header nav {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  margin: 0 0.5rem;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ NA ACTION, TEMOS ISTO:
+
+
+
+
+
+
+
+
+
+  logout(context) {
+    context.commit('logout');
+  },
+
+
+
+
+
+
+
+
+
+
+
+  E ISTO:
+
+
+
+
+
+
+
+    logout(state) {
+    state.token = null;
+    state.userId = null;
+    state.tokenExpiration = null;
+  },
+
+
+
+
+
+
+
+
+  MAS O PROFESSOR OPTIMIZA O CÓDIGO...
+
+
+
+
+
+  ELE USA A ACTION DE 'setUser',
+
+  MAS 
+
+
+
+
+  PASSA O PARÂMETRO DE 
+
+
+
+  '{
+    token: null,
+    tokenExpiration: null,
+    userId: null
+  }'
+,
+
+
+
+PARA DEIXARMOS DE REUTILIZAR CÓDIGO..
+
+
+
+
+
+
+
+
+
+
+
+CERTO..
+
+FICA ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+export default {
+  async login(context, userData) {
+    const formData = {
+      ...userData,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+  async signup(context, userData) {
+    const formData = {
+      ...userData,
+      returnSecureToken: true,
+    };
+
+    context.state.isLoading = true;
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.commit('setUser');
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+      context.commit('setUser', null);
+    }
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
+  },
+
+  logout(context) {
+    context.commit('setUser');  //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+export default {
+  setUser(state, userData) {
+    if (userData) {
+      state.token = userData.token;
+      state.userId = userData.userId;
+      state.tokenExpiration = userData.tokenExpiration;
+    } else {
+      state.token = null;
+      state.userId = null;
+      state.tokenExpiration = null;
+    }
+    state.isLoading = false;
+  },
+
+  clearAuthError(state) {
+    state.authError = null;
+  },
+
+  // logout(state) {  ///basta usar o 'setUser' sem parâmetros, para isso, para conseguir o mesmo efeito...
+  //   state.token = null;
+  //   state.userId = null;
+  //   state.tokenExpiration = null;
+  // },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR FALA DO ROUTING E REDIRECTION, MAS EU JÁ FIZ ISSO,
+ 
+
+ COM 
+
+ 'this.$router.push()'
+
+
+ e 
+
+ 'this.$router.replace()'...

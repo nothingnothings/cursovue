@@ -409,3 +409,28 @@ AGORA O BUTTON DE 'REGISTER AS COACH' apenas aparece SE:
 2) não temos nenhum coach 
 
 vinculado a nós...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... AGORA SÓ RESTA ADICIONAR UMA FUNCTIONALITY DE LOGOUT...
+
+
+
+
+
+
+TAMBÉM UMA FUNCIONALIDADE DE 'LOCALSTORAGE', para armazenarmos essa JWT do firebase...

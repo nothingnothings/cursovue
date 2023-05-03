@@ -7,17 +7,22 @@
           <router-link :to="link.path">{{ link.name }}</router-link>
         </li>
         <li v-if="token">
-          <router-link  to="/requests">Requests</router-link>
+          <router-link to="/requests">Requests</router-link>
         </li>
         <li v-if="!token">
           <router-link to="/auth">Auth</router-link>
+        </li>
+        <li v-if="token">
+          <base-button :mode="'outline flat'" style="color: white;" :link="false" @click="handleLogout()"
+            >Logout</base-button
+          >
         </li>
       </ul>
     </nav>
   </header>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -37,6 +42,15 @@ export default {
 
   computed: {
     ...mapGetters(["token"]),
+  },
+
+  methods: {
+    ...mapActions(["logout"]),
+
+    handleLogout() {
+      this.logout();
+      this.$router.replace("/coaches");
+    },
   },
 };
 </script>

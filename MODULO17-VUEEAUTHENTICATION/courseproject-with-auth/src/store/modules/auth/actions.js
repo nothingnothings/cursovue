@@ -53,11 +53,12 @@ export default {
       if (response.data) {
         context.commit('setUser', stateData);
       } else {
-        context.commit('setUser', null);
+        context.commit('setUser');
       }
     } catch (error) {
       // throw new Error(error.message || 'Failed to Authenticate.');
-      context.state.authError = error.response.data.error.message || 'Failed to Authenticate.';
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
       context.commit('setUser', null);
     }
   },
@@ -65,5 +66,9 @@ export default {
   clearAuthError(context) {
     console.log('ENTERED');
     context.commit('clearAuthError');
+  },
+
+  logout(context) {
+    context.commit('setUser');  //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
   },
 };
