@@ -1,0 +1,576 @@
+
+JÁ ADICIONEI ALGUMAS NAV GUARDS,
+
+E ELAS FUNCIONARAM,
+
+
+FICARAM TIPO ASSIM (no contexto do ROUTER, antes de entrar nos components em si):
+
+
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import CoachesListPage from './pages/CoachesListPage.vue';
+import RequestsListPage from './pages/RequestsListPage.vue';
+import AuthPage from './pages/UserAuth.vue';
+import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
+import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
+import NotFound from './pages/NotFound.vue';
+import RegisterCoach from './pages/RegisterCoach.vue';
+import store from './store/store';
+
+const routes = [
+  {
+    path: '/',
+    redirect: '/coaches',
+  },
+  {
+    path: '/coaches',
+    component: CoachesListPage,
+  },
+  {
+    meta: {
+      authBlock: true,
+    },
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage,
+  },
+  {
+    name: 'coach-detail',
+    path: '/coaches/:id',
+    component: CoachDetail,
+    props: true, /// isso vai passar 'id', o value da url, COMO PROP, para dentro desse component 'Detail' (e isso é usado, mais tarde, para CARREGAR A DATA DE CADA COACH, dinamicamente)...
+    children: [
+      {
+        name: 'contact-coach',
+        path: 'contact',
+        component: ContactCoach,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    name: 'register-coach',
+    component: RegisterCoach,
+  },
+  {
+    meta: {
+      needsAuth: true,
+    },
+    path: '/requests',
+    component: RequestsListPage,
+  },
+  {
+    path: '/notFound(.*)',
+    component: NotFound,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  let isAuthenticated = store.getters.token;
+  if (to.meta.authBlock) {
+    if (isAuthenticated) {
+      return next('/coaches');
+    } else {
+      return next(true);
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/requests') {
+    if (isAuthenticated) {
+      return next(true);
+    } else {
+      return next('/coaches');
+    }
+  }
+
+  next(true);
+});
+export default router;
+
+
+
+
+
+
+
+
+
+
+--------------
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+O PROFESSOR COMEÇA A FALAR DE ROUTING...
+
+
+
+
+
+
+
+
+
+
+--> ELE FALA DO ROUTING DEPOIS DE FAZER LOGIN E LOGOUT...
+
+
+
+
+
+
+
+  FAZEMOS ISSO DENTRO DOS PRÓPRIOS COMPONENTS, 
+
+  EM VEZ DO STORE...
+
+
+
+
+
+
+  EU FIZ ALGO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+  
+  methods: {
+    ...mapActions(["logout"]),
+
+    handleLogout() {
+      this.logout();
+      this.$router.replace("/coaches");
+    },
+  },
+
+
+-----------------
+
+
+
+
+
+OOOOPS... PRECISAMOS DE UMA NAV GUARD PARA A ROUTE DE 'register',
+
+também....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A NAV GUARD FICARÁ ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { createRouter, createWebHistory } from 'vue-router';
+
+import CoachesListPage from './pages/CoachesListPage.vue';
+import RequestsListPage from './pages/RequestsListPage.vue';
+import AuthPage from './pages/UserAuth.vue';
+import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
+import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
+import NotFound from './pages/NotFound.vue';
+import RegisterCoach from './pages/RegisterCoach.vue';
+import store from './store/store';
+
+const routes = [
+  {
+    path: '/',
+    redirect: '/coaches',
+  },
+  {
+    path: '/coaches',
+    component: CoachesListPage,
+  },
+  {
+    meta: {
+      authBlock: true,
+    },
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage,
+  },
+  {
+    name: 'coach-detail',
+    path: '/coaches/:id',
+    component: CoachDetail,
+    props: true, /// isso vai passar 'id', o value da url, COMO PROP, para dentro desse component 'Detail' (e isso é usado, mais tarde, para CARREGAR A DATA DE CADA COACH, dinamicamente)...
+    children: [
+      {
+        name: 'contact-coach',
+        path: 'contact',
+        component: ContactCoach,
+      },
+    ],
+  },
+  {
+    meta: {
+      needsAuth: true,
+    },
+    path: '/register',
+    name: 'register-coach',
+    component: RegisterCoach,
+  },
+  {
+    meta: {
+      needsAuth: true,
+    },
+    path: '/requests',
+    component: RequestsListPage,
+  },
+  {
+    path: '/notFound(.*)',
+    component: NotFound,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  let isAuthenticated = store.getters.token;
+  let isCoach = store.getters.isCoach;
+  if (to.meta.authBlock && to.path === '/auth') {
+    if (isAuthenticated) {
+      return next('/coaches');
+    } else {
+      return next(true);
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/register') {
+    if (isAuthenticated && !isCoach) {
+      console.log(isAuthenticated, isCoach, 'PARAMS DOS GURI');
+      return next(true);
+    } else {
+      return next('/auth');
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/requests') {
+    if (isAuthenticated) {
+      return next(true);
+    } else {
+      return next('/coaches');
+    }
+  }
+
+  next(true);
+});
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+deu certo, aparentemente....
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR DIZ QUE USARÁ 1 APPROACH ELEGANTE 
+
+
+DE NAV GUARDS,
+
+QUE 
+
+AFETARÁ 
+
+APENAS 
+
+
+
+OS COMPONENTS/PAGES 
+
+
+DESEJADOS POR NÓS...
+
+
+
+
+ACHO QUE SERÁ O MESMO APPROACH QUE EU UTILIZEI...
+
+
+
+
+
+
+ 
+ O PROFESSOR REALMENTE USOU METADATA PARA __ 
+
+
+ PROTEGER AS ROUTES...
+
+
+
+
+
+
+
+
+
+
+
+
+ ---> AS ROUTES A SEREM PROTEGIDAS SÃO 'REGISTRATION', 'REQUESTS' 
+
+ E 
+
+ 'AUTH'...
+
+
+
+
+
+
+
+
+
+
+ -->  USAREMOS O META,
+
+ MESMA COISA QUE O PROFESSOR FEZ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> ele também colocou routes com 'meta: {
+    needsAuth: true
+ }' 
+
+
+
+
+
+
+
+
+
+
+ --> MAS NO OUTRO NEGÓCIO, ELE COLOCOU 
+
+ 'needsUnauth'...
+
+
+
+
+
+
+
+
+ PARA CONSEGUIR ACESSO AO STORE,
+
+ O PROFESSOR ESCREVEU ASSIM:
+
+
+
+
+
+
+
+
+
+
+ 'store.getters.key'...
+
+
+
+
+
+
+
+
+
+ --> TIPO O QUE EU FIZ, COM 
+
+
+
+
+ ''  let isAuthenticated = store.getters.token;
+  let isCoach = store.getters.isCoach;
+  ''
+
+
+
+
+
+
+
+
+  FICOU TIPO ASSIM:
+
+
+
+
+
+
+  router.beforeEach((to, from, next) => {
+  console.log(to);
+  let isAuthenticated = store.getters.token;
+  let isCoach = store.getters.isCoach;
+  if (to.meta.authBlock && to.path === '/auth') {
+    if (isAuthenticated) {
+      return next('/coaches');
+    } else {
+      return next(true);
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/register') {
+    if (isAuthenticated && !isCoach) {
+      console.log(isAuthenticated, isCoach, 'PARAMS DOS GURI');
+      return next(true);
+    } else {
+      return next('/auth');
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/requests') {
+    if (isAuthenticated) {
+      return next(true);
+    } else {
+      return next('/coaches');
+    }
+  }
+
+  next(true);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, FICAMOS COM UMA GLOBAL NAVIGATION GUARD,
+
+
+
+APLICADA SOMENTE ÀS ROUTES NECESSÁRIAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS AINDA PERDEMOS TODO O STATE 
+
+
+
+SE RECARREGAMOS A PAGE/DIGITAMOS ALGO NA URL E APERTAMOS ENTER (isso resetta o vue app)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS JÁ PERCEBEMOS QUE PARA O REGISTERING E OS REQUESTS SOMOS RE-DIRECTED (nossa lógica funciona como o desejado)...

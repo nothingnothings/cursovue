@@ -31,13 +31,14 @@
             >Register as Coach</base-button
           >
           <base-button :to="'/auth'" :link="true" v-if="!token"
-            >Create Account</base-button
+            >Login to Register as Coach</base-button
           >
         </div>
       </section>
 
       <section id="coaches">
         <loading-spinner v-if="coachesLoading"></loading-spinner>
+        <router-link to="/register">REGISTER LINK</router-link>
         <CoachesList
           :filteredCoaches="filteredCoaches"
           v-if="!coachesLoading"

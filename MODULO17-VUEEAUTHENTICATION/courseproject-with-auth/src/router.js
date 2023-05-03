@@ -40,6 +40,9 @@ const routes = [
     ],
   },
   {
+    meta: {
+      needsAuth: true,
+    },
     path: '/register',
     name: 'register-coach',
     component: RegisterCoach,
@@ -65,17 +68,25 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   console.log(to);
   let isAuthenticated = store.getters.token;
-  if (to.meta.authBlock) {
+  let isCoach = store.getters.isCoach;
+  if (to.meta.authBlock && to.path === '/auth') {
     if (isAuthenticated) {
       return next('/coaches');
     } else {
-      console.log('ENTROU DOS GURI 2');
       return next(true);
     }
   }
 
+  if (to.meta.needsAuth && to.path === '/register') {
+    if (isAuthenticated && !isCoach) {
+      console.log(isAuthenticated, isCoach, 'PARAMS DOS GURI');
+      return next(true);
+    } else {
+      return next('/auth');
+    }
+  }
+
   if (to.meta.needsAuth && to.path === '/requests') {
-    console.log('ENTROU DOS GURi');
     if (isAuthenticated) {
       return next(true);
     } else {
