@@ -6,8 +6,11 @@
         <li v-for="link in links" :key="link.name">
           <router-link :to="link.path">{{ link.name }}</router-link>
         </li>
-        <li>
-          <router-link v-if="!token" to="/auth">Auth</router-link>
+        <li v-if="token">
+          <router-link  to="/requests">Requests</router-link>
+        </li>
+        <li v-if="!token">
+          <router-link to="/auth">Auth</router-link>
         </li>
       </ul>
     </nav>
@@ -24,10 +27,10 @@ export default {
           path: "/coaches",
           name: "All Coaches",
         },
-        {
-          path: "/requests",
-          name: "Requests",
-        },
+        // {
+        //   path: "/requests",
+        //   name: "Requests",
+        // },
       ],
     };
   },
