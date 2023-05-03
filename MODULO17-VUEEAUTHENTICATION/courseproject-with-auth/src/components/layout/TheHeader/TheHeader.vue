@@ -49,7 +49,7 @@ export default {
 
     handleLogout() {
       this.logout();
-      this.$router.replace("/coaches");
+      this.$router.replace("/auth");
     },
   },
 };

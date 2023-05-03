@@ -11,9 +11,14 @@
 
 <script>
 // import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
 export default {
   name: "App",
+
+  created() {
+    this.tryAutoLogin(); //é o 'autoAuthAttempt' que já escrevi no react, praticamente...
+  },
   components: {
     TheHeader,
   },
@@ -23,6 +28,7 @@ export default {
   // },
   methods: {
     // ...mapActions(["loadCoaches"]),
+    ...mapActions(["tryAutoLogin"]),
   },
 };
 </script>

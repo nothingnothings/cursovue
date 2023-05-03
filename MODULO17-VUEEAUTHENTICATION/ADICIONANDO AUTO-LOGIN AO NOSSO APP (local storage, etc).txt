@@ -1,0 +1,1066 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... 
+
+
+
+
+
+IMPLEMENTAMOS AUTH GUARDS, SIM,
+
+
+MAS AGORA ESTAMOS COM 1 PROBLEMA... --> SEMPRE QUE INPUTTAMOS UMA 
+
+URL MANUALMENTE,
+
+PERDEMOS TODA A AUTH DATA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER, É CLARO,
+ 
+
+ QUE 
+
+ SE FAZEMOS LOGIN E ENTÃO RECARREGAMOS A PAGE,
+
+
+
+
+ PERDEMOS TODO O STATE DE LOGIN...
+
+
+
+
+
+
+
+
+
+ -> TODA A DATA QUE TÍNHAMOS NO VUEX STORE ANTES __ É PERDIDA --> É ASSIM QUE 
+
+
+ O BROWSER E O JAVASCRIPT FUNCIONAM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> MAS PODEMOS ADICIONAR DATA QUE SOBREVIVE A BROWSER RELOADS --> ESSA É A PRÓXIMA COISA QUE 
+
+ QUEREMOS FAZER,
+
+
+ GARANTIR QUE USERS CONSIGAM FICAR 'LOGGED IN'..
+
+
+
+
+
+
+
+
+
+
+
+
+ --> PARA ISSO, PRECISAMOS IR ATÉ A ACTION DE 'AUTH'
+
+
+ E REESTRUTURAR NOSSO CÓDIGO...
+
+
+
+
+
+
+
+ --> TEMOS AS ACTIONS DE LOGIN, SIGNUP E LOGOUT...
+
+
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR ADICIONA UMA 
+
+
+ NOVA ACTION, DE NOME 'auth()'...
+
+
+
+
+
+
+
+
+ -_> E O PROFESSOR VAI REFATORAR 
+
+
+AS OUTRAS ACTIONS,
+
+
+
+PARA EVITAR CODE DUPLICATION (pq 
+
+agora vamos adicionar ainda mais código, que  duplicaria o código antigo)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COLOQUEI 1 NOME DE 'autoAuth' 
+
+
+
+nessa action...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COPIAMOS E COLAMOS O CÓDIGO DE LOGIN DENTRO DA ACTION DE 'autoAuth':
+
+
+
+
+
+
+
+
+
+  autoAuth(context) { // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+
+
+    const formData = {
+      ...userData,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO... 
+
+
+  dentro de 'autoAuth',
+
+
+
+  DEVEMOS 
+
+
+
+
+
+
+  APENAS PEGAR 1 INFORMATION,
+  QUE 
+
+  SERÁ 
+
+  'mode' (que dirá se ESTAMOS NO MODO DE SIGNUP OU DE LOGIN)...
+
+
+
+
+
+
+
+
+  --> TIPO ALGO ASSIM:
+
+
+
+
+
+
+    autoAuth(context, isLoginMode) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!isLoginMode) { //signup url
+      url ='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  A IDEIA, AQUI, É QUE 
+
+
+  PODEMOS 
+
+  USAR O URL NA FUNCTION DE 'axios.post',
+
+  e aí o resto do código é o MESMO,
+   
+   POR ISSO NÃO PRECISAMOS DIFERENCIAR ENTRE 
+
+
+
+OS 2 METHODS (login e signup)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A ACTION DE LOGIN E A ACTION DE SIGNUP VÃO 
+
+
+
+FAZER COMMIT DA ACTION DE 'auth':
+
+
+
+
+
+  async login(context, userData) {
+    return context.dispatch('auth', {
+      isLogin: true,
+      formData: {
+        ...userData,
+      },
+  },)
+  }
+
+
+
+
+
+
+
+
+
+
+
+    async signup(context, userData) {
+    return context.dispatch('auth', {
+      isLogin: false,
+      formData: {
+        ...userData,
+      },
+    });
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+    async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    await axios.post(url, authData.formData);
+  },
+
+
+
+
+
+
+
+
+
+
+  OK... TAMBÉM VAMOS RETORNAR O 'context.dispatch()',
+
+
+
+  JUSTAMENTE PARA QUE ESSA PROMISE, QUE É RETORNADA PELO AUTH,
+
+  SEJA 
+  RETORNADA 
+
+
+
+
+  PELO 'login' e 'signup' (
+
+    para que nossos components 
+
+    entendam se 'ESTAMOS COM UMA RESPONSE DE SUCCESS, DE ERROR, ETC'...
+  )
+
+
+
+
+
+
+  COM ISSO,
+
+
+
+
+
+
+
+
+  FICOU ALGO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  import axios from 'axios';
+
+export default {
+  async login(context, userData) {
+    return context.dispatch('auth', {
+      isLogin: true,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  async signup(context, userData) {
+    return context.dispatch('auth', {
+      isLogin: false,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
+  },
+
+  logout(context) {
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+  async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    try {
+      const response = await axios.post(url, authData.formData);
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+};
+
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+
+
+
+MAS ISSO FOI APENAS UMA REFORMATADA DE CÓDIGO,
+
+
+
+
+não foi o auto-login...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR DIZ QUE FEZ ISSO PQ __ 
+VAMOS QUERER ARMAZENAR ESSA DATA TODA (
+    token, userId,
+
+    tokenExpiration,  etc,
+)
+
+
+
+
+
+
+__ NO VUEX, MAS TAMBÉM EM 1 STORAGE QUE 
+
+
+SOBREVIVE A 
+
+PAGE RELOADS --------> O EXEMPLO PERFEITO É A LOCAL STORAGE,
+
+QUE É UMA API DO BROWSER QUE PODE SER ACESSADA DENTRO 
+
+
+
+DO JAVASCRIPT...
+
+
+
+
+
+
+
+
+
+
+
+é por isso que, lá em 'auth',
+
+
+
+vamos rodar 
+
+
+
+'localStorage.setItem()'
+
+
+
+PARA ENTÃO ARMAZENAR O VALUE DESSAS KEYS, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    try {
+      const response = await axios.post(url, authData.formData);
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+
+        localStorage.setItem('userId', response.data.localId);
+        localStorage.setItem('token', response.data.idToken);
+
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+
+OK... E O PROFESSOR FAZ ISSO, NO CASO,
+
+PQ 
+
+
+
+
+VAMOS AGORA ADICIONAR 1 ACTION QUE VAI 
+
+FAZER 
+
+'CHECK' POR ESSA DATA -----> VAI CHECAR POR ESSA DATA 
+
+PRECISAMENTE QUANDO O APP INTEIRO INICIA --> E, SE ESSA DATA ESTIVER 
+
+DISPONÍVEL,
+
+
+NÓS AUTOMATICAMENTE LOGAMOS O USER PARA DENTRO...
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE VAMOS PRECISAR DE UMA ACTION DE NOME 
+
+'autoLogin',
+
+ou 
+
+'loginRefresh',
+
+
+
+
+ou algo assim...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+
+PODEMOS ADICIONAR UMA 
+
+NOVA 
+
+
+
+ACTION,
+
+
+'autoTryLogin()',
+
+
+
+
+
+
+EM QUE 
+
+
+
+
+
+
+FAZEMOS ISSO:
+
+CHECAMOS SE ESSA DATA EXISTE,
+
+ 
+
+E SE ELA EXISTE,
+
+SETTAMOS O USER..
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+      });
+    }
+  },
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+    tryAutoLogin(context) {
+    const token = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  DEFINIMOS O TOKEN  EXPIRATION COMO NULL, POR ENQUANTO, MAS LOGO MUDAREMOS ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  SE A TOKEN E O USERID NÃO FOREM OBTIDOS 
+
+
+
+
+  DO LOCALSTORAGE,
+
+
+
+
+  SIMPLESMENTE NADA ACONTECERÁ, COM ESSE METHOD...
+
+
+
+
+
+
+
+
+
+
+  --> O MELHOR LUGAR PARA FAZER 'AUTO-LOGIN'
+
+
+  É O 'App.vue',
+
+
+
+  NO HOOK DE 'CREATED'..
+
+
+
+
+
+  eX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+  <div>
+    <TheHeader></TheHeader>
+    <router-view v-slot="slotProps">
+      <transition name="router" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
+  </div>
+</template>
+
+<script>
+// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
+import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
+export default {
+  name: "App",
+
+  created() {
+    this.tryAutoLogin(); //é o 'autoAuthAttempt' que já escrevi no react, praticamente...
+  },
+  components: {
+    TheHeader,
+  },
+
+  // mounted() {
+  //   this.loadCoaches();
+  // },
+  methods: {
+    // ...mapActions(["loadCoaches"]),
+    ...mapActions(["tryAutoLogin"]),
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.router-enter-active,
+.router-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.router-enter-from,
+.router-leave-to {
+  opacity: 0;
+}
+
+.router-enter-to,
+.router-leave-from {
+  opacity: 1;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA VAMOS TESTAR...
+
+
+
+
+
+
+
+
+
+SE RECARREGAMOS, CONTINUAMOS NO MODO 'LOGGED IN'... --> SINAL QUE DEU CERTo...
+
+
+
+
+
+
+
+ok... tudo certo....
+
+
+
+
+
+
+PODEMOS ATÉ MESMO RECARREGAR A PAGE LÁ EM 'REQUESTS',
+
+QUE A PAGE E A TOOLBAR AUTENTICADA CONTINUA LÁ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... A ÚLTIMA COISA QUE NOS RESTA É FAZER O 'CLEAR' 
+
+DESSA DATA DO LOCAL STORAGE AO FAZER 'logout'..
+
+
+
+BASTA ESCREVER ASSIM:
+
+
+
+
+
+
+
+  logout(context) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... E ISSO FUNCIONOU...
+
+
+
+
+
+
+
+AGORA SÓ FALTA O 'LOGOUT AUTOMÁTICO QUANDO A TOKEN EXPIRAR' (pq a token TEM 1 TEMPO DE VIDA LIMITADO, DEVIDO A RAZÕES DE SEGURANÇA).
