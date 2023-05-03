@@ -21,16 +21,11 @@
           @blur="clearValidity('password')"
         />
       </div>
-      <p
-        v-if="
-          !loginFormIsValid &&
-          this.email.val.length > 0 &&
-          this.password.val.length > 0
-        "
-      >
+      <!-- <p v-if="!loginFormIsValid && (this.email.val || this.password.val)">
         Please enter a valid email and password (password must be at least 6
         characters long).
-      </p>
+      </p> -->
+
       <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
       <base-button> {{ submitButtonCaption }}</base-button>
       <base-button @click="switchAuth" mode="flat" :link="false"
@@ -40,6 +35,7 @@
   </base-card>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -58,6 +54,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(["signup"]),
     submitForm() {
       if (this.isLogin) {
         this.validateForm("login");
@@ -74,10 +71,12 @@ export default {
           return;
         }
 
-        // const signupFormData = {
-        //   email: this.email.val,
-        //   message: this.password.val,
-        // };
+        const signupFormData = {
+          email: this.email.val,
+          password: this.password.val,
+        };
+
+        this.signup(signupFormData);
       }
     },
 
