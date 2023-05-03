@@ -9,6 +9,8 @@ export default {
       returnSecureToken: true,
     };
 
+    context.state.isLoading = true;
+
     try {
       const response = await axios.post(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
@@ -27,7 +29,13 @@ export default {
         context.commit('signup', null);
       }
     } catch (error) {
-      throw new Error(error.message || 'Failed to Authenticate.');
+      // throw new Error(error.message || 'Failed to Authenticate.');
+      context.state.authError = error.message || 'Failed to Authenticate.';
     }
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
   },
 };

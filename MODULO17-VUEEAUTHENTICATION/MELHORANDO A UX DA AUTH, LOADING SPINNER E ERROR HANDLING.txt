@@ -1,0 +1,694 @@
+
+
+
+
+
+
+
+
+
+DEVEMOS TRABALHAR NO FEEDBACK PROVIDENCIADO AO USER...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COLOCAREMOS FEEDBACK DE AUTH,
+
+E TAMBÉM 
+
+
+MENSAGENS DE ERRO...
+
+
+
+
+
+
+
+
+
+
+
+--> PRECISAMOS DE 1 STATE DE 'LOADING' PARA 
+
+O AUTH..
+
+
+
+
+
+
+
+
+
+----> O PROFESSOR COLOCA 'isLoading' localmente no component de auth,
+
+em vez de usar o auth...
+
+
+
+
+
+
+
+MAS EU ACHO MELHOR USAR O STORE PARA GERENCIAR O LOADING...
+
+
+
+
+
+
+
+
+
+
+FICARIA TIPO ASSIM:
+
+
+
+
+
+
+  async signup(context, userData) {
+    const formData = {
+      ...userData,
+      returnSecureToken: true,
+    };
+
+    context.state.isLoading = true;
+
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4',
+        formData
+      );
+
+      const stateData = {
+        userId: response.data.localId,
+        token: response.data.idToken,
+        tokenExpiration: response.data.expiresIn,
+      };
+
+      if (response.data) {
+        context.commit('setUser', stateData);
+      } else {
+        context.commit('signup', null);
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to Authenticate.');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  E ASSIM:
+
+
+
+
+
+
+
+
+
+  export default {
+  setUser(state, userData) {
+    state.token = userData.token;
+    state.userId = userData.userId;
+    state.tokenExpiration = userData.tokenExpiration;
+    state.isLoading = false;
+  },
+};
+
+
+
+
+
+
+
+export default {
+  userId(state) {
+    return state.userId;
+  },
+
+  authIsLoading(state) {
+    return state.isLoading;
+  },
+};
+
+
+
+
+
+
+
+
+AGORA BASTA VINCULAR ESSA INFO 
+
+
+LÁ 
+
+
+
+NO 
+
+
+COMPONENT DE 'UserAuth'...
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <base-card>
+    <form @submit.prevent="submitForm()">
+      <div class="form-control">
+        <label for="email" :class="{ invalid: !email.isValid }">Email</label>
+        <input
+          type="email"
+          id="email"
+          v-model.trim="email.val"
+          @blur="clearValidity('email')"
+        />
+      </div>
+      <div class="form-control">
+        <label for="password" :class="{ invalid: !password.isValid }"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          v-model.trim="password.val"
+          @blur="clearValidity('password')"
+        />
+      </div>
+      <!-- <p v-if="!loginFormIsValid && (this.email.val || this.password.val)">
+        Please enter a valid email and password (password must be at least 6
+        characters long).
+      </p> -->
+
+      <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
+
+      <loading-spinner v-if="authIsLoading"></loading-spinner>
+      <base-button v-if="!authIsLoading"> {{ submitButtonCaption }}</base-button>
+      <base-button @click="switchAuth" mode="flat" :link="false"
+        >{{ authLinkCaption }} instead</base-button
+      >
+    </form>
+  </base-card>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginFormIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    ...mapActions(["signup"]),
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        // const loginFormData = {
+        //   email: this.email.val,
+        //   password: this.password.val,
+        // };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        const signupFormData = {
+          email: this.email.val,
+          password: this.password.val,
+        };
+
+        this.signup(signupFormData);
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "" || this.password.val.length < 6) {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["authIsLoading"]),
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+
+    submitButtonCaption() {
+      if (this.isLogin) {
+        return "Login";
+      } else {
+        return "Sign Up";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... AGORA BASTA TESTAR ESSE CÓDIGO...
+
+
+
+
+
+
+
+
+ok.... funcionou...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS VER A QUESTÃO DO ERROR HANDLING...
+
+
+
+
+
+
+
+PARA SETTAR O ERROR HANDLING, PRECISAMOS 
+
+
+
+
+DO COMPONENT 'BASE DIALOG'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... FUNCIONOU.
+
+
+
+
+
+
+
+
+
+
+
+
+
+FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <base-dialog :show="!!authError" title="An error occurred" @close="clearAuthError()">
+      <p>{{ authError }}</p>
+      <loading-spinner
+        v-if="authIsLoading"
+        title="Authenticating..."
+      ></loading-spinner
+    ></base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm()">
+        <div class="form-control">
+          <label for="email" :class="{ invalid: !email.isValid }">Email</label>
+          <input
+            type="email"
+            id="email"
+            v-model.trim="email.val"
+            @blur="clearValidity('email')"
+          />
+        </div>
+        <div class="form-control">
+          <label for="password" :class="{ invalid: !password.isValid }"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            v-model.trim="password.val"
+            @blur="clearValidity('password')"
+          />
+        </div>
+        <!-- <p v-if="!loginFormIsValid && (this.email.val || this.password.val)">
+        Please enter a valid email and password (password must be at least 6
+        characters long).
+      </p> -->
+
+        <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
+
+        <loading-spinner v-if="authIsLoading"></loading-spinner>
+        <base-button v-if="!authIsLoading">
+          {{ submitButtonCaption }}</base-button
+        >
+        <base-button @click="switchAuth" mode="flat" type="button" :link="false"
+          >{{ authLinkCaption }} instead</base-button
+        >
+      </form>
+    </base-card>
+  </div>
+</template>
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      email: {
+        val: "",
+        isValid: true,
+      },
+      password: {
+        val: "",
+        isValid: true,
+      },
+      loginFormIsValid: true,
+      signupFormIsValid: true,
+      isLogin: true,
+    };
+  },
+
+  methods: {
+    ...mapActions(["signup", "clearAuthError"]),
+    submitForm() {
+      if (this.isLogin) {
+        this.validateForm("login");
+        if (!this.loginFormIsValid) {
+          return;
+        }
+        // const loginFormData = {
+        //   email: this.email.val,
+        //   password: this.password.val,
+        // };
+      } else {
+        this.validateForm("signup");
+        if (!this.signupFormIsValid) {
+          return;
+        }
+
+        const signupFormData = {
+          email: this.email.val,
+          password: this.password.val,
+        };
+
+        this.signup(signupFormData);
+      }
+    },
+
+    switchAuth() {
+      this.isLogin = !this.isLogin;
+    },
+
+    validateForm(mode) {
+      this.formIsValid = true;
+      if (mode === "login") {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "" || this.password.val.length < 6) {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      } else {
+        if (this.email.val === "" || !this.email.val.includes("@")) {
+          this.email.isValid = false;
+          this.loginFormIsValid = false;
+        }
+
+        if (this.password.val === "") {
+          this.password.isValid = false;
+          this.loginFormIsValid = false;
+        }
+      }
+    },
+
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+  },
+
+  computed: {
+    ...mapGetters(["authIsLoading", "authError"]),
+    authLinkCaption() {
+      if (this.isLogin) {
+        return "Sign Up";
+      } else {
+        return "Log In";
+      }
+    },
+
+    submitButtonCaption() {
+      if (this.isLogin) {
+        return "Login";
+      } else {
+        return "Sign Up";
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+form {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  margin: 0.5rem 0;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.15rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3d008d;
+  background-color: #faf6ff;
+  outline: none;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------
+
+
+
+->> TAMBÉM SERIA LEGAL REDIRECIONAR O USER, A PARTIR DO LOGIN,
+ 
+ MAS 
+
+AGORA É HORA DE TRABALHARMOS NO LOGIN...
+
+
+
+
+
+
+PRECISAMOS CONSEGUIR FAZER LOGIN DO USER, E ENTÃO PRECISAMOS CONSEGUIR 
+
+
+USAR A TOKEN DO USER..
+
+
+
+

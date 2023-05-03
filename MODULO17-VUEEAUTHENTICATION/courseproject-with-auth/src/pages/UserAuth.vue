@@ -1,41 +1,54 @@
 <template>
-  <base-card>
-    <form @submit.prevent="submitForm()">
-      <div class="form-control">
-        <label for="email" :class="{ invalid: !email.isValid }">Email</label>
-        <input
-          type="email"
-          id="email"
-          v-model.trim="email.val"
-          @blur="clearValidity('email')"
-        />
-      </div>
-      <div class="form-control">
-        <label for="password" :class="{ invalid: !password.isValid }"
-          >Password</label
-        >
-        <input
-          type="password"
-          id="password"
-          v-model.trim="password.val"
-          @blur="clearValidity('password')"
-        />
-      </div>
-      <!-- <p v-if="!loginFormIsValid && (this.email.val || this.password.val)">
+  <div>
+    <base-dialog :show="!!authError" title="An error occurred" @close="clearAuthError()">
+      <p>{{ authError }}</p>
+      <loading-spinner
+        v-if="authIsLoading"
+        title="Authenticating..."
+      ></loading-spinner
+    ></base-dialog>
+    <base-card>
+      <form @submit.prevent="submitForm()">
+        <div class="form-control">
+          <label for="email" :class="{ invalid: !email.isValid }">Email</label>
+          <input
+            type="email"
+            id="email"
+            v-model.trim="email.val"
+            @blur="clearValidity('email')"
+          />
+        </div>
+        <div class="form-control">
+          <label for="password" :class="{ invalid: !password.isValid }"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            v-model.trim="password.val"
+            @blur="clearValidity('password')"
+          />
+        </div>
+        <!-- <p v-if="!loginFormIsValid && (this.email.val || this.password.val)">
         Please enter a valid email and password (password must be at least 6
         characters long).
       </p> -->
 
-      <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
-      <base-button> {{ submitButtonCaption }}</base-button>
-      <base-button @click="switchAuth" mode="flat" :link="false"
-        >{{ authLinkCaption }} instead</base-button
-      >
-    </form>
-  </base-card>
+        <p v-if="!signupFormIsValid">Please enter a valid xxxx</p>
+
+        <loading-spinner v-if="authIsLoading"></loading-spinner>
+        <base-button v-if="!authIsLoading">
+          {{ submitButtonCaption }}</base-button
+        >
+        <base-button @click="switchAuth" mode="flat" type="button" :link="false"
+          >{{ authLinkCaption }} instead</base-button
+        >
+      </form>
+    </base-card>
+  </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -54,7 +67,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["signup"]),
+    ...mapActions(["signup", "clearAuthError"]),
     submitForm() {
       if (this.isLogin) {
         this.validateForm("login");
@@ -115,6 +128,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(["authIsLoading", "authError"]),
     authLinkCaption() {
       if (this.isLogin) {
         return "Sign Up";

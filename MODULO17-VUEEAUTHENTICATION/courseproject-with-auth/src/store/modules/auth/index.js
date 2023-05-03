@@ -8,6 +8,8 @@ export default {
       userId: null,
       tokenExpiration: null,
       token: null,
+      authIsLoading: false,
+      authError: null,
     };
   },
 
