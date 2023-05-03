@@ -1,0 +1,389 @@
+
+
+
+
+
+PARA CONSEGUIRMOS USAR AQUELA 'ENTERED DATA'
+
+
+
+E CONSEGUIRMOS 
+
+
+FAZER O CREATE DE 1 USER 
+
+NO FIREBASE 
+
+
+
+
+PARA CONSEGUIR A TOKEN,
+
+
+
+
+
+
+
+
+PRECISAMOS IR ATÉ O CONSOLE DO FIREBASE,
+
+E AÍ 
+
+
+SETTAR O 'AUTHENTICATION'...
+
+
+
+
+
+
+
+
+NA PARTE 
+
+
+
+
+
+
+
+DE 'SIGN-IN METHOD',
+
+DEVEMOS COLOCAR 'EMAIL AND PASSWORD'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, O FIREBASE VAI SUPORTAR O CREATE DE USERS COM EMAIL E PASSWORD...
+
+
+
+
+
+
+
+
+TEMOS OS DOCS DO FIREBASE...
+
+
+
+
+
+
+
+
+
+ELES NOS MOSTRAM COMO PODEMOS CREATE USERS E SIGN ELES IN...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> os endpoints a que 
+
+vamos querer 
+
+
+ENVIAR 
+
+
+
+
+
+
+
+
+NOSSAS CREDENCIAIS, PARA CRIAR 1 USER 
+
+OU LOG ELE IN,
+
+
+
+
+
+
+SÃO ESTES:
+
+
+
+
+
+https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=[API_KEY]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->  OK... VAMOS ENVIAR REQUESTS, DE DENTRO DE NOSSO VUE APP,
+
+
+
+
+
+A ESSE ENDPOINT...
+
+
+
+
+
+
+
+
+
+
+
+MAS ANTES DISSO,
+
+
+VAMOS QUERER 
+
+
+ESCREVER CÓDIGO PARA FAZER SEND 
+
+
+
+DESSA DATA...
+
+
+
+
+
+
+
+
+
+
+-> VAMOS QUERER DISPARAR 1 REQUEST CONTRA ESSA API LÁ DE DENTRO DO VUEX,
+
+
+PQ É JUSTAMENTE DENTRO DO VUEX QUE 
+
+
+VAMOS 
+
+ARMAZENAR A DATA SE O USER ESTÁ LOGGED IN OU NÃO.. ( a token)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+O 'LOGIN MODE' VAI INFLUENCIAR O QUE 
+
+VEREMOS NA TELA, E A NAVIGATION,
+
+
+
+POR ISSO PRECISAMOS 
+
+
+
+
+
+DESSA TOKEN ARMAZENADA 
+
+
+COMO 'APP-WIDE STATE'..
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+PODEMOS CRIAR 1 NOVO MODULE, MODULE DE  'AUTH'...
+
+
+
+
+
+
+
+
+
+O PROFESSOR VAI QUERER USAR 1 MODULE SEPARADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... CRIEI O MODULE...
+
+
+
+
+
+
+
+
+
+O PROFESSOR DIZ QUE NÃO VAI FAZER 'NAMESPACE' 
+
+
+
+
+do module...
+
+
+
+
+
+
+
+
+
+MOVEMOS O STATE DE 'userId'
+
+e o getter de 'userId'
+
+LÁ 
+
+PARA 
+
+OS GETTERS/STATE DO AUTH,
+
+
+
+PQ É MAIS APROPRIADO...
+
+
+
+
+
+
+
+
+
+CERTO... FIZ ISSO... FICOU ASSIM:
+
+
+
+
+
+
+
+import authActions from './actions';
+import authGetters from './getters';
+import authMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      userId: null,
+      authToken: null,
+    };
+  },
+
+  actions: authActions,
+  getters: authGetters,
+  mutations: authMutations,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+ COM ISSO, AGORA ESTAMOS USANDO O MODULE DE 'AUTH'...
+
+
+
+
+
+
+
+
+
+
+
+ AGORA QUEREMOS DEFINIR ACTIONS PARA O LOGIN E SIGNUP,
+ E TAMBÉM 
+ MUTATIONS,
+
+ QUE SERÃO COMMITADAS ASSIM QUE ISSO DER SUCCESS....
