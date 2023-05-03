@@ -19,12 +19,14 @@ export default {
     //     console.log(error);
     //   });
     const coachId = context.rootGetters.userId;
+    const token = context.rootGetters.token; // extraído do module de 'auth'....
 
+    console.log(token, coachId, 'TOKEN DOS GURI');
     context.state.requestsLoading = true;
 
     try {
       const response = await axios.get(
-        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json`
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json?auth=${token}`
       );
       const requests = [];
       if (response.data) {
@@ -38,7 +40,7 @@ export default {
         context.commit('loadRequests', requests);
       }
     } catch (error) {
-      throw new Error(error.message || 'Failed to add request!');
+      throw new Error(error.error || 'Failed to load requests!');
     }
   },
   async createRequest(context, data) {
@@ -49,16 +51,19 @@ export default {
       email: data.email,
     };
 
+    const token = context.rootGetters.token;
+
+    console.log(token, data.coachId, 'TOKEN DOS GURI');
     try {
       const response = await axios.post(
-        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json`,
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${data.coachId}.json?`,
         requestData
       );
 
       console.log(response);
       context.commit('registerCoach', requestData);
     } catch (error) {
-      throw new Error(error.message || 'Failed to fetch requests!');
+      throw new Error(error.error || 'Failed to add request!');
     }
   },
 };

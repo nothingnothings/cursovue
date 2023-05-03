@@ -1,16 +1,21 @@
 <template>
-    <header>
-  <nav>
-    <h1><router-link to="/">Find a Coach</router-link></h1>
-    <ul>
-      <li v-for="link in links" :key="link.name">
-        <router-link :to="link.path">{{ link.name }}</router-link>
-      </li>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <nav>
+      <h1><router-link to="/">Find a Coach</router-link></h1>
+      <ul>
+        <li v-for="link in links" :key="link.name">
+          <router-link :to="link.path">{{ link.name }}</router-link>
+        </li>
+        <li>
+          <router-link v-if="!token" to="/auth">Auth</router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -25,6 +30,10 @@ export default {
         },
       ],
     };
+  },
+
+  computed: {
+    ...mapGetters(["token"]),
   },
 };
 </script>

@@ -7,6 +7,7 @@ import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
 import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
 import NotFound from './pages/NotFound.vue';
 import RegisterCoach from './pages/RegisterCoach.vue';
+import store from './store/store';
 
 const routes = [
   {
@@ -18,8 +19,8 @@ const routes = [
     component: CoachesListPage,
   },
   {
-    beforeEnter: (from, to, next) => {
-      next(true);
+    meta: {
+      authBlock: true,
     },
     path: '/auth',
     name: 'auth',
@@ -58,4 +59,17 @@ const router = createRouter({
   routes: routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.authBlock) {
+    let isAuthenticated = store.getters.token;
+    if (isAuthenticated) {
+      next('/coaches');
+    } else {
+      console.log('ENTROU DOS GURI 2');
+      next(true);
+    }
+  } else {
+    next(true);
+  }
+});
 export default router;

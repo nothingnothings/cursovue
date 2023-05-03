@@ -10,4 +10,8 @@ export default {
   authError(state) {
     return state.authError;
   },
+
+  token(state) {
+    return state.token;
+  },
 };

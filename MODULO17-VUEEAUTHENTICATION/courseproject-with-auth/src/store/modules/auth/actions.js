@@ -25,7 +25,8 @@ export default {
       }
     } catch (error) {
       // throw new Error(error.message || 'Failed to Authenticate.');
-      context.state.authError = error.response.data.error.message || 'Failed to Authenticate.';
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
     }
   },
 
@@ -52,11 +53,12 @@ export default {
       if (response.data) {
         context.commit('setUser', stateData);
       } else {
-        context.commit('signup', null);
+        context.commit('setUser', null);
       }
     } catch (error) {
       // throw new Error(error.message || 'Failed to Authenticate.');
       context.state.authError = error.response.data.error.message || 'Failed to Authenticate.';
+      context.commit('setUser', null);
     }
   },
 

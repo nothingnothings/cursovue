@@ -2,7 +2,10 @@
   <div>
     <!-- <section id="coaches-filter">FILTER</section> -->
     <!-- SERÁ RENDERIZADO ESSE DIALOG EM CASOS DE ERROR NO FETCH DE COACHES... -->
-    <base-dialog :show="!!error" title="An error occurred!" @close="hideDialog()"
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="hideDialog()"
       ><p>{{ error }}</p></base-dialog
     >
     <CoachFilter
@@ -66,9 +69,7 @@ export default {
 
   created() {
     this.loadCoaches(false)
-      .then((res) => {
-        console.log(res);
-      })
+      .then(() => {})
       .catch((err) => {
         //o throw de error, lá no 'loadCoaches', vai ser CAPTURADO aqui, para que então aconteça o error handling LOCAL...
         console.log(err);
@@ -114,10 +115,6 @@ export default {
     },
 
     coachesLoading() {
-      console.log(
-        this.$store.getters["coachesAreLoading"],
-        "LOADINGSTATE DOS GURi"
-      );
       return this.$store.getters["coachesAreLoading"];
     },
   },

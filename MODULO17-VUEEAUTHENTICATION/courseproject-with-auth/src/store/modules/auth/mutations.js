@@ -1,8 +1,14 @@
 export default {
   setUser(state, userData) {
-    state.token = userData.token;
-    state.userId = userData.userId;
-    state.tokenExpiration = userData.tokenExpiration;
+    if (userData) {
+      state.token = userData.token;
+      state.userId = userData.userId;
+      state.tokenExpiration = userData.tokenExpiration;
+    } else {
+      state.token = null;
+      state.userId = null;
+      state.tokenExpiration = null;
+    }
     state.isLoading = false;
   },
 

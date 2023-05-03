@@ -83,7 +83,9 @@ export default {
           return;
         }
 
-        this.login(formData);
+        this.login(formData).then(() => {
+          this.$router.replace("/coaches");
+        });
       } else {
         this.validateForm("signup");
         if (!this.signupFormIsValid) {

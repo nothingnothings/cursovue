@@ -1,0 +1,767 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... GRAÇAS A NOSSA MUTATION,
+
+JÁ CONSEGUIMOS ARMAZENAR NOSSA TOKEN DE USER LÁ NO VUEX (
+    o token fica no state de nosso app...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO JÁ TEMOS ESSA TOKEN ARMAZENADA NO VUEX,
+
+
+
+JÁ É POSSÍVEL A UTILIZAR 
+
+
+
+
+EM QUALQUER 
+
+
+
+
+LUGAR DE NOSSO APP,
+
+
+
+
+
+
+EM QUALQUER TIPO DE REQUEST,
+
+
+
+OUTGOING REQUESTS,
+
+
+
+
+
+
+
+PARA QUE 
+
+ELES TARGETTEM 
+
+
+
+
+
+RECURSOS DO FIREBASE EQUE ESTEJAM PROTEGIDOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO VAMOS USAR ESSE TOKEN,
+
+PRECISAMOS DEFINIR UNS GETTERS PARA ELE....
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+export default {
+  userId(state) {
+    return state.userId;
+  },
+
+  authIsLoading(state) {
+    return state.isLoading;
+  },
+
+  authError(state) {
+    return state.authError;
+  },
+
+  token(state) {
+    return state.token;
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O GETTER DE 'token' VAI SIMPLESMENTE RETORNAR O NOSSO TOKEN...
+
+
+
+
+
+
+
+
+
+
+--> AÍ VAMOS COLOCAR ESSE TOKEN EM OUTROS MODULES,
+
+
+
+
+EM TODOS OS METHODS EM QUE DISPARAMOS REQUESTS 
+
+A URLS PROTEGIDAS...
+
+
+
+
+
+
+
+
+
+
+--> LÁ EM 'COACHES', POR EXEMPLO,
+
+VAMOS COLOCAR ISSO EM 'REGISTER AS A COACH'..
+
+
+
+
+
+
+
+
+
+
+
+
+COMEÇAMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+  async registerCoach(context, coachData) {
+    const token = context.getters.token; // É ASSIM QUE GANHAMOS ACESSO AO TOKEN DE NOSSO USER, SE ELE TIVER FEITO LOGIN NO NOSSO APP (feito login no firebase, e retrievado 1 token, que agora fica armazenado no state do vuex)...
+    const userId = context.rootGetters.userId;
+    const formattedCoachData = {
+      firstName: coachData.first,
+      lastName: coachData.last,
+      description: coachData.desc,
+      hourlyRate: coachData.rate,
+      areas: coachData.areas,
+      // id: new Date().toISOString() + coachData.first,
+      // id: context.rootGetters.userId,
+    };
+
+    const response = await axios.put(
+      `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+      formattedCoachData
+    );
+    if (!response.ok) {
+      console.log('Oops, something went wrong...');
+    } else {
+      context.commit('registerCoach', {
+        ...coachData,
+        id: userId,
+      });
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
+
+
+
+
+
+
+
+
+
+  MAS AGORA PRECISAMOS COLOCAR 1 QUERY PARAM NA URL DO 
+
+  FIREBASE,
+
+  que será 
+
+  '?auth=[SUA_TOKEN]'...
+
+
+
+
+
+
+
+  TIPO ASSIM:
+
+
+
+
+
+      const response = await axios.put(
+      `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=${token}`,
+      formattedCoachData
+    );
+
+
+
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+context.getters.token --> ISSO NOS DÁ A TOKEN NECESSÁRIA, AQUI...
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO, O REGISTER DEVE SER POSSÍVEL...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OUTRA PARTE DO APP QUE REQUER A TOKEN É 'loadRequests', 
+
+lá em 'requests'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  async loadRequests(context) {
+    // axios
+    //   .get(
+    //     'https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests.json'
+    //   )
+    //   .then((res) => {
+    //     const requests = [];
+    //     Object.keys(res.data).forEach((key) => {
+    //       requests.push(res.data[key]);
+    //     });
+
+    //     console.log(requests);
+    //     context.commit('loadRequests', requests);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    const coachId = context.rootGetters.userId;
+    const token = context.getters.token; // extraído do module de 'auth'....
+
+    context.state.requestsLoading = true;
+
+    try {
+      const response = await axios.get(
+        `https://vue-coach-project-3c587-default-rtdb.firebaseio.com/requests/${coachId}.json?auth=${token}`
+      );
+      const requests = [];
+      if (response.data) {
+        Object.keys(response.data).forEach((key) => {
+          requests.push(response.data[key]);
+        });
+
+        context.commit('loadRequests', requests);
+      } else {
+        console.log('No requests were found!');
+        context.commit('loadRequests', requests);
+      }
+    } catch (error) {
+      throw new Error(error.message || 'Failed to add request!');
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
+
+
+
+
+
+
+  MAS O PROFESSOR ERROU, O CORRETO É 'rootGetters', e não 'getters'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK.... AGORA DEVEMOS TESTAR ISSO....
+
+
+
+
+
+
+
+
+
+
+  DEVEMOS LOGGAR, E ENTÃO TENTAR ENTRAR NO REQUESTS..
+
+
+
+
+
+
+
+  --> NÃO VAMOS GANHAR 1 ERROR, PQ ESTAREMOS LOGGADOS...
+
+
+
+
+  --> E AGORA PODEREMOS APERTAR 'REGISTER AS COACH',
+
+
+
+
+
+  PQ AGORA ESTAREMOS LOGGADOS NA PLATAFORMA...
+
+
+
+
+
+
+
+
+
+
+
+  ok... mas eu ganhei um error... 'permission denied'...
+
+
+
+
+
+  ok... ferre-se... o aplicativo funcionou, é apenas o firebase que é uma droga...
+
+
+  deixarei as permissões como 'true', tanto para read como write (sem 'auth != null'),
+
+
+
+
+  PQ 
+
+
+  O MECANISMO DE AUTH DO FIREBASE NÃO ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> O PROFESSOR AGORA QUER TRABALHAR NA UI UM POUCO...
+
+
+
+
+
+
+
+
+
+  -> EU JÁ COLOQUEI UM BUTTON DE LOGIN NA PLATAFORMA,
+
+
+
+
+  MAS O PROFESSOR QUER COLOCAR MAIS 1 BUTTON 
+
+
+
+
+
+  DE LOGIN (no lugar de 'register', para casos em que o USER NÃO ESTÁ REGISTRADO COMO COACH)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
+
+
+
+
+
+
+
+  ISSO QUER DIZER QUE, CASO O USER NÃO ESTEJA 'LOGGED IN' (ou seja,
+  
+  o token está como NULL),
+
+
+
+
+
+  vamos querer ter 'login' 
+
+
+
+
+  naquele espaço...
+
+
+
+
+  (também só deverá aparecer 'register' se o USER: 
+  
+  
+  1) ESTIVER LOGGADO 
+  
+  
+  2) EXISTIR COMO COACH, LÁ NA KEY DE 'COACHES', no firebase)..
+
+
+
+
+
+
+
+
+
+
+  vou tentar fazer isso sozinho...
+
+
+
+
+
+
+
+  --> TAMBÉM PRECISAMOS 
+
+
+
+
+  COLOCAR 1 GUARD NA NAVEGAÇÃO, PARA IMPEDIR O USER DE ENTRAR 
+
+
+  NO LINK DE 'AUTH'
+
+  se ele 
+
+  JÁ ESTIVER LOGGED In... (tiver 1 token...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+  CONSEGUI COLOCAR 1 AUTH GUARD...
+
+
+
+
+
+  FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+  import { createRouter, createWebHistory } from 'vue-router';
+
+import CoachesListPage from './pages/CoachesListPage.vue';
+import RequestsListPage from './pages/RequestsListPage.vue';
+import AuthPage from './pages/UserAuth.vue';
+import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
+import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
+import NotFound from './pages/NotFound.vue';
+import RegisterCoach from './pages/RegisterCoach.vue';
+import store from './store/store';
+
+const routes = [
+  {
+    path: '/',
+    redirect: '/coaches',
+  },
+  {
+    path: '/coaches',
+    component: CoachesListPage,
+  },
+  {
+    meta: {
+      authBlock: true,
+    },
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage,
+  },
+  {
+    name: 'coach-detail',
+    path: '/coaches/:id',
+    component: CoachDetail,
+    props: true, /// isso vai passar 'id', o value da url, COMO PROP, para dentro desse component 'Detail' (e isso é usado, mais tarde, para CARREGAR A DATA DE CADA COACH, dinamicamente)...
+    children: [
+      {
+        name: 'contact-coach',
+        path: 'contact',
+        component: ContactCoach,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    name: 'register-coach',
+    component: RegisterCoach,
+  },
+  {
+    path: '/requests',
+    component: RequestsListPage,
+  },
+  {
+    path: '/notFound(.*)',
+    component: NotFound,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.authBlock) {
+    let isAuthenticated = store.getters.token;
+    if (isAuthenticated) {
+      next('/coaches');
+    } else {
+      console.log('ENTROU DOS GURI 2');
+      next(true);
+    }
+  } else {
+    next(true);
+  }
+});
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+AGORA O QUE ME RESTA FAZER É ___ ARMAZENAR A TOKEN DO FIREBASE __ NO BROWSER DO USER, 
+
+
+PARA 
+
+
+
+QUE 
+
+
+SUA AUTENTICAÇÃO NÃO SE PERCA QUANDO ELE RECARREGAR A PÁGINA..
+
+
+
+
+
+
+
+DEVO ASSISTIR A AULA DO PROFESSOR PARA VER QUANDO ISSO DEVE SER FEITO (
+
+
+
+    call de 'localStorage.setItem()' + alguma coisa como um method de 'autoLogin()'...
+)

@@ -5,9 +5,7 @@
 </template>
 <script>
 export default {
-  created() {
-    console.log("CREATED DOS GURI");
-  },
+  created() {},
 };
 </script>
 <style scoped>
