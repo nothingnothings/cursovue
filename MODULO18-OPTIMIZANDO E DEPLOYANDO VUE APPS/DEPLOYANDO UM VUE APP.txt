@@ -1,0 +1,532 @@
+
+
+
+
+
+
+
+
+
+
+
+OK.. AGORA QUE TEMOS ARQUIVOS DE BUILD NA PASTA DE 'dist',
+
+
+
+
+DEVEMOS 
+
+
+FAZER 
+
+DEPLOY DE NOSSO VUE APP...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VAMOS DEPLOYAR O APP POR MEIO DO FIREBASE,
+
+
+PQ JÁ USAMOS ISSO 
+
+
+
+EM PARTES ANTERIORES DO APP.....
+
+
+
+
+
+
+
+
+
+
+
+--> PROVAVELMENTE JÁ TEMOS 
+
+1 PROJETO FIREBASE,
+
+
+
+
+
+POR ISSO O HOSTING SERÁ FÁCIL DE SETTAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CLIQUE EM 'HOSTING', NO FIREBASE,
+
+
+
+E AÍ CLICAMOS EM 'GET STARTED' ---> 
+
+
+
+
+
+
+
+
+
+
+PRIMEIRAMENTE, PRECISAMOS INSTALAR UMA TOOL EXTRA,
+
+QUE É O FIREBASE TOOLS...
+
+
+
+
+
+
+OK... INSTALAMOS O FIREBASE-TOOLS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ISSO VAI INSTALAR UMA TOOL EXTRA 
+
+
+
+,
+
+FORNECIDA PELO FIREBASE...
+
+
+
+
+
+
+VAMOS USAR ESSA TOOL PARA UPLOADAR NOSSO PROJECT...
+
+
+
+
+
+
+
+
+
+
+
+--> ASSIM QUE ACABAR,
+
+VAMOS PARA A PRÓXIMA ETAPA...
+
+
+
+
+
+
+
+
+
+-->vamos escrever 'firebase login',
+
+PARA 
+
+LOGGAR NA NOSSA CONTA 
+
+DO 
+
+
+FIREBASE...
+
+
+
+
+
+
+
+
+
+
+
+--> colocamos o email e o password do gmail/firebase, etc..
+
+
+
+
+
+
+
+
+
+--> ISSO FEITO, VAMOS RODAR 'firebase init'... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+aí, no seu 'PROJECT FOLDER',
+
+
+
+do seu project mesmo,
+
+
+
+
+
+
+VC VAI RODAR 'firebase init'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... VAMOS ATÉ O FOLDER DE 'dist'...
+
+
+
+
+
+
+
+ISSO FEITO,
+
+O FIREBASE VAI TE PERGUNTAR SOBRE 
+
+o que vc  quer fazer...
+
+
+
+
+
+
+
+
+
+
+----> marcamos a opção de 'hosting' ---> 
+
+
+
+
+
+
+
+ELE VAI TE PERGUNTAR SE VC QUER HOSTEAR ISSO 
+
+
+EM 1 'EXISTING FIREBASE PROJECT',
+
+OU CRIAR 1 NOVO ...
+
+
+
+
+
+
+
+
+
+
+--> VAMOS USAR 1 QUE JÁ EXISTE...
+
+
+
+
+
+
+
+
+
+MAS GANHAMOS 1 ERROR...
+
+
+
+
+rodei isto: firebase login --reauth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O NEGÓCIO PERGUNTA 'CONFIGURAR SEU APP COMO 1 SINGLE PAGE APP? (REWRITE ALL URLS TO INDEX.HTML)`...
+
+
+
+
+--> coloque 'sim'... --> PQ O VUE-ROUTER NÃO É RODADO NO SERVER, É RODADO LÁ NO BROWSER... (E essa é uma config que deve ser FORÇADA em servers de verdade, pq não é o default...)
+
+
+
+
+--> então ele nos pergunta SE QUEREMOS 'SET UP AUTOMATIC BUILDS AND DEPLOYS WITH GITHUB' --> colocamos não, mas no futuro colocaremos 'sim', 
+
+
+pq queremos ver a integração do firebase com o github actions...
+
+
+
+
+
+
+
+
+--> ELE TAMBEM NOS PERGUNTA SE QUEREMOS 'OVERWRITTAR O ARQUIVO INDEX.HTML' --> colocamos que não, pq queremos o manter...
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, O PROFESSOR NOS INFORMA QUE, SE DESEJAMOS ALTERAR ALGUMA COISA 
+
+NO HTML 
+
+DE NOSSO PROJECT,
+
+
+
+DEVEMOS SEMPRE FAZER ISSO LÁ NO ARQUIVO html DENTRO DA PASTA 'public',
+
+E NUNCA 
+
+
+
+
+FAZER ISSO 
+
+NO HTML GERADO NO FOLDER DE 'dist' (
+
+    pq os arquivos de dist são sempre OVERWRITTADOS; o que quer dizer que 
+
+    NUNCA DEVEMOS TOCAR NOS ARQUIVOS DA PASTA 'dist'...
+)
+
+
+
+
+
+
+
+
+--> EM VEZ DISSO, SE QUISER FAZER ISSO,
+
+EDITAR O HTML,
+
+EDITE O HTML DE '/public' 
+
+
+
+E ENTÃO REBUILDE SEU APP INTEIRO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA DEMONSTRAR ISSO, O PROFESSOR MUDA O TITLE DO PROJETO,
+
+
+
+
+E AÍ 
+
+COLOCA O TITLE DE 'Find a Coach'...
+
+
+
+
+
+
+
+
+--> também coloca uma meta tag,
+
+tipo assim:
+
+
+
+
+
+
+
+
+<meta name="description" content="Find a coach and grow as a developer!">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... COM ISSO, CONFIGURAMOS O FIREBASE E TEMOS O DIST FOLDER FINAL...
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUEREMOS 
+
+
+
+
+FAZER PUSH DO CÓDIGO PARA O FIREBASE...
+
+
+
+
+
+
+
+
+
+
+
+--> BASTA RODAR 'firebase deploy' PARA REALMENTE DEPLOYARMOS O CÓDIGO 
+
+
+
+NA INTERNET, LÁ NO FIREBASE...
+
+
+
+
+
+--> ISSO VAI UPLOADAR NOSSO CÓDIGO NO FIREBASE...
+
+
+
+
+
+
+
+
+
+--> E ELE NOS DÁ A URL,
+
+e agora podemos a visitar em um SERVER DE VERDADE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... E, PARA QUALQUER COISA QUE VC QUER CONFIGURAR,
+
+
+
+CHEQUE O CONSOLE DO FIREBASE --> EM 'HOSTING' PODEMOS VER NOSSO APP,
+
+
+
+
+
+
+VER OS DOMAINS,
+ ETC...
+
+
+
+
+
+
+
+ E ESSAS ERAM AS STEPS E CORE CONCEPTS PARA 
+
+ REALIZAR O DEPLOYMENT EM 1 SERVER DE VERDADE..
