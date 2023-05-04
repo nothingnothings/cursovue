@@ -11,7 +11,7 @@
 
 <script>
 // import { mapActions } from "vuex";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TheHeader from "./components/layout/TheHeader/TheHeader.vue";
 export default {
   name: "App",
@@ -23,12 +23,28 @@ export default {
     TheHeader,
   },
 
+  watch: {
+    //usamos  watch, aqui, para REDIRECIONAR O USER EM CASOS DE 'O TEMPO DA AUTH TOKEN ACABOU, REDIRECIONANDO PARA PAGE SEM RESTRIÇAÕ DE ACESSO'...
+
+    didAutoLogout(newValue, oldValue) {
+      if (newValue && newValue !== oldValue) {
+        // se o newValue for 'true', e se o value de 'newValue' não for igual a 'oldValue', ocorreu o autoLogout...
+
+        this.$router.replace("/coaches");
+      }
+    },
+  },
+
   // mounted() {
   //   this.loadCoaches();
   // },
   methods: {
     // ...mapActions(["loadCoaches"]),
     ...mapActions(["tryAutoLogin"]),
+  },
+
+  computed: {
+    ...mapGetters(["didAutoLogout"]),
   },
 };
 </script>

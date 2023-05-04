@@ -1,0 +1,1813 @@
+S
+
+
+
+
+
+
+OK... DEVEMOS COMEÇAR COM O LOGOUT DO USER E O CLEAR DO LOCAL STORAGE...
+
+
+
+
+
+
+
+
+
+FICA TIPO ALGO ASSIM:
+
+
+
+
+
+
+
+
+  logout(context) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> REMOVEMOS O TOKEN, REMOVEMOS O USER ID 
+
+
+
+
+E __ REMOVEMOS __ A DATA LOCAL...
+
+
+
+
+
+
+
+
+
+
+
+A PARTE MAIS 'TRICKY' É QUE QUEREMOS __ fAZER __ LOGOUT DO 
+
+USER __ DE FORMA AUTOMÁTICA,
+
+
+
+
+SE A TOKEN JÁ TIVER EXPIRADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, TEMOS AQUELA DATA DE 'tokenExpiration',
+
+
+QUE AINDA NÃO ESTAMOS UTILIZANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> BEM, QUANDO NÓS FAZEMOS LOGIN,
+
+
+
+
+
+LÁ NA DATA QUE GANHAMOS DE VOLTA DO FIREBASE,
+
+
+
+
+
+
+
+TEMOS AQUELE NEGÓCIO QUE É 
+
+'expiresIn' --> O DEFAULT 
+
+
+
+
+
+
+
+É _ 3600 SEGUNDOS...
+
+
+
+
+
+
+
+
+
+
+--> ISSO É UMA HORA..
+
+
+
+
+
+
+
+
+
+
+
+
+--> E QUEREMOS ARMAZENAR A __ EXPIRATION __ DATE __ 
+
+DESSA TOKEN...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO CASO, VAMOS ARMAZENAR A EXPIRATION DATE (data no futuro),
+
+
+
+e não O EXPIRATION TIME,
+
+PQ 
+
+É ISSO QUE VAI NOS AJUDAR 
+
+
+A CHECAR SE 
+
+
+A AUTHENTICATION DO USER DEVE SER LIMPA OU NÃO...
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE LÁ NA NOSSA ACTION DE 'auth',
+
+QUANDO 
+
+NÓS ARMAZENARMOS 
+
+
+
+NOSSA DATA 
+
+
+NO LOCAL STORAGE,
+
+
+VAMOS 
+
+QUERER 
+
+TAMBÉM 
+
+
+
+
+
+
+FAZER ALGO COMO 
+
+
+
+
+
+
+
+
+'const expirationDate = ...'
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+VAMOS QUERER 
+
+'THE CURRENT DATE + THE AMOUNT OF SECONDS UNTIL THE TOKEN EXPIRES'....
+
+
+
+
+
+
+
+
+
+
+
+
+
+ou seja, provavelmente o código será 
+
+
+
+
+
+
+
+
+'new Date().getTime() + 3600 * 1000' 
+
+
+
+
+
+
+
+
+
+
+
+
+
+newDate().getTime() --> NOS DÁ O 'CURRENT TIME', em milissegundos....
+
+
+
+
+
+
+
+
+
+
+
+E O EXPIRATION TIME, EM SEGUNDOS,
+
+
+
+SERÁ 
+
+
+
+
+3600....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA DERIVAR O VALOR DA TOKEN 
+
+de acordo com o expiresIn, escrevemos assim:
+
+
+
+
+
+
+
+
+
+
+
+const expiresIn = +responseData.expiresIn * 1000;
+
+const expirationTime = new Date().getTime() + expiresIn;
+
+
+
+
+
+
+
+
+
+
+
+
+
+E É CLARO QUE ESSAS LINHAS VÃO LÁ NO 'auth',
+
+
+naquela action...
+
+
+
+
+
+
+
+
+
+
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+  async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    try {
+      const response = await axios.post(url, authData.formData);
+
+      if (response.data) {
+        ///armazena a data no LOCAL STORAGE...
+
+        //usado para CRIAR 1 key de 'expirationTime', que será usada para EXPIRAR a token, depois de transcorrida 1 hora...
+        const expiresIn = +response.data.expiresIn * 1000;
+        const expirationDate = new Date().getTime() + expiresIn;
+
+        localStorage.setItem('userId', response.data.localId);
+        localStorage.setItem('token', response.data.idToken);
+        localStorage.setItem('expirationDate', expirationDate);
+
+        const stateData = {
+          userId: response.data.localId,
+          token: response.data.idToken,
+          // expirationDate: expirationDate /// essa data é necessária apenas no localStorage, pq vai importar APENAS QUANDO RECARREGAMOS A PAGE...
+        };
+
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O PROFESSOR VAI QUERER FAZER UMA OUTRA KEY THING...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER SETTAR 1 'TIMER' SEMPRE QUE O USER FIZER LOGIN,
+
+
+PARA QUE 
+
+O 
+
+USER SEJA 
+
+
+LOGGADO PARA FORA AUTOMATICAMENTE,
+
+SEMPRE QUE O TIMER EXPIRAR...
+
+
+
+
+
+
+
+
+
+
+
+--> para isso,
+
+o professor define 
+
+1 TIMEOUT DENTRO DA ACTION DE 'auth',
+
+
+EM QUE 
+
+
+
+
+VAMOS TER AQUELE 
+
+'expiresIn'
+
+
+
+como 
+
+
+DURATION,
+
+
+
+
+
+E, DEPOIS DE TRANSCORRIDA ESSA DURATION,
+
+
+DEVERÁ SER DISPATCHEADA A ACTION DE LOGOUT..
+
+
+
+
+
+
+--> O PROFESSOR TAMBÉM VAI _ DAR CLEAR__ NESSE TIMER AÍ,
+COM 'clearTimeout()',
+
+PARA QUE 
+
+TENHAMOS APENAS 1 TIMER POR VEZ...
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+let timer;
+
+export default {
+  async login(context, userData) {
+    return context.dispatch('auth', {
+      isLoginMode: true,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  async signup(context, userData) {
+    return context.dispatch('auth', {
+      isLoginMode: false,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
+  },
+
+  logout(context) {
+    clearTimeout(timer);
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+  async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    try {
+      const response = await axios.post(url, authData.formData);
+
+      if (response.data) {
+        ///armazena a data no LOCAL STORAGE...
+
+        //usado para CRIAR 1 key de 'expirationTime', que será usada para EXPIRAR a token, depois de transcorrida 1 hora...
+        const expiresIn = +response.data.expiresIn * 1000; //3600 * 1000;
+        const expirationDate = new Date().getTime() + expiresIn;
+
+        localStorage.setItem('userId', response.data.localId);
+        localStorage.setItem('token', response.data.idToken);
+        localStorage.setItem('expirationDate', expirationDate);
+
+        timer = setTimeout(() => {
+          context.dispatch('logout');
+        }, expiresIn);
+
+        const stateData = {
+          userId: response.data.localId,
+          token: response.data.idToken,
+          // expirationDate: expirationDate /// essa data é necessária apenas no localStorage, pq vai importar APENAS QUANDO RECARREGAMOS A PAGE...
+        };
+
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+    }
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE TIMER VAI SER DEFINIDO GLOBALMENTE,
+
+
+E VAI 
+
+SER REMOVIDO/LIMPADO SEMPRE QUE 
+
+A ACTION DE 'LOGOUT' FOR 'CHAMADA'/dispatcheada... 
+
+
+
+
+
+
+-> ISSO É FEITO, AQUI,
+
+PARA O CASO EM QUE O USER QUER REMOVER MANUALMENTE (com o click no button)
+
+
+SEU AUTH STATUS, POR MEIO DO BUTTON DE LOGOUT...
+
+
+
+
+
+
+
+
+--> O PROFESSOR TAMBÉM LIMPA O 'tokenExpiration' lá no logout, tipo assim:
+
+
+
+
+
+
+
+
+  logout(context) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    clearTimeout(timer);
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ----> ok... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  NO CASO, ESSE TIMER ESTÁ SENDO DEFINIDO SEMPRE QUE __ FAZEMOS LOGIN MANUALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+  MAS TAMBÉM PRECISAMOS SETTAR ESSE TIMER 
+
+  QUANDO FAZEMOS 'AUTO-LOGIN' --> NESSE CASO,
+
+  PRECISAMOS:
+
+
+
+
+
+
+
+  1) CHECAR QUANTO AUTH TIME (ExpirationTime) AINDA RESTA AO USER...
+
+
+
+
+
+
+  2) PRECISAMOS DEFINIR 'QUANTO TEMPO AINDA DEVERÁ RESTAR AO USER, NESSE TIMEOUT,
+   
+   ANTES DE _ LIMPAR A AUTH'..
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É JUSTAMENTE POR ISSO QUE ESTAMOS ARMAZENANDO NOSSO 'tokenExpiration'
+
+NO LOCAL STORAGE; É PARA PUXAR ESSE VALUE AGORA, PARA DEFINIR ESSE TIMER...
+
+
+
+
+
+
+
+--> É CLARO QUE ESSE 'CHECK' DEVERÁ SER FEITO LÁ EM 'tryAutoLogin'...
+
+
+
+
+
+
+
+ESCREVEMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+
+      const expirationDate = localStorage.getItem('expirationDate'); //tempo restante da token do user...
+      const expirationTime = +expirationDate - new Date.getTime();
+
+    }
+  },
+
+
+
+
+
+  -------------------
+
+
+
+
+
+
+
+
+
+
+  OK... 
+
+  ISSO QUER DIZER QUE ESSE TIME SERÁ A DIFERENÇA ENTRE O 'TIME NO FUTURO' 
+
+
+
+
+  E O 'TIME DE AGORA'...
+
+
+
+
+
+
+
+
+
+
+  --> OK... E SE 'expirationTime' 
+
+
+  FOR NEGATIVO,
+
+
+
+  NEM MESMO PRECISAMOS 
+
+
+
+  LOGAR O USER...
+
+
+
+
+
+
+
+
+
+  --> PQ SE O TIMER RESTANTE DO USER FOR MENOR DO QUE 0 SEGUNDOS, SIGNIFICA QUE 
+
+  A TOKEN JÁ EXPIROU....
+
+
+
+
+
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    const expirationDate = localStorage.getItem('expirationDate'); //tempo restante da token do user...
+    const expirationTime = +expirationDate - new Date.getTime();
+
+    if (expirationTime < 0) { // se o tempo restante FOR MENOR DO QUE 0, nem mesmo vamos querer continuar com a authentication do user...
+      return;
+    }
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ok..
+
+
+
+
+
+
+
+  MAS SE A TOKEN FOR VÁLIDA AINDA,
+
+
+
+
+  NOVAMENTE 
+
+
+
+  VAMOS SETTAR 1 TIMER, 
+
+  com 'expiresIn'
+
+
+  como duration,
+
+
+  E NESSA FUNCTION VAMOS CHAMAR, EXATAMENTE COMO ANTES,
+
+  'context.dispatch('logout)'...
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    const expirationDate = localStorage.getItem('expirationDate'); //tempo restante da token do user...
+    const expirationTime = +expirationDate - new Date.getTime();
+
+    if (expirationTime < 0) {
+      // se o tempo restante FOR MENOR DO QUE 0, nem mesmo vamos querer continuar com a authentication do user...
+      return;
+    }
+
+    timer = setTimeout(
+      () => {
+        context.dispatch('logout');
+      },
+
+      expirationTime  // se ainda existir tempo até essa token ser expirada, vamos definir sua expiration no futuro, automática, por meio desse timeout...
+    );
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK.... 
+
+
+  TEORICAMENTE, ISSO DEVE FUNCIONAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PARA TESTAR SE ISSO FUNCIONA,
+
+  O PROFESSOR DEFINE 1 TIMER DE 5 SEGUNDOS, DUMMY, para ver se perdemos a auth em 5 segundos...
+
+
+
+
+
+
+
+
+
+ok... funcionou...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS 1 PROBLEMA QUE TEREMOS COM ESSA SOLUÇÃO PODE SER 
+
+VISTO 
+
+
+
+
+
+
+
+
+SE TENTAMOS FICAR EM 1 PÁGINA PROTEGIDA, MESMO ESTANDO 'LOGGED OUT' --> 
+
+
+
+
+
+
+EXEMPLO DISSO É A PAGE DE REQUESTS...... ------> MESMO NÓS ESTANDO 'UNAUTH',
+
+
+
+
+COM NOSSA AUTHENTICATION DELETADA,
+
+
+
+
+NÃO ACONTECE NADA,
+
+NÃO SOMOS REDIRECIONADOS PARA FORA DESSA PAGE...
+
+
+
+
+
+
+
+
+
+
+----> É POR ISSO QUE DEVEMOS __ _GARANTIR __ QUE O USER SEJA __ 
+
+
+
+REDIRECIONADO PARA FORA DAS PÁGINAS PROTEGIDAS,
+
+CASO ELE PERCA A AUTH POR CONTA DO TEMPO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E PARA CONSEGUIRMOS TER ESSE REDIRECT,
+
+O PROFESSOR ADICIONA 1 NOVA ACTION,
+
+DE NOME 
+
+
+
+'autoLogout' -------> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+autoLogout(context) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+--> NESSA ACTION,
+
+
+
+NÓS VAMOS FAZER _ DISPATCH__ de 
+
+
+'logout',
+
+
+
+de forma normal...
+
+
+
+
+
+
+
+
+
+ENTRETANTO,
+
+
+ADICIONALMENTE,
+
+
+
+O PROFESSOR VAI __ COMMITAR 1 MUTATION NOVA, AINDA NÃO ADICIONADA,
+
+
+QUE SERÁ 
+
+'didLogout' --> 
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+  autoLogout(context) {
+    context.dispatch('logout'); //dispara a action de 'logout', vista acima...
+    context.commit('didAutoLogout'); //dispara a MUTATION de 'didLogout', vista em 'mutations'...
+  },
+
+
+
+
+
+
+
+
+
+
+e assim:
+
+
+
+
+
+
+  didAutoLogout(state) {
+    state.didLogout = true;   //isso é utilizado para REDIRECIONAR NOSSO USER, EM CASOS DE 'AUTO LOGOUT' (em razão de TOKEN EXPIRADA, 1 hora se passou)...
+  }
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+import authActions from './actions';
+import authGetters from './getters';
+import authMutations from './mutations';
+
+export default {
+  state() {
+    return {
+      userId: null,
+      tokenExpiration: null,
+      token: null,
+      authIsLoading: false,
+      authError: null,
+      didAutoLogout: false
+    };
+  },
+
+  actions: authActions,
+  getters: authGetters,
+  mutations: authMutations,
+};
+
+
+
+
+
+--------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> ok...
+
+
+
+
+AGORA, LÁ NOS LUGARES EM QUE DEFINI AQUELE TIMER,
+
+DEVO COLOCAR O DISPATCH de 'autoLogout',
+
+E NÃO DE 
+
+'logout'...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+
+let timer;
+
+export default {
+  async login(context, userData) {
+    return context.dispatch('auth', {
+      isLoginMode: true,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  async signup(context, userData) {
+    return context.dispatch('auth', {
+      isLoginMode: false,
+      formData: {
+        ...userData,
+        returnSecureToken: true,
+      },
+    });
+  },
+
+  clearAuthError(context) {
+    console.log('ENTERED');
+    context.commit('clearAuthError');
+  },
+
+  logout(context) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    clearTimeout(timer);
+    context.commit('setUser'); //setUser sem parâmetros é o equivalente a 'LOG USER OUT'...
+  },
+
+  async auth(context, authData) {
+    // usado para EVITAR A PERDA DE AUTHENTICATION AO RECARREGARMOS O APP (localStorage, etc)...
+
+    let url =
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+
+    if (!authData.isLoginMode) {
+      //signup url
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBEYHhs8x2KOQfZ0FszTuNC4SymwlN1xc4';
+    }
+
+    try {
+      const response = await axios.post(url, authData.formData);
+
+      if (response.data) {
+        ///armazena a data no LOCAL STORAGE...
+
+        //usado para CRIAR 1 key de 'expirationTime', que será usada para EXPIRAR a token, depois de transcorrida 1 hora...
+        const expiresIn = +response.data.expiresIn * 1000; //3600 * 1000;
+        const expirationDate = new Date().getTime() + expiresIn;
+
+        localStorage.setItem('userId', response.data.localId);
+        localStorage.setItem('token', response.data.idToken);
+        localStorage.setItem('expirationDate', expirationDate);
+
+        timer = setTimeout(() => {
+          context.dispatch('autoLogout');  //usamos isso conjuntamente com um WATCHER LÁ EM 'App.vue'...
+        }, expiresIn);
+
+        const stateData = {
+          userId: response.data.localId,
+          token: response.data.idToken,
+          // expirationDate: expirationDate /// essa data é necessária apenas no localStorage, pq vai importar APENAS QUANDO RECARREGAMOS A PAGE...
+        };
+
+        context.commit('setUser', stateData);
+      } else {
+        context.state.authError = 'Failed to Authenticate.';
+      }
+    } catch (error) {
+      context.state.authError =
+        error.response.data.error.message || 'Failed to Authenticate.';
+    }
+  },
+
+  tryAutoLogin(context) {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    const expirationDate = localStorage.getItem('expirationDate'); //tempo restante da token do user...
+    const expirationTime = +expirationDate - new Date.getTime();
+
+    if (expirationTime < 0) {
+      // se o tempo restante FOR MENOR DO QUE 0, nem mesmo vamos querer continuar com a authentication do user...
+      return;
+    }
+
+    timer = setTimeout(
+      () => {
+        context.dispatch('autoLogout');
+      },
+
+      expirationTime // se ainda existir tempo até essa token ser expirada, vamos definir sua expiration no futuro, automática, por meio desse timeout...
+    );
+
+    if (token && userId) {
+      context.commit('setUser', {
+        token: token,
+        userId: userId,
+        tokenExpiration: null, //isso logo mudará...
+      });
+    }
+  },
+
+  autoLogout(context) {
+    context.dispatch('logout'); //dispara a action de 'logout', vista acima...
+    context.commit('didAutoLogout'); //dispara a MUTATION de 'didLogout', vista em 'mutations'...
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS COMO PODEMOS TIRAR VANTAGEM DESSA PROPRIEDADE 
+
+
+
+
+DE 
+
+'didAutoLogout',
+
+
+
+EM NOSSO APP?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, O PROFESSOR DIZ QUE DEVEMOS __ ADICIONAR _
+
+
+
+
+
+
+
+O 'watch: {
+
+}' 
+
+
+
+
+
+
+
+
+LÁ NO ARQUIVO 'App.vue',
+
+
+
+
+
+
+
+PARA QUE __ SEJA _ OBSERVADA__ ESSA PROPRIEDADE DE 'didAutoLogout'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PQ, SE ESSA PROPRIEDADE FOR ALTERADA (de 'false' para true),
+
+
+
+VAMOS QUERER A SETTAR DE VOLTA PARA 'FALSE',
+
+E ENTÃO VAMOS QUERER __ REDIRECIONAR O USER PARA A PAGE 
+
+DE 
+'Auth'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+  watch: {
+    //usamos  watch, aqui, para REDIRECIONAR O USER EM CASOS DE 'O TEMPO DA AUTH TOKEN ACABOU, REDIRECIONANDO PARA PAGE SEM RESTRIÇAÕ DE ACESSO'...
+
+    didAutoLogout(newValue, oldValue) {
+      if (newValue && newValue !== oldValue) {
+        // se o newValue for 'true', e se o value de 'newValue' não for igual a 'oldValue', ocorreu o autoLogout...
+
+        this.$router.replace("/coaches");
+      }
+    },
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... 
+
+
+
+
+
+
+
+
+
+
+
+  AGORA, SIM, O USER SERÁ REDIRECIONADO 
+
+
+  EM CASOS DE AUTH LOGOUT...
+
+
+
+
+
+
+
+
+
+  --> colocamos esse change de state em 'setUser',
+
+  também;
+
+
+
+
+
+  colocamos 'state.didAutoLogout = false',
+
+  PQ 
+
+
+NESSE CASO, DE LOGIN/SIGNUP,
+
+VMAOS QUERER RESETTAR O 
+
+
+STATE DE 'autoLogout'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  setUser(state, userData) {
+    if (userData) {
+      state.token = userData.token;
+      state.userId = userData.userId;
+      state.tokenExpiration = userData.tokenExpiration;
+      state.didAutoLogout = false;
+    } else {
+      state.token = null;
+      state.userId = null;
+      state.tokenExpiration = null;
+      state.didAutoLogout = false;
+    }
+    state.isLoading = false;
+  },
+
+  clearAuthError(state) {
+    state.authError = null;
+  },
+
+  didAutoLogout(state) {
+    state.didLogout = true; //isso é utilizado para REDIRECIONAR NOSSO USER, EM CASOS DE 'AUTO LOGOUT' (em razão de TOKEN EXPIRADA, 1 hora se passou)...
+  },
+
+};
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM REMOVEMOS O 'tokenExpiration'
+
+
+LÁ DO VUEX STORE,
+PQ 
+O 
+
+PROFESSOR 
+
+PERCEBEU QUE NÃO ESTAMOS MAIS USANDO ISSO (estamoss usando o localStorage para gerenciar isso)...
+
+
+
+
+
+
+
+
+
+
+
+CERTo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+esse modulo de authentication acabou, basicamente...
+
+
+
+
+acabamos com auto login e auto logout...
+
+
+
+
+
+ADICIONAMOS TODOS OS BUILDING BLOCKS PARA TER AUTH EM 1 VUE APP..

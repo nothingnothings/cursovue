@@ -6,10 +6,10 @@ export default {
   state() {
     return {
       userId: null,
-      tokenExpiration: null,
       token: null,
       authIsLoading: false,
       authError: null,
+      didAutoLogout: false
     };
   },
 
