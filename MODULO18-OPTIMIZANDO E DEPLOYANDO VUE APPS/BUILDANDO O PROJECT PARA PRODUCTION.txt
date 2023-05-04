@@ -1,0 +1,491 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... AGORA DIGAMOS QUE OPTIMIZAMOS NOSSO PROJECT...
+
+
+
+
+
+
+
+
+
+
+CONSERTAMOS TODOS OS ERRORS,
+REFATORAMOS O CÓDIGO,
+
+E AÍ 
+
+
+
+ADICIONAMOS ASYNC COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO, ESTAMOS COM NOSSO PROJETO 
+
+
+VUE 
+
+TERMINADO,
+
+E QUEREMOS 
+
+O UPLOADAR 
+
+
+
+A 
+
+1 STATIC HOST...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS DIFERENCIAR ENTRE 2 TIPOS DE PROJETO:
+
+
+
+
+
+
+
+
+
+
+1) PROJETO EM QUE TEMOS COISAS SIMPLES, COMO O 
+
+'MONSTER KILLER' --> NESSE PROJETO, TÍNHAMOS 
+
+
+APENAS CÓDIGO HTML, CSS E JS --> NEM USAMOS O VUE --> NESSE CASO, basta 1 server estático, apenas faça deploy...
+
+
+
+
+
+
+
+
+
+
+2) SE TEMOS 1 PROJETO MAIS COMPLEXO ('CLI PROJECT'), COMO ESSE EM QUE TRABALHAMOS EM TODOS OS MÓDULOS ANTERIORES,
+
+TEMOS MAIS ALGUMAS ETAPAS...
+
+
+
+
+
+etapas:
+
+
+
+A) OPTIMIZE SEU CÓDIGO 
+
+
+
+B) BUILDAR SEU CÓDIGO ---------> PRECISAMOS FAZER ISSO,
+
+
+E ISSO OPTIMIZA NOSSO CÓDIGO AUTOMATICAMENTE --> ISSO TRANSFORMA NOSSO CÓDIGO EM JAVASCRIPT COMUM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E OS PROJETOS CRIADOS COM CLI 
+
+
+POSSUEM 
+
+1 'BUILT-IN SCRIPT'
+
+QUE 
+
+
+
+
+FAZ ESSA 
+
+TRANSFORMATION ('npm run build', ou algo assim) -----> ASSIM QUE 
+
+
+VC RODAR 
+
+ESSE CÓDIGO,
+
+
+VC PODERÁ 
+DEPLOYAR 
+
+
+ESSES ARQUIVOS EM 1 SERVER...
+
+
+
+
+
+
+
+
+
+E FOCAREMOS NESSA PARTE DE DEPLOY,
+
+
+para deployar essas files do build em 1 server...
+
+
+
+
+
+
+
+
+OS SCRIPTS SÃO:
+
+
+
+
+
+
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  VAMOS USAR O SCRIPT DE 'build',
+
+
+  QUE 
+
+  VAI BUILDAR 
+
+
+  A APPLICATION,
+
+  E VAI 
+
+
+  BUILDAR PARA PRODUCTION E O OPTIMIZAR...
+
+
+
+
+
+
+
+
+
+
+
+  --> certo... basta rodar 'npm run build'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ISSO VAI __ BUILDAR TODO NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+
+
+  --> FICARÁ NA PASTA DE 'DIST' -->  DEVEMOS PEGAR ESSE 
+
+  CÓDIGO 
+
+
+
+  E DEPLOYAR...
+
+
+
+
+
+
+
+
+
+
+
+  
+  O CÓDIGO AHVIA FICADO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+  import { defineAsyncComponent } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import CoachesListPage from './pages/CoachesListPage.vue';
+
+///EXEMPLO DE ASYNC COMPONENTS COM ROUTING (mais efetivo, lazy loading)
+// import RequestsListPage from './pages/RequestsListPage.vue';
+const RequestsListPage = defineAsyncComponent(() =>
+  import('./pages/RequestsListPage.vue')
+);
+// import AuthPage from './pages/UserAuth.vue';
+const AuthPage = defineAsyncComponent(() => import('./pages/UserAuth.vue'));
+
+const CoachDetail = defineAsyncComponent(() =>
+  import('./pages/CoachDetail/CoachDetail.vue')
+);
+
+const ContactCoach = defineAsyncComponent(() =>
+  import('./pages/CoachDetail/ContactCoach/ContactCoach.vue')
+);
+
+const RegisterCoach = defineAsyncComponent(() =>
+  import('./pages/RegisterCoach.vue')
+);
+
+// import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
+// import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
+// import RegisterCoach from './pages/RegisterCoach.vue';
+import NotFound from './pages/NotFound.vue';
+
+import store from './store/store';
+
+const routes = [
+  {
+    path: '/',
+    redirect: '/coaches',
+  },
+  {
+    path: '/coaches',
+    component: CoachesListPage,
+  },
+  {
+    meta: {
+      authBlock: true,
+    },
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage,
+  },
+  {
+    name: 'coach-detail',
+    path: '/coaches/:id',
+    component: CoachDetail,
+    props: true, /// isso vai passar 'id', o value da url, COMO PROP, para dentro desse component 'Detail' (e isso é usado, mais tarde, para CARREGAR A DATA DE CADA COACH, dinamicamente)...
+    children: [
+      {
+        name: 'contact-coach',
+        path: 'contact',
+        component: ContactCoach,
+      },
+    ],
+  },
+  {
+    meta: {
+      needsAuth: true,
+    },
+    path: '/register',
+    name: 'register-coach',
+    component: RegisterCoach,
+  },
+  {
+    meta: {
+      needsAuth: true,
+    },
+    path: '/requests',
+    component: RequestsListPage,
+  },
+  {
+    path: '/notFound(.*)',
+    component: NotFound,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes,
+});
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  let isAuthenticated = store.getters.token;
+  let isCoach = store.getters.isCoach;
+  if (to.meta.authBlock && to.path === '/auth') {
+    if (isAuthenticated) {
+      return next('/coaches');
+    } else {
+      return next(true);
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/register') {
+    if (isAuthenticated && !isCoach) {
+      console.log(isAuthenticated, isCoach, 'PARAMS DOS GURI');
+      return next(true);
+    } else {
+      return next('/auth');
+    }
+  }
+
+  if (to.meta.needsAuth && to.path === '/requests') {
+    if (isAuthenticated) {
+      return next(true);
+    } else {
+      return next('/coaches');
+    }
+  }
+
+  next(true);
+});
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok.... rodei npm run build...
+
+
+
+
+
+
+
+
+
+-> arquivos foram inseridos na pasta 'dist'... --> TEMOS 1 ÚNICO INDEX.HTML,
+
+
+E AÍ 
+
+
+
+
+DENTRO DO 'js'
+
+TEMOS 
+
+
+
+OS CHUNKS COM CÓDIGO JAVASCRIPT ALTAMENTE OPTIMIZADO...
+
+
+
+
+
+
+--> E O CSS ESTARÁ TODO MINIFADO, TAMBÉM...
+
+
+
+
+
+
+
+É O CONTEÚDO DO FOLDER DE DIST QUE DEVE SER COLOCADO EM 1 STATIC HOSTING SERVER...
+
+
+
+
+
+
+
+
+
+É ISSO QUE FAREMOS, COMO PRÓXIMA ETAPA...

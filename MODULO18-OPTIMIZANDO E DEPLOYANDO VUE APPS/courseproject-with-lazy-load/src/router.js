@@ -2,33 +2,33 @@ import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 import CoachesListPage from './pages/CoachesListPage.vue';
+
+///EXEMPLO DE ASYNC COMPONENTS COM ROUTING (mais efetivo, lazy loading)
 // import RequestsListPage from './pages/RequestsListPage.vue';
-// import AuthPage from './pages/UserAuth.vue';
-// import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
-// import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
-import NotFound from './pages/NotFound.vue';
-// import RegisterCoach from './pages/RegisterCoach.vue';
-import store from './store/store';
-
-//nesse módulo, temos o EXEMPLO DE LAZY LOADING NAS ROUTES EM SI.... (use para routes que não são TÃO visitadas assim)....
-
-const CoachDetail = defineAsyncComponent(
-  () => import('./pages/CoachDetail/CoachDetail.vue') // ? é assim que CARREGAMOS 1 COMPONENT/PAGE ASSÍNCRONAMENTE (lazy loading)..
+const RequestsListPage = defineAsyncComponent(() =>
+  import('./pages/RequestsListPage.vue')
 );
+// import AuthPage from './pages/UserAuth.vue';
+const AuthPage = defineAsyncComponent(() => import('./pages/UserAuth.vue'));
 
-const RegisterCoach = defineAsyncComponent(
-  () => import('./pages/RegisterCoach.vue') // ? é assim que CARREGAMOS 1 COMPONENT/PAGE ASSÍNCRONAMENTE (lazy loading)..
+const CoachDetail = defineAsyncComponent(() =>
+  import('./pages/CoachDetail/CoachDetail.vue')
 );
 
 const ContactCoach = defineAsyncComponent(() =>
   import('./pages/CoachDetail/ContactCoach/ContactCoach.vue')
 );
 
-const RequestsListPage = defineAsyncComponent(() =>
-  import('./pages/RequestsListPage.vue')
+const RegisterCoach = defineAsyncComponent(() =>
+  import('./pages/RegisterCoach.vue')
 );
 
-const AuthPage = defineAsyncComponent(() => import('./pages/UserAuth.vue'));
+// import CoachDetail from './pages/CoachDetail/CoachDetail.vue';
+// import ContactCoach from './pages/CoachDetail/ContactCoach/ContactCoach.vue';
+// import RegisterCoach from './pages/RegisterCoach.vue';
+import NotFound from './pages/NotFound.vue';
+
+import store from './store/store';
 
 const routes = [
   {
