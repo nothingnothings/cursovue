@@ -1,0 +1,1065 @@
+
+
+
+
+
+
+
+
+
+
+O QUE EXATAMENTE É A 'COMPOSITION API'?
+
+
+
+
+
+
+
+
+
+
+
+--> bem, devemos começar 
+
+
+por o que aprendemos até agora...
+
+
+
+
+
+
+
+
+
+
+
+
+--> QUANDO O ASSUNTO É O BUILD DE VUE APPS E COMPONENTS,
+
+
+
+
+ATÉ AGORA 
+
+UTILIZAMOS A 
+
+
+'OPTIONS API'...
+
+
+
+
+
+
+
+
+
+
+
+
+OPTIONS API ------> USAMOS AQUELE 'CONFIGURATION OBJECT',
+
+
+
+E DENTRO 
+
+DELE 
+
+CONFIGURAMOS 
+
+DIVERSAS OPÇÕES,
+
+
+COMO:
+
+
+
+
+
+export default {
+
+    components: {
+
+    }
+
+    props: [],
+
+    emits: [
+
+    ],
+
+    provides: {},
+
+    injects: [],
+
+    data() {
+        return {}
+    }
+
+    methods: {
+
+    },
+
+    computed: {
+
+    },
+
+    created() {
+
+    },
+
+    mounted() {
+
+    },
+
+    updated() {},
+
+    watch: {
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok........
+
+
+
+
+
+
+
+
+
+BASTANTE COISA EXISTE DENTRO DESSES CONFIG OBJECTS....
+
+
+
+
+
+
+
+
+
+
+
+E, NOVAMENTE,
+
+O PROFESSOR ENFATIZA:
+
+
+
+
+
+
+
+ESSE APPROACH É ABSOLUTELY FINE,
+
+
+E PODEMOS 
+
+
+
+CONTINUAR O UTILIZANDO...
+
+
+
+
+CONHECER ESSE APPROACH É 
+
+NECESSÁRIO PARA ENTENDER A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O QUE É A COMPOSITION API?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É UMA MANEIRA ALTERNATIVA DE 
+
+ESCREVER A LÓGICA POR TRÁS DE NOSSOS COMPONENTS --> ELA FOI INTRODUZIDA 
+
+PQ 
+
+
+__ PODEMOS _ ENFRENTAR 
+
+2 
+
+LIMITAÇÕES 
+
+QUANDO 
+
+CONSTRUÍMOS 
+
+
+
+APPS MAIORES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM APPS DE PEQUENA E MÉDIA ESCALA,
+
+NÃO VEREMOS ESSES PROBLEMAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRIMEIRO  PROBLEMA:
+
+
+
+
+
+
+
+
+CÓDIGO QUE 'belongs together logically' 
+IS SPLIT UP 
+
+ACROSS MULTIPLE OPTIONS (data, methods, computed)...
+
+
+
+
+
+
+
+
+
+---> O PROFESSOR TEM 1 
+
+PEQUENO PROJETO,
+
+
+
+
+EM QUE 
+
+ELE 
+
+QUER MOSTRAR 
+
+
+
+ESSE PROBLEMA...
+
+
+
+
+
+
+
+
+
+--> NO DEMO APP,
+
+
+EM que podemos 
+
+
+sort vários users,
+
+
+ver projects de nossos users,
+ 
+ etc,
+
+
+
+
+
+
+
+
+
+ O PROFESSOR ESTÁ USANDO UM PUNHADO DE COMPONENTS,
+
+ QUE 
+
+
+ FORMAM 
+
+ ESSA USER INTERFACE...
+
+
+
+
+
+
+
+
+
+
+ -> e esse PROJETO FOI CONSTRUÍDO COM  AS FEATURES 
+
+ QUE 
+
+ APRENDEMOS AO LONGO DO CURSO...
+
+
+
+
+
+
+
+
+
+
+
+ O CÓDIGO É TIPO:
+
+
+
+
+
+export default {
+
+    
+    components: {
+        UserItem
+    },
+
+    props: ['users'],
+
+    data() {
+        return {
+            enteredSearchTerm: '',
+            activeSearchTerm: '',
+            sorting: null 
+        }
+    },
+
+    computed: {
+        availableUsers() {
+
+                let users = [];
+                return users;
+        }
+
+         
+    },
+
+
+    methods: {
+        updateSearch(val) {
+            this.enteredSearchTerm = val;
+        }
+
+        sort(mode) {
+            this.sorting = mode;
+        }
+    },
+
+
+    watch: {
+        enteredSearchTerm(val) {
+            setTimeout(
+                () => {
+                    if(val === this.enteredSearchTerm) {
+                        this.activeSearchTerm = val;
+                    }
+                }
+            )
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESSE É O CASO NÃO APENAS PARA ESSE COMPONENT,
+
+MAS EM MÚLTIPLOS COMPONENTS..
+
+
+
+
+
+
+
+
+
+
+
+--> CONTINUANDO A FALAR SOBRE O PROBLEMA DE 
+
+''CÓDIGO QUE 
+
+PERTENCE CONJUNTAMENTE, LOGICAMENTE,
+
+ACABA SPLITTADO 
+
+AO LONGO DE DATA, METHODS E COMPUTED''' -----> ISSO PODE SER VISTO 
+
+
+NESSE DEMO APP...
+
+
+
+
+
+
+
+
+
+
+
+
+--> NESSE COMPONENT,
+
+TEMOS 
+
+
+CERTA DATA QUE É RELACIONADA A SEARCHING ('enteredSearchTerm' e 'activeSearchTerm' ),
+
+
+
+E OUTRA 
+
+QUE 
+
+É 
+RELACIONADA 
+
+à 
+
+
+'sorting' --> 
+
+
+
+
+
+
+
+
+
+
+
+-> TAMBÉM TEMOS 1 COMPUTED PROPERTY QUE 
+
+
+
+É USADA COM SORTING,
+
+E OUTRA COM SEARCHING...
+
+
+
+
+
+
+
+
+
+
+
+-> TEMOS 1 METHOD QUE TRABALHA COM SORTING,
+
+OUTRA COM SEARCHING...
+
+
+
+
+
+
+
+
+
+
+--> E É EXATAMENTE ISSO QUE O PROFESSOR QUIS DIZER COM
+
+
+
+
+'''FEATURES QUE 
+
+
+__PERTENCEM __ JUNTAS SÃO _ SPLITTADAS __ AO LONGO DE MÚLTIPLAS OPTIONS''''
+
+
+
+
+
+
+
+
+
+
+
+--> É CLARO QUE ESSE NÃO É UM PROBLEMA HORRÍVEL,
+
+
+
+
+MAS ATÉ MESMO EM 1 APP PEQUENO COMO ESSE,
+
+
+TAL PROBLEMA PODE LEVAR 
+
+
+
+A 
+
+ANNOYANCES,
+
+
+PQ 
+
+
+
+
+
+SE VC DECIDIR 
+
+
+TROCAR ALGO 
+
+
+EM 'data',
+
+
+VC LOGO VAI TER QUE DESCER ATÉ 
+
+
+
+
+OS 'METHODS',
+
+DEPOIS 
+
+EM 'COMPUTED',
+
+
+
+
+DEPOIS EM WATCH,
+
+
+
+
+
+
+
+
+
+E ISSO É UM SACO,
+
+PQ 
+
+
+VC 
+
+PRECISA 
+SCROLLAR 1 
+
+MONTE 
+
+
+PARA 
+
+ENCONTRAR 
+
+AS 'DIFERENTES PEÇAS QUE COMPÕEM A FEATURE DE SEARCH' ----> tudo isso acontece 
+
+
+pq 
+
+as partes 
+
+que 
+
+
+
+
+
+COMPÕEM ESSA FEATURE
+
+
+FICAM SPLITTADAS EM 
+
+DIVERSAS 'OPTIONS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS ESSE NÃO É O ÚNICO PROBLEMA QUE ENFRENTAMOS,
+
+
+AO 
+
+
+CONSTRUIR APPS COM 
+O APPROACH 
+
+DE 
+
+'options API'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O SEGUNDO PROBLEMA É:
+
+
+
+
+
+
+2) REUTILIZAR LÓGICA AO LONGO DE MÚLTIPLOS COMPONENTS 
+
+
+
+PODE SER 'TRICKY' OU 'CUMBERSOME'...
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR ADMITE QUE EXISTEM MANEIRAS 
+
+
+DE REUTILIZAR LÓGICA,
+
+
+
+MAS TODAS ELAS TÊM DOWNSIDES,
+ 
+
+ E PODEM 
+
+ NÃO SER IDEAIS...
+
+
+
+
+
+
+
+
+
+E, NESSE DEMO APP,
+
+HÁ LÓGICA QUE PODERIA SER REUTILIZADA, SIM...
+
+
+
+
+
+
+
+
+--> temos funcionalidade de search em vários 
+
+
+
+components,
+
+
+
+
+e seria bem nice se pudéssemos reutilizar essa lógica toda,
+
+tudo para 
+
+não ter de 
+
+escrever a mesma lógica 2x,
+
+em diversos components diferentes..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> bem, esses não são problemas gritantes,
+
+
+
+
+mas talvez 
+
+
+
+
+
+sejam 
+
+
+coisas 
+
+legais de 
+
+resolver...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É EXATAMENTE COM ISSO QUE A COMPOSITION API PODE NOS AJUDAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> EM VEZ DE ESCREVER O CÓDIGO ASSIM:
+
+
+
+
+
+{
+
+    data() {
+        return {
+            name: 'Max'
+        }
+    },
+
+    methods: {
+        doSomething() {
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+EM VEZ DE ESCREVER A LÓGICA COM 'OPTIONS' (OPTIONS API),
+
+
+
+
+
+
+
+
+
+NÓS ESCREVEMOS ("BUNDLAMOS")  TODA NOSSA LÓGICA EM UM 
+
+
+
+NOVO __ SETUP METHOD,
+
+QUE 
+
+ENTÃO 
+
+
+ADICIONAMOS 
+
+
+
+AO 
+
+
+
+NOSSO 'COMPONENT CONFIG OBJECT'...
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE METHOD É 
+
+
+ADICIONADO JUNTO DE 'data' e 'methods' e etc,
+
+
+
+
+MAS __ _ELE __ VAI ACTUALLY __ SUBSTITUIR 
+
+
+ESSAS DATA 
+
+E METHODS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E AÍ _ VAMOS GERENCIAR TODA NOSSA DATA 
+
+
+
+
+
+DATA,
+
+NOSSAS FUNCTIONS E COMPUTED PROPERTIES 
+
+
+E NOSSOS 
+
+WATCHERS,
+
+TUDO 
+
+
+DENTRO 
+
+DESSE SETUP METHOD -->  E, DENTRO DESSE METHOD,
+
+
+
+
+
+
+NÓS EXPOMOS 
+
+
+
+ESSAS COISAS AO NOSSO TEMPLATE,
+ 
+ JUSTAMENTE PARA QUE SEJA POSSÍVEL INTERAGIR COM ESSAS COISAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> E, ISSO É IMPORTANTE:
+
+
+
+
+
+
+ O TEMPLATE CODE QUE ESCREVEMOS,
+
+
+
+
+ TODO O CÓDIGO CONTINUA EXATAMENTE COMO ANTES.... --> O ÚNICO CÓDIGO QUE 
+
+
+
+ MUDA É O CÓDIGO 
+
+   
+
+   DENTRO DAQUELE 
+
+   'COMPONENT CONFIG OBJECT'...
+
+
+
+
+
+
+
+
+
+--> É ISSO QUE MUDA UM POUCO, QUANDO USAMOS A COMPOSITION API..
+
+
+
+
+
+
+
+
+data()   methods      computed    watch 
+I           I            I          I
+I 
+I 
+I 
+I 
+
+
+                SETUP() 
+
+
+
+
+
+
+
+
+
+    ESSAS 4 COISAS SÃO 'FUNDIDAS' NESSE 
+
+
+
+    METHOD DE 'setup()"...
+
+
+
+
+
+
+
+
+OK... MAS AGORA CHEGA DE TEORIA,
+
+
+É HORA 
+
+
+
+
+DE 
+
+
+
+MERGULHARMOS NO CÓDIGO E 
+
+
+
+
+GET STARTED COM A COMPOSITION API....
