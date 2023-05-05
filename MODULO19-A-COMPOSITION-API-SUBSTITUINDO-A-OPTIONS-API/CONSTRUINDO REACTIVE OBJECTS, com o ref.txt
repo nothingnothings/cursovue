@@ -1,0 +1,1848 @@
+
+
+
+
+
+
+
+
+
+
+OK... INTRODUZIMOS O 'REF',
+
+QUE CRIA REACTIVE VALUES,
+
+QUE 
+
+SÃO 
+
+VALUES 
+
+
+OBSERVADOS PELO VUE,
+
+
+EM QUE 
+
+
+CHANGES SÃO 
+
+
+PICKED UP,
+ PARA 
+ SEREM 
+
+
+ REFLETIDAS NO TEMPLATE...
+
+
+
+
+
+
+ EX:
+
+
+
+
+
+  <template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        uName.value = 'Max'; ///basta escrever assim
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- OK...
+
+
+
+
+
+
+
+AGORA DIGAMOS QUE O PROFESSOR QUER QUE 1 AGE TBM SEJA MOSTRADA NA TELA...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    const uAge = ref(31);
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        uName.value = 'Max'; ///basta escrever assim
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      age: uAge
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+  OK...
+
+
+
+
+
+
+
+
+  SE FAZEMOS ISSO,
+
+  
+
+  TAMBÉM RETORNAMOS A AGE NO DOM...
+
+
+
+
+
+
+  --> TAMBÉM PODEMOS ASSIGNAR 1 NOVO VALUE A 'Age' com o setTimeout...
+
+
+
+
+
+  ex:
+
+
+
+
+
+
+  <template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    const uAge = ref(31);
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        uName.value = 'Max'; ///basta escrever assim
+        uAge.value = 32;
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      age: uAge,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS COMO TEMOS 2 PROPRIEDADES DATA QUE MAIS OU MENOS 'BELONG TOGETHER',
+
+
+
+
+
+
+SERIA LEGAL 
+
+
+COLOCAR 
+
+TUDO DESSE 'REF'
+
+
+EM 
+
+1 ÚNICO OBJECT,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+const user = ref(
+
+    {
+        name: 'Maximilian',
+        age: 31
+    }
+)
+
+
+setTimeout(
+    () => {
+        user.value.name = 'Max';
+        user.value.age = 32;
+    },
+
+    2000
+)
+
+return {
+    userName: user.value.name,
+    userAge: user.value.age
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+
+        user.value.name = 'Max';
+        user.value.name = 34;
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      userName: user.value.name,
+      age: user.value.age,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+MAS SE DEIXARMOS O CÓDIGO ASSIM,
+
+NADA VAI ACONTECER...
+
+
+
+
+
+
+
+
+
+A DATA NÃO VAI UPDATAR, E NADA VAI ACONTECER, AQUI...
+
+
+
+
+
+
+
+
+
+--> MAS PQ ISSO ACONTECEU?
+
+
+
+
+
+
+A RAZÃO:
+
+
+
+
+
+
+SEMPRE QUE VC CRIA 1 REF, COM A FUNCTION DE 'ref()',
+
+
+
+VC 
+
+GANHA 1 OBJECT,
+
+O VUE TE DÁ UM OBJECT....
+
+
+
+
+
+
+
+
+
+
+
+
+E O FORMATO 
+
+DO OBJECT 
+
+É 
+
+
+{
+    value: Proxy
+    __v_isRef: true
+    get value: f value()
+    set value: f value(newVal)
+}
+
+
+
+
+
+
+
+
+
+
+
+-->     OU SEJA,
+
+
+TEMOS 
+
+
+1 GETTER E SETTER,
+
+E TBM 1 VALUE QUE É UM 'PROXY'...
+
+
+
+
+
+
+
+
+--> E O 'get' e 'set',
+
+COM ELES,
+
+
+O 
+
+VUE 
+
+MANTÉM ACESSO 'READ' E 'WRITE' 
+
+
+À PROPRIEDADE DE 
+
+'value'...
+
+
+
+
+
+
+------> É EXATAMENTE POR ISSO QUE 
+
+O 
+
+VUE CONSEGUE 'PICK UP CHANGES' 
+
+
+como 
+
+'user.value.name'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... MAS O PROBLEMA É QUE 
+
+
+SE VC COLOCA 1 __OBJECT__ 
+
+
+COMO VALUE ARMAZENADO DENTRO DE 'ref',
+
+
+
+
+
+
+
+
+
+ESSE OBJECT __ TAMBÉM _ _VAI SER ARMAZENADO POR 1 'PROXY',
+
+
+justamente para que o VUE CONSIGA FICAR AWARE 
+
+DE __ INTERNAL _ CHANGES_ _ FEITAS AO OBJECT..
+
+
+
+
+
+
+
+
+
+
+MESMO ASSIM,
+
+
+
+
+MESMO FICANDO AWARE DAS INTERNAL CHANGES FEITAS A ESSE OBJECT,
+
+
+
+O 
+
+VUE _ NÃO FOI CAPAZ DE ATUALIZAR A TELA ----> UÉ, MAS PQ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROBLEMA É JUSTAMENTE 'COMO NÓS PASSAMOS ESSE VALUE AO TEMPLATE'...
+
+
+
+
+
+
+
+
+
+-> ALI NO RETURN,
+
+temos isto:
+
+
+
+
+
+
+return { userName: user.value.name, age: user.value.age }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... COM 'user.value',
+
+
+NÓS ARMAZENAMOS 
+
+O VALUE ARMAZENADO NA NOSSA REF,
+
+
+e com '.name' e 'age',
+
+
+
+ACESSAMOS OS VALUES DAS PROPRIEDADES ARMAZENADAS NESSE OBJECT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É ESSE O PROBLEMA, PRECISAMENTE: OS 
+
+
+
+VALUES DE 
+
+'.age' e '.name',
+
+
+
+DENTRO DAQUELE OBJECT,
+
+
+
+
+
+SÃO ESSENCIALMENTE 
+
+
+'NORMAL STRINGS AND NUMBERS'... ---> NÃO SÃO REACTIVE VALUES... --> É POR ISSO QUE,
+ 
+
+
+
+ APESAR DO VUE SER CAPAZ DE 'TELL THAT SOMETHING CHANGED ABOUT THE USER',
+
+
+ ELE 
+
+
+ NÃO VAI __ ENTENDER __ QUE ESTAMOS 
+
+
+ 'EXPOSING THE USER TO THE TEMPLATE' ---------> TUDO QUE ELE ENTENDE,
+
+ PORTANTO,
+
+
+ É 
+
+ QUE 
+
+
+
+ ESTAMOS OUTPUTTANDO UMA 'STRING E 1 NUMBER',
+
+
+
+
+
+
+ E __ como __ ELE _ NÃO TRACKEIA ESSES VALUES ESPECÍFICOS (não há 'ref()' neles),
+
+
+
+
+
+ ELE NÃO DETECTA NENHUMA CHANGE 
+
+ NELES...
+
+
+
+
+
+
+
+
+
+ --> UMA COISA QUE PODERÍAMOS FAZER, AQUI,
+
+
+ É PROVIDENCIAR O OBJECT DE 'user'
+
+ INTEIRO...
+
+
+
+
+
+ --> TIPO ASSIM:
+
+
+
+
+
+
+
+
+ return {
+    user: user 
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> CERTO...
+
+
+
+
+
+
+
+ --> PODERÍAMOS OUTPUTTAR O USER INTEIRO.... ----> E O OBJECT VAI REALMENTE MUDAR 
+
+ DEPOIS DE 2 SEGUNDOS,
+
+ O QUE QUER DIZER QUE ISSO FUNCIONA..
+.
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE PODERÍAMOS ESCREVER ASSIM:
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ user.name }}</h2>
+    <h3>{{ user.age }}</h3>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    setTimeout(
+      () => {
+        user.value.name = 'Max';
+        user.value.name = 34;
+      },
+
+      2000
+    );
+    return {
+        user: user
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ user.name }}</h2>
+    <h3>{{ user.age }}</h3>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+
+PASSAMOS 
+O 
+
+'RAW REF OBJECT'
+
+
+
+NO RETURN 
+
+STATEMENT 
+
+
+
+DA FUNCTION DE SETUP,
+
+
+QUE É A COISA QUE 
+
+
+SERÁ 
+
+
+
+
+CAPTURADA 
+
+PELO 
+
+
+
+
+TEMPLATE DE NOSSO COMPONENT --> 
+
+
+
+
+
+
+
+
+
+
+
+
+E É EXATAMENTE ISSO QUE DEVEMOS FAZER:
+
+
+
+DEVEMOS PASSAR ESSE RAW OBJECT,
+COM TODA SUA
+
+
+REATIVIDADE 
+
+INTERNA,
+
+
+
+
+
+E AÍ 
+
+ELE SABE 
+
+
+
+O MOMENTO EM QUE ASSIGNAMOS 1 NOVO VALUE,
+
+
+E SABE QUE USAMOS 
+
+
+
+ISSO NO TEMPLATE --------> AÍ ELE PROCURA OS LUGARES NO TEMPLATE EM QUE USAMOS 
+
+
+ESSE VALUE,
+E AÍ 
+
+UPDATA ESSE CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É ASSIM QUE USARÍAMOS 'ref()" CORRETAMENTE COM 1 OBJECT,
+
+EM VEZ 
+
+DE 
+
+VALUES SEPARADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ENTRETANTO, SE VC ESTÁ 
+
+TRABALHANDO COM OBJECTS,
+
+
+
+HÁ UMA __ ALTERNATIVA MELHOR AO USO DE 'ref'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> VC PODERIA USAR O REF ASSIM, o que não é tão legal,
+
+
+
+
+VC PODE 
+
+
+
+TAMBÉM IMPORTAR 
+
+
+
+
+
+
+A FUNCTION DE 'reactive',
+
+que TAMBÉM 
+
+É 
+
+
+
+SUPORTADA PELO VUE -------> o 'reactive()' SE PARECE 
+
+
+1 
+POUCO COM O  'ref()',
+
+
+MAS 
+
+FOI FEITO EXPLICITAMENTE PARA __ OBJECTS...
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+    <h3>{{ counter }}</h3>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive(
+      
+    )
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+        //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
+        user.value.name = 'Max';
+        user.value.name = 34;
+        uCounter.value = 1;
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      // userName: user.value.name,  ///isso não funcionará...
+      // age: user.value.age,
+
+      user: user,  // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
+      counter: uCounter,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... com 'reactive',
+
+
+chamamos a mesma coisa,
+
+1 object inicial,
+
+
+
+
+
+
+
+
+_ MAS A DIFERENÇA DE 'ref' para 'reactive'
+
+É QUE 
+
+REACTIVE 
+FUNCIONA _ _APENAS _ COM OBJECTS.....
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... E O REACTIVE FAZ APENAS 1 ÚNICA COISA...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({  ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Manuel',
+      age: 22,
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+O REACTIVE 
+
+
+__wRAPPA ___ ESSE SEU OBJECT COM 1 'PROXY'...
+
+
+
+
+
+
+
+
+
+
+
+--> ELE WRAPPA COM 1 PROXY PARA QUE 
+
+VC 
+
+AINDA 
+
+CONSIGA 
+
+
+TRABALHAR COM ESSE OBJECT,
+
+
+COMO SE VC N TIVESSE 1 WRAPPER...
+
+
+
+
+
+
+
+
+
+--> ISSO, EM OUTRAS PALAVRAS, QUER DIZER QUE EM VEZ DE VC ESCREVER COISAS COMO 
+
+
+'user.value.name' e 'user.value.age',
+
+
+
+vc vai escrever 
+
+'user.name' 
+
+
+e 
+'user.age'
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="container">
+      <h2>{{ user.name }}</h2>
+      <h3>{{ user.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ user2.name }}</h2>
+      <h3>{{ user2.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Manuel', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 22,
+    });
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+        //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
+        user.value.name = 'Max';
+        user.value.name = 34;
+        uCounter.value = 1;
+
+        user2.name = 'Manu';
+        user2.age = 24;
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      // userName: user.value.name,  ///isso não funcionará...
+      // age: user.value.age,
+
+      user: user, // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
+      counter: uCounter,
+      user2: user2, //nos mostra o uso de 'reactive()''
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS AINDA VAMOS 
+
+ENTREGAR O OBJECT AO TEMPLATE EXATAMENTE COMO ANTES,
+
+com 
+
+
+'user2: user2'  -----> DEVEMOS ENTREGAR O RAW OBJECT INTEIRO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+A ÚNICA DIFERENÇA É QUE 
+
+AGORA NÃO TEMOS ESSE 'EXTRA WRAPPER OBJECT' com a propriedade de 'value'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+trocamos 
+
+'user.value.name = 'Max' 
+
+
+
+por 
+
+'user.name = 'Max';
+
+
+
+
+
+
+
+
+
+
+OK.. MAS AQUI TEMOS 1 DIFERENÇA...
+
+
+
+
+
+antes, o 'user'
+
+
+ERA 
+
+
+AQUELE REF OBJECT 
+
+COM 
+
+A
+ PROPRIEDADE DE 
+ 'value' 
+
+
+
+ E __ OS GETTERS E SETTERS PARA O 'value'.... 
+
+
+
+
+
+
+
+
+
+
+
+ --> AGORA, NO CASO,
+
+ COM o 'reactive()',
+
+
+
+
+ TEREMOS 1 OBJECT DE 'Proxy'
+
+ QUE 
+
+
+ VAI WRAPPAR NOSSO OBJECt 
+
+ E QUE 
+
+ TERÁ 
+
+
+ INTERNAL LISTENERS PARA 
+
+ MUDAR NOSSAS PROPERTIES...
+
+
+
+
+
+
+
+
+
+
+
+
+ -----> COM ISSO,
+
+
+
+
+
+
+ O PROFESSOR DELETA O CONSOLE.LOG,
+
+
+
+ E DEIXA O NOSSO CÓDIGO,
+
+
+
+
+
+
+
+
+ PQ 
+
+
+
+ É ISSO QUE IMPORTA quando o assunto é 
+
+ 'MANAGING REACTIVE DATA'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ RESUMO:
+
+
+
+
+
+ 1) TEMOS REF PARA __ QUALQUER TIPO DE VALUE, inclusive objects (basta adicionar '.value' antes de cada key name)..
+
+
+
+
+
+
+
+
+ 2) TEMOS 'reactive()' --> PARA OBJECTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> SE VC ESTÁ LIDANDO COM 1 OBJECT,
+ VC PODE ESCOLHER 
+
+ ENTRE 
+
+
+ REFS E REACTIVE...
+
+
+
+
+
+
+
+
+
+ -> SE VC ESTÁ LIDANDO COM 
+
+
+ QUALQUER OUTRO TIPO DE VALUE,
+
+
+
+ VC 
+
+
+ DEVE USAR O 'ref()"  ( strings, booleans, numbers, etc)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ NÃO HÁ MANEIRA ERRADA DE MANAGEAR SUA DATA,
+
+
+ DEPENDE DE SUA PREFERÊNCIA E DE SUA EQUIPE...
+
+
+
+
+
+
+
+
+
+
+ AGORA SABEMOS ESSAS 2 IMPORTANT DATA MANAGEMENT CONCEPTS (
+
+    ref e reactive
+ ),
+
+
+
+
+
+
+
+
+
+E AGORA DEVEMOS MERGULHAR AINDA MAIS NO TÓPICO DA COMPOSITION API....
