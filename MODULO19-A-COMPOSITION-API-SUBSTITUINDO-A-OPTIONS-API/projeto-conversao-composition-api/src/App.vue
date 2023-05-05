@@ -17,8 +17,14 @@
     </section>
     <div>
       <!-- EXEMPLO DE COMO USAR COMPUTED COM A COMPOSITION API... -->
-      <input type="text" placeholder="First Name" @input="setFirstName" />
-      <input type="text" placeholder="Last Name" @input="setLastName" />
+
+      <!-- EXEMPLO SEM O USO DE V-MODEL -->
+      <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="Last Name" @input="setLastName" /> -->
+
+      <!-- EXEMPLO COM O USO DE V-MODEL -->
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName" />
 
       <div>
         {{ firstName }}
