@@ -15,20 +15,35 @@
       <h3>{{ joanaAge }}</h3>
       <h3>{{ counter }}</h3>
     </section>
+    <div>
+      <!-- EXEMPLO DE COMO USAR COMPUTED COM A COMPOSITION API... -->
+      <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="Last Name" @input="setLastName" />
+
+      <div>
+        {{ firstName }}
+      </div>
+      <div>
+        {{ lastName }}
+      </div>
+      <div>
+        {{ fullName }}
+      </div>
+    </div>
     <!-- <button @click="user.age = 32"></button> -->
-    <button @click="setNewData()"></button>
+    <button @click="setNewData()">SET NEW DATA</button>
   </div>
-  
 </template>
 
 <script>
 import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
 import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
 
-import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
-import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+// import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+// import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
 
 import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+import { computed } from 'vue';
 
 export default {
   // data() {
@@ -45,8 +60,9 @@ export default {
     // const uAge = ref(31);
 
     ///É ASSIM QUE DEFINIMOS METHODS/FUNCTIONS, DENTRO DO SETUP METHOD... (ficarão disponíveis dentro do nosso COMPONENT, exatamente como 'methods:{}' na OPTIONS api do vue...)
+
     const setNewData = () => {
-      user.age = 50;
+      user.value.age = 50;
     };
 
     const uCounter = ref(0);
@@ -77,7 +93,7 @@ export default {
         // uAge.value = 32;
         //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
         user.value.name = 'Max';
-        user.value.name = 34;
+        user.value.age = 34;
         uCounter.value = 1;
 
         user2.name = 'Manu';
@@ -89,6 +105,25 @@ export default {
 
       2000
     );
+
+    const firstName = ref('');
+    const lastName = ref('');
+
+    ////demonstra o uso da composition api com listeners nos elementos do html...
+    const setFirstName = (event) => {
+      firstName.value = event.target.value;
+    };
+
+    const setLastName = (event) => {
+      lastName.value = event.target.value;
+    };
+
+    const fullName = computed(() => {
+      ////ESSA É A FUNCTION QUE VAI 'SEGURAR CADA COMPUTED LOGIC'...
+
+      return firstName.value + ' ' + lastName.value;
+    });
+
     return {
       //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
       // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
@@ -103,7 +138,12 @@ export default {
 
       joanaName: user3Refs.name,
       joanaAge: user3Refs.age,
-      setNewData: setNewData //// É ASSIM QUE DEFINIMOS/PASSAMOS METHODS AO TEMPLATE DE NOSSO APP...
+      setNewData: setNewData, //// É ASSIM QUE DEFINIMOS/PASSAMOS METHODS AO TEMPLATE DE NOSSO APP...
+      firstName,
+      lastName,
+      fullName, ///EXEMPLO DE COMPUTED PROPERTY SENDO UTILIZADA COM A COMPOSITION API...
+      setLastName,
+      setFirstName,
     };
   },
 };
