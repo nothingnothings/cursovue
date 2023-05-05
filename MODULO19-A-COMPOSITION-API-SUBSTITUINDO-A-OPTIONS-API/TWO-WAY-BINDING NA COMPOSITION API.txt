@@ -1,0 +1,433 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... É ASSIM QUE PODEMOS USAR O 'COMPUTED',
+
+COMPUTED REFS...
+
+
+
+
+
+
+
+
+
+AGORA O PROFESSOR VAI ENTRAR NO TÓPICO DOS 'INPUTS' E DOS 'LISTENRS'...
+
+
+
+
+
+
+
+
+
+BEM, EVENT LISTENING FUNCIONA COMO ANTES...
+
+
+
+
+
+
+
+
+
+
+PODEMOS CHAMAR OS METHODS COMO VC QUISER,
+
+FAZER 
+
+FORWARD
+ 
+
+
+
+
+
+
+
+DO 
+
+
+
+
+OBJECT DE 'event'
+
+
+
+AO SEU METHOD, ETC ETC...
+
+
+
+
+
+
+
+
+
+
+--> MAS TAMBÉM PODEMOS USAR OUTRAS CORE VUE FEATURES COM A COMPOSITION API,
+
+
+
+COMO POR EXEMPLO O 'v-model',
+
+
+PARA ADICIONAR 
+
+
+
+
+TWO-WAY-BINDING,
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+TROCAMOS ISTO:
+
+
+
+
+      <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="Last Name" @input="setLastName" />
+
+
+
+
+
+
+
+
+
+POR ISTO:
+
+
+
+
+
+
+      <input type="text" placeholder="First Name" v-model="" />
+      <input type="text" placeholder="Last Name" v-model="" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM O V-MODEL, 
+
+
+
+PODEMOS 
+
+DEIXAR DE USAR 
+
+
+
+AQUELE APPROACH 
+
+DA FUNCTION/METHOD  DE 'setFirstName':
+
+
+
+
+
+
+    const setFirstName = (event) => {
+      firstName.value = event.target.value;
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+EM VEZ DISSO,
+
+PODEMOS SIMPLESMENTE USAR 'V-MODEL'...
+
+
+
+
+
+
+
+
+
+
+e a parte legal é que 
+
+'V-MODEL'
+
+TAMBÉM 
+
+
+
+
+
+SUPORTA __ REFS E REACTIVE VALUES,
+
+NATURALMENNTE..
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE PODEMOS SIMPLESMENTE BINDAR 
+
+
+'v-model' a firstName e 'lastName',
+
+
+PQ O VUE VAI AUTOMATICAMENTE DETECTAR QUE 
+
+ESSAS COISAS SE TRATAM DE REFS,
+
+
+E AÍ 
+VAI 
+ATUALIZAR 
+
+
+
+ESSAS PROPRIEDADES SEMPRE QUE VC DIGITAR NESSES FIELSD..
+
+
+
+
+
+
+
+
+
+
+
+
+
+FICA TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- EXEMPLO SEM O USO DE V-MODEL -->
+      <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="Last Name" @input="setLastName" /> -->
+
+      <!-- EXEMPLO COM O USO DE V-MODEL -->
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName" />
+
+
+
+
+
+
+
+
+
+
+CERTO... O VUE VAI ATUALIZAR NOSSAS REFS 
+
+
+PARA NÓS,
+
+POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+MAS SE SALVARMOS TUDO ISSO,
+
+VEREMOS QUE 
+
+O 
+
+
+TWO-WAY BINDING NÃO VAI FUNCIONAR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O ERRO SERÁ 'PROPRIEDADE LASTNAME FOI ACESSADA DURANTE O RENDER,
+
+MAS NÃO ESTÁ DEFINIDA'...
+
+
+
+
+
+
+
+
+
+
+--> PQ RECEBEMOS ESSE ERROR?
+
+
+
+
+
+
+
+
+BEM, A PROPRIEDADE FOI DEFINIDA NO __ SETUP (que acontece no início),
+
+
+
+
+E ESTAMOS USANDO ESSA PROPRIEDADE 
+
+
+
+
+
+NO TEMPLATE,
+
+MAS __ AINDA NÃO ESTAMOS EXPONDO 
+
+
+ESSA REF... (
+
+
+    temos que colocar naquele return statement...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+AGORA FUNCIONOU...
+
+
+
+
+
+
+
+
+
+
+
+--> BASTA, ENTÃO:
+
+
+
+
+
+
+1) DEFINIR ESSAS REFS 
+
+
+
+2) AS EXPOR AO TEMPLATE, COM 'return {}'...
+
+
+
+
+
+3) DEFINIR ESSAS REFS COMO ALVO DO TWO-WAY-BINDING,
+
+
+com 'v-model' no template...
