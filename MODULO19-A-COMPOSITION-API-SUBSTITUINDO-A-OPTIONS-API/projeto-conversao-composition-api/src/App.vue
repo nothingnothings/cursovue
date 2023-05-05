@@ -15,7 +15,10 @@
       <h3>{{ joanaAge }}</h3>
       <h3>{{ counter }}</h3>
     </section>
+    <!-- <button @click="user.age = 32"></button> -->
+    <button @click="setNewData()"></button>
   </div>
+  
 </template>
 
 <script>
@@ -40,6 +43,11 @@ export default {
     // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
     // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
     // const uAge = ref(31);
+
+    ///É ASSIM QUE DEFINIMOS METHODS/FUNCTIONS, DENTRO DO SETUP METHOD... (ficarão disponíveis dentro do nosso COMPONENT, exatamente como 'methods:{}' na OPTIONS api do vue...)
+    const setNewData = () => {
+      user.age = 50;
+    };
 
     const uCounter = ref(0);
     const user = ref({
@@ -76,7 +84,7 @@ export default {
         user2.age = 24;
 
         user3.name = 'Joana 2';
-        user3.age = 50; 
+        user3.age = 50;
       },
 
       2000
@@ -95,6 +103,7 @@ export default {
 
       joanaName: user3Refs.name,
       joanaAge: user3Refs.age,
+      setNewData: setNewData //// É ASSIM QUE DEFINIMOS/PASSAMOS METHODS AO TEMPLATE DE NOSSO APP...
     };
   },
 };

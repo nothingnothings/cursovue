@@ -1,0 +1,1046 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK... 
+
+
+
+
+
+ESTUDAMOS 'REFS' PARA SINGLE VALUES,
+
+E 
+
+
+'REACTIVE' 
+
+
+
+
+
+PARA OBJECTS (
+
+
+    se queremos group 
+
+    values em 1 único bloco
+)
+,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E TUDO MAIS...
+
+
+
+
+
+
+
+
+
+
+
+
+MAS CHEGA DE REFS E REACTIVITY...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA DEVEMOS 
+
+
+
+ESTUDAR O SLIDE DE ANTES...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AS COISAS QUE FICAM AGLUTINADAS NO SETUP() 
+
+são:
+
+
+
+
+
+
+DATA(), METHODS, COMPUTED, WATCH..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AINDA TEMOS 'methods'
+
+
+
+
+'COMPUTED'
+
+
+e 
+
+'WATCH'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA ESTUDAREMOS OS METHODS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE TEMOS 1 BUTTON NESSA PAGE,
+
+ 
+
+ 1 BUTTON COMUM, SEM NENHUM STYLE..
+
+
+
+
+
+
+
+
+
+ --> ELE TERÁ 
+
+
+
+
+ 1 CAPTION DE 'CHANGE AGE'...
+
+
+
+
+
+
+
+
+--> COLOCAMOS 1 CLICK LISTENER,
+
+TIPO 
+
+
+
+'@click=""'
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+SE ESTIVÉSSEMOS USANDO A OPTIONS API,
+
+
+
+escreveríamos algo como 
+
+
+
+
+
+
+<button @click="setNewAge()"></button>
+
+
+
+
+
+methods: {
+    setNewAge() {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E, SE TIVÉSSEMOS UMA DATA PROPERTY COMUM,
+
+SETTARÍAMOS ALGO COMO 
+
+
+
+
+
+
+
+
+<button @click="setNewAge()"></button>
+
+
+data() {
+    return {
+        age: 10
+    }
+}
+
+
+
+methods: {
+    setNewAge() {
+        this.age = 40;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... MAS COMO NÃO TEMOS DATA,
+
+E NÃO 
+
+
+TEMOS 
+METHODS,
+
+
+NÃO 
+
+
+É POSSÍVEL 
+
+
+
+
+
+
+
+MUDAR O VALUE DE DATA ATRAVÉS DE METHODS,... 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS ENTÃO COMO DIABOS 
+
+PODEMOS 
+CHAMAR 
+
+1 FUNCTION,
+
+CHAMAR 
+
+1 CÓDIGO 
+
+A SER EXECUTADO,
+
+
+
+
+
+
+
+
+SEMPRE QUE 1 EVENT OCORRER?
+
+
+
+
+
+
+
+
+
+--> COMO VAMOS BINDAR 'CLICK' AQUI?
+
+
+
+
+
+
+
+
+
+
+--> BEM, É CLARO QUE PODERÍAMOS ESCREVER ALGO COMO ISTO:
+
+
+
+
+
+
+
+
+<button @click="user.age = 32"></button>
+
+
+
+  setup() {
+
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({
+      name: 'Manuel', 
+      age: 22,
+    });
+
+    const user3 = reactive({
+      name: 'Joana', 
+      age: 35,
+    });
+
+    const user3Refs = toRefs(user3);
+
+    return {
+
+ 
+      counter: uCounter,
+      user2: user2, 
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> ESSA LÓGICA FUNCIONARIA, SIM,
+
+  MAS RODAR 
+
+  TODA A LÓGICA INLINE 
+
+
+  É 
+
+  TERRÍVEL,
+
+
+  E NÃO É O QUE 
+
+  GOSTARÍAMOS DE FAZER...
+
+
+
+
+
+
+
+
+
+
+  É UMA BOA PRÁTICA NÃO COLOCAR 
+
+
+
+
+  MT LÓGICA 
+
+  DENTRO DO TEMPLATE...
+
+
+
+
+
+
+
+
+
+
+
+
+  ---> EM VEZ DISSO,
+
+  A SOLUÇÃO É BEM SIMPLES,
+
+
+  APESAR 
+
+  DE 
+
+
+
+  PARECER 1 POUCO ESTRANHA...
+
+
+
+
+
+
+
+
+
+  --> O METHOD DE 'setup()' 
+
+  É CHAMADO 1 ÚNICA VEZ,
+
+
+  NO MOMENTO EM QUE O COMPONENT 
+
+
+
+
+  EM QUESTÃO É CHAMADO...
+
+
+
+
+
+
+
+
+
+
+
+  --> É CHAMADO 1 ÚNICA VEZ... --> E, NESSE METHOD DE 'setup()',
+
+  VC 
+
+  BASICAMENTE DEFINE A DATA QUE 
+
+
+
+  SERÁ USADA 
+
+  NO SEU TEMPLATE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> BEM, E PODEMOS FAZER MAIS DO QUE 
+
+  SETTAR 
+  NOSSA DATA, AQUI DENTRO... --> PODEMOS TAMBÉM SETTAR __ METHODS___ 
+
+
+
+  dentro do 'setup()',
+
+
+
+  METHODS 
+  QUE 
+
+  SERÃO 
+
+
+
+
+  EXECUTADOS MAIS TARDE,
+
+  FUNCTIONS 
+
+  QUE SERÃO 
+
+  EXECUTADAS MAIS TARDE...
+
+
+
+
+
+
+
+
+
+
+  --> TIPO ASSIM:
+
+
+
+
+
+      ///É ASSIM QUE DEFINIMOS METHODS/FUNCTIONS, DENTRO DO SETUP METHOD... (ficarão disponíveis dentro do nosso COMPONENT, exatamente como 'methods:{}' na OPTIONS api do vue...)
+    const setNewData = () => {
+      user.age = 50;
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+MAS A PERGUNTA AGORA É:
+
+
+
+
+
+
+
+''COMO DEIXAMOS EXPOSTA ESSA FUNCTION AÍ 
+
+
+AO TEMPLATE DE NOSSO APP?''
+
+
+
+
+
+
+
+
+
+
+
+--> BEM,
+
+FAZEMOS ISSO EXATAMENTE DA MESMA FORMA QUE FAZEMOS O EXPOSE 
+
+DE 
+
+DATA 
+
+
+AO TEMPLATE:
+
+
+
+COLOCAMOS ESSA FUNCTION EM UMA KEY,
+
+LÁ EM 
+
+'return { }'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="container">
+      <h2>{{ user.name }}</h2>
+      <h3>{{ user.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ user2.name }}</h2>
+      <h3>{{ user2.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ joanaName }}</h2>
+      <h3>{{ joanaAge }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <!-- <button @click="user.age = 32"></button> -->
+    <button @click="setNewData()"></button>
+  </div>
+  
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    ///É ASSIM QUE DEFINIMOS METHODS/FUNCTIONS, DENTRO DO SETUP METHOD... (ficarão disponíveis dentro do nosso COMPONENT, exatamente como 'methods:{}' na OPTIONS api do vue...)
+    const setNewData = () => {
+      user.age = 50;
+    };
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Manuel', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 22,
+    });
+
+    const user3 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Joana', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 35,
+    });
+
+    const user3Refs = toRefs(user3); ////ESSE METHOD CONVERTE TODOS OS VALUES/KEYS 'NORMAIS' DE 1 OBJECT EM 'REFS' (bem útil...)
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+        //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
+        user.value.name = 'Max';
+        user.value.name = 34;
+        uCounter.value = 1;
+
+        user2.name = 'Manu';
+        user2.age = 24;
+
+        user3.name = 'Joana 2';
+        user3.age = 50;
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      // userName: user.value.name,  ///isso não funcionará...
+      // age: user.value.age,
+
+      user: user, // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
+      counter: uCounter,
+      user2: user2, //nos mostra o uso de 'reactive()''
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
+      setNewData: setNewData //// É ASSIM QUE DEFINIMOS/PASSAMOS METHODS AO TEMPLATE DE NOSSO APP...
+    };
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... OU SEJA,
+
+ESTAMOS 
+
+
+
+ARMAZENANDO 1 'POINTER' 
+
+A ESSA FUNCTION DE 'setNewData'
+
+
+
+dentro 
+
+DESSA KEY,
+
+NESSE RETURN... -> 
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+DENTRO DE 'return'
+
+COLOCAMOS 
+
+TODAS AS COISAS QUE 
+
+QUEREMOS QUE 
+sejam
+UTILIZADAS 
+
+
+
+NO TEMPLATE DE NOSSO COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+
+
+
+
+
+É POR ISSO QUE BINDAMOS NOSSO CLICK 
+
+
+A ESSE METHOD, QUE AGORA ESTÁ EXPOSTO...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... COM ISSO, AINDA PODEMOS MUDAR A AGE,
+
+
+
+MAS AGORA 
+
+
+COM ESSA FUNCTION EXPOSTA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO É MT SIMPLES,
+
+
+MAS É ASSIM QUE 
+
+PODEMOS EXPOR E UTILIZAR 
+
+
+FUNCTIONS 
+
+
+
+NO COMPOSITION API..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TAMBÉM PODEMOS EXECUTAR FUNCTIONS DENTRO DE INTERPOLATION,
+
+
+
+
+NA COMPOSITION API,
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+{{ setNewData() }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> PARA ALTERAR O VALUE DE REFS POR MEIO DE FUNCTIONS EXPOSTAS ASSIM,
+
+
+
+
+
+
+@click="setAge"
+
+
+
+
+FAZEMOS TIPO ASSIM:
+
+
+
+
+
+const uAge = ref(31);
+
+function setNewAge() {
+    uAge.value = 33;
+}
+
+
+
+
+
+
+return {
+    uAge,
+    setAge: setNewAge
+}
+
+
+
+
+
+
+
+
+CERTO... ISSO AINDA FUNCIONA, E O UPDATE AINDA FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+--> É ASSIM QUE PODEMOS 
+
+DEFINIR E UTILIZAR METHODS,
+
+PORTANTO..
