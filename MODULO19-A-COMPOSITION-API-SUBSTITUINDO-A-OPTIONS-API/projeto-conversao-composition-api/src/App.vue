@@ -10,12 +10,23 @@
       <h3>{{ user2.age }}</h3>
       <h3>{{ counter }}</h3>
     </section>
+    <section class="container">
+      <h2>{{ joanaName }}</h2>
+      <h3>{{ joanaAge }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
 import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+
 export default {
   // data() {
   //   return {
@@ -42,6 +53,14 @@ export default {
       age: 22,
     });
 
+    const user3 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Joana', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 35,
+    });
+
+    const user3Refs = toRefs(user3); ////ESSE METHOD CONVERTE TODOS OS VALUES/KEYS 'NORMAIS' DE 1 OBJECT EM 'REFS' (bem útil...)
+
     setTimeout(
       () => {
         // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
@@ -55,6 +74,9 @@ export default {
 
         user2.name = 'Manu';
         user2.age = 24;
+
+        user3.name = 'Joana 2';
+        user3.age = 50; 
       },
 
       2000
@@ -70,6 +92,9 @@ export default {
       user: user, // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
       counter: uCounter,
       user2: user2, //nos mostra o uso de 'reactive()''
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
     };
   },
 };

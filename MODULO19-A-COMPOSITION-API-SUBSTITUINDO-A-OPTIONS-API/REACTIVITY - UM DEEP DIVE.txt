@@ -1,0 +1,977 @@
+
+
+
+
+
+
+
+
+
+
+
+
+ANTES DE ESTUDARMOS MAIS 
+
+
+
+A COMPOSITION API,
+
+
+
+TEMOS UMA 
+
+
+
+
+
+LESSON OPCIONAL...
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER 
+
+MOSTRAR A REACTIVITY melhor,
+
+
+
+
+
+
+
+certificar-se de que todos entendemos 
+
+
+
+
+
+os conceitos...
+
+
+
+
+
+
+
+
+
+
+--> ele faz um console log 
+
+
+
+da 
+
+
+
+'age' (ref)
+
+
+
+e do 'user' (reactive object)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+O PRIMEIRO VALUE É UM REF,
+
+
+
+É UM OBJECT COM O PROP DE 'value',
+
+com 
+
+valor de 31...
+
+
+
+
+
+TAMBÉM TEMOS GETTERS E SETTERS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> JÁ O 'user',,
+
+
+REACTIVE OBJECT,
+
+
+É UM 
+
+PROXY,
+
+
+
+E DENTRO DESSE PROXY 
+
+
+
+
+
+
+__ TEMOS EXTRA HANDLERS PARA LIDAR COM DATA CHANGES,
+
+PARA QUE 
+
+O VUE 
+
+FIQUE 
+
+
+
+AWARE DISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> UMA MISTAKE COMUM,
+
+
+E QUE PODE SER DIFÍCIL DE ENTENDER, 
+
+
+
+
+
+É A NOÇÃO DE QUE 
+
+
+
+OS __ OBJECTS ( o 'ref' object e 'reactive') 
+
+
+SÃO __ rEATIVOS,
+
+SIM,
+
+
+
+
+MAS __ OS VALUES ARMAZENADOS
+ 
+
+
+ NELES, EM SI,
+
+
+ NÃO 
+
+
+ SÃO REATIVOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> É PRECISAMENTE POR CAUSA DISSO QUE 
+
+ DEVEMOS PASSAR OS 
+
+
+
+ 'RAW OBJECTS' INTEIROS 
+
+ LÁ NO RETURN,
+
+
+ tipo assim:
+
+
+
+
+
+const user = reactive(
+    {
+        name: 'Fulano',
+        age: 32
+    }
+)
+
+
+
+ return {
+    user: user  
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> RESUMINDO:
+
+
+
+
+OS VALUES 'OBJECT' EM SI SÃO REATIVOS,
+
+MAS 
+
+
+OS VALUES 
+
+
+ARMAZENADOS NO INTERIOR DOS OBJECTS 
+
+
+
+NÃO SÃO REATIVOS... --------> PQ ESSES VALUES NÃO SÃO REFS,
+
+
+
+
+ESSENCIALMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> CERTO... ATÉ AÍ, EU ENTENDI..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS NO CONSOLE.LOG,
+
+É POSSÍVEL VER O PROBLEMA...
+
+
+
+
+
+
+
+
+--> O PROFESSOR FAZ 1 CONSOLE.LOG DE 
+
+
+'uAge.value' 
+
+e 
+
+'user.name' 
+
+
+
+e 
+'
+user.age'..
+
+
+
+
+
+
+
+
+
+
+--> PROFESSOR FAZ CONSOLE.LOG 
+
+
+
+DISSO AÍ,
+
+
+
+
+
+
+
+
+e aí ele observa 
+
+
+'31'
+
+
+'Maximillian'
+
+
+'31' --------> SIGNIFICA QUE 
+
+
+TUDO ISSO AÍ 
+
+
+SÃO VALUES 
+
+COMUNS,
+
+
+
+SEM NENHUM 
+
+'WATCH MECHANISM'
+
+
+anexado a eles...
+
+
+
+
+
+
+
+
+
+
+-----> OK.... COM ISSO, FICA BEM CLARO QUE ESSA COISA NUNCA VAI MUDAR NO VUE,
+
+
+
+VAI SEMPRE SER UMA STRING/NUMBER 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, O VUE TEM HELPER METHODS QUE PODEM NOS AJUDAR A ENTENDER 'O QUE É REACTIVE E O QUE NÃO É'...
+
+
+
+
+
+
+
+
+-->  
+
+SÃO OS METHODS DE 'isReactive'
+
+
+
+
+e 
+
+'isRef'...
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> o código que o professor escreve é assim:
+
+
+
+
+
+
+
+
+console.log(isRef(uCounter)) ----------> RETORNA 'TRUE', pq é um REF value...
+
+
+
+
+
+
+console.log(isReactive(user)) ----> RETORNA TRUE, PQ É UM REACTIVE VALUE...
+
+
+
+
+
+
+
+console.log(user.name) ------> RETORNA 'FALSE', pq NÃO É UM REACTIVE VALUE...
+
+
+
+
+
+
+
+
+
+
+
+É BOM TER CIÊNCIA DESSES HELPER METHODS,
+
+QUE PODEM 
+
+SER USADOS 
+
+PARA DESCOBRIR SE 
+
+
+1 CERTO VALUE 
+
+
+É REACTIVE OU NÃO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK... MAS, NA VERDADE,
+
+
+
+EXISTE 1 MANEIRA DE DEIXAR 
+
+
+
+
+OS 
+
+
+
+NESTED VALUES __ _DENTRO _dE  1 
+
+
+REACTIVE OBJECT _ 
+
+
+
+ 
+
+ REATIVOS TAMBÉM... --> PARA ISSO, DEVE-SE TRANSFORMAR 
+
+
+ OS NESTED VALUES/KEYS 
+
+
+ EM 
+
+
+
+
+ 'REFS' também.... ---> PARA ISSO,
+
+
+ DEVEMOS USAR A FUNCTION DE 
+
+
+ 'toRefs',
+
+
+
+
+
+
+
+
+ QUE É 
+
+
+ 1 FUNCTION BEM SIMPLES... ------> 
+
+
+
+
+
+POR MEIO DESSA FUNCTION,
+
+
+
+
+
+
+
+TODOS OS VALUES EXISTENTES DENTRO DE 1 OBJECT 
+
+
+
+SÃO TRANSFORMADOS AUTOMATICAMENTE EM REFS....
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+import { toRefs } from "vue"; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const userRefs = toRefs(user);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- COM ISSO,
+
+
+
+
+
+TEMOS 1 OBJECT COM 
+
+
+AS PROPRIEDADES 
+
+
+'name' 
+
+e 
+
+'age',
+
+
+
+
+MAS 
+
+QUE SERÃO 
+
+REFS,
+
+E NÃO 
+
+VALUES 
+
+COMUNS... (sem ref)...
+
+
+
+
+
+
+
+
+
+
+
+
+--> BASTA ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="container">
+      <h2>{{ user.name }}</h2>
+      <h3>{{ user.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ user2.name }}</h2>
+      <h3>{{ user2.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ joanaName }}</h2>
+      <h3>{{ joanaAge }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Manuel', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 22,
+    });
+
+    const user3 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Joana', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 35,
+    });
+
+    const user3Refs = toRefs(user3); ////ESSE METHOD CONVERTE TODOS OS VALUES/KEYS 'NORMAIS' DE 1 OBJECT EM 'REFS' (bem útil...)
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+        //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
+        user.value.name = 'Max';
+        user.value.name = 34;
+        uCounter.value = 1;
+
+        user2.name = 'Manu';
+        user2.age = 24;
+
+        user3.name = 'Joana 2';
+        user3.age = 50; 
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      // userName: user.value.name,  ///isso não funcionará...
+      // age: user.value.age,
+
+      user: user, // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
+      counter: uCounter,
+      user2: user2, //nos mostra o uso de 'reactive()''
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+CERTO... 1 EXEMPLO DISSO É 
+
+'joanaName'
+
+e 'joanaAge',
+
+
+
+
+PQ ALI TEMOS 1 OBJECT 
+
+QUE 
+TEM 
+
+
+REFS 
+
+COMO KEYS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ISSO FOI 1 MONTE DE EXTRA DEEP DIVE STUFF....
+
+
+
+
+
+
+
+
+
+
+
+
+----> NÃO PRECISAREMOS TUDO ISSO 
+
+
+TODA HORA,
+
+
+mas é 
+
+bom 
+
+
+
+entender bem o que 
+
+
+
+
+acontece por trás das cenas...
+
+
+
+
+
+
+
+
+
+
+
+NAS PRÓXIMAS LIÇÕES,
+
+TEREMOS 
+
+MAIS DETALHES, SOBRE OUTRAS COISAS...
+
+
+
+
+
+
+
+AGORA DEVEMOS CONTINUAR COM O DATA MANAGEMENT, COM A COMPOSITION API...
