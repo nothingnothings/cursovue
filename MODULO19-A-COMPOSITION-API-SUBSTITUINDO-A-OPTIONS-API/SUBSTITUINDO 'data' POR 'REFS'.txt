@@ -1,0 +1,2058 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CONVERTENDO DE 'OPTIONS API' PARA 'COMPOSITION API'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+O PROFESSOR HAVIA MENCIONADO QUE 
+
+
+
+
+
+TUDO DEPENDE DAQUELAS 4 OPTIONS DA OPTIONS API (
+
+
+
+    data, methods, computed e watch...
+)
+
+
+
+
+
+
+
+
+
+
+
+ESSAS 4 OPTIONS SERÃO HANDLADAS DE FORMA DISTINTA,
+
+
+
+
+NA COMPOSITION API --------> ESSAS 4 OPTIONS 
+
+
+SERÃO 
+
+SUBSTITUÍDAS 
+
+
+
+
+POR CÓDIGO QUE 
+
+ESCREVEREMOS 
+
+
+
+NO CONFIG OBJECT DE 'setup()'.....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER, EM OUTRAS PALAVRAS,
+
+QUE 
+
+AS OUTRAS 
+
+OPTIONS,
+
+COMO 
+
+
+
+'emits: ',
+
+
+'props: ',
+
+
+
+'provides' 
+
+
+'inject',
+
+'components'
+
+
+
+
+
+e etc,
+
+
+
+TUDO ISSO CONTINUA A MESMA COISA...
+
+
+
+
+
+
+
+
+
+
+
+OUTRA COISA QUE MUDA SÃO OS LIFECYCLE HOOKS (como 'created', 'updated', mounted),
+
+
+
+
+
+MAS ISSO É ALGO QUE VEREMOS MAIS TARDE...
+
+
+
+
+
+
+
+
+
+AGORA VAMOS TROCAR O 'DATA' 
+
+
+
+PELO SETUP E A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+-> O PROFESSOR NOS DÁ UM PROJECT EXTRA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É UM PROJECT BEM SIMPLES, COM APENAS 
+
+1 
+
+
+ÚNICA 'App.vue'
+
+file,
+
+
+
+
+QUE 
+
+
+
+FAZ O SIMPLES OUTPUT DE 1 USER...
+
+
+
+
+
+
+
+
+
+--> FAZ O OUTPUT POR MEIO 
+
+
+DE 1 PROPRIEDADE 'data',
+
+O QUE 
+
+
+QUER DIZER QUE 
+
+
+AINDA 
+
+
+NÃO 
+
+ESTAMOS 
+
+USANDO 
+
+
+A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+O CÓDIGO É ESTE:
+
+
+
+
+ <template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      userName: 'Maximilian',
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... PARA USARMOS 
+
+
+
+
+A COMPOSITION API,
+
+REMOVEMOS 
+
+O 
+
+'data() {}',
+
+
+
+E AÍ 
+
+
+
+
+
+ADICIONAMOS O METHOD DE 'setup()'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+ <template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+export default {
+
+
+    setup() {
+
+    }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSE É UM METHOD QUE PODEMOS ADICIONAR NO VUE3...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+adicionado o setup,
+
+
+DEVEMOS 
+
+
+SUBSTITUIR 
+
+A DATA QUE TÍNHAMOS EM 'data' 
+
+
+POR 
+
+
+
+
+ALGO 
+
+
+NO 'setup'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... DENTRO DE 'setup()',
+
+
+
+
+O VUE NOS 
+
+PROPORCIONA 2 FEATURES NOVAS,
+
+QUE NOS 
+
+AJUDAM COM O MANAGE DE DATA...
+
+
+
+
+
+
+
+
+
+
+
+
+---> para conseguir essas features,
+
+precisamos 
+
+importar algo do vue...
+
+
+
+
+
+
+
+
+
+--> SERÁ O 'ref':
+
+
+
+
+
+
+
+
+import { ref } from "vue";
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue';  ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+
+
+  setup() { // ? É O PILAR CENTRAL DA COMPOSITION API 
+
+    ref
+  }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+APRENDEMOS SOBRE REFS NO PASSADO,
+
+
+
+E ISSO TEM 
+
+
+1 POUCO A VER COM AQUILO,
+
+
+MAS 
+
+
+
+POR ORA DEVEMOS IGNORAR 
+
+
+O QUE SABÍAMOS SOBRE REFS ATÉ AGORA ( 
+    pq esse conceito ainda é diferente...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+'ref' 
+É UMA FUNCTION QUE 
+
+PODEMOS CHAMAR DENTRO DE 'setup()' --> E O REF VAI CRIAR UMA REFERENCE,
+
+
+
+SIM,
+
+
+
+MAS NÃO SÓ UMA REFERÊNCIA A UM DOM ELEMENT,
+
+E SIM 
+
+
+
+
+1 __ VALUE_ QUE PODEMOS __ 
+
+USAR/REFERENCIAR 
+
+
+
+
+
+NO NOSSO TEMPLATE (por exemplo)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ok...
+
+
+
+
+
+ref() --> CRIA 1 VALUE -----> MAS NÃO SERÁ 1 
+
+VALUE 
+
+COMUM,
+
+E SIM 
+
+UM 
+'REACTIVE  VALUE' --------> É 1 VALUE 
+
+
+QUE 
+
+ 
+O 
+
+
+
+
+VUE SERÁ CAPAZ DE DETECTAR QUANDO É ALTERADO,
+
+QUE 
+
+
+VAI CAPAR DE FAZER 'WATCH' EM CIMA,
+
+
+
+E QUE 
+
+O VUE 
+
+
+VAI SER CAPAZ DE ATUALIZAR 
+
+
+O TEMPLATE 
+
+SEMPRE QUE 
+
+
+
+ESSE VALUE FOR ALTERADO, E QUANDO ESSE VALUE ESTIVER SENDO USADO 
+
+
+NO TEMPLATE....
+
+
+
+
+
+
+
+
+
+
+
+
+----> OK.. MAS 'REF' ASSIM, DESSA FORMA,
+
+NÃO FAZ COISA ALGUMA..
+
+
+
+
+
+
+
+
+
+
+--> ELE CRIA UM VALUE, SIM,
+
+MAS PRECISAMOS 
+
+ARMAZENAR 
+
+
+
+
+ESSE VALUE EM UMA VARIÁVEL OU CONSTANTE...
+
+
+
+
+
+
+
+
+
+--> CERTO.. MAS NÃO PODEMOS USAR o 'this' 
+
+
+DENTRO 
+
+
+
+
+DO 
+
+
+'setup() {
+
+}'...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ O 'this'
+
+
+NÃO SE REFERE AO 'VUE CONFIG OBJECT' ( que é o que acontece na OPTION API )...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ 'SETUP' É UM METHOD EXECUTADO PELO VUE __ MT CEDO___,
+
+DURANTE 
+
+O COMPONENT INITIALIZATION PROCESS, 
+
+
+EM UM MOMENTO EM QUE 
+
+
+O COMPONENT 
+DO VUE 
+
+
+AINDA NÃO FOI INICIALIZADO,
+
+O QUE 
+QUER DIZER QUE 
+
+
+'this'
+
+NÃO 
+
+VAI ENTREGAR ACESSO àS COISAS COM QUE 
+
+ESTAMOS 
+
+ACOSTUMADOS,
+
+
+
+COMO 
+
+
+'this.props',
+
+
+
+
+etc etc...
+
+
+
+
+
+
+
+
+
+--> E, ALÉM DISSO,
+
+NÃO VAMOS 
+
+ARMAZENAR ESSE 
+
+VALUE EM QUALQUER PROPRIEDADE 
+
+
+
+
+DO 
+
+
+
+'OVERALL CONFIG OBJECT'... -> em vez disso,
+
+
+
+
+VAMOS ARMAZENAR 
+
+ISSO 
+
+
+EM UMA 
+
+'PLAIN VANILLA CONSTANT'...
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM:
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const userName = ref();  ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+E PODEMOS PASSAR O ACTUAL VALUE QUE QUEREMOS ARMAZENAR __ COMO 
+
+
+ARGUMENTO 
+
+DESSA 
+
+FUNCTION DE 'ref()' ------> 
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const userName = ref('Maximillian');  ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue...
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ISSO, NO CASO,
+
+CRIA UMA 'REACTIVE STRING',
+
+
+por assim dizer...
+
+
+
+
+
+
+
+UNDER THE HOOD,
+
+
+
+
+
+É CRIADO 1 OBJECT,
+
+E 
+
+ESSA STRING É ARMAZENADA NESSE OBJECT...
+
+
+
+
+
+
+
+
+
+
+
+
+E, ENTÃO, O VUE WATCHA ESSE OBJECT,
+
+PARA QUE 
+
+
+SEMPRE QUE TENTARMOS 
+
+
+ARMAZENAR UM VALUE 
+
+DIFERENTE 
+
+DAQUELA STRING INICIAL,
+
+o VUE VAI FICAR 
+
+'AWARE' DISSO,
+
+E AÍ 
+
+
+
+SERÁ 
+
+CAPAZ
+
+
+DE ATUALIZAR O DOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS SE TENTARMOS SALVAR ESSE 
+
+
+CÓDIGO,
+
+GANHAMOS 1 ERROR:
+
+
+
+'O VALUE DE USERNAME FOI CRIADO, MAS NUNCA FOI USADO'...
+
+
+
+
+
+
+
+
+
+
+
+E É VERDADE,
+
+PQ O CRIAMOS, 
+
+MAS NUNCA O UTILIZAMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> PODERÍAMOS PENSAR QUE ESTÁ SENDO USADO NO TEMPLATE, 
+
+
+com 
+
+
+'{{ userName }}',
+
+
+
+MAS ESSE NÃO É O CASO...
+
+
+
+
+
+
+
+
+
+SIM, NA OPTIONS API,
+
+
+
+NÓS TÍNHAMOS ACESSO A TODAS AS DATA PROPERTIES,
+
+COMPUTED PROPERTIES E ETC 
+
+
+
+
+LÁ 
+
+
+NO DOM,
+DIRETAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS ESSE NÃO É O CASO __ PARA __ AS CONSTANTES QUE 
+
+VC 
+
+TEM 
+
+NO 
+
+METHOD 
+DE 
+
+
+'setup()' --> SE VC TIVER UMA 
+
+CONSTANTE/VARIÁVEL 
+
+
+
+NA COMPOSITION API,
+
+
+
+ESCRITA ALI DENTRO,
+
+
+
+
+
+
+
+__ ELA __ NÃO ESTARÁ __ DISPONÍVEL IMEDIATAMENTE AO DOM/TEMPLATE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EM VEZ DISSO,
+PRECISAMOS FAZER 1 ETAPA EXTRA... --> PRECISAMOS FAZER 'RETURN' DA COISA QUE 
+
+PLANEJAMOS 
+
+FAZER 'EXPOSE',
+
+
+
+
+
+AO TEMPLATE DO COMPONENT A QUE ESSE 
+
+
+
+CONFIG OBJECT PERTENCE...
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const userName = ref();  ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+ 
+    return {
+
+    }
+  },
+
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+    setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const userName = ref();  ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    
+    return { //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+
+
+    } 
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, NESSE OBJECT,
+
+
+COLOCAMOS 
+
+
+
+
+TODAS AS COISAS __ QUE _ QUEREMOS EXPOR AO TEMPLATE....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE, AQUI,
+
+
+VAMOS COLOCAR 1 KEY DE userName: xxxx...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const userName = ref(); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: userName,
+    };
+  },
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+<template>
+  <section class="container">
+    <h2>{{ userName }}</h2>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue'; ///usado com a COMPOSITION API...
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const uName = ref(); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É ASSIM QUE CRIAMOS E UTILIZAMOS 1 VALUE,
+
+COM 
+
+
+
+A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> PARA ISSO, USAMOS O METHOD DE 'ref()' -->  NA VERDADE,
+
+SE 
+
+REMOVERMOS 
+O 
+
+METHOD DE 'ref()',
+
+
+
+E AÍ 
+
+
+
+SE TENTAMOS 
+
+
+
+RETORNAR TIPO ASSIM:
+
+
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API
+
+    const uName = 'Maximillian' 
+    return {
+      userName: uName, 
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK... SE FIZÉSSEMOS ISSO,
+
+
+  O VALUE DE 'Maximilian'
+
+
+  TAMBÉM APARECERIA 
+
+  NA TELA...
+
+
+
+
+
+
+
+
+  --> QUAL É A MORAL DE USAR 'ref()', então?
+
+
+
+
+
+
+
+
+
+  É 
+
+  PQ 
+
+
+
+  SE CRIAMOS 
+
+
+  NOSSO VALUE COM 'ref()',
+
+  ele se torna um REACTIVE VALUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK.... 
+
+
+
+
+
+  AGORA, PARA MOSTRAR COMO FUNCIONA ESSE 'VALOR REATIVO DO REF',
+
+
+
+
+
+
+
+
+
+  O PROFESSOR USA 'setTimeout()' --> ELE VAI QUERER TROCAR O 
+
+
+  VALUE DESSE REF DEPOIS DE CERTO TEMPO..
+
+
+  tipo assim:
+
+
+
+
+
+
+
+
+
+  setup() {
+    let uName = ref('Maximilian');
+
+
+    setTimeout(
+      () => {
+
+      },
+
+      2000
+    )
+
+
+    return {
+      userName: uName
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  CERTO.. 
+
+
+
+
+
+
+
+  MAS NAÕ PODEMOS SIMPLESMENTE TROCAR O VALUE DE 'uName' diretamente, com 
+
+
+
+  'uName = Max'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PODERÍAMOS ASSIGNAR 1 NOVO VALUE,
+
+
+SIM,
+
+
+MAS __ COM ISSO__ FARÍAMOS __ OVERWRITE DO ___ rEF ANTERIOR, REATIVO,
+
+COM UMA 'SIMPLE STRING'....
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE  FIZÉSSEMOS ISSO,  PERDERÍAMOS O VALUE ESPECIAL 'REF',
+
+
+E ISSO É RUIM 
+
+
+
+
+
+PQ __ A REF __ TEM ALGUNS 'BUILT-IN MECHANISMS' 
+
+QUE 
+
+
+
+
+AJUDAM O VUE A _ _DETECTAR CHANGES NO SEU VALUE... ----------> PQ SE FIZERMOS 
+
+
+O CHANGE 
+
+
+COM 
+
+
+'uName = 'Max'; ,
+
+
+
+
+
+
+O VUE NÃO   VAI CONSEGUIR ATUALIZAR A TELA...
+
+
+
+
+
+
+
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    let uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+
+
+    setTimeout(
+      () => {
+        uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+      }, 
+
+      2000
+    )
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK, UM NOVO VALUE É 
+
+  SETTADO PARA O 'uName',
+
+
+
+  MAS __ ESSA MUDANÇA, 
+
+
+  ESSE NOVO VALUE,
+
+  NUNCA É 
+
+  'PICKED UP' 
+  PELO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+  --> E O METHOD DE 'setup' RODA __ APENAS 1 ÚNICA VEZ, O QUE QUER 
+
+
+  DIZER QUE NUNCA MAIS É RETORNADO UM OBJECT ({}) com um novo value para o 'uName'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  E É EXATAMENTE POR ISSO QUE ARMAZENAMOS O VALUE de 'ref('Maximilian')' 
+
+
+
+
+
+
+
+  EM  UMA __ CONSTANTE,
+
+  PQ _ NÓS NUNCA MAIS VAMOS ALTERAR O VALUE _ BASe___ DESSE NEGÓCIO...
+
+
+
+
+
+
+
+
+
+
+
+  ELE VAI FICAR  TIPO ASSIM:
+
+
+
+
+    setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+
+
+      2000
+    )
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+    };
+  },
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+PARA CONSEGUIR ALTERAR O VALUE DE 'uName', que segura 
+
+essa ref,
+
+
+
+
+DEVEMOS 
+
+
+
+ACESSAR 1 PROPRIEDADE de '.value'
+
+DENTRO DA CONSTANTE QUE ESTÁ SEGURANDO
+ 
+ ESSE REF...
+
+
+
+
+
+
+
+
+
+--> PQ CADA FUNÇÃO 'REF()'
+
+cria 1 object,
+
+e dentro desse object 
+
+
+
+TEMOS 
+
+
+1 PROPRIEDADE 'value'...
+
+
+
+
+
+
+
+--> BASTA ESCREVER ASSIM:
+
+
+
+
+
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        uName.value = 'Max'; ///basta escrever assim
+      },
+
+      2000
+    );
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  OK...
+
+
+
+
+
+
+
+
+
+  FAÇA ASSIM PARA CONSEGUIR ALTERAR O VALUE DESSA COISA, LÁ NO DOM...
+
+
+
+
+
+
+
+
+
+
+
+--> E É POR ISSO QUE USAMOS UMA 'REF' aqui.. --> É UM VALUE REATIVO,
+
+E PODEMOS 
+
+
+
+MANAGEAR QUALQUER VALUE AQUI,
+
+
+
+UMA STRING,
+
+1 NUMBER,
+
+1 BOOLEAN,
+QUALQUER COISA...
+
+
+
+
+
+
+
+
+
+--> O VUE VAI OBSERVAR ISSO,
+E AÍ VAI 
+
+ALTERAR ESSE VALUE, 
+
+PARA ALTERAR O VALUE MOSTRADO NO DOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO.... MAS NUNCA ACESSE 
+
+
+'userName.value' 
+
+DENTRO 
+
+
+
+DAS INTERPOLATIONS, TIPO ASSIM:
+
+
+
+
+
+
+
+{{ userName.value }}
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE __ SÓ __ USAMOS ESSA PROPRIEDADE DE 'userName.value'
+
+
+PARA __ ASSIGNAR__ NOVOS VALUES __ 
+
+
+
+A ESSE VALUE/REF...
