@@ -1,0 +1,143 @@
+
+
+
+
+
+
+
+
+ACABAMOS COM O CORE DO 
+
+COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+--> VIMOS QUE AS COISAS QUE REALMENTE MUDAM 
+SÃO: 
+
+
+
+
+
+
+
+
+1) DATA  (ref() e reactive(), e toRefs() )
+
+
+
+2) METHODS --> viram FUNCTIONS COMUNS, DENTRO DE 'setup()'...
+
+
+
+
+
+
+3) COMPUTED --> viram ' nomeDaComputedProperty = computed(() => {})' 
+
+
+
+
+
+4) WATCH --> agora é 'watch((dependency) => {console.log(dependency)})
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO...
+
+
+
+
+
+
+
+
+ MAS O PROFESSOR DIZ QUE 
+
+
+ HÁ ALGUMAS COISAS/PONTOS QUE 
+
+ VC 
+
+ DEVE 
+ SABER RESOLVER,
+
+ QUANDO 
+
+ TROCAR 
+
+ DA OPTIONS API PARA A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+ E É EXATAMENTE POR ISSO QUE VAMOS APLICAR 
+
+
+ A 
+
+
+ COMPOSITION API 
+ A UM 
+
+ PROJETO MAIOR,
+
+
+
+ JUSTAMENTE 
+
+ PARA COMPREENDERMOS 
+
+
+ OS DETALHES/PROBLEMAS 
+
+
+ QUE PODEM SURGIR, AO CONVERTER 1 APP....
+
+
+
+
+
+
+
+
+
+
+
+
+
+ NA PRÓXIMA LIÇÃO,
+
+ VEREMOS ALGUNS ASPECTOS 
+
+ PONTUAIS QUE PODEM APARECER,
+
+ QUANDO TRABALHARMOS COM A COMPOSITION API...
