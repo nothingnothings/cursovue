@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { watch, ref, computed } from 'vue';
+import { watch, ref, computed, toRefs } from 'vue';
 import ProjectItem from './ProjectItem.vue';
 
 export default {
@@ -63,7 +63,16 @@ export default {
       }, 300);
     });
 
-    watch(props.user, () => {
+    // watch(props.user, () => { ////NÃO PODEMOS FAZER WATCH DE 'user' EM SI, PQ O 'user' EM SI __ NAÕ É UM REACTIVE VALUE...
+    // watch(props, () => {  ////como 'props' é um REACTIVE OBJECT, é possível fazer WATCH de seu value...
+    //   enteredSearchTerm.value = '';
+    // });
+
+    // PORÉM, MELHOR DO QUE ISSO É __ FAZER WATCH DA REF DE 'user', que pode ser extraída por meio de 'toRefs' e OBJECT DESTRUCTURING, tipo assim:
+
+    const { user } = toRefs(props);
+
+    watch(user, () => {
       enteredSearchTerm.value = '';
     });
 

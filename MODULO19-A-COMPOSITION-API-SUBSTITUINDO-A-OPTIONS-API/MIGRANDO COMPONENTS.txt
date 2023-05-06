@@ -1,0 +1,546 @@
+FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+<template>
+  <main>
+    <user-list :users="activeUsers" @list-projects="selectUser"></user-list>
+    <projects-list :user="selectedUser"></projects-list>
+  </main>
+</template>
+
+<script>
+import { ref } from 'vue';
+import USER_DATA from './dummy-data.js';
+
+import UserList from './components/users/UserList.vue';
+import ProjectsList from './components/projects/ProjectsList.vue';
+
+export default {
+  components: {
+    UserList,
+    ProjectsList,
+  },
+
+  setup() {
+    const selectedUser = ref(null);
+    const activeUsers = ref(USER_DATA);
+
+    const selectUser = (userId) => {
+      selectedUser.value = activeUsers.value.find((usr) => usr.id === userId);
+    };
+
+    return {
+      selectedUser,
+      activeUsers,
+      selectUser,
+    };
+  },
+
+  // data() {
+  //   return {
+  //     selectedUser: null,
+  //     activeUsers: USER_DATA,
+  //   };
+  // },
+  // methods: {
+  //   selectUser(uid) {
+  //     this.selectedUser = this.activeUsers.find((usr) => usr.id === uid);
+  //   },
+  // },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: sans-serif;
+}
+body {
+  margin: 0;
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #00006b;
+  background-color: transparent;
+  color: #00006b;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+button:hover,
+button:active {
+  background-color: #efefff;
+}
+
+button.selected {
+  background-color: #00006b;
+  color: white;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR FALA DE ALGO QUE EU FIZ, QUE NÃO ESTÁ CERTO:
+
+
+
+
+
+(GANHO 'INVALID WATCH SOURCE: NULL', erro no console do devtools)
+
+
+
+
+
+
+
+
+ISTO:
+
+
+
+
+
+
+
+    watch(props.user, () => {
+      enteredSearchTerm.value = '';
+    });
+
+
+
+
+
+
+
+
+
+EM PROJECSTLIST,
+
+
+
+ESTOU FAZENDO WATCH DE 'props.user',
+
+MAS ISSO NÃO É BOM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+NÃO É BOM, E NÃO VAI FUNCIONAR...
+
+
+
+
+
+
+
+
+
+
+
+-> NÃO VAI FUNCIONAR JUSTAMENTE PQ 
+
+
+
+ESTAMOS 'DRILLING INTO A REACTIVE OBJECT',
+
+para 
+
+então 
+
+OBSERVAR 1 'NON-REACTIVE VALUE'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+    // watch(props.user, () => { ////NÃO PODEMOS FAZER WATCH DE 'user' EM SI, PQ O 'user' EM SI __ NAÕ É UM REACTIVE VALUE...
+    watch(props, () => {  ////como 'props' é um REACTIVE OBJECT, é possível fazer WATCH de seu value...
+      enteredSearchTerm.value = '';
+    });
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+ISSO É FINE AQUI,
+
+
+
+PQ 
+
+TEMOS APENAS 1 PROP...
+
+
+
+
+
+
+
+
+
+
+
+MAS SE TIVERMOS MÚLTIPLOS PROPS, ISSO SERÁ RUIM,
+
+
+PQ 
+
+
+AÍ 
+
+
+
+ISSO SIGNIFICA QUE QUALQUER CHANGE EM PROPS 
+
+
+
+
+
+TRIGGARIA ESSE WATCHER...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA EVITAR __ ESSE COMPORTAMENTO DESSE WATCHER DE 'PROPS',
+
+
+
+
+DEVEMOS 
+
+USAR 
+
+
+
+A FUNCTION De 'toRefs',
+
+
+
+CHAMÁ-LA EM CIMA 
+
+
+
+
+DE 'props',
+
+
+
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+const propsWithRefs = toRefs(props);
+const user = propsWithRefs.user;
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+
+VAMOS CONSEGUIR EXTRAIR EXATAMENTE A 'REF' DE USER,
+
+
+
+
+E NÃO 1 'USER ESTÁTICO'...
+
+
+
+
+
+
+
+
+--> PARA FICAR COM UMA SINTAXE AINDA MAIS MODERNA,
+
+PODEMOS ESCREVER ASSIM:
+
+
+
+
+
+
+
+
+const { user } = toRefs(props);
+
+
+
+
+
+
+
+
+
+
+POR MEIO DESSE OBJECT DESTRUCTURING,
+
+CONSEGUIMOS PRECISAMENTE O VALUE DE 'user' como um REF,
+
+
+
+
+QUE ENTÃO PODEMOS 
+
+PASSAR NAQUELE WATCH,
+TIPO ASSIM:
+
+
+
+
+
+
+
+const { user } = toRefs(props);
+
+
+
+
+EX:
+
+
+
+
+
+
+    const { user } = toRefs(props);
+
+    watch(user, () => {
+      enteredSearchTerm.value = '';
+    });
+
+
+
+
+
+
+
+
+
+  OK... É ASSIM QUE CONSEGUIMOS FAZER 
+
+  O WATCH 
+
+  DESSA 
+
+  REF,
+
+
+  DESSE 'PROP'
+
+  ESPECÍFICO DENTRO DE 'PROPS'...
+
+
+
+
+
+
+
+
+
+
+  --> OK... SE RECARREGARMOS A PÁGINA, TUDO FUNCIONARÁ...
+
+
+
+
+
+
+
+
+
+
+
+
+  COM ISSO, FIZEMOS O APP FUNCIONAR COM A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+  ISSO NOS MOSTRA A MANEIRA PELA QUAL A COMPOSITION API 
+
+
+FUNCIONA,
+
+
+
+
+E COMO ELA PODE SER MELHOR PARA 'COMPONENTS MAIORES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR QUER VOLTAR AO SEGUNDO TÓPICO 
+
+
+
+
+DAS VANTAGENS DE USAR A 
+
+COMPOSITION API,
+
+QUE É 
+
+A 
+
+'REUTILIZAÇAÕ DE LÓGICA, POR MEIO DA COMPOSITION API' (
+
+
+
+
+
+É UMA DAS RAZÕES PARA UTILIZAR A COMPOSITION API,
+
+PQ A REUTILIZAÇÃO DE LÓGICA REALMENTE SE TORNA MAIS FÁCIL COM ELA...
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+--> MAS VEREMOS TUDO ISSO NO PRÓXIMO MÓDULO,
+
+
+QUE É 
+
+SOBRE 
+
+
+O 'REUSE DE LÓGICA EM GERAL' (
+
+
+  tanto na OPTIONS API como na COMPOSITION API...
+)

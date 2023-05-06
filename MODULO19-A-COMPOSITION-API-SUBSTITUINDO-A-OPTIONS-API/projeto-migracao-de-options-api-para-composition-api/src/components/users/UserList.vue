@@ -35,7 +35,7 @@ export default {
     UserItem,
   },
   props: ['users'],
-
+  emits: ['list-projects'],
   setup(props) {
     //data
     const enteredSearchTerm = ref('');
