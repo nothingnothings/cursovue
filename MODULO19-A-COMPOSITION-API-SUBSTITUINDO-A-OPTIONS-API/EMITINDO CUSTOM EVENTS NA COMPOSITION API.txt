@@ -1,0 +1,435 @@
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS O METHOD DE 'setup' 
+
+
+
+
+
+
+
+
+__ RECEBE MAIS COISAS DO QUE O PARAMETER DE 
+
+
+'props'...
+
+
+
+
+
+
+
+
+ELE SEMPRE RECEBE 1 SEGUNDO PARÂMETRO,
+
+QUE 
+É 
+
+
+'ALIMENTADO' PELo vue...
+
+
+
+
+
+
+
+
+
+--> O SEGUNDO PARAMETER 
+
+
+É 
+
+
+
+O 'context' object...
+
+
+
+
+
+
+
+
+
+
+
+
+-> TIPO ASSIM:
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+  <script>
+import { computed } from 'vue';
+export default {
+  /// props: ['userName', 'age'],
+
+  props: ['firstName', 'lastName', 'age'], //para conseguir acesso aos PROPS, na composition api, PRECISAMOS USAR OS PARÂMETROS EM 'setup()'...
+
+  setup(props, context) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+    return {
+      userName: uName,
+    };
+  },
+
+  //   computed: {
+  //     userName() {
+  //       return this.firstName + ' ' + this.lastName;
+  //     },
+  //   },
+};
+</script>
+  <style>
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+  MAIS ESPECIFICAMENTE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  setup(props, context) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+    return {
+      userName: uName,
+    };
+  },
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+  setup(props, context) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    ///'context' é usado para coisas como CUSTOM EVENTS, por exemplo..
+
+
+    console.log(context)
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+    return {
+      userName: uName,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+--> SE SALVAMOS ISSO E RECARREGAMOS,
+
+
+
+
+
+
+
+
+
+ENXERGAMOS, COM O CONSOLE.LOG,
+AS COISAS QUE EXISTEM DENTRO DE 'context'...
+
+
+
+
+
+
+
+
+ENXERGAMOS 3 PROPRIEDADES IMPORTANTES,
+DENTRO 
+
+
+DE 'context':
+
+
+
+
+
+'attrs',
+
+
+'emits'
+
+
+
+e 
+'slots'...
+
+
+
+
+
+
+
+
+
+
+
+'attrs' --> SÃO QUAISQUER 
+
+
+'FALLTHROUGH ATTRIBUTES' 
+
+que vc tem,
+
+
+
+como por exemplo 
+'selected',
+
+
+ou 
+
+
+uma class qualquer... 'class="xx" '
+
+
+
+
+
+
+
+
+
+
+
+'attrs' é quase como se fosse 1 optional prop, por assim dizer...
+
+
+
+
+
+
+
+
+
+
+
+--> se definimos uma class nesse component,
+
+
+
+
+
+
+ele vai aparecer nesse 'attrs'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+'slots' --> ISSO TE DÁ QUALQUER DATA __ NOS SLOTS_ DO SEU COMPONENT....
+
+
+
+
+
+
+
+
+
+
+
+-> SE VC TIVER ALGUMA DATA PASSADA POR MEIO DE SLOTS,
+
+VC PODE USAR 
+
+ESSA PROPRIEDADE PARA ACESSAR ESSES VALUES __ PROGRAMATICAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> e 'emits'
+
+
+,
+
+NO CASO,
+
+É UMA FUNCTION QUE 
+
+VC 
+
+
+PODE 
+
+
+
+USAR 
+
+ __ PARA __ EMITIR __ EVENTS -------> COM A 'OPTIONS API',
+
+
+
+
+ USÁVAMOS 
+
+
+ 'this.$emit()"...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> MAS COMO NÃO TEMOS O 'this'
+
+ DISPONÍVEL NO 'composition api',
+
+
+ SOMOS FORÇADOS 
+
+
+ a usar 
+
+
+ 'context.emit()'..
+
+ (QUE FUNCIONA EXATAMENTE COMO 'this.$emit()'...
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+  setup(props, context) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    ///'context' é usado para coisas como CUSTOM EVENTS, por exemplo..
+
+
+    //dentro de context, temos: 'attrs' (passthrough attributes passados a esse component)
+    // 'slots' --> é a data passada dentro dos slots desse component (se ele tiver algum slot) 
+    // 'emit' --> é 1 function, MT IMPORTANTE, USADA PARA EMITIR DATA (exatamente como 'this.emit()')
+
+
+
+    context.emit('exemploDeEventoCustom'); ////é assim que emitimos eventos, com a composition api..
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+    return {
+      userName: uName,
+    };
+  },
+
+
+
+
+
+
+
+
+
+  NÃO PRECISAMOS DE EMIT AQUI,
+
+  MAS É BOM SABER DISSO...

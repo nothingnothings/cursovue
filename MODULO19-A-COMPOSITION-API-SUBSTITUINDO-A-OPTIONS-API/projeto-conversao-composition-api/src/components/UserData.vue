@@ -11,8 +11,18 @@ export default {
 
   props: ['firstName', 'lastName', 'age'], //para conseguir acesso aos PROPS, na composition api, PRECISAMOS USAR OS PARÂMETROS EM 'setup()'...
 
-  setup(props) {
+  setup(props, context) {
     ///props vai segurar todos os props passados a esse component nosso...
+    ///'context' é usado para coisas como CUSTOM EVENTS, por exemplo..
+
+
+    //dentro de context, temos: 'attrs' (passthrough attributes passados a esse component)
+    // 'slots' --> é a data passada dentro dos slots desse component (se ele tiver algum slot) 
+    // 'emit' --> é 1 function, MT IMPORTANTE, USADA PARA EMITIR DATA (exatamente como 'this.emit()')
+
+
+
+    context.emit('exemploDeEventoCustom'); ////é assim que emitimos eventos, com a composition api..
     const uName = computed(() => {
       return props.firstName;
     });
