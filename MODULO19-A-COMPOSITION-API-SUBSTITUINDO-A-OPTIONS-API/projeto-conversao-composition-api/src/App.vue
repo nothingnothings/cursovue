@@ -1,6 +1,10 @@
 <template>
   <div>
     <section class="container">
+      <!-- <UserData :userName="fullName" :age="user.age"></UserData> -->
+      <UserData :firstName="firstName" :lastName="lastName" :age="user.age"></UserData>
+    </section>
+    <section class="container">
       <h2>{{ user.name }}</h2>
       <h3>{{ user.age }}</h3>
       <h3>{{ counter }}</h3>
@@ -55,12 +59,18 @@ import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OB
 import { computed } from 'vue';
 import { watch } from 'vue';
 
+import UserData from './components/UserData.vue';
+
 export default {
   // data() {
   //   return {
   //     userName: 'Maximilian',
   //   };
   // },
+
+  components: {
+    UserData,
+  },
 
   setup() {
     // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
@@ -133,7 +143,6 @@ export default {
       // firstName.value = this.$refs.someNameInput.value /// ISSO NÃO FUNCIONARÁ (o uso de 'this.$refs' DENTRO DO SETUP METHOD DA COMPOSITION API _ NÃO FUNCIONA...)
       //isso n funciona justamente pq o 'this' NÃO EXISTE DENTRO DO CONTEXTO DO 'setup()', da COMPOSITION API...
 
-
       //refs no template SÃO A MESMA COISA QUE REFS NO 'setup()'...
 
       //'.value' (consegue acesso ao VALUE DENTRO DESSE REF)... ('.value.value') --> CONSEGUE ACESSO AO VALUE DO OBJECT DE 'input', que também tem uma propriedade '.value'...
@@ -190,7 +199,6 @@ export default {
       setLastName,
       setFirstName,
       setSomeName,
-
     };
   },
 };

@@ -1,0 +1,1265 @@
+
+
+
+
+
+
+
+
+
+
+OK... ATÉ AGORA,
+
+
+O PROFESSOR SÓ TRABALHOU COM 1 ÚNICO COMPONENT....
+
+
+
+
+
+
+
+
+
+
+--> TIPICAMENTE TRABALHAREMOS COM MÚLTIPLOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR CRIA 1 FOLDER DE COMPONENTS,
+
+E CRIA 
+
+
+1 COMPONENT DE 
+
+'UserData.vue'...
+
+
+
+
+
+
+
+
+
+--> O CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+<script>
+export default {
+  props: {},
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> USER NAME E AGE 
+
+
+
+SERÃO DADOS QUE CHEGARÃO DO LADO DE FORA,
+
+
+POR ISSO OS DEFINIMOS COMO PROPS...
+
+
+
+
+
+
+Ex:
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+<script>
+export default {
+  props: ['userName', 'age'],
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO FEITO,
+
+IMPORTAMOS 
+
+ESSE COMPONENT 
+
+LÁ 
+
+
+
+NO COMPONENT DE 'App.vue',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="container">
+      <UserData></UserData>
+    </section>
+    <section class="container">
+      <h2>{{ user.name }}</h2>
+      <h3>{{ user.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ user2.name }}</h2>
+      <h3>{{ user2.age }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <section class="container">
+      <h2>{{ joanaName }}</h2>
+      <h3>{{ joanaAge }}</h3>
+      <h3>{{ counter }}</h3>
+    </section>
+    <div>
+      <!-- EXEMPLO DE COMO USAR COMPUTED COM A COMPOSITION API... -->
+
+      <!-- EXEMPLO SEM O USO DE V-MODEL -->
+      <!-- <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="Last Name" @input="setLastName" /> -->
+
+      <!-- EXEMPLO COM O USO DE V-MODEL -->
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName" />
+      <input type="text" placeholder="Some Name" ref="someNameInput" />
+      <div>
+        {{ firstName }}
+      </div>
+      <div>
+        {{ lastName }}
+      </div>
+      <div>
+        {{ fullName }}
+      </div>
+    </div>
+    <!-- <button @click="user.age = 32"></button> -->
+    <button @click="setNewData()">SET NEW DATA</button>
+    <button @click="setSomeName()">SET SOME NAME</button>
+  </div>
+</template>
+
+<script>
+// data, methods, computed e watch.... essas são as QUATRO COISAS QUE MUDAM com o uso da COMPOSITION API, no vue...
+
+import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
+import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
+
+// import { isReactive } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REACTIVE() ), ele retorna true...
+// import { isRef } from 'vue'; ///esse method RETORNA TRUE OU FALSE; se aquele value for REACTIVE (criado com REF() ), ele retorna true...
+
+import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
+import { computed } from 'vue';
+import { watch } from 'vue';
+
+import UserData from './components/UserData.vue';
+
+export default {
+  // data() {
+  //   return {
+  //     userName: 'Maximilian',
+  //   };
+  // },
+
+  components: {
+    UserData,
+  },
+
+  setup() {
+    // ? É O PILAR CENTRAL DA COMPOSITION API, o 'setup()'
+
+    // const uName = ref('Maximilian'); ////armazenamos os values de 'data' em VARIÁVEIS COMUNS, como se não estivéssemos no vue... aí esses values viram 'REACTIVE VALUES', por assim dizer...
+    // const uName = 'Maximilian' --- sem reactive value... (sem 'ref()')
+    // const uAge = ref(31);
+
+    ///É ASSIM QUE DEFINIMOS METHODS/FUNCTIONS, DENTRO DO SETUP METHOD... (ficarão disponíveis dentro do nosso COMPONENT, exatamente como 'methods:{}' na OPTIONS api do vue...)
+
+    const setNewData = () => {
+      user.value.age = 50;
+    };
+
+    const uCounter = ref(0);
+    const user = ref({
+      name: 'Maximilian',
+      age: 31,
+    });
+
+    const user2 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Manuel', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 22,
+    });
+
+    const user3 = reactive({
+      ///// REACTIVE é quase a mesma coisa que ref, mas FUNCIONA APENAS COM OBJECTS...
+      name: 'Joana', ///a única diferença é que podemos ACESSAR E MUDAR SEUS VALUES com 'user.name' em vez de 'user.value.name'...
+      age: 35,
+    });
+
+    const user3Refs = toRefs(user3); ////ESSE METHOD CONVERTE TODOS OS VALUES/KEYS 'NORMAIS' DE 1 OBJECT EM 'REFS' (bem útil...)
+
+    setTimeout(
+      () => {
+        // uName = 'Max'; ///nunca faça assim, pq NÃO QUEREMOS SUBSTITUIR O VALUE 'COM' REF' POR 1 VALUE 'SEM REF'... (sem reatividade)...
+
+        // uName.value = 'Max'; ///basta escrever assim, para trocar o value armazenado dentro da ref...
+        // uAge.value = 32;
+        //'.value' é usado apenas para SETTAR NOVOS VALUES para suas propriedades 'data'...
+        user.value.name = 'Max';
+        user.value.age = 34;
+        uCounter.value = 1;
+
+        user2.name = 'Manu';
+        user2.age = 24;
+
+        user3.name = 'Joana 2';
+        user3.age = 50;
+      },
+
+      2000
+    );
+
+    const firstName = ref('');
+    const lastName = ref('');
+    const someNameInput = ref(null);
+
+    ////demonstra o uso da composition api com listeners nos elementos do html...
+    const setFirstName = (event) => {
+      firstName.value = event.target.value;
+    };
+
+    const setLastName = (event) => {
+      lastName.value = event.target.value;
+    };
+
+    const setSomeName = () => {
+      // firstName.value = this.$refs.someNameInput.value /// ISSO NÃO FUNCIONARÁ (o uso de 'this.$refs' DENTRO DO SETUP METHOD DA COMPOSITION API _ NÃO FUNCIONA...)
+      //isso n funciona justamente pq o 'this' NÃO EXISTE DENTRO DO CONTEXTO DO 'setup()', da COMPOSITION API...
+
+      //refs no template SÃO A MESMA COISA QUE REFS NO 'setup()'...
+
+      //'.value' (consegue acesso ao VALUE DENTRO DESSE REF)... ('.value.value') --> CONSEGUE ACESSO AO VALUE DO OBJECT DE 'input', que também tem uma propriedade '.value'...
+      lastName.value = someNameInput.value.value;
+    };
+
+    const fullName = computed(() => {
+      ////ESSA É A FUNCTION QUE VAI 'SEGURAR CADA COMPUTED LOGIC'...
+
+      return firstName.value + ' ' + lastName.value;
+    });
+
+    ////substitui o uso de 'watch' na options api...
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+    watch(
+      [firstName, lastName], /// O PRIMEIRO PARÂMETRO TAMBÉM PODE SER UM 'ARRAY DE VALUES A SEREM OBSERVADOS' (ou seja, TEMOS MAIOR FLEXIBILIDADE, COM O WATCH, NA COMPOSITION API DO QUE NA OPTIONS API)...
+      (newValues, oldValues) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValues, oldValues);
+
+        console.log(newValues[0], oldValues[0]);
+        console.log(newValues[1], oldValues[1]);
+      }
+    );
+
+    return {
+      //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
+      // userName: uName, //com isso, a key de 'userName' consegue ser acessada no TEMPLATE DA PÁGINA...
+      // age: uAge,
+
+      // userName: user.value.name,  ///isso não funcionará...
+      // age: user.value.age,
+
+      user: user, // isso funciona (deve-se passar o RAW CONCRETE OBJECT, se usamos o ref, E NÃO OS VALUES dentro dele, como 'user.value.name'....)
+      counter: uCounter,
+      user2: user2, //nos mostra o uso de 'reactive()''
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
+      setNewData: setNewData, //// É ASSIM QUE DEFINIMOS/PASSAMOS METHODS AO TEMPLATE DE NOSSO APP...
+      firstName,
+      lastName,
+      fullName, ///EXEMPLO DE COMPUTED PROPERTY SENDO UTILIZADA COM A COMPOSITION API...
+      someNameInput, //EXEMPLO DE REF SENDO USADA NO TEMPLATE (ref no template)...
+      setLastName,
+      setFirstName,
+      setSomeName,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 3rem auto;
+  max-width: 30rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  text-align: center;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> COMO PODEMOS OBSERVAR,
+
+
+NOSSO COMPONENT AINDA VAI SER DECLARADO COMO ANTES,
+
+COM 
+
+'components: {}' 
+
+
+
+
+
+
+
+
+
+
+
+OK... REGISTRADO O USERDATA,
+
+
+podemos o utilizar...
+
+
+
+
+
+
+
+
+--> COLOCAMOS NOSSA USER DATA ALI,
+
+TUDO NORMAL...
+
+
+
+
+
+
+
+
+
+--> MAS AÍ PRECISAMOS __ BINDAR __ VALUES AOS PROPS 
+
+
+DESSE COMPONENT...
+
+
+
+
+
+
+
+
+COMO FAZEMOS ISSO?
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR BINDA O VALUE de 'userName' AO 
+
+VALUE 
+
+DA COMPUTED REF DE 'userName',
+
+
+QUE JÁ ESTÁ EXPOSTA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> E ELE TAMBÉM BINDA 'age' 
+
+
+
+AO PROP De 'age'...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+    <section class="container">
+      <UserData :userName="fullName" :age="user.age"></UserData>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... E ISSO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS DIGAMOS QUE QUEREMOS FAZER MAIS COISAS NESSE COMPONNET DE 'USERDATA'..
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE TALVEZ DESEJEMOS 
+
+
+
+
+
+
+USAR O METHOD DE 'SETUP' TAMBÉM.. -->  TALVEZ 
+
+
+
+
+
+
+
+
+
+
+
+PQ 
+
+
+
+
+
+
+
+ESTEJAMOS RECEBENDO O 'userName'
+
+
+
+NÃO COMPLETAMENTE,
+
+E SIM 
+
+
+COMO 
+
+
+
+
+
+
+
+'firstName', 'lastName',
+
+
+
+E AÍ 
+
+QUEREMOS 
+
+
+
+
+
+
+
+CONVERTER ISSO EM 1 COMPUTED PROPERTY, NESSE PRÓPRIO USERDATA,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+<script>
+export default {
+   /// props: ['userName', 'age'],
+
+   props: ['firstName', 'lastName', 'age']
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, ANTES DE QUALQUER OUTRA COISA,
+
+
+O PROFESSOR DECIDE USAR 
+
+
+A OPTIONS API,
+
+PARA VER 
+
+SE 
+
+
+
+
+1 COMPUTED PROPERTY AINDA FUNCIONA COM O NOSSO SETUP,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+<script>
+export default {
+   /// props: ['userName', 'age'],
+
+   props: ['firstName', 'lastName', 'age'],
+
+
+   computed: {
+    userName() {
+        return this.firstName + ' ' + this.lastName;
+    }
+   }
+};
+</script>
+<style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+<template>
+  <div>
+    <section class="container">
+      <!-- <UserData :userName="fullName" :age="user.age"></UserData> -->
+      <UserData :firstName="firstName" :lastName="lastName" :age="user.age"></UserData>
+    </section>
+
+
+
+
+
+
+    ------------
+
+
+
+
+
+
+
+
+
+
+
+
+    OK... AGORA FIRST NAME E LASTNAME SÃO FORWARDADOS AO 
+
+
+
+
+
+
+
+
+
+'USERDATA' COMPONENT..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, SE SALVARMOS TUDO ISSO,
+
+
+A COISA SIMPLESMENTE FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TUDO ISSO NOS LEVA A UMA CONCLUSÃO IMPORTANTE:
+
+
+
+
+
+
+
+
+
+PODEMOS, SIM,
+
+
+
+ABSOLUTAMENTE,
+
+
+
+
+
+MISTURAR A OPTIONS API E A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O 'App.vue'
+
+ESTÁ USANDO A COMPOSITION API,
+
+E 
+
+O 
+
+
+
+USERDATA 
+
+COMPONENT ESTÁ USANDO A OPTIONS API..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O FATO DE VC ESTAR USANDO A COMPOSITION API EM 1 COMPONENT 
+
+N QUER 
+
+DIZER QUE 
+
+VC PRECISA 
+
+USAR ESSA 
+
+API 
+
+EM TODOS OS COMPONENTS... 
+
+
+
+
+
+
+
+
+ESSA API É OPCIONAL,
+
+VC PODE 
+
+A UTILIZAR APENAS NOS LOCAIS EM QUE ELA FAZ SENTIDO PARA VC... EM QUE 
+
+ELA REALMENTE TRAZ ALGUMA VANTAGEM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> OS REF VALUES SÃO EXTRAÍDOS CORRETAMENTE PELO VUE,
+
+
+
+E 
+
+
+
+
+
+TUDO DÁ CERTO..
+
+
+
+
+
+
+
+
+
+
+
+
+
+AINDA ASSIM,
+
+
+
+
+
+
+DIGAMOS QUE QUEREMOS MIGRAR 
+
+
+
+
+
+
+O COMPONENT USERDATA,
+
+
+
+TRANSFORMAR 
+
+ELE 
+
+DA 
+
+
+OPTIONS API PARA A 
+
+COMPOSITION API,
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+  <script>
+export default {
+
+    import { computed } from 'vue';
+
+
+        setup() {
+            const uName = computed(() => {
+                return
+            })
+        }
+  },
+};
+</script>
+  <style>
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> OK.... MAS AQUI FICAMOS COM 1 PROBLEMA...
+
+
+
+
+
+
+
+
+
+  COMO DIABOS VAMOS GANHAR ACESSO AOS NOSSOS PROPS,
+
+
+
+  NESSA 'COMPOSITION API'?
+
+
+
+
+
+
+
+
+
+  --> BEM,
+
+  NÃO PODEMOS ESCREVER 
+
+  'this.$props.nomeDoProp',
+
+
+
+
+
+
+
+  pq isso não funciona...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -> OK, MAS COMO DIABOS GANHAREMOS ACESSO 
+
+
+
+
+
+  AOs props, então?
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> PRECISAMOS PASSAR UM ARGUMENTO EM 'setup()',
+
+  QUE 
+
+  SERÁ JUSTAMENTE 'props' ------> SERÁ UM OBJECT 
+
+  CHEIO 
+
+  DOS PROPS 
+
+
+
+
+  RECEBIDOS POR ESSE COMPONENT...
+
+
+
+
+  TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+  <script>
+import { computed } from 'vue';
+export default {
+  /// props: ['userName', 'age'],
+
+  props: ['firstName', 'lastName', 'age'], //para conseguir acesso aos PROPS, na composition api, PRECISAMOS USAR OS PARÂMETROS EM 'setup()'...
+
+  setup(props) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+    return {
+      userName: uName,
+    };
+  },
+
+  //   computed: {
+  //     userName() {
+  //       return this.firstName + ' ' + this.lastName;
+  //     },
+  //   },
+};
+</script>
+  <style>
+</style>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK.... SE SALVARMOS TUDO ISSO AÍ,
+
+
+
+
+
+  DÁ CERTO..
+
+
+
+
+
+
+
+
+
+
+
+
+  --> SE NENHUM PROP FOR PASSADO AO SEU COMPONENT,
+
+  ESSE OBJECT DE 'PROPS'
+
+
+  ficará vazio...
+
+
+
+
+
+
+  --> AS CHANGES NOS PROPS, NO LADO DE FORA,
+
+  TAMBÉM SÃO REFLETIDAS NESSE 
+
+
+
+  object de 'props'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ok... faz total sentido....
+
+
+
+
+
+
+
+
+
+  -> OS PROPS, POR DEFAULT, SÃO 
+
+
+  REATIVOS --> O OBJETO 'PROPS' EM SI É REATIVO,
+  
+
+  POR SI PRÓPRIO...
