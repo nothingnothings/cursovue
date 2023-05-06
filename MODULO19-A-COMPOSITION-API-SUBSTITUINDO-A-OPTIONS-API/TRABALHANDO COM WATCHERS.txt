@@ -1,0 +1,794 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AGORA DEVEMOS DAR UMA OLHADA NA ÚLTIMA OPTION QUE QUEREMOS 
+
+SUBSTITUIR...
+
+
+
+
+
+
+
+
+
+
+
+BEM, O WATCH 
+
+PODE SER ÚTIL 
+
+PARA __ rODAr_ ALGUMAS COISAS,
+
+COMO 
+
+
+'ENVIAR HTTP REQUESTS QUANDO CERTA DATA MUDA'....
+
+
+
+
+
+
+
+
+
+
+
+
+----> É CLARO QUE __ NÃO QUEREMOS ENVIAR 1 HTTP REQUEST 
+
+
+NESSE APP SIMPLES,
+
+MAS O PROFESSOR AINDA QUER 
+NOS MOSTRAR 
+
+
+
+COMO 
+
+
+VAI FUNCIONAR 
+
+
+
+1 
+
+
+
+
+WATCH 
+
+
+
+NESSE NOSSO APP...
+
+
+
+
+
+
+
+
+
+
+--> NA OPTIONS API,
+
+
+ESCREVEMOS TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+watch: {
+    age(val) {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+--> COM ISSO,
+
+
+ESSA PROPRIEDADE, DE NOME 'age',
+
+
+SERIA/É OBSERVADA ---> GANHAMOS O VALUE DE 'age'
+
+sempre QUE 
+
+
+RECEBEMOS 
+
+1 
+
+NOVO 
+VALUE 
+
+
+COM ESSE WATCH,
+
+
+E AÍ PODEMOS RODAR LÓGICA, TIPO ASSIM:
+
+
+
+
+
+
+watch: {
+    age(val) {
+        console.log(val);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... PARA CONSEGUIR TER A FUNCIONALIDADE DE 'watch'
+
+NA COMPOSITION API,
+
+PRECISAMOS IMPORTAR OUTRA COISA 
+
+
+
+
+
+NO NOSSO APP,
+
+
+QUE 
+SERÁ 
+
+
+
+O 
+
+
+'watch',
+
+
+
+TIPO 
+
+
+
+
+
+import { ref, computed, watch } from "vue";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+A FUNCTION 'WATCH' TAMBÉM FAZ PARTE DA COMPOSITION API,
+
+
+
+E ELA NOS DEIXA 
+
+
+REGISTRAR 1 WATCHER 
+
+__dENTRO __ 
+
+DO 
+
+METHOD DE 'setup()'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> E É BEM NORMAL TER 1 MONTE DE TRALHA DENTRO 
+
+DO 
+
+
+
+
+METHOD DE 'SETUP',
+
+
+
+
+
+ESSE É JUSTAMENTE O PROPÓSITO DESSE METHOD...
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM... DENTRO DALI,
+
+
+
+
+
+DEPOIS DAS REFS,
+
+
+
+O PROFESSOR CHAMA 'watch()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARA USAR O WATCH, PRECISAMOS PASSAR 1 FUNÇÃO INTERNA,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+    watch(
+        xxxx,
+    () => {
+
+    }
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PRIMEIRO ARGUMENTO DE watch 
+
+
+É UMA __ DEPENDENCY __ DO WATCH,
+
+DIZENDO A ELE 
+
+QUANDO __ DEVE SER EXECUTADA A WATCHER FUNCTION...
+
+
+
+
+
+
+
+
+
+
+
+-- NO CASO,
+
+
+PODEMOS COLOCAR A DEPENDENCY DE 'uAge',
+por exemplo:
+
+
+
+
+
+
+
+
+
+watch(
+    uAge,
+    () => {
+
+    }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O SEGUNDO ARGUMENTO É A __ aCTUAL FUNCTION __ A SER EXECUTADA__ QUANDO 
+
+O VALUE 
+
+DAQUELA 
+COISA FOR ALTERADO... (no caso, o value de 'uAge')..
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+    () => { //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+    }
+    );
+
+
+
+
+
+
+
+
+
+PRECISAMOS 
+
+
+
+
+ESPECIFICAR A DEPENDENCY DO 
+
+
+METHOD DE WATCH (A coisa a que observaR),
+
+
+PQ 
+
+
+
+
+LÁ 
+
+
+
+NO 'watch: {
+     
+}',
+
+
+
+
+
+
+
+A DEPENDENCY ERA APONTADA POR MEIO DO PRÓPRIO NOME 
+
+
+
+
+DO NEGÓCIO,
+
+
+TIPO 
+
+
+
+
+'watch: {
+     uAge(val) {
+        console.log(val)
+     }
+}',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ESPECIFICADA A DEPENDENCY,
+
+
+
+
+
+
+
+
+
+SABEMOS QUE A FUNCTION INTERNA SERÁ EXECUTADA SEMPRE QUE 
+
+
+
+ELA FOR ALTERADA...
+
+
+
+
+
+
+
+
+
+--> CERTO.... 
+
+
+
+
+NA FUNCTION INTERNA,
+
+VAMOS RECEBER OS CLÁSSICOS 'newValue' e 'oldValue'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... AGORA QUANDO TROCARMOS O VALUE DE AGE,
+
+
+ESSA FUNCTION É EXECUTADA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA VERDADE,
+
+PODEMOS _ ESPECIFICAR__ MAIS __ DO QUE 
+
+1 ÚNICA 
+
+DEPENDENCY 
+
+( COM ISSO, TEMOS AINDA MAIOR FLEXIBILIDADE DO QUE COM A 'OPTIONS API', PQ 
+
+A OPTIONS API SÓ TE DEIXA FAZER WATCH DE VARIÁVEIS '1 POR VEZ')...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+    ////substitui o uso de 'watch' na options api...
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+
+
+    watch(
+      [firstName, lastName], /// O PRIMEIRO PARÂMETRO TAMBÉM PODE SER UM 'ARRAY DE VALUES A SEREM OBSERVADOS' (ou seja, TEMOS MAIOR FLEXIBILIDADE, COM O WATCH, NA COMPOSITION API DO QUE NA OPTIONS API)...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ok....
+
+
+
+
+
+    COM ISSO, COM O PASS DE 1 ARRAY COMO PRIMEIRO PARÂMETRO,
+
+
+
+
+
+
+    PODEMOS FAZER WATCH DE MÚLTIPLAS DEPENDENCIES AO MESMO TEMPO...
+
+
+
+
+
+
+    ----> SE USAMOS 
+
+
+
+    1 ARRAY COMO PRIMEIRO PARÂMETRO,
+
+
+
+
+
+
+    AS COISAS QUE SERÃO RECEBIDAS NA FUNCTION SERÃO 
+
+
+
+    'newValues' e 'oldValues'...
+
+
+    (
+
+        pq MÚLTIPLOS VALUE TERÃO SIDO 'WATCHED', 
+
+        a partir desse watch...
+    )
+
+
+
+
+
+
+
+    ex:
+
+
+
+
+
+
+        ////substitui o uso de 'watch' na options api...
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+    watch(
+      [firstName, lastName], /// O PRIMEIRO PARÂMETRO TAMBÉM PODE SER UM 'ARRAY DE VALUES A SEREM OBSERVADOS' (ou seja, TEMOS MAIOR FLEXIBILIDADE, COM O WATCH, NA COMPOSITION API DO QUE NA OPTIONS API)...
+      (newValues, oldValues) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValues, oldValues);
+
+        console.log(newValues[0], oldValues[0]);
+        console.log(newValues[1], oldValues[1]);
+      }
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OU SEJA,
+
+TEMOS AINDA MAIS FLEXIBILIDADE COM ESSE 'WATCH'
+ 
+
+ DA COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> MÚLTIPLAS DEPENDENCIES QUE TRIGGAM A FUNCTION EM 'watch',
+  
+  essa é a vantagem...

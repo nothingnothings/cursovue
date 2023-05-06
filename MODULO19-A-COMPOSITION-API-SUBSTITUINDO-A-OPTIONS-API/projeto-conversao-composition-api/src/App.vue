@@ -42,6 +42,8 @@
 </template>
 
 <script>
+// data, methods, computed e watch.... essas são as QUATRO COISAS QUE MUDAM com o uso da COMPOSITION API, no vue...
+
 import { ref } from 'vue'; ///usado com a COMPOSITION API... /// use com values SINGULARES, como 'const counter = ref(0)'
 import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado COM __ OBJECTS...
 
@@ -50,6 +52,7 @@ import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado
 
 import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
 import { computed } from 'vue';
+import { watch } from 'vue';
 
 export default {
   // data() {
@@ -129,6 +132,28 @@ export default {
 
       return firstName.value + ' ' + lastName.value;
     });
+
+    ////substitui o uso de 'watch' na options api...
+    watch(
+      uCounter, /// O PRIMEIRO PARÂMETRO É O 'VALUE A SER OBSERVADO'...
+      (newValue, oldValue) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValue, oldValue);
+      }
+    );
+
+    watch(
+      [firstName, lastName], /// O PRIMEIRO PARÂMETRO TAMBÉM PODE SER UM 'ARRAY DE VALUES A SEREM OBSERVADOS' (ou seja, TEMOS MAIOR FLEXIBILIDADE, COM O WATCH, NA COMPOSITION API DO QUE NA OPTIONS API)...
+      (newValues, oldValues) => {
+        //// o segundo parâmetro é a FUNCTION A SER EXECUTADA, CASO O PRIMEIRO PARÂMETRO SEJA ALTERADO...
+
+        console.log(newValues, oldValues);
+
+        console.log(newValues[0], oldValues[0]);
+        console.log(newValues[1], oldValues[1]);
+      }
+    );
 
     return {
       //nesse object, retornamos os VALUES/KEYS QUE QUEREMOS QUE FIQUEM EXPOSTOS AO NOSSO DOM....
