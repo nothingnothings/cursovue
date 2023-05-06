@@ -1,0 +1,762 @@
+
+
+
+
+
+
+
+
+
+
+
+
+OK... DEVEMOS COMEÇAR COM 'REFS'...
+
+
+
+
+
+
+
+
+
+
+--> MAS O PROFESSOR QUER DIZER 'REFS'
+
+
+NÃO 
+
+
+NO SENTIDO DAQUELES 
+
+
+
+'refs' 
+
+
+NO 
+
+
+__ METHOD DE 'setup',
+
+
+aquelas 
+coisas 
+
+de 
+
+
+'const firstName = ref("")',
+
+
+
+
+E SIM 
+
+
+
+
+REFS COMO 
+
+
+
+OS __ 
+
+
+
+
+
+
+
+
+
+__REFS___ 
+LÁ NOS 
+
+ELEMENTOS DE NOSSO TEMPLATE (como vimos nos últimos módulos)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DIGAMOS QUE NÃO QUEREMOS USAR 
+
+
+V-MODEL COM 1 DE NOSSOS INPUTS,
+
+
+
+
+E QUE ELE FIQUE TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<input type="text" placeholder="Last Name" ref="lastNameInput" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... CONFORME ESTUDAMOS AO LONGO DO CURSO,
+
+É POSSÍVEL
+
+
+
+OBTER O VALUE 
+
+
+DE 1 REF POR MEIO DAQUELA 
+
+ESCRITA 
+
+DE 
+'this.$refs.nomeDaRef.value',
+
+
+
+
+
+
+
+
+ISSO _ _SE ESTIVERMOS USANDO A OPTIONS API...
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName" />
+      <input type="text" placeholder="Some Name" ref="someNameInput" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    CERTO...
+
+
+
+
+
+
+
+
+MAS DIGAMOS QUE QUEREMOS FAZER A MESMA COISA, AQUI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> PARA ISSO, TEREMOS 1 BUTTON,
+
+
+
+
+
+DE NOME 'Set some name',
+
+
+QUE 
+
+VAI 
+
+
+
+
+CHAMAR 1 FUNCTION,
+
+
+FUNCTION QUE ENTÃO DEVERÁ 
+
+SETTAR __ 
+
+
+O 'someNameInput'...
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+      <input type="text" placeholder="First Name" v-model="firstName" />
+      <input type="text" placeholder="Last Name" v-model="lastName" />
+      <input type="text" placeholder="Some Name" ref="someNameInput" />
+      <div>
+        {{ firstName }}
+      </div>
+      <div>
+        {{ lastName }}
+      </div>
+      <div>
+        {{ fullName }}
+      </div>
+    </div>
+    <!-- <button @click="user.age = 32"></button> -->
+    <button @click="setNewData()">SET NEW DATA</button>
+    <button @click="setSomeName()">SET SOME NAME</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É CLARO QUE, ANTES DE MAIS NADA,
+
+
+DEVEMOS CRIAR ESSA FUNCTION...
+
+
+
+
+
+
+
+
+
+
+
+PARA ISSO, ADICIONAMOS UMA NOVA FUNCTION NO METHOD DE 
+
+
+
+'setup()',
+
+ 
+
+ que será 
+
+ 'setSomeName'...
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+     const firstName = ref('');
+    const lastName = ref('');
+
+    ////demonstra o uso da composition api com listeners nos elementos do html...
+    const setFirstName = (event) => {
+      firstName.value = event.target.value;
+    };
+
+    const setLastName = (event) => {
+      lastName.value = event.target.value;
+    };
+
+    const setSomeName = () => {
+      
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS DIGAMOS QUE, 
+
+
+AGORA,
+
+QUEREMOS 
+
+
+
+
+
+
+
+
+NESSA FUNCTION 
+
+DEFINIR O VALUE 
+
+
+
+
+DE 'firstName' COMO SENDO EQUIVALENTE AO VALUE EXISTENTE 
+
+
+
+
+NO INTERIOR DESSE INPUT 
+
+de 
+
+'someNameInput',
+
+
+
+na sua propriedade 'value'...
+
+
+
+
+
+
+
+
+
+
+---> PARA ISSO, HISTORICAMENTE, COM 
+
+A 
+
+
+'OPTIONS API',
+
+TERÍAMOS 
+
+USADO 
+
+
+a escrita de 
+
+'this.$refs.someNameInput.value'...
+
+
+
+
+
+
+
+
+
+------> ex:
+
+
+
+
+
+
+    const setSomeName = () => {
+      // firstName.value = this.$refs.someNameInput.value /// ISSO NÃO FUNCIONARÁ (o uso de 'this.$refs' DENTRO DO SETUP METHOD DA COMPOSITION API _ NÃO FUNCIONA...)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ISSO __ NÃO VAI FUNCIONAR... N VAI FUNCIONAR JUSTAMENTE PQ 
+
+
+
+__ 
+
+NÃO EXISTE 
+
+
+
+
+ESSA KEYWORD DE 'this'
+
+DENTRO 
+
+DO CONTEXTO DO 'setup method',
+da composition api...
+
+
+
+
+
+
+
+
+
+
+EM VEZ DISSO,
+
+
+DEVEMOS SEGUIR 
+
+'THE OTHER WAY AROUND'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO ASSIM?
+
+
+
+
+
+
+
+
+
+BEM, O PROFESSOR EXPLICA __ QUE __ AGORA _DEVEMOS __ SETTAR _ 
+
+NOSSAS REFS__ LÁ 
+
+NO SETUP METHOD,
+
+E NÃO 
+
+
+NO 
+
+
+TEMPLATE DE NOSSO COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE __ NAÕ EXISTE __ DIFERENCIAÇÃO 
+ALGUMA ENTRE OS REFS 
+
+
+QUE VC 
+USA 
+
+
+NO 'setup()' 
+
+
+
+E OS 
+
+
+REFS QUE 
+
+VC QUER BINDAR A ALGUM DOM ELEMENT...
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA,
+
+ISSO QUER DIZER QUE PODEMOS SIMPLESMENTE CRIAR 
+
+
+
+1 NOVO REF 
+
+
+
+
+de 
+'someNameInput',
+
+
+
+
+
+e AÍ EXPOR E BINDAR AO ELEMENTO INPUT LÁ NO DOM,
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const firstName = ref('');
+    const lastName = ref('');
+    const someNameInput = ref(null);
+
+    const setFirstName = (event) => {
+      firstName.value = event.target.value;
+    };
+
+    const setLastName = (event) => {
+      lastName.value = event.target.value;
+    };
+
+    const setSomeName = () => {
+
+        lastName.value = someNameInput.value.value; ////EIS O CÓDIGO EM QUESTÃO.
+    };
+
+
+    return {
+      user: user, 
+      counter: uCounter,
+      user2: user2, 
+
+      joanaName: user3Refs.name,
+      joanaAge: user3Refs.age,
+      setNewData: setNewData, 
+      firstName,
+      lastName,
+      fullName, 
+      someNameInput, //EXEMPLO DE REF SENDO USADA NO TEMPLATE (ref no template)...
+      setLastName,
+      setFirstName,
+      setSomeName,
+
+    };
+
+
+
+
+
+
+
+
+    -----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ISTO:
+
+
+        const setSomeName = () => {
+
+        lastName.value = someNameInput.value.value; ////EIS O CÓDIGO EM QUESTÃO.
+    };
+
+
+
+
+
+
+
+
+
+    ISTO PODE PARECER ESTRANHO,
+
+
+
+'someNameInput.value.value',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PQ FICOU ASSIM?
+
+
+
+
+
+
+
+É 
+
+pq 
+
+
+'.value'
+
+SEMPRE TE DÁ ACESSO AO VALUE DE 1 REF... --> E O VALUE 
+
+DA REF de 
+
+'someNameInput' 
+
+
+
+SERÁ 
+
+
+1
+ 
+ POINTER AO OBJECT DE 'input',
+
+
+
+
+
+ QUE, POR SUA VEZ,
+
+ TAMBÉM 
+
+ TEM SEU VALUE 
+
+ ARMAZENADO DENTRO DE UMA PROPRIEDADE 'value'...
+
+
+
+
+
+
+
+
+
+
+ É POR ISSO QUE É 
+
+ '.value.value'...
+
+
+
+
+
+
+
+
+
+ 

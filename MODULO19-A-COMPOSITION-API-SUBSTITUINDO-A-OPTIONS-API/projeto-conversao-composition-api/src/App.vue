@@ -25,7 +25,7 @@
       <!-- EXEMPLO COM O USO DE V-MODEL -->
       <input type="text" placeholder="First Name" v-model="firstName" />
       <input type="text" placeholder="Last Name" v-model="lastName" />
-
+      <input type="text" placeholder="Some Name" ref="someNameInput" />
       <div>
         {{ firstName }}
       </div>
@@ -38,6 +38,7 @@
     </div>
     <!-- <button @click="user.age = 32"></button> -->
     <button @click="setNewData()">SET NEW DATA</button>
+    <button @click="setSomeName()">SET SOME NAME</button>
   </div>
 </template>
 
@@ -117,6 +118,7 @@ export default {
 
     const firstName = ref('');
     const lastName = ref('');
+    const someNameInput = ref(null);
 
     ////demonstra o uso da composition api com listeners nos elementos do html...
     const setFirstName = (event) => {
@@ -125,6 +127,17 @@ export default {
 
     const setLastName = (event) => {
       lastName.value = event.target.value;
+    };
+
+    const setSomeName = () => {
+      // firstName.value = this.$refs.someNameInput.value /// ISSO NÃO FUNCIONARÁ (o uso de 'this.$refs' DENTRO DO SETUP METHOD DA COMPOSITION API _ NÃO FUNCIONA...)
+      //isso n funciona justamente pq o 'this' NÃO EXISTE DENTRO DO CONTEXTO DO 'setup()', da COMPOSITION API...
+
+
+      //refs no template SÃO A MESMA COISA QUE REFS NO 'setup()'...
+
+      //'.value' (consegue acesso ao VALUE DENTRO DESSE REF)... ('.value.value') --> CONSEGUE ACESSO AO VALUE DO OBJECT DE 'input', que também tem uma propriedade '.value'...
+      lastName.value = someNameInput.value.value;
     };
 
     const fullName = computed(() => {
@@ -173,8 +186,11 @@ export default {
       firstName,
       lastName,
       fullName, ///EXEMPLO DE COMPUTED PROPERTY SENDO UTILIZADA COM A COMPOSITION API...
+      someNameInput, //EXEMPLO DE REF SENDO USADA NO TEMPLATE (ref no template)...
       setLastName,
       setFirstName,
+      setSomeName,
+
     };
   },
 };
