@@ -2,7 +2,13 @@
   <div>
     <section class="container">
       <!-- <UserData :userName="fullName" :age="user.age"></UserData> -->
-      <UserData :firstName="firstName" :lastName="lastName" :age="user.age"></UserData>
+      <UserData
+        :firstName="firstName"
+        :lastName="lastName"
+        :age="user.age"
+      ></UserData>
+      <!-- EXEMPLO DO USO DE PROVIDE E INJECT... -->
+      <UserDataProvideInject></UserDataProvideInject>
     </section>
     <section class="container">
       <h2>{{ user.name }}</h2>
@@ -58,8 +64,10 @@ import { reactive } from 'vue'; ////é a mesma coisa que o 'ref()', mas é usado
 import { toRefs } from 'vue'; ////TRANSFORMA TODOS OS NESTED VALUES/KEYS DE 1 OBJECT EM 'REACTIVE VALUES' (em refs, essencialmente)...
 import { computed } from 'vue';
 import { watch } from 'vue';
+import { provide } from 'vue';
 
 import UserData from './components/UserData.vue';
+import UserDataProvideInject from './components/UserDataProvideInject.vue';
 
 export default {
   // data() {
@@ -70,6 +78,7 @@ export default {
 
   components: {
     UserData,
+    UserDataProvideInject,
   },
 
   setup() {
@@ -86,6 +95,9 @@ export default {
     };
 
     const uCounter = ref(0);
+
+    provide('counter', uCounter); /// É ASSIM QUE FAZEMOS PROVIDE/INJECT DE ALGUMA COISA, USANDO A COMPOSITION API... (no lugar que queremos usar esse value/ref, escrevemos 'counter', no caso)
+
     const user = ref({
       name: 'Maximilian',
       age: 31,

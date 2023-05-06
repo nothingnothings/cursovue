@@ -1,0 +1,495 @@
+
+
+
+
+
+
+
+O PROFESSOR TEM MAIS 2 FEATURES QUE QUER ABORDAR, NO TÓPICO DA COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> QUAIS FEATURES SÃO ESSAS?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1A FEATURE --> PROVIDE E INJECT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NÃO ESTAMOS USANDO AQUI,
+
+MAS DIGAMOS QUE, EM VEZ DE 
+
+
+
+FORWARDAR A AGE ATRAVÉS 
+
+DO PROP de ':age="age" '
+
+
+AO COMPONENT DE 
+
+'USERDATA'
+ 
+
+ (que na verdade é a maneira correta e recomendada),
+
+
+
+
+
+
+
+
+QUE VAI FICANDO TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+    <script>
+import { inject } from 'vue';
+export default {
+  //   props: ['firstName', 'lastName', 'age'],
+
+  //  exemplo de uso de provide/inject com o UserData...
+
+  setup(props, context) {
+    const userProvide = inject('name');
+
+    return {
+      userName: uName,
+    };
+  },
+};
+</script>
+    <style>
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+com a options api,
+
+
+
+
+SIMPLESMENTE USÁVAMOS O CÓDIGO DE 
+
+
+'provide() {
+    return {
+        age: this.age
+    }
+}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, COM A COMPOSITION API,
+
+
+
+
+
+TEMOS ALGO EQUIVALENTE, TIPO ASSIM:
+
+
+
+
+
+
+
+
+  setup() {
+
+
+    provide()
+
+
+
+
+
+    return {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> OK... AÍ PROVIDENCIAMOS 1 VALUE,
+
+
+POR MEIO DO PASS DE 2 PARÂMETROS AO PROVIDE...
+
+
+
+
+
+
+
+1o parâmetro --> É 1 KEY DE SUA ESCOLHA...
+
+
+
+
+
+
+
+
+2o parâmetro --> É A COISA QUE VC QUER PROVIDENCIAR...
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE ESCREVEMOS ASSIM:
+
+
+
+
+
+    const uAge = ref(31);
+
+
+  setup() {
+
+
+    provide('userAge', uAge)
+
+
+
+
+
+    return {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+E COMO ESTAMOS PROVIDENCIANDO UMA REF, AQUI,
+
+
+__ OS LUGARES__ QUE 
+
+
+ESTÃO RECEBENDO ESSA REF COMO PROP __ VÃO SER AUTOMATICAMENTE 
+
+
+ATUALIZADOS
+
+SEMPRE QUE 
+
+ESSE VALUE FOR ALTERADO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, PARA USARMOS ISSO 
+
+
+
+LÁ 
+
+
+NO COMPONENT EM QUE FIZEMOS INJECT,
+
+ESCREVEMOS ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userCounter }}</h2>
+  </div>
+</template>
+    <script>
+import { inject } from 'vue';
+export default {
+  //   props: ['firstName', 'lastName', 'age'],
+
+  //  exemplo de uso de provide/inject com o UserData...
+
+  setup(props, context) {
+    const userCounter = inject('counter'); ////ASSIM
+
+    return {
+        userCounter
+    }
+  },
+};
+</script>
+    <style>
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... MAS NUNCA TENTE MUDAR O VALUE 
+
+
+
+
+
+
+
+DE 1 REF PASSADA POR MEIO DE PROVIDE/INJECT,
+
+
+
+NUNCA FAÇA ALGO ASSIM:
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userCounter }}</h2>
+  </div>
+</template>
+    <script>
+import { inject } from 'vue';
+export default {
+  //   props: ['firstName', 'lastName', 'age'],
+
+  //  exemplo de uso de provide/inject com o UserData...
+
+  setup(props, context) {
+    const userCounter = inject('counter'); ////ASSIM
+
+
+    userCounter.value = 'novoValue'; ////NUNCA FAÇA ISSO....
+    return {
+        userCounter
+    }
+  },
+};
+</script>
+    <style>
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mas podemos expor esse value injetado AO NOSSO TEMPLATE, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+<template >
+  <div>
+    <h2>{{ userCounter }}</h2>
+  </div>
+</template>
+    <script>
+import { inject } from 'vue';
+export default {
+  //   props: ['firstName', 'lastName', 'age'],
+
+  //  exemplo de uso de provide/inject com o UserData...
+
+  setup(props, context) {
+    const userCounter = inject('counter'); ////ASSIM
+
+    return {
+        userCounter
+    }
+  },
+};
+</script>
+    <style>
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    É MAIS FÁCIL DE USAR DO QUE A VERSÃO DA OPTIONS API...
