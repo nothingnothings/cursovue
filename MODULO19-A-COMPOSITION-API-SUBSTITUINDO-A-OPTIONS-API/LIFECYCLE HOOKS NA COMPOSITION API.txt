@@ -1,0 +1,786 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É ASSIM QUE PODEMOS MUDAR DA OPTIONS API PARA A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1) DATA 
+
+
+
+
+
+É SUBSTITUÍDA POR 'ref()' e 'reactive()'...
+
+
+
+
+
+
+
+
+
+
+2) METHODS 
+
+
+
+
+SÃO SUBSTITUÍDOS POR FUNCTIONS 
+
+como 
+
+const = () => {
+
+
+}
+
+
+
+
+
+
+
+3) COMPUTED 
+
+
+
+
+
+
+
+É SUBSTITUÍDO PELA FUNCTION DE 'const valor = computed(() => {})
+
+
+
+
+
+
+
+
+
+
+4) WATCH 
+
+
+
+
+
+
+É SUBSTITUÍDO PELA FUNCTION DE 
+
+
+
+'watch(valueASerObservado, (newValue, oldValue) => { console.log(newValue, oldValue)})'
+
+
+
+
+
+
+
+
+5) PROVIDE/INJECT 
+
+
+
+
+
+
+
+SÃO SUBSTITUÍDOS PELAS FUNCTIONS DE 'provide' e 'inject',
+
+
+
+
+
+que são:
+
+
+
+
+
+
+
+provide(key, value) 
+
+
+inject(key)
+
+
+
+
+
+
+
+
+provide('chave', umaRef)
+
+
+
+
+const novaConstanteInjetada = inject('chave')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS HÁ MAIS UMA COISA 
+
+
+
+
+
+
+
+QUE O PROFESSOR QUER NOS MOSTRAR,
+
+ANTES 
+
+
+DE 
+
+EXPLORARMOS 1 PROJECT MAIOR...
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM A OPTIONS API,
+
+
+
+
+
+
+TÍNHAMOS COISAS COMO 
+
+
+'beforeCreate'
+
+
+
+e 
+
+'created'...
+
+
+
+
+
+
+
+
+
+
+
+--> E ESSES METHODS PODIAM SER ADICIONADOS 
+
+
+
+DE FORMA BEM SIMPLES,
+
+LÁ 
+
+NA OPTIONS API..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS NA COMPOSITION API,
+
+
+ 
+ NÃO ADICIONAMOS 
+
+
+ MAIS 
+
+
+ ESSES HOOKS AO 
+
+
+
+ CONFIG OBJECT DE NOSSOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> EM VEZ DISSO,
+
+ TEMOS FUNCTIONS, IMPORTADAS DO VUE,
+
+
+
+ QUE 
+
+ SÃO CHAMADAS 
+
+
+ DENTRO 
+
+
+
+ DO METHOD DE 'setup'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ENTRETANTO,
+
+ PARA 
+
+ 'created()'
+
+  
+
+  E 
+
+  'beforeCreate'
+
+
+
+  NÃO 
+
+
+  HÁ 
+
+
+
+  NENHUM EQUIVALENTE,
+
+
+
+JUSTAMENTE 
+
+PQ 
+
+O 
+
+METHOD DE 
+
+'setup()'
+
+
+RODA 
+
+NO MESMO MOMENTO EM QUE 
+
+
+
+
+'created()' e 'beforeCreate()' 
+
+
+
+SÃO EXECUTADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+AS COISAS QUE SÃO/SERIAM FEITAS DURANTE 'CREATED' e 'beforeCreate()'
+
+
+
+DEVEM SER FEITAS NESSE 'setup()'
+
+
+em si...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... MAS JÁ 'beforeMount()' e 'mounted()',
+
+
+
+ESSES HOOKS EXISTEM NA COMPOSITION API,
+
+E PODEM SER IMPORTADAS DO VUE..
+
+
+
+(
+
+    são 
+
+    'onBeforeMount' 
+
+    e 
+    'onMounted'...
+)
+
+
+
+
+
+
+
+
+
+
+
+--> A MESMA COISA ACONTECE COM 
+
+'beforeUpdate' 
+
+
+
+e 
+
+'updated... 
+
+
+
+
+
+
+
+(
+
+
+    TEMOS  'onBeforeUpdate' 
+
+    e 
+
+
+    'onUpdated'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM,
+TEMOS 
+
+
+
+'beforeUnmount'
+
+
+e 
+'unmounted',
+
+
+
+
+
+
+
+
+
+
+
+
+QUE TAMBÉM POSSUEM OS HOOKS DE 'onBeforeUnmount'
+ 
+
+
+ e 
+
+ 'onUnmounted'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> OK.. TEMOS 1 PADRÃO PARA ISSO TUDO...
+
+
+
+
+
+
+
+
+
+
+
+ DEVEMOS VER COMO ISSO É EXPRESSADO, NO CÓDIGO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO..
+
+
+
+
+
+
+
+
+
+ TEMOS O METHOD DE SETUP, DENTRO DO 'UserData'...
+
+
+
+
+
+
+
+
+
+
+
+ --> O PROFESSOR IMPORTA 
+
+
+
+
+ 'onBeforeMount',
+
+
+ 'onMounted',
+
+
+
+ 'onBefore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <template >
+  <div>
+    <h2>{{ userName }}</h2>
+    <h3>{{ age }}</h3>
+  </div>
+</template>
+  <script>
+import { computed } from 'vue';
+
+import {
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+} from 'vue'; //// ESSES SÃO OS LIFECYCLE HOOKS DISPONÍVEIS, NA COMPOSITION API (beforeCreate e created NÃO EXISTEM, pq já são essencialmente a mesma coisa que 'setup()'...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TIPO ASSIM...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK, MAS COMO USAMOS ESSES HOOKS?
+
+
+
+
+
+
+
+
+
+DEVEMOS OS CHAMAR E PASSAR 1 FUNCTION INTERNA
+
+LÁ NO SETUP(),
+
+
+
+
+
+
+COM A LÓGICA QUE QUEREMOS EXECUTAR DENTRO DE CADA 1 DELES...
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  setup(props, context) {
+    ///props vai segurar todos os props passados a esse component nosso...
+    ///'context' é usado para coisas como CUSTOM EVENTS, por exemplo..
+
+    //dentro de context, temos: 'attrs' (passthrough attributes passados a esse component)
+    // 'slots' --> é a data passada dentro dos slots desse component (se ele tiver algum slot)
+    // 'emit' --> é 1 function, MT IMPORTANTE, USADA PARA EMITIR DATA (exatamente como 'this.emit()')
+
+    context.emit('exemploDeEventoCustom'); ////é assim que emitimos eventos, com a composition api..
+    const uName = computed(() => {
+      return props.firstName;
+    });
+
+
+
+
+
+
+    onBeforeMount(
+      () => {
+        console.log('onBeforeMount')
+      }
+    )
+
+    onMounted(
+      () => {
+        console.log('onMounted')
+      }
+    )
+
+
+      onBeforeUpdate(
+        () => {
+          console.log('onBeforeUpdate')
+        }
+      )
+
+
+
+        onUpdated(
+          () => {
+            console.log('onUpdated')
+          }
+        )
+
+
+
+
+        onBeforeUnmount(
+          () => {
+            console.log('onBeforeUnmount')
+          }
+        )
+
+
+          onUnmounted( ///é chamado quando o component é removido do dom..
+            () => {
+              console.log('onUnmounted')
+            }
+          )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... É BEM PARECIDO COM O CONCEITO DE LIFECYCLE 
+
+
+
+DA OPTIONS API...
+
+
+
+
+
+
+
