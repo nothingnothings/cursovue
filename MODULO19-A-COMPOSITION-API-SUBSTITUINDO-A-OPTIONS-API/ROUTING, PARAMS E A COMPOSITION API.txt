@@ -1,0 +1,1275 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+OS BASICS DA COMPOSITION API 
+
+
+JÁ 
+
+
+FORAM ENSINADOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO,
+
+AO LONGO DESTE CURSO APRENDEMOS MAIS DO QUE 
+
+
+'DATA, METHODS, WATCH, COMPUTED E PROPS...'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> AGORA APRENDEREMOS SOBRE O ROUTING 
+
+
+COM 
+A COMPOSITION API...
+
+
+
+
+
+
+
+TEMOS 1 NOVO STARTING PROJECT,
+
+PARA EXAMINARMOS COMO ISSO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS 2 PAGES,
+
+'ALL PRODUCTS'
+
+E 
+
+'ADD A PRODUCT'....
+
+
+
+
+
+
+
+
+
+--> SE UTILIZARMOS A COMPOSITION API,
+
+
+ENFRENTAREMOS ALGUMAS INCERTEZAS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+POR EXEMPLO,
+
+
+SE 
+CLICAMOS 
+
+
+EM 'ADD A PRODUCT' E ADICIONAMOS 1 NOVO PRODUCT,
+
+SERIA 
+
+
+LEGAL SE FOSSEMOS 
+
+
+REDIRECIONADOS PARA A PAGE DE 'ALL PRODUCTS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> A MESMA COISA PARA O CASO EM QUE CLICAMOS EM 1 DOS PRODUCTS,
+
+PARA VER OS SEUS DETAILS... --> 
+
+
+
+
+
+
+
+
+JÁ SABEMOS COMO FAZER ISSO COM A OPTIONS API,
+
+
+
+MAS NA COMPOSITION API NÃO SABEMOS COMO FAZÊ-lo...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NÃO SABEMOS, AINDA,
+
+COMO NAVEGAR PROGRAMATICAMENTE 
+
+
+COMM 
+
+A
+
+
+COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+--> PQ, COM A OPTIONS API,
+
+
+SEMPRE ESCREVÍAMOS 
+
+'this.$router.push()'
+
+
+
+
+e 
+
+
+'this.$router.replace()'...
+
+
+
+
+
+
+
+
+
+também 'this.$route'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> SE EXAMINARMOS O CÓDIGO DE 'main.js',
+
+TEMOS:
+
+
+
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+import AllProducts from './pages/AllProducts.vue';
+import ProductDetails from './pages/ProductDetails.vue';
+import AddProduct from './pages/AddProduct.vue';
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/products' },
+    { path: '/products', component: AllProducts },
+    { path: '/products/:pid', component: ProductDetails },
+    { path: '/products/add', component: AddProduct }
+  ]
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS O DYNAMIC SEGMENT DE 'pid'...
+
+
+
+
+
+
+
+
+--> APRENDEMOS QUE PODEMOS 
+
+
+
+OBTER  O VALOR CONCRETO PARA ESSE 'pid'
+
+
+
+DENTRO 
+
+
+DO 'PRODUCTDETAILS',
+
+
+POR MEIO 
+
+de 
+
+'this.$route.params.nomeDaKey'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROBLEMA, COM A COMPOSITION API,
+
+É QUE 
+O 
+
+'this'
+
+NÃO EXISTE..
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, ENTÃO COMO PODEMOS CONSEGUIR ACESSO
+
+
+AO VALUE DAQUELE ID NA URL,
+
+
+
+
+
+
+POR MEIO DE ROUTE PARAMETERS, SEM O THIS?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMO PODEMOS CONSEGUIR ESSE VALUE, DENTRO DE 'setup()'..
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR APONTA QUE HÁ 2 MANEIRAS DE CONSEGUIR ESSE VALUE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1a MANEIRA --> VC PODE FAZER A COISA QUE O PROFESSOR MOSTROU 
+
+NO MÓDULO DE ROUTING... --> OU SEJA,
+
+VC 
+PODE 
+
+CONFIGURAR 
+
+A ROUTE DE MANEIRA QUE 
+
+
+
+O 'DYNAMIC SEGMENT'
+
+
+É __ PASSADO__ COMO PROPS _ PARA O 'TO-BE-LOADED' component...
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO, VC DEVE ADICIONAR A KEY de 'props: true',
+
+LÁ 
+
+
+NO 'main.js',
+
+
+na sua route específica,
+tipo assim:
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import App from './App.vue';
+import AllProducts from './pages/AllProducts.vue';
+import ProductDetails from './pages/ProductDetails.vue';
+import AddProduct from './pages/AddProduct.vue';
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/products' },
+    { path: '/products', component: AllProducts },
+    { path: '/products/:pid', component: ProductDetails,
+    //  props: true  /// É UMA DAS MANEIRAS DE OBTER COISAS COMO 'ROUTE QUERY PARAMS' na COMPOSITION API...
+    },
+    { path: '/products/add', component: AddProduct },
+  ],
+});
+
+const app = createApp(App);
+
+app.use(router);
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo... SE FIZERMOS ISSO,
+
+O VALUE PARA 
+
+'pid'
+
+
+VAI FICAR DISPONÍVEL,
+COMO 
+
+PROP,
+
+NO COMPONENT DE 
+
+
+
+'ProductDetails'...
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR NOS EXPLICA QUE PODERÍAMOS 
+
+
+FAZER _ INJECT__ DOS PRODUCTS (que estão lá em 'App.vue")
+
+DIRETAMENTE 
+
+
+
+NO COMPONENT DE 'ProductDetails',
+
+
+
+
+
+
+
+PARA ENTÃO 
+
+
+
+
+
+CARREGAR, COM o 'pid',
+
+
+
+
+APENAS O PRODUCT 
+
+
+
+ADEQUADO/ESPECIFICADO,
+
+TIPO ASSIM:
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+export default {
+  setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    const title = ref('');
+    const price = ref(null);
+    const description = ref('');
+
+    return { title, price, description };
+  },
+};
+
+
+
+
+
+
+
+
+
+
+CERTO... E, COM OS 'PROPS',
+
+podemos conseguir o value de 'pid',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ selectedProduct.title }}</h2>
+    <h3>${{ selectedProduct.price }}</h3>
+    <p>{{ selectedProduct.description }}</p>
+  </section>
+</template>
+
+<script>
+import {  inject } from 'vue';
+
+export default {
+  setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    // const title = ref('');
+    // const price = ref(null);
+    // const description = ref('');
+
+    const selectedProduct = products.find((product) => {
+      product.id === props.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+    return { selectedProduct };
+  },
+};
+</script>
+
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+
+
+COM ISSO, CONSEGUIMOS 
+
+
+
+EXTRAIR A DATA ADEQUADA LÁ DE 'App.vue',
+
+
+que 
+
+
+já foi injetada nesse component de 'ProductDetails'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.... AGORA A ÚNICA COISA QUE PRECISAMOS GARANTIR É QUE 
+
+
+'OS DIFERENTES PRODUCT IDS 
+
+SEJAM PASSADOS/PROVIDED NA URL,
+
+QUANDO CLICAMOS EM 'details'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OU SEJA, DEVE SER 1 VALUE DINÂMICO... 
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>All products</h2>
+    <ul>
+      <li v-for="product in products" :key="product.id">
+        <h3>{{ product.title }}</h3>
+        <h4>${{ product.price }}</h4>
+        <p>{{ product.description }}</p>
+        <!-- <router-link to="/products/id">View Details</router-link> -->
+        <router-link :to="`/products/${product.id}`">View Details</router-link>
+      </li>
+    </ul>
+  </section>
+</template>
+
+<script>
+import { inject } from 'vue';
+
+export default {
+  setup() {
+    const loadedProducts = inject('products');
+
+    return { products: loadedProducts };
+  },
+};
+</script>
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+h3, h4 {
+  margin: 0.5rem 0;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+AGORA BASTA CLICAR EM ALGUM 'product detail' 
+
+PARA 
+
+CARREGAR ESSA PÁGINA DINÂMICA, COM OS VALUES SENDO PASSADOS ADEQUADAMENTE...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ selectedProduct.title }}</h2>
+    <h3>${{ selectedProduct.price }}</h3>
+    <p>{{ selectedProduct.description }}</p>
+  </section>
+</template>
+
+<script>
+import {  inject } from 'vue';
+
+export default {
+  setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    // const title = ref('');
+    // const price = ref(null);
+    // const description = ref('');
+
+    const selectedProduct = products.value.find((product) => {
+      product.id === props.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+    return { selectedProduct };
+  },
+};
+</script>
+
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM DEVEMOS DECLARAR OS PROPS QUE VAMOS RECEBER, AO VUE:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ selectedProduct.title }}</h2>
+    <h3>${{ selectedProduct.price }}</h3>
+    <p>{{ selectedProduct.description }}</p>
+  </section>
+</template>
+
+<script>
+import { inject } from 'vue';
+
+export default {
+  props: ['pid'],
+
+  setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    // const title = ref('');
+    // const price = ref(null);
+    // const description = ref('');
+
+    const selectedProduct = products.value.find((product) => {
+      product.id === props.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+    return { selectedProduct };
+  },
+};
+</script>
+
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+PODEMOS 
+
+
+
+VISUALIZAR OS DETAILS, E TUDO ISSO FUNCIONA...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS E SE NÓS, POR ALGUMA RAZÃO,
+
+
+TIVÉSSEMOS 1 ROUTER LINK AQUI  
+
+
+QUE SEMPRE 
+
+LEVASSE 
+
+
+
+
+
+
+
+AO PRODUCT 2...?
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>{{ selectedProduct.title }}</h2>
+    <h3>${{ selectedProduct.price }}</h3>
+    <p>{{ selectedProduct.description }}</p>
+    <router-link to="/products/p2">Product 2</router-link>
+  </section>
+</template>
+
+<script>
+import { inject } from 'vue';
+
+export default {
+  props: ['pid'],
+
+  setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    // const title = ref('');
+    // const price = ref(null);
+    // const description = ref('');
+
+    const selectedProduct = products.value.find((product) => {
+      product.id === props.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+    return { selectedProduct };
+  },
+};
+</script>
+
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+--> SE ESTOU NA PAGE DE 'product detail 1'
+
+
+E CLICO NESSE LINK DE 'GO TO PRODUCT DETAIL 2',
+
+
+
+
+
+
+NOSSA PÁGINA 
+
+NÃO UPDATA...
+
+
+
+
+
+
+
+
+
+
+
+--> UÉ, MAS PQ NÃO UPDATOU?
+
+
+
+
+
+
+
+
+
+
+
+
+JÁ VIMOS ESSE PROBLEMA ANTERIORMENTE NO CURSO...
+
+
+
+
+
+
+
+
+
+
+COM A OPTIONS API,
+
+
+
+
+
+QUANDO USAMOS 'props'
+
+PARA CONSEGUIR NOSSA 'PRODUCT DATA',
+
+
+
+NÓS UTILIZAMOS, NA OCASIÃO,
+
+
+
+1 WATCHER 
+PARA 
+
+
+
+
+
+
+
+OBSERVAR 
+
+
+
+
+
+
+
+NOSSO 'dynamic parameter value' ( o 'pid', nesse caso),
+
+PROCURAR 
+
+
+POR CHANGES NELES...
+
+
+
+
+
+
+
+
+
+
+
+
+E, AQUI,
+
+
+
+
+TEMOS DE FAZER ALGO PARECIDO... --> PARA CONSEGUIR ESSE EFEITO,
+
+
+PODEMOS, POR EXEMPLO,
+
+
+
+USAR 1 COMPUTED PROPERTY- -->  FARÍAMOS ISSO PARA TRANSFORMAR 
+
+
+'selectedProduct',
+
+
+1 VALUE ESTÁTICO,
+
+
+
+EM _ 1 __ 'COMPUTED VALUE',
+
+TIPO ASSIM:
+
+
+
+
+ 
+ const selectedProduct = computed(
+    () => {
+        retur pproducts.value.find((product) => {product.id === props.id})
+    }
+ )
+
+
+
+
+   O PROFESSOR ESCREVEU UM CÓDIGO GIGANTE,
+
+   E FICOU TIPO ASSIM:
+
+
+
+
+
+
+     setup(props) {
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+
+
+    const selectedProduct = computed(() => {products.value.find((product) => {
+      product.id === props.pid; 
+    })})
+
+    return { selectedProduct };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSA É A MANEIRA DE CONSEGUIR O 'DYNAMIC ROUTE PARAMETER'
+
+
+POR MEIO DO USO DE PROPS, NA COMPOSITION API...
