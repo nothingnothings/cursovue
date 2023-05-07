@@ -1,0 +1,702 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... MAS E SE QUISÉSSEMOS USAR O OBJECT DE '$route' e '$router'...?
+
+
+
+
+
+
+
+
+
+
+
+ISSO __ PQ __ TALVEZ TENHAMOS INTERESSE EM MAIS DO QUE OS ROUTE PARAMETERS,
+
+
+
+
+COMO OS 'QUERY PARAMETERS',
+
+OU ENTÃO 
+O 
+
+
+
+'PATH'...
+
+
+
+
+
+
+
+(this.$route.path)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS PODEMOS IMPORTAR alguma coisa 
+
+LÁ DE 'vue-router',
+
+
+
+QUE SERÁ 
+
+
+
+
+O __ HOOK DE 'useRouter'...
+
+
+
+
+
+
+
+
+
+-_> SERÃO HOOKS,
+
+
+
+
+OU TAMBÉM CHAMADOS DE 'COMPOSABLES'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NO FINAL DAS CONTAS,
+
+ESSES SÃO DIFERENTES TERMOS PARA 1 TIPO ESPECIAL
+ 
+
+
+ DE FUNCTIONS...
+ 
+
+
+
+ SÃO FUNCTIONS ESPECIAIS 
+
+ JAVASCRIPT QUE 
+
+ SÃO 
+
+
+
+ 'BUILT'
+
+ PARA 
+
+ A
+  COMPOSITION API (
+
+
+    ou seja,
+
+
+    DEVEM SER USADAS DENTRO DO METHOD DE 'setup()'...
+
+  )
+
+
+
+
+
+
+
+
+
+  ESSAS FUNCTIONS TIPICAMENTE USAM 
+
+
+  ALGUMAS FEATURES 
+
+
+  DA COMPOSITION API (
+
+
+    como 'ref()' e 'computed()'...
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> NO MÓDULO DE REUSO DE FUNCTIONALITY (próximo módulo),
+
+
+  APRENDEREMOS SOBRE 
+
+
+  COMO CONSTRUIR NOSSOS PRÓPRIOS HOOKS, 
+
+  NOSSAS PRÓPRIAS COMPOSITION FUNCTIONS...
+
+
+
+
+
+
+
+
+
+
+  -> MAS AQUI 
+
+  A VUE TEAM NOS DEU 
+
+
+
+  ALGUNS BUILT-IN COMPOSABLES/HOOK/FUNCTIONS,
+
+
+  QUE 
+
+  PODEMOS 
+
+  CHAMAR DENTRO DO 'setup',
+
+  PARA 
+
+
+  TER ACESSO A ALGUMAS FEATURES QUE FUNCIONAM 
+
+
+
+  BEM COM A 'COMPOSITION API'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+  --> o 'useRoute()',
+
+
+  POR EXEMPLO,
+
+
+  NOS DÁ ACESSO A ESSE OBJECT DE 'route'...
+
+
+
+
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+
+
+  
+  setup(props) {
+    const route = useRoute(); ////NOS DÁ ACESSO AO OBJECT 'route' do vue...
+
+    console.log(route);
+
+    const products = inject('products'); ////esses products advêm do component 'App.vue', onde estão armazenados...
+    // const title = ref('');
+    // const price = ref(null);
+    // const description = ref('');
+
+    const selectedProduct = products.value.find((product) => {
+      product.id === props.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+    return { selectedProduct };
+  },
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... COM ISSO, GANHAMOS ACESSO AO OBJECT 'route'
+
+DO VUE...
+
+
+
+
+
+
+
+
+
+-> SERÁ 1 REACTIVE OBJECT __ COM TODA A ROUTE DATA 
+
+NO INTERIOR...
+
+
+
+
+   
+
+
+
+
+
+   E COMO ESSE OBJECT É REACTIVE,
+
+   PODEMOS 
+
+
+   FAZER WATCH 
+
+
+   NELE,
+
+   E CRIAR 
+
+
+   COMPUTED PROPERTIES NELE,
+
+
+
+   PARA UPDATAR QUALQUER DATA QUE DEPENDA 
+
+   DELE,
+
+
+   SEMPRE QUE ALGUMA DATA FOR ALTERADA NA ROUTE...
+
+
+
+
+
+
+
+   EX:
+
+
+
+
+
+
+
+       const selectedProduct = products.value.find((product) => {
+      product.id === route.params.pid; ///'props.pid' --> é um value passado por meio do ROUTER ('props: true', lá no)
+    });
+
+
+
+
+
+
+
+
+
+
+
+ISSO É MELHOR, PQ AÍ NÃO PRECISAMOS USAR PROPS...
+
+
+
+BASTA USAR ESSE OBJECT DE 'route',
+
+QUE 
+
+OBTEMOS LÁ DO HOOK DE 'useRoute'... (hook, composable, function),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+E OUTRO COMPOSABLE/HOOK OFERECIDO 
+
+
+PELO 
+
+
+
+
+VUE-ROUTER
+
+
+
+
+
+
+
+
+
+
+PODE NOS AJUDAR 
+
+COM 
+
+
+O 
+
+'PROGRAMMATIC NAVIGATION'
+
+
+
+
+
+em 'AddProduct' ------->  CERTO...
+
+
+
+
+
+
+
+
+NESSE COMPONENT/PAGE,
+
+QUEREMOS 
+
+FAZER NAVIGATE AWAY
+ 
+
+
+
+ EXATAMENTE NO MOMENTO EM QUE 1 
+
+
+
+
+PRODUCT É ADICIONADO...
+
+
+
+
+
+
+
+
+
+
+
+
+-> NO MUNDO DA OPTIONS API,
+usaríamos 'this.$router.push(url)'
+
+
+
+ou 
+
+'this.$router.replace(url)'...
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+MAS PARA CONSEGUIR ESSA FUNCIONALIDADE,
+
+
+
+DEVEMOS importar a function de 'useRouter',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <section>
+    <h2>Add a products</h2>
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="title">Title</label>
+        <input type="text" id="title" v-model="enteredTitle" />
+      </div>
+      <div>
+        <label for="price">Price</label>
+        <input type="number" id="price" v-model.number="enteredPrice" />
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea
+          rows="5"
+          id="description"
+          v-model="enteredDescription"
+        ></textarea>
+      </div>
+      <button>Add Product</button>
+    </form>
+  </section>
+</template>
+
+<script>
+import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
+
+export default {
+  setup() {
+    const router = useRouter();
+    const addProduct = inject('addProduct');
+
+    const enteredTitle = ref('');
+    const enteredPrice = ref(null);
+    const enteredDescription = ref('');
+
+    function submitForm() {
+      addProduct({
+        title: enteredTitle,
+        description: enteredDescription,
+        price: enteredPrice,
+      });
+
+      router.push('/');
+    }
+
+    return {
+      enteredTitle,
+      enteredPrice,
+      enteredDescription,
+      submitForm,
+    };
+  },
+};
+</script>
+
+<style scoped>
+section {
+  margin: 3rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+input,
+label,
+textarea {
+  display: block;
+  width: 100%;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+textarea {
+  font: inherit;
+  margin-bottom: 0.5rem;
+}
+
+button {
+  font: inherit;
+  background-color: #570080;
+  border: 1px solid #570080;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #220031;
+  border-color: #220031;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... POR MEIO DE '      router.push('/'); '',
+
+
+
+
+CONSEGUIMOS NAVEGAR PARA FORA DESSA PAGE....
+
+
+
+
+
+
+
+-> OK, BEM SIMPLES...
+
+
+
+ERA ISSO QUE O PROFESSOR QUERIA NOS MOSTRAR:
+
+
+
+COMO PODEMOS USAR O 'VUE-ROUTER'
+
+COM 
+
+
+COMPONENTS QUE USAM A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+-> O ROUTER FUNCIONA EXATAMENTE COMO ANTES...
+
+
+
+DEFINIMOS AS ROUTES DA MESMA FORMA,
+
+E PODEMOS USAR TODAS AS FEATURES QUE APRENDEMOS ANTERIORMENTE...
+
+
+
+
+
+
+
+
+
+
+MAS QUANDO O ASSUNTO É O 'PASS DE PARAMS'
+
+COMO PROPS,
+
+
+
+
+
+É ASSIM QUE PODEMOS USAR ESSAS FEATURES 
+
+
+(
+    POR MEIO 
+    DO CUSTOM 'COMPOSITION FUNCTIONS', como useRouter e useRoute,
+
+
+
+    OU POR MEIO DO USO DE 'props' (props: true),
+
+    como o professor nos ensinou na lição anterior...
+)
