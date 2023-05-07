@@ -10,23 +10,26 @@
 
 <script>
 import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
 
 export default {
   components: {
     UserAlert,
   },
-  data() {
-    return {
-      alertIsVisible: false,
-    };
-  },
-  methods: {
-    showAlert() {
-      this.alertIsVisible = true;
-    },
-    hideAlert() {
-      this.alertIsVisible = false;
-    },
-  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin],
 };
 </script>

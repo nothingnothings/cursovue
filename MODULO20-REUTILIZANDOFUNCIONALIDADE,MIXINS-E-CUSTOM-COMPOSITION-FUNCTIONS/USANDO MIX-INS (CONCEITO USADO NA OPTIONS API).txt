@@ -1,0 +1,965 @@
+
+
+
+NESSE EXAMPLE PROJECT,
+
+A LÓGICA QUE QUEREMOS REUTILIZAR PODE SER ENCONTRADA  
+
+
+
+
+
+
+
+NOS COMPONENTS DE 'DELETE USER'
+
+E 
+'ADD USER'...
+
+
+
+
+
+
+
+
+
+TEMOS ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  data() {
+    return {
+      alertIsVisible: false,
+    };
+  },
+  methods: {
+    showAlert() {
+      this.alertIsVisible = true;
+    },
+    hideAlert() {
+      this.alertIsVisible = false;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+E ESTE CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  data() {
+    return {
+      alertIsVisible: false,
+    };
+  },
+  methods: {
+    showAlert() {
+      this.alertIsVisible = true;
+    },
+    hideAlert() {
+      this.alertIsVisible = false;
+    },
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK.. 
+
+
+
+
+
+
+TALVEZ SEJAMOS CAPAZES DE REUTILIZAR ESSA LÓGICA, SIM, 
+
+
+
+POR MEIO DO CREATE DE 1 'WRAPPER COMPONENT'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS 1 MANEIRA DE REUTILIZAR LÓGICA É O USO DE 'MIX-INS'..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CRIAMOS 1 PASTA, DE NOME 'MIXINS.'..
+
+
+
+
+
+
+
+
+--> VAMOS ARMAZENAR 1 MIXIN,
+
+o 
+
+
+
+
+mixin de 'alert.js'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DENTRO DESSE ARQUIVO JS (E não vue),
+
+
+O PROFESSOR QUER ARMAZENAR 
+
+
+NOSSA 'SHARED CONFIG LOGIC'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> NESSE CASO,
+
+
+CASO ESPECÍFICO,
+
+
+
+EXTREME CASE,
+
+
+
+
+O 'CONFIG OBJECT'
+
+
+
+DE AMBOS 
+
+
+OS 
+
+COMPONENTS É __ EXATAMENTE O MESMO.... -_> É POR ISSO QUE 
+
+
+
+
+O PROFESSOR COPIA 
+
+
+O CONFIG OBJECT DE 1 DOS COMPONENTS, QUE É ESTE:
+
+
+
+
+
+
+
+
+
+{
+  components: {
+    UserAlert,
+  },
+  data() {
+    return {
+      alertIsVisible: false,
+    };
+  },
+  methods: {
+    showAlert() {
+      this.alertIsVisible = true;
+    },
+    hideAlert() {
+      this.alertIsVisible = false;
+    },
+  },
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E COLA SEU CONTEÚDO LÁ em 'alert.js'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+export default {
+    components: {
+      UserAlert,
+    },
+    data() {
+      return {
+        alertIsVisible: false,
+      };
+    },
+    methods: {
+      showAlert() {
+        this.alertIsVisible = true;
+      },
+      hideAlert() {
+        this.alertIsVisible = false;
+      },
+    },
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS QUAL É A VANTAGEM DISSO?
+
+
+
+
+
+
+
+
+
+A VANTAGEM É QUE PODEMOS USAR ESSE NEGÓCIO 
+
+
+
+
+
+
+
+
+NOS OUTROS 
+
+
+2 COMPONENTS,
+
+POR MEIO DE SEU MIXIN...
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS 
+
+
+
+REMOVER TODO O CÓDIGO DENTRO DE 
+
+'export default {}'
+
+em 
+
+
+'addUser'
+
+
+e 
+'deleteUser',
+
+
+
+
+
+
+
+
+E AÍ 
+
+
+
+
+
+
+
+COLOCAMOS UMA NOVA KEY,
+
+DE NOME 'mixins:'...
+
+
+
+
+
+
+
+
+--> DENTRO DELA, COLOCAMOS 1 ARRAY,
+
+
+
+E NO ARRAY COLOCAMOS NOSSO MIXIN...
+
+
+
+
+o mixin é 'todo shared code que queremos aplicar a esse component...
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  // components: {
+  //   UserAlert,
+  // },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo....
+
+
+
+
+
+
+
+
+
+
+FAZEMOS A MESMA COISA COM O 'DELETE A USER'...
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  // components: {
+  //   UserAlert,
+  // },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------> OK... MAS GANHAMOS 1 ERROR DE 'USERALERT N FOI DECLARADO 
+
+
+NOS COMPONENTS'...
+
+
+
+
+
+
+
+
+
+
+
+--> PARA RESOLVER ESSE ERRO,
+
+COLOCAMOS SEU IMPORT 
+
+NO MIXIN 
+
+
+
+
+DE 'alert.js',
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import UserAlert from "../components/UserAlert.vue"
+
+export default {
+    components: {
+      UserAlert,
+    },
+    data() {
+      return {
+        alertIsVisible: false,
+      };
+    },
+    methods: {
+      showAlert() {
+        this.alertIsVisible = true;
+      },
+      hideAlert() {
+        this.alertIsVisible = false;
+      },
+    },
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  OK.... AQUI TEMOS 1 PROBLEMA... O CONCEITO DE MIXINS FUNCIONARÁ,
+
+  SIM,
+
+
+
+  MAS __ NÃO FUNCIONARÁ _ PARA COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+  SE VC TEM COMPONENTS QUE 
+
+  DEVEM SER REGISTRADOS EM 1 COMPONENT,
+
+
+
+
+
+
+
+
+
+
+  VC NÃO PODE USAR A OPTION DE 'components' dentro 
+
+
+
+
+
+
+  do próprio mixin...
+
+
+
+
+
+
+
+
+  ISSO QUER DIZER QUE O CÓDIGO CORRETO É ESTE:
+
+
+
+
+
+
+
+
+
+
+
+  <template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from "../mixins/alert";
+
+export default {
+  components: {
+    UserAlert,
+  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin]
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ESTE:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+COM ISSO,
+
+READICIONAMOS ESSES COMPONENTS AÍ..
+
+
+
+
+
+
+
+
+
+
+É ISSO QUE PODEMOS COMPARTILAHR COM MIXINS,
+
+
+E NÃO 
+
+PODEMOS 
+
+COMPARTILHAR 
+
+
+'COMPONENT CONFIGURATION'... (
+
+  a key de 'components:'...
+
+
+)
+
+
+
+
+
+
+
+
+OK.... COM ISSO, AS COISAS FUNCIONARÃO COMO ANTES,
+
+MAS COM 1 KEY DIFFERENCE:
+
+
+
+
+AGORA TEMOS 
+
+WAY LEANER 
+
+
+ADD E DELETE USER COMPONENTS,
+
+
+
+
+
+
+
+MAS COM 
+
+1 CONFIG BEM MAIS LEAN,
+
+
+PQ TEMOS APENAS A OPTION DE 'MIXINS'
+
+
+E A
+
+
+
+OPTION DE IMPORT DE COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+OK... MAS A VANTAGEM DOS MIXINS É QUE VC PODE COMPARTILHAR TODAS 
+
+AS COMPONENT OPTIONS QUE 
+
+EXISTEM,
+
+COM EXCEÇÃO DE 'COMPONENTS:'...
+
+
+
+
+
+
+É POR ISSO QUE MIXINS PODEM SER UMA FERRAMENTA ÚTIL PARA DEIXAR SEUS COMPONETS 
+
+MAIS LEAN E COMPARTILHAR LÓGICA AO LONGO DE COMPONENTS... 
