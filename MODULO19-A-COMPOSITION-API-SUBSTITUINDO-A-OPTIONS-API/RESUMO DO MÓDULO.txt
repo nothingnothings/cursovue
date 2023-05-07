@@ -1,0 +1,273 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... 
+
+
+ACABAMOS COM ESSA INTRODUÇÃO à COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+COM ESSE MÓDULO,
+
+
+
+TEMOS 1 BOA IDEIA DO QUE É A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, MAS PQ ELA EXISTE?
+
+
+
+
+
+
+
+
+
+
+
+
+1) É UMA ALTERNATIVA A OPTIONS API..
+
+
+
+
+
+
+
+
+2) VC NÃO É OBRIGADO A UTILIZÁ-LA...
+
+
+
+
+
+3) VOCÊ TEM O METHOD DE 'setup()',
+
+em que vc agrupa tudo...
+
+
+
+
+
+
+
+
+4) É UMA SOLUÇÃO 'function-based',
+
+E TE DEIXA MANTER TODAS AS COISAS RELACIONADAS LOGICAMENTE 
+
+
+EM 
+
+1 ÚNICO BLOCO...
+
+
+
+
+
+
+
+5) DATA E REATIVIDADE --------> NA COMPOSITION API,
+
+PODEMOS 
+
+GERENCIAR A DATA COMO 'REF()s' (individual values ou objects)
+
+
+
+
+
+E
+ 
+ 'REACTIVE()' objects...
+
+
+
+
+
+
+
+
+
+6) REACTIVITY É UM KEY CONCEPT, 
+
+E 
+
+UM DOS CONCEITOS KEY É QUE VC PODE CRIAR 
+
+
+
+
+REACTIVE REFS E OBJECTS,
+
+MAS QUE 
+
+SUAS 'NESTED PROPERTIES'
+
+
+NÃO SÃO NECESSARIAMENTE 
+
+REACTIVE (
+
+    a não ser que vc use coisas como 'toRefs()'
+
+
+    EM CIMA DOS OBJECTS...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS TAMBÉM TEMOS OUTRAS COISAS, COMO 
+
+
+METHODS, COMPUTED E WATCHERS,
+
+
+QUANDO USAMOS A COMPOSITION API..
+
+
+
+
+
+
+
+
+
+
+METHODS TORNAM-SE REGULAR  FUNCTIONS NO SETUP()..
+
+
+
+
+
+
+
+
+
+TEMOS COMPUTED PROPERTIES E WATCHERS,
+
+ 
+ QUE SÃO 
+
+
+ DEFINIDOS POR MEIO DAQUELAS 
+
+
+
+
+ FUNCTIONS (computed() e watch()),
+
+
+ IMPORTADAS LÁ 
+
+ DO FRAMEWORK VUE...
+
+
+
+
+
+
+
+
+
+
+
+ 7) SETUP() method -----> É O METHOD QUE DEFINIMOS NO CONFIG OBJECT DE NOSSOS COMPONENTS...
+
+
+
+
+
+
+
+ -> ESSE METHOD É CHAMADO PELO VUE QUANDO NOSSO COMPONENT É CRIADO..
+
+
+
+
+
+ -> DENTRO DESSE METHOD,
+ VC DEFINE TODA A DATA E LÓGICA PARA ESSE COMPONENT E PARA O TEMPLATE (
+
+    e o que vc retorna com 
+    'return {}'
+
+    FICA DISPONÍVEL LÁ NO TEMPLATE...
+ )
+
+
+
+
+
+
+
+
+
+
+
+
+ 8) O SETUP() recebe 2 COISAS QUANDO É CHAMADO ,
+
+ NO VUE,
+
+
+
+
+ QUE SÃO: 
+
+
+
+
+
+
+
+ 1) 'props' --> COM TODOS OS PROPS QUE VC RECEBE PARA ESSE COMPONENT .
+
+
+
+
+
+
+ 2) 'context' --> É O OBJECT COM TODOS OS FALLTHROUGH PROPS (attrs, SÃO ATTRIBUTES, FALLTHROUGH PROPS; SLOTS E 'emit()', que vc pode usar para EMITIR 1 CUSTOM EVENT)...
