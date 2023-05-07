@@ -1,0 +1,682 @@
+ 
+
+
+
+
+
+
+
+
+ --> OK... AGORA SABEMOS COMO PODEMOS USAR ROUTING COM A COMPOSITON API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> MAS COMO PODEMOS USAR O VUEX 
+
+
+
+ COM A COMPOSITION API?
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> BEM, TEMOS 
+
+
+
+ 1 PROJECT SIMPLES QUE VAI NOS MOSTRAR ISSO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -- É UM APP BEM SIMPLES,
+
+ MAS 
+
+ ELE FUNCIONARÁ 
+
+ COM 
+
+ O VUEX...
+
+
+
+
+
+
+
+
+
+
+ --> TEMOS APP,
+  
+
+  'CONTROLCENTER'
+
+  E 
+
+  'THECOUNTER'...
+
+
+
+
+
+
+
+
+
+
+  O PROFESSOR  DIZ QUE N PRECISAMOS DE VUEX PARA ESSE DEMO, MAS QUE 
+
+  PODEMOS 
+  USAR MESMO ASSIM...
+
+
+
+
+
+
+
+OK, MAS COMO ISSO FUNCIONA?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+em 'main.js'
+
+O PROFESSOR JÁ SETTOU 1 STATE BÁSICO,
+
+
+com actions, getters, mutations 
+
+e 1 store...
+
+
+
+
+
+
+
+
+
+
+--> OK, MAS COMO PODEMOS USAR 
+
+
+
+ESSE STORE COM NOSSOS COMPONENTS?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BEM, EXATAMENTE COMO COM COMPONENTS CRIADOS COM A 'OPTIONS API',
+
+
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS 
+
+INTEGRAR COM O VUEX..
+
+
+
+
+
+
+
+
+
+
+-> A PACKAGE DE VUEX TEM HELPER FUNCTIONS QUE TAMBÉM TE 
+
+
+AJUDAM
+ 
+
+
+ A DISPATCHEAR COISAS E 
+
+
+
+
+
+
+ PEGAR A DATA DO SEU STORE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ --> BEM.... LÁ NO CONTROL CENTER,
+
+
+ O PROFESSOR DIZ QUE PODEMOS IMPORTAR 
+
+
+ 1 NEGÓCIO LÁ 
+
+
+ DO VUEX...
+
+
+
+
+
+ COMEÇAMOS COM ESTE CÓDIGO:
+
+
+
+
+ <template>
+  <button @click="inc">Increment</button>
+</template>
+
+<script>
+export default {
+  setup() {
+    function inc() {}
+
+    return { inc };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS O QUE VAMOS IMPORTAR?
+
+
+
+
+
+É O COMPOSABLE DE 'useStore' ->  É 1 CUSTOM COMPOSITION FUNCTION,
+
+
+QUE 
+
+
+
+DEVE SER USADA DENTRO DO METHOD DE 'setup()'...
+
+
+
+
+
+
+BASTA RODAR ASSIm:
+
+
+
+
+
+
+
+
+ <template>
+  <button @click="inc">Increment</button>
+</template>
+
+<script>
+import { useStore } from "vuex";
+export default {
+  setup() {
+
+    const store = useStore();
+
+
+    function inc() {}
+
+    return { inc };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="inc">Increment</button>
+</template>
+
+<script>
+import { useStore } from 'vuex';
+export default {
+  setup() {
+    const store = useStore();
+    function inc() {}
+
+    return { inc };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ASSIM QUE TIVERMOS ACESSO à STORE,
+
+
+
+AS COISAS FICAM SIMPLES...
+
+
+
+
+
+
+
+
+
+
+para dispatchear algo,
+
+basta rodar assim:
+
+
+
+
+
+
+
+store.dispatch('increment'); 
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <button @click="inc">Increment</button>
+</template>
+
+<script>
+import { useStore } from 'vuex';
+export default {
+  setup() {
+    const store = useStore();
+    function inc() {
+      store.dispatch('increment');
+    }
+
+    return { inc };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E, COM ISSO,
+TODAS AS FEATURES DO VUEX NORMAL ESTARÃO DISPONÍVEIS A NÓS (
+
+    MODULES,
+    NAMESPACING,
+    TUDO...
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+VOCÊ SÓ DEVE USAR 'useStore()'
+
+
+EM VEZ DE 'this.$store'... (QUE VC USARIA, SE ESTIVESSE USANDO A OPTIONS API)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> CERTO...
+
+
+
+
+
+
+
+NO 'COUNTER' QUEREMOS FAZER A MESMA COISA,
+
+QUEREMOS 
+ACESSAR 1 
+
+DATA ARMAZENADA NO STORE...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<template>
+  <h2>{{ counter }}</h2>
+</template>
+
+<script>
+import { useStore } from 'vuex';
+export default {
+  setup() {
+
+    const store = useStore();
+
+    
+    const counter = 0;
+
+    return { counter };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+e, se queremos GANHAR ACESSO AO COUNTER QUE ESTÁ CONTIDO NO STORE,
+
+DEVEMOS 
+
+
+
+CRIAR 1 'COMPUTED PROPERTY',
+
+
+
+
+com 'computed()'...
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+const counter = computed(
+    () => {
+        return store.getters.counter
+    }
+)
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <h2>{{ counter }}</h2>
+</template>
+
+<script>
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+export default {
+  setup() {
+    const store = useStore();
+
+    // const counter = 0;
+
+    const counter = computed(() => {
+      return store.getters.counter; ///É ASSIM QUE GANHAMOS ACESSO à DATA ARMAZENADA NO NOSSO STORE...
+    });
+
+    return { counter };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+E, SEMPRE QUE O COUNTER FOR ALTERADO,
+O VUE VAI DETECTAR ESSA MUDANÇA E VAI RECALCULAR 
+
+
+O COMPUTED VALUE,
+
+
+QUE 
+
+ESTÁ EXPOSTO AO TEMPLATE( 
+
+    e , sempre que o counter for alterado,
+
+    o 
+
+
+    VUE VAI ALTERAR O TEMPLATE NO LUGAR EM QUE USAMOS ESSE COUNTER...
+)
+
+
+
+
+
+
+
+
+
+
+OK... É ASSIM QUE USAMOS O VUEX COM A COMPOSITION API...
