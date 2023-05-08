@@ -29,9 +29,7 @@
 import UserItem from './UserItem.vue';
 import useSearch from '../../../hooks/search';
 
-// import { ref, computed, watch } from 'vue';
-
-import { toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 
 export default {
   components: {
@@ -93,6 +91,8 @@ export default {
     //   });
     // });
 
+    const sorting = ref(null);
+
     const { users } = toRefs(props);
 
     const [
@@ -111,6 +111,7 @@ export default {
       displayedUsers,
       updateSearch,
       sort,
+      sorting,
     };
   },
 };

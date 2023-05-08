@@ -37,7 +37,8 @@ export default function search(items, itemName) {
         }
 
         if (itemName === 'project') {
-          return item.value.title.includes(activeSearchTerm.value);
+          console.log(item);
+          return item.title.includes(activeSearchTerm.value);
         }
       });
     } else if (items) {

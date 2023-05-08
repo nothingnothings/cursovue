@@ -91,31 +91,32 @@ export default {
     const projects = computed(() => {
       return user.value ? user.value.projects : []; ////SE O 'user' foi selecionado, carregue seus projects... caso contrário, carregue 1 empty array (array inicial)...
     });
+
     let [
       enteredSearchTerm,
       activeSearchTerm,
-      hasProjects,
       availableProjects,
-      availableUsers,
-      displayedUsers,
-      sort,
+      displayedProjects,
       updateSearch,
+      sort,
     ] = useSearch(projects, 'project'); /// será ou '[]' ou 'props.user.projects'
 
     watch(user, () => {
-      console.log('ENTERED DOS GURI', user);
-      enteredSearchTerm = '';
+      updateSearch('');
+    });
+
+    const hasProjects = computed(() => {
+      return user.value.projects && availableProjects.value.length > 0;
     });
 
     return {
       enteredSearchTerm,
       activeSearchTerm,
-      hasProjects,
       availableProjects,
-      availableUsers,
-      displayedUsers,
-      sort,
+      displayedProjects,
       updateSearch,
+      sort,
+      hasProjects,
     };
   },
 };
