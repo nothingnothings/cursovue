@@ -31,6 +31,8 @@ import useSearch from '../../../hooks/search';
 
 // import { ref, computed, watch } from 'vue';
 
+import { toRefs } from 'vue';
+
 export default {
   components: {
     UserItem,
@@ -91,6 +93,8 @@ export default {
     //   });
     // });
 
+    const { users } = toRefs(props);
+
     const [
       enteredSearchTerm,
       activeSearchTerm,
@@ -98,7 +102,7 @@ export default {
       displayedUsers,
       updateSearch,
       sort,
-    ] = useSearch(props.users, 'user');
+    ] = useSearch(users, 'user');
 
     return {
       enteredSearchTerm,

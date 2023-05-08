@@ -29,17 +29,19 @@ export default function search(items, itemName) {
   const availableItems = computed(() => {
     let filteredItems = [];
     if (activeSearchTerm.value) {
-      filteredItems = items.filter((item) => {
+      filteredItems = items.value.filter((item) => {
+        //'items.value' pq se trata de 1 REF...
+
         if (itemName === 'user') {
           return item.fullName.includes(activeSearchTerm.value);
         }
 
         if (itemName === 'project') {
-          return item.title.includes(activeSearchTerm.value);
+          return item.value.title.includes(activeSearchTerm.value);
         }
       });
     } else if (items) {
-      filteredItems = items;
+      filteredItems = items.value;
     }
     return filteredItems;
   });

@@ -22,6 +22,7 @@
 
 <script>
 // import { watch, ref, computed, toRefs } from 'vue';
+import { toRefs, computed, watch } from 'vue';
 import useSearch from '../../../hooks/search';
 import ProjectItem from './ProjectItem.vue';
 
@@ -85,7 +86,12 @@ export default {
     //   updateSearch,
     // };
 
-    const [
+    const { user } = toRefs(props);
+
+    const projects = computed(() => {
+      return user.value ? user.value.projects : []; ////SE O 'user' foi selecionado, carregue seus projects... caso contrário, carregue 1 empty array (array inicial)...
+    });
+    let [
       enteredSearchTerm,
       activeSearchTerm,
       hasProjects,
@@ -94,7 +100,12 @@ export default {
       displayedUsers,
       sort,
       updateSearch,
-    ] = useSearch(props.user.projects, 'project');
+    ] = useSearch(projects, 'project'); /// será ou '[]' ou 'props.user.projects'
+
+    watch(user, () => {
+      console.log('ENTERED DOS GURI', user);
+      enteredSearchTerm = '';
+    });
 
     return {
       enteredSearchTerm,
@@ -107,43 +118,6 @@ export default {
       updateSearch,
     };
   },
-
-  // data() {
-  //   return {
-  //     enteredSearchTerm: '',
-  //     activeSearchTerm: '',
-  //   };
-  // },
-  // computed: {
-  //   hasProjects() {
-  //     return this.user.projects && this.availableProjects.length > 0;
-  //   },
-  //   availableProjects() {
-  //     if (this.activeSearchTerm) {
-  //       return this.user.projects.filter((prj) =>
-  //         prj.title.includes(this.activeSearchTerm)
-  //       );
-  //     }
-  //     return this.user.projects;
-  //   },
-  // },
-  // methods: {
-  //   updateSearch(val) {
-  //     this.enteredSearchTerm = val;
-  //   },
-  // },
-  // watch: {
-  //   enteredSearchTerm(val) {
-  //     setTimeout(() => {
-  //       if (val === this.enteredSearchTerm) {
-  //         this.activeSearchTerm = val;
-  //       }
-  //     }, 300);
-  //   },
-  //   user() {
-  //     this.enteredSearchTerm = '';
-  //   },
-  // },
 };
 </script>
 
