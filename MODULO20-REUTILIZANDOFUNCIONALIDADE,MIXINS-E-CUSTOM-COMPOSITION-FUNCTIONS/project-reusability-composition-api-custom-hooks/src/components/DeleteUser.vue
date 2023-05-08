@@ -1,5 +1,6 @@
 <template>
-  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+  <!-- <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert"> -->
+    <user-alert v-if="alertIsVisible" :title="titleAlert" @close="hideAlert"></user-alert>
     <p>Do you want to continue with deleting a user?</p>
   </user-alert>
   <section>
@@ -37,6 +38,7 @@ export default {
       alertIsVisible,
       showAlert,
       hideAlert,
+      titleAlert
     };
   },
 };
