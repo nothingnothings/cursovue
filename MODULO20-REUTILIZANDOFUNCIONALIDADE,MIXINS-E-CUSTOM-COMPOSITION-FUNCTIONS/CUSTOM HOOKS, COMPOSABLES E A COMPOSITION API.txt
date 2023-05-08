@@ -1,0 +1,1048 @@
+
+
+
+
+
+
+
+
+
+
+OK... AGORA DEVEMOS EXPLORAR O 'REUSE DE COISAS/LÓGICA' AO LONGO 
+
+DE COMPONENTS,
+
+MAS POR MEIO DA 'COMPOSITION API' (e não a 'OPTIONS API')...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ISSO,
+
+
+O PROFESSOR COLOCA 1 OUTRO PROJECT,
+
+O MESMO DE ANTES,
+
+MAS 
+COM 
+
+A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+--> É O MESMO PROJECT DE ANTES,
+
+MAS COM REFS E ETC,
+ETC ETC...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> CERTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> USAMOS A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ELE FUNCIONA COMO ANTES..
+
+
+
+
+
+
+
+
+
+ANTERIORMENTE,
+
+USAMOS 1 MIXIN PARA FAZER 'SHARE' DA FUNCTIONALITY DO MODAL...
+
+
+
+
+
+
+
+
+
+
+-> MAS AGORA VAMOS USAR 1 APPROACH DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NOSSO CÓDIGO FICOU ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+import { ref } from 'vue';
+import UserAlert from './UserAlert.vue';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  setup() {
+    const alertIsVisible = ref(false);
+
+    function showAlert() {
+      alertIsVisible.value = true;
+    }
+    function hideAlert() {
+      alertIsVisible.value = false;
+    }
+    
+    return {
+      alertIsVisible,
+      showAlert,
+      hideAlert
+    };
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS TUDO ISSO AÍ,
+
+NO FINAL DAS CONTAS,
+
+
+
+É SIMPLESMENTE 'CÓDIGO NO SETUP METHOD'...
+
+
+
+
+
+
+
+
+
+
+
+--> E, SE DEIXAMOS _ O VUE DE LADO POR 1 SEGUNDO,
+
+
+COMO TIPICAMENTE 
+
+
+
+REUTILIZAMOS CÓDIGO EM JAVASCRIPT?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, TIPICAMENTE 
+
+
+
+
+_ CRIAMOS 1 FUNCTION... --> 1 FUNCTION QUE 
+
+__ TALVEZ RECEBA ALGUNS ARGUMENTS,
+
+E QUE 
+
+TALVEZ RETORNE 1 VALUE --> É ASSIM QUE 
+
+TIPICAMENTE 
+
+
+
+
+COMPARTILHAMOS FUNCTIONALITY NO JAVASCRIPT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+e, bem,
+
+O 
+
+'setup()'
+
+METHOD É 
+
+
+
+
+BASICAMENTE SÓ 1 METHOD COM 1 MONTE DE 'DIFFERENT STEPS'...
+
+
+
+
+
+
+
+
+
+
+-> ISSO QUER DIZER QUE SE QUISERMOS OUTSOURCEAR ALGUMAS DESSAS STEPS,
+
+
+PODEMOS FAZER EXATAMENTE ISSO,
+
+PODEMOS 
+
+CRIAR 1 FUNCTION SEPARADA..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E É __ EXATAMENTE ISSO QUE 
+PODEMOS FAZER, COM A COMPOSITION API...
+
+
+
+
+
+
+
+
+
+
+
+
+--> ESSA NÃO ERA UMA ALTERNATIVA BOA ANTES PQ 
+
+__ NÃO 
+
+
+TÍNHAMOS 
+
+
+1 FUNCTION/METHODS COM 1 MONTE DE STEPS,
+
+E SIM 
+
+1 
+
+__OBJECT__ COM DIFERENTES PROPERTIES (
+
+
+    é por isso que o uso de uma function ,naquele contexto,
+    não era 1 alternativa...
+).
+
+
+
+
+
+
+
+
+
+
+MAS AQUI TEMOS ESSA ALTERNATIVA,
+
+POR ISSO A UTILIZAREMOS...
+
+
+
+
+
+
+
+
+--> PARA ISSO,
+
+
+
+
+O PROFESSOR 
+
+
+CRIA 1 NOVO FOLDER,
+
+
+
+DE NOME 
+'hooks'...
+
+
+
+
+
+
+HOOKS ---> É PQ ÀS VEZES ESSAS COMPOSITION API FUNCTIONS SÃO CHAMADAS DE HOOKS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OUTROS NOMES PARA ESSAS FUNCTIONS SERIAM
+ 
+ 'COMPOSABLES',
+
+
+ OU 
+
+ 'CUSTOM COMPOSITION FUNCTIONS'...
+
+
+
+
+
+
+
+
+ -> TUDO A MESMA COISA...
+
+
+
+
+ SÃO JAVASCRIPT FUNCTIONS QUE 
+
+
+
+ PROVAVELMENTE USAM 
+
+
+ 'COMPOSITION API FEATURES' (
+
+    COMO 'REFS',
+
+
+    'COMPUTED PROPERTIES' E ETC
+ )
+
+
+
+ QUE 
+
+ __DEVEM _ SER CHAMADAS/REFERENCIADAS __ DENTRO __DO METHOD DE 'setup'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ E__, COMO SIDENOTE,
+
+
+ JÁ 
+ USAMOS ALGUMAS DESSAS FUNCTIONS,
+
+
+ QUANDO USAMOS 
+
+
+
+
+
+
+
+ OS HOOKS de 'useRouter' e 'useRoute',
+
+
+
+
+
+ LÁ NO MÓDULO DE 'COMPOSITION API'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ CERTO... ADICIONAMOS OUTRO ARQUIVO, 'hook.ts',
+
+
+
+EM QUE 
+
+VAMOS CRIAR 1 FUNCTION...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR COMEÇA COM 
+
+'function',
+
+
+MAS ELE NOS AFIRMA QUE VAI USAR 1 NOME ESPECIAL,
+
+CONVENÇÃO,
+
+
+QUE É 
+
+'useXXXX'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> function useAlert() {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> OK... COLOCAMOS ESSE NOME JUSTAMENTE PQ ESSA FUNCTION VAI NOS DEIXAR USAR 
+
+ALERT FUNCTIONALITY 
+
+DENTRO DO METHOD DE 'setup()'...
+
+
+
+
+
+
+
+
+
+
+
+--> EX:
+
+
+
+
+
+
+export function useAlert() { //? naming convention
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... MAS ESSA AINDA É UMA FUNCTION COMUM....
+
+
+
+
+
+
+
+
+
+MAS O QUE DEVE IR 
+
+
+
+DENTRO DESSA FUNCTION?
+
+
+
+
+
+
+
+BEM, NO FINAL DAS CONTAS,
+
+DEVEMOS COLOCAR TODO O CÓDIGO 
+
+
+EM COMUM ENTRE 
+
+
+'ADDUSER' E 'DELETEUSER'....
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE FICA TIPO ASSIM:
+
+
+
+
+
+
+
+import { ref } from 'vue';
+
+export function useAlert() {
+  //? naming convention
+  const alertIsVisible = ref(false);
+
+  function showAlert() {
+    alertIsVisible.value = true;
+  }
+  function hideAlert() {
+    alertIsVisible.value = false;
+  }
+
+  return {
+    alertIsVisible,
+    showAlert,
+    hideAlert,
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+certo...
+
+
+
+
+
+COM ISSO, ESTAMOS CRIANDO 1 REF...
+
+
+
+
+
+
+
+E AÍ TEMOS TODA ESSA LÓGICA,
+
+DENTRO 
+
+DESSA FUNCTION de 'useAlert()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK, MAS QUAL É A VANTAGEM DISSO?
+
+
+
+
+
+
+
+
+
+--> BEM, PODEMOS EXPORTAR ISSO 
+
+
+
+COMO DEFAULT,
+
+
+
+COM TODA ESSA LÓGICA E ESSE RETURN STATEMENT,
+
+PARA ENTÃO 
+
+
+VOLTARMOS NO 'AddUser'
+
+
+
+
+
+E 
+
+
+
+
+USAR ESSE HOOK 
+
+TIPO ASSIM (chamar dentro do 'setup()'):
+
+
+
+
+
+
+
+
+ 
+
+ <template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+// import { ref } from 'vue';
+import UserAlert from './UserAlert.vue';
+import { useAlert } from '../hooks/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  setup() {
+    // const alertIsVisible = ref(false);
+
+    // function showAlert() {
+    //   alertIsVisible.value = true;
+    // }
+    // function hideAlert() {
+    //   alertIsVisible.value = false;
+    // }
+
+    // return {
+    //   alertIsVisible,
+    //   showAlert,
+    //   hideAlert
+    // };
+
+    //? isso é quase como um mixin, mas DA COMPOSITION API...
+    useAlert(); //? isso vai EXECUTAR TODO O CÓDIGO VISTO LOGO ACIMA (de definição da 'data' e 'methods', com a composition api)... 
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... E PODEMOS FAZER A MESMA COISA LÁ NO 'Deleteuser'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------> OK...
+
+
+
+
+
+
+MAS NÃO BASTA ESCREVER SÓ 'useAlert()"...
+
+
+
+
+
+
+
+
+
+
+-> AINDA PRECISAMOS FAZER O RETURN DE 'return {}' 
+
+
+LÁ EM CADA 'setup()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR FAZ ALGO DE DIFERENTE, DEIXA O RETURN STATEMENT DO PRÓPRIO HOOK __ COMO SENDO 1 ARRAY,
+TIPO ASSIM:
+
+
+
+
+import { ref } from 'vue';
+
+export function useAlert() {
+  //? naming convention
+  const alertIsVisible = ref(false);
+
+  function showAlert() {
+    alertIsVisible.value = true;
+  }
+  function hideAlert() {
+    alertIsVisible.value = false;
+  }
+
+  return [alertIsVisible, showAlert, hideAlert];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LÁ NOS NOSSOS COMPONENTS,
+
+PODEMOS USAR ESSE HOOK/MIXIN TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+    <p>Do you want to continue with adding a user?</p>
+  </user-alert>
+  <section>
+    <h2>Add a User</h2>
+    <button @click="showAlert">Add User</button>
+  </section>
+</template>
+
+<script>
+// import { ref } from 'vue';
+import UserAlert from './UserAlert.vue';
+import { useAlert } from '../hooks/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  setup() {
+    // const alertIsVisible = ref(false);
+
+    // function showAlert() {
+    //   alertIsVisible.value = true;
+    // }
+    // function hideAlert() {
+    //   alertIsVisible.value = false;
+    // }
+
+    // return {
+    //   alertIsVisible,
+    //   showAlert,
+    //   hideAlert
+    // };
+
+    //? isso é quase como um mixin, mas DA COMPOSITION API...
+    // const alertArray = useAlert(); //? isso vai EXECUTAR TODO O CÓDIGO VISTO LOGO ACIMA (de definição da 'data' e 'methods', com a composition api)...
+
+    const [alertIsVisible, showAlert, hideAlert] = useAlert(); //array destructuring... (pq o result de 'useAlert' é um array, realmente)...
+
+    return {
+      alertIsVisible,
+      showAlert,
+      hideAlert
+    };
+
+    // return {
+    //   alertIsVisible: alertArray[0],
+    //   showAlert: alertArray[1],
+    //   hideAlert: alertArray[2]
+    // }
+  },
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+É UMA MANEIRA DIFERENTE,
+
+E É INTERESSANTE...
+
+
+
+
+
+
+
+
+SE SALVAMOS TUDO ISSO, FUNCIONA COMO ANTES,
+ MAS AGORA COM NOSSO CUSTOM HOOK...
