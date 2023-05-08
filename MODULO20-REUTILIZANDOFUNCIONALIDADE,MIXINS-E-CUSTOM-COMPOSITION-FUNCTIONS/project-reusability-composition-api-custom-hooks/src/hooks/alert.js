@@ -1,8 +1,11 @@
 import { ref } from 'vue';
 
-export function useAlert() {
-  //? naming convention
-  const alertIsVisible = ref(false);
+//? naming convention
+export function useAlert(startingVisibility = false) {
+  //podemos definir QUANTOS PARÂMETROS DESEJARMOS...
+
+  // const alertIsVisible = ref(false);
+  const alertIsVisible = ref(startingVisibility);
 
   function showAlert() {
     alertIsVisible.value = true;

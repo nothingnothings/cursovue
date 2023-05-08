@@ -356,4 +356,178 @@ DOS HOOKS (com 'useXXX()', armazenado em uma const),
 
 
 
- -->  
+ -->   BASTA CHAMAR O HOOK E PASSAR 1 PARÂMETRO,
+
+ TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+ useAlert(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -> aí, lá no hook,
+
+ podemos fazer tipo assim:
+
+
+
+
+
+
+
+
+
+ import { ref } from 'vue';
+
+export function useAlert(startingVisibility = false) { //podemos definir QUANTOS PARÂMETROS DESEJARMOS...
+  //? naming convention
+  const alertIsVisible = ref(false);
+
+  function showAlert() {
+    alertIsVisible.value = true;
+  }
+  function hideAlert() {
+    alertIsVisible.value = false;
+  }
+
+  return [alertIsVisible, showAlert, hideAlert];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... 
+
+
+
+
+
+COM ISSO, TEMOS ESSE STARTING VALUE DEFINIDO,
+
+E TAMBÉM DEFINIDO COM UM 'FALSE' DEFAULT VALUE...
+
+
+
+
+
+
+
+
+
+--> E PODEMOS DEFINIR A REF DE 'useAlert'
+
+
+DE ACORDO COM ESSE PARÂMETRO, TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+import { ref } from 'vue';
+
+//? naming convention
+export function useAlert(startingVisibility = false) {
+  //podemos definir QUANTOS PARÂMETROS DESEJARMOS...
+
+  // const alertIsVisible = ref(false);
+  const alertIsVisible = ref(startingVisibility);
+
+  function showAlert() {
+    alertIsVisible.value = true;
+  }
+  function hideAlert() {
+    alertIsVisible.value = false;
+  }
+
+  return [alertIsVisible, showAlert, hideAlert];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+COM ISSO, PODEMOS PASSAR PARÂMETROS PARA DENTRO DOS HOOKS...
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE NOSSOS CUSTOM HOOKS SÃO MT FLEXÍVEIS...
+
+
+
+VC PODE 
+
+ACEITAR QUAISQUER PARâMETROS QUE VC PRECISA,
+
+
+
+
+
+
+E USAR QUALQUER 
+COMPOSITION API FEATURE DENTRO DO HOOK,
+
+PARA, NO FINAL, 
+
+RETORNAR O QUE ESSE HOOK DEVE EXPOR AO COMPONENT..
