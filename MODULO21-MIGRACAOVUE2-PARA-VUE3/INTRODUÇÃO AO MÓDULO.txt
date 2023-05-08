@@ -1,0 +1,728 @@
+
+
+
+
+
+
+
+
+
+NESSE MÓDULO, VEREMOS O VUE3...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR VAI EXPLICAR O QUE MUDOU COM O VUE3,
+
+
+
+
+E AS NOOVAS FEATURES QUE TEMOS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+mas... --> SE VC VISITA O REPOSITORY DO VUE VERSION 3,
+
+
+
+
+
+
+
+QUE É O 'VUE-NEXT',
+
+
+
+
+VERÁ 
+
+
+QUE 
+
+
+
+
+
+EXISTEM AS RELEASE NOTES...
+
+
+
+
+
+
+
+
+
+
+
+
+A COISA 
+
+
+INTERESSANTE É QUE 
+
+
+ESTÃO SEGUINDO UM 'PHASED RELEASE PROCESS'...
+
+
+
+
+
+
+
+
+
+--> ISSO QUER DIZER QUE O CORE É ESTÁVEL,
+
+
+MAS QUE PARTES/PACKAGES COMO O 'VUE-ROUTER'
+
+
+E A 
+
+INTEGRAÇÃO 
+
+
+VUEX
+
+
+
+
+
+COM O DEVTOOLS AINDA NÃO ESTÁ FINALIZADA...
+
+
+
+
+
+
+
+
+
+
+
+
+É POR ISSO QUE TEMOS ESSE 
+
+
+
+
+
+'PHASED RELEASE PROCESS'...
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS AGORA JÁ SÃO OS DOCS DO VUE 3...
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+npm install vue@next para conseguir A REAL LATEST VERSION DO VUE..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A VERSAÕ QUE VC DEVE 
+
+APRENDER É A 3, MAS A 2 TAMBÉM É USADA...
+
+
+
+
+
+
+
+
+OK... 
+
+
+
+
+
+
+
+
+
+O VUE3 ENTROU NO JOGO EM 2021, BASICAMENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> O PROFESSOR QUER QUE COMECEMOS COM O VUE3...
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+N MUDOU MTA COISA DO 'VUE2 ' PARA O 'VUE3'...
+
+
+
+
+
+
+
+NÃO HÁ NENHUMA BREAKING CHANGE...
+
+
+
+
+
+
+
+
+
+
+
+--> MAS HÁ 1 PUNHADO DE CHANGES,
+
+NOVAS FEATURES,
+
+QUE 
+
+VC 
+
+DEVE TER EM MENTE..
+
+
+
+
+
+VEREMOS ESSAS CHANGES NESSE MODULE...
+
+
+
+
+
+
+
+
+QUAIS SÃO AS CHANGES MAIS IMPORTANTES, CHANGES QUE VÃO AFETAR TODO MUNDO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM.... PARA UMA EXHAUSTIVE LIST DE TODAS AS CHANGES,
+
+
+
+VC DEVE 
+
+
+CHECAR 
+
+
+O OFFICIAL MIGRATION GUIDE...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS AS CHANGES MOSTRADAS AQUI SERÃO MOSTRADAS EM DETALHE NESSE VIDEO:
+
+
+
+
+
+
+
+
+
+
+
+
+1A CHANGE --> AGORA VC CRIA SUAS VUE INSTANCES COM 
+
+
+
+
+'createApp()'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> 
+
+
+
+
+
+
+
+const Vue = createApp()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... 
+
+
+
+
+
+
+
+OUTRA CHANGE:
+
+
+
+
+
+A PROPRIEDADE 'data'
+
+DEVE SEMPRE SER UM METHOD (
+    mas eu já fazia isso...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... OUTRA CHANGE VAI SER A MANEIRA PELA QUAL 
+VC VAI REGISTRAR 
+
+
+
+COMPONENTS,
+
+DIRECTIVES E THIRD-PARTY MODULES -------> AGORA ELES SÃO REGISTRADOS 
+
+
+
+EM 'app',
+
+
+
+em vez 
+
+de NO 
+
+GLOBAL VUE OBJECT...
+
+
+
+
+
+
+
+
+
+
+
+--> OUTRA MUDANÇA:
+
+
+
+SE VC ESTÁ USANDO TRANSITIONS NO SEU APP,
+
+
+
+1 
+
+
+CLASS 
+
+
+
+DE TRANSITION MUDOU,
+
+
+que é 
+
+a 
+
+'v-enter',
+
+
+QUE 
+
+
+AGORA É 
+
+
+
+'v-enter-from'...
+
+
+
+
+
+
+
+
+
+
+
+--> OK...
+
+
+
+
+
+
+
+
+
+
+ESSAS SÃO AS CHANGES GRANDES...
+
+
+
+
+
+
+
+
+
+
+--> CERTO..
+
+
+
+
+
+
+
+MAS SE VC ESTÁ USANDO O 'vue-router',
+
+
+AGORA 
+
+TAMBÉM CRIAMOS O ROUTER COM ALGO DIFERENTE,
+
+QUE É 
+
+
+'createRouter()'...
+
+
+
+
+
+
+
+
+
+
+--> MESMA COISA COM TRANSITIONS, PQ 
+
+AS ANIMATIONS COM ROUTER, COM '<transition>',
+
+
+POSSUI UMA SINTAXE DIFERENTE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> CERTO... PARA O VUEX,
+
+
+
+
+GERALMENTE ELE FUNCIONA DA MESMA FORMA,
+
+MAS AGORA 
+
+CRIAMOS NOSSA STORE DE FORMA DIFERENTE,
+
+COm 
+
+'createStore()'..
+
+
+
+
+
+
+
+
+
+
+
+
+OK... ESSAS SÃO AS CHANGES,
+
+E VAMOS AS 
+
+
+EXPLORAR 
+
+
+
+COM 
+
+EXEMPLOS CONCRETOS DURANTE O VÍDEO...
+
+
+
+
+
+
+
+TAMBÉM TEMOS 1 PUNHADO DE NOVAS FEATURES,
+
+
+
+
+
+2 CHANGES 
+
+
+
+
+ÚTEIS:
+
+
+
+
+
+
+
+
+
+1) O COMPONENT DE 'TELEPORT'
+
+
+
+
+
+
+
+
+
+2) A FEATURE DE 'FRAGMENT'.. (e´a mesma coisa que 'React.Fragmnet)"...
+
+
+
+
+
+
+
+
+
+A MAIS NOVA FEATURE INTRODUZIDA COM O VUE3 
+
+FOI A NOVA COMPOSITION API,
+
+
+
+QUE 
+
+
+
+É TOTALMENTE OPCIONAL..
+
+
+
+
+
+
+
+
+
+PODEMOS A UTILIZAR PARA SUBSTITUIR 
+
+A OPTIONS API (
+
+    em vez de usar tudo separado...
+)
+
+
+
+
+
+
+
+MAS ELA É OPCIONAL,
+
+PODEMOS A UTILIZAR, MAS NÃO É ALGO OBRIGATÓRIO...
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... AÍ TEMOS 1 NOVA FEATURE 
+
+QUE 
+
+É + OU - NOVA,
+
+QUE É 
+
+'TYPESCRIPT SUPPORT'..
+
+
+
+
+
+
+
+
+
+
+--> MAS COMO O VUE FOI REESCRITO INTERNAMENTE COM TYPESCRIPT,
+
+AGORA 
+
+HÁ 
+
+
+
+UM SUPPORT BEM MELHOR...
+
+
+
+
+
+
+
+
+
+--> certo..
+
+
+ESSE É O OVERVIEW..
+
+
+DEVEMOS VER ALGUNS EXEMPLOS CONCRETOS...
