@@ -1,0 +1,445 @@
+
+TENTAR FAZER ISSO SOZINHO...
+
+
+
+
+
+
+crio um arquivo 'sort.js'...
+
+
+
+
+
+
+
+
+COLOQUEI ESTE CÓDIGO, MAS NÃO SEI SE ESTÁ CORRETO:
+
+
+
+
+
+
+
+
+
+
+import { ref, computed } from 'vue';
+
+export default function useSort(availableItems) {
+  const sorting = ref(null);
+
+  const displayedItems = computed(() => {
+    if (!sorting.value) {
+      return availableItems.value;
+    }
+    return availableItems.value.slice().sort((u1, u2) => {
+      if (sorting.value === 'asc' && u1.fullName > u2.fullName) {
+        return 1;
+      } else if (sorting.value === 'asc') {
+        return -1;
+      } else if (sorting.value === 'desc' && u1.fullName > u2.fullName) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  });
+
+  return [displayedItems, sorting];
+}
+
+
+
+
+
+
+
+
+
+
+
+A FUNCTION DE 'SORT' AINDA NÃO ESTÁ FUNCIONANDO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.. FUNCIONOU..
+
+
+
+
+
+CONSEGUI FAZER O OUTSOURCE E REUSE DESSA LÓGICA DE SORT,
+FICOU TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { ref, computed } from 'vue';
+
+export default function useSort(availableItems) {
+  const sorting = ref(null);
+
+  const displayedItems = computed(() => {
+    console.log('UPDATED');
+    if (!sorting.value) {
+      return availableItems.value;
+    }
+    return availableItems.value.slice().sort((u1, u2) => {
+      if (sorting.value === 'asc' && u1.fullName > u2.fullName) {
+        return 1;
+      } else if (sorting.value === 'asc') {
+        return -1;
+      } else if (sorting.value === 'desc' && u1.fullName > u2.fullName) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  });
+
+  const sort = (mode) => {
+    sorting.value = mode;
+  };
+
+  return [displayedItems, sorting, sort];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+    const { user } = toRefs(props);
+
+    const projects = computed(() => {
+      return user.value ? user.value.projects : []; ////SE O 'user' foi selecionado, carregue seus projects... caso contrário, carregue 1 empty array (array inicial)...
+    });
+
+    let [
+      enteredSearchTerm,
+      activeSearchTerm,
+      availableProjects,
+      updateSearch,
+    ] = useSearch(projects, 'project'); /// será ou '[]' ou 'props.user.projects'
+
+    const [displayedProjects, sorting, sort] = useSort(availableProjects);
+
+    watch(user, () => {
+      updateSearch('');
+    });
+
+    const hasProjects = computed(() => {
+      return user.value.projects && availableProjects.value.length > 0;
+    });
+
+    return {
+      enteredSearchTerm,
+      activeSearchTerm,
+      availableProjects,
+      displayedProjects,
+      updateSearch,
+      sort,
+      sorting,
+      hasProjects,
+    };
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+E ASSIM:
+
+
+
+
+
+
+
+
+
+
+    const { users } = toRefs(props);
+
+    const [enteredSearchTerm, activeSearchTerm, availableUsers, updateSearch] =
+      useSearch(users, 'user');
+
+    const [displayedUsers, sorting, sort] = useSort(availableUsers);
+
+    return {
+      enteredSearchTerm,
+      activeSearchTerm,
+      availableUsers,
+      displayedUsers,
+      updateSearch,
+      sort,
+      sorting,
+    };
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  CERTO...
+
+
+
+
+
+
+
+
+  VOU VER A AULA DO PROFESSOR...
+
+
+
+
+
+
+
+
+
+
+  ELE FAZ A MESMA COISA QUE EU FIZ:
+
+
+
+
+
+
+
+
+  import { ref, computed } from 'vue';
+
+export default function useSort(availableItems) {
+  const sorting = ref(null);
+
+  const displayedItems = computed(() => {
+    console.log('UPDATED');
+    if (!sorting.value) {
+      return availableItems.value;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS O PROFESSOR DIZ QUE PODERÍAMOS COLOCAR 1 VALUE DINÂMICO COMO SEGUNDO PARAMETER,
+
+
+PARA QUE 
+
+
+
+
+qualquer property name possa ser usado do lado de fora,
+
+tipo assim:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { ref, computed } from 'vue';
+
+export default function useSort(availableItems, sortProperty = 'fullName') {
+  const sorting = ref(null);
+
+  const displayedItems = computed(() => {
+    console.log('UPDATED');
+    if (!sorting.value) {
+      return availableItems.value;
+    }
+    return availableItems.value.slice().sort((u1, u2) => {
+      if (sorting.value === 'asc' && u1[sortProperty] > u2[sortProperty]) {
+        return 1;
+      } else if (sorting.value === 'asc') {
+        return -1;
+      } else if (
+        sorting.value === 'desc' &&
+        u1[sortProperty] > u2[sortProperty]
+      ) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  });
+
+  const sort = (mode) => {
+    sorting.value = mode;
+  };
+
+  return [displayedItems, sorting, sort];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... mas, com isso, devemos estar 'fine'..
+
+
+
+
+
+
+
+
+
+OK.... TUDO FUNCIONA EXATAMENTE COMO ANTES...
+
+
+
+
+
+
+
+
+
+
+
+MAS O OBJETIVO DA COMPOSIITON API NÃO É OUTSOURCEAR TODA A LÓGICA 
+
+
+EM HOOKS...
+
+
+
+
+
+
+
+
+
+
+
+--> ESTAMOS FAZENDO ISSO APENAS PARA PRATICAR, AQUi...
+
+
+
+
+
+
+
+
+-> TÍNHAMOS ESSAS 2 FUNCTIONALITIES QUE PODIAM SER OUTSOURCEADAS,
+
+POR ISSO OUTSOURCEAMOS...
+
+
+
+
+
+
+
+
+
+E ESSA É A GRANDE VANTAGEM DA COMPOSITION API,
+
+
+ESPECIALMENTE DEPOIS QUE VC SABE SOBRE 
+
+'CUSTOM HOOKS'..
+
+
+
+
+
+
+
+--> ISSO TE DEIXA CRIAR COMPONENTS ENORMES, QUE AINDA FICAM MAINTAINEABLE...

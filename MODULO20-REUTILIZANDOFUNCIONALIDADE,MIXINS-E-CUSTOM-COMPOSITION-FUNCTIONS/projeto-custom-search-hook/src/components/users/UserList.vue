@@ -29,7 +29,8 @@
 import UserItem from './UserItem.vue';
 import useSearch from '../../../hooks/search';
 
-import { ref, toRefs } from 'vue';
+import { toRefs } from 'vue';
+import useSort from '../../../hooks/sort';
 
 export default {
   components: {
@@ -91,18 +92,14 @@ export default {
     //   });
     // });
 
-    const sorting = ref(null);
+    // const sorting = ref(null);
 
     const { users } = toRefs(props);
 
-    const [
-      enteredSearchTerm,
-      activeSearchTerm,
-      availableUsers,
-      displayedUsers,
-      updateSearch,
-      sort,
-    ] = useSearch(users, 'user');
+    const [enteredSearchTerm, activeSearchTerm, availableUsers, updateSearch] =
+      useSearch(users, 'user');
+
+    const [displayedUsers, sorting, sort] = useSort(availableUsers);
 
     return {
       enteredSearchTerm,

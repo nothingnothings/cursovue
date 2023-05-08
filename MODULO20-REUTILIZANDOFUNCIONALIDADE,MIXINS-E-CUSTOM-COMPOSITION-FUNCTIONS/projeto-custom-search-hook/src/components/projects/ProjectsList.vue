@@ -25,6 +25,7 @@
 import { toRefs, computed, watch } from 'vue';
 import useSearch from '../../../hooks/search';
 import ProjectItem from './ProjectItem.vue';
+import useSort from '../../../hooks/sort';
 
 export default {
   components: {
@@ -96,10 +97,10 @@ export default {
       enteredSearchTerm,
       activeSearchTerm,
       availableProjects,
-      displayedProjects,
       updateSearch,
-      sort,
     ] = useSearch(projects, 'project'); /// será ou '[]' ou 'props.user.projects'
+
+    const [displayedProjects, sorting, sort] = useSort(availableProjects);
 
     watch(user, () => {
       updateSearch('');
@@ -116,6 +117,7 @@ export default {
       displayedProjects,
       updateSearch,
       sort,
+      sorting,
       hasProjects,
     };
   },
