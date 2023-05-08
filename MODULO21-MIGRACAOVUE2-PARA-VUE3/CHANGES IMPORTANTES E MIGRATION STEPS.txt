@@ -1,0 +1,1211 @@
+
+
+
+
+
+
+O PROFESSOR PREPAROU 1 PEQUENO PROJETO...
+
+
+
+
+PRECISO COPIAR NA MÃO...
+
+
+
+
+
+
+
+CRIO UM NOVO PROJECT COM A CLI...
+
+
+
+
+
+
+
+
+
+--> CERTO...
+
+
+
+
+
+
+
+
+COM O VUE3, UM MONTE DE COISA MUDA...
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR VAI COBRIR AS 3 MAIN CHANGES DO VUE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PQ AS 3 MAIN CHANGES AFETAM O QUE ENXERGAMOS, AQUI...
+
+
+
+
+
+
+
+--> DEVEMOS IMPORTAR A 
+
+
+ÚLTIMA VERSÃO DO VUE 3...
+
+
+
+
+
+
+
+--> O PROFESSOR JÁ VAI TRANSFORMANDO O VUE PARA A VERSÃO 3..
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+TEMOS 1 MONTE DE COISAS, NA VERDADE...
+
+
+
+
+
+
+
+
+A SINTAXE VUE2 NÃO VAI MAIS  FUNCIONAR...
+
+
+
+
+
+
+
+
+
+
+A SINTAXE VUE2 É ESTA:
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.component('the-button', {
+  template: '<button @click="updateMessage">Click me</button>',
+  methods: {
+    updateMessage() {
+      this.$emit('update');
+    },
+  },
+});
+
+new Vue({
+  el: '#app',
+  data: {
+    message: 'This works in Vue 2!',
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... MAS NA VERSÃO DO VUE3,
+
+
+NÃO TEMOS ESSE SETUP AÍ...
+
+
+
+
+
+
+
+
+
+
+
+--> NA VERSÃO 3,
+
+DEVEMOS 
+
+
+
+rodar 'Vue.createApp();'
+
+
+
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+import App from './App.vue';
+
+Vue.config.productionTip = false;
+
+// new Vue({
+//   render: h => h(App),
+// }).$mount('#app')
+
+Vue.createApp();
+
+
+
+
+
+
+
+
+
+
+
+
+OK... E AÍ, DENTRO DESSE METHOD,
+
+
+
+DEVEMOS COLAR AQUELE 'CONFIG OBJECT'
+
+
+que temos lá do project vue2..
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+// new Vue({
+//   render: h => h(App),
+// }).$mount('#app')
+
+Vue.createApp({ ///1a diferença em relaçaõ ao VUE2...
+  el: '#app',
+  data: {
+    message: 'This works in Vue 2!',
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS A SEGUNDA DIFERENÇA É QUE 
+
+_ NÃO TEMOS __ AQUELA KEY DE 'el'..
+
+
+
+EM VEZ DISSO,
+
+DEVEMOS MONTAR ESSE ELEMENTO NO DOM,
+
+
+com 
+
+'.mount("#app")'
+
+
+
+EM CIMA 
+
+DO CALL DE 'createApp'..
+
+
+
+
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+Vue.createApp({
+  //? 1a diferença em relaçaõ ao VUE2...
+
+  // el: '#app',  //? 2a diferença (fazemos mount com '.mount()', em vez disso)...
+  data: {
+    message: 'This works in Vue 2!',
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+}).mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK.... OUTRA DIFERENÇA É QUE 
+
+
+A 
+
+SINTAXE DE 'data'
+
+SEMPRE SERÁ UM METHOD...
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+Vue.createApp({
+  //? 1a diferença em relaçaõ ao VUE2...
+
+  // el: '#app',  //? 2a diferença (fazemos mount com '.mount()', em vez disso)...
+  data() {
+    //? 3a diferença
+    return {
+      message: 'This works in Vue 2!',
+    };
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+}).mount();
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+Vue.createApp({
+  //? 1a diferença em relaçaõ ao VUE2... (call de 'createApp')...
+
+  // el: '#app',  //? 2a diferença (fazemos mount com '.mount()', em vez disso)...
+  data() {
+    //? 3a diferença (data é sempre um method)
+    return {
+      message: 'This works in Vue 2!',
+    };
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+}).mount();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A TERCEIRA MUDANÇA TAMBÉM AFETA ESSE 
+
+
+APP...
+
+
+
+
+
+
+
+
+--> COMPONENTS, DIRECTIVES E THIRD PARTY MODULES SÃO 
+
+SEMPRE 
+
+
+
+REGISTRADOS DIRETAMENTE NO 'app',
+
+
+EM 
+
+VEZ 
+
+
+
+DE 
+
+NO VUE 
+OBJECT 
+
+
+
+
+
+(
+
+    ou seja,
+
+
+
+
+
+    em 
+
+    'app.component()',
+
+
+
+
+
+em vez  de 'Vue.component()'...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NOSSO CÓDIGO VAI FICANDO ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+const app = Vue.createApp({
+  //? 1a diferença em relaçaõ ao VUE2... (call de 'createApp')...
+
+  // el: '#app',  //? 2a diferença (fazemos mount com '.mount()', em vez disso)...
+  data() {
+    //? 3a diferença (data é sempre um method)
+    return {
+      message: 'This works in Vue 2!',
+    };
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+});
+
+app.component('the-button', {
+  template: '<button @click="updateMessage">Click me</button>',
+  methods: {
+    updateMessage() {
+      this.$emit('update');
+    },
+  },
+}); //? 4a mudança (registramos components e tpps com 'app.component()' e 'app.use()'...)
+
+app.mount('#app'); //? 5a mudança (uso de '.mount()' para MONTAR NOSSO APP NO DOM)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO... 
+
+
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+O PROFESSOR TAMBÉM FALA DE UMA NOVA OPTION NA 
+
+
+
+
+'VUE INSTANCE CONFIG',
+
+que é 
+
+
+'emits: []',
+
+
+QUE 
+
+
+
+
+É BASICAMENTE 
+
+
+1 NEGÓCIO QUE 
+
+VC 
+
+
+
+USA PARA DECLARAR O QUE VC VAI EMITIR 
+
+
+COM 
+
+
+ESSE COMPONENT ESPECÍFICO... (NÃO É REQUIRED TECNICAMNETE, MAS DEIXA O COMPONENT MAIS FÁCIL DE SER LIDO)...
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+import Vue from 'vue';
+
+Vue.config.productionTip = false;
+
+const app = Vue.createApp({
+  //? 1a diferença em relaçaõ ao VUE2... (call de 'createApp')...
+
+  // el: '#app',  //? 2a diferença (fazemos mount com '.mount()', em vez disso)...
+  data() {
+    //? 3a diferença (data é sempre um method)
+    return {
+      message: 'This works in Vue 2!',
+    };
+  },
+  methods: {
+    changeMessage() {
+      this.message = 'Will it work in Vue 3?';
+    },
+  },
+});
+
+app.component('the-button', {
+  template: '<button @click="updateMessage">Click me</button>',
+  emits: ['update'], // isso também SÓ EXISTE NO VUE3..
+  methods: {
+    updateMessage() {
+      this.$emit('update');
+    },
+  },
+}); //? 4a mudança (registramos components e tpps com 'app.component()' e 'app.use()'...)
+
+app.mount('#app'); //? 5a mudança (uso de '.mount()' para MONTAR NOSSO APP NO DOM)...
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+
+
+
+OK...
+
+
+
+
+
+
+
+
+
+
+DEPOIS DESSAS 3 PRIMEIRAS CHANGES,
+
+
+TEMOS 
+
+A QUARTA CHANGE,
+
+QUE É 
+
+O NAME CHANGE 
+
+DA CLASS 
+
+
+DE 'v-enter',
+
+
+QUE AGORA É 'V-ENTER-FROM'...
+
+
+
+
+
+
+
+
+
+
+--> DEVEMOS CRIAR NOVOS PROJECTS,
+
+PARA DEMONSTRAR A DIFERENÇA ENTRE OS 2....
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> COMEÇAMOS COM 'TRANSITIONS-V2'...
+
+
+
+
+
+
+
+A CAIXA TEM 1 TRANSITION ANEXADA A SI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A TRANSITION PAROU DE FUNCIONAR PQ 
+
+
+'box-fade-enter'
+
+agora é 
+
+'box-fade-enter-from'..
+
+
+
+
+MESMA COISA COM 'leave':
+
+
+
+
+
+box-fade-leave-from
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... O VUE-ROUTER TAMBÉM MUDOU...
+
+
+
+AGORA É 
+
+
+'createRouter(xxx)'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANTIGAMENTE,
+
+
+COM O VUE2,
+
+
+
+
+O ROUTER ERA ASSIM:
+
+
+
+
+
+
+
+
+
+
+
+
+Vue.use(VueRouter);
+
+
+
+
+
+
+
+
+
+new Vue(
+  {
+    route: new VueRouter(
+      {
+        mode: 'history',
+        routes: [
+          {path: '/', component: WelcomeScreen},
+          {path: '/users', component: UsersList}
+        ]
+      }
+    )
+  }
+).mount("#app");
+
+
+
+
+
+
+
+
+
+
+
+OK.... É ASSIM QUE O NEGÓCIO FUNCIONAVA, NO VUE 2..
+
+
+
+
+
+
+
+
+MAS NO VUE3 ,
+
+
+
+TEMOS ISTO:
+
+
+
+
+
+
+
+
+
+const router = createRouter(router);
+
+
+
+
+const app = createApp(App);
+
+
+app.use(router);
+
+
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... MAS AINDA PRECISAMOS CONFIGURAR O ROUTER..
+
+
+
+
+
+
+
+
+-> PODEMOS PEGAR A CONFIG DO VUE2, EM GERAL....
+
+
+
+
+
+
+
+
+
+
+O CONFIGO OBJECT PODE SER ISTO:
+
+
+
+
+
+
+
+
+
+{
+
+
+  history: createWebHistory(),      ////////MAS ISSO MUDA (antes era "mode: 'history'")...
+  routes: [
+    {},
+    {}
+  ]
+}
+
+
+
+
+
+
+
+
+
+CERTO...
+
+O QUE FALTOU?
+
+
+
+
+
+
+
+
+A TRANSITION DE ROUTER É DIFERENTE...
+
+
+
+
+
+
+
+É TODO AQUELE SETUP QUE APRENDEMOS NAS AULAS DE 'ROUTING'...
+
+
+
+
+
+
+
+
+
+
+OUTRA DIFERENÇA:
+
+
+
+
+
+
+
+
+
+antes, existia 
+
+
+'<router-link to="/" exact>Home</router-link>'
+
+
+
+
+
+
+
+
+
+
+
+
+COM O ROUTER DO VUE3,
+
+VC N PRECISA 
+
+
+
+
+colocar o 'exact'...
+
+
+
+
+
+
+O PROFESSOR FALA DA MUDANÇA DE 'ROUTER TRANSITION',
+
+
+
+EM QUE AGORA O 'transition' DEVE SER WRAPPADO PELO 'router-view'...
+
+
+
+TAMBÉM PRECISA SETTAR o 'MODE' como 'out-in', ou 'in-out'..
+
+
+ele também fala de 'router.isReady()'..
+
+
+
+
+
+
+
+
+
+
+COM ISSO, FICAMOS AWARE DESSAS CHANGES...
+
+
+
+
+
+
+
+
+
+
+
+
+POR FIM, O PROFESSOR QUER FALAR DE 1 CHANGE NO VUEX,
+
+
+
+
+QUE AGORA PRECISA QUE A STORE SEJA CRIADA COM 
+
+
+'createStore()',
+
+
+
+E DEPOIS USADA COM 
+
+
+'app.use(store)'..
+ 
+
+
+
+
+
+
+
+
+ antes o store era assim:
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -> const store = new Vuex.Store(
+    {
+      state() {},
+      getters: getters,
+      actions: actions,
+      mutations
+    }
+  )
+
+
+
+
+
+
+
+  new Vue({
+    store: store
+  }),$mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+  MAS AGORA N É MAIS ASSIM...
+
+
+
+
+
+
+
+  OK... COM ISSO, ACABAMOS COM ESSE GUIA DE VUE2 > VUE3...
