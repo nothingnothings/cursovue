@@ -87,7 +87,7 @@ export default {
     const userId = localStorage.getItem('userId');
 
     const expirationDate = localStorage.getItem('expirationDate'); //tempo restante da token do user...
-    const expirationTime = +expirationDate - new Date.getTime();
+    const expirationTime = +expirationDate - new Date().getTime();
 
     if (expirationTime < 0) {
       // se o tempo restante FOR MENOR DO QUE 0, nem mesmo vamos querer continuar com a authentication do user...

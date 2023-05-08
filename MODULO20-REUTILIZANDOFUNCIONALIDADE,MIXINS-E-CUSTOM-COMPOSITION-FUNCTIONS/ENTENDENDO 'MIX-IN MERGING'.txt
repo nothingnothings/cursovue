@@ -1,0 +1,625 @@
+
+
+
+
+
+
+
+
+
+OK.... MIX-INS PODEM SER PODEROSOS, QUANDO TRABALHAMOS COM A OPTIONS API...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> MAS É IMPORTANTE ENTENDER COMO OS 'MIXINS' SÃO 'MERGEADOS' COM AS OPTIONS 
+
+
+
+QUE VC DEFINE 
+NOS COMPONENTS 
+
+EM QUE 
+
+VC 
+
+OS UTILIZA...
+
+
+
+
+
+
+
+
+--> ATÉ AGORA,
+
+
+TEMOS ESTE CÓDIGO, LÁ EM 'DeleteUser':
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> TEMOS ESSE CÓDIGO AÍ,
+
+
+
+E MAIS NENHUMA OPTION ALÉM DE 'components: ',
+
+
+DENTRO DESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+E VC PODERIA ADICIONAR MAIS _ MIXINS 
+
+
+NO SEU CÓDIGO CONFIG (
+
+    como 'mixins: [alertMixin, methodMixin]' ,
+
+
+    E ETC..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+MAS VC TAMBÉM PODERIA TER MAIS COMPONENT OPTIONS...
+
+
+
+
+
+
+
+
+
+--> DIGAMOS QUE TAMBÉM TEMOS UMA OPTIONS DE 'data'
+
+NO COMPONENT DE 'deleteUser'...
+
+
+
+
+
+
+
+
+
+E DIGAMOS QUE FAZEMOS O RETURN DE OUTRA PROPRIEDADE NO INTERIOR DESSA DATA,
+
+
+COMO 
+
+'alertTitle'...
+
+
+
+
+
+
+
+
+
+TIPO ASSIM: 
+
+
+
+
+
+
+
+<template>
+  <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  data() {
+    return {
+      alertTitle: 'Delete User?', ///exemplo de COMO MISTURAR DATA DE SEUS COMPONENTS COM OS MIXINS (lógica compartilhada, vinda do lado de fora do component)...
+    };
+  },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO...
+
+
+
+
+
+
+
+
+
+
+AGORA DIGAMOS QUE QUEREMOS BINDAR 'alertTitle'
+
+
+
+
+__À __ PROPRIEDADE_ 
+
+
+
+
+de 
+
+':title'
+
+
+
+
+LÁ NO COMPONENT DE 'user-alert',
+
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+<template>
+  <!-- <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert"> -->
+  <user-alert v-if="alertIsVisible" :title="alertTitle" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+OK... COM ISSO, USAREMOS A DATA PROPERTY DESSE COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS A PERGUNTA É: ISSO VAI FUNCIONAR? (
+
+
+ISSO PQ _ O MIXIN TAMBÉM VAI PROVIDENCIAR 
+
+DATA,
+
+TAMBÉM VAI PROVIDENCIAR SEU PRÓPRIO 
+
+'data() {
+    return {
+        alertIsVisible: false
+    }
+}
+'
+
+)
+
+
+
+
+
+
+
+
+
+
+OK.... MAS QUAL 'data'
+
+VAI VENCER,
+
+
+
+A DATA DO 
+
+
+
+
+_MIXIN,
+
+
+OU 
+
+
+
+
+A DATA 
+
+
+
+
+DO 'COMPONENT LOCAL'...?
+
+
+
+
+
+
+
+
+
+
+--> NA VERDADE,
+
+NENHUMA DATA OPTION VAI VENCER,
+
+E SIM 
+
+
+O VUE VAI 'MERGE THE DATA' --> VAI MERGEAR AS 'OPTIONS' DO SEU COMPONENT 
+
+
+LOCAL E 
+
+
+
+DO 
+
+
+__ MIXIN...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> QUANDO VC TEM 1 MIXIN, 
+
+AS OPTIONS DO MIXIN,
+
+
+EXPOSTAS PELO MIXIN,
+
+SÃO 
+
+
+MISTURADAS COM A LÓGICA QUE VC TEM NO SEU COMPONENT...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> isso quer dizer que a DATA COMPLETA FICA ASSIM:
+
+
+
+
+
+
+
+data() {
+    return {
+        alertIsVisible: false,
+        alertTitle: 'XXX'
+    }
+}
+
+
+
+
+
+
+
+
+
+
+OK... MAS DIGAMOS QUE 
+
+
+
+
+SETTAMOS 1 VALUE DE 'alertIsVisible: true' (VALUE DIFERENTE DAQUELE SETTADO LÁ NO MIXIN)...
+
+
+
+
+
+
+
+
+
+
+COM ISSO, O QUE ACONTECERÁ?
+
+
+
+
+O PROFESSOR SALVA O CÓDIGO, E AÍ O QUE 
+
+ACABA FICANDO  'POR CIMA '
+
+É 
+
+
+
+A __ COMPONENT OPTION (
+
+
+    o alert fica aberto por default...
+)
+
+
+
+
+
+
+
+
+
+
+
+
+A 'COMPONENT OPTION' 
+
+FAZ OVERWRITE NA OPTION/VALUE SETTADA PELO 
+
+
+MIXIN (a propriedade de 'alertIsVisible', nesse caso)
+
+
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <!-- <user-alert v-if="alertIsVisible" title="Delete the User?" @close="hideAlert"> -->
+  <user-alert v-if="alertIsVisible" :title="alertTitle" @close="hideAlert">
+    <p>Do you want to continue with deleting a user?</p>
+  </user-alert>
+  <section>
+    <h2>Delete a User</h2>
+    <button @click="showAlert">Delete User</button>
+  </section>
+</template>
+
+<script>
+import UserAlert from './UserAlert.vue';
+import alertMixin from '../mixins/alert';
+
+export default {
+  components: {
+    UserAlert,
+  },
+  // data() {
+  //   return {
+  //     alertIsVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showAlert() {
+  //     this.alertIsVisible = true;
+  //   },
+  //   hideAlert() {
+  //     this.alertIsVisible = false;
+  //   },
+  // },
+
+  data() {
+    return {
+      alertTitle: 'Delete User?', ///exemplo de COMO MISTURAR DATA DE SEUS COMPONENTS COM OS MIXINS (lógica compartilhada, vinda do lado de fora do component)...
+      // alertIsVisible: true, // se existe 1 CLASH entre 1 propriedade declarada no  seu mixin E DECLARADA NO SEU LOCAL COMPONENT (mesma propriedade, values diferentes), A PROPRIEDADE QUE GANHA É _ A __ DO 'LOCAL COMPONENT'..
+    };
+  },
+
+  mixins: [alertMixin],
+};
+</script>
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+OK.... A COMPONENT OPTION 
+
+
+VENCE, E NÃO O MIXIN... (se existir algum clash, entre alguma propriedade de alguma option)
