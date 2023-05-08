@@ -1,0 +1,169 @@
+
+
+
+
+
+
+
+
+AGORA QUE 
+
+
+
+
+ESTUDAMOS OS HOOKS,
+
+
+
+
+
+
+DEVEMOS SABER A RAZÃO DE ELES SEREM MELHORES DO QUE MIX-INS...
+
+
+
+
+
+
+
+
+
+
+
+1a RAZÃO --> É MAIS FÁCIL DE DEIXÁ-LOS 
+
+CONFIGURÁVEIS (
+
+
+    o add de PARÂMETROS EXTRAS É FÁCIL,
+
+
+    BASTA FAZER COISAS COMO 
+    'export default useAlert(startingVisibility) {
+
+    }' 
+)
+
+
+
+
+
+
+
+
+E É MT FÁCIL USAR 1 MESMO HOOK __ EM MÚLTIPLOS COMPONENTS,
+
+
+COM DIFERENTES CONFIGURAÇÕES (por meio desses parâmetros)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2a RAZÃO ------> EM APPS MAIORES,
+
+É DIFÍCIL IDENTIFICAR 'QUAL DATA É RETORNADA POR QUAL MIXIN' EM 1 DETERMINADO COMPONENT...
+
+
+
+
+
+
+COM HOOKS, ISSO É FÁCIL, PQ OS HOOKS RETORNAM AS COISAS QUE 
+
+SERÃO EXPOSTAS A 1 COMPONENT,
+
+
+
+O QUE QUER DIZER QUE 
+
+
+__ É NECESSÁRIO 
+
+
+
+
+
+
+RETORNAR AS COISAS QUE QUEREMOS RETORNAR LÁ NO HOOK,
+
+
+
+
+PARA SÓ ENTÃO 
+
+
+EXTRAIR 
+
+
+
+AS COISAS 
+
+
+LÁ 
+
+
+
+NO COMPONENT EM QUE USAMOS O HOOK (
+
+    com 1 escrita tipo 
+
+
+    'const [alertIsVisible, showAlert, hideAlert ] = useAlert(true);'
+
+
+
+
+),
+
+
+
+
+
+
+PARA SÓ ENTÃO RETORNARMOS ISSO NO 'return {}' 
+
+DO COMPONENT 
+
+
+
+
+
+
+EM QUE ESTAMOS USANDO ESSE HOOK...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> É POR ISSO QUE MESMO SE USÁSSEMOS DEZENAS DE HOOKS,
+
+SERIA FÁCIL VER 
+
+
+'DE QUE LUGAR CADA DATA PIECE ESTÁ VINDO, DE QUE HOOK CADA COISA ESTÁ VINDO'...
