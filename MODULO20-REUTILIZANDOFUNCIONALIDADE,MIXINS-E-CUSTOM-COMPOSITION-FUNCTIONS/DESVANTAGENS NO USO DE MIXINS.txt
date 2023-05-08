@@ -1,0 +1,597 @@
+
+
+
+
+
+
+OK... APRENDEMOS SOBRE MIXINS...
+
+
+
+
+
+
+
+
+
+
+--> É UM MECANISMO MT ÚTIL PARA TER O SHARE DE 
+
+
+
+DATA __ E FUNCTIONALITY _ AO LONGO DE MÚLTIPLOS COMPONENTS 
+
+
+
+
+
+
+(
+
+
+
+    ALGUNS COMPONENTS ,
+
+
+    OU ENTÃO TODOS OS COMPONENTS, COM GLOBAL MIXINS..
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> CERTO... MAS MIXINS POSSUEM ALGUNS DRAWBACKS...
+
+
+
+
+
+
+
+
+1 DRAWBACK MAIOR, EM ESPECIAL..
+
+
+
+
+
+
+
+
+
+qual DRAWBACK É ESSE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> BEM, DIGAMOS QUE VC ESTÁ 
+
+
+CRIANDO 1 APP GRANDÃO --------> MIXINS PODEM DIFICULTAR 
+
+
+A COMPREENSÃO DO SEU CÓDIGO,
+
+
+
+A COMPREENSÃO 
+
+DA ESTRUTURA DE SEUS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> ISSO PQ __ '''NEM SEMPRE FICA CLARO O _ LUGAR __ DE ONDE CERTOS VALUES ESTÃO CHEGANDo''...
+
+
+
+
+
+
+
+
+----> EX:
+
+
+
+
+
+
+
+
+NO MIXIN DE 'alert.js',
+
+
+
+ 
+ TEMOS 
+
+
+
+
+
+ OS METHODS DE 'showAlert'
+
+
+
+ e 
+
+
+
+ 'hideAlert'...
+
+
+
+
+
+
+
+
+
+
+ --> CERTO...
+
+
+
+
+
+ E LÁ NO COMPONENT DE 
+
+
+ 'DeleteUser',
+
+
+
+
+ NÃO TEMOS ESSES METHODS (é claro, justamente pq eles ESTÃO NO MIXIN)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+ MAS __ ESTAMOS CHAMANDO ESSES METHODS DE DENTRO DE NOSSO TEMPLATE.... -------> E O PROBLEMA COM ISSO,
+
+
+
+ É QUE 
+
+
+ AQUI,
+
+
+
+ NESSE SIMPLES DEMO,
+
+
+ NÓS, COMO SOMOS OS ÚNICOS DEVS QUE MEXERAM NESSE CÓDIGO,
+
+
+ É ÓBVIO O LUGAR DE ONDE ESSE 'showAlert'
+
+
+ ESTÁ VINDO.... 
+
+
+
+
+
+
+
+
+
+
+
+
+ --> MAS PENSE EM PROJECTS MAIORES,
+
+ EM QUE 
+
+
+ 1 MESMO COMPONENT ESTÁ USANDO MAIS DO Q 1 MIXIN,,
+
+
+
+
+ 5-6 MIXINS ...
+
+
+
+
+
+
+
+
+
+
+
+
+ AGORA IMAGINE QUE VC ESTÁ TRABALHANDO COM MÚLTIPLOS DEVS,
+
+
+
+ MTOS DEVS TRABALHANDO NA CODE-BASE...
+
+
+
+
+
+
+
+
+
+
+
+
+ --> NESSES CASOS,
+
+ NÃO SERÁ TÃO ÓBVIO 'DE ONDE ESTARÁ CHEGANDO ESSA DATA'..
+
+
+
+
+
+
+
+
+
+
+E ESSE É UM PROBLEMÃO:
+
+
+
+
+
+
+
+
+
+COM MIXINS,
+
+
+
+PROJECTS MAIORES,
+
+COM CODE-BASES MAIORES,
+
+PODEM 
+
+
+SER MAIS DIFÍCEIS DE MANAGE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ALÉM DISSO,
+
+
+
+VC TAMBÉM TEM QUE CUIDAR COM ESSE 'MERGING BEHAVIOR' (as local properties OVERWRITTAM AS SETTADAS NO MIXIN)...
+
+
+
+
+
+
+
+
+
+
+
+
+-> E, EM 1 CASO EM QUE 
+
+
+
+AS 'DEFAULT MERGING STRATEGIES NÃO 
+
+
+NOS AJUDAM',
+
+
+PODEMOS 
+
+
+AS OVERWRITTAR,
+
+SIM,
+
+
+MAS 
+
+AÍ 
+
+VC 
+
+PRECISA TER MT CUIDADO PARA ASSEGURA _ QUE __ 
+
+
+
+OS MIXINS ESTÃO FUNCIONANDO CORRETAMENTE ------> E, MESMO SE FUNCIONAREM,
+
+
+
+VC AINDA 
+
+
+TEM O PROBLEMA DE 
+
+'''NÃO PERCEBER IMEDIATAMENTE DE ONDE CERTA DATA PIECE/METHOD 
+
+
+ESTÁ VINDO''..
+
+
+
+
+
+
+
+
+
+--> TALVEZ ISSO NÃO SEJA 1 PROBLEMA PARA NÓS,
+
+PRINCIPALMENTE EM PROJECTS MENORES, OU TRABALHANDO SOZINHO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS EM PROJECTS MAIORES, PODE SER 1 PROBLEMA,
+
+E É POR ISSO QUE O VUEJS 
+
+TEM 
+
+UMA 
+ALTERNATIVA 
+
+
+DIFERENTE 
+
+
+DE ESCREVER 
+
+
+SEUS COMPONENTS,
+
+
+
+QUE PODE SER USADA 
+
+COM ESSES MIXINS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É JUSTAMENTE A COMPOSITION API,
+
+
+
+
+
+
+
+
+QUE TE DEIXA ESCREVER TUDO DENTRO DE 'setup()',
+
+
+deixar tudo bem juntinho...
+
+
+
+
+
+
+
+
+
+
+
+----> E VC TALVEZ 
+
+
+RECORDE 
+
+
+
+
+
+A COISA QUE O PROFESSOR FALOU NO ÚLTIMO MÓDULO,
+QUE 
+
+PODEMOS 
+
+TER 
+
+DESVANTAGENS 
+
+EM 
+
+APPS MAIORES,
+
+com a options api...
+
+
+
+
+
+
+
+
+
+
+-> ELE APONTOU QUE 'A REUTILIZAÇÃO DE LÓGICA PODE SER RUIM/CONFUSA EM APPS 
+
+
+MAIORES, COM A OPTIONS API'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> ESSA É UMA DAS RAZÕES PARA USAR 
+
+A COMPOSITION API;
+
+
+
+ELA TRATA MELHOR OS 'MIXINS',
+
+
+
+
+
+JUSTAMENTE PQ __ NÃO USA MIXINS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> COM A COMPOSITION API,
+
+TEMOS UMA MANEIRA MAIS NICE DE 'REUSE LOGIC'
+AO LONGO DE MÚLTIPLOS COMPONENTS...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--> NA OPTIONS API,
+
+TEMOS MIXINS...
+
+
+
+
+
+
+
+
+
+
+
+
+--> MAS NA COMPOSITION API,
+
+
+TEMOS 'CUSTOM COMPOSITION FUNCTIONS'...
+
+
+
+
+
+
+
+
+DEVEMOS ESTUDAR COMO ISSO FUNCIONA...
