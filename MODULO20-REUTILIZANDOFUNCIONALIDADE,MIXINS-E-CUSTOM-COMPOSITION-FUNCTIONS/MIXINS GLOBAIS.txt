@@ -1,0 +1,343 @@
+
+
+
+
+
+
+
+
+
+
+
+
+--> OK... ALÉM DE MIXINS COMUNS,
+
+COMO 
+
+
+AQUELE DE 'alert.js',
+
+que 
+
+
+já settamos,
+
+
+
+
+HÁ TAMBÉM 
+
+
+
+
+
+
+A NOÇÃO DE 'GLOBAL MIXINS'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+GLOBAL MIXINS SÃO ESPECIAIS PQ __ AFETAM __ TODOS OS COMPONENTS,
+
+E
+
+
+NÃO SÓ OS COMPONENTS EM QUE VC OS DEFINE EXPLICITAMENTE (COM 'mixins: [nomeDoMixin]', no seu component)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UM USE-CASE COMUM DE 
+
+'GLOBAL MIX-INS'
+
+
+É O DE 'LOGGING'/ANALYTICS FUNCTIONALITY,
+
+
+QUE VC 
+
+
+VAI QUERER 
+
+ADICIONAR A ALGUM COMPONENT,
+
+TALVEZ PARA SABER 
+
+'QUANDO 1 COMPONENT É MONTADO'..
+
+
+
+
+
+
+
+
+
+
+--> PODEMOS ADICIONAR 1 MIXIN DE NOME 'logger',
+
+TIPO ASSIM:
+
+
+
+
+export default {
+    
+}
+
+
+
+
+
+
+
+
+
+DENTRO DESSE MIXIN,
+
+NÃO COLOCAMOS a propriedade 'data()',
+
+
+
+
+MAS COLOCAMOS O HOOK DE 'mounted()' (que pode, SIM, SER ADICIONADO EM QUALQUER component, E TAMBÉM 
+
+PODE SER 
+
+ADICIONADO EM 1 MIXIN... )
+
+
+
+
+
+
+
+
+
+
+
+
+
+SIDENOTE: 
+
+
+
+
+SE ESSE MIXIN 'GLOBAL'
+
+FOR 
+
+COLOCADO EM 1 COMPONENT QUE 
+
+JÁ TEM 1 MOUNTED,
+
+
+
+
+
+
+
+
+OS 2 SERÃO EXECUTADOS,
+
+
+SENDO O DO COMPONENT EXECUTADO POR ÚLTIMO (para que possa overwrittar qualquer change feita pelo mixin GLOBAL/mixin comum)...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-> PARA ESSE MIXIN, O PROFESSOR COLOCA 1 LOG DE 'Mounted!'
+
+
+
+
+
+
+EX:
+
+
+
+
+export default {
+  mounted() {
+    //? here: DO STUFF LIKE STORE ANALYTICS DATA IN A DATABASE
+    console.log('Mounted!');
+  },
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok... aqui estamos apenas loggando,
+
+mas 
+
+PODEMOS REGISTRAR 
+
+
+
+ESSE NEGÓCIO COMO 1 GLOBAL MIXIN...
+
+
+
+
+
+
+
+
+
+--> BASTA IR ATÉ O 'main.js',
+
+E ADICIONAR 
+
+
+O MIXIN 
+
+
+POR MEIO 
+
+
+
+DO CALL DE 'app.mixin(globalLogger)',
+
+
+TIPO ASSIM:
+
+
+
+
+
+
+
+
+import { createApp } from 'vue';
+
+import App from './App.vue';
+
+import globalLoggerMixin from './mixins/global-logger';
+
+const app = createApp(App);
+
+app.mixin(globalLoggerMixin); //? É ASSIM QUE ADICIONAMOS GLOBAL MIXINS....
+
+app.mount('#app');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> ok... 
+
+
+
+
+
+app.component() é para GLOBAL COMPONENTS,
+
+E 
+
+'app.mixin()'
+
+É 
+
+PARA GLOBAL MIXINS...
+
+
+
+
+
+
+
+
+
+
+--> SE SALVAMOS ISSO AÍ,
+
+VEREMOS 
+
+'Mounted!'
+
+PRINTADO PARA 
+
+CADA RENDER DE COMPONENT NA NOSSA TELA...
+
+
+
+
+
+(dialogs, components normais, o app.vue, etc)...
+
+
+
+
+
+
+
+
+
+--> HÁ POUCOS CASOS EM QUE MIXINS PODEM SER ÚTEIS,
+
+
+MAS EXISTIRÃO CASOS, COM CERTEZA..
